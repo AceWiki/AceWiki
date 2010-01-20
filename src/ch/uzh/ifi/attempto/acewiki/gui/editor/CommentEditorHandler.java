@@ -1,0 +1,111 @@
+// This file is part of the Attempto Java Packages.
+// Copyright 2008-2009, Attempto Group, University of Zurich (see http://attempto.ifi.uzh.ch).
+//
+// The Attempto Java Packages is free software: you can redistribute it and/or modify it under the
+// terms of the GNU Lesser General Public License as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// The Attempto Java Packages is distributed in the hope that it will be useful, but WITHOUT ANY
+// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+// PURPOSE. See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License along with the Attempto
+// Java Packages. If not, see http://www.gnu.org/licenses/.
+
+package ch.uzh.ifi.attempto.acewiki.gui.editor;
+
+import nextapp.echo2.app.event.ActionEvent;
+import nextapp.echo2.app.event.ActionListener;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.Comment;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.Statement;
+import ch.uzh.ifi.attempto.acewiki.gui.page.ArticlePage;
+import ch.uzh.ifi.attempto.echocomp.TextAreaWindow;
+
+/**
+ * This class manages the comment editor. It creates the editor window and handles its
+ * responses.
+ * 
+ * @author Tobias Kuhn
+ */
+public class CommentEditorHandler implements ActionListener {
+	
+	private static final long serialVersionUID = 1156092885844135235L;
+	
+	private TextAreaWindow textAreaWindow;
+	private Statement statement;
+	private ArticlePage page;
+	private boolean edit;
+	
+	/**
+	 * Creates a new comment editor handler, either to create a new comment or to edit an existing
+	 * comment.
+	 * 
+	 * @param statement The statement in front of which the new comment should be added (in the
+	 *   case of edit=false) or the comment that should be edited (in the case of edit=true).
+	 * @param page The host page of the comment.
+	 * @param edit true if an existing comment should be edited, or false if a new comment should
+	 *   be created.
+	 */
+	private CommentEditorHandler(Statement statement, ArticlePage page, boolean edit) {
+		this.statement = statement;
+		this.page = page;
+		this.edit = edit;
+		
+		textAreaWindow = new TextAreaWindow("Comment Editor", this);
+		textAreaWindow.setSize(600, 350);
+		if (edit) {
+			textAreaWindow.setText(statement.getText());
+		}
+	}
+
+	/**
+	 * Generates a new comment editor window for the creation of a new comment.
+	 * 
+	 * @param followingStatement The statement in front of which the new sentences should be added,
+	 *   or null if the sentences should be added to the end of the article.
+	 * @param page The host page into which the sentence should be added.
+	 * @return A new preditor window.
+	 */
+	public static TextAreaWindow generateCreationWindow(Statement followingStatement,
+			ArticlePage page) {
+		CommentEditorHandler h = new CommentEditorHandler(followingStatement, page, false);
+		return h.getWindow();
+	}
+
+	/**
+	 * Generates a new comment editor window for editing an existing comment.
+	 * 
+	 * @param comment The comment that should be edited.
+	 * @param page The host page which contains the sentence to be edited.
+	 * @return A new preditor window.
+	 */
+	public static TextAreaWindow generateEditWindow(Comment comment, ArticlePage page) {
+		CommentEditorHandler h = new CommentEditorHandler(comment, page, true);
+		return h.getWindow();
+	}
+	
+	private TextAreaWindow getWindow() {
+		return textAreaWindow;
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		if (e.getActionCommand().equals("OK")) {
+			if (edit) {
+				OntologyElement owner = page.getOntologyElement();
+				owner.edit(statement, new Comment(textAreaWindow.getText(), owner));
+				page.update();
+			} else {
+				OntologyElement owner = page.getOntologyElement();
+				owner.add(statement, new Comment(textAreaWindow.getText(), owner));
+				page.update();
+			}
+			textAreaWindow.setVisible(false);
+			textAreaWindow.dispose();
+		} else if (e.getActionCommand().equals("Cancel")) {
+			textAreaWindow.setVisible(false);
+			textAreaWindow.dispose();
+		}
+	}
+
+}

@@ -1,0 +1,1254 @@
+\documentclass[a4paper]{article}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{stmaryrd}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage[left=1cm,top=1cm,right=1cm,nohead,nofoot]{geometry}
+\textwidth 19cm
+\pagestyle{empty}
+
+\newcounter{ruleid}
+\newcommand{\ruleid}{{\addtocounter{ruleid}{1} \:\:\: (\arabic{ruleid})} \:\:\: }
+\newcommand{\ruleideval}{{\addtocounter{ruleid}{1} \:\:\: (\underline{\arabic{ruleid}})} \:\:\: }
+
+\newcommand{\possymb}{\ensuremath{\mathord{\#}}}
+\newcommand{\scopeopensymb}{\ensuremath{\mathord{\sslash}}}
+\newcommand{\fwrefsymb}{\ensuremath{\mathord{>}}}
+\newcommand{\sfwrefsymb}{\ensuremath{\mathord{\gg}}}
+\newcommand{\bwrefsymb}{\ensuremath{\mathord{<}}}
+\newcommand{\nbwrefsymb}{\ensuremath{\mathord{\nless}}}
+\newcommand{\cbwrefplus}{\ensuremath{\mathord{^+}}}
+\newcommand{\cbwrefminus}{\ensuremath{\mathord{^-}}}
+\newcommand{\cbwrefplain}[2]{\ensuremath{\bwrefsymb\cbwrefplus #1 \cbwrefminus #2 }}
+\newcommand{\nrulesymb}[0]{\mathrel{:}}
+\newcommand{\scrulesymb}[0]{\mathrel{\sim}}
+\newcommand{\genrulesymb}[1]{\mathrel{#1}}
+
+\newcommand{\fs}[1]{\!\! \left( \!\!\! \scalebox{0.75}{$\begin{array}{l} \\[-2ex] #1 \\[-2ex] \end{array}$} \!\!\! \right)}
+\newcommand{\nrule}[2]{#1 \: \xrightarrow{\displaystyle \: \nrulesymb \:} \: #2}
+\newcommand{\scrule}[2]{#1 \: \xrightarrow{\displaystyle \: \scrulesymb \:} \: #2}
+\newcommand{\lrule}[2]{#1 \: \rightarrow \: #2}
+\newcommand{\scat}[1]{\:\: \mbox{\itshape #1} \:\:}
+\newcommand{\cat}[2]{\:\: \mbox{\itshape #1} \, \fs{#2} }
+\newcommand{\fwref}[1]{\:\: \fwrefsymb \fs{#1} }
+\newcommand{\sfwref}[1]{\:\: \sfwrefsymb \fs{#1} }
+\newcommand{\bwref}[1]{\:\: \bwrefsymb \fs{#1} }
+\newcommand{\nbwref}[1]{\:\: \nbwrefsymb \fs{#1} }
+\newcommand{\cbwref}[2]{\:\: \bwrefsymb\cbwrefplus #1 \!\! \cbwrefminus #2 }
+\newcommand{\cbwrefp}[1]{\:\: \bwrefsymb\cbwrefplus #1 }
+\newcommand{\term}[1]{\:\: [\,\mbox{#1}\,] \:\:}
+\newcommand{\spreterm}[1]{\:\: \mbox{\underline{\itshape #1}} \:\:}
+\newcommand{\preterm}[2]{\:\: \mbox{\underline{\itshape #1}} \, \fs{#2} }
+\newcommand{\pos}[1]{\:\: \possymb {\fboxsep 0.5mm \framebox{\scalebox{0.6}{#1}}} \:\:}
+\newcommand{\scopeopener}[0]{\:\: \scopeopensymb \:\:}
+
+\newcommand{\featv}[2]{\mbox{#1:}\:\fboxsep 0.5mm \framebox{\scalebox{0.8}{#2}}\:\\}
+\newcommand{\featc}[2]{\mbox{#1:}\:\mbox{#2}\\}
+
+\newcommand{\edge}[3]{#1 \: \xrightarrow{\displaystyle #2} \: #3}
+\newcommand{\edot}[0]{\:\mathord{\bullet}\:}
+\newcommand{\epos}[2]{\langle#1,#2\rangle\:\:\:\:}
+
+\begin{document}
+
+\section*{AceWiki Grammar}
+
+\noindent - Tobias Kuhn, 17 November 2009 - \vspace{2mm}
+
+\noindent Below, the grammar rules of the AceWiki grammar are shown: \vspace{2mm}
+
+\subsection*{Texts and Sentences}
+
+\noindent 'text' stands for a complete text consisting of an arbitrary number of complete
+		sentences (including zero): \vspace{2mm}
+
+{\scriptsize
+\noindent$
+\ruleid
+\scrule{
+  \scat{text}
+}{
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\scrule{
+  \scat{text}
+}{
+  \scat{complete\_sentence}
+  \scat{text}
+}$
+\vspace{2mm}
+
+}
+\noindent A complete sentence is represented by the category 'complete\_sentence' and is either
+		a declarative sentence that ends with a full stop or a question ending with a question mark: \vspace{2mm}
+
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \scat{complete\_sentence}
+}{
+  \scat{sentence}
+  \term{.}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \scat{complete\_sentence}
+}{
+  \cat{simple\_sentence\_2}{\featc{whin}{--}\featc{whout}{+}}
+  \term{?}
+}$
+\vspace{2mm}
+
+}
+\noindent General sentences are represented by 'sentence': \vspace{2mm}
+
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \scat{sentence}
+}{
+  \scat{sentence\_coord\_1}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\scrule{
+  \scat{sentence}
+}{
+  \scopeopensymb{}
+  \term{for every}
+  \cat{nc}{\featc{subj}{--}}
+  \scat{sentence\_coord\_1}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\scrule{
+  \scat{sentence}
+}{
+  \scopeopensymb{}
+  \term{if}
+  \scat{sentence\_coord\_1}
+  \term{then}
+  \scat{sentence\_coord\_1}
+}$
+\vspace{2mm}
+
+}
+\noindent Sentences can be coordinated using "or" ('sentence\_coord\_1') and "and"
+		('sentence\_coord\_2'): \vspace{2mm}
+
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \scat{sentence\_coord\_1}
+}{
+  \scat{sentence\_coord\_2}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\scrule{
+  \scat{sentence\_coord\_1}
+}{
+  \scopeopensymb{}
+  \scat{sentence\_coord\_2}
+  \term{or}
+  \scat{sentence\_coord\_1}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \scat{sentence\_coord\_2}
+}{
+  \scat{simple\_sentence\_1}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \scat{sentence\_coord\_2}
+}{
+  \scat{simple\_sentence\_1}
+  \term{and}
+  \scat{sentence\_coord\_2}
+}$
+\vspace{2mm}
+
+}
+\noindent Uncoordinated sentences are represented in two levels by 'simple\_sentence\_1' and
+		'simple\_sentence\_2': \vspace{2mm}
+
+{\scriptsize
+\noindent$
+\ruleid
+\scrule{
+  \scat{simple\_sentence\_1}
+}{
+  \scopeopensymb{}
+  \term{it is false that}
+  \cat{simple\_sentence\_2}{\featc{whin}{--}\featc{whout}{--}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \scat{simple\_sentence\_1}
+}{
+  \term{there is}
+  \cat{np}{\featc{case}{nom}\featc{def}{--}\featc{exist}{+}\featc{pl}{--}\featc{subj}{--}\featc{whin}{--}\featc{whout}{--}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \scat{simple\_sentence\_1}
+}{
+  \term{there is}
+  \cat{np}{\featc{case}{nom}\featc{def}{--}\featc{exist}{+}\featc{pl}{--}\featc{subj}{--}\featc{whin}{--}\featc{whout}{--}}
+  \term{such that}
+  \scat{simple\_sentence\_1}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \scat{simple\_sentence\_1}
+}{
+  \term{there are}
+  \cat{np}{\featc{case}{nom}\featc{def}{--}\featc{exist}{+}\featc{pl}{+}\featc{subj}{--}\featc{whin}{--}\featc{whout}{--}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \scat{simple\_sentence\_1}
+}{
+  \cat{simple\_sentence\_2}{\featc{whin}{--}\featc{whout}{--}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\scrule{
+  \cat{simple\_sentence\_2}{\featv{whin}{1}\featv{whout}{2}}
+}{
+  \cat{np}{\featc{case}{nom}\featv{id}{3}\featv{pl}{4}\featc{subj}{--}\featv{whin}{1}\featv{whout}{5}}
+  \cat{vp\_coord\_1}{\featv{pl}{4}\featv{subj}{3}\featv{whin}{5}\featv{whout}{2}}
+}$
+\vspace{2mm}
+
+}
+\subsection*{Verb Phrases}
+
+\noindent Like sentences, verb phrases can be coordinated using "or" ('vp\_coord\_1') and "and"
+		('vp\_coord\_2'): \vspace{2mm}
+
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{vp\_coord\_1}{\featv{pl}{2}\featv{subj}{1}\featv{whin}{3}\featv{whout}{4}}
+}{
+  \cat{vp\_coord\_2}{\featv{pl}{2}\featv{subj}{1}\featv{whin}{3}\featv{whout}{4}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\scrule{
+  \cat{vp\_coord\_1}{\featv{pl}{2}\featv{subj}{1}\featv{whin}{3}\featv{whout}{4}}
+}{
+  \scopeopensymb{}
+  \cat{vp\_coord\_2}{\featv{pl}{2}\featv{subj}{1}\featv{whin}{3}\featv{whout}{5}}
+  \term{or}
+  \cat{vp\_coord\_1}{\featv{pl}{2}\featv{subj}{1}\featv{whin}{5}\featv{whout}{4}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{vp\_coord\_2}{\featv{pl}{2}\featv{subj}{1}\featv{whin}{3}\featv{whout}{4}}
+}{
+  \cat{vp}{\featv{pl}{2}\featv{subj}{1}\featv{whin}{3}\featv{whout}{4}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{vp\_coord\_2}{\featv{pl}{2}\featv{subj}{1}\featv{whin}{3}\featv{whout}{4}}
+}{
+  \cat{vp}{\featv{pl}{2}\featv{subj}{1}\featv{whin}{3}\featv{whout}{5}}
+  \term{and}
+  \cat{vp\_coord\_2}{\featv{pl}{2}\featv{subj}{1}\featv{whin}{5}\featv{whout}{4}}
+}$
+\vspace{2mm}
+
+}
+\noindent Uncoordinated verb phrases represented by 'vp' can use an auxiliary verb: \vspace{2mm}
+
+{\scriptsize
+\noindent$
+\ruleid
+\scrule{
+  \cat{vp}{\featv{exist}{2}\featv{pl}{4}\featv{rel}{3}\featv{subj}{1}\featv{whin}{5}\featv{whout}{6}}
+}{
+  \cat{aux}{\featv{be}{7}\featv{exist}{2}\featv{pl}{4}}
+  \cat{v}{\featv{be}{7}\featv{exist}{2}\featv{pl}{4}\featv{rel}{3}\featv{subj}{1}\featc{vform}{inf}\featv{whin}{5}\featv{whout}{6}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\scrule{
+  \cat{vp}{\featc{exist}{+}\featv{pl}{3}\featv{rel}{2}\featv{subj}{1}\featv{whin}{4}\featv{whout}{5}}
+}{
+  \cat{v}{\featc{be}{--}\featc{exist}{+}\featv{pl}{3}\featv{rel}{2}\featv{subj}{1}\featc{vform}{fin}\featv{whin}{4}\featv{whout}{5}}
+}$
+\vspace{2mm}
+
+}
+\noindent The category 'v' represents the main verb or - if "be" is used as a copula verb - the
+		complementing noun phrase or adjective complement: \vspace{2mm}
+
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{v}{\featc{be}{--}\featc{copula}{--}\featv{exist}{1}\featv{pl}{2}\featv{vform}{3}\featv{whin}{4}\featv{whout}{4}}
+}{
+  \cat{verb}{\featc{be}{--}\featv{exist}{1}\featv{pl}{2}\featc{vcat}{itr}\featv{vform}{3}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{v}{\featc{be}{--}\featc{copula}{--}\featv{embv}{6}\featv{exist}{2}\featv{pl}{4}\featv{rel}{3}\featv{subj}{1}\featv{vform}{5}\featv{whin}{7}\featv{whout}{8}}
+}{
+  \cat{verb}{\featc{be}{--}\featv{exist}{2}\featv{pl}{4}\featc{vcat}{tr}\featv{vform}{5}}
+  \cat{np}{\featc{case}{acc}\featv{embv}{6}\featv{rel}{3}\featv{subj}{1}\featc{vcat}{tr}\featv{whin}{7}\featv{whout}{8}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{v}{\featc{be}{+}\featc{copula}{--}\featv{embv}{3}\featv{rel}{2}\featv{subj}{1}\featv{whin}{4}\featv{whout}{5}}
+}{
+  \cat{verb}{\featc{be}{+}\featv{exist}{7}\featv{pl}{6}\featc{vcat}{tr}\featv{vform}{8}}
+  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{3}\featv{rel}{2}\featv{subj}{1}\featv{whin}{4}\featv{whout}{5}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{v}{\featc{be}{+}\featc{copula}{+}\featv{embv}{3}\featv{rel}{2}\featv{subj}{1}\featv{whin}{4}\featv{whout}{5}}
+}{
+  \cat{np}{\featc{case}{acc}\featc{copula}{+}\featv{embv}{3}\featc{of}{+}\featc{pl}{--}\featv{rel}{2}\featv{subj}{1}\featv{whin}{4}\featv{whout}{5}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{v}{\featc{be}{+}\featc{copula}{+}\featv{embv}{3}\featc{pl}{--}\featv{rel}{2}\featv{subj}{1}\featv{whin}{4}\featv{whout}{5}}
+}{
+  \cat{np}{\featc{case}{acc}\featc{copula}{+}\featv{embv}{3}\featc{of}{--}\featc{pl}{--}\featv{rel}{2}\featv{subj}{1}\featv{whin}{4}\featv{whout}{5}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{v}{\featc{be}{+}\featc{copula}{+}\featv{embv}{3}\featv{rel}{2}\featv{subj}{1}\featv{whin}{4}\featv{whout}{5}}
+}{
+  \spreterm{tradj}
+  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{3}\featv{rel}{2}\featv{subj}{1}\featv{whin}{4}\featv{whout}{5}}
+}$
+\vspace{2mm}
+
+}
+\subsection*{Noun Phrases}
+
+\noindent Noun phrases are represented by 'np' and can consist of proper names, variables,
+		pronouns, and different noun constructs: \vspace{2mm}
+
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{np}{\featc{def}{+}\featv{embv}{3}\featc{exist}{+}\featv{id}{1}\featc{of}{--}\featc{pl}{--}\featv{rel}{2}\featv{whin}{4}\featv{whout}{5}}
+}{
+  \preterm{propername}{\featv{gender}{7}\featv{human}{6}\featv{text}{1}}
+  \sfwref{\featv{gender}{7}\featc{hasvar}{--}\featv{human}{6}\featv{id}{1}\featc{type}{prop}}
+  \cat{relcl}{\featv{embv}{3}\featv{human}{6}\featv{rel}{2}\featv{subj}{1}\featv{whin}{4}\featv{whout}{5}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{np}{\featc{def}{+}\featc{exist}{+}\featv{id}{1}\featc{of}{--}\featc{pl}{--}\featv{whin}{2}\featv{whout}{2}}
+}{
+  \pos{1}
+  \cat{newvar}{\featv{var}{3}}
+  \fwref{\featc{hasvar}{+}\featv{id}{1}\featc{type}{var}\featv{var}{3}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{np}{\featc{def}{+}\featc{exist}{+}\featv{id}{1}\featc{of}{--}\featc{pl}{--}\featv{whin}{2}\featv{whout}{2}}
+}{
+  \preterm{defnoun}{\featv{noun}{3}}
+  \preterm{reference}{\featv{text}{4}}
+  \bwref{\featv{gender}{6}\featc{hasvar}{+}\featv{human}{5}\featv{id}{1}\featv{noun}{3}\featc{type}{noun}\featv{var}{4}}
+  \fwref{\featv{gender}{6}\featc{hasvar}{--}\featv{human}{5}\featv{id}{1}\featc{type}{ref}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{np}{\featc{def}{+}\featc{exist}{+}\featv{id}{1}\featc{of}{--}\featc{pl}{--}\featv{whin}{2}\featv{whout}{2}}
+}{
+  \preterm{defnoun}{\featv{noun}{3}}
+  \bwref{\featv{gender}{5}\featv{human}{4}\featv{id}{1}\featv{noun}{3}\featc{type}{noun}}
+  \fwref{\featv{gender}{5}\featc{hasvar}{--}\featv{human}{4}\featv{id}{1}\featc{type}{ref}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{np}{\featc{def}{+}\featc{exist}{+}\featv{id}{1}\featc{of}{--}\featc{pl}{--}\featv{whin}{2}\featv{whout}{2}}
+}{
+  \preterm{reference}{\featv{text}{3}}
+  \bwref{\featv{gender}{5}\featc{hasvar}{+}\featv{human}{4}\featv{id}{1}\featv{var}{3}}
+  \fwref{\featv{gender}{5}\featc{hasvar}{--}\featv{human}{4}\featv{id}{1}\featc{type}{ref}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{np}{\featv{embv}{6}\featv{exist}{3}\featv{id}{1}\featv{of}{5}\featc{pl}{--}\featv{rel}{4}\featv{subj}{2}\featv{whin}{7}\featv{whout}{8}}
+}{
+  \cat{quant}{\featv{exist}{3}}
+  \cat{nc}{\featv{embv}{6}\featv{id}{1}\featv{of}{5}\featv{rel}{4}\featv{subj}{2}\featv{whin}{7}\featv{whout}{8}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{np}{\featv{embv}{4}\featv{exist}{2}\featv{id}{1}\featc{of}{--}\featc{pl}{--}\featv{rel}{3}\featv{whin}{5}\featv{whout}{6}}
+}{
+  \pos{1}
+  \cat{ipron}{\featv{exist}{2}\featv{human}{7}}
+  \cat{opt\_newvar}{\featv{hasvar}{8}\featv{var}{9}}
+  \fwref{\featv{hasvar}{8}\featv{human}{7}\featv{id}{1}\featc{type}{ipron}\featv{var}{9}}
+  \cat{relcl}{\featv{embv}{4}\featv{human}{7}\featv{rel}{3}\featv{subj}{1}\featv{whin}{5}\featv{whout}{6}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{np}{\featc{copula}{--}\featc{exist}{+}\featv{id}{1}\featc{of}{--}\featc{pl}{+}\featv{whin}{2}\featv{whout}{2}}
+}{
+  \scat{num\_quant}
+  \spreterm{number}
+  \pos{1}
+  \spreterm{nounpl}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{np}{\featc{copula}{--}\featc{exist}{+}\featv{id}{1}\featc{of}{--}\featc{pl}{--}\featv{whin}{2}\featv{whout}{2}}
+}{
+  \scat{num\_quant}
+  \term{1}
+  \pos{1}
+  \preterm{noun}{\featv{gender}{4}\featv{human}{3}\featv{text}{5}}
+  \fwref{\featv{gender}{4}\featc{hasvar}{--}\featv{human}{3}\featv{id}{1}\featv{noun}{5}\featc{type}{noun}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{np}{\featc{exist}{+}\featv{id}{1}\featc{of}{--}\featc{pl}{--}\featc{whout}{+}}
+}{
+  \pos{1}
+  \term{what}
+  \fwref{\featc{hasvar}{--}\featc{human}{--}\featv{id}{1}\featc{type}{wh}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{np}{\featc{exist}{+}\featv{id}{1}\featc{of}{--}\featc{pl}{--}\featc{whout}{+}}
+}{
+  \pos{1}
+  \term{who}
+  \fwref{\featc{hasvar}{--}\featc{human}{+}\featv{id}{1}\featc{type}{wh}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{np}{\featv{embv}{5}\featc{exist}{+}\featv{id}{1}\featv{of}{4}\featc{pl}{--}\featv{rel}{3}\featv{subj}{2}\featc{whout}{+}}
+}{
+  \term{which}
+  \cat{nc}{\featv{embv}{5}\featv{id}{1}\featv{of}{4}\featv{rel}{3}\featv{subj}{2}\featc{whin}{+}\featc{whout}{+}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{np}{\featc{exist}{+}\featv{id}{1}\featc{of}{--}\featc{pl}{+}\featc{whout}{+}}
+}{
+  \term{which}
+  \pos{1}
+  \spreterm{nounpl}
+}$
+\vspace{2mm}
+
+}
+\noindent The category 'nc' represents nouns optionally followed by variables, relative clauses,
+		and of-constructs: \vspace{2mm}
+
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{nc}{\featv{embv}{3}\featv{id}{1}\featc{of}{--}\featv{rel}{2}\featv{whin}{4}\featv{whout}{5}}
+}{
+  \cat{n}{\featv{gender}{7}\featv{human}{6}\featv{id}{1}\featv{text}{8}}
+  \cat{opt\_newvar}{\featv{hasvar}{9}\featv{var}{10}}
+  \fwref{\featv{gender}{7}\featv{hasvar}{9}\featv{human}{6}\featv{id}{1}\featv{noun}{8}\featc{type}{noun}\featv{var}{10}}
+  \cat{relcl}{\featv{embv}{3}\featv{human}{6}\featv{rel}{2}\featv{subj}{1}\featv{whin}{4}\featv{whout}{5}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\scrule{
+  \cat{nc}{\featv{embv}{4}\featv{id}{1}\featc{of}{+}\featv{rel}{3}\featv{subj}{2}\featv{whin}{5}\featv{whout}{6}}
+}{
+  \spreterm{nounof}
+  \cat{np}{\featc{case}{acc}\featv{embv}{4}\featv{rel}{3}\featv{subj}{2}\featv{whin}{5}\featv{whout}{6}}
+}$
+\vspace{2mm}
+
+}
+\noindent The category 'n' stands for nouns: \vspace{2mm}
+
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{n}{\featv{gender}{3}\featv{human}{2}\featv{id}{1}\featv{text}{4}}
+}{
+  \pos{1}
+  \preterm{noun}{\featv{gender}{3}\featv{human}{2}\featv{text}{4}}
+}$
+\vspace{2mm}
+
+}
+\noindent New variables, optional and mandatory, are represented by 'opt\_newvar' and 'newvar',
+		respectively: \vspace{2mm}
+
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{opt\_newvar}{\featc{hasvar}{--}}
+}{
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{opt\_newvar}{\featc{hasvar}{+}\featv{var}{1}}
+}{
+  \cat{newvar}{\featv{var}{1}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{newvar}{\featv{var}{1}}
+}{
+  \preterm{variable}{\featv{text}{1}}
+  \nbwref{\featc{hasvar}{+}\featv{var}{1}}
+}$
+\vspace{2mm}
+
+}
+\subsection*{Relative Clauses}
+
+\noindent Relative pronouns are represented by 'relpron' and can be either "that", "who" or
+		"which": \vspace{2mm}
+
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{relcl}{\featv{whin}{1}\featv{whout}{1}}
+}{
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{relcl}{\featc{embv}{+}\featv{human}{2}\featc{rel}{+}\featv{subj}{1}\featv{whin}{3}\featv{whout}{4}}
+}{
+  \cat{relpron}{\featv{human}{2}\featv{relpron}{5}}
+  \cat{relcl1}{\featv{human}{2}\featv{relpron}{5}\featv{subj}{1}\featv{whin}{3}\featv{whout}{4}}
+}$
+\vspace{2mm}
+
+}
+\noindent Like sentences and verb phrases, relative clauses can be coordinated by "or"
+		('relcl1') and "and" ('relcl2'): \vspace{2mm}
+
+{\scriptsize
+\noindent$
+\ruleid
+\scrule{
+  \cat{relcl1}{\featv{human}{2}\featv{relpron}{3}\featv{subj}{1}\featv{whin}{4}\featv{whout}{5}}
+}{
+  \scopeopensymb{}
+  \cat{relcl2}{\featv{human}{2}\featc{rel}{--}\featv{relpron}{3}\featv{subj}{1}\featv{whin}{4}\featv{whout}{6}}
+  \cat{or\_relpron}{\featv{human}{2}\featv{relpron}{3}}
+  \cat{relcl1}{\featv{human}{2}\featv{relpron}{3}\featv{subj}{1}\featv{whin}{6}\featv{whout}{5}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{relcl1}{\featv{human}{2}\featv{relpron}{3}\featv{subj}{1}\featv{whin}{4}\featv{whout}{5}}
+}{
+  \cat{relcl2}{\featv{human}{2}\featv{relpron}{3}\featv{subj}{1}\featv{whin}{4}\featv{whout}{5}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{relcl2}{\featv{human}{4}\featv{rel}{2}\featv{relpron}{3}\featv{subj}{1}\featv{whin}{5}\featv{whout}{6}}
+}{
+  \cat{vp}{\featc{pl}{--}\featc{rel}{--}\featv{subj}{1}\featv{whin}{5}\featv{whout}{7}}
+  \cat{and\_relpron}{\featv{human}{4}\featv{relpron}{3}}
+  \cat{relcl2}{\featv{human}{4}\featv{rel}{2}\featv{relpron}{3}\featv{subj}{1}\featv{whin}{7}\featv{whout}{6}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{relcl2}{\featv{rel}{2}\featv{subj}{1}\featv{whin}{3}\featv{whout}{4}}
+}{
+  \cat{vp}{\featc{pl}{--}\featv{rel}{2}\featv{subj}{1}\featv{whin}{3}\featv{whout}{4}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\scrule{
+  \cat{relcl2}{\featv{rel}{2}\featv{subj}{1}\featv{whin}{3}\featv{whout}{4}}
+}{
+  \cat{np}{\featc{case}{nom}\featc{copula}{--}\featv{id}{5}\featv{pl}{6}\featc{refl}{--}\featc{rel}{--}\featv{subj}{1}\featv{whin}{3}\featv{whout}{4}}
+  \cat{aux}{\featc{be}{--}\featv{exist}{7}\featv{pl}{6}}
+  \cat{verb}{\featc{be}{--}\featv{exist}{7}\featv{pl}{6}\featc{vcat}{tr}\featc{vform}{inf}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\scrule{
+  \cat{relcl2}{\featv{subj}{1}\featv{whin}{2}\featv{whout}{3}}
+}{
+  \cat{np}{\featc{case}{nom}\featc{copula}{--}\featv{id}{4}\featv{pl}{5}\featc{refl}{--}\featc{rel}{--}\featv{subj}{1}\featv{whin}{2}\featv{whout}{3}}
+  \cat{verb}{\featc{be}{--}\featc{exist}{+}\featv{pl}{5}\featc{vcat}{tr}\featc{vform}{fin}}
+}$
+\vspace{2mm}
+
+}
+\noindent Relative pronouns are represented by 'relpron' and can be either "that", "who" or
+		"which": \vspace{2mm}
+
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{relpron}{\featc{relpron}{that}}
+}{
+  \term{that}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{relpron}{\featc{human}{+}\featc{relpron}{who}}
+}{
+  \term{who}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{relpron}{\featc{human}{--}\featc{relpron}{which}}
+}{
+  \term{which}
+}$
+\vspace{2mm}
+
+}
+\noindent The categories 'or\_relpron' and 'and\_relpron' define shortcuts - like "or that" as
+		one token - for better usability inside of the predictive editor: \vspace{2mm}
+
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{or\_relpron}{\featv{human}{1}\featv{relpron}{2}}
+}{
+  \term{or}
+  \cat{relpron}{\featv{human}{1}\featv{relpron}{2}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{or\_relpron}{\featc{relpron}{that}}
+}{
+  \term{or that}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{or\_relpron}{\featc{human}{+}\featc{relpron}{who}}
+}{
+  \term{or who}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{or\_relpron}{\featc{human}{--}\featc{relpron}{which}}
+}{
+  \term{or which}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{and\_relpron}{\featv{human}{1}\featv{relpron}{2}}
+}{
+  \term{and}
+  \cat{relpron}{\featv{human}{1}\featv{relpron}{2}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{and\_relpron}{\featc{relpron}{that}}
+}{
+  \term{and that}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{and\_relpron}{\featc{human}{+}\featc{relpron}{who}}
+}{
+  \term{and who}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{and\_relpron}{\featc{human}{--}\featc{relpron}{which}}
+}{
+  \term{and which}
+}$
+\vspace{2mm}
+
+}
+\subsection*{Verbs}
+
+\noindent The category 'verb' represents main verbs: \vspace{2mm}
+
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{verb}{\featc{be}{--}\featc{pl}{--}\featc{vcat}{tr}\featc{vform}{fin}}
+}{
+  \spreterm{verbsg}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{verb}{\featc{be}{--}\featc{pl}{+}\featc{vcat}{tr}\featc{vform}{fin}}
+}{
+  \spreterm{verbinf}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{verb}{\featc{be}{--}\featc{vcat}{tr}\featc{vform}{inf}}
+}{
+  \spreterm{verbinf}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{verb}{\featc{be}{+}\featc{vcat}{tr}}
+}{
+  \spreterm{pverb}
+}$
+\vspace{2mm}
+
+}
+\noindent Auxiliary verbs are represented by 'aux', which includes negation markers: \vspace{2mm}
+
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{aux}{\featc{be}{+}\featc{exist}{+}\featc{pl}{--}}
+}{
+  \term{is}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{aux}{\featc{be}{+}\featc{exist}{--}\featc{pl}{--}}
+}{
+  \scopeopensymb{}
+  \term{is not}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{aux}{\featc{be}{+}\featc{exist}{--}\featc{pl}{--}}
+}{
+  \scopeopensymb{}
+  \term{is}
+  \term{not}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{aux}{\featc{be}{+}\featc{exist}{+}\featc{pl}{+}}
+}{
+  \term{are}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{aux}{\featc{be}{+}\featc{exist}{--}\featc{pl}{+}}
+}{
+  \scopeopensymb{}
+  \term{are not}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{aux}{\featc{be}{+}\featc{exist}{--}\featc{pl}{+}}
+}{
+  \scopeopensymb{}
+  \term{are}
+  \term{not}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{aux}{\featc{be}{--}\featc{exist}{--}\featc{pl}{--}}
+}{
+  \scopeopensymb{}
+  \term{does not}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{aux}{\featc{be}{--}\featc{exist}{--}\featc{pl}{+}}
+}{
+  \scopeopensymb{}
+  \term{do not}
+}$
+\vspace{2mm}
+
+}
+\subsection*{Quantifiers}
+
+\noindent Existential and universal quantifiers are represented by 'quant': \vspace{2mm}
+
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{quant}{\featc{exist}{+}}
+}{
+  \term{a}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{quant}{\featc{exist}{+}}
+}{
+  \term{an}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{quant}{\featc{exist}{--}}
+}{
+  \scopeopensymb{}
+  \term{every}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{quant}{\featc{exist}{--}}
+}{
+  \scopeopensymb{}
+  \term{no}
+}$
+\vspace{2mm}
+
+}
+\noindent The category 'num\_quant' stands for numerical quantifiers: \vspace{2mm}
+
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \scat{num\_quant}
+}{
+  \term{at least}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \scat{num\_quant}
+}{
+  \term{at most}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \scat{num\_quant}
+}{
+  \term{less than}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \scat{num\_quant}
+}{
+  \term{more than}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \scat{num\_quant}
+}{
+  \term{exactly}
+}$
+\vspace{2mm}
+
+}
+\subsection*{Indefinite Pronouns}
+
+\noindent Indefinite pronouns are represented by 'ipron': \vspace{2mm}
+
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{ipron}{\featc{exist}{+}\featc{human}{--}}
+}{
+  \term{something}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{ipron}{\featc{exist}{+}\featc{human}{+}}
+}{
+  \term{somebody}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{ipron}{\featc{exist}{--}\featc{human}{--}}
+}{
+  \scopeopensymb{}
+  \term{everything}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{ipron}{\featc{exist}{--}\featc{human}{+}}
+}{
+  \scopeopensymb{}
+  \term{everybody}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{ipron}{\featc{exist}{--}\featc{human}{--}}
+}{
+  \scopeopensymb{}
+  \term{nothing}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{ipron}{\featc{exist}{--}\featc{human}{+}}
+}{
+  \scopeopensymb{}
+  \term{nobody}
+}$
+\vspace{2mm}
+
+}
+\end{document}

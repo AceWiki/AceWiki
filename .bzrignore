@@ -1,0 +1,8 @@
+local
+test
+./classes
+./docs
+./webapps.war
+./*.zip
+./*.jar
+./webapps/war/WEB-INF/lib

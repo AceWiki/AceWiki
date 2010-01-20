@@ -1,0 +1,5 @@
+swipl -s ../../codeco/validate_codeco.pl -g "validate_codeco('acewiki_grammar.pl')" -t halt
+swipl -s ../../codeco/generate_java.pl -g "generate_java('acewiki_grammar.pl', 'ch.uzh.ifi.attempto.acewiki.core.AceWikiGrammar')" -t halt
+swipl -s ../../codeco/generate_dcg.pl -g "generate_dcg('acewiki_grammar.pl', 'acewiki_grammar_dcg.pl')" -t halt
+swipl -s ../../codeco/generate_latex.pl -g "generate_latex('acewiki_grammar.pl', 'acewiki_grammar.tex')" -t halt
+swipl -s ../../codeco/generate_html.pl -g "generate_html('acewiki_grammar.pl', 'acewiki_grammar.html')" -t halt

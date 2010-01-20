@@ -1,0 +1,135 @@
+<stylesheet>
+ <style name="Default" type="nextapp.echo2.app.WindowPane">
+  <properties>
+   <!-- Container-specific property to enable Internet Explorer PNG Alpha Renderer for shadow window border. -->
+   <property type="java.lang.Boolean" name="nextapp.echo2.webcontainer.syncpeer.WindowPanePeer.ieAlphaRenderBorder" value="true"/>
+   <property name="border">
+    <fill-image-border content-insets="8px 8px 14px 14px" border-insets="17px 17px 23px 23px">
+     <border-part position="top-left">
+      <fill-image>
+       <image type="nextapp.echo2.app.ResourceImageReference">
+        <resource-image-reference resource="/ch/uzh/ifi/attempto/echocomp/style/BorderTopLeft.png"/>
+       </image>
+      </fill-image>
+     </border-part>
+     <border-part position="top">
+      <fill-image>
+       <image type="nextapp.echo2.app.ResourceImageReference">
+        <resource-image-reference resource="/ch/uzh/ifi/attempto/echocomp/style/BorderTop.png"/>
+       </image>
+      </fill-image>
+     </border-part>
+     <border-part position="top-right">
+      <fill-image>
+       <image type="nextapp.echo2.app.ResourceImageReference">
+        <resource-image-reference resource="/ch/uzh/ifi/attempto/echocomp/style/BorderTopRight.png"/>
+       </image>
+      </fill-image>
+     </border-part>
+     <border-part position="left">
+      <fill-image>
+       <image type="nextapp.echo2.app.ResourceImageReference">
+        <resource-image-reference resource="/ch/uzh/ifi/attempto/echocomp/style/BorderLeft.png"/>
+       </image>
+      </fill-image>
+     </border-part>
+     <border-part position="right">
+      <fill-image>
+       <image type="nextapp.echo2.app.ResourceImageReference">
+        <resource-image-reference resource="/ch/uzh/ifi/attempto/echocomp/style/BorderRight.png"/>
+       </image>
+      </fill-image>
+     </border-part>
+     <border-part position="bottom-left">
+      <fill-image>
+       <image type="nextapp.echo2.app.ResourceImageReference">
+        <resource-image-reference resource="/ch/uzh/ifi/attempto/echocomp/style/BorderBottomLeft.png"/>
+       </image>
+      </fill-image>
+     </border-part>
+     <border-part position="bottom">
+      <fill-image>
+       <image type="nextapp.echo2.app.ResourceImageReference">
+        <resource-image-reference resource="/ch/uzh/ifi/attempto/echocomp/style/BorderBottom.png"/>
+       </image>
+      </fill-image>
+     </border-part>
+     <border-part position="bottom-right">
+      <fill-image>
+       <image type="nextapp.echo2.app.ResourceImageReference">
+        <resource-image-reference resource="/ch/uzh/ifi/attempto/echocomp/style/BorderBottomRight.png"/>
+       </image>
+      </fill-image>
+     </border-part>
+    </fill-image-border>
+   </property>
+  </properties>
+ </style>
+ <style name="Default" type="nextapp.echo2.extras.app.BorderPane">
+  <properties>
+   <!-- Container-specific property to enable Internet Explorer PNG Alpha Renderer for shadow window border. -->
+   <property type="java.lang.Boolean" name="nextapp.echo2.webcontainer.syncpeer.WindowPanePeer.ieAlphaRenderBorder" value="true"/>
+   <property name="border">
+    <fill-image-border content-insets="8px 8px 14px 14px" border-insets="17px 17px 23px 23px">
+     <border-part position="top-left">
+      <fill-image>
+       <image type="nextapp.echo2.app.ResourceImageReference">
+        <resource-image-reference resource="/ch/uzh/ifi/attempto/echocomp/style/BorderTopLeft.png"/>
+       </image>
+      </fill-image>
+     </border-part>
+     <border-part position="top">
+      <fill-image>
+       <image type="nextapp.echo2.app.ResourceImageReference">
+        <resource-image-reference resource="/ch/uzh/ifi/attempto/echocomp/style/BorderTop.png"/>
+       </image>
+      </fill-image>
+     </border-part>
+     <border-part position="top-right">
+      <fill-image>
+       <image type="nextapp.echo2.app.ResourceImageReference">
+        <resource-image-reference resource="/ch/uzh/ifi/attempto/echocomp/style/BorderTopRight.png"/>
+       </image>
+      </fill-image>
+     </border-part>
+     <border-part position="left">
+      <fill-image>
+       <image type="nextapp.echo2.app.ResourceImageReference">
+        <resource-image-reference resource="/ch/uzh/ifi/attempto/echocomp/style/BorderLeft.png"/>
+       </image>
+      </fill-image>
+     </border-part>
+     <border-part position="right">
+      <fill-image>
+       <image type="nextapp.echo2.app.ResourceImageReference">
+        <resource-image-reference resource="/ch/uzh/ifi/attempto/echocomp/style/BorderRight.png"/>
+       </image>
+      </fill-image>
+     </border-part>
+     <border-part position="bottom-left">
+      <fill-image>
+       <image type="nextapp.echo2.app.ResourceImageReference">
+        <resource-image-reference resource="/ch/uzh/ifi/attempto/echocomp/style/BorderBottomLeft.png"/>
+       </image>
+      </fill-image>
+     </border-part>
+     <border-part position="bottom">
+      <fill-image>
+       <image type="nextapp.echo2.app.ResourceImageReference">
+        <resource-image-reference resource="/ch/uzh/ifi/attempto/echocomp/style/BorderBottom.png"/>
+       </image>
+      </fill-image>
+     </border-part>
+     <border-part position="bottom-right">
+      <fill-image>
+       <image type="nextapp.echo2.app.ResourceImageReference">
+        <resource-image-reference resource="/ch/uzh/ifi/attempto/echocomp/style/BorderBottomRight.png"/>
+       </image>
+      </fill-image>
+     </border-part>
+    </fill-image-border>
+   </property>
+  </properties>
+ </style>
+</stylesheet>
+ 

@@ -1,0 +1,11 @@
+# This bash script can be used to transform the Codeco grammar into a Prolog DCG, a Java class, a
+# LaTeX file, and an HTML file.
+#
+# SWI Prolog has to be installed. This script assumes that the SWI Prolog command is "swipl". If
+# this is different (e.g. "pl"), the script has to be changed accordingly.
+
+swipl -s ../codeco/validate_codeco.pl -g "validate_codeco('aceeditor_grammar.pl')" -t halt
+swipl -s ../codeco/generate_dcg.pl -g "generate_dcg('aceeditor_grammar.pl', 'aceeditor_grammar_dcg.pl')" -t halt
+swipl -s ../codeco/generate_java.pl -g "generate_java('aceeditor_grammar.pl', 'ch.uzh.ifi.attempto.aceeditor.ACEEditorGrammar')" -t halt
+swipl -s ../codeco/generate_latex.pl -g "generate_latex('aceeditor_grammar.pl', 'aceeditor_grammar.tex')" -t halt
+swipl -s ../codeco/generate_html.pl -g "generate_html('aceeditor_grammar.pl', 'aceeditor_grammar.html')" -t halt

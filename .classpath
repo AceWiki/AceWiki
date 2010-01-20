@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/aterm-java-1.6.jar"/>
+	<classpathentry kind="lib" path="lib/commons-fileupload-1.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-httpclient-3.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-lang-2.2.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/Echo2_App.jar"/>
+	<classpathentry kind="lib" path="lib/Echo2_Extras_App.jar"/>
+	<classpathentry kind="lib" path="lib/Echo2_Extras_WebContainer.jar"/>
+	<classpathentry kind="lib" path="lib/Echo2_FileTransfer_App.jar"/>
+	<classpathentry kind="lib" path="lib/Echo2_FileTransfer_WebContainer.jar"/>
+	<classpathentry kind="lib" path="lib/Echo2_WebContainer.jar"/>
+	<classpathentry kind="lib" path="lib/Echo2_WebRender.jar"/>
+	<classpathentry kind="lib" path="lib/echopointng-2.2.0rc2.jar"/>
+	<classpathentry kind="lib" path="lib/jdom.jar"/>
+	<classpathentry kind="lib" path="lib/jpl.jar"/>
+	<classpathentry kind="lib" path="lib/owlapi-bin.jar"/>
+	<classpathentry kind="lib" path="lib/pellet.jar"/>
+	<classpathentry kind="lib" path="lib/README.txt"/>
+	<classpathentry kind="lib" path="lib/relaxngDatatype.jar"/>
+	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="lib/xsdlib.jar"/>
+	<classpathentry kind="lib" path="lib/attempto-ape.jar"/>
+	<classpathentry kind="output" path="classes"/>
+</classpath>

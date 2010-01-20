@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="AceWiki" default="buildeverything" basedir=".">
+    
+    <property name="version" value="100119"/>
+    <property file="src/ch/uzh/ifi/attempto/acewiki/acewiki.properties"/>
+    <property file="src/ch/uzh/ifi/attempto/aceeditor/aceeditor.properties"/>
+    
+    <target name="compile"
+            description="Compile the Java files">
+    	<mkdir dir="classes"/>
+        <javac
+            srcdir="src/"
+        	excludes="**/test/**"
+            classpath="lib/aterm-java-1.6.jar;lib/attempto-ape.jar;lib/commons-fileupload-1.2.1.jar;lib/commons-httpclient-3.1.jar;lib/commons-lang-2.2.jar;lib/commons-logging-1.1.jar;lib/Echo2_App.jar;lib/Echo2_FileTransfer_App.jar;lib/Echo2_FileTransfer_WebContainer.jar;lib/Echo2_Extras_App.jar;lib/Echo2_Extras_WebContainer.jar;lib/Echo2_WebRender.jar;lib/Echo2_WebContainer.jar;lib/echopointng-2.2.0rc2.jar;lib/jdom.jar;lib/jpl.jar;lib/owlapi-bin.jar;lib/pellet.jar;lib/relaxngDatatype.jar;lib/servlet-api.jar;lib/xsdlib.jar"
+            destdir="classes/"
+        />
+        <copy todir="classes/ch/uzh/ifi/attempto/echocomp/style">
+            <fileset dir="src/ch/uzh/ifi/attempto/echocomp/style"/>
+        </copy>
+        <copy todir="classes/ch/uzh/ifi/attempto/acewiki/gui/img">
+            <fileset dir="src/ch/uzh/ifi/attempto/acewiki/gui/img"/>
+        </copy>
+        <copy todir="classes/ch/uzh/ifi/attempto/aceeditor/img">
+            <fileset dir="src/ch/uzh/ifi/attempto/aceeditor/img"/>
+        </copy>
+        <copy
+            file="src/ch/uzh/ifi/attempto/acewiki/acewiki.properties"
+            tofile="classes/ch/uzh/ifi/attempto/acewiki/acewiki.properties"
+        />
+        <copy
+            file="src/ch/uzh/ifi/attempto/aceeditor/aceeditor.properties"
+            tofile="classes/ch/uzh/ifi/attempto/aceeditor/aceeditor.properties"
+        />
+    </target>
+    
+    <target name="createjars"
+            description="Create JAR files"
+            depends="compile">
+        <jar
+            destfile="attempto-chartparser.jar"
+            basedir="classes/"
+            includes="ch/uzh/ifi/attempto/chartparser/**"
+        />
+        <jar
+            destfile="attempto-echo.jar"
+            basedir="classes/"
+            includes="ch/uzh/ifi/attempto/echocomp/** ch/uzh/ifi/attempto/preditor/**"
+        />
+        <jar
+            destfile="attempto-acewiki-${acewiki-version}.jar"
+            basedir="classes/"
+            includes="ch/uzh/ifi/attempto/acewiki/**"
+        />
+        <jar
+            destfile="attempto-aceeditor-${aceeditor-version}.jar"
+            basedir="classes/"
+            includes="ch/uzh/ifi/attempto/aceeditor/**"
+        />
+    </target>
+
+    <target name="createjavadoc"
+            description="Create the Javadoc files">
+         <javadoc
+             sourcepath="src/"
+             packagenames="*"
+        	 excludepackagenames="**.test"
+             destdir="docs/"
+             extdirs="lib/"
+             windowtitle="AceWiki, version ${version}"
+             doctitle="AceWiki, version ${version}"
+             overview="src/overview.html"
+             linksource="on">
+            <bottom><![CDATA[<em>Copyright 2008-2009, Attempto Group, University of Zurich (see <a href="http://attempto.ifi.uzh.ch" target="_blank">http://attempto.ifi.uzh.ch</a>)</em>]]></bottom>
+        </javadoc>
+        <copy
+            file="README.txt"
+            tofile="docs/README.txt"
+        />
+        <copy
+            file="webapps/war/WEB-INF/web.xml"
+            tofile="docs/web.xml"
+        />
+        <copy todir="docs/ch/uzh/ifi/attempto/codeco">
+            <fileset dir="src/ch/uzh/ifi/attempto/codeco"
+            	includes="*.pl"
+            />
+        </copy>
+        <copy todir="docs/ch/uzh/ifi/attempto/aceeditor">
+            <fileset dir="src/ch/uzh/ifi/attempto/aceeditor"
+            	includes="aceeditor_grammar*"
+            />
+        </copy>
+        <copy todir="docs/ch/uzh/ifi/attempto/acewiki/core">
+            <fileset dir="src/ch/uzh/ifi/attempto/acewiki/core"
+            	includes="acewiki_grammar*"
+            />
+        </copy>
+    </target>
+    
+    <target name="createwebapps"
+            description="Compiles everything and builds the WAR file that is used to run the web applications"
+            depends="createjars">
+        <mkdir dir="webapps/war/WEB-INF/lib"/>
+        <copy todir="webapps/war/WEB-INF/lib">
+            <fileset dir="lib/" includes="*.jar"/>
+            <fileset dir="." includes="*.jar"/>
+        </copy>
+        <delete file="webapps.war"/>
+        <jar
+            destfile="webapps.war"
+            basedir="webapps/war"
+            includes="**"
+        />
+    </target>
+
+    <target name="clean"
+            description="Clean up">
+        <delete file="attempto-chartparser.jar"/>
+        <delete file="attempto-echo.jar"/>
+        <delete>
+            <fileset dir="." includes="attempto-acewiki-*.jar"/>
+        </delete>
+        <delete>
+            <fileset dir="." includes="attempto-aceeditor-*.jar"/>
+        </delete>
+        <delete>
+            <fileset dir="." includes="acewiki-*.zip"/>
+        </delete>
+        <delete dir="classes/ch/"/>
+        <delete dir="docs/"/>
+        <delete dir="webapps/war/WEB-INF/lib/"/>
+    </target>
+    
+    <target name="buildeverything"
+            depends="clean, createjars, createjavadoc, createwebapps"
+            description="Clean up and create Javadoc, JAR files, and the AceWiki web application"
+    />
+	
+    <target name="createzip"
+            description="Create the ZIP file"
+            depends="buildeverything">
+        <zip
+            destfile="acewiki-${version}.zip"
+            basedir="."
+            includes="**"
+            excludes="*.zip *.war .* classes/** webapps/war/WEB-INF/lib/** **/local/** **/test/**"
+        />
+    </target>
+
+</project>

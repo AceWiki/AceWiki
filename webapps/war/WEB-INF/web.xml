@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app 
+  PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" 
+  "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<!-- 
+  This file is an exemplary web.xml file for the Attempto web applications (i.e. the ACE Editor and
+  AceWiki).
+-->
+
+<web-app>
+  
+  <!--
+    This text shows up as the title of the browser window.
+  -->
+  <display-name>Attempto Web Applications</display-name>
+  
+  
+  <!-- Parameters -->
+  
+  <!--
+    AceWiki needs the program "ape.exe" that can be compiled from the APE package that is available
+    on the Attempto download page. This parameter defines the name (should always be "ape.exe") and
+    the path of the executable. The path can be omitted if the executable is located in the home
+    directory of the servlet container service. Note that putting the path of "ape.exe" into the
+    PATH environment variable is not sufficient.
+  -->
+  <context-param>
+    <param-name>apecommand</param-name>
+    <param-value>ape.exe</param-value>
+  </context-param>
+  
+  
+  <!-- Servlets -->
+  
+  <!--
+    The following is a servlet definition for the preditor example servlet.
+  -->
+  <servlet>
+  
+    <!--
+      The name of the servlet is used as an identifier for the mappings (see below).
+    -->
+    <servlet-name>Preditor</servlet-name>
+    
+    <!--
+      This argument points to the servlet class.
+    -->
+    <servlet-class>ch.uzh.ifi.attempto.preditor.ExampleServlet</servlet-class>
+    
+  </servlet>
+  
+  
+  <!--
+    The following is an exemplary servlet definition for an AceWiki instance.
+  -->
+  <servlet>
+  
+    <!--
+      The name of the servlet is used as an identifier for the mappings (see below).
+    -->
+    <servlet-name>AceWiki</servlet-name>
+    
+    <!--
+      This argument points to the servlet class.
+    -->
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    
+    <!--
+      The parameter 'ontology' is mandatory and specifies the name of the ontology. This name is
+      used in the URIs of the OWL statements and for the file names on the server. Several servlet
+      definitions can refer to the same ontology with the consequence that they access the same
+      knowledge base.
+    -->
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>test</param-value>
+    </init-param>
+    
+    <!--
+      The 'baseuri' parameter defines the base URI for the OWL statements. The URI for the ontology
+      elements (i.e. words) are a concatenation of baseURI + ontologyName + word.
+    -->
+    <init-param>
+      <param-name>baseuri</param-name>
+      <param-value>http://attempto.ifi.uzh.ch/acewiki/</param-value>
+    </init-param>
+    
+    <!--
+      The parameter 'title' defines the title that is shown on the main page of the wiki.
+    -->
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>AceWiki test</param-value>
+    </init-param>
+    
+    <!--
+      The parameter 'description' contains the description that is shown on the main page of the
+      wiki.
+    -->
+    <init-param>
+      <param-name>description</param-name>
+      <param-value>This is an AceWiki test.</param-value>
+    </init-param>
+    
+    <!--
+      The 'login' parameter defines whether users have to login before they can use the wiki: 'no'
+      means no login required; 'nonpw' means that a login is required but without a password; 'pw'
+      or 'yes' means that a login with password protection is required (not fully implemented at
+      the moment).
+    -->
+    <init-param>
+      <param-name>login</param-name>
+      <param-value>no</param-value>
+    </init-param>
+    
+  </servlet>
+  
+  <!--
+    You can have several servlet definitions of the same servlet class within a single web.xml
+    file. Uncomment the code below to launch a second AceWiki instance. Make sure that you
+    uncomment the respective mapping as well.
+  -->
+  <!--
+  <servlet>
+    <servlet-name>AceWiki2</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>anothertest</param-value>
+    </init-param>
+    <init-param>
+      <param-name>baseuri</param-name>
+      <param-value>http://attempto.ifi.uzh.ch/acewiki/</param-value>
+    </init-param>
+  </servlet>
+  -->
+  
+  
+  <!--
+    The following is an exemplary servlet definition for an AceWiki instance.
+  -->
+  <servlet>
+  
+    <!--
+      The name of the servlet is used as an identifier for the mappings (see below).
+    -->
+    <servlet-name>ACE Editor</servlet-name>
+    
+    <!--
+      This argument points to the servlet class.
+    -->
+    <servlet-class>ch.uzh.ifi.attempto.aceeditor.ACEEditorServlet</servlet-class>
+    
+    <!--
+      The parameter 'lexicon' points to the lexicon file that should be loaded. This file should be
+      formatted according to the ACE Lexicon Specification (see
+      http://attempto.ifi.uzh.ch/site/docs/ace_lexicon.html).
+    -->
+    <init-param>
+      <param-name>lexicon</param-name>
+      <param-value>aceeditor_lexicon.pl</param-value>
+    </init-param>
+    
+    <!--
+      The parameter 'immutable_lexicon' defines whether the lexicon is immutable or can be changed
+      by users.
+    -->
+    <init-param>
+      <param-name>immutable_lexicon</param-name>
+      <param-value>off</param-value>
+    </init-param>
+    
+    <!--
+      The parameter 'parse_with_clex' defines whether the compiled lexicon of the APE executable
+      should be used for parsing the ACE sentences. Only the compiled lexicon of APE is used if the
+      value is 'off'. If it is 'on' then the lexicon entries are passed to APE whenever a sentence
+      is parsed. This parameter should always be 'off' if the parameter 'immutable_lexicon' (see
+      above) is 'off'.
+    -->
+    <init-param>
+      <param-name>parse_with_clex</param-name>
+      <param-value>off</param-value>
+    </init-param>
+    
+    <!--
+      The parameter 'max_upload_file_size' defines the maximum size in bytes for files to be
+      uploaded by users. 0 means unlimited file size. Uploading large files can make the web
+      application become unresponsive or even crash.
+    -->
+    <init-param>
+      <param-name>max_upload_file_size</param-name>
+      <param-value>10000</param-value>
+    </init-param>
+  
+  </servlet>
+  
+  
+  <!-- Mappings -->
+  
+  <!--
+    The mappings connect url-patterns with the servlets that should be shown when the respective
+    URL is requested by the client. This can also be the root directory "/" of the servlet or a
+    deeper structure like "/test/app1/".
+    
+    However, the server delay window (that is shown on the client when the server is busy)
+    looks for the wait icon "../wait.gif". This link gets broken when a different structure is used
+    unless the picture is copied to the right place. But don't worry too much about this because
+    the only consequence would be that the wait icon is not shown.
+  -->
+  
+  <!--
+    This is the mapping for the predictive editor servlet.
+  -->
+  <servlet-mapping>
+    <servlet-name>Preditor</servlet-name>
+    <url-pattern>/preditor/</url-pattern>
+  </servlet-mapping>
+  
+  <!--
+    This is the mapping for the AceWiki servlet.
+  -->
+  <servlet-mapping>
+    <servlet-name>AceWiki</servlet-name>
+    <url-pattern>/acewiki/</url-pattern>
+  </servlet-mapping>
+  
+  <!--
+    Uncomment the mapping below for starting another AceWiki instance. See the commented-out
+    servlet definition above.
+  -->
+  <!--
+  <servlet-mapping>
+    <servlet-name>AceWiki2</servlet-name>
+    <url-pattern>/acewiki2/</url-pattern>
+  </servlet-mapping>
+  -->
+
+  <!--
+    This is the mapping for the ACE Editor servlet.
+  -->
+  <servlet-mapping>
+    <servlet-name>ACE Editor</servlet-name>
+    <url-pattern>/aceeditor/</url-pattern>
+  </servlet-mapping>
+  
+</web-app>
