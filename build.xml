@@ -2,7 +2,7 @@
 
 <project name="AceWiki" default="buildeverything" basedir=".">
     
-    <property name="version" value="100119"/>
+    <property name="version" value="100121"/>
     <property file="src/ch/uzh/ifi/attempto/acewiki/acewiki.properties"/>
     <property file="src/ch/uzh/ifi/attempto/aceeditor/aceeditor.properties"/>
     
