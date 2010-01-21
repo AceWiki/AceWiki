@@ -89,3 +89,10 @@ EchoPointNG 2.2.0 rc2
   licenses:  Mozilla Public License, version 1.1 (see license/mpl-1.1.txt)
              GNU General Public License version 2 or later (see licenses/gpl-3.txt)
              GNU Lesser General Public License version 2.1 or later (see licenses/gpl-3.txt)
+
+APE 6.5-091130
+  files:     attempto-ape.jar
+  url:       http://attempto.ifi.uzh.ch
+  copyright: 2008-2009 Attempto Group
+  licenses:  GNU Lesser General Public License version 3 or later (see licenses/gpl-3.txt)
+  

@@ -71,7 +71,7 @@
              doctitle="AceWiki, version ${version}"
              overview="src/overview.html"
              linksource="on">
-            <bottom><![CDATA[<em>Copyright 2008-2009, Attempto Group, University of Zurich (see <a href="http://attempto.ifi.uzh.ch" target="_blank">http://attempto.ifi.uzh.ch</a>)</em>]]></bottom>
+            <bottom><![CDATA[<em>Copyright 2008-2010, Tobias Kuhn</em>]]></bottom>
         </javadoc>
         <copy
             file="README.txt"

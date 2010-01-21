@@ -1,7 +1,7 @@
 AceWiki
 =======
 
-Copyright 2008-2009, Attempto Group, University of Zurich (see http://attempto.ifi.uzh.ch).
+Copyright 2008-2010, Tobias Kuhn.
 
 Website: http://attempto.ifi.uzh.ch/acewiki/
 
