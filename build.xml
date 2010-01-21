@@ -2,7 +2,7 @@
 
 <project name="AceWiki" default="buildeverything" basedir=".">
     
-    <property name="version" value="100121"/>
+    <property name="version" value="0.3.1"/>
     <property file="src/ch/uzh/ifi/attempto/acewiki/acewiki.properties"/>
     <property file="src/ch/uzh/ifi/attempto/aceeditor/aceeditor.properties"/>
     
@@ -144,7 +144,7 @@
             destfile="acewiki-${version}.zip"
             basedir="."
             includes="**"
-            excludes="*.zip *.war .* classes/** webapps/war/WEB-INF/lib/** **/local/** **/test/**"
+            excludes="*.zip *.war .* .bzr/** classes/** webapps/war/WEB-INF/lib/** **/local/** **/test/**"
         />
     </target>
 
