@@ -32,6 +32,8 @@ import nextapp.echo2.app.TaskQueueHandle;
  */
 public abstract class DelayedComponent extends Column {
 	
+	private static final long serialVersionUID = -3479950976442367130L;
+	
 	private static Map<String, TaskQueueHandle> taskQueues =
 		new HashMap<String, TaskQueueHandle>();
 	

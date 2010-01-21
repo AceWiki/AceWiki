@@ -28,6 +28,8 @@ import nextapp.echo2.app.Insets;
  */
 public abstract class MenuItem extends Button implements Comparable<MenuItem> {
 	
+	private static final long serialVersionUID = 6061341215846815821L;
+	
 	private String menuGroup;
 	
 	/**

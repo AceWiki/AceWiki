@@ -45,6 +45,8 @@ import ch.uzh.ifi.attempto.echocomp.SolidLabel;
  */
 public abstract class ArticlePage extends WikiPage implements ActionListener {
 	
+	private static final long serialVersionUID = -297830105047433502L;
+	
 	private Column textColumn = new Column();
 	private DropDownMenu dropDown = new DropDownMenu(DropDownMenu.EMPTY_TYPE, this);
 	

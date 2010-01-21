@@ -394,7 +394,6 @@ public class Ontology {
 	 */
 	public synchronized String getACEText(boolean consistent) {
 		String t = "";
-		@SuppressWarnings (value="unchecked")
 		List<OntologyElement> elementsC = new ArrayList<OntologyElement>(elements);
 		Collections.sort(elementsC);
 		for (OntologyElement oe : elementsC) {

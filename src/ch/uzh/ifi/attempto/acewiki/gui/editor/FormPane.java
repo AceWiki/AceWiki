@@ -37,6 +37,8 @@ import ch.uzh.ifi.attempto.preditor.WordEditorForm;
  */
 public abstract class FormPane extends WordEditorForm {
 
+	private static final long serialVersionUID = 1433983400709841847L;
+	
 	private Wiki wiki;
 	
 	/**

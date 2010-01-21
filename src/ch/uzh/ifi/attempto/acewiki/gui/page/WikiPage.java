@@ -39,6 +39,8 @@ import nextapp.echo2.app.event.ActionListener;
  */
 public abstract class WikiPage extends Column {
 	
+	private static final long serialVersionUID = -1972548696966691981L;
+	
 	private Wiki wiki;
 	private Title title;
 	private Row tabRow;
