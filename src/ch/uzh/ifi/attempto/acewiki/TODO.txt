@@ -1,51 +1,50 @@
 ACEWIKI TODO-LIST
 =================
 
+Legend:
+(*) Filed as bug on Launchpad
+(+) Filed as blueprint on Launchpad
+(?) Unknown whether still valid
+(X) Solved
+
 General:
 ( ) Documentation and help pages
-(X) URL for each article with "?showpage=Article"
 ( ) "ask a question" feature
-( ) Strange error happens sometimes: "[error occurred during error reporting, step 0, id 0xa]"
-( ) Import of ontologies
-( ) Include lexical meta information for OWL export so that it can be imported nicely in ACE View
-( ) AceWiki gets slow after some time when many sentences are added (but is fast again after a restart)
+(?) Strange error happens sometimes: "[error occurred during error reporting, step 0, id 0xa]"
+(+) Import of ontologies
+(+) Include lexical meta information for OWL export so that it can be imported nicely in ACE View
+(*) AceWiki gets slow after some time when many sentences are added (but is fast again after a restart)
 ( ) Support different subsets of OWL (e.g. EL, QL, RL) in order to make reasoning faster
-( ) Pressing the enter key should perform "OK" in message windows
-(X) Use of ch.uzh.ifi.attempto.acewiki.Task instead of ch.uzh.ifi.attempto.echocomp.DelayedComponent
+(*) Pressing the enter key should perform "OK" in message windows
 ( ) Context parameter in the web.xml file for defining the path where the directories "logs" and "data" should be created
-(X) Questions like "what is Switzerland?" should return the classes of the individual
 ( ) Meta statements in ACE, e.g: "country" is a noun.
 ( ) Asynchronous creation/deletion/reassertion of statements
 ( ) Switching UNA on/off in web.xml
-( ) SWRL export
-(X) Modification tasks take precedence over query tasks
+(+) SWRL export
 
 Grammar:
-( ) "the ... of"
-( ) Word classes:
-   ( ) Intransitive Verbs
-   ( ) Intransitive Adjectives
-( ) Saxon genitive
-( ) "Which countries are an area?" does not work
-( ) Numbers and strings (data properties in OWL)
+(+) "the ... of"
+(+) Word classes:
+   (+) Intransitive Verbs
+   (+) Intransitive Adjectives
+(+) Saxon genitive
+(*) "Which countries are an area?" does not work
+(+) Numbers and strings (data properties in OWL)
 ( ) "thing" for top concept
 
 Editor/Creator:
-( ) Take the content of the text field if "New ..." is pressed, and take this as default for the word form
-( ) Key listener. Tab key should not be necessary.
-( ) Bug: Pressing the Tab key moves the cursor to the beginning of the text in IE7
-( ) The word editor should make suggestions for plural word forms etc.
-( ) Better help in the predictive editor why certain words are not possible
-( ) Some lookahead of more than one step in the predictive editor?
-( ) Edit in the middle of a sentence
+(+) Take the content of the text field if "New ..." is pressed, and take this as default for the word form
+(+) Key listener. Tab key should not be necessary.
+(?) Bug: Pressing the Tab key moves the cursor to the beginning of the text in IE7
+(+) The word editor should make suggestions for plural word forms etc.
+(+) Better help in the predictive editor why certain words are not possible
+(+) Some lookahead of more than one step in the predictive editor?
+(+) Edit in the middle of a sentence
 
 Wiki pages:
-( ) Support for independent pages (that are not attached to an ontological entity)
-( ) Cut/Copy/Paste
-(X) Support for links to other articles in the comments
-(X) Support for web links in the comments
+(+) Support for independent pages (that are not attached to an ontological entity)
+(+) Cut/Copy/Paste
 ( ) Internal links in comments should be treated as references.
 ( ) Hierarchy browsing
-(X) Tooltips for the different kinds of triangle symbols
 ( ) "edit" and "delete" buttons are probably at the wrong place
 ( ) Improve word tab, or remove it and show the word table at top right of the main page
