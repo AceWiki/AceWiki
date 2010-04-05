@@ -437,10 +437,22 @@ public class Ontology {
 		log("refresh reasoner");
 		
 		if (reasoner == null) {
-			// for Pellet:
+			
+			// Pellet:
 			reasoner = new Reasoner(OWLManager.createOWLOntologyManager());
-			// for HermiT: (doesn't work for some reason...)
+			
+			// HermiT: (doesn't work for some reason)
 			//reasoner = (new ReasonerFactory()).createReasoner(OWLManager.createOWLOntologyManager());
+			
+			// DIG: (works, but ignores inverse properties in some cases)
+            //try {
+			//	reasoner = new DIGReasoner(OWLManager.createOWLOntologyManager());
+	        //	((DIGReasoner) reasoner).getReasoner().setReasonerURL(new URL("http://localhost:8081"));
+			//} catch (Exception e) { e.printStackTrace(); }
+			
+			// OWLlink: (gives parsing errors; tested with versions 0.8.2 and 0.9.0)
+			//reasoner = new OWLlinkHTTPXMLReasoner(OWLManager.createOWLOntologyManager(), new URL("http://localhost:8080"));
+			
 		} else {
 			clearOntologies();
 		}
