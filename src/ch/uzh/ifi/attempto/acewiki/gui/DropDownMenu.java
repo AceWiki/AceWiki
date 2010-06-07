@@ -143,6 +143,7 @@ public class DropDownMenu extends DropDown implements ActionListener {
 		menuEntry.setAlignment(new Alignment(Alignment.LEFT, Alignment.CENTER));
 		menuEntry.setTextAlignment(new Alignment(Alignment.LEFT, Alignment.CENTER));
 		menuEntry.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
+		menuEntry.setToolTipText(" ");
 		menuEntry.addActionListener(this);
 		menuColumn.add(menuEntry);
 	}
