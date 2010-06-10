@@ -15,8 +15,12 @@
 package ch.uzh.ifi.attempto.preditor;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * This class represents the content of a menu block. The content consists of menu items.
@@ -26,8 +30,11 @@ import java.util.List;
 class MenuBlockContent {
 	
 	private List<MenuItem> items = new ArrayList<MenuItem>();
+	private TreeMap<String, MenuEntry> entryMap = new TreeMap<String, MenuEntry>();
+	private Collection<MenuEntry> filteredEntries = entryMap.values();
+	private Map<String, MenuItem> idMap = new HashMap<String, MenuItem>();
 	private String name;
-	private String filter;
+	private String filter = "";
 	private boolean doSort;
 	private boolean isSorted = true;
 	
@@ -59,12 +66,18 @@ class MenuBlockContent {
 	 * @param item The menu item to be added.
 	 */
 	public void addItem(MenuItem item) {
-		if (item instanceof MenuEntry && items.contains(item)) {
+		String id = item.getMenuItemID();
+		if (item instanceof MenuEntry && idMap.containsKey(id)) {
 			MenuEntry m1 = (MenuEntry) item;
-			MenuEntry m2 = (MenuEntry) items.get(items.indexOf(m1));
+			MenuEntry m2 = (MenuEntry) idMap.get(id);
 			m2.getTextElement().include(m1.getTextElement());
-		} else if (!items.contains(item)) {
+		} else if (!idMap.containsKey(id)) {
 			items.add(item);
+			idMap.put(id, item);
+			if (item instanceof MenuEntry) {
+				MenuEntry entry = (MenuEntry) item;
+				entryMap.put(entry.getTextElement().getText().toLowerCase(), entry);
+			}
 		}
 		isSorted = false;
 	}
@@ -93,19 +106,7 @@ class MenuBlockContent {
 	 * @return A list of all menu entries.
 	 */
 	public List<MenuEntry> getEntries() {
-		if (!isSorted && doSort) {
-			sort();
-		}
-		List<MenuEntry> filteredEntries = new ArrayList<MenuEntry>();
-		for (MenuItem item : items) {
-			if (item instanceof MenuEntry) {
-				MenuEntry entry = (MenuEntry) item;
-				if (entry.getTextElement().getText().toLowerCase().startsWith(filter)) {
-					filteredEntries.add(entry);
-				}
-			}
-		}
-		return filteredEntries;
+		return new ArrayList<MenuEntry>(filteredEntries);
 	}
 	
 	/**
@@ -114,16 +115,18 @@ class MenuBlockContent {
 	 * @return A list of all menu items.
 	 */
 	public List<MenuItem> getItems() {
+		// TODO improve this method
 		if (!isSorted && doSort) {
 			sort();
 		}
-		if (filter == null || filter.length() == 0) {
+		if (filter.length() == 0) {
 			return items;
 		}
 		
 		List<MenuItem> filteredItems = new ArrayList<MenuItem>();
 		for (MenuItem item : items) {
 			if (item instanceof MenuEntry) {
+				// TODO this is not so nice:
 				if (((MenuEntry) item).getTextElement().getText().toLowerCase().startsWith(filter)) {
 					filteredItems.add(item);
 				}
@@ -143,15 +146,7 @@ class MenuBlockContent {
 	 * @return The menu entry.
 	 */
 	public MenuEntry getEntry(String entryText) {
-		entryText = entryText.toLowerCase();
-		for (MenuItem mi : getItems()) {
-			if (mi instanceof MenuEntry) {
-				MenuEntry me = (MenuEntry) mi;
-				String t = me.getTextElement().getText().toLowerCase();
-				if (t.equals(entryText)) return me;
-			}
-		}
-		return null;
+		return entryMap.get(entryText.toLowerCase());
 	}
 	
 	/**
@@ -183,10 +178,13 @@ class MenuBlockContent {
 	 * @param filter The filter string.
 	 */
 	public void setFilter(String filter) {
-		if (filter == null) {
-			this.filter = null;
+		if (filter == null || filter.length() == 0) {
+			this.filter = "";
+			filteredEntries = entryMap.values();
 		} else {
 			this.filter = filter.toLowerCase();
+			// TODO find a better way to do this without using "°":
+			filteredEntries = entryMap.subMap(this.filter, this.filter + "°").values();
 		}
 	}
 	

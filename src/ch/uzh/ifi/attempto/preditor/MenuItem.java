@@ -31,6 +31,7 @@ public abstract class MenuItem extends Button implements Comparable<MenuItem> {
 	private static final long serialVersionUID = 6061341215846815821L;
 	
 	private String menuGroup;
+	private String id;
 	
 	/**
 	 * Initializes a new menu item.
@@ -59,6 +60,28 @@ public abstract class MenuItem extends Button implements Comparable<MenuItem> {
 	 */
 	public String getMenuGroup() {
 		return menuGroup;
+	}
+	
+	/**
+	 * This method returns an identifier that is unique (within one instance of the predictive
+	 * editor).
+	 * 
+	 * @return the identifier.
+	 */
+	public String getMenuItemID() {
+		if (id == null) recalculateID();
+		return id;
+	}
+	
+	/**
+	 * This method should be called internally whenever something changed that has an influence on
+	 * the identifier.
+	 */
+	protected void recalculateID() {
+		id = "";
+		for (String s : getContent()) {
+			id += s.replaceAll(":", "~:").replaceAll("~", "~~") + ":";
+		}
 	}
 
 	public int compareTo(MenuItem m) {
@@ -102,7 +125,7 @@ public abstract class MenuItem extends Button implements Comparable<MenuItem> {
 	}
 	
 	/**
-	 * This method is used for the equality check.
+	 * This method is used to calculate the unique identifier.
 	 * 
 	 * @return An array of strings that uniquely defines the menu item object.
 	 */
@@ -110,14 +133,7 @@ public abstract class MenuItem extends Button implements Comparable<MenuItem> {
 
 	public boolean equals(Object obj) {
 		if (obj instanceof MenuItem) {
-			MenuItem other = (MenuItem) obj;
-			String[] c1 = getContent();
-			String[] c2 = other.getContent();
-			if (c1.length != c2.length) return false;
-			for (int i = 0 ; i < c1.length ; i++) {
-				if (!c1[i].equals(c2[i])) return false;
-			}
-			return true;
+			return getMenuItemID().equals(((MenuItem) obj).getMenuItemID());
 		} else {
 			return false;
 		}
