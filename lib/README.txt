@@ -50,17 +50,11 @@ Sun Multi-Schema XML Validator (MSV)
   copyright: 2002-2006 Sun Microsystems, Inc.
   licenses:  BSD license (see licenses/msv.txt)
 
-OWL API 2.2.1 rev 941
+OWL API 3.0.0
   files:     owlapi-bin.jar
   url:       http://sourceforge.net/projects/owlapi
   copyright: 2007 University of Manchester
   licenses:  GNU Lesser General Public License version 3 (see licenses/gpl-3.txt)
-
-Pellet 1.5.2
-  files:     pellet.jar
-  url:       http://pellet.owldl.org/
-  copyright: 2003 Ron Alford, Mike Grove, Bijan Parsia, Evren Sirin
-  licences:  MIT License (see licenses/pellet.txt)
 
 ATerm 1.6
   files:     aterm-java-1.6.jar
@@ -95,4 +89,15 @@ APE 6.5-091130
   url:       http://attempto.ifi.uzh.ch
   copyright: 2008-2009 Attempto Group
   licenses:  GNU Lesser General Public License version 3 or later (see licenses/gpl-3.txt)
-  
+
+HermiT 1.2.3
+  files:     HermiT.jar
+  url:       http://hermit-reasoner.com/
+  copyright: 2009 Oxford University Computing Laboratory
+  licenses:  GNU Lesser General Public License version 3 or later (see licenses/gpl-3.txt)
+
+OWLlink API 1.0.1
+  files:     owllink-bin.jar
+  url:       http://www.owllink.org/
+  copyright: 2010 Ulm University
+  licenses:  GNU Lesser General Public License version 2.1 or later (see licenses/gpl-3.txt)

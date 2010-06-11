@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
 import ch.uzh.ifi.attempto.ape.ACEParserResult;
 import ch.uzh.ifi.attempto.ape.APELocal;
@@ -330,13 +330,24 @@ public class Sentence extends Statement {
 			long hashCode = (long) getText().hashCode() - Integer.MIN_VALUE;
 			String uri = getOntology().getURI();
 			owlxml = owlxml.replace("URI=\"" + uri + "\">", "URI=\"" + uri + "/" + hashCode + "\">");
+			
+			// Transform from OWL 1.1 to OWL 2:
+			owlxml = owlxml.replaceAll("http://www.w3.org/2006/12/owl11-xml#", "http://www.w3.org/2002/07/owl#");
+			owlxml = owlxml.replaceAll("InverseObjectProperty>", "ObjectInverseOf>");
+			owlxml = owlxml.replaceAll("SubObjectPropertyChain>", "ObjectPropertyChain>");
+			owlxml = owlxml.replaceAll("ObjectExistsSelf>", "ObjectHasSelf>");
+			
+			//if (isQuestion()) {
+			//	owlxml = owlxml.replace("<Class URI=\"http://www.w3.org/2002/07/owl#Thing\"/>\n  </SubClassOf>\n</Ontology>",
+			//				"<Class URI=\"http://attempto.ifi.uzh.ch/ace#Question" + hashCode + "\"/>/>\n  </SubClassOf>\n</Ontology>");
+			//}
 		}
 		reasonerParticipant =
 			(mc.getMessages("owl").size() == 0) &&
 			(owlxml.indexOf("<swrl:Imp>") < 0) &&
-			(owlxml.indexOf("<ObjectExistsSelf>") < 0) &&
+			(owlxml.indexOf("<ObjectHasSelf>") < 0) &&
 			(owlxml.indexOf("<TransitiveObjectProperty>") < 0) &&
-			(owlxml.indexOf("<SubObjectPropertyChain>") < 0) &&
+			(owlxml.indexOf("<ObjectPropertyChain>") < 0) &&
 			(owlxml.length() > 0);
 		isOWL =
 			(mc.getMessages("owl").size() == 0) &&

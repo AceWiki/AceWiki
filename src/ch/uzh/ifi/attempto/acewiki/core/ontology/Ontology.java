@@ -19,8 +19,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -32,23 +30,26 @@ import java.util.Map;
 import java.util.Set;
 
 import org.coode.owlapi.owlxml.renderer.OWLXMLRenderer;
-import org.mindswap.pellet.owlapi.Reasoner;
-import org.semanticweb.owl.apibinding.OWLManager;
-import org.semanticweb.owl.inference.OWLReasoner;
-import org.semanticweb.owl.inference.OWLReasonerException;
-import org.semanticweb.owl.io.StringInputSource;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLDescription;
-import org.semanticweb.owl.model.OWLIndividual;
-import org.semanticweb.owl.model.OWLObjectOneOf;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyCreationException;
-import org.semanticweb.owl.model.OWLOntologySetProvider;
-import org.semanticweb.owl.model.OWLSubClassAxiom;
-import org.semanticweb.owl.util.OWLOntologyMerger;
+import org.semanticweb.HermiT.Reasoner;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.io.StringDocumentSource;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObjectOneOf;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLOntologySetProvider;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.owllink.OWLlinkHTTPXMLReasonerFactory;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import org.semanticweb.owlapi.util.OWLOntologyMerger;
 
-import uk.ac.manchester.cs.owl.OWLClassImpl;
-import uk.ac.manchester.cs.owl.OWLDataFactoryImpl;
+import uk.ac.manchester.cs.owl.owlapi.OWLClassImpl;
+import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
 import ch.uzh.ifi.attempto.echocomp.Logger;
 
@@ -72,7 +73,11 @@ public class Ontology {
 	private long idCount = 0;
 	private long stateID = 0;
 	
+	private OWLOntologyManager manager;
+	private OWLOntology owlOntology;
+	private HashMap<String, Integer> axioms = new HashMap<String, Integer>();
 	private OWLReasoner reasoner;
+	private String reasonerType = "none";
 	private OWLOntology differentIndividualsAxiom;
 	
 	/**
@@ -88,6 +93,13 @@ public class Ontology {
 			baseURI = "";
 		}
 		ontologies.put(name, this);
+		
+		manager = OWLManager.createOWLOntologyManager();
+		try {
+			owlOntology = manager.createOntology();
+		} catch (OWLOntologyCreationException ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	/**
@@ -125,7 +137,16 @@ public class Ontology {
 		} else {
 			ontology.log("no data found; blank ontology is created");
 		}
-		ontology.refreshReasoner();
+
+		ontology.log("loading statements");
+		for (OntologyElement oe : ontology.elements) {
+			for (Sentence s : oe.getSentences()) {
+				if (s.isReasonerParticipant() && s.isIntegrated()) {
+					ontology.loadOntology(s.getOWLOntology());
+				}
+			}
+		}
+		
 		return ontology;
 	}
 	
@@ -278,6 +299,12 @@ public class Ontology {
 		return wordIndex.get(name);
 	}
 	
+	/**
+	 * Returns the ontology element with the given id, or null if there is no such element.
+	 * 
+	 * @param id The id of the ontology element.
+	 * @return The ontology element.
+	 */
 	OntologyElement get(long id) {
 		return idIndex.get(id);
 	}
@@ -328,7 +355,7 @@ public class Ontology {
 	public synchronized String getOWLOntologyAsXML(boolean consistent) {
         StringWriter sw = new StringWriter();
         try {
-            OWLXMLRenderer renderer = new OWLXMLRenderer(OWLManager.createOWLOntologyManager());
+            OWLXMLRenderer renderer = new OWLXMLRenderer(manager);
             renderer.render(getOWLOntology(consistent), sw);
             sw.close();
         } catch (Exception ex) {
@@ -365,20 +392,12 @@ public class Ontology {
 			
 		};
 		
-		URI uri = null;
-		try {
-			uri = new URI("http://attempto.ifi.uzh.ch/default/");
-			uri = new URI(getURI());
-		} catch (URISyntaxException ex) {
-			ex.printStackTrace();
-		}
-		
 		OWLOntology owlOntology = null;
 		try {
 			OWLOntologyMerger ontologyMerger = new OWLOntologyMerger(setProvider);
 			owlOntology = ontologyMerger.createMergedOntology(
-					OWLManager.createOWLOntologyManager(),
-					uri
+					manager,
+					IRI.create("http://attempto.ifi.uzh.ch/default/")
 				);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -433,48 +452,55 @@ public class Ontology {
 		return t;
 	}
 	
-	private synchronized void refreshReasoner() {
-		log("refresh reasoner");
+	/**
+	 * Loads a reasoner or reasoner interface. Currently supported are the HermiT reasoner
+	 * ("HermiT"), the OWLlink interface ("OWLlink"), or none ("none").
+	 * 
+	 * @param type The reasoner type as shown above.
+	 */
+	public void loadReasoner(String type) {
+		log("loading reasoner");
+		if (type == null) type = "";
+		type = type.toLowerCase();
+		reasonerType = type;
 		
-		if (reasoner == null) {
-			
-			// Pellet:
-			reasoner = new Reasoner(OWLManager.createOWLOntologyManager());
-			
-			// HermiT: (doesn't work for some reason)
-			//reasoner = (new ReasonerFactory()).createReasoner(OWLManager.createOWLOntologyManager());
-			
-			// DIG: (works, but ignores inverse properties in some cases)
+		if (reasoner != null) reasoner.dispose();
+		
+		if (type.equals("none")) {
+			log("no reasoner");
+			reasonerType = "none";
+			reasoner = null;
+		} else if (type.equals("hermit")) {
+			log("loading HermiT");
+			reasonerType = "HermiT";
+			reasoner = new Reasoner(owlOntology);
+		//} else if (type.equals("pellet")) {
+			//reasoner = PelletReasonerFactory.getInstance().createNonBufferingReasoner(owlOntology);
+		} else if (type.equals("owllink")) {
+			log("loading OWLlink");
+			reasonerType = "OWLlink";
+			reasoner = (new OWLlinkHTTPXMLReasonerFactory()).createReasoner(owlOntology);
+		//} else if (type.equals("dig")) {
             //try {
 			//	reasoner = new DIGReasoner(OWLManager.createOWLOntologyManager());
 	        //	((DIGReasoner) reasoner).getReasoner().setReasonerURL(new URL("http://localhost:8081"));
 			//} catch (Exception e) { e.printStackTrace(); }
-			
-			// OWLlink: (gives parsing errors; tested with versions 0.8.2 and 0.9.0)
-			//reasoner = new OWLlinkHTTPXMLReasoner(OWLManager.createOWLOntologyManager(), new URL("http://localhost:8080"));
-			
+		} else if (type.equals("")) {
+			log("no reasoner type specified: loading HermiT as default");
+			reasonerType = "HermiT";
+			reasoner = new Reasoner(owlOntology);
 		} else {
-			clearOntologies();
+			log("ERROR: Unknown reasoner type: " + type);
+			reasonerType = "none";
+			reasoner = null;
 		}
 		updateDifferentIndividualsAxiom();
 		
-		log("reasoner: loading statements");
-		HashSet<OWLOntology> ontologies = new HashSet<OWLOntology>();
-		
-		for (OntologyElement oe : elements) {
-			for (Sentence s : oe.getSentences()) {
-				if (s.isReasonerParticipant() && s.isIntegrated()) {
-					OWLOntology o = s.getOWLOntology();
-					if (o != null) ontologies.add(o);
-				}
-			}
-		}
-		try {
-			reasoner.loadOntologies(ontologies);
-		} catch (OWLReasonerException ex) {
-			ex.printStackTrace();
-		}
-		log("reasoner: statements loaded");
+		log("reasoner loaded");
+	}
+	
+	private synchronized void refreshReasoner() {
+		loadReasoner(reasonerType);
 	}
 	
 	/**
@@ -505,7 +531,7 @@ public class Ontology {
 	 * @throws OWLOntologyCreationException If the string cannot be parsed.
 	 */
 	public OWLOntology readOWLOntology(String owlxml) throws OWLOntologyCreationException {
-		return OWLManager.createOWLOntologyManager().loadOntology(new StringInputSource(owlxml));
+		return manager.loadOntologyFromOntologyDocument(new StringDocumentSource(owlxml));
 	}
 	
 	/**
@@ -521,7 +547,7 @@ public class Ontology {
 	 * @return An integer value denoting the success/failure of the operation.
 	 */
 	protected synchronized int commitSentence(Sentence sentence) {
-		if (reasoner == null || sentence == null || sentence.isIntegrated()) return 0;
+		if (sentence == null || sentence.isIntegrated()) return 0;
 		
 		if (!sentence.isReasonerParticipant()) {
 			sentence.setIntegrated(true);
@@ -559,7 +585,6 @@ public class Ontology {
 	 */
 	protected synchronized void retractSentence(Sentence sentence) {
 		if (
-			reasoner == null ||
 			sentence == null ||
 			!sentence.isIntegrated() ||
 			!sentence.isReasonerParticipant()
@@ -581,7 +606,6 @@ public class Ontology {
 	 */
 	private synchronized void updateDifferentIndividualsAxiom() {
 		if (reasoner == null) return;
-		
 		if (differentIndividualsAxiom != null) {
 			unloadOntology(differentIndividualsAxiom);
 		}
@@ -621,20 +645,16 @@ public class Ontology {
 	 * @see Individual#getConcepts()
 	 */
 	public synchronized List<Concept> getConcepts(Individual ind) {
-		OWLIndividual owlIndividual = (new OWLDataFactoryImpl()).getOWLIndividual(ind.getURI());
 		List<Concept> concepts = new ArrayList<Concept>();
-		try {
-			Set<Set<OWLClass>> owlClasses = reasoner.getTypes(owlIndividual, false);
-			for (Set<OWLClass> s : owlClasses) {
-				for (OWLClass oc : s) {
-					if (oc.isOWLThing() || oc.isOWLNothing()) continue;
-					String conceptURI = oc.getURI().toASCIIString();
-					String conceptName = conceptURI.substring(conceptURI.indexOf("#") + 1);
-					concepts.add((Concept) get(conceptName));
-				}
-			}
-		} catch (OWLReasonerException ex) {
-			ex.printStackTrace();
+		if (reasoner == null) return concepts;
+		OWLNamedIndividual owlIndividual = (new OWLDataFactoryImpl()).getOWLNamedIndividual(ind.getIRI());
+		Set<OWLClass> owlClasses = reasoner.getTypes(owlIndividual, false).getFlattened();
+		for (OWLClass oc : owlClasses) {
+			if (oc.isOWLThing() || oc.isOWLNothing()) continue;
+			String conceptURI = oc.getIRI().toString();
+			if (conceptURI.startsWith("http://attempto.ifi.uzh.ch/ace#")) continue;
+			String conceptName = conceptURI.substring(conceptURI.indexOf("#") + 1);
+			concepts.add((Concept) get(conceptName));
 		}
 		return concepts;
 	}
@@ -647,19 +667,17 @@ public class Ontology {
 	 * @see Concept#getIndividuals()
 	 */
 	public synchronized List<Individual> getIndividuals(Concept concept) {
-		OWLClass owlClass = new OWLClassImpl(new OWLDataFactoryImpl(), concept.getURI());
 		List<Individual> individuals = new ArrayList<Individual>();
-		try {
-			Set<OWLIndividual> owlIndividuals = reasoner.getIndividuals(owlClass, false);
-			for (OWLIndividual oi : owlIndividuals) {
-				String indURI = oi.getURI().toASCIIString();
-				String indName = indURI.substring(indURI.indexOf("#") + 1);
-				if (!indName.matches("Ind[0-9]+")) {
-					individuals.add((Individual) get(indName));
-				}
+		if (reasoner == null) return individuals;
+		OWLClass owlClass = new OWLClassImpl(new OWLDataFactoryImpl(), concept.getIRI());
+		Set<OWLNamedIndividual> owlIndividuals = reasoner.getInstances(owlClass, false).getFlattened();
+		for (OWLNamedIndividual oi : owlIndividuals) {
+			String indURI = oi.getIRI().toString();
+			if (indURI.startsWith("http://attempto.ifi.uzh.ch/ace#")) continue;
+			String indName = indURI.substring(indURI.indexOf("#") + 1);
+			if (!indName.matches("Ind[0-9]+")) {
+				individuals.add((Individual) get(indName));
 			}
-		} catch (OWLReasonerException ex) {
-			ex.printStackTrace();
 		}
 		return individuals;
 	}
@@ -672,20 +690,16 @@ public class Ontology {
 	 * @see Concept#getSuperConcepts()
 	 */
 	public synchronized List<Concept> getSuperConcepts(Concept concept) {
-		OWLClass owlClass = new OWLClassImpl(new OWLDataFactoryImpl(), concept.getURI());
 		List<Concept> concepts = new ArrayList<Concept>();
-		try {
-			Set<Set<OWLClass>> owlClasses = reasoner.getAncestorClasses(owlClass);
-			for (Set<OWLClass> s : owlClasses) {
-				for (OWLClass oc : s) {
-					if (oc.isOWLThing() || oc.isOWLNothing()) continue;
-					String conceptURI = oc.getURI().toASCIIString();
-					String conceptName = conceptURI.substring(conceptURI.indexOf("#") + 1);
-					concepts.add((Concept) get(conceptName));
-				}
-			}
-		} catch (OWLReasonerException ex) {
-			ex.printStackTrace();
+		if (reasoner == null) return concepts;
+		OWLClass owlClass = new OWLClassImpl(new OWLDataFactoryImpl(), concept.getIRI());
+		Set<OWLClass> owlClasses = reasoner.getSuperClasses(owlClass, false).getFlattened();
+		for (OWLClass oc : owlClasses) {
+			if (oc.isOWLThing() || oc.isOWLNothing()) continue;
+			String conceptURI = oc.getIRI().toString();
+			if (conceptURI.startsWith("http://attempto.ifi.uzh.ch/ace#")) continue;
+			String conceptName = conceptURI.substring(conceptURI.indexOf("#") + 1);
+			concepts.add((Concept) get(conceptName));
 		}
 		return concepts;
 	}
@@ -698,20 +712,16 @@ public class Ontology {
 	 * @see Concept#getSubConcepts()
 	 */
 	public synchronized List<Concept> getSubConcepts(Concept concept) {
-		OWLClass owlClass = new OWLClassImpl(new OWLDataFactoryImpl(), concept.getURI());
 		List<Concept> concepts = new ArrayList<Concept>();
-		try {
-			Set<Set<OWLClass>> owlClasses = reasoner.getDescendantClasses(owlClass);
-			for (Set<OWLClass> s : owlClasses) {
-				for (OWLClass oc : s) {
-					if (oc.isOWLThing() || oc.isOWLNothing()) continue;
-					String conceptURI = oc.getURI().toASCIIString();
-					String conceptName = conceptURI.substring(conceptURI.indexOf("#") + 1);
-					concepts.add((Concept) get(conceptName));
-				}
-			}
-		} catch (OWLReasonerException ex) {
-			ex.printStackTrace();
+		if (reasoner == null) return concepts;
+		OWLClass owlClass = new OWLClassImpl(new OWLDataFactoryImpl(), concept.getIRI());
+		Set<OWLClass> owlClasses = reasoner.getSubClasses(owlClass, false).getFlattened();
+		for (OWLClass oc : owlClasses) {
+			if (oc.isOWLThing() || oc.isOWLNothing()) continue;
+			String conceptURI = oc.getIRI().toString();
+			if (conceptURI.startsWith("http://attempto.ifi.uzh.ch/ace#")) continue;
+			String conceptName = conceptURI.substring(conceptURI.indexOf("#") + 1);
+			concepts.add((Concept) get(conceptName));
 		}
 		return concepts;
 	}
@@ -730,37 +740,41 @@ public class Ontology {
 	 */
 	public synchronized List<OntologyElement> getAnswer(Sentence questionSentence) {
 		if (!questionSentence.isQuestion()) return null;
+		if (reasoner == null) return null;
 
 		OWLOntology o = questionSentence.getOWLOntology();
 		if (o == null || o.isEmpty()) return null;
+		//loadOntology(o);
 		
 		List<OntologyElement> answer = new ArrayList<OntologyElement>();
 		
 		try {
-			OWLSubClassAxiom answerOWLAxiom = (OWLSubClassAxiom) o.getAxioms().iterator().next();
-			OWLDescription answerOWLClass = answerOWLAxiom.getSubClass();
+			OWLSubClassOfAxiom answerOWLAxiom = (OWLSubClassOfAxiom) o.getLogicalAxioms().iterator().next();
+			OWLClassExpression answerOWLClass1 = answerOWLAxiom.getSubClass();
+			//OWLClassExpression answerOWLClass2 = answerOWLAxiom.getSuperClass();
 			
 			OWLObjectOneOf oneof = null;
-			if (answerOWLClass instanceof OWLObjectOneOf) {
-				oneof = ((OWLObjectOneOf) answerOWLClass);
+			if (answerOWLClass1 instanceof OWLObjectOneOf) {
+				oneof = ((OWLObjectOneOf) answerOWLClass1);
 			}
 			
 			if (oneof != null && oneof.getIndividuals().size() == 1) {
-				OWLIndividual oi = ((OWLObjectOneOf) answerOWLClass).getIndividuals().iterator().next();
-				Set<Set<OWLClass>> owlClasses = reasoner.getTypes(oi, false);
-				for (Set<OWLClass> classSet : owlClasses) {
-					for (OWLClass owlClass : classSet) {
-						String classURI = owlClass.getURI().toASCIIString();
-						String className = classURI.substring(classURI.indexOf("#") + 1);
-						if (!owlClass.isOWLThing() && !owlClass.isOWLNothing()) {
-							answer.add(get(className));
-						}
+				// TODO: check this class cast:
+				OWLNamedIndividual oi = (OWLNamedIndividual) ((OWLObjectOneOf) answerOWLClass1).getIndividuals().iterator().next();
+				Set<OWLClass> owlClasses = reasoner.getTypes(oi, false).getFlattened();
+				for (OWLClass owlClass : owlClasses) {
+					String classURI = owlClass.getIRI().toString();
+					if (classURI.startsWith("http://attempto.ifi.uzh.ch/ace#")) continue;
+					String className = classURI.substring(classURI.indexOf("#") + 1);
+					if (!owlClass.isOWLThing() && !owlClass.isOWLNothing()) {
+						answer.add(get(className));
 					}
 				}
 			} else {
-				Set<OWLIndividual> owlIndividuals = reasoner.getIndividuals(answerOWLClass, false);
-				for (OWLIndividual oi : owlIndividuals) {
-					String indURI = oi.getURI().toASCIIString();
+				Set<OWLNamedIndividual> owlIndividuals = reasoner.getInstances(answerOWLClass1, false).getFlattened();
+				for (OWLNamedIndividual oi : owlIndividuals) {
+					String indURI = oi.getIRI().toString();
+					if (indURI.startsWith("http://attempto.ifi.uzh.ch/ace#")) continue;
 					String indName = indURI.substring(indURI.indexOf("#") + 1);
 					
 					// TODO: This check is not 100% clean (only proper names should be checked):
@@ -772,6 +786,9 @@ public class Ontology {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+		
+		//unloadOntology(o);
+		
 		return answer;
 	}
 	
@@ -782,13 +799,8 @@ public class Ontology {
 	 * @return true if the ontology is consistent.
 	 */
 	public synchronized boolean isConsistent() {
-		boolean isConsistent = true;
-		try {
-			isConsistent = reasoner.isSatisfiable((new OWLDataFactoryImpl()).getOWLThing());
-		} catch (OWLReasonerException ex) {
-			ex.printStackTrace();
-		}
-		return isConsistent;
+		if (reasoner == null) return true;
+		return reasoner.isConsistent();
 	}
 	
 	/**
@@ -798,46 +810,44 @@ public class Ontology {
 	 * @return true if the concept is satisfiable.
 	 */
 	public synchronized boolean isSatisfiable(Concept concept) {
-		OWLClass owlClass = new OWLClassImpl(new OWLDataFactoryImpl(), concept.getURI());
-		boolean isSatisfiable = false;
-		try {
-			isSatisfiable = (!reasoner.isDefined(owlClass) || reasoner.isSatisfiable(owlClass));
-		} catch (OWLReasonerException ex) {
-			ex.printStackTrace();
+		if (reasoner == null) return true;
+		if (owlOntology.containsClassInSignature(concept.getIRI())) {
+			OWLClass owlClass = new OWLClassImpl(new OWLDataFactoryImpl(), concept.getIRI());
+			return reasoner.isSatisfiable(owlClass);
+		} else {
+			return true;
 		}
-		return isSatisfiable;
 	}
 	
 	private void loadOntology(OWLOntology ontology) {
 		if (ontology == null) return;
 		
-		HashSet<OWLOntology> ontologies = new HashSet<OWLOntology>();
-		ontologies.add(ontology);
-		try {
-			reasoner.loadOntologies(ontologies);
-		} catch (OWLReasonerException ex) {
-			ex.printStackTrace();
+		for (OWLAxiom ax : ontology.getAxioms()) {
+			String id = ax.toString();
+			if (axioms.get(id) == null) {
+				axioms.put(id, 0);
+			}
+			if (axioms.get(id) == 0) {
+				manager.addAxiom(owlOntology, ax);
+			}
+			axioms.put(id, axioms.get(id)+1);
 		}
+		
+		if (reasoner != null) reasoner.flush();
 	}
 	
 	private void unloadOntology(OWLOntology ontology) {
 		if (ontology == null) return;
 		
-		HashSet<OWLOntology> ontologies = new HashSet<OWLOntology>();
-		ontologies.add(ontology);
-		try {
-			reasoner.unloadOntologies(ontologies);
-		} catch (OWLReasonerException ex) {
-			ex.printStackTrace();
+		for (OWLAxiom ax : ontology.getAxioms()) {
+			String id = ax.toString();
+			if (axioms.get(id) == 1) {
+				manager.removeAxiom(owlOntology, ax);
+			}
+			axioms.put(id, axioms.get(id)-1);
 		}
-	}
-	
-	private void clearOntologies() {
-		try {
-			reasoner.clearOntologies();
-		} catch (OWLReasonerException ex) {
-			ex.printStackTrace();
-		}
+		
+		if (reasoner != null) reasoner.flush();
 	}
 	
 	private long nextId() {

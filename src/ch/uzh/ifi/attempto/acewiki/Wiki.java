@@ -140,6 +140,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		this.parameters = parameters;
 		
 		ontology = Ontology.loadOntology(getParameter("ontology"), getParameter("baseuri"));
+		ontology.loadReasoner(getParameter("reasoner"));
 		logger = new Logger(ontology.getName(), "anon", sessionID);
 		application = ApplicationInstance.getActive();
 		taskQueue = application.createTaskQueue();

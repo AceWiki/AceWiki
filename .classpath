@@ -18,11 +18,12 @@
 	<classpathentry kind="lib" path="lib/jdom.jar"/>
 	<classpathentry kind="lib" path="lib/jpl.jar"/>
 	<classpathentry kind="lib" path="lib/owlapi-bin.jar"/>
-	<classpathentry kind="lib" path="lib/pellet.jar"/>
 	<classpathentry kind="lib" path="lib/README.txt"/>
 	<classpathentry kind="lib" path="lib/relaxngDatatype.jar"/>
 	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="lib/xsdlib.jar"/>
 	<classpathentry kind="lib" path="lib/attempto-ape.jar"/>
+	<classpathentry kind="lib" path="lib/HermiT.jar"/>
+	<classpathentry kind="lib" path="lib/owllink-bin.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

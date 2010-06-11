@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import org.semanticweb.owlapi.model.IRI;
+
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
 
 /**
@@ -389,6 +391,14 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 		return null;
 	}
 	
+	private String getURIString() {
+		String ontologyURI = "";
+		if (ontology != null) {
+			ontologyURI = ontology.getURI();
+		}
+		return ontologyURI + getURISuffix();
+	}
+	
 	/**
 	 * Returns the URI of the ontology element. This URI is a concatenation of the
 	 * ontology URI and the URI suffix of the ontology element.
@@ -397,14 +407,9 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 	 * @see #getURISuffix()
 	 */
 	public final URI getURI() {
-		String ontologyURI = "";
-		if (ontology != null) {
-			ontologyURI = ontology.getURI();
-		}
-		
 		URI uri = null;
 		try {
-			uri = new URI(ontologyURI + getURISuffix());
+			uri = new URI(getURIString());
 		} catch (URISyntaxException ex) {
 			ex.printStackTrace();
 		}
@@ -419,6 +424,10 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 	 */
 	public String getURISuffix() {
 		return "#" + getWord();
+	}
+	
+	public IRI getIRI() {
+		return IRI.create(getURIString());
 	}
 	
 	final void setId(long id) {
