@@ -116,9 +116,13 @@ public class Ontology {
 		}
 		Ontology ontology = new Ontology(name, baseURI);
 		ontology.log("loading ontology");
+		System.err.println("Loading '" + name + "'");
 		File dataDir = new File("data/" + name);
 		if (dataDir.exists()) {
+			System.err.print("Entities:   ");
+			ConsoleProgressBar pb1 = new ConsoleProgressBar(dataDir.listFiles().length);
 			for (File file : dataDir.listFiles()) {
+				pb1.addOne();
 				try {
 					long id = new Long(file.getName());
 					ontology.log("reading file: " + file.getName());
@@ -134,18 +138,23 @@ public class Ontology {
 					ontology.log("cannot read file: " + file.getName());
 				}
 			}
+			pb1.complete();
 		} else {
 			ontology.log("no data found; blank ontology is created");
 		}
 
 		ontology.log("loading statements");
+		System.err.print("Statements: ");
+		ConsoleProgressBar pb2 = new ConsoleProgressBar(ontology.elements.size());
 		for (OntologyElement oe : ontology.elements) {
+			pb2.addOne();
 			for (Sentence s : oe.getSentences()) {
 				if (s.isReasonerParticipant() && s.isIntegrated()) {
 					ontology.loadOntology(s.getOWLOntology());
 				}
 			}
 		}
+		pb2.complete();
 		
 		return ontology;
 	}

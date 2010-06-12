@@ -345,9 +345,9 @@ public class Sentence extends Statement {
 		reasonerParticipant =
 			(mc.getMessages("owl").size() == 0) &&
 			(owlxml.indexOf("<swrl:Imp>") < 0) &&
-			(owlxml.indexOf("<ObjectHasSelf>") < 0) &&
-			(owlxml.indexOf("<TransitiveObjectProperty>") < 0) &&
-			(owlxml.indexOf("<ObjectPropertyChain>") < 0) &&
+			//(owlxml.indexOf("<ObjectHasSelf>") < 0) &&
+			//(owlxml.indexOf("<TransitiveObjectProperty>") < 0) &&
+			//(owlxml.indexOf("<ObjectPropertyChain>") < 0) &&
 			(owlxml.length() > 0);
 		isOWL =
 			(mc.getMessages("owl").size() == 0) &&
@@ -372,10 +372,10 @@ public class Sentence extends Statement {
 		if (isQuestion()) {
 			reasonerParticipant = false;
 		}
-		String messages = mc.toString();
-		if (messages.length() > 0) {
-			System.err.println("Parser messages: " + messages);
-		}
+		//String messages = mc.toString();
+		//if (messages.length() > 0) {
+		//	System.err.println("Parser messages: " + messages);
+		//}
 	}
 	
 	/**
