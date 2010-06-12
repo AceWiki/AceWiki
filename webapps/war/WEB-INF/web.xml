@@ -114,6 +114,17 @@
       <param-value>no</param-value>
     </init-param>
     
+    <!--
+      The 'reasoner' parameter specifies the reasoner or reasoner interface to be used. If set to
+      'HermiT' (default), the integrated HermiT reasoner is used. With 'OWLlink', the OWLlink
+      reasoner interface is applied, which can connect to reasoners like FaCT++, Pellet or HermiT
+      in a separate process (local or remote). 
+    -->
+    <init-param>
+      <param-name>reasoner</param-name>
+      <param-value>HermiT</param-value>
+    </init-param>
+    
   </servlet>
   
   <!--
