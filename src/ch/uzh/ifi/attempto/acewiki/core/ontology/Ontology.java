@@ -47,6 +47,7 @@ import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.owllink.OWLlinkHTTPXMLReasonerFactory;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.util.OWLOntologyMerger;
+import org.semanticweb.owlapi.util.Version;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLClassImpl;
 import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
@@ -459,6 +460,37 @@ public class Ontology {
 			t += s + ".\n";
 		}
 		return t;
+	}
+	
+	/**
+	 * Returns the name of the reasoner interface or integrated reasoner currently used.
+	 * 
+	 * @return The reasoner type.
+	 */
+	public String getReasonerType() {
+		return reasonerType;
+	}
+	
+	/**
+	 * Returns the name of the currently used reasoner.
+	 * 
+	 * @return The name of the reasoner.
+	 */
+	public String getReasonerName() {
+		if (reasoner == null) return null;
+		return reasoner.getReasonerName();
+	}
+	
+	/**
+	 * Returns the version of the currently used reasoner.
+	 * 
+	 * @return The version of the reasoner.
+	 */
+	public String getReasonerVersion() {
+		if (reasoner == null) return null;
+		Version v = reasoner.getReasonerVersion();
+		if (v == null) return null;
+		return v.getMajor() + "." + v.getMinor() + "." + v.getPatch() + "." + v.getBuild();
 	}
 	
 	/**

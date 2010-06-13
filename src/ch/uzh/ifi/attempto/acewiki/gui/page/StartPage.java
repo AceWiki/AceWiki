@@ -82,19 +82,28 @@ public class StartPage extends WikiPage implements ActionListener {
 		add(new VSpace(20));
 		addHorizontalLine();
 		
-		Row footer = new Row();
+		Column footer = new Column();
 		footer.setInsets(new Insets(10, 10, 0, 20));
 		String vers = Wiki.getInfo("acewiki-version");
 		String stage = Wiki.getInfo("acewiki-release-stage");
 		String dev = Wiki.getInfo("acewiki-developer");
 		String date = Wiki.getInfo("acewiki-build-date");
-		SolidLabel footerLabel = new SolidLabel(
+		SolidLabel footerLabel1 = new SolidLabel(
 				"AceWiki " + vers + " (" + stage + "), " + dev + ", " + date,
 				Font.ITALIC
 			);
-		footerLabel.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
-		footerLabel.setForeground(Color.DARKGRAY);
-		footer.add(footerLabel);
+		footerLabel1.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
+		footerLabel1.setForeground(Color.DARKGRAY);
+		footer.add(footerLabel1);
+		String r = "none";
+		String rName = wiki.getOntology().getReasonerName();
+		if (rName != null) r = rName;
+		String rVersion = wiki.getOntology().getReasonerVersion();
+		if (rVersion != null) r += " " + rVersion;
+		SolidLabel footerLabel2 = new SolidLabel("Reasoner: " + r, Font.ITALIC);
+		footerLabel2.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
+		footerLabel2.setForeground(Color.DARKGRAY);
+		footer.add(footerLabel2);
 		add(footer);
 	}
 	
