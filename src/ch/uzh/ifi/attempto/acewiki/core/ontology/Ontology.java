@@ -45,6 +45,8 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologySetProvider;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.owllink.OWLlinkHTTPXMLReasonerFactory;
+import org.semanticweb.owlapi.owllink.builtin.response.OWLlinkErrorResponseException;
+import org.semanticweb.owlapi.reasoner.InconsistentOntologyException;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.util.OWLOntologyMerger;
 import org.semanticweb.owlapi.util.Version;
@@ -597,6 +599,8 @@ public class Ontology {
 		
 		log("commit sentence");
 		
+		boolean inconsistencyEncountered = false;
+		
 		try {
 			loadOntology(sentence.getOWLOntology());
 		} catch (OutOfMemoryError err) {
@@ -604,18 +608,26 @@ public class Ontology {
 			System.gc();
 			refreshReasoner();
 			return 2;
+		} catch (OWLlinkErrorResponseException ex) {
+			// FaCT++ throws an exception here when inconsistency is encountered
+			// TODO: Is this always the case?
+			if ("FaCT++.Kernel: inconsistent ontology".equals(ex.getMessage())) {
+				inconsistencyEncountered = true;
+			} else {
+				ex.printStackTrace();
+			}
 		}
 
 		log("check for consistency");
-		if (isConsistent()) {
+		if (inconsistencyEncountered || !isConsistent()) {
+			log("not consistent!");
+			unloadOntology(sentence.getOWLOntology());
+			return 1;
+		} else {
 			log("consistent!");
 			sentence.setIntegrated(true);
 			stateID++;
 			return 0;
-		} else {
-			log("not consistent!");
-			unloadOntology(sentence.getOWLOntology());
-			return 1;
 		}
 	}
 	
@@ -841,7 +853,15 @@ public class Ontology {
 	 */
 	public synchronized boolean isConsistent() {
 		if (reasoner == null) return true;
-		return reasoner.isConsistent();
+		boolean c = true;
+		try {
+			// The method isConsistent is poorly supported by the implementations.
+			//reasoner.isConsistent();
+			reasoner.isSatisfiable(OWLDataFactoryImpl.getInstance().getOWLThing());
+		} catch (InconsistentOntologyException ex) {
+			c = false;
+		}
+		return c;
 	}
 	
 	/**
