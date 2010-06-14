@@ -908,6 +908,7 @@ public class Ontology {
 		if (ontology == null) return;
 		
 		for (OWLAxiom ax : ontology.getAxioms()) {
+			// TODO Taking toString as ID is not save (the names of the entities can change)
 			String id = ax.toString();
 			if (axioms.get(id) == null) {
 				axioms.put(id, 0);

@@ -46,7 +46,7 @@ import ch.uzh.ifi.attempto.preditor.TextElement;
  * ACE sentences can either have an ontology element as owner (in the case of asserted sentences)
  * or it can be an independent statement that has no owner (in the case of inferred sentences).
  *<p>
- * Parsing of the sentence is done lasily, i.e. at the first time when a parsing result is
+ * Parsing of the sentence is done lazily, i.e. at the first time when a parsing result is
  * required. Parsing fails silently. No exceptions are thrown if a sentence is not ACE compliant.
  * 
  * @author Tobias Kuhn
