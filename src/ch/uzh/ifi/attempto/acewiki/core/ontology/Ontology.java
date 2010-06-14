@@ -73,6 +73,7 @@ public class Ontology {
 	
 	private final String name;
 	private final String baseURI;
+	private final String globalRestrPolicy;
 	private long idCount = 0;
 	private long stateID = 0;
 	
@@ -88,8 +89,9 @@ public class Ontology {
 	 * 
 	 * @param name The name of the ontology.
 	 * @param baseURI The base URI that is used to identify the ontology elements.
+	 * @param grp The global restrictions policy.
 	 */
-	private Ontology(String name, String baseURI) {
+	private Ontology(String name, String baseURI, String grp) {
 		this.name = name.toString();  // null value throws an exception
 		this.baseURI = baseURI;
 		if (baseURI == null) {
@@ -103,6 +105,14 @@ public class Ontology {
 		} catch (OWLOntologyCreationException ex) {
 			ex.printStackTrace();
 		}
+		
+		if (grp == null || grp.length() == 0) {
+			globalRestrPolicy = "noChains";
+		} else if (grp.toLowerCase().equals("unchecked")) {
+			globalRestrPolicy = "unchecked";
+		} else {
+			globalRestrPolicy = "noChains";
+		}
 	}
 	
 	/**
@@ -111,13 +121,17 @@ public class Ontology {
 	 * 
 	 * @param name The name of the ontology.
 	 * @param baseURI The base URI that is used to identify the ontology elements.
+	 * @param globalRestrPolicy A string representing the policy how to enforce the global
+	 *     restrictions on axioms in OWL 2.
 	 * @return The loaded ontology.
 	 */
-	public synchronized static Ontology loadOntology(String name, String baseURI) {
+	public synchronized static Ontology loadOntology(String name, String baseURI,
+			String globalRestrPolicy) {
+		
 		if (ontologies.get(name) != null) {
 			return ontologies.get(name);
 		}
-		Ontology ontology = new Ontology(name, baseURI);
+		Ontology ontology = new Ontology(name, baseURI, globalRestrPolicy);
 		ontology.log("loading ontology");
 		System.err.println("Loading '" + name + "'");
 		File dataDir = new File("data/" + name);
@@ -462,6 +476,16 @@ public class Ontology {
 			t += s + ".\n";
 		}
 		return t;
+	}
+	
+	/**
+	 * Returns a string representing the policy how to enforce the global restrictions on the
+	 * axioms in OWL 2.
+	 * 
+	 * @return The global restrictions policy.
+	 */
+	public String getGlobalRestrictionsPolicy() {
+		return globalRestrPolicy;
 	}
 	
 	/**

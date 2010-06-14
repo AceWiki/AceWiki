@@ -342,13 +342,19 @@ public class Sentence extends Statement {
 			//				"<Class URI=\"http://attempto.ifi.uzh.ch/ace#Question" + hashCode + "\"/>/>\n  </SubClassOf>\n</Ontology>");
 			//}
 		}
+		
 		reasonerParticipant =
 			(mc.getMessages("owl").size() == 0) &&
 			(owlxml.indexOf("<swrl:Imp>") < 0) &&
-			//(owlxml.indexOf("<ObjectHasSelf>") < 0) &&
-			//(owlxml.indexOf("<TransitiveObjectProperty>") < 0) &&
-			//(owlxml.indexOf("<ObjectPropertyChain>") < 0) &&
+			(owlxml.indexOf("<ObjectHasSelf>") < 0) &&
 			(owlxml.length() > 0);
+		
+		if (reasonerParticipant && getOntology().getGlobalRestrictionsPolicy().equals("noChains")) {
+			reasonerParticipant =
+				(owlxml.indexOf("<TransitiveObjectProperty>") < 0) &&
+				(owlxml.indexOf("<ObjectPropertyChain>") < 0);
+		}
+		
 		isOWL =
 			(mc.getMessages("owl").size() == 0) &&
 			(owlxml.indexOf("<swrl:Imp>") < 0) &&

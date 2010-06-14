@@ -118,11 +118,25 @@
       The 'reasoner' parameter specifies the reasoner or reasoner interface to be used. If set to
       'HermiT' (default), the integrated HermiT reasoner is used. With 'OWLlink', the OWLlink
       reasoner interface is applied, which can connect to reasoners like FaCT++, Pellet or HermiT
-      in a separate process (local or remote). 
+      in a separate process (local or remote).
     -->
     <init-param>
       <param-name>reasoner</param-name>
       <param-value>HermiT</param-value>
+    </init-param>
+    
+    <!--
+      The parameter 'globalRestrictionsPolicy' defines how the global restrictions on the axioms in
+      OWL 2 should be ensured. See the following chapter of the OWL 2 documentation:
+      http://www.w3.org/TR/2009/REC-owl2-syntax-20091027/#Global_Restrictions_on_Axioms_in_OWL_2_DL
+      At the moment, only 'noChains' (default) and 'unchecked' are supported. 'noChains' has the
+      effect that axioms containing property chains or transitivity are generally not considered
+      for reasoning. 'unchecked' allows for the violation of the global restrictions and should
+      only be used for testing. More options should become available in the future.
+    -->
+    <init-param>
+      <param-name>globalRestrictionsPolicy</param-name>
+      <param-value>noChains</param-value>
     </init-param>
     
   </servlet>

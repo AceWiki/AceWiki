@@ -139,7 +139,11 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	Wiki(Map<String, String> parameters, int sessionID) {
 		this.parameters = parameters;
 		
-		ontology = Ontology.loadOntology(getParameter("ontology"), getParameter("baseuri"));
+		ontology = Ontology.loadOntology(
+				getParameter("ontology"),
+				getParameter("baseuri"),
+				getParameter("globalRestrictionsPolicy")
+			);
 		ontology.loadReasoner(getParameter("reasoner"));
 		logger = new Logger(ontology.getName(), "anon", sessionID);
 		application = ApplicationInstance.getActive();
