@@ -624,6 +624,7 @@ public class Ontology {
 		log("commit sentence");
 		
 		boolean inconsistencyEncountered = false;
+		boolean errorEncountered = false;
 		
 		try {
 			loadOntology(sentence.getOWLOntology());
@@ -634,16 +635,28 @@ public class Ontology {
 			return 2;
 		} catch (OWLlinkErrorResponseException ex) {
 			// FaCT++ throws an exception here when inconsistency is encountered
-			// TODO: Is this always the case?
+			// TODO Is this always the case?
 			if ("FaCT++.Kernel: inconsistent ontology".equals(ex.getMessage())) {
 				inconsistencyEncountered = true;
 			} else {
-				ex.printStackTrace();
+				// We get here when the global restrictions are violated with FaCT++ and OWLlink
+				errorEncountered = true;
 			}
+		} catch (IllegalArgumentException ex) {
+			// We get here when the global restrictions are violated with HermiT
+			errorEncountered = true;
+		} catch (Exception ex) {
+			errorEncountered = true;
+			ex.printStackTrace();
 		}
 
 		log("check for consistency");
-		if (inconsistencyEncountered || !isConsistent()) {
+		if (errorEncountered) {
+			log("error encountered!");
+			unloadOntology(sentence.getOWLOntology());
+			// TODO return a different value here:
+			return 1;
+		} else if (inconsistencyEncountered || !isConsistent()) {
 			log("not consistent!");
 			unloadOntology(sentence.getOWLOntology());
 			return 1;
