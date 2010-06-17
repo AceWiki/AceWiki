@@ -202,7 +202,7 @@ public class TextRow extends Column implements ActionListener {
 						column = new Column();
 						List<OntologyElement> answer = sentence.getAnswer();
 						if (answer == null) {
-							column.add(new SolidLabel("...", Font.ITALIC, 10));
+							column.add(new SolidLabel("(error)", Font.ITALIC, 10));
 						} else if (answer.size() > 0) {
 							Collections.sort(answer);
 							for (OntologyElement oe : answer) {

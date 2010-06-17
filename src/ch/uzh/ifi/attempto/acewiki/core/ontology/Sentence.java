@@ -336,10 +336,11 @@ public class Sentence extends Statement {
 			owlxml = owlxml.replaceAll("InverseObjectProperty>", "ObjectInverseOf>");
 			owlxml = owlxml.replaceAll("SubObjectPropertyChain>", "ObjectPropertyChain>");
 			owlxml = owlxml.replaceAll("ObjectExistsSelf>", "ObjectHasSelf>");
+			owlxml = owlxml.replaceAll(" URI=\"", " IRI=\"");
 			
 			//if (isQuestion()) {
-			//	owlxml = owlxml.replace("<Class URI=\"http://www.w3.org/2002/07/owl#Thing\"/>\n  </SubClassOf>\n</Ontology>",
-			//				"<Class URI=\"http://attempto.ifi.uzh.ch/ace#Question" + hashCode + "\"/>/>\n  </SubClassOf>\n</Ontology>");
+			//	owlxml = owlxml.replace("<Class IRI=\"http://www.w3.org/2002/07/owl#Thing\"/>\n  </SubClassOf>\n</Ontology>",
+			//				"<Class IRI=\"http://attempto.ifi.uzh.ch/ace#Question" + hashCode + "\"/>/>\n  </SubClassOf>\n</Ontology>");
 			//}
 		}
 		
