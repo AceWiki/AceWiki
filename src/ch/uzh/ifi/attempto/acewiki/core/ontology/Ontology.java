@@ -703,15 +703,15 @@ public class Ontology {
 		String owlString =
 			"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n" +
 			"<Ontology " +
-			"xml:base=\"http://www.w3.org/2006/12/owl11-xml#\" " +
-			"xmlns=\"http://www.w3.org/2006/12/owl11-xml#\" " +
+			"xml:base=\"http://www.w3.org/2002/07/owl#\" " +
+			"xmlns=\"http://www.w3.org/2002/07/owl#\" " +
 			"URI=\"" + getURI() + "/different_individuals/" + stateID + "\">\n" +
 			"\t<DifferentIndividuals>\n";
 		for (OntologyElement oe : getOntologyElements()) {
 			if (oe instanceof Individual) {
 				String word = ((Individual) oe).getWord();
 				if (word.startsWith("the ")) word = word.substring(4);
-				owlString += "\t\t<Individual URI=\"" + ((Individual) oe).getURI() + "\" />\n";
+				owlString += "\t\t<Individual IRI=\"" + ((Individual) oe).getURI() + "\" />\n";
 			}
 		}
 		owlString +=
