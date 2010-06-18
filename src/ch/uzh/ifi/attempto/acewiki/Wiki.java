@@ -144,7 +144,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 				getParameter("baseuri"),
 				getParameter("globalRestrictionsPolicy")
 			);
-		ontology.loadReasoner(getParameter("reasoner"));
+		if (!ontology.isReasonerLoaded()) {
+			ontology.loadReasoner(getParameter("reasoner"));
+		}
 		logger = new Logger(ontology.getName(), "anon", sessionID);
 		application = ApplicationInstance.getActive();
 		taskQueue = application.createTaskQueue();

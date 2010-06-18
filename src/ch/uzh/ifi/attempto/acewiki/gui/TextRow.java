@@ -86,6 +86,14 @@ public class TextRow extends Column implements ActionListener {
 		} else {
 			dropDown = new DropDownMenu(DropDownMenu.NOREASONING_TYPE, this);
 		}
+		if (sentence.isQuestion() && "on".equals(wiki.getParameter("possibleAnswers"))) {
+			if (sentence.areUncertainAnswersEnabled()) {
+				dropDown.addMenuEntry("Show necessary Answers");
+			} else {
+				dropDown.addMenuEntry("Show possible Answers");
+			}
+			dropDown.addMenuSeparator();
+		}
 		if (!sentence.isIntegrated() && !sentence.isInferred()) {
 			dropDown.addMenuEntry("Reassert");
 			dropDown.addMenuSeparator();
@@ -157,6 +165,13 @@ public class TextRow extends Column implements ActionListener {
 		// Question Answering:
 		if (sentence.isQuestion() && hostPage instanceof ArticlePage) {
 			// TODO: clean-up and document this ugly code.
+
+			if (sentence.areUncertainAnswersEnabled()) {
+				Column pCol = new Column();
+				pCol.setInsets(new Insets(20, 0, 0, 0));
+				pCol.add(new SolidLabel("possibly:", Font.ITALIC, 10));
+				add(pCol);
+			}
 			
 			final Column answerColumn = new Column();
 			answerColumn.setInsets(new Insets(20, 0, 0, 0));
@@ -268,6 +283,12 @@ public class TextRow extends Column implements ActionListener {
 					"Yes",
 					"No"
 				));
+		} else if (e.getActionCommand().equals("Show necessary Answers")) {
+			sentence.setUncertainAnswersEnabled(false);
+			update();
+		} else if (e.getActionCommand().equals("Show possible Answers")) {
+			sentence.setUncertainAnswersEnabled(true);
+			update();
 		} else if (e.getActionCommand().equals("Reassert")) {
 			int success = sentence.reassert();
 			if (success == 1) {

@@ -53,6 +53,7 @@ import org.semanticweb.owlapi.util.Version;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLClassImpl;
 import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
+import uk.ac.manchester.cs.owl.owlapi.OWLObjectComplementOfImpl;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
 import ch.uzh.ifi.attempto.echocomp.Logger;
 
@@ -519,6 +520,10 @@ public class Ontology {
 		return v.getMajor() + "." + v.getMinor() + "." + v.getPatch() + "." + v.getBuild();
 	}
 	
+	public boolean isReasonerLoaded() {
+		return (reasoner != null);
+	}
+	
 	/**
 	 * Loads a reasoner or reasoner interface. Currently supported are the HermiT reasoner
 	 * ("HermiT"), the OWLlink interface ("OWLlink"), or none ("none").
@@ -843,6 +848,10 @@ public class Ontology {
 			OWLClassExpression answerOWLClass1 = answerOWLAxiom.getSubClass();
 			//OWLClassExpression answerOWLClass2 = answerOWLAxiom.getSuperClass();
 			
+			if (questionSentence.areUncertainAnswersEnabled()) {
+				answerOWLClass1 = new OWLObjectComplementOfImpl(manager.getOWLDataFactory(), answerOWLClass1);
+			}
+			
 			OWLObjectOneOf oneof = null;
 			if (answerOWLClass1 instanceof OWLObjectOneOf) {
 				oneof = ((OWLObjectOneOf) answerOWLClass1);
@@ -878,6 +887,16 @@ public class Ontology {
 		}
 		
 		//unloadOntology(o);
+		
+		if (questionSentence.areUncertainAnswersEnabled()) {
+			List<OntologyElement> realAnswer = new ArrayList<OntologyElement>();
+			for (OntologyElement oe : getOntologyElements()) {
+				if (oe instanceof Individual && !answer.contains(oe)) {
+					realAnswer.add(oe);
+				}
+			}
+			return realAnswer;
+		}
 		
 		return answer;
 	}

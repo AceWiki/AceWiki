@@ -133,7 +133,7 @@ public class DropDownMenu extends DropDown implements ActionListener {
 		Button menuEntry = new Button(text);
 		menuEntry.setActionCommand(text);
 		menuEntry.setHeight(new Extent(16));
-		menuEntry.setWidth(new Extent(130));
+		menuEntry.setWidth(new Extent(180));
 		menuEntry.setBackground(Style.mediumBackground);
 		menuEntry.setForeground(Style.darkForeground);
 		menuEntry.setRolloverEnabled(true);

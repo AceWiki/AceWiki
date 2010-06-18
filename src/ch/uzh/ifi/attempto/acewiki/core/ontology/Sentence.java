@@ -60,6 +60,7 @@ public class Sentence extends Statement {
 	
 	private String text;
 	private boolean integrated = false;
+	private boolean uncertainAnswers = false;
 	
 	// These fields are evaluated lazily:
 	private TextContainer textContainer;
@@ -420,6 +421,17 @@ public class Sentence extends Statement {
 	 */
 	public boolean isQuestion() {
 		return text.substring(text.length()-1).equals("?");
+	}
+	
+	public boolean areUncertainAnswersEnabled() {
+		return uncertainAnswers;
+	}
+	
+	public void setUncertainAnswersEnabled(boolean uncertainAnswers) {
+		if (this.uncertainAnswers == uncertainAnswers) return;
+		answerCache = null;
+		answerCacheStateID = -1;
+		this.uncertainAnswers = uncertainAnswers;
 	}
 	
 	/**
