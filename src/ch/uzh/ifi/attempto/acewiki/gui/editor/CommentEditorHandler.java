@@ -19,6 +19,7 @@ import nextapp.echo2.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Comment;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Statement;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.StatementFactory;
 import ch.uzh.ifi.attempto.acewiki.gui.page.ArticlePage;
 import ch.uzh.ifi.attempto.echocomp.TextAreaWindow;
 
@@ -93,11 +94,11 @@ public class CommentEditorHandler implements ActionListener {
 		if (e.getActionCommand().equals("OK")) {
 			if (edit) {
 				OntologyElement owner = page.getOntologyElement();
-				owner.edit(statement, new Comment(textAreaWindow.getText(), owner));
+				owner.edit(statement, StatementFactory.createComment(textAreaWindow.getText(), owner));
 				page.update();
 			} else {
 				OntologyElement owner = page.getOntologyElement();
-				owner.add(statement, new Comment(textAreaWindow.getText(), owner));
+				owner.add(statement, StatementFactory.createComment(textAreaWindow.getText(), owner));
 				page.update();
 			}
 			textAreaWindow.setVisible(false);

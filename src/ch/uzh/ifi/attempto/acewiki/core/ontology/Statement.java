@@ -47,30 +47,6 @@ public abstract class Statement {
 	}
 	
 	/**
-	 * Loads a statement from a serialized form.
-	 * 
-	 * @param serializedStatement The serialized statement as a string.
-	 * @param owner The owner ontology element of the statement.
-	 * @return The new statement object.
-	 */
-	static Statement loadStatement(String serializedStatement, OntologyElement owner) {
-		Sentence sentence;
-		switch (serializedStatement.charAt(0)) {
-		case '|':
-			sentence = new Sentence(serializedStatement.substring(2), owner);
-			sentence.setIntegrated(true);
-			return sentence;
-		case '#':
-			sentence = new Sentence(serializedStatement.substring(2), owner);
-			sentence.setIntegrated(false);
-			return sentence;
-		case 'c':
-			return Comment.load(serializedStatement.substring(2), owner);
-		}
-		return null;
-	}
-	
-	/**
 	 * This method returns the ontology this statement belongs to.
 	 * 
 	 * @return The ontology.

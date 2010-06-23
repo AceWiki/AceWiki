@@ -405,7 +405,7 @@ public class Ontology {
 				HashSet<OWLOntology> ontologies = new HashSet<OWLOntology>();
 				for (OntologyElement el : elements) {
 					for (Sentence s : el.getSentences()) {
-						if (s.isQuestion() || !s.isOWL()) continue;
+						if (s instanceof Question || !s.isOWL()) continue;
 						if (consistent && (!s.isReasonerParticipant() || !s.isIntegrated())) {
 							continue;
 						}
@@ -842,15 +842,14 @@ public class Ontology {
 	 * of all individuals that belong to the concept. The null value is returned if the
 	 * sentence is not a question.
 	 * 
-	 * @param questionSentence The question sentence that should be answered.
+	 * @param question The question to be answered.
 	 * @return A list of ontology elements that are the answer for the question.
 	 * @see Sentence#getAnswer()
 	 */
-	public synchronized List<OntologyElement> getAnswer(Sentence questionSentence) {
-		if (!questionSentence.isQuestion()) return null;
+	public synchronized List<OntologyElement> getAnswer(Question question) {
 		if (reasoner == null) return null;
 
-		OWLOntology o = questionSentence.getOWLOntology();
+		OWLOntology o = question.getOWLOntology();
 		if (o == null || o.isEmpty()) return null;
 		//loadOntology(o);
 		
@@ -861,7 +860,7 @@ public class Ontology {
 			OWLClassExpression answerOWLClass1 = answerOWLAxiom.getSubClass();
 			//OWLClassExpression answerOWLClass2 = answerOWLAxiom.getSuperClass();
 			
-			if (questionSentence.areUncertainAnswersEnabled()) {
+			if (question.areUncertainAnswersEnabled()) {
 				answerOWLClass1 = new OWLObjectComplementOfImpl(manager.getOWLDataFactory(), answerOWLClass1);
 			}
 			
@@ -901,7 +900,7 @@ public class Ontology {
 		
 		//unloadOntology(o);
 		
-		if (questionSentence.areUncertainAnswersEnabled()) {
+		if (question.areUncertainAnswersEnabled()) {
 			List<OntologyElement> realAnswer = new ArrayList<OntologyElement>();
 			for (OntologyElement oe : getOntologyElements()) {
 				if (oe instanceof Individual && !answer.contains(oe)) {

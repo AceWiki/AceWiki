@@ -84,7 +84,7 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 		oe.setId(id);
 		oe.setWords(words);
 		for (int i=2 ; i < lines.length ; i++) {
-			Statement statement = Statement.loadStatement(lines[i], oe);
+			Statement statement = StatementFactory.loadStatement(lines[i], oe);
 			oe.statements.add(statement);
 		}
 		oe.ontology = ontology;

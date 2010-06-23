@@ -30,6 +30,7 @@ import ch.uzh.ifi.attempto.acewiki.core.ontology.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.NounConcept;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyTextElement;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.Question;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Sentence;
 import ch.uzh.ifi.attempto.acewiki.gui.editor.CommentEditorHandler;
 import ch.uzh.ifi.attempto.acewiki.gui.editor.SentenceEditorHandler;
@@ -77,35 +78,35 @@ public class TextRow extends Column implements ActionListener {
 	}
 	
 	private void update() {
-		if (sentence.isInferred()) {
+		if (sentence.isReadOnly()) {
 			dropDown = new DropDownMenu(DropDownMenu.INFERRED_TYPE, this);
-		} else if (sentence.isQuestion()) {
+		} else if (sentence instanceof Question) {
 			dropDown = new DropDownMenu(DropDownMenu.QUESTION_TYPE, this);
 		} else if (sentence.isReasonerParticipant()) {
 			dropDown = new DropDownMenu(DropDownMenu.REASONING_TYPE, this);
 		} else {
 			dropDown = new DropDownMenu(DropDownMenu.NOREASONING_TYPE, this);
 		}
-		if (sentence.isQuestion() && "on".equals(wiki.getParameter("possibleAnswers"))) {
-			if (sentence.areUncertainAnswersEnabled()) {
+		if (sentence instanceof Question && "on".equals(wiki.getParameter("possibleAnswers"))) {
+			if (((Question) sentence).areUncertainAnswersEnabled()) {
 				dropDown.addMenuEntry("Show necessary Answers");
 			} else {
 				dropDown.addMenuEntry("Show possible Answers");
 			}
 			dropDown.addMenuSeparator();
 		}
-		if (!sentence.isIntegrated() && !sentence.isInferred()) {
+		if (!sentence.isIntegrated() && !sentence.isReadOnly()) {
 			dropDown.addMenuEntry("Reassert");
 			dropDown.addMenuSeparator();
 		}
-		if (!sentence.isInferred()) {
+		if (!sentence.isReadOnly()) {
 			dropDown.addMenuEntry("Edit...");
 		}
 		if (hostPage instanceof ArticlePage) {
 			dropDown.addMenuEntry("Add Sentence...");
 			dropDown.addMenuEntry("Add Comment...");
 		}
-		if (!sentence.isInferred()) {
+		if (!sentence.isReadOnly()) {
 			dropDown.addMenuEntry("Delete");
 		}
 		dropDown.addMenuSeparator();
@@ -114,7 +115,7 @@ public class TextRow extends Column implements ActionListener {
 		
 		Row r = new Row();
 		Color color = Color.BLACK;
-		boolean isRed = !sentence.isIntegrated() && !sentence.isInferred() && !sentence.isQuestion();
+		boolean isRed = !sentence.isIntegrated() && !sentence.isReadOnly() && !(sentence instanceof Question);
 		if (isRed) {
 			color = new Color(193, 0, 0);
 		}
@@ -163,10 +164,12 @@ public class TextRow extends Column implements ActionListener {
 		add(sentenceRow);
 		
 		// Question Answering:
-		if (sentence.isQuestion() && hostPage instanceof ArticlePage) {
+		if (sentence instanceof Question && hostPage instanceof ArticlePage) {
 			// TODO: clean-up and document this ugly code.
+			
+			final Question question = (Question) sentence;
 
-			if (sentence.areUncertainAnswersEnabled()) {
+			if (question.areUncertainAnswersEnabled()) {
 				Column pCol = new Column();
 				pCol.setInsets(new Insets(20, 0, 0, 0));
 				pCol.add(new SolidLabel("possibly:", Font.ITALIC, 10));
@@ -178,7 +181,7 @@ public class TextRow extends Column implements ActionListener {
 			add(answerColumn);
 			
 			Column cachedAnswerCol = new Column();
-			List<OntologyElement> answer = sentence.getCachedAnswer();
+			List<OntologyElement> answer = question.getCachedAnswer();
 			if (answer == null) {
 				cachedAnswerCol.add(new SolidLabel("...", Font.ITALIC, 10));
 			} else if (answer.size() > 0) {
@@ -202,7 +205,7 @@ public class TextRow extends Column implements ActionListener {
 			}
 			cachedAnswerCol.add(new VSpace(4));
 			
-			if (sentence.isAnswerCached()) {
+			if (question.isAnswerCached()) {
 				
 				answerColumn.add(cachedAnswerCol);
 				
@@ -215,7 +218,7 @@ public class TextRow extends Column implements ActionListener {
 					
 					public void run() {
 						column = new Column();
-						List<OntologyElement> answer = sentence.getAnswer();
+						List<OntologyElement> answer = question.getAnswer();
 						if (answer == null) {
 							column.add(new SolidLabel("(error)", Font.ITALIC, 10));
 						} else if (answer.size() > 0) {
@@ -284,10 +287,10 @@ public class TextRow extends Column implements ActionListener {
 					"No"
 				));
 		} else if (e.getActionCommand().equals("Show necessary Answers")) {
-			sentence.setUncertainAnswersEnabled(false);
+			((Question) sentence).setUncertainAnswersEnabled(false);
 			update();
 		} else if (e.getActionCommand().equals("Show possible Answers")) {
-			sentence.setUncertainAnswersEnabled(true);
+			((Question) sentence).setUncertainAnswersEnabled(true);
 			update();
 		} else if (e.getActionCommand().equals("Reassert")) {
 			int success = sentence.reassert();

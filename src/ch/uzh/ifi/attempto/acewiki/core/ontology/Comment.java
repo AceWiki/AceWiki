@@ -24,23 +24,12 @@ public class Comment extends Statement {
 	private final String text;
 	
 	/**
-	 * Loads a comment from a serialized form.
-	 * 
-	 * @param serializedComment The serialized form of the comment.
-	 * @param owner The owner ontology element of the comment.
-	 * @return The new comment object.
-	 */
-	public static Comment load(String serializedComment, OntologyElement owner) {
-		return new Comment(serializedComment.replaceAll("~n", "\n").replaceAll("~t", "~"), owner);
-	}
-
-	/**
 	 * Creates a new comment.
 	 * 
 	 * @param text The comment text.
 	 * @param owner The owner ontology element.
 	 */
-	public Comment(String text, OntologyElement owner) {
+	protected Comment(String text, OntologyElement owner) {
 		super(owner);
 		this.text = text;
 	}

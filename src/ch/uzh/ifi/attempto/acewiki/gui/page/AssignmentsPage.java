@@ -29,6 +29,7 @@ import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Sentence;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.StatementFactory;
 import ch.uzh.ifi.attempto.acewiki.gui.IndexBar;
 import ch.uzh.ifi.attempto.acewiki.gui.RecalcIcon;
 import ch.uzh.ifi.attempto.acewiki.gui.TextRow;
@@ -156,7 +157,7 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 				sentences = new ArrayList<Sentence>();
 				Collections.sort(concepts);
 				for (Concept c : concepts) {
-					sentences.add(new Sentence(
+					sentences.add(StatementFactory.createDeclaration(
 							ind.getWord(2) + " is a " + c.getWord() + ".",
 							ind.getOntology()
 						));

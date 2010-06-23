@@ -24,6 +24,7 @@ import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Statement;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.StatementFactory;
 import ch.uzh.ifi.attempto.acewiki.gui.page.ArticlePage;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.preditor.PreditorWindow;
@@ -115,7 +116,7 @@ public class SentenceEditorHandler implements ActionListener {
 			
 			List<TextElement> l = textContainer.getTextElements();
 			if (l.isEmpty() || l.get(l.size() - 1).getText().matches("[.?]")) {
-				newSentences = Sentence.generateSentences(
+				newSentences = StatementFactory.createSentences(
 						textContainer,
 						page.getOntologyElement()
 					);
@@ -140,7 +141,7 @@ public class SentenceEditorHandler implements ActionListener {
 			String text = newSentences.get(checked).getText();
 			text = text.replaceFirst("^(A|a)n? ", "Every ");
 			newSentences.remove(checked);
-			newSentences.add(checked, new Sentence(text, page.getOntologyElement()));
+			newSentences.add(checked, StatementFactory.createSentence(text, page.getOntologyElement()));
 			checked++;
 			checkSentence();
 		} else if (e.getSource() == messageWindow && e.getActionCommand().equals("Close")) {

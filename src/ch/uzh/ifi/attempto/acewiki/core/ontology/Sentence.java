@@ -39,19 +39,18 @@ import ch.uzh.ifi.attempto.preditor.TextContainer;
 import ch.uzh.ifi.attempto.preditor.TextElement;
 
 /**
- * This class represents an ACE sentence which is either a declarative statement or a question.
- * Some declarative sentences can be translated into OWL and can participate in reasoning. Other
- * sentences have no OWL representation and do not participate in reasoning.
+ * This class represents an ACE sentence, which can be either a declaration (declarative sentence)
+ * or a question.
  *<p>
- * ACE sentences can either have an ontology element as owner (in the case of asserted sentences)
- * or it can be an independent statement that has no owner (in the case of inferred sentences).
+ * ACE sentences can either have an ontology element as owner (in the case of asserted sentences or
+ * questions) or can be independent statements with no owner (in the case of inferred sentences).
  *<p>
  * Parsing of the sentence is done lazily, i.e. at the first time when a parsing result is
  * required. Parsing fails silently. No exceptions are thrown if a sentence is not ACE compliant.
  * 
  * @author Tobias Kuhn
  */
-public class Sentence extends Statement {
+public abstract class Sentence extends Statement {
 	
 	/**
 	 * The context checker used for AceWiki.
@@ -60,7 +59,6 @@ public class Sentence extends Statement {
 	
 	private String text;
 	private boolean integrated = false;
-	private boolean uncertainAnswers = false;
 	
 	// These fields are evaluated lazily:
 	private TextContainer textContainer;
@@ -71,49 +69,26 @@ public class Sentence extends Statement {
 	private Boolean isOWLSWRL;
 	private OWLOntology owlOntology;
 	
-	private List<OntologyElement> answerCache;
-	private long answerCacheStateID = -1;
-	
 	/**
-	 * Creates a new asserted sentence. Asserted sentences must have an owner.
+	 * Initializes a new sentence with the given ontology element as its owner.
 	 * 
 	 * @param text The sentence text.
 	 * @param owner The owner ontology element.
 	 */
-	public Sentence(String text, OntologyElement owner) {
+	protected Sentence(String text, OntologyElement owner) {
 		super(owner);
-		setText(text);
+		this.text = text;
 	}
 	
 	/**
-	 * Creates a new inferred sentence. Inferred sentence have no owner.
+	 * Initializes a new independent sentence.
 	 * 
 	 * @param text The sentence text.
 	 * @param ontology The ontology.
 	 */
-	public Sentence(String text, Ontology ontology) {
+	protected Sentence(String text, Ontology ontology) {
 		super(ontology);
-		setText(text);
-	}
-	
-	/**
-	 * Generates sentence objects out of a text container.
-	 * 
-	 * @param tc The text container.
-	 * @param owner The owner ontology element of the sentences.
-	 * @return A list of sentences.
-	 */
-	public static List<Sentence> generateSentences(TextContainer tc, OntologyElement owner) {
-		List<Sentence> l = new ArrayList<Sentence>();
-		TextContainer c = new TextContainer(contextChecker);
-		for (TextElement e : tc.getTextElements()) {
-			c.addElement(e);
-			if (e.getText().matches("[.?]")) {
-				l.add(new Sentence(getUnderscoredText(c), owner));
-				c = new TextContainer(contextChecker);
-			}
-		}
-		return l;
+		this.text = text;
 	}
 	
 	/**
@@ -126,11 +101,6 @@ public class Sentence extends Statement {
 			tokenize();
 		}
 		return textContainer.getTextElements();
-	}
-	
-	private void setText(String text) {
-		// remove trailing blank spaces.
-		this.text = text.replaceFirst("\\s+$", "");
 	}
 	
 	/**
@@ -339,7 +309,7 @@ public class Sentence extends Statement {
 			owlxml = owlxml.replaceAll("ObjectExistsSelf>", "ObjectHasSelf>");
 			owlxml = owlxml.replaceAll(" URI=\"", " IRI=\"");
 			
-			//if (isQuestion()) {
+			//if (this instanceof Question) {
 			//	owlxml = owlxml.replace("<Class IRI=\"http://www.w3.org/2002/07/owl#Thing\"/>\n  </SubClassOf>\n</Ontology>",
 			//				"<Class IRI=\"http://attempto.ifi.uzh.ch/ace#Question" + hashCode + "\"/>/>\n  </SubClassOf>\n</Ontology>");
 			//}
@@ -366,7 +336,7 @@ public class Sentence extends Statement {
 			(owlxml.length() > 0);
 		owlOntology = null;
 		if (isOWL) {
-		try {
+			try {
 				owlOntology = getOntology().readOWLOntology(owlxml);
 				if (owlOntology.isEmpty()) {
 					reasonerParticipant = false;
@@ -376,9 +346,6 @@ public class Sentence extends Statement {
 			} catch (OWLOntologyCreationException ex) {
 				ex.printStackTrace();
 			}
-		}
-		if (isQuestion()) {
-			reasonerParticipant = false;
 		}
 		//String messages = mc.toString();
 		//if (messages.length() > 0) {
@@ -414,34 +381,7 @@ public class Sentence extends Statement {
 		this.integrated = integrated;
 	}
 	
-	/**
-	 * Returns true if the sentence is a question.
-	 * 
-	 * @return true if the sentence is a question.
-	 */
-	public boolean isQuestion() {
-		return text.substring(text.length()-1).equals("?");
-	}
-	
-	public boolean areUncertainAnswersEnabled() {
-		return uncertainAnswers;
-	}
-	
-	public void setUncertainAnswersEnabled(boolean uncertainAnswers) {
-		if (this.uncertainAnswers == uncertainAnswers) return;
-		answerCache = null;
-		answerCacheStateID = -1;
-		this.uncertainAnswers = uncertainAnswers;
-	}
-	
-	/**
-	 * Checks if the sentence is inferred or asserted.
-	 * 
-	 * @return true if the sentence is inferred, false if it is asserted.
-	 */
-	public boolean isInferred() {
-		return getOwner() == null;
-	}
+	public abstract boolean isReadOnly();
 	
 	/**
 	 * Checks whether the sentence contains the given word form (by word number) of the
@@ -476,55 +416,7 @@ public class Sentence extends Statement {
 		return contains(e, -1);
 	}
 	
-	/**
-	 * Returns all ontology elements that answer this question. In the case the sentence has the
-	 * form "what is (Individual)?" then the answer contains all concepts the individual belongs
-	 * to. Otherwise, the question is processed as a "DL Query" that describes a concept. In this
-	 * case, the answer consists of all individuals that belong to the concept. 
-	 * The null value is returned if the sentence is not a question.
-	 * 
-	 * @return A list of ontology elements that are the answer for the question.
-	 * @see Ontology#getAnswer(Sentence)
-	 */
-	public synchronized List<OntologyElement> getAnswer() {
-		if (!isQuestion()) return null;
-		
-		Ontology o = getOntology();
-		if (answerCacheStateID != o.getStateID()) {
-			answerCache = o.getAnswer(this);
-			answerCacheStateID = o.getStateID();
-		}
-		if (answerCache == null) {
-			return null;
-		} else {
-			return new ArrayList<OntologyElement>(answerCache);
-		}
-	}
-	
-	/**
-	 * Returns the cached answer if the sentence is a question. Null is returned if the the
-	 * sentence is no question or there is no cached answer. This returned answer might not be
-	 * up-to-date.
-	 * 
-	 * @return A list of ontology elements that are the cached answer for the question.
-	 */
-	public List<OntologyElement> getCachedAnswer() {
-		if (!isQuestion() || answerCache == null) return null;
-		return new ArrayList<OntologyElement>(answerCache);
-	}
-	
-	/**
-	 * Returns true if the sentence is a question and the answer to the question is cached and
-	 * up-to-date and thus does not have to be recalculated.
-	 * 
-	 * @return true if the answer is cached.
-	 */
-	public boolean isAnswerCached() {
-		if (!isQuestion()) return false;
-		return answerCacheStateID == getOntology().getStateID();
-	}
-	
-	private static String getUnderscoredText(TextContainer textContainer) {
+	static String getUnderscoredText(TextContainer textContainer) {
 		String t = "";
 		for (TextElement te : textContainer.getTextElements()) {
 			if (te instanceof OntologyTextElement) {
