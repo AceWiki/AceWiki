@@ -844,7 +844,7 @@ public class Ontology {
 	 * 
 	 * @param question The question to be answered.
 	 * @return A list of ontology elements that are the answer for the question.
-	 * @see Sentence#getAnswer()
+	 * @see Question#getAnswer()
 	 */
 	public synchronized List<OntologyElement> getAnswer(Question question) {
 		if (reasoner == null) return null;

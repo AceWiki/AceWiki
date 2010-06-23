@@ -43,7 +43,7 @@ public class Question extends Sentence {
 	 * case, the answer consists of all individuals that belong to the concept. 
 	 * 
 	 * @return A list of ontology elements that are the answer for the question.
-	 * @see Ontology#getAnswer(Sentence)
+	 * @see Ontology#getAnswer(Question)
 	 */
 	public synchronized List<OntologyElement> getAnswer() {
 		Ontology o = getOntology();
