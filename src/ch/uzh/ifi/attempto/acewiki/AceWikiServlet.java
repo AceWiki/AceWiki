@@ -75,9 +75,9 @@ public class AceWikiServlet extends WebContainerServlet {
 		String showpageParam = request.getParameter("showpage");
 		if ("".equals(showpageParam)) showpageParam = null;
 		String pageParam = request.getParameter("page");
-		if ("".equals(pageParam)) showpageParam = null;
+		if ("".equals(pageParam)) pageParam = null;
 		String serviceidParam = request.getParameter("serviceId");
-		if ("".equals(serviceidParam)) showpageParam = null;
+		if ("".equals(serviceidParam)) serviceidParam = null;
 
 		if (!request.getSession().isNew() && showpageParam != null) {
 			response.sendRedirect(
