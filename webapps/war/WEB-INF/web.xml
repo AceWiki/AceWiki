@@ -115,10 +115,17 @@
     </init-param>
     
     <!--
-      The 'reasoner' parameter specifies the reasoner or reasoner interface to be used. If set to
-      'HermiT' (default), the integrated HermiT reasoner is used. With 'OWLlink', the OWLlink
-      reasoner interface is applied, which can connect to reasoners like FaCT++, Pellet or HermiT
-      in a separate process (local or remote).
+      The 'reasoner' parameter specifies the reasoner or reasoner interface to be used. The
+      following options are available at the moment:
+      
+      'HermiT':  The integrated HermiT reasoner is used. This is the default.
+      'OWLlink': The OWLlink reasoner interface is applied, which can connect to reasoners like
+                 FaCT++, Pellet or HermiT in a separate process (local or remote).
+      'Pellet':  The Pellet OWL reasoner is called directly via the OWL API. Note that the AceWiki
+                 package does not contain the Pellet libraries (because of license reasons). You
+                 have to copy the files pellet-cli.jar, pellet-core.jar, pellet-datatypes.jar,
+                 pellet-el.jar, pellet-owlapiv3.jar, and pellet-rules.jar into the directory "lib".
+                 Pellet version 2.0.0 or later is needed.
     -->
     <init-param>
       <param-name>reasoner</param-name>

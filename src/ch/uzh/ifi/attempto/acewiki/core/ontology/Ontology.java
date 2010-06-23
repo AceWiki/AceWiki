@@ -48,6 +48,7 @@ import org.semanticweb.owlapi.owllink.OWLlinkHTTPXMLReasonerFactory;
 import org.semanticweb.owlapi.owllink.builtin.response.OWLlinkErrorResponseException;
 import org.semanticweb.owlapi.reasoner.InconsistentOntologyException;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import org.semanticweb.owlapi.util.OWLOntologyMerger;
 import org.semanticweb.owlapi.util.Version;
 
@@ -546,8 +547,20 @@ public class Ontology {
 			log("loading HermiT");
 			reasonerType = "HermiT";
 			reasoner = new Reasoner(owlOntology);
-		//} else if (type.equals("pellet")) {
-			//reasoner = PelletReasonerFactory.getInstance().createNonBufferingReasoner(owlOntology);
+		} else if (type.equals("pellet")) {
+			log("loading Pellet");
+			reasonerType = "Pellet";
+			// The Pellet libraries are not part of the AceWiki package (because of license
+			// reasons). For that reason, the pellet reasoner has to be loaded dynamically.
+			OWLReasonerFactory reasonerFactory = null;
+			try {
+				ClassLoader classLoader = Ontology.class.getClassLoader();
+				String className = "com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory";
+				reasonerFactory = (OWLReasonerFactory) classLoader.loadClass(className).newInstance();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			reasoner = reasonerFactory.createNonBufferingReasoner(owlOntology);
 		} else if (type.equals("owllink")) {
 			log("loading OWLlink");
 			reasonerType = "OWLlink";
