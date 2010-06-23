@@ -21,8 +21,6 @@ import static ch.uzh.ifi.attempto.ape.OutputType.PARAPHRASE1;
 import static ch.uzh.ifi.attempto.ape.OutputType.SYNTAX;
 import static ch.uzh.ifi.attempto.ape.OutputType.SYNTAXPP;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -201,69 +199,8 @@ public abstract class Sentence extends Statement {
 		return owlOntology;
 	}
 	
-	/**
-	 * Tokenizes the sentence text. A text container object is created.
-	 */
 	private void tokenize() {
-		textContainer = new TextContainer(contextChecker);
-		
-		String t = "&" + text + "&";
-		t = t.replaceAll(" ", "&");
-		t = t.replaceAll("\\.", "&.&");
-		t = t.replaceAll("\\?", "&?&");
-		t = t.replaceAll("&of&", " of&");
-		t = t.replaceAll("&by&", " by&");
-		
-		List<String> tokens = new ArrayList<String>(Arrays.asList(t.split("&")));
-		
-		while (tokens.contains("")) {
-			tokens.remove("");
-		}
-		
-		toString();
-		
-		for (String s : tokens) {
-			if (s.startsWith("<")) {
-				OntologyTextElement te;
-				try {
-					long oeId = new Long(s.substring(1, s.indexOf(",")));
-					int wordNumber = new Integer(s.substring(s.indexOf(",")+1, s.indexOf(">")));
-					OntologyElement oe = getOntology().get(oeId);
-					te = OntologyTextElement.createTextElement(oe, wordNumber);
-				} catch (Exception ex) {
-					throw new RuntimeException("Could not resolve link: " + s, ex);
-				}
-				if (te != null) {
-					textContainer.addElement(te);
-				} else {
-					throw new RuntimeException("Could not resolve link: " + s);
-				}
-			} else {
-				OntologyElement oe = getOntology().get(s);
-				
-				if (oe == null) {
-					textContainer.addElement(new TextElement(s));
-				} else {
-					// TODO: not 100% clean solution (several word forms of the same word can be
-					// identical):
-					int wordId = Arrays.asList(oe.getWords()).indexOf(s);
-					if (oe instanceof Individual) {
-						// TODO: this should probably be done at a different place...
-						Individual ind = (Individual) oe;
-						if (ind.hasDefiniteArticle(wordId-1) && textContainer.getTextElementsCount() > 0) {
-							String precedingText = textContainer.
-									getTextElement(textContainer.getTextElementsCount()-1).
-									getText();
-							if (precedingText.equals("the") || precedingText.equals("The")) {
-								textContainer.removeLastElement();
-								wordId--;
-							}
-						}
-					}
-					textContainer.addElement(OntologyTextElement.createTextElement(oe, wordId));
-				}
-			}
-		}
+		textContainer = Tokenizer.tokenize(text, getOntology());
 	}
 	
 	/**
