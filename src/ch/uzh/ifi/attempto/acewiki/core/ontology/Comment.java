@@ -38,6 +38,10 @@ public class Comment extends Statement {
 		return text;
 	}
 	
+	public String getType() {
+		return "comment";
+	}
+	
 	String serialize() {
 		return "c " + text.replaceAll("~", "~t").replaceAll("\\n", "~n") + "\n";
 	}

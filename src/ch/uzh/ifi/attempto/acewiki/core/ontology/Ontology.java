@@ -20,6 +20,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,7 @@ import java.util.Set;
 import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.io.StringDocumentSource;
+import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -36,12 +38,14 @@ import org.semanticweb.owlapi.model.OWLObjectOneOf;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLOntologySetProvider;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.owllink.OWLlinkHTTPXMLReasonerFactory;
 import org.semanticweb.owlapi.owllink.builtin.response.OWLlinkErrorResponseException;
 import org.semanticweb.owlapi.reasoner.InconsistentOntologyException;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
+import org.semanticweb.owlapi.util.OWLOntologyMerger;
 import org.semanticweb.owlapi.util.Version;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLClassImpl;
@@ -61,6 +65,8 @@ public class Ontology {
 	// TODO OWL axioms instead of OWL ontologies should be used in many cases
 	
 	private static final HashMap<String, Ontology> ontologies = new HashMap<String, Ontology>();
+	
+	private static int owlOntologyID = 0;
 	
 	private List<OntologyElement> elements = new ArrayList<OntologyElement>();
 	private Map<String, OntologyElement> wordIndex = new Hashtable<String, OntologyElement>();
@@ -275,6 +281,49 @@ public class Ontology {
 			updateDifferentIndividualsAxiom();
 		}
 		
+	}
+	
+	/**
+	 * Returns an OWL ontology object that contains the complete ontology.
+	 * 
+	 * @param consistent If true then only the consistent part of the ontology is included.
+	 * @return An OWL ontology object containing the complete ontology.
+	 */
+	public synchronized OWLOntology getOWLOntology(final boolean consistent) {
+		OWLOntology owlOntology = null;
+		OWLOntologySetProvider setProvider = new OWLOntologySetProvider() {
+			
+			public Set<OWLOntology> getOntologies() {
+				HashSet<OWLOntology> ontologies = new HashSet<OWLOntology>();
+				for (OntologyElement el : elements) {
+					for (Sentence s : el.getSentences()) {
+						if (s instanceof Question || !s.isOWL()) continue;
+						if (consistent && (!s.isReasonerParticipant() || !s.isIntegrated())) {
+							continue;
+						}
+						
+						OWLOntology o = s.getOWLOntology();
+						if (o != null) ontologies.add(o);
+					}
+				}
+				ontologies.add(differentIndividualsAxiom);
+				return ontologies;
+			}
+			
+		};
+		
+		owlOntologyID++;
+		try {
+			OWLOntologyMerger ontologyMerger = new OWLOntologyMerger(setProvider);
+			owlOntology = ontologyMerger.createMergedOntology(
+					manager,
+					IRI.create("http://attempto.ifi.uzh.ch/default/" + owlOntologyID)
+				);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		return owlOntology;
 	}
 	
 	/**
@@ -639,10 +688,6 @@ public class Ontology {
 			log("unexpected error");
 			ex.printStackTrace();
 		}
-	}
-	
-	OWLOntology getDifferentIndividualsAxiom() {
-		return differentIndividualsAxiom;
 	}
 	
 	/**

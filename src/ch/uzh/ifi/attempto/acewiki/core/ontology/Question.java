@@ -100,5 +100,9 @@ public class Question extends Sentence {
 	public boolean isReadOnly() {
 		return false;
 	}
+	
+	public String getType() {
+		return "question";
+	}
 
 }

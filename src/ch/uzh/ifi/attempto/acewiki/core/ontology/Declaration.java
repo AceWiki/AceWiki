@@ -51,5 +51,15 @@ public class Declaration extends Sentence {
 	public boolean isReadOnly() {
 		return getOwner() == null;
 	}
+	
+	public String getType() {
+		if (getOwner() == null) {
+			return "inferred";
+		} else if (isIntegrated()) {
+			return "asserted";
+		} else {
+			return "inconsistent";
+		}
+	}
 
 }

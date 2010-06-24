@@ -75,6 +75,13 @@ public abstract class Statement {
 	public abstract String getText();
 	
 	/**
+	 * This method returns a string that denotes the type of this statement.
+	 * 
+	 * @return The type of this statement.
+	 */
+	public abstract String getType();
+	
+	/**
 	 * This method returns a serialization of the statement.
 	 * 
 	 * @return The serialized representation of the statement.

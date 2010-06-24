@@ -33,7 +33,13 @@ import nextapp.echo2.app.filetransfer.Download;
 import nextapp.echo2.app.filetransfer.DownloadProvider;
 import nextapp.echo2.app.layout.GridLayoutData;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.ACELexiconExporter;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.ACETextExporter;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.LexiconTableExporter;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.OWLXMLExporter;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyExporter;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.StatementTableExporter;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.Style;
@@ -51,7 +57,6 @@ public class ExportWindow extends WindowPane implements ActionListener {
 	private static final long serialVersionUID = -8594954833738936914L;
 	
 	private Wiki wiki;
-	private OntologyExporter ontologyExporter;
 	
 	private ListBox listBox;
 
@@ -62,7 +67,6 @@ public class ExportWindow extends WindowPane implements ActionListener {
 	 */
 	public ExportWindow(Wiki wiki) {
 		this.wiki = wiki;
-		this.ontologyExporter = new OntologyExporter(wiki.getOntology());
 		
 		setTitle("Export");
 		setTitleFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
@@ -100,11 +104,13 @@ public class ExportWindow extends WindowPane implements ActionListener {
 		messageColumn.add(new VSpace());
 		
 		listBox = new ListBox(new String[] {
-				"Consistent ACE Text (.ace.txt)",
-				"Full ACE Text (.ace.txt)",
+				"ACE Text, consistent (.ace.txt)",
+				"ACE Text, full (.ace.txt)",
 				"ACE Lexicon (.lex.pl)",
-				"Consistent OWL Ontology (.owl)",
-				"Full OWL Ontology (.owl)"
+				"OWL Ontology, consistent (.owl)",
+				"OWL Ontology, full (.owl)",
+				"Lexicon Table (.csv)",
+				"Statement Table (.csv)"
 		});
 		listBox.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(11)));
 		listBox.setBackground(Style.lightBackground);
@@ -129,31 +135,24 @@ public class ExportWindow extends WindowPane implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		setVisible(false);
+		
 		if (e.getActionCommand().equals("Export")) {
-			final String ending;
-			final String content;
-			final String contenttype;
+			
+			final OntologyExporter exporter;
+			final Ontology ontology = wiki.getOntology();
 			String export = listBox.getSelectedValue().toString();
-			if (export.startsWith("Consistent OWL Ontology")) {
-				ending = ".owl";
-				contenttype = "application/owl+xml";
-				content = ontologyExporter.getOWLOntologyAsXML(true);
-			} else if (export.startsWith("Full OWL Ontology")) {
-				ending = ".owl";
-				contenttype = "application/owl+xml";
-				content = ontologyExporter.getOWLOntologyAsXML(false);
-			} else if (export.startsWith("Consistent ACE Text")) {
-				ending = ".ace.txt";
-				contenttype = "text/plain";
-				content = ontologyExporter.getACEText(true);
-			} else if (export.startsWith("Full ACE Text")) {
-				ending = ".ace.txt";
-				contenttype = "text/plain";
-				content = ontologyExporter.getACEText(false);
+			boolean consistent = export.indexOf("consistent") > 0;
+			
+			if (export.startsWith("OWL Ontology")) {
+				exporter = new OWLXMLExporter(ontology, consistent);
+			} else if (export.startsWith("ACE Text")) {
+				exporter = new ACETextExporter(ontology, consistent);
 			} else if (export.startsWith("ACE Lexicon")) {
-				ending = ".lex.pl";
-				contenttype = "text/plain";
-				content = ontologyExporter.getLexiconDef();
+				exporter = new ACELexiconExporter(ontology);
+			} else if (export.startsWith("Lexicon Table")) {
+				exporter = new LexiconTableExporter(ontology);
+			} else if (export.startsWith("Statement Table")) {
+				exporter = new StatementTableExporter(ontology);
 			} else {
 				return;
 			}
@@ -161,20 +160,19 @@ public class ExportWindow extends WindowPane implements ActionListener {
 			DownloadProvider provider = new DownloadProvider() {
 				
 				public String getContentType() {
-					return contenttype;
+					return exporter.getContentType();
 				}
 
 				public String getFileName() {
-					return wiki.getOntology().getName() + ending;
+					return ontology.getName() + exporter.getFileSuffix();
 				}
 
 				public int getSize() {
-					return content.length();
+					return -1;
 				}
 
 				public void writeFile(OutputStream out) throws IOException {
-					out.write(content.getBytes());
-					out.close();
+					exporter.export(out);
 				}
 				
 			};

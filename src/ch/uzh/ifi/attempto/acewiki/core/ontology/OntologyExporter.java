@@ -14,149 +14,118 @@
 
 package ch.uzh.ifi.attempto.acewiki.core.ontology;
 
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.List;
-import java.util.Set;
 
-import org.coode.owlapi.owlxml.renderer.OWLXMLRenderer;
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologySetProvider;
-import org.semanticweb.owlapi.util.OWLOntologyMerger;
-
-import ch.uzh.ifi.attempto.ape.LexiconEntry;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
- * This class can export AceWiki ontologies in different formats.
+ * This abstract class is used to export AceWiki ontologies in different formats.
  * 
  * @author Tobias Kuhn
  */
-public class OntologyExporter {
+public abstract class OntologyExporter {
 	
 	private final Ontology ontology;
-	private static int owlOntologyID = 0;
+	private OutputStream outputStream;
+	private Writer writer;
 	
 	/**
-	 * Creates a new exporter for the given ontology.
+	 * Initializes a new exporter for the given ontology.
 	 * 
 	 * @param ontology The ontology.
 	 */
-	public OntologyExporter(Ontology ontology) {
+	protected OntologyExporter(Ontology ontology) {
 		this.ontology = ontology;
 	}
 	
 	/**
-	 * Returns the complete ontology as an OWL/XML formatted string.
+	 * Writes the export content into the given output stream. The stream is closed at the end.
 	 * 
-	 * @param consistent If true then only the consistent part of the ontology is included.
-	 * @return A string that contains the complete ontology in OWL/XML format.
+	 * @param outputStream The output stream.
 	 */
-	public synchronized String getOWLOntologyAsXML(boolean consistent) {
-        StringWriter sw = new StringWriter();
-        try {
-            OWLXMLRenderer renderer = new OWLXMLRenderer(ontology.getOWLOntologyManager());
-            renderer.render(getOWLOntology(consistent), sw);
-            sw.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-		return sw.toString();
+	public void export(OutputStream outputStream) {
+		this.outputStream = outputStream;
+		try {
+			writeContent();
+			if (writer != null) writer.close();
+			outputStream.close();
+			this.writer = null;
+			this.outputStream = null;
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	/**
-	 * Returns an OWL ontology object that contains the complete ontology.
-	 * 
-	 * @param consistent If true then only the consistent part of the ontology is included.
-	 * @return An OWL ontology object containing the complete ontology.
+	 * This internal method should write the export content.
 	 */
-	public synchronized OWLOntology getOWLOntology(final boolean consistent) {
-		OWLOntology owlOntology = null;
-		
-		synchronized (ontology) {
-			OWLOntologySetProvider setProvider = new OWLOntologySetProvider() {
-				
-				public Set<OWLOntology> getOntologies() {
-					HashSet<OWLOntology> ontologies = new HashSet<OWLOntology>();
-					for (OntologyElement el : ontology.getOntologyElements()) {
-						for (Sentence s : el.getSentences()) {
-							if (s instanceof Question || !s.isOWL()) continue;
-							if (consistent && (!s.isReasonerParticipant() || !s.isIntegrated())) {
-								continue;
-							}
-							
-							OWLOntology o = s.getOWLOntology();
-							if (o != null) ontologies.add(o);
-						}
-					}
-					ontologies.add(ontology.getDifferentIndividualsAxiom());
-					return ontologies;
-				}
-				
-			};
-			
-			owlOntologyID++;
-			try {
-				OWLOntologyMerger ontologyMerger = new OWLOntologyMerger(setProvider);
-				owlOntology = ontologyMerger.createMergedOntology(
-						ontology.getOWLOntologyManager(),
-						IRI.create("http://attempto.ifi.uzh.ch/default/" + owlOntologyID)
-					);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}
-		
-		return owlOntology;
+	protected abstract void writeContent() throws IOException;
+	
+	/**
+	 * Returns the file suffix for the given export type.
+	 * 
+	 * @return The file suffix.
+	 */
+	public abstract String getFileSuffix();
+	
+	/**
+	 * Returns the content type for the given export type.
+	 * 
+	 * @return The content type.
+	 */
+	public abstract String getContentType();
+	
+	/**
+	 * Returns the AceWiki ontology for this exporter.
+	 * 
+	 * @return The AceWiki ontology.
+	 */
+	protected Ontology getOntology()  {
+		return ontology;
 	}
 	
 	/**
-	 * Returns the complete ontology as one ACE text.
+	 * Returns the OWL ontology manager.
 	 * 
-	 * @param consistent If true then only the consistent part of the ontology is included.
-	 * @return A string that contains the complete ontology as an ACE text.
+	 * @return The OWL ontology manager.
 	 */
-	public synchronized String getACEText(boolean consistent) {
-		String t = "";
-		List<OntologyElement> elements = ontology.getOntologyElements();
-		Collections.sort(elements);
-		for (OntologyElement oe : elements) {
-			String heading = "\n# " + oe.getHeadword() + "\n\n";
-			for (Sentence s : oe.getSentences()) {
-				if (!consistent || (s.isIntegrated() && s.isReasonerParticipant()) ) {
-					if (heading != null) {
-						t += heading;
-						heading = null;
-					}
-					t += s.getText() + "\n\n";
-				}
-			}
-		}
-		return t;
+	protected OWLOntologyManager getOWLOntologyManager() {
+		return ontology.getOWLOntologyManager();
 	}
 	
 	/**
-	 * Returns the lexicon definition for all ontology elements in the ACE lexicon format.
+	 * Returns the list of all ontology elements.
 	 * 
-	 * @return A string that contains the lexicon definition.
+	 * @return The ontology elements.
 	 */
-	public synchronized String getLexiconDef() {
-		List<String> lexiconEntries = new ArrayList<String>();
-		for (OntologyElement oe : ontology.getOntologyElements()) {
-			for (LexiconEntry le : oe.getLexiconEntries()) {
-				if (!lexiconEntries.contains(le.toString())) {
-					lexiconEntries.add(le.toString());
-				}
-			}
+	protected List<OntologyElement> getOntologyElements() {
+		return ontology.getOntologyElements();
+	}
+	
+	/**
+	 * Returns the current output stream.
+	 * 
+	 * @return The current output stream.
+	 */
+	protected OutputStream getOutputStream() {
+		return outputStream;
+	}
+	
+	/**
+	 * Writes the given string into the current output stream.
+	 * 
+	 * @param str The string to be written.
+	 */
+	protected void write(String str) throws IOException {
+		if (writer == null) {
+			writer = new BufferedWriter(new OutputStreamWriter(outputStream));
 		}
-		Collections.sort(lexiconEntries);
-		String t = "";
-		for (String s : lexiconEntries) {
-			t += s + ".\n";
-		}
-		return t;
+		writer.write(str);
 	}
 
 }
