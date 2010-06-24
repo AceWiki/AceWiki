@@ -86,9 +86,7 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 	protected void doUpdate() {
 		getTitle().setText(page.getOntologyElement().getHeadword());
 		referenceColumn.removeAll();
-		List<OntologyElement> ontologyElements = new ArrayList<OntologyElement>(
-				getWiki().getOntologyElements()
-			);
+		List<OntologyElement> ontologyElements = getWiki().getOntologyElements();
 		sentences = new ArrayList<Sentence>();
 		Collections.sort(ontologyElements);
 		for (OntologyElement oe : ontologyElements) {

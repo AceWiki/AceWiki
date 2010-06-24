@@ -18,22 +18,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.coode.owlapi.owlxml.renderer.OWLXMLRenderer;
 import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.io.StringDocumentSource;
-import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -42,20 +36,17 @@ import org.semanticweb.owlapi.model.OWLObjectOneOf;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.model.OWLOntologySetProvider;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.owllink.OWLlinkHTTPXMLReasonerFactory;
 import org.semanticweb.owlapi.owllink.builtin.response.OWLlinkErrorResponseException;
 import org.semanticweb.owlapi.reasoner.InconsistentOntologyException;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
-import org.semanticweb.owlapi.util.OWLOntologyMerger;
 import org.semanticweb.owlapi.util.Version;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLClassImpl;
 import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
 import uk.ac.manchester.cs.owl.owlapi.OWLObjectComplementOfImpl;
-import ch.uzh.ifi.attempto.ape.LexiconEntry;
 import ch.uzh.ifi.attempto.echocomp.Logger;
 
 /**
@@ -66,6 +57,8 @@ import ch.uzh.ifi.attempto.echocomp.Logger;
  * @author Tobias Kuhn
  */
 public class Ontology {
+	
+	// TODO OWL axioms instead of OWL ontologies should be used in many cases
 	
 	private static final HashMap<String, Ontology> ontologies = new HashMap<String, Ontology>();
 	
@@ -338,11 +331,11 @@ public class Ontology {
 	}
 	
 	/**
-	 * Returns all ontology elements.
+	 * Returns all ontology elements. The list is a copy of the internal list.
 	 * 
-	 * @return A collection of all ontology elements.
+	 * @return A list of all ontology elements.
 	 */
-	public Collection<OntologyElement> getOntologyElements() {
+	public List<OntologyElement> getOntologyElements() {
 		return new ArrayList<OntologyElement>(elements);
 	}
 	
@@ -375,109 +368,12 @@ public class Ontology {
 	}
 	
 	/**
-	 * Returns the complete ontology as an OWL/XML formatted string.
+	 * Returns the OWL ontology manager.
 	 * 
-	 * @param consistent If true then only the consistent part of the ontology is included.
-	 * @return A string that contains the complete ontology in OWL/XML format.
+	 * @return The OWL ontology manager.
 	 */
-	public synchronized String getOWLOntologyAsXML(boolean consistent) {
-        StringWriter sw = new StringWriter();
-        try {
-            OWLXMLRenderer renderer = new OWLXMLRenderer(manager);
-            renderer.render(getOWLOntology(consistent), sw);
-            sw.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-		return sw.toString();
-	}
-	
-	/**
-	 * Returns an OWL ontology object that contains the complete ontology.
-	 * 
-	 * @param consistent If true then only the consistent part of the ontology is included.
-	 * @return An OWL ontology object containing the complete ontology.
-	 */
-	public synchronized OWLOntology getOWLOntology(final boolean consistent) {
-		OWLOntologySetProvider setProvider = new OWLOntologySetProvider() {
-			
-			public Set<OWLOntology> getOntologies() {
-				HashSet<OWLOntology> ontologies = new HashSet<OWLOntology>();
-				for (OntologyElement el : elements) {
-					for (Sentence s : el.getSentences()) {
-						if (s instanceof Question || !s.isOWL()) continue;
-						if (consistent && (!s.isReasonerParticipant() || !s.isIntegrated())) {
-							continue;
-						}
-						
-						OWLOntology o = s.getOWLOntology();
-						if (o != null) ontologies.add(o);
-					}
-				}
-				ontologies.add(differentIndividualsAxiom);
-				return ontologies;
-			}
-			
-		};
-		
-		OWLOntology owlOntology = null;
-		try {
-			OWLOntologyMerger ontologyMerger = new OWLOntologyMerger(setProvider);
-			owlOntology = ontologyMerger.createMergedOntology(
-					manager,
-					IRI.create("http://attempto.ifi.uzh.ch/default/")
-				);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		return owlOntology;
-	}
-	
-	/**
-	 * Returns the complete ontology as one ACE text.
-	 * 
-	 * @param consistent If true then only the consistent part of the ontology is included.
-	 * @return A string that contains the complete ontology as an ACE text.
-	 */
-	public synchronized String getACEText(boolean consistent) {
-		String t = "";
-		List<OntologyElement> elementsC = new ArrayList<OntologyElement>(elements);
-		Collections.sort(elementsC);
-		for (OntologyElement oe : elementsC) {
-			String heading = "\n# " + oe.getHeadword() + "\n\n";
-			for (Sentence s : oe.getSentences()) {
-				if (!consistent || (s.isIntegrated() && s.isReasonerParticipant()) ) {
-					if (heading != null) {
-						t += heading;
-						heading = null;
-					}
-					t += s.getText() + "\n\n";
-				}
-			}
-		}
-		return t;
-	}
-	
-	/**
-	 * Returns the lexicon definition for all ontology elements in the ACE lexicon format.
-	 * 
-	 * @return A string that contains the lexicon definition.
-	 */
-	public synchronized String getLexiconDef() {
-		List<String> lexiconEntries = new ArrayList<String>();
-		for (OntologyElement oe : elements) {
-			for (LexiconEntry le : oe.getLexiconEntries()) {
-				if (!lexiconEntries.contains(le.toString())) {
-					lexiconEntries.add(le.toString());
-				}
-			}
-		}
-		Collections.sort(lexiconEntries);
-		String t = "";
-		for (String s : lexiconEntries) {
-			t += s + ".\n";
-		}
-		return t;
+	public OWLOntologyManager getOWLOntologyManager() {
+		return manager;
 	}
 	
 	/**
@@ -743,6 +639,10 @@ public class Ontology {
 			log("unexpected error");
 			ex.printStackTrace();
 		}
+	}
+	
+	OWLOntology getDifferentIndividualsAxiom() {
+		return differentIndividualsAxiom;
 	}
 	
 	/**

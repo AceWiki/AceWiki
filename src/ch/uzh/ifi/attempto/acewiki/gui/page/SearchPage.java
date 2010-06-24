@@ -108,9 +108,7 @@ public class SearchPage extends WikiPage implements ActionListener {
 			return;
 		}
 		
-		List<OntologyElement> elements = new ArrayList<OntologyElement>(
-				getWiki().getOntologyElements()
-			);
+		List<OntologyElement> elements = getWiki().getOntologyElements();
 		Collections.sort(elements);
 		
 		searchResult = new ArrayList<OntologyElement>();

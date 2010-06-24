@@ -14,7 +14,6 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui.page;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -109,9 +108,7 @@ public class StartPage extends WikiPage implements ActionListener {
 	
 	protected void doUpdate() {
 		linksColumn.removeAll();
-		List<OntologyElement> elements = new ArrayList<OntologyElement>(
-				getWiki().getOntology().getOntologyElements()
-			);
+		List<OntologyElement> elements = getWiki().getOntologyElements();
 		Collections.sort(elements,
 			new Comparator<OntologyElement>() {
 				public int compare(OntologyElement oe1, OntologyElement oe2) {

@@ -33,6 +33,7 @@ import nextapp.echo2.app.filetransfer.Download;
 import nextapp.echo2.app.filetransfer.DownloadProvider;
 import nextapp.echo2.app.layout.GridLayoutData;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyExporter;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.Style;
@@ -50,6 +51,7 @@ public class ExportWindow extends WindowPane implements ActionListener {
 	private static final long serialVersionUID = -8594954833738936914L;
 	
 	private Wiki wiki;
+	private OntologyExporter ontologyExporter;
 	
 	private ListBox listBox;
 
@@ -60,6 +62,8 @@ public class ExportWindow extends WindowPane implements ActionListener {
 	 */
 	public ExportWindow(Wiki wiki) {
 		this.wiki = wiki;
+		this.ontologyExporter = new OntologyExporter(wiki.getOntology());
+		
 		setTitle("Export");
 		setTitleFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		setModal(true);
@@ -133,23 +137,23 @@ public class ExportWindow extends WindowPane implements ActionListener {
 			if (export.startsWith("Consistent OWL Ontology")) {
 				ending = ".owl";
 				contenttype = "application/owl+xml";
-				content = wiki.getOntology().getOWLOntologyAsXML(true);
+				content = ontologyExporter.getOWLOntologyAsXML(true);
 			} else if (export.startsWith("Full OWL Ontology")) {
 				ending = ".owl";
 				contenttype = "application/owl+xml";
-				content = wiki.getOntology().getOWLOntologyAsXML(false);
+				content = ontologyExporter.getOWLOntologyAsXML(false);
 			} else if (export.startsWith("Consistent ACE Text")) {
 				ending = ".ace.txt";
 				contenttype = "text/plain";
-				content = wiki.getOntology().getACEText(true);
+				content = ontologyExporter.getACEText(true);
 			} else if (export.startsWith("Full ACE Text")) {
 				ending = ".ace.txt";
 				contenttype = "text/plain";
-				content = wiki.getOntology().getACEText(false);
+				content = ontologyExporter.getACEText(false);
 			} else if (export.startsWith("ACE Lexicon")) {
 				ending = ".lex.pl";
 				contenttype = "text/plain";
-				content = wiki.getOntology().getLexiconDef();
+				content = ontologyExporter.getLexiconDef();
 			} else {
 				return;
 			}

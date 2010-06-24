@@ -16,7 +16,6 @@ package ch.uzh.ifi.attempto.acewiki;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -426,11 +425,11 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	}
 	
 	/**
-	 * Returns all ontology elements.
+	 * Returns all ontology elements. The list is a copy of the internal list.
 	 * 
-	 * @return A collection of all ontology elements.
+	 * @return A list of all ontology elements.
 	 */
-	public Collection<OntologyElement> getOntologyElements() {
+	public List<OntologyElement> getOntologyElements() {
 		return ontology.getOntologyElements();
 	}
 	
@@ -481,7 +480,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			showStartPage();
 		} else if (e.getSource() == randomButton) {
 			log("page", "pressed: random page");
-			List<OntologyElement> elements = new ArrayList<OntologyElement>(ontology.getOntologyElements());
+			List<OntologyElement> elements = ontology.getOntologyElements();
 			if (elements.size() > 0) {
 				int r = (new Random()).nextInt(elements.size());
 				showPage(elements.get(r));
