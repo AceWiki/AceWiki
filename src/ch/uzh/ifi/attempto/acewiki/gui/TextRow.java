@@ -14,20 +14,14 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui;
 
-import java.util.Collections;
-import java.util.List;
-
 import nextapp.echo2.app.Color;
 import nextapp.echo2.app.Column;
-import nextapp.echo2.app.Font;
-import nextapp.echo2.app.Insets;
 import nextapp.echo2.app.Row;
 import nextapp.echo2.app.event.ActionEvent;
 import nextapp.echo2.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Individual;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.NounConcept;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyTextElement;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Question;
@@ -38,11 +32,9 @@ import ch.uzh.ifi.attempto.acewiki.gui.page.ArticlePage;
 import ch.uzh.ifi.attempto.acewiki.gui.page.LogicPage;
 import ch.uzh.ifi.attempto.acewiki.gui.page.SentencePage;
 import ch.uzh.ifi.attempto.acewiki.gui.page.WikiPage;
-import ch.uzh.ifi.attempto.ape.ACEUtils;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
-import ch.uzh.ifi.attempto.echocomp.VSpace;
 import ch.uzh.ifi.attempto.preditor.TextElement;
 
 /**
@@ -165,97 +157,20 @@ public class TextRow extends Column implements ActionListener {
 		
 		// Question Answering:
 		if (sentence instanceof Question && hostPage instanceof ArticlePage) {
-			// TODO: clean-up and document this ugly code.
-			
-			final Question question = (Question) sentence;
-
-			if (question.areUncertainAnswersEnabled()) {
-				Column pCol = new Column();
-				pCol.setInsets(new Insets(20, 0, 0, 0));
-				pCol.add(new SolidLabel("possibly:", Font.ITALIC, 10));
-				add(pCol);
-			}
-			
-			final Column answerColumn = new Column();
-			answerColumn.setInsets(new Insets(20, 0, 0, 0));
-			add(answerColumn);
-			
-			Column cachedAnswerCol = new Column();
-			List<OntologyElement> answer = question.getCachedAnswer();
-			if (answer == null) {
-				cachedAnswerCol.add(new SolidLabel("...", Font.ITALIC, 10));
-			} else if (answer.size() > 0) {
-				Collections.sort(answer);
-				for (OntologyElement oe : answer) {
-					Row answerRow = new Row();
-					if (oe instanceof NounConcept) {
-						String t = (ACEUtils.useIndefiniteArticleAn(oe.getWord()) ? "an" : "a");
-						answerRow.add(new ListItem(
-								new SolidLabel(t),
-								new HSpace(),
-								new WikiLink(oe, wiki)
-							));
-					} else {
-						answerRow.add(new ListItem(new WikiLink(oe, wiki)));
-					}
-					cachedAnswerCol.add(answerRow);
-				}
-			} else {
-				cachedAnswerCol.add(new SolidLabel("(no answer found)", Font.ITALIC, 10));
-			}
-			cachedAnswerCol.add(new VSpace(4));
-			
-			if (question.isAnswerCached()) {
-				
-				answerColumn.add(cachedAnswerCol);
-				
-			} else {
-				recalcIcon.setVisible(true);
-				answerColumn.add(cachedAnswerCol);
-				wiki.enqueueWeakAsyncTask(new Task() {
-					
-					private Column column;
-					
-					public void run() {
-						column = new Column();
-						List<OntologyElement> answer = question.getAnswer();
-						if (answer == null) {
-							column.add(new SolidLabel("(error)", Font.ITALIC, 10));
-						} else if (answer.size() > 0) {
-							Collections.sort(answer);
-							for (OntologyElement oe : answer) {
-								Row answerRow = new Row();
-								if (oe instanceof NounConcept) {
-									String t = "a";
-									if (ACEUtils.useIndefiniteArticleAn(oe.getWord())) {
-										t = "an";
-									}
-									answerRow.add(new ListItem(
-											new SolidLabel(t),
-											new HSpace(),
-											new WikiLink(oe, wiki)
-										));
-								} else {
-									answerRow.add(new ListItem(new WikiLink(oe, wiki)));
-								}
-								column.add(answerRow);
-							}
-						} else {
-							column.add(new SolidLabel("(no answer found)", Font.ITALIC, 10));
-						}
-						column.add(new VSpace(4));
-					}
-					
-					public void updateGUI() {
-						answerColumn.removeAll();
-						answerColumn.add(column);
-						recalcIcon.setVisible(false);
-					}
-					
-				});
-			}
-			
+			add(new AnswerList(this));
 		}
+	}
+	
+	public Wiki getWiki() {
+		return wiki;
+	}
+	
+	public Sentence getSentence() {
+		return sentence;
+	}
+	
+	public void setRecalcIconVisible(boolean visible) {
+		recalcIcon.setVisible(visible);
 	}
 
 	public void actionPerformed(ActionEvent e) {
