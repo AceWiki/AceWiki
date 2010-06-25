@@ -35,12 +35,12 @@ public class LexiconTableExporter extends OntologyExporter {
 	}
 	
 	protected void writeContent() throws IOException {
-		write("TYPE,WORD FORM 1,WORD FORM 2,WORD FORM 3,WORD FORM 4\n");
+		write("TYPE,WORD_FORM_1,WORD_FORM_2,WORD_FORM_3\n");
 		List<OntologyElement> elements = getOntologyElements();
 		Collections.sort(elements);
 		for (OntologyElement oe : elements) {
 			write(oe.getInternalType());
-			for (String word : oe.getWords()) {
+			for (String word : oe.getExternalWordList()) {
 				if (word == null) {
 					write(",");
 				} else {

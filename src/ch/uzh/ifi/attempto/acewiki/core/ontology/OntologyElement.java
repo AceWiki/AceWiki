@@ -100,6 +100,16 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 	public abstract String[] getWords();
 	
 	/**
+	 * This method returns a list that contains the word forms for external representations,
+	 * for example for exports.
+	 * 
+	 * @return The word forms.
+	 */
+	public String[] getExternalWordList() {
+		return getWords();
+	}
+	
+	/**
 	 * Returns the word form for the given word form id.
 	 * 
 	 * @param n The word form id.

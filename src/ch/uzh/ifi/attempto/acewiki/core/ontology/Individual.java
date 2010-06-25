@@ -93,6 +93,15 @@ public class Individual extends OntologyElement {
 		}
 	}
 	
+	public String[] getExternalWordList() {
+		String[] words = getWords();
+		if (abbrev == null) {
+			return new String[] {words[0]};
+		} else {
+			return new String[] {words[0], words[2]};
+		}
+	}
+	
 	public String getHeadword() {
 		if (abbrev == null) {
 			return getPrettyWord(1);
