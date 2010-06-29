@@ -18,6 +18,7 @@ import java.io.IOException;
 
 import org.coode.owlapi.owlxml.renderer.OWLXMLRenderer;
 import org.semanticweb.owlapi.io.OWLRendererException;
+import org.semanticweb.owlapi.model.OWLOntology;
 
 /**
  * This exporter generates an OWL/XML representation of the ontology.
@@ -40,9 +41,15 @@ public class OWLXMLExporter extends OntologyExporter {
 	}
 	
 	protected void writeContent() throws IOException {
+		OWLOntology owlOntology;
+		if (consistent) {
+			owlOntology = getOntology().getOWLOntology();
+		} else {
+			owlOntology = getOntology().getFullOWLOntology();
+		}
         try {
             OWLXMLRenderer renderer = new OWLXMLRenderer(getOWLOntologyManager());
-            renderer.render(getOntology().getOWLOntology(consistent), getOutputStream());
+            renderer.render(owlOntology, getOutputStream());
         } catch (OWLRendererException ex) {
             ex.printStackTrace();
         }

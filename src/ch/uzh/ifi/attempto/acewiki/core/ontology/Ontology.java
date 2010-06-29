@@ -38,14 +38,12 @@ import org.semanticweb.owlapi.model.OWLObjectOneOf;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.model.OWLOntologySetProvider;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.owllink.OWLlinkHTTPXMLReasonerFactory;
 import org.semanticweb.owlapi.owllink.builtin.response.OWLlinkErrorResponseException;
 import org.semanticweb.owlapi.reasoner.InconsistentOntologyException;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
-import org.semanticweb.owlapi.util.OWLOntologyMerger;
 import org.semanticweb.owlapi.util.Version;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLClassImpl;
@@ -63,11 +61,8 @@ import ch.uzh.ifi.attempto.echocomp.Logger;
 public class Ontology {
 	
 	// TODO OWL axioms instead of OWL ontologies should be used in many cases.
-	// TODO Direct export of the OWL ontology object, without using an ontology merger.
 	
 	private static final HashMap<String, Ontology> ontologies = new HashMap<String, Ontology>();
-	
-	private static int owlOntologyID = 0;
 	
 	private List<OntologyElement> elements = new ArrayList<OntologyElement>();
 	private Map<String, OntologyElement> wordIndex = new Hashtable<String, OntologyElement>();
@@ -81,7 +76,7 @@ public class Ontology {
 	
 	private OWLOntologyManager manager;
 	private OWLOntology owlOntology;
-	private HashMap<String, Integer> axioms = new HashMap<String, Integer>();
+	private HashMap<String, Integer> axiomsMap = new HashMap<String, Integer>();
 	private OWLReasoner reasoner;
 	private String reasonerType = "none";
 	private OWLOntology differentIndividualsAxiom;
@@ -283,48 +278,49 @@ public class Ontology {
 		}
 		
 	}
-	
+
 	/**
-	 * Returns an OWL ontology object that contains the complete ontology.
+	 * Returns an OWL ontology object representing the consistent part of the ontology.
 	 * 
-	 * @param consistent If true then only the consistent part of the ontology is included.
-	 * @return An OWL ontology object containing the complete ontology.
+	 * @return An OWL ontology object of the consistent ontology.
 	 */
-	public synchronized OWLOntology getOWLOntology(final boolean consistent) {
-		OWLOntology owlOntology = null;
-		OWLOntologySetProvider setProvider = new OWLOntologySetProvider() {
-			
-			public Set<OWLOntology> getOntologies() {
-				HashSet<OWLOntology> ontologies = new HashSet<OWLOntology>();
-				for (OntologyElement el : elements) {
-					for (Sentence s : el.getSentences()) {
-						if (s instanceof Question || !s.isOWL()) continue;
-						if (consistent && (!s.isReasonerParticipant() || !s.isIntegrated())) {
-							continue;
-						}
-						
-						OWLOntology o = s.getOWLOntology();
-						if (o != null) ontologies.add(o);
-					}
+	public synchronized OWLOntology getOWLOntology() {
+		return owlOntology;
+	}
+
+	/**
+	 * Returns an OWL ontology object representing the full ontology, including inconsistent
+	 * statements.
+	 * 
+	 * @return An OWL ontology object of the full ontology.
+	 */
+	public synchronized OWLOntology getFullOWLOntology() {
+		OWLOntology fullOWLOntology = null;
+		Set<OWLOntology> subOntologies = new HashSet<OWLOntology>();
+		for (OntologyElement el : elements) {
+			for (Sentence s : el.getSentences()) {
+				if (s instanceof Question || !s.isOWL()) continue;
+				if (!s.isReasonerParticipant() || !s.isIntegrated()) {
+					continue;
 				}
-				ontologies.add(differentIndividualsAxiom);
-				return ontologies;
+				
+				OWLOntology o = s.getOWLOntology();
+				if (o != null) subOntologies.add(o);
 			}
-			
-		};
+		}
+		subOntologies.add(differentIndividualsAxiom);
 		
-		owlOntologyID++;
 		try {
-			OWLOntologyMerger ontologyMerger = new OWLOntologyMerger(setProvider);
-			owlOntology = ontologyMerger.createMergedOntology(
-					manager,
-					IRI.create("http://attempto.ifi.uzh.ch/default/" + owlOntologyID)
+			fullOWLOntology = manager.createOntology(
+					IRI.create("http://attempto.ifi.uzh.ch/default/"),
+					subOntologies
 				);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+		manager.removeOntology(fullOWLOntology);
 		
-		return owlOntology;
+		return fullOWLOntology;
 	}
 	
 	/**
@@ -478,6 +474,8 @@ public class Ontology {
 	 * @param type The reasoner type as shown above.
 	 */
 	public void loadReasoner(String type) {
+		// TODO extract this code into a new class
+		
 		log("loading reasoner");
 		if (type == null) type = "";
 		type = type.toLowerCase();
@@ -562,7 +560,9 @@ public class Ontology {
 	 * @throws OWLOntologyCreationException If the string cannot be parsed.
 	 */
 	public OWLOntology readOWLOntology(String owlxml) throws OWLOntologyCreationException {
-		return manager.loadOntologyFromOntologyDocument(new StringDocumentSource(owlxml));
+		OWLOntology o = manager.loadOntologyFromOntologyDocument(new StringDocumentSource(owlxml));
+		manager.removeOntology(o);
+		return o;
 	}
 	
 	/**
@@ -899,13 +899,13 @@ public class Ontology {
 		
 		for (OWLAxiom ax : ontology.getAxioms()) {
 			String id = ax.toString();
-			if (axioms.get(id) == null) {
-				axioms.put(id, 0);
+			if (axiomsMap.get(id) == null) {
+				axiomsMap.put(id, 0);
 			}
-			if (axioms.get(id) == 0) {
+			if (axiomsMap.get(id) == 0) {
 				manager.addAxiom(owlOntology, ax);
 			}
-			axioms.put(id, axioms.get(id)+1);
+			axiomsMap.put(id, axiomsMap.get(id)+1);
 		}
 		
 		if (reasoner != null) reasoner.flush();
@@ -916,10 +916,10 @@ public class Ontology {
 		
 		for (OWLAxiom ax : ontology.getAxioms()) {
 			String id = ax.toString();
-			if (axioms.get(id) == 1) {
+			if (axiomsMap.get(id) == 1) {
 				manager.removeAxiom(owlOntology, ax);
 			}
-			axioms.put(id, axioms.get(id)-1);
+			axiomsMap.put(id, axiomsMap.get(id)-1);
 		}
 		
 		if (reasoner != null) reasoner.flush();
