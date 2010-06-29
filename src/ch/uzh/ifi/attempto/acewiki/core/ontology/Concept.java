@@ -17,6 +17,8 @@ package ch.uzh.ifi.attempto.acewiki.core.ontology;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.semanticweb.owlapi.model.OWLClass;
+
 /**
  * This abstract class represents a concept (other terminologies call it "unary relation", "class",
  * or "type").
@@ -146,6 +148,10 @@ public abstract class Concept extends OntologyElement {
 	 */
 	public boolean areSubConceptsCached() {
 		return subConceptsCacheStateID == getOntology().getStateID();
+	}
+	
+	public OWLClass getOWLRepresentation() {
+		return getOWLDataFactory().getOWLClass(getIRI());
 	}
 	
 }

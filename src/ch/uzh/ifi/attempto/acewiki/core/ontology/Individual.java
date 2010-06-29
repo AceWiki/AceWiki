@@ -17,6 +17,8 @@ package ch.uzh.ifi.attempto.acewiki.core.ontology;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+
 import ch.uzh.ifi.attempto.ape.Gender;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
 
@@ -238,6 +240,10 @@ public class Individual extends OntologyElement {
 	 */
 	public boolean areConceptsCached() {
 		return conceptsCacheStateID == getOntology().getStateID();
+	}
+	
+	public OWLNamedIndividual getOWLRepresentation() {
+		return getOWLDataFactory().getOWLNamedIndividual(getIRI());
 	}
 
 }

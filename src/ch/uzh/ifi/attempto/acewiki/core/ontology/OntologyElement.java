@@ -21,7 +21,10 @@ import java.util.List;
 import java.util.Vector;
 
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLLogicalEntity;
 
+import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
 
 /**
@@ -37,6 +40,8 @@ import ch.uzh.ifi.attempto.ape.LexiconEntry;
  * @author Tobias Kuhn
  */
 public abstract class OntologyElement implements Comparable<OntologyElement> {
+	
+	private static OWLDataFactory dataFactory = new OWLDataFactoryImpl();
 	
 	private Ontology ontology;
 	
@@ -448,6 +453,10 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 		return id;
 	}
 	
+	protected OWLDataFactory getOWLDataFactory() {
+		return dataFactory;
+	}
+	
 	/**
 	 * Writes the text to the log file.
 	 * 
@@ -480,6 +489,13 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 		}
 		return s;
 	}
+	
+	/**
+	 * This method returns an OWL object for the given ontology element.
+	 * 
+	 * @return An OWL object.
+	 */
+	public abstract OWLLogicalEntity getOWLRepresentation();
 
 	public int compareTo(OntologyElement e) {
 		return getHeadword().toLowerCase().compareTo(e.getHeadword().toLowerCase());

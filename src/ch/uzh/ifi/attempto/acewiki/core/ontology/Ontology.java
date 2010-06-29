@@ -28,10 +28,12 @@ import java.util.Set;
 
 import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.io.StringDocumentSource;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom;
+import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectOneOf;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -44,7 +46,6 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import org.semanticweb.owlapi.util.Version;
 
-import uk.ac.manchester.cs.owl.owlapi.OWLClassImpl;
 import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
 import uk.ac.manchester.cs.owl.owlapi.OWLObjectComplementOfImpl;
 import ch.uzh.ifi.attempto.echocomp.Logger;
@@ -59,6 +60,8 @@ import ch.uzh.ifi.attempto.echocomp.Logger;
 public class Ontology {
 	
 	private static final HashMap<String, Ontology> ontologies = new HashMap<String, Ontology>();
+	
+	private static OWLDataFactory dataFactory = new OWLDataFactoryImpl();
 	
 	private List<OntologyElement> elements = new ArrayList<OntologyElement>();
 	private Map<String, OntologyElement> wordIndex = new Hashtable<String, OntologyElement>();
@@ -75,7 +78,7 @@ public class Ontology {
 	private HashMap<String, Integer> axiomsMap = new HashMap<String, Integer>();
 	private OWLReasoner reasoner;
 	private String reasonerType = "none";
-	private OWLAxiom differentIndividualsAxiom;
+	private OWLDifferentIndividualsAxiom differentIndividualsAxiom;
 	
 	/**
 	 * Creates a new empty ontology with the given name and base URI.
@@ -300,8 +303,7 @@ public class Ontology {
 					continue;
 				}
 				
-				Set<OWLAxiom> a = s.getOWLAxioms();
-				if (a != null) axioms.addAll(a);
+				axioms.addAll(s.getOWLAxioms());
 			}
 		}
 		axioms.add(differentIndividualsAxiom);
@@ -545,20 +547,6 @@ public class Ontology {
 	}
 	
 	/**
-	 * Uses the ontology manager to read an OWL ontology from a string (that contains an ontology
-	 * in OWL-XML format).
-	 * 
-	 * @param owlxml The serialized OWL-XML ontology.
-	 * @return The OWL ontology object.
-	 * @throws OWLOntologyCreationException If the string cannot be parsed.
-	 */
-	public OWLOntology readOWLOntology(String owlxml) throws OWLOntologyCreationException {
-		OWLOntology o = manager.loadOntologyFromOntologyDocument(new StringDocumentSource(owlxml));
-		manager.removeOntology(o);
-		return o;
-	}
-	
-	/**
 	 * Commits the sentence. This means that it is added to the reasoner. An integer value is
 	 * returned that denotes the success or failure of the operation:
 	 * 0 is returned if the operation succeeds.
@@ -657,31 +645,15 @@ public class Ontology {
 			unloadAxiom(differentIndividualsAxiom);
 		}
 		
-		String owlString =
-			"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n" +
-			"<Ontology " +
-			"xml:base=\"http://www.w3.org/2002/07/owl#\" " +
-			"xmlns=\"http://www.w3.org/2002/07/owl#\" " +
-			"URI=\"" + getURI() + "/different_individuals/" + stateID + "\">\n" +
-			"\t<DifferentIndividuals>\n";
+		Set<OWLIndividual> inds = new HashSet<OWLIndividual>();
 		for (OntologyElement oe : getOntologyElements()) {
 			if (oe instanceof Individual) {
-				String word = ((Individual) oe).getWord();
-				if (word.startsWith("the ")) word = word.substring(4);
-				owlString += "\t\t<Individual IRI=\"" + ((Individual) oe).getURI() + "\" />\n";
+				inds.add(((Individual) oe).getOWLRepresentation());
 			}
 		}
-		owlString +=
-			"\t</DifferentIndividuals>\n" +
-			"</Ontology>";
+		differentIndividualsAxiom = dataFactory.getOWLDifferentIndividualsAxiom(inds);
 		
-		try {
-			differentIndividualsAxiom = readOWLOntology(owlString).getAxioms().iterator().next();
-			loadAxiom(differentIndividualsAxiom);
-		} catch (OWLOntologyCreationException ex) {
-			log("unexpected error");
-			ex.printStackTrace();
-		}
+		loadAxiom(differentIndividualsAxiom);
 		flushReasoner();
 	}
 	
@@ -695,8 +667,7 @@ public class Ontology {
 	public synchronized List<Concept> getConcepts(Individual ind) {
 		List<Concept> concepts = new ArrayList<Concept>();
 		if (reasoner == null) return concepts;
-		OWLNamedIndividual owlIndividual = (new OWLDataFactoryImpl()).getOWLNamedIndividual(ind.getIRI());
-		Set<OWLClass> owlClasses = reasoner.getTypes(owlIndividual, false).getFlattened();
+		Set<OWLClass> owlClasses = reasoner.getTypes(ind.getOWLRepresentation(), false).getFlattened();
 		for (OWLClass oc : owlClasses) {
 			if (oc.isOWLThing() || oc.isOWLNothing()) continue;
 			String conceptURI = oc.getIRI().toString();
@@ -717,8 +688,7 @@ public class Ontology {
 	public synchronized List<Individual> getIndividuals(Concept concept) {
 		List<Individual> individuals = new ArrayList<Individual>();
 		if (reasoner == null) return individuals;
-		OWLClass owlClass = new OWLClassImpl(new OWLDataFactoryImpl(), concept.getIRI());
-		Set<OWLNamedIndividual> owlIndividuals = reasoner.getInstances(owlClass, false).getFlattened();
+		Set<OWLNamedIndividual> owlIndividuals = reasoner.getInstances(concept.getOWLRepresentation(), false).getFlattened();
 		for (OWLNamedIndividual oi : owlIndividuals) {
 			String indURI = oi.getIRI().toString();
 			if (indURI.startsWith("http://attempto.ifi.uzh.ch/ace#")) continue;
@@ -740,8 +710,7 @@ public class Ontology {
 	public synchronized List<Concept> getSuperConcepts(Concept concept) {
 		List<Concept> concepts = new ArrayList<Concept>();
 		if (reasoner == null) return concepts;
-		OWLClass owlClass = new OWLClassImpl(new OWLDataFactoryImpl(), concept.getIRI());
-		Set<OWLClass> owlClasses = reasoner.getSuperClasses(owlClass, false).getFlattened();
+		Set<OWLClass> owlClasses = reasoner.getSuperClasses(concept.getOWLRepresentation(), false).getFlattened();
 		for (OWLClass oc : owlClasses) {
 			if (oc.isOWLThing() || oc.isOWLNothing()) continue;
 			String conceptURI = oc.getIRI().toString();
@@ -762,8 +731,7 @@ public class Ontology {
 	public synchronized List<Concept> getSubConcepts(Concept concept) {
 		List<Concept> concepts = new ArrayList<Concept>();
 		if (reasoner == null) return concepts;
-		OWLClass owlClass = new OWLClassImpl(new OWLDataFactoryImpl(), concept.getIRI());
-		Set<OWLClass> owlClasses = reasoner.getSubClasses(owlClass, false).getFlattened();
+		Set<OWLClass> owlClasses = reasoner.getSubClasses(concept.getOWLRepresentation(), false).getFlattened();
 		for (OWLClass oc : owlClasses) {
 			if (oc.isOWLThing() || oc.isOWLNothing()) continue;
 			String conceptURI = oc.getIRI().toString();
@@ -788,7 +756,6 @@ public class Ontology {
 	 */
 	public synchronized List<OntologyElement> getAnswer(Question question) {
 		if (reasoner == null) return null;
-		if (question.getOWLAxioms() == null) return null;
 		
 		List<OntologyElement> answer = new ArrayList<OntologyElement>();
 		
@@ -859,7 +826,7 @@ public class Ontology {
 		try {
 			// The method isConsistent is poorly supported by the implementations.
 			//reasoner.isConsistent();
-			reasoner.isSatisfiable(OWLDataFactoryImpl.getInstance().getOWLThing());
+			reasoner.isSatisfiable(dataFactory.getOWLThing());
 		} catch (InconsistentOntologyException ex) {
 			c = false;
 		}
@@ -875,8 +842,7 @@ public class Ontology {
 	public synchronized boolean isSatisfiable(Concept concept) {
 		if (reasoner == null) return true;
 		if (owlOntology.containsClassInSignature(concept.getIRI())) {
-			OWLClass owlClass = new OWLClassImpl(new OWLDataFactoryImpl(), concept.getIRI());
-			return reasoner.isSatisfiable(owlClass);
+			return reasoner.isSatisfiable(concept.getOWLRepresentation());
 		} else {
 			return true;
 		}

@@ -25,9 +25,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.io.StringDocumentSource;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 import ch.uzh.ifi.attempto.ape.ACEParserResult;
 import ch.uzh.ifi.attempto.ape.APELocal;
@@ -57,6 +60,8 @@ public abstract class Sentence extends Statement {
 	 * The context checker used for AceWiki.
 	 */
 	public static final ContextChecker contextChecker = new EnglishContextChecker(true, true);
+	
+	private static OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
 	
 	private String text;
 	private boolean integrated = false;
@@ -278,7 +283,7 @@ public abstract class Sentence extends Statement {
 		owlAxioms = null;
 		if (isOWL) {
 			try {
-				OWLOntology owlOntology = getOntology().readOWLOntology(owlxml);
+				OWLOntology owlOntology = createOWLOntology(owlxml);
 				if (owlOntology.isEmpty()) {
 					reasonerParticipant = false;
 					isOWL = false;
@@ -374,6 +379,12 @@ public abstract class Sentence extends Statement {
 			t = t.substring(1);
 		}
 		return t;
+	}
+	
+	private static OWLOntology createOWLOntology(String owlxml) throws OWLOntologyCreationException {
+		OWLOntology o = ontologyManager.loadOntologyFromOntologyDocument(new StringDocumentSource(owlxml));
+		ontologyManager.removeOntology(o);
+		return o;
 	}
 	
 	String serialize() {

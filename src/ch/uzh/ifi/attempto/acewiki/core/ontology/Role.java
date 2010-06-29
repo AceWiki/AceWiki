@@ -14,6 +14,8 @@
 
 package ch.uzh.ifi.attempto.acewiki.core.ontology;
 
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+
 /**
  * This abstract class represents a role (other terminologies call it "binary relation" or
  * "property").
@@ -26,6 +28,10 @@ public abstract class Role extends OntologyElement {
 	 * Initializes the role.
 	 */
 	protected Role() {
+	}
+	
+	public OWLObjectProperty getOWLRepresentation() {
+		return getOWLDataFactory().getOWLObjectProperty(getIRI());
 	}
 
 }
