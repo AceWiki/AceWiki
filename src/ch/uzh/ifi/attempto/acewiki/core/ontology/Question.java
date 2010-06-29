@@ -17,6 +17,10 @@ package ch.uzh.ifi.attempto.acewiki.core.ontology;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+
 /**
  * This class represents ACE questions.
  * 
@@ -91,6 +95,24 @@ public class Question extends Sentence {
 	 */
 	public boolean isAnswerCached() {
 		return answerCacheStateID == getOntology().getStateID();
+	}
+	
+	/**
+	 * Returns the OWL class expression for this question. All individuals that belong to this
+	 * class expression can be considered answers to the question.
+	 * 
+	 * @return The OWL class expression.
+	 */
+	public OWLClassExpression getQuestionClass() {
+		OWLSubClassOfAxiom questionOWLAxiom = null;
+		for (OWLAxiom ax : getOWLAxioms()) {
+			if (ax instanceof OWLSubClassOfAxiom) {
+				questionOWLAxiom = (OWLSubClassOfAxiom) ax;
+				break;
+			}
+		}
+		if (questionOWLAxiom == null) return null;
+		return questionOWLAxiom.getSubClass();
 	}
 	
 	public boolean isReasonerParticipant() {

@@ -29,7 +29,6 @@ import java.util.Set;
 import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.io.StringDocumentSource;
-import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -38,7 +37,6 @@ import org.semanticweb.owlapi.model.OWLObjectOneOf;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.owllink.OWLlinkHTTPXMLReasonerFactory;
 import org.semanticweb.owlapi.owllink.builtin.response.OWLlinkErrorResponseException;
 import org.semanticweb.owlapi.reasoner.InconsistentOntologyException;
@@ -60,8 +58,6 @@ import ch.uzh.ifi.attempto.echocomp.Logger;
  */
 public class Ontology {
 	
-	// TODO OWL axioms instead of OWL ontologies should be used in many cases.
-	
 	private static final HashMap<String, Ontology> ontologies = new HashMap<String, Ontology>();
 	
 	private List<OntologyElement> elements = new ArrayList<OntologyElement>();
@@ -79,7 +75,7 @@ public class Ontology {
 	private HashMap<String, Integer> axiomsMap = new HashMap<String, Integer>();
 	private OWLReasoner reasoner;
 	private String reasonerType = "none";
-	private OWLOntology differentIndividualsAxiom;
+	private OWLAxiom differentIndividualsAxiom;
 	
 	/**
 	 * Creates a new empty ontology with the given name and base URI.
@@ -164,7 +160,7 @@ public class Ontology {
 			pb2.addOne();
 			for (Sentence s : oe.getSentences()) {
 				if (s.isReasonerParticipant() && s.isIntegrated()) {
-					ontology.loadOntology(s.getOWLOntology());
+					ontology.loadSentence(s);
 				}
 			}
 		}
@@ -296,7 +292,7 @@ public class Ontology {
 	 */
 	public synchronized OWLOntology getFullOWLOntology() {
 		OWLOntology fullOWLOntology = null;
-		Set<OWLOntology> subOntologies = new HashSet<OWLOntology>();
+		Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
 		for (OntologyElement el : elements) {
 			for (Sentence s : el.getSentences()) {
 				if (s instanceof Question || !s.isOWL()) continue;
@@ -304,17 +300,14 @@ public class Ontology {
 					continue;
 				}
 				
-				OWLOntology o = s.getOWLOntology();
-				if (o != null) subOntologies.add(o);
+				Set<OWLAxiom> a = s.getOWLAxioms();
+				if (a != null) axioms.addAll(a);
 			}
 		}
-		subOntologies.add(differentIndividualsAxiom);
+		axioms.add(differentIndividualsAxiom);
 		
 		try {
-			fullOWLOntology = manager.createOntology(
-					IRI.create("http://attempto.ifi.uzh.ch/default/"),
-					subOntologies
-				);
+			fullOWLOntology = manager.createOntology(axioms);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -591,7 +584,7 @@ public class Ontology {
 		boolean errorEncountered = false;
 		
 		try {
-			loadOntology(sentence.getOWLOntology());
+			loadSentence(sentence);
 		} catch (OutOfMemoryError err) {
 			log("error: out of memory");
 			System.gc();
@@ -617,12 +610,12 @@ public class Ontology {
 		log("check for consistency");
 		if (errorEncountered) {
 			log("error encountered!");
-			unloadOntology(sentence.getOWLOntology());
+			unloadSentence(sentence);
 			// TODO return a different value here:
 			return 1;
 		} else if (inconsistencyEncountered || !isConsistent()) {
 			log("not consistent!");
-			unloadOntology(sentence.getOWLOntology());
+			unloadSentence(sentence);
 			return 1;
 		} else {
 			log("consistent!");
@@ -646,7 +639,7 @@ public class Ontology {
 		
 		log("retract sentence");
 		stateID++;
-		unloadOntology(sentence.getOWLOntology());
+		unloadSentence(sentence);
 		sentence.setIntegrated(false);
 	}
 	
@@ -661,7 +654,7 @@ public class Ontology {
 	private synchronized void updateDifferentIndividualsAxiom() {
 		if (reasoner == null) return;
 		if (differentIndividualsAxiom != null) {
-			unloadOntology(differentIndividualsAxiom);
+			unloadAxiom(differentIndividualsAxiom);
 		}
 		
 		String owlString =
@@ -683,12 +676,13 @@ public class Ontology {
 			"</Ontology>";
 		
 		try {
-			differentIndividualsAxiom = readOWLOntology(owlString);
-			loadOntology(differentIndividualsAxiom);
+			differentIndividualsAxiom = readOWLOntology(owlString).getAxioms().iterator().next();
+			loadAxiom(differentIndividualsAxiom);
 		} catch (OWLOntologyCreationException ex) {
 			log("unexpected error");
 			ex.printStackTrace();
 		}
+		flushReasoner();
 	}
 	
 	/**
@@ -794,30 +788,26 @@ public class Ontology {
 	 */
 	public synchronized List<OntologyElement> getAnswer(Question question) {
 		if (reasoner == null) return null;
-
-		OWLOntology o = question.getOWLOntology();
-		if (o == null || o.isEmpty()) return null;
-		//loadOntology(o);
+		if (question.getOWLAxioms() == null) return null;
 		
 		List<OntologyElement> answer = new ArrayList<OntologyElement>();
 		
 		try {
-			OWLSubClassOfAxiom answerOWLAxiom = (OWLSubClassOfAxiom) o.getLogicalAxioms().iterator().next();
-			OWLClassExpression answerOWLClass1 = answerOWLAxiom.getSubClass();
-			//OWLClassExpression answerOWLClass2 = answerOWLAxiom.getSuperClass();
+			OWLClassExpression questionOWLClass = question.getQuestionClass();
+			if (questionOWLClass == null) return null;
 			
 			if (question.areUncertainAnswersEnabled()) {
-				answerOWLClass1 = new OWLObjectComplementOfImpl(manager.getOWLDataFactory(), answerOWLClass1);
+				questionOWLClass = new OWLObjectComplementOfImpl(manager.getOWLDataFactory(), questionOWLClass);
 			}
 			
 			OWLObjectOneOf oneof = null;
-			if (answerOWLClass1 instanceof OWLObjectOneOf) {
-				oneof = ((OWLObjectOneOf) answerOWLClass1);
+			if (questionOWLClass instanceof OWLObjectOneOf) {
+				oneof = ((OWLObjectOneOf) questionOWLClass);
 			}
 			
 			if (oneof != null && oneof.getIndividuals().size() == 1) {
 				// TODO: check this class cast:
-				OWLNamedIndividual oi = (OWLNamedIndividual) ((OWLObjectOneOf) answerOWLClass1).getIndividuals().iterator().next();
+				OWLNamedIndividual oi = (OWLNamedIndividual) ((OWLObjectOneOf) questionOWLClass).getIndividuals().iterator().next();
 				Set<OWLClass> owlClasses = reasoner.getTypes(oi, false).getFlattened();
 				for (OWLClass owlClass : owlClasses) {
 					String classURI = owlClass.getIRI().toString();
@@ -828,7 +818,7 @@ public class Ontology {
 					}
 				}
 			} else {
-				Set<OWLNamedIndividual> owlIndividuals = reasoner.getInstances(answerOWLClass1, false).getFlattened();
+				Set<OWLNamedIndividual> owlIndividuals = reasoner.getInstances(questionOWLClass, false).getFlattened();
 				for (OWLNamedIndividual oi : owlIndividuals) {
 					String indURI = oi.getIRI().toString();
 					if (indURI.startsWith("http://attempto.ifi.uzh.ch/ace#")) continue;
@@ -843,8 +833,6 @@ public class Ontology {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		
-		//unloadOntology(o);
 		
 		if (question.areUncertainAnswersEnabled()) {
 			List<OntologyElement> realAnswer = new ArrayList<OntologyElement>();
@@ -894,35 +882,41 @@ public class Ontology {
 		}
 	}
 	
-	private void loadOntology(OWLOntology ontology) {
-		if (ontology == null) return;
-		
-		for (OWLAxiom ax : ontology.getAxioms()) {
-			String id = ax.toString();
-			if (axiomsMap.get(id) == null) {
-				axiomsMap.put(id, 0);
-			}
-			if (axiomsMap.get(id) == 0) {
-				manager.addAxiom(owlOntology, ax);
-			}
-			axiomsMap.put(id, axiomsMap.get(id)+1);
-		}
-		
+	private void flushReasoner() {
 		if (reasoner != null) reasoner.flush();
 	}
 	
-	private void unloadOntology(OWLOntology ontology) {
-		if (ontology == null) return;
-		
-		for (OWLAxiom ax : ontology.getAxioms()) {
-			String id = ax.toString();
-			if (axiomsMap.get(id) == 1) {
-				manager.removeAxiom(owlOntology, ax);
-			}
-			axiomsMap.put(id, axiomsMap.get(id)-1);
+	private void loadSentence(Sentence sentence) {
+		for (OWLAxiom ax : sentence.getOWLAxioms()) {
+			loadAxiom(ax);
 		}
-		
-		if (reasoner != null) reasoner.flush();
+		flushReasoner();
+	}
+	
+	private void unloadSentence(Sentence sentence) {
+		for (OWLAxiom ax : sentence.getOWLAxioms()) {
+			unloadAxiom(ax);
+		}
+		flushReasoner();
+	}
+	
+	private void loadAxiom(OWLAxiom ax) {
+		String id = ax.toString();
+		if (axiomsMap.get(id) == null) {
+			axiomsMap.put(id, 0);
+		}
+		if (axiomsMap.get(id) == 0) {
+			manager.addAxiom(owlOntology, ax);
+		}
+		axiomsMap.put(id, axiomsMap.get(id)+1);
+	}
+	
+	private void unloadAxiom(OWLAxiom ax) {
+		String id = ax.toString();
+		if (axiomsMap.get(id) == 1) {
+			manager.removeAxiom(owlOntology, ax);
+		}
+		axiomsMap.put(id, axiomsMap.get(id)-1);
 	}
 	
 	private long nextId() {

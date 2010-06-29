@@ -21,8 +21,11 @@ import static ch.uzh.ifi.attempto.ape.OutputType.PARAPHRASE1;
 import static ch.uzh.ifi.attempto.ape.OutputType.SYNTAX;
 import static ch.uzh.ifi.attempto.ape.OutputType.SYNTAXPP;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
@@ -65,7 +68,7 @@ public abstract class Sentence extends Statement {
 	private Boolean reasonerParticipant;
 	private Boolean isOWL;
 	private Boolean isOWLSWRL;
-	private OWLOntology owlOntology;
+	private Set<OWLAxiom> owlAxioms;
 	
 	/**
 	 * Initializes a new sentence with the given ontology element as its owner.
@@ -186,17 +189,18 @@ public abstract class Sentence extends Statement {
 	}
 	
 	/**
-	 * Returns the OWL ontology object that contains the OWL representation of this
-	 * sentence. Null is returned if there is no OWL representation of this sentence
-	 * or if the creation of the OWL ontology object failed.
+	 * Returns a set of OWL axioms that represent this sentence.
 	 * 
-	 * @return The OWL ontology object.
+	 * @return The OWL axioms.
 	 */
-	public OWLOntology getOWLOntology() {
+	public Set<OWLAxiom> getOWLAxioms() {
 		if (owlxml == null) {
 			parse();
 		}
-		return owlOntology;
+		if (owlAxioms == null) {
+			owlAxioms = new HashSet<OWLAxiom>();
+		}
+		return owlAxioms;
 	}
 	
 	private void tokenize() {
@@ -271,14 +275,16 @@ public abstract class Sentence extends Statement {
 		isOWLSWRL =
 			(mc.getMessages("owl").size() == 0) &&
 			(owlxml.length() > 0);
-		owlOntology = null;
+		owlAxioms = null;
 		if (isOWL) {
 			try {
-				owlOntology = getOntology().readOWLOntology(owlxml);
+				OWLOntology owlOntology = getOntology().readOWLOntology(owlxml);
 				if (owlOntology.isEmpty()) {
 					reasonerParticipant = false;
 					isOWL = false;
 					isOWLSWRL = false;
+				} else {
+					owlAxioms = owlOntology.getAxioms();
 				}
 			} catch (OWLOntologyCreationException ex) {
 				ex.printStackTrace();
