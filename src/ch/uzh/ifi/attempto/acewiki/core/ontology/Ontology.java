@@ -62,7 +62,8 @@ import ch.uzh.ifi.attempto.echocomp.Logger;
  */
 public class Ontology {
 	
-	// TODO OWL axioms instead of OWL ontologies should be used in many cases
+	// TODO OWL axioms instead of OWL ontologies should be used in many cases.
+	// TODO Direct export of the OWL ontology object, without using an ontology merger.
 	
 	private static final HashMap<String, Ontology> ontologies = new HashMap<String, Ontology>();
 	
