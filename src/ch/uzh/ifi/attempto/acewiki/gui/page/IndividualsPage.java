@@ -47,7 +47,7 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 
 	private static final long serialVersionUID = 4273564259160715684L;
 
-	private static final int pageSize = 20;
+	private static final int pageSize = 50;
 	
 	private ConceptPage page;
 	private Column individualsColumn = new Column();

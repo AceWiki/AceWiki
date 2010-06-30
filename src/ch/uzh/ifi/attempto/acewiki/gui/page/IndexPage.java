@@ -43,7 +43,7 @@ public class IndexPage extends WikiPage implements ActionListener {
 
 	private static final long serialVersionUID = 6061966610996079528L;
 	
-	private static final int pageSize = 25;
+	private static final int pageSize = 50;
 	
 	private String chosenChar = "A";
 	private int chosenPage = 0;

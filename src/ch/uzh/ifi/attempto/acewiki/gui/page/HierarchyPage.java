@@ -46,7 +46,7 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 
 	private static final long serialVersionUID = 3126817139010810197L;
 
-	private static final int pageSize = 15;
+	private static final int pageSize = 25;
 	
 	private ConceptPage page;
 	private RecalcIcon upRecalcIcon = new RecalcIcon("This list is being updated.");

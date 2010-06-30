@@ -46,7 +46,7 @@ public class SearchPage extends WikiPage implements ActionListener {
 
 	private static final long serialVersionUID = 7192145568847087174L;
 	
-	private static final int pageSize = 20;
+	private static final int pageSize = 50;
 	
 	private int chosenPage = 0;
 	private List<OntologyElement> searchResult;

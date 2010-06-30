@@ -33,6 +33,7 @@ import ch.uzh.ifi.attempto.acewiki.gui.IndexBar;
 import ch.uzh.ifi.attempto.acewiki.gui.TextRow;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.acewiki.gui.WikiLink;
+import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
 
@@ -45,7 +46,7 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 
 	private static final long serialVersionUID = 1025665226113017153L;
 
-	private static final int pageSize = 15;
+	private static final int pageSize = 50;
 	
 	private ArticlePage page;
 	private Column referenceColumn = new Column();
@@ -135,6 +136,10 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 				line.setInsets(new Insets(0, 1, 0, 0));
 				c.add(line);
 				r.add(c);
+				if (i > 0 && sentences.get(i-1).getOwner() == oe) {
+					r.add(new HSpace());
+					r.add(new SolidLabel("(continued)", Font.ITALIC, 10));
+				}
 				referenceColumn.add(new VSpace());
 				referenceColumn.add(r);
 			}

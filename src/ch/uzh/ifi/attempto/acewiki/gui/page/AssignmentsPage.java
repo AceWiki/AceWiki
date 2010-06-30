@@ -47,7 +47,7 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 
 	private static final long serialVersionUID = -6955789540998283993L;
 
-	private static final int pageSize = 20;
+	private static final int pageSize = 50;
 	
 	private IndividualPage page;
 	private Column assignmentsColumn = new Column();
