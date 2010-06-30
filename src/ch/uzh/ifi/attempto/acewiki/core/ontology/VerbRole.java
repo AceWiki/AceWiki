@@ -93,6 +93,10 @@ public class VerbRole extends Role {
 			throw new RuntimeException("Illegal passive word form: " + s);
 		}
 	}
+	
+	public String getURISuffix() {
+		return getWord(1);
+	}
 
 	List<LexiconEntry> getLexiconEntries() {
 		List<LexiconEntry> entries = new ArrayList<LexiconEntry>();

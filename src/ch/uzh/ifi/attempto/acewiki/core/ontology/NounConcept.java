@@ -52,6 +52,10 @@ public class NounConcept extends Concept {
 		singular = words[0];
 		plural = words[1];
 	}
+	
+	public String getURISuffix() {
+		return getWord(0);
+	}
 
 	List<LexiconEntry> getLexiconEntries() {
 		List<LexiconEntry> entries = new ArrayList<LexiconEntry>();

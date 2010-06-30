@@ -21,10 +21,13 @@ import java.util.List;
 import java.util.Vector;
 
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLLogicalEntity;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
+import uk.ac.manchester.cs.owl.owlapi.OWLDeclarationAxiomImpl;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
 
 /**
@@ -411,7 +414,7 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 		if (ontology != null) {
 			ontologyURI = ontology.getURI();
 		}
-		return ontologyURI + getURISuffix();
+		return ontologyURI + "#" + getURISuffix();
 	}
 	
 	/**
@@ -432,14 +435,12 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 	}
 	
 	/**
-	 * Returns the URI suffix of this ontology element. For example "#country".
+	 * Returns the URI suffix of this ontology element. For example "country".
 	 * 
 	 * @return The URI suffix.
 	 * @see #getURI()
 	 */
-	public String getURISuffix() {
-		return "#" + getWord();
-	}
+	public abstract String getURISuffix();
 	
 	public IRI getIRI() {
 		return IRI.create(getURIString());
@@ -496,6 +497,19 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 	 * @return An OWL object.
 	 */
 	public abstract OWLLogicalEntity getOWLRepresentation();
+	
+	/**
+	 * This method returns an OWL axiom that declares the given ontology element.
+	 * 
+	 * @return An OWL declaration axiom.
+	 */
+	public OWLDeclarationAxiom getOWLDeclaration() {
+		return new OWLDeclarationAxiomImpl(
+				dataFactory,
+				getOWLRepresentation(),
+				new ArrayList<OWLAnnotation>()
+			);
+	}
 
 	public int compareTo(OntologyElement e) {
 		return getHeadword().toLowerCase().compareTo(e.getHeadword().toLowerCase());

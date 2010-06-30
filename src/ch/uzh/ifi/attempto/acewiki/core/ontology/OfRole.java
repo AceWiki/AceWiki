@@ -85,6 +85,10 @@ public class OfRole extends Role {
 			throw new RuntimeException("Illegal of-construct: " + n);
 		}
 	}
+	
+	public String getURISuffix() {
+		return getNoun();
+	}
 
 	List<LexiconEntry> getLexiconEntries() {
 		List<LexiconEntry> entries = new ArrayList<LexiconEntry>();

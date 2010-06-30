@@ -203,7 +203,7 @@ public class Individual extends OntologyElement {
 	}
 	
 	public String getURISuffix() {
-		return "#" + word;
+		return word;
 	}
 	
 	/**

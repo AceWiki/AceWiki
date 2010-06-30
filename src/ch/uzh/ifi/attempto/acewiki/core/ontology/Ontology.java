@@ -161,6 +161,7 @@ public class Ontology {
 		ConsoleProgressBar pb2 = new ConsoleProgressBar(ontology.elements.size());
 		for (OntologyElement oe : ontology.elements) {
 			pb2.addOne();
+			ontology.loadElement(oe);
 			for (Sentence s : oe.getSentences()) {
 				if (s.isReasonerParticipant() && s.isIntegrated()) {
 					ontology.loadSentence(s);
@@ -219,32 +220,11 @@ public class Ontology {
 			}
 		}
 		
+		loadElement(element);
 		if (element instanceof Individual) {
 			updateDifferentIndividualsAxiom();
 		}
-		
-	}
-	
-	synchronized void removeFromWordIndex(OntologyElement oe) {
-		for (String word : oe.getWords()) {
-			if (word != null) {
-				wordIndex.remove(word);
-			}
-		}
-	}
-	
-	synchronized void addToWordIndex(OntologyElement oe) {
-		for (String word : oe.getWords()) {
-			if (word != null) {
-				if (wordIndex.get(word) == null) {
-					wordIndex.put(word, oe);
-				} else if (wordIndex.get(word) != oe) {
-					throw new RuntimeException(
-							"Word update failed: The word '" + word + "' is already used."
-						);
-				}
-			}
-		}
+		flushReasoner();
 	}
 	
 	/**
@@ -272,10 +252,35 @@ public class Ontology {
 		}
 		save(element);
 		
+		unloadElement(element);
 		if (element instanceof Individual) {
 			updateDifferentIndividualsAxiom();
 		}
-		
+		flushReasoner();
+	}
+	
+	synchronized void removeFromWordIndex(OntologyElement oe) {
+		for (String word : oe.getWords()) {
+			if (word != null) {
+				wordIndex.remove(word);
+			}
+		}
+		unloadElement(oe);
+	}
+	
+	synchronized void addToWordIndex(OntologyElement oe) {
+		for (String word : oe.getWords()) {
+			if (word != null) {
+				if (wordIndex.get(word) == null) {
+					wordIndex.put(word, oe);
+				} else if (wordIndex.get(word) != oe) {
+					throw new RuntimeException(
+							"Word update failed: The word '" + word + "' is already used."
+						);
+				}
+			}
+		}
+		loadElement(oe);
 	}
 
 	/**
@@ -294,26 +299,24 @@ public class Ontology {
 	 * @return An OWL ontology object of the full ontology.
 	 */
 	public synchronized OWLOntology getFullOWLOntology() {
-		OWLOntology fullOWLOntology = null;
 		Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
 		for (OntologyElement el : elements) {
+			axioms.add(el.getOWLDeclaration());
 			for (Sentence s : el.getSentences()) {
 				if (s instanceof Question || !s.isOWL()) continue;
-				if (!s.isReasonerParticipant() || !s.isIntegrated()) {
-					continue;
-				}
-				
+				if (!s.isReasonerParticipant() || !s.isIntegrated()) continue;
 				axioms.addAll(s.getOWLAxioms());
 			}
 		}
 		axioms.add(differentIndividualsAxiom);
-		
+
+		OWLOntology fullOWLOntology = null;
 		try {
 			fullOWLOntology = manager.createOntology(axioms);
+			manager.removeOntology(fullOWLOntology);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		manager.removeOntology(fullOWLOntology);
 		
 		return fullOWLOntology;
 	}
@@ -473,7 +476,8 @@ public class Ontology {
 	
 	/**
 	 * Loads a reasoner or reasoner interface. Currently supported are the HermiT reasoner
-	 * ("HermiT"), the OWLlink interface ("OWLlink"), or none ("none").
+	 * ("HermiT"), the Pellet reasoner ("Pellet"), the OWLlink interface ("OWLlink"), or none
+	 * ("none").
 	 * 
 	 * @param type The reasoner type as shown above.
 	 */
@@ -528,6 +532,7 @@ public class Ontology {
 			reasoner = null;
 		}
 		updateDifferentIndividualsAxiom();
+		flushReasoner();
 		
 		log("reasoner loaded");
 	}
@@ -663,7 +668,6 @@ public class Ontology {
 		differentIndividualsAxiom = dataFactory.getOWLDifferentIndividualsAxiom(inds);
 		
 		loadAxiom(differentIndividualsAxiom);
-		flushReasoner();
 	}
 	
 	/**
@@ -838,6 +842,16 @@ public class Ontology {
 	
 	private void flushReasoner() {
 		if (reasoner != null) reasoner.flush();
+	}
+	
+	private void loadElement(OntologyElement element) {
+		manager.addAxiom(owlOntology, element.getOWLDeclaration());
+		flushReasoner();
+	}
+	
+	private void unloadElement(OntologyElement element) {
+		manager.removeAxiom(owlOntology, element.getOWLDeclaration());
+		flushReasoner();
 	}
 	
 	private void loadSentence(Sentence sentence) {

@@ -49,6 +49,10 @@ public class TrAdjRole extends Role {
 	protected void changeWords(String... words) {
 		word = words[0];
 	}
+	
+	public String getURISuffix() {
+		return getWord(0);
+	}
 
 	List<LexiconEntry> getLexiconEntries() {
 		List<LexiconEntry> entries = new ArrayList<LexiconEntry>();
