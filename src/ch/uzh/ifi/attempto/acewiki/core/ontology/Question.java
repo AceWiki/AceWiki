@@ -19,6 +19,9 @@ import java.util.List;
 
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObjectOneOf;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
 /**
@@ -32,6 +35,10 @@ public class Question extends Sentence {
 	
 	private List<OntologyElement> answerCache;
 	private long answerCacheStateID = -1;
+	
+	private OWLClassExpression questionOWLClass;
+	private OWLNamedIndividual questionOWLIndividual;
+	private boolean recalculateOWLEntities = true;
 	
 	/**
 	 * Creates a new question.
@@ -103,7 +110,27 @@ public class Question extends Sentence {
 	 * 
 	 * @return The OWL class expression.
 	 */
-	public OWLClassExpression getQuestionClass() {
+	public OWLClassExpression getQuestionOWLClass() {
+		calculateQuestionOWLEntities();
+		return questionOWLClass;
+	}
+
+	/**
+	 * Returns the OWL individual for this question. For questions like "What is Switzerland?", the
+	 * respective individual ("Switzerland") is returned. In all other cases, null is returned.
+	 * 
+	 * @return The OWL individual.
+	 */
+	public OWLNamedIndividual getQuestionOWLIndividual() {
+		calculateQuestionOWLEntities();
+		return questionOWLIndividual;
+	}
+	
+	private void calculateQuestionOWLEntities() {
+		if (!recalculateOWLEntities) return;
+		questionOWLClass = null;
+		questionOWLIndividual = null;
+		
 		OWLSubClassOfAxiom questionOWLAxiom = null;
 		for (OWLAxiom ax : getOWLAxioms()) {
 			if (ax instanceof OWLSubClassOfAxiom) {
@@ -111,8 +138,26 @@ public class Question extends Sentence {
 				break;
 			}
 		}
-		if (questionOWLAxiom == null) return null;
-		return questionOWLAxiom.getSubClass();
+		if (questionOWLAxiom != null) {
+			questionOWLClass = questionOWLAxiom.getSubClass();
+		}
+		
+		if (questionOWLClass instanceof OWLObjectOneOf) {
+			OWLObjectOneOf oneof = ((OWLObjectOneOf) questionOWLClass);
+			if (oneof != null && oneof.getIndividuals().size() == 1) {
+				OWLIndividual owlInd = oneof.getIndividuals().iterator().next();
+				if (owlInd instanceof OWLNamedIndividual) {
+					questionOWLIndividual = (OWLNamedIndividual) owlInd;
+				}
+			}
+		}
+		
+		recalculateOWLEntities = false;
+	}
+	
+	void parse() {
+		recalculateOWLEntities = true;
+		super.parse();
 	}
 	
 	public boolean isReasonerParticipant() {

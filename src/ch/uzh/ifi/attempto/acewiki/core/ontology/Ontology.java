@@ -34,8 +34,8 @@ import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom;
 import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLLogicalEntity;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import org.semanticweb.owlapi.model.OWLObjectOneOf;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
@@ -359,6 +359,15 @@ public class Ontology {
 	 */
 	public OntologyElement get(String name) {
 		return wordIndex.get(name);
+	}
+	
+	private OntologyElement get(OWLLogicalEntity owlEntity) {
+		if (owlEntity == null) return null;
+		if (owlEntity.isTopEntity() || owlEntity.isBottomEntity()) return null;
+		String iri = owlEntity.getIRI().toString();
+		if (!iri.startsWith(getURI())) return null;
+		String name = iri.substring(iri.indexOf("#") + 1);
+		return get(name);
 	}
 	
 	/**
@@ -686,18 +695,16 @@ public class Ontology {
 	 * @see Concept#getIndividuals()
 	 */
 	public synchronized List<Individual> getIndividuals(Concept concept) {
-		List<Individual> individuals = new ArrayList<Individual>();
-		if (reasoner == null) return individuals;
-		Set<OWLNamedIndividual> owlIndividuals = reasoner.getInstances(concept.getOWLRepresentation(), false).getFlattened();
-		for (OWLNamedIndividual oi : owlIndividuals) {
-			String indURI = oi.getIRI().toString();
-			if (indURI.startsWith("http://attempto.ifi.uzh.ch/ace#")) continue;
-			String indName = indURI.substring(indURI.indexOf("#") + 1);
-			if (!indName.matches("Ind[0-9]+")) {
-				individuals.add((Individual) get(indName));
+		List<Individual> inds = new ArrayList<Individual>();
+		if (reasoner == null) return inds;
+		Set<OWLNamedIndividual> owlInds = reasoner.getInstances(concept.getOWLRepresentation(), false).getFlattened();
+		for (OWLNamedIndividual oi : owlInds) {
+			OntologyElement oe = get(oi);
+			if (oe instanceof Individual) {
+				inds.add((Individual) oe);
 			}
 		}
-		return individuals;
+		return inds;
 	}
 	
 	/**
@@ -712,11 +719,10 @@ public class Ontology {
 		if (reasoner == null) return concepts;
 		Set<OWLClass> owlClasses = reasoner.getSuperClasses(concept.getOWLRepresentation(), false).getFlattened();
 		for (OWLClass oc : owlClasses) {
-			if (oc.isOWLThing() || oc.isOWLNothing()) continue;
-			String conceptURI = oc.getIRI().toString();
-			if (conceptURI.startsWith("http://attempto.ifi.uzh.ch/ace#")) continue;
-			String conceptName = conceptURI.substring(conceptURI.indexOf("#") + 1);
-			concepts.add((Concept) get(conceptName));
+			OntologyElement oe = get(oc);
+			if (oe instanceof Concept) {
+				concepts.add((Concept) oe);
+			}
 		}
 		return concepts;
 	}
@@ -733,11 +739,10 @@ public class Ontology {
 		if (reasoner == null) return concepts;
 		Set<OWLClass> owlClasses = reasoner.getSubClasses(concept.getOWLRepresentation(), false).getFlattened();
 		for (OWLClass oc : owlClasses) {
-			if (oc.isOWLThing() || oc.isOWLNothing()) continue;
-			String conceptURI = oc.getIRI().toString();
-			if (conceptURI.startsWith("http://attempto.ifi.uzh.ch/ace#")) continue;
-			String conceptName = conceptURI.substring(conceptURI.indexOf("#") + 1);
-			concepts.add((Concept) get(conceptName));
+			OntologyElement oe = get(oc);
+			if (oe instanceof Concept) {
+				concepts.add((Concept) oe);
+			}
 		}
 		return concepts;
 	}
@@ -759,46 +764,29 @@ public class Ontology {
 		
 		List<OntologyElement> answer = new ArrayList<OntologyElement>();
 		
-		try {
-			OWLClassExpression questionOWLClass = question.getQuestionClass();
-			if (questionOWLClass == null) return null;
-			
-			if (question.areUncertainAnswersEnabled()) {
-				questionOWLClass = new OWLObjectComplementOfImpl(manager.getOWLDataFactory(), questionOWLClass);
-			}
-			
-			OWLObjectOneOf oneof = null;
-			if (questionOWLClass instanceof OWLObjectOneOf) {
-				oneof = ((OWLObjectOneOf) questionOWLClass);
-			}
-			
-			if (oneof != null && oneof.getIndividuals().size() == 1) {
-				// TODO: check this class cast:
-				OWLNamedIndividual oi = (OWLNamedIndividual) ((OWLObjectOneOf) questionOWLClass).getIndividuals().iterator().next();
-				Set<OWLClass> owlClasses = reasoner.getTypes(oi, false).getFlattened();
-				for (OWLClass owlClass : owlClasses) {
-					String classURI = owlClass.getIRI().toString();
-					if (classURI.startsWith("http://attempto.ifi.uzh.ch/ace#")) continue;
-					String className = classURI.substring(classURI.indexOf("#") + 1);
-					if (!owlClass.isOWLThing() && !owlClass.isOWLNothing()) {
-						answer.add(get(className));
-					}
-				}
-			} else {
-				Set<OWLNamedIndividual> owlIndividuals = reasoner.getInstances(questionOWLClass, false).getFlattened();
-				for (OWLNamedIndividual oi : owlIndividuals) {
-					String indURI = oi.getIRI().toString();
-					if (indURI.startsWith("http://attempto.ifi.uzh.ch/ace#")) continue;
-					String indName = indURI.substring(indURI.indexOf("#") + 1);
-					
-					// TODO: This check is not 100% clean (only proper names should be checked):
-					if (wordIndex.containsKey(indName)) {
-						answer.add(get(indName));
-					}
+		OWLNamedIndividual quInd = question.getQuestionOWLIndividual();
+		OWLClassExpression quClass = question.getQuestionOWLClass();
+		
+		if (question.areUncertainAnswersEnabled() && quClass != null) {
+			quClass = new OWLObjectComplementOfImpl(manager.getOWLDataFactory(), quClass);
+		}
+		
+		if (quInd != null) {
+			Set<OWLClass> owlClasses = reasoner.getTypes(quInd, false).getFlattened();
+			for (OWLClass oc : owlClasses) {
+				OntologyElement oe = get(oc);
+				if (oe instanceof Concept) {
+					answer.add(oe);
 				}
 			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		} else if (quClass != null) {
+			Set<OWLNamedIndividual> owlInds = reasoner.getInstances(quClass, false).getFlattened();
+			for (OWLNamedIndividual oi : owlInds) {
+				OntologyElement oe = get(oi);
+				if (oe instanceof Individual) {
+					answer.add(oe);
+				}
+			}
 		}
 		
 		if (question.areUncertainAnswersEnabled()) {
@@ -825,8 +813,8 @@ public class Ontology {
 		boolean c = true;
 		try {
 			// The method isConsistent is poorly supported by the implementations.
-			//reasoner.isConsistent();
-			reasoner.isSatisfiable(dataFactory.getOWLThing());
+			//c = reasoner.isConsistent();
+			c = reasoner.isSatisfiable(dataFactory.getOWLThing());
 		} catch (InconsistentOntologyException ex) {
 			c = false;
 		}
