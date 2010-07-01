@@ -7,7 +7,7 @@ class ConsoleProgressBar {
 	
 	private int maxPoints;
 	private int progress = 0;
-	private int percentage = 0;
+	private int steps = 0;
 	
 	/**
 	 * Creates and starts a new progress bar.
@@ -34,20 +34,20 @@ class ConsoleProgressBar {
 	public void add(int points) {
 		if (points < 0) return;
 		progress += points;
-		int newPercentage;
+		int s;
 		if (maxPoints == 0) {
-			newPercentage = 100;
+			s = 40;
 		} else {
-			newPercentage = (100 * progress) / maxPoints;
+			s = (40 * progress) / maxPoints;
 		}
-		for (int i = percentage+1 ; i <= newPercentage ; i++) {
-			if (i % 10 == 0) {
-				System.err.print(i + "%");
-			} else if (i % 2 == 0) {
+		for (int i = steps+1 ; i <= s ; i++) {
+			if (i % 4 == 0) {
+				System.err.print((int) (i * 2.5) + "%");
+			} else {
 				System.err.print(".");
 			}
 		}
-		percentage = newPercentage;
+		steps = s;
 	}
 	
 	/**
