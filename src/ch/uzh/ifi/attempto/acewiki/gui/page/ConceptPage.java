@@ -16,6 +16,7 @@ package ch.uzh.ifi.attempto.acewiki.gui.page;
 
 import nextapp.echo2.app.Color;
 import nextapp.echo2.app.event.ActionEvent;
+import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.NounConcept;
@@ -68,14 +69,22 @@ public class ConceptPage extends ArticlePage {
 		Thread thread = new Thread() {
 			public void run() {
 				synchronized (getWiki().getApplication()) {
-					getWiki().enqueueTask(new Runnable() {
+					getWiki().enqueueWeakAsyncTask(new Task() {
+						
+						private boolean satisfiable;
+						
 						public void run() {
-							if (concept.getOntology().isSatisfiable(concept)) {
+							satisfiable = concept.getOntology().isSatisfiable(concept);
+						}
+						
+						public void updateGUI() {
+							if (satisfiable) {
 								getTitle().setColor(Color.BLACK);
 							} else {
 								getTitle().setColor(new Color(193, 0, 0));
 							}
 						}
+						
 					});
 					try {
 						sleep(500);
