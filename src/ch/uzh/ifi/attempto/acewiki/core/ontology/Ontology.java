@@ -75,7 +75,7 @@ public class Ontology {
 	
 	private OWLOntologyManager manager;
 	private OWLOntology owlOntology;
-	private HashMap<String, Integer> axiomsMap = new HashMap<String, Integer>();
+	private HashMap<OWLAxiom, Integer> axiomsMap = new HashMap<OWLAxiom, Integer>();
 	private OWLReasoner reasoner;
 	private String reasonerType = "none";
 	private OWLDifferentIndividualsAxiom differentIndividualsAxiom;
@@ -869,22 +869,20 @@ public class Ontology {
 	}
 	
 	private void loadAxiom(OWLAxiom ax) {
-		String id = ax.toString();
-		if (axiomsMap.get(id) == null) {
-			axiomsMap.put(id, 0);
-		}
-		if (axiomsMap.get(id) == 0) {
+		Integer count = axiomsMap.get(ax);
+		if (count == null) count = 0;
+		if (count == 0) {
 			manager.addAxiom(owlOntology, ax);
 		}
-		axiomsMap.put(id, axiomsMap.get(id)+1);
+		axiomsMap.put(ax, count+1);
 	}
 	
 	private void unloadAxiom(OWLAxiom ax) {
-		String id = ax.toString();
-		if (axiomsMap.get(id) == 1) {
+		Integer count = axiomsMap.get(ax);
+		if (count == 1) {
 			manager.removeAxiom(owlOntology, ax);
 		}
-		axiomsMap.put(id, axiomsMap.get(id)-1);
+		axiomsMap.put(ax, count-1);
 	}
 	
 	private long nextId() {
