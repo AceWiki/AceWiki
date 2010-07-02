@@ -71,9 +71,7 @@ public class SentenceEditorHandler implements ActionListener {
 		editorWindow.setContextChecker(Sentence.contextChecker);
 		
 		if (edit) {
-			String t = ((Sentence) statement).getPrettyText();
-			// remove the last element (i.e. the period '.' or question mark '?'):
-			editorWindow.addText(t.substring(0, t.length()-1) + " ");
+			editorWindow.addText(((Sentence) statement).getPrettyText() + " ");
 		}
 	}
 	
