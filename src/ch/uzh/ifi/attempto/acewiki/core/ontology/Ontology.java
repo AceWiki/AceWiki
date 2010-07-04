@@ -654,7 +654,6 @@ public class Ontology {
 	 * name assumption is applied.
 	 */
 	private synchronized void updateDifferentIndividualsAxiom() {
-		if (reasoner == null) return;
 		if (differentIndividualsAxiom != null) {
 			unloadAxiom(differentIndividualsAxiom);
 		}
