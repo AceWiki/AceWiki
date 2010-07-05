@@ -37,6 +37,7 @@ public class StatementFactory {
 	 * 
 	 * @param text The sentence text.
 	 * @param owner The owner ontology element.
+	 * @return The new declaration.
 	 */
 	public static Declaration createDeclaration(String text, OntologyElement owner) {
 		return new Declaration(text, owner);
@@ -48,6 +49,7 @@ public class StatementFactory {
 	 * 
 	 * @param text The sentence text.
 	 * @param ontology The ontology.
+	 * @return The new declaration.
 	 */
 	public static Declaration createDeclaration(String text, Ontology ontology) {
 		return new Declaration(text, ontology);
@@ -58,6 +60,7 @@ public class StatementFactory {
 	 * 
 	 * @param text The question text.
 	 * @param owner The owner ontology element.
+	 * @return The new declaration.
 	 */
 	protected Question createQuestion(String text, OntologyElement owner) {
 		return new Question(text, owner);
@@ -68,6 +71,7 @@ public class StatementFactory {
 	 * 
 	 * @param text The comment text.
 	 * @param owner The owner ontology element.
+	 * @return The new comment.
 	 */
 	public static Comment createComment(String text, OntologyElement owner) {
 		return new Comment(text, owner);

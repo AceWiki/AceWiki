@@ -202,7 +202,7 @@ public class Individual extends OntologyElement {
 		return abbrev.replace("_", " ");
 	}
 	
-	public String getURISuffix() {
+	public String getIRISuffix() {
 		return word;
 	}
 	

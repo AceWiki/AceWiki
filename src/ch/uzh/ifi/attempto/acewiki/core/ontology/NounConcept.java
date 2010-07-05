@@ -53,7 +53,7 @@ public class NounConcept extends Concept {
 		plural = words[1];
 	}
 	
-	public String getURISuffix() {
+	public String getIRISuffix() {
 		return getWord(0);
 	}
 

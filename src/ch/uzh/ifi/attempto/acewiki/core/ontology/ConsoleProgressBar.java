@@ -29,7 +29,7 @@ class ConsoleProgressBar {
 	/**
 	 * Increases the progress bar by the specified amount of points.
 	 * 
-	 * @param addPoints The number of points to be added.
+	 * @param points The number of points to be added.
 	 */
 	public void add(int points) {
 		if (points < 0) return;

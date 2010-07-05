@@ -329,6 +329,12 @@ public abstract class Sentence extends Statement {
 		this.integrated = integrated;
 	}
 	
+	/**
+	 * This method returns whether the sentence can be changed or not. Inferred sentences, for
+	 * example, cannot be changed.
+	 * 
+	 * @return true if this sentence cannot be changed.
+	 */
 	public abstract boolean isReadOnly();
 	
 	/**

@@ -14,8 +14,6 @@
 
 package ch.uzh.ifi.attempto.acewiki.core.ontology;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -409,42 +407,28 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 		return null;
 	}
 	
-	private String getURIString() {
-		String ontologyURI = "";
+	/**
+	 * Returns the IRI of the ontology element. This IRI is a concatenation of the
+	 * ontology IRI and the IRI suffix of the ontology element.
+	 * 
+	 * @return The IRI.
+	 * @see #getIRISuffix()
+	 */
+	public final IRI getIRI() {
+		String baseIRI = "";
 		if (ontology != null) {
-			ontologyURI = ontology.getURI();
+			baseIRI = ontology.getURI();
 		}
-		return ontologyURI + "#" + getURISuffix();
+		return IRI.create(baseIRI + "#" + getIRISuffix());
 	}
 	
 	/**
-	 * Returns the URI of the ontology element. This URI is a concatenation of the
-	 * ontology URI and the URI suffix of the ontology element.
+	 * Returns the IRI suffix of this ontology element. For example "country".
 	 * 
-	 * @return The URI.
-	 * @see #getURISuffix()
+	 * @return The IRI suffix.
+	 * @see #getIRI()
 	 */
-	public final URI getURI() {
-		URI uri = null;
-		try {
-			uri = new URI(getURIString());
-		} catch (URISyntaxException ex) {
-			ex.printStackTrace();
-		}
-		return uri;
-	}
-	
-	/**
-	 * Returns the URI suffix of this ontology element. For example "country".
-	 * 
-	 * @return The URI suffix.
-	 * @see #getURI()
-	 */
-	public abstract String getURISuffix();
-	
-	public IRI getIRI() {
-		return IRI.create(getURIString());
-	}
+	public abstract String getIRISuffix();
 	
 	final void setId(long id) {
 		this.id = id;
@@ -454,6 +438,12 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 		return id;
 	}
 	
+	/**
+	 * Returns an OWL data factory. Subclasses use this factory to create their OWL
+	 * representations.
+	 * 
+	 * @return OWL data factory.
+	 */
 	protected OWLDataFactory getOWLDataFactory() {
 		return dataFactory;
 	}

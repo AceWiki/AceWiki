@@ -7,3 +7,4 @@ test
 ./*.jar
 ./webapps/war/WEB-INF/lib
 ./lib/pellet-*.jar
+./.settings

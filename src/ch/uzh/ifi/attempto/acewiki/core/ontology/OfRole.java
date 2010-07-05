@@ -86,7 +86,7 @@ public class OfRole extends Role {
 		}
 	}
 	
-	public String getURISuffix() {
+	public String getIRISuffix() {
 		return getNoun();
 	}
 

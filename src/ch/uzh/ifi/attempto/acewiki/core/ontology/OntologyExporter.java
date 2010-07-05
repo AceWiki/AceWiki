@@ -65,6 +65,8 @@ public abstract class OntologyExporter {
 	
 	/**
 	 * This internal method should write the export content.
+	 * 
+	 * @throws IOException when an IO problem occurs.
 	 */
 	protected abstract void writeContent() throws IOException;
 	
@@ -122,6 +124,7 @@ public abstract class OntologyExporter {
 	 * Writes the given string into the current output stream.
 	 * 
 	 * @param str The string to be written.
+	 * @throws IOException when an IO problem occurs.
 	 */
 	protected void write(String str) throws IOException {
 		if (writer == null) {

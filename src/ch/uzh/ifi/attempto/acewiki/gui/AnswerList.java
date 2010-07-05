@@ -41,23 +41,27 @@ class AnswerList extends Column {
 	
 	private static final long serialVersionUID = -2489300900348078442L;
 	
+	private Wiki wiki;
+	private Question question;
+	private RecalcIcon recalcIcon;
+	
 	/**
-	 * Creates a new answer list.
+	 * Creates a new answer list for a given question.
 	 * 
-	 * @param textRow The text row for the answer list.
+	 * @param wiki The wiki object.
+	 * @param question The question for which the answers should be shown.
+	 * @param recalcIcon The recalculation icon.
 	 */
-	public AnswerList(final TextRow textRow) {
+	public AnswerList(Wiki wiki, Question question, RecalcIcon recalcIcon) {
+		this.wiki = wiki;
+		this.question = question;
+		this.recalcIcon = recalcIcon;
+		calculateAnswers();
+	}
+	
+	private void calculateAnswers() {
 		
 		// TODO: clean-up and document this ugly code.
-		
-		final Wiki wiki = textRow.getWiki();
-		final Question question;
-		
-		if (textRow.getSentence() instanceof Question) {
-			question = (Question) textRow.getSentence();
-		} else {
-			return;
-		}
 		
 		if (question.isShowPossibleAnswersEnabled()) {
 			Column pCol = new Column();
@@ -100,7 +104,7 @@ class AnswerList extends Column {
 			answerColumn.add(cachedAnswerCol);
 			
 		} else {
-			textRow.setRecalcIconVisible(true);
+			recalcIcon.setVisible(true);
 			answerColumn.add(cachedAnswerCol);
 			wiki.enqueueWeakAsyncTask(new Task() {
 				
@@ -139,7 +143,7 @@ class AnswerList extends Column {
 				public void updateGUI() {
 					answerColumn.removeAll();
 					answerColumn.add(column);
-					textRow.setRecalcIconVisible(false);
+					recalcIcon.setVisible(false);
 				}
 				
 			});

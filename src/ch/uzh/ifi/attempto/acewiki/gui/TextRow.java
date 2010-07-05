@@ -165,20 +165,8 @@ public class TextRow extends Column implements ActionListener {
 		
 		// Question Answering:
 		if (sentence instanceof Question && hostPage instanceof ArticlePage) {
-			add(new AnswerList(this));
+			add(new AnswerList(wiki, (Question) sentence, recalcIcon));
 		}
-	}
-	
-	public Wiki getWiki() {
-		return wiki;
-	}
-	
-	public Sentence getSentence() {
-		return sentence;
-	}
-	
-	public void setRecalcIconVisible(boolean visible) {
-		recalcIcon.setVisible(visible);
 	}
 
 	public void actionPerformed(ActionEvent e) {

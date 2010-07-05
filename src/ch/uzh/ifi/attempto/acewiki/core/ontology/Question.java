@@ -50,10 +50,22 @@ public class Question extends Sentence {
 		super(text, owner);
 	}
 	
+	/**
+	 * Returns true if this question is set to show possible answers (instead of necessary
+	 * answers). The "possible answers" feature is experimental.
+	 * 
+	 * @return true if possible answers should be shown.
+	 */
 	public boolean isShowPossibleAnswersEnabled() {
 		return showPossibleAnswers;
 	}
 	
+	/**
+	 * Defines whether possible answers should be shown for this question (instead of necessary
+	 * answers). The "possible answers" feature is experimental.
+	 * 
+	 * @param showPossibleAnswers defines whether possible answers should be shown.
+	 */
 	public void setShowPossibleAnswersEnabled(boolean showPossibleAnswers) {
 		if (this.showPossibleAnswers == showPossibleAnswers) return;
 		answerCache = null;

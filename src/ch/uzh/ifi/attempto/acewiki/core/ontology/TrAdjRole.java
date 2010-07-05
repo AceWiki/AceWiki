@@ -50,7 +50,7 @@ public class TrAdjRole extends Role {
 		word = words[0];
 	}
 	
-	public String getURISuffix() {
+	public String getIRISuffix() {
 		return getWord(0);
 	}
 

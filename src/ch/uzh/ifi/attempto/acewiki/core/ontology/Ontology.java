@@ -470,6 +470,11 @@ public class Ontology {
 		return v.getMajor() + "." + v.getMinor() + "." + v.getPatch() + "." + v.getBuild();
 	}
 	
+	/**
+	 * Checks whether a reasoner has been loaded.
+	 * 
+	 * @return true if a reasoner has been loaded.
+	 */
 	public boolean isReasonerLoaded() {
 		return (reasoner != null);
 	}

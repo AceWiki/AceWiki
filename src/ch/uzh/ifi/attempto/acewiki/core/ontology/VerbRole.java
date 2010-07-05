@@ -94,7 +94,7 @@ public class VerbRole extends Role {
 		}
 	}
 	
-	public String getURISuffix() {
+	public String getIRISuffix() {
 		return getWord(1);
 	}
 
