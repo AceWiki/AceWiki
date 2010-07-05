@@ -41,12 +41,7 @@ public class OWLXMLExporter extends OntologyExporter {
 	}
 	
 	protected void writeContent() throws IOException {
-		OWLOntology owlOntology;
-		if (consistent) {
-			owlOntology = getOntology().getOWLOntology();
-		} else {
-			owlOntology = getOntology().getFullOWLOntology();
-		}
+		OWLOntology owlOntology = getOntology().exportOWLOntology(consistent);
         try {
             OWLXMLRenderer renderer = new OWLXMLRenderer(getOWLOntologyManager());
             renderer.render(owlOntology, getOutputStream());

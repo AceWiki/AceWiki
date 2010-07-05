@@ -50,6 +50,8 @@ import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
 import uk.ac.manchester.cs.owl.owlapi.OWLObjectComplementOfImpl;
 import ch.uzh.ifi.attempto.echocomp.Logger;
 
+// TODO Synchronization is not 100% secure.
+
 /**
  * This class represents an AceWiki ontology which consists of ontology element definitions and
  * of ontological statements. Each ontology element has its own article that consists of
@@ -284,27 +286,19 @@ public class Ontology {
 	}
 
 	/**
-	 * Returns an OWL ontology object representing the consistent part of the ontology.
+	 * Returns a new OWL ontology object representing the full ontology or the consistent part of
+	 * it.
 	 * 
-	 * @return An OWL ontology object of the consistent ontology.
-	 */
-	public synchronized OWLOntology getOWLOntology() {
-		return owlOntology;
-	}
-
-	/**
-	 * Returns an OWL ontology object representing the full ontology, including inconsistent
-	 * statements.
-	 * 
+	 * @param consistent true if only the consistent part should be exported.
 	 * @return An OWL ontology object of the full ontology.
 	 */
-	public synchronized OWLOntology getFullOWLOntology() {
+	public synchronized OWLOntology exportOWLOntology(boolean consistent) {
 		Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
 		for (OntologyElement el : elements) {
 			axioms.add(el.getOWLDeclaration());
 			for (Sentence s : el.getSentences()) {
 				if (s instanceof Question || !s.isOWL()) continue;
-				if (!s.isReasonerParticipant() || !s.isIntegrated()) continue;
+				if (consistent && (!s.isReasonerParticipant() || !s.isIntegrated())) continue;
 				axioms.addAll(s.getOWLAxioms());
 			}
 		}
