@@ -79,14 +79,22 @@ public class TextRow extends Column implements ActionListener {
 		} else {
 			dropDown = new DropDownMenu(DropDownMenu.NOREASONING_TYPE, this);
 		}
-		if (sentence instanceof Question && "on".equals(wiki.getParameter("possibleAnswers"))) {
-			if (((Question) sentence).areUncertainAnswersEnabled()) {
-				dropDown.addMenuEntry("Show necessary Answers");
-			} else {
-				dropDown.addMenuEntry("Show possible Answers");
+
+		// Experimental "possible answers" feature:
+		if ("on".equals(wiki.getParameter("possibleAnswers"))) {
+			Question question = null;
+			if (sentence instanceof Question) question = (Question) sentence;
+			
+			if (question != null && question.getQuestionOWLIndividual() == null) {
+				if (question.isShowPossibleAnswersEnabled()) {
+					dropDown.addMenuEntry("Necessary Answers");
+				} else {
+					dropDown.addMenuEntry("Possible Answers");
+				}
+				dropDown.addMenuSeparator();
 			}
-			dropDown.addMenuSeparator();
 		}
+		
 		if (!sentence.isIntegrated() && !sentence.isReadOnly()) {
 			dropDown.addMenuEntry("Reassert");
 			dropDown.addMenuSeparator();
@@ -201,11 +209,11 @@ public class TextRow extends Column implements ActionListener {
 					"Yes",
 					"No"
 				));
-		} else if (e.getActionCommand().equals("Show necessary Answers")) {
-			((Question) sentence).setUncertainAnswersEnabled(false);
+		} else if (e.getActionCommand().equals("Necessary Answers")) {
+			((Question) sentence).setShowPossibleAnswersEnabled(false);
 			update();
-		} else if (e.getActionCommand().equals("Show possible Answers")) {
-			((Question) sentence).setUncertainAnswersEnabled(true);
+		} else if (e.getActionCommand().equals("Possible Answers")) {
+			((Question) sentence).setShowPossibleAnswersEnabled(true);
 			update();
 		} else if (e.getActionCommand().equals("Reassert")) {
 			int success = sentence.reassert();

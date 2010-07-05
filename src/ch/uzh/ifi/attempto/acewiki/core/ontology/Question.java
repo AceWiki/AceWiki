@@ -31,7 +31,7 @@ import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
  */
 public class Question extends Sentence {
 	
-	private boolean uncertainAnswers = false;
+	private boolean showPossibleAnswers = false;
 	
 	private List<OntologyElement> answerCache;
 	private long answerCacheStateID = -1;
@@ -50,15 +50,15 @@ public class Question extends Sentence {
 		super(text, owner);
 	}
 	
-	public boolean areUncertainAnswersEnabled() {
-		return uncertainAnswers;
+	public boolean isShowPossibleAnswersEnabled() {
+		return showPossibleAnswers;
 	}
 	
-	public void setUncertainAnswersEnabled(boolean uncertainAnswers) {
-		if (this.uncertainAnswers == uncertainAnswers) return;
+	public void setShowPossibleAnswersEnabled(boolean showPossibleAnswers) {
+		if (this.showPossibleAnswers == showPossibleAnswers) return;
 		answerCache = null;
 		answerCacheStateID = -1;
-		this.uncertainAnswers = uncertainAnswers;
+		this.showPossibleAnswers = showPossibleAnswers;
 	}
 	
 	/**

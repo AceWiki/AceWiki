@@ -59,7 +59,7 @@ class AnswerList extends Column {
 			return;
 		}
 		
-		if (question.areUncertainAnswersEnabled()) {
+		if (question.isShowPossibleAnswersEnabled()) {
 			Column pCol = new Column();
 			pCol.setInsets(new Insets(20, 0, 0, 0));
 			pCol.add(new SolidLabel("possibly:", Font.ITALIC, 10));

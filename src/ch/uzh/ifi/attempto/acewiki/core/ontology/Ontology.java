@@ -770,7 +770,7 @@ public class Ontology {
 		OWLNamedIndividual quInd = question.getQuestionOWLIndividual();
 		OWLClassExpression quClass = question.getQuestionOWLClass();
 		
-		if (question.areUncertainAnswersEnabled() && quClass != null) {
+		if (question.isShowPossibleAnswersEnabled() && quClass != null) {
 			quClass = new OWLObjectComplementOfImpl(manager.getOWLDataFactory(), quClass);
 		}
 		
@@ -792,7 +792,7 @@ public class Ontology {
 			}
 		}
 		
-		if (question.areUncertainAnswersEnabled()) {
+		if (question.isShowPossibleAnswersEnabled()) {
 			List<OntologyElement> realAnswer = new ArrayList<OntologyElement>();
 			for (OntologyElement oe : getOntologyElements()) {
 				if (oe instanceof Individual && !answer.contains(oe)) {
