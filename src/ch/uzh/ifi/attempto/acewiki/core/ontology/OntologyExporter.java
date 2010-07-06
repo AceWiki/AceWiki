@@ -51,9 +51,7 @@ public abstract class OntologyExporter {
 	public void export(OutputStream outputStream) {
 		this.outputStream = outputStream;
 		try {
-			synchronized (ontology) {
-				writeContent();
-			}
+			writeContent();
 			if (writer != null) writer.close();
 			outputStream.close();
 			this.writer = null;

@@ -292,9 +292,9 @@ public class Ontology {
 	 * @param consistent true if only the consistent part should be exported.
 	 * @return An OWL ontology object of the full ontology.
 	 */
-	public synchronized OWLOntology exportOWLOntology(boolean consistent) {
+	public OWLOntology exportOWLOntology(boolean consistent) {
 		Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
-		for (OntologyElement el : elements) {
+		for (OntologyElement el : getOntologyElements()) {
 			axioms.add(el.getOWLDeclaration());
 			for (Sentence s : el.getSentences()) {
 				if (s instanceof Question || !s.isOWL()) continue;
@@ -303,7 +303,7 @@ public class Ontology {
 			}
 		}
 		axioms.add(differentIndividualsAxiom);
-
+		
 		OWLOntology fullOWLOntology = null;
 		try {
 			fullOWLOntology = manager.createOntology(axioms);
