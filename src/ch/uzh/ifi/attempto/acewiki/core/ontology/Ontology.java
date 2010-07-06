@@ -41,7 +41,6 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.owllink.OWLlinkHTTPXMLReasonerFactory;
 import org.semanticweb.owlapi.owllink.builtin.response.OWLlinkErrorResponseException;
-import org.semanticweb.owlapi.reasoner.InconsistentOntologyException;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import org.semanticweb.owlapi.util.Version;
@@ -817,7 +816,7 @@ public class Ontology {
 			// The method isConsistent is poorly supported by the implementations.
 			//c = reasoner.isConsistent();
 			c = reasoner.isSatisfiable(dataFactory.getOWLThing());
-		} catch (InconsistentOntologyException ex) {
+		} catch (Exception ex) {
 			c = false;
 		}
 		return c;
