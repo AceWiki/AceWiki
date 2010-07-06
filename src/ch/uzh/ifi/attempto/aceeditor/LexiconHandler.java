@@ -14,7 +14,8 @@
 
 package ch.uzh.ifi.attempto.aceeditor;
 
-import java.io.FileInputStream;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,14 +45,13 @@ class LexiconHandler {
 			return;
 		}
 		try {
-			FileInputStream in = new FileInputStream(lexiconFile);
-			byte[] bytes = new byte[in.available()];
-			in.read(bytes);
-			in.close();
-			String[] lines = (new String(bytes)).split("\n");
-			for (String s : lines) {
-				addWord(s);
+			BufferedReader in = new BufferedReader(new FileReader(lexiconFile));
+			String line = in.readLine();
+			while (line != null) {
+				addWord(line);
+				line = in.readLine();
 			}
+			in.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
