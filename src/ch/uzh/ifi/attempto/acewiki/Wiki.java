@@ -141,7 +141,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		ontology = Ontology.loadOntology(
 				getParameter("ontology"),
 				getParameter("baseuri"),
-				getParameter("globalRestrictionsPolicy")
+				getParameter("global_restrictions_policy")
 			);
 		if (!ontology.isReasonerLoaded()) {
 			ontology.loadReasoner(getParameter("reasoner"));

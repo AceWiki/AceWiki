@@ -81,7 +81,7 @@ public class TextRow extends Column implements ActionListener {
 		}
 
 		// Experimental "possible answers" feature:
-		if ("on".equals(wiki.getParameter("possibleAnswers"))) {
+		if ("on".equals(wiki.getParameter("possible_answers"))) {
 			Question question = null;
 			if (sentence instanceof Question) question = (Question) sentence;
 			
