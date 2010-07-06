@@ -264,7 +264,6 @@ public abstract class Sentence extends Statement {
 		reasonerParticipant =
 			(mc.getMessages("owl").size() == 0) &&
 			(owlxml.indexOf("<swrl:Imp>") < 0) &&
-			(owlxml.indexOf("<ObjectHasSelf>") < 0) &&
 			(owlxml.length() > 0);
 		
 		if (reasonerParticipant && getOntology().getGlobalRestrictionsPolicy().equals("noChains")) {
