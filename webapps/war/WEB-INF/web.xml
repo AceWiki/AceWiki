@@ -136,14 +136,26 @@
       The parameter 'global_restrictions_policy' defines how the global restrictions on the axioms
       in OWL 2 should be ensured. See the following chapter of the OWL 2 documentation:
       http://www.w3.org/TR/2009/REC-owl2-syntax-20091027/#Global_Restrictions_on_Axioms_in_OWL_2_DL
-      At the moment, only 'noChains' (default) and 'unchecked' are supported. 'noChains' has the
+      At the moment, only 'no_chains' (default) and 'unchecked' are supported. 'no_chains' has the
       effect that axioms containing property chains or transitivity are generally not considered
       for reasoning. 'unchecked' allows for the violation of the global restrictions and should
       only be used for testing. More options should become available in the future.
     -->
     <init-param>
       <param-name>global_restrictions_policy</param-name>
-      <param-value>noChains</param-value>
+      <param-value>no_chains</param-value>
+    </init-param>
+    
+    <!--
+      The parameter 'owl_profile' can be used to set an OWL profile that defines which statements
+      are used for reasoning. Possible values are "OWL2Full" (default), "OWL2EL", "OWL2QL", and
+      "OWL2RL". Note that the global restrictions of the EL profile are not checked. See the
+      following document for more information about the OWL profiles:
+      http://www.w3.org/TR/owl2-profiles/
+    -->
+    <init-param>
+      <param-name>owl_profile</param-name>
+      <param-value>OWL2Full</param-value>
     </init-param>
     
     <!--

@@ -31,6 +31,9 @@ import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.profiles.OWLProfile;
+import org.semanticweb.owlapi.profiles.OWLProfileReport;
+import org.semanticweb.owlapi.profiles.OWLProfileViolation;
 
 import ch.uzh.ifi.attempto.ape.ACEParserResult;
 import ch.uzh.ifi.attempto.ape.APELocal;
@@ -266,7 +269,7 @@ public abstract class Sentence extends Statement {
 			(owlxml.indexOf("<swrl:Imp>") < 0) &&
 			(owlxml.length() > 0);
 		
-		if (reasonerParticipant && getOntology().getGlobalRestrictionsPolicy().equals("noChains")) {
+		if (reasonerParticipant && getOntology().getGlobalRestrictionsPolicy().equals("no_chains")) {
 			reasonerParticipant =
 				(owlxml.indexOf("<TransitiveObjectProperty>") < 0) &&
 				(owlxml.indexOf("<ObjectPropertyChain>") < 0);
@@ -280,9 +283,12 @@ public abstract class Sentence extends Statement {
 			(mc.getMessages("owl").size() == 0) &&
 			(owlxml.length() > 0);
 		owlAxioms = null;
+		OWLOntology owlOntology = null;
 		if (isOWL) {
 			try {
-				OWLOntology owlOntology = createOWLOntology(owlxml);
+				owlOntology = ontologyManager.loadOntologyFromOntologyDocument(
+						new StringDocumentSource(owlxml)
+					);
 				if (owlOntology.isEmpty()) {
 					reasonerParticipant = false;
 					isOWL = false;
@@ -293,6 +299,19 @@ public abstract class Sentence extends Statement {
 			} catch (OWLOntologyCreationException ex) {
 				ex.printStackTrace();
 			}
+		}
+		OWLProfile owlProfile = getOntology().getOWLProfile();
+		if (reasonerParticipant && owlOntology != null && owlProfile != null) {
+			OWLProfileReport r = owlProfile.checkOntology(owlOntology);
+			for (OWLProfileViolation v : r.getViolations()) {
+				if (!v.toString().startsWith("Use of undeclared")) {
+					reasonerParticipant = false;
+					break;
+				}
+			}
+		}
+		if (owlOntology != null) {
+			ontologyManager.removeOntology(owlOntology);
 		}
 		//String messages = mc.toString();
 		//if (messages.length() > 0) {
@@ -384,12 +403,6 @@ public abstract class Sentence extends Statement {
 			t = t.substring(1);
 		}
 		return t;
-	}
-	
-	private static OWLOntology createOWLOntology(String owlxml) throws OWLOntologyCreationException {
-		OWLOntology o = ontologyManager.loadOntologyFromOntologyDocument(new StringDocumentSource(owlxml));
-		ontologyManager.removeOntology(o);
-		return o;
 	}
 	
 	String serialize() {

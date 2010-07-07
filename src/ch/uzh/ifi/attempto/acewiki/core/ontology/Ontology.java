@@ -41,6 +41,10 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.owllink.OWLlinkHTTPXMLReasonerFactory;
 import org.semanticweb.owlapi.owllink.builtin.response.OWLlinkErrorResponseException;
+import org.semanticweb.owlapi.profiles.OWL2ELProfile;
+import org.semanticweb.owlapi.profiles.OWL2QLProfile;
+import org.semanticweb.owlapi.profiles.OWL2RLProfile;
+import org.semanticweb.owlapi.profiles.OWLProfile;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import org.semanticweb.owlapi.util.Version;
@@ -76,25 +80,45 @@ public class Ontology {
 	
 	private OWLOntologyManager manager;
 	private OWLOntology owlOntology;
-	private HashMap<OWLAxiom, Integer> axiomsMap = new HashMap<OWLAxiom, Integer>();
+	private Map<OWLAxiom, Integer> axiomsMap = new HashMap<OWLAxiom, Integer>();
 	private OWLReasoner reasoner;
 	private String reasonerType = "none";
 	private OWLDifferentIndividualsAxiom differentIndividualsAxiom;
+	private final OWLProfile owlProfile;
 	
 	/**
-	 * Creates a new empty ontology with the given name and base URI.
+	 * Creates a new empty ontology with the given name and parameters.
 	 * 
 	 * @param name The name of the ontology.
-	 * @param baseURI The base URI that is used to identify the ontology elements.
-	 * @param grp The global restrictions policy.
+	 * @param parameters The parameters.
 	 */
-	private Ontology(String name, String baseURI, String grp) {
+	private Ontology(String name, Map<String, String> parameters) {
 		this.name = name.toString();  // null value throws an exception
-		this.baseURI = baseURI;
-		if (baseURI == null) {
+		
+		String b = parameters.get("baseuri");
+		if (b == null) {
 			baseURI = "";
+		} else {
+			baseURI = b;
 		}
-		ontologies.put(name, this);
+		
+		String grp = (parameters.get("global_restrictions_policy") + "").toLowerCase();
+		if (grp.equals("unchecked")) {
+			globalRestrPolicy = "unchecked";
+		} else {
+			globalRestrPolicy = "no_chains";
+		}
+		
+		String p = (parameters.get("owl_profile") + "").toLowerCase();
+		if (p.equals("owl2el")) {
+			owlProfile = new OWL2ELProfile();
+		} else if (p.equals("owl2ql")) {
+			owlProfile = new OWL2QLProfile();
+		} else if (p.equals("owl2rl")) {
+			owlProfile = new OWL2RLProfile();
+		} else {
+			owlProfile = null;
+		}
 		
 		manager = OWLManager.createOWLOntologyManager();
 		try {
@@ -102,33 +126,35 @@ public class Ontology {
 		} catch (OWLOntologyCreationException ex) {
 			ex.printStackTrace();
 		}
-		
-		if (grp == null || grp.length() == 0) {
-			globalRestrPolicy = "noChains";
-		} else if (grp.toLowerCase().equals("unchecked")) {
-			globalRestrPolicy = "unchecked";
-		} else {
-			globalRestrPolicy = "noChains";
-		}
 	}
 	
 	/**
-	 * Loads an ontology (or creates an empty ontology if the ontology cannot be found). The
-	 * complete URI of the ontology is baseURI + name.
+	 * Loads an ontology (or creates an empty ontology if the ontology cannot be found). A
+	 * parameter map is used for ontology parameters. When the ontology with the respective name
+	 * was already loaded, this ontology is returned and the parameters are ignored. The following
+	 * parameters are supported:
+	 * "baseuri": The base URI that is used to identify the ontology elements. The complete URI of
+	 *     the ontology is baseURI + name. The default is an empty string.
+	 * "global_restrictions_policy": A string representing the policy how to enforce the global
+	 *     restrictions on axioms in OWL 2. At the moment, the options "no_chains" and "unchecked"
+	 *     are available.
+	 * "reasoner": Defines the reasoner or reasoner interface to be used. Currently supported are
+	 *     the HermiT reasoner ("HermiT", default), the Pellet reasoner ("Pellet"), the OWLlink
+	 *     interface ("OWLlink"), or none ("none").
+	 * "owl_profile": Sets an OWL profile that defines which statements are used for reasoning.
+	 *     Possible values are "OWL2Full" (default), "OWL2EL", "OWL2QL", and "OWL2RL". Note that
+	 *     the global restrictions of the EL profile are not checked.
 	 * 
 	 * @param name The name of the ontology.
-	 * @param baseURI The base URI that is used to identify the ontology elements.
-	 * @param globalRestrPolicy A string representing the policy how to enforce the global
-	 *     restrictions on axioms in OWL 2.
+	 * @param parameters The parameters.
 	 * @return The loaded ontology.
 	 */
-	public synchronized static Ontology loadOntology(String name, String baseURI,
-			String globalRestrPolicy) {
-		
+	public synchronized static Ontology loadOntology(String name, Map<String, String> parameters) {
 		if (ontologies.get(name) != null) {
 			return ontologies.get(name);
 		}
-		Ontology ontology = new Ontology(name, baseURI, globalRestrPolicy);
+		Ontology ontology = new Ontology(name, parameters);
+		ontologies.put(name, ontology);
 		ontology.log("loading ontology");
 		System.err.println("Loading '" + name + "'");
 		File dataDir = new File("data/" + name);
@@ -170,6 +196,8 @@ public class Ontology {
 			}
 		}
 		pb2.complete();
+		
+		ontology.loadReasoner(parameters.get("reasoner"));
 		
 		return ontology;
 	}
@@ -283,6 +311,16 @@ public class Ontology {
 		}
 		loadElement(oe);
 	}
+	
+	/**
+	 * Returns the OWL profile that defines which statements are used for reasoning, or null if the
+	 * full language of OWL is used.
+	 * 
+	 * @return The used OWL profile.
+	 */
+	public OWLProfile getOWLProfile() {
+		return owlProfile;
+	}
 
 	/**
 	 * Returns a new OWL ontology object representing the full ontology or the consistent part of
@@ -292,6 +330,7 @@ public class Ontology {
 	 * @return An OWL ontology object of the full ontology.
 	 */
 	public OWLOntology exportOWLOntology(boolean consistent) {
+		// TODO Use ontology URI as IRI for the OWL ontology.
 		Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
 		for (OntologyElement el : getOntologyElements()) {
 			axioms.add(el.getOWLDeclaration());
@@ -303,15 +342,15 @@ public class Ontology {
 		}
 		axioms.add(differentIndividualsAxiom);
 		
-		OWLOntology fullOWLOntology = null;
+		OWLOntology o = null;
 		try {
-			fullOWLOntology = manager.createOntology(axioms);
-			manager.removeOntology(fullOWLOntology);
+			o = manager.createOntology(axioms);
+			manager.removeOntology(o);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 		
-		return fullOWLOntology;
+		return o;
 	}
 	
 	/**
@@ -464,22 +503,11 @@ public class Ontology {
 	}
 	
 	/**
-	 * Checks whether a reasoner has been loaded.
+	 * Loads a reasoner or reasoner interface.
 	 * 
-	 * @return true if a reasoner has been loaded.
+	 * @param type The reasoner or reasoner interface type.
 	 */
-	public boolean isReasonerLoaded() {
-		return (reasoner != null);
-	}
-	
-	/**
-	 * Loads a reasoner or reasoner interface. Currently supported are the HermiT reasoner
-	 * ("HermiT"), the Pellet reasoner ("Pellet"), the OWLlink interface ("OWLlink"), or none
-	 * ("none").
-	 * 
-	 * @param type The reasoner type as shown above.
-	 */
-	public void loadReasoner(String type) {
+	private void loadReasoner(String type) {
 		// TODO extract this code into a new class
 		
 		log("loading reasoner");
