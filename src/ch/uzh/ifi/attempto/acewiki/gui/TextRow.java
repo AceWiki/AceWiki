@@ -97,23 +97,23 @@ public class TextRow extends Column implements ActionListener {
 		
 		if (!sentence.isReadOnly()) {
 			dropDown.addMenuEntry("Edit...");
+			if (sentence.isReasonerParticipant()) {
+				if (sentence.isIntegrated()) {
+					dropDown.addMenuEntry("Retract");
+				} else {
+					dropDown.addMenuEntry("Reassert");
+				}
+			}
+			dropDown.addMenuEntry("Delete");
+			dropDown.addMenuSeparator();
 		}
+		
 		if (hostPage instanceof ArticlePage) {
 			dropDown.addMenuEntry("Add Sentence...");
 			dropDown.addMenuEntry("Add Comment...");
-		}
-		if (!sentence.isReadOnly()) {
-			dropDown.addMenuEntry("Delete");
-		}
-		dropDown.addMenuSeparator();
-		if (!sentence.isReadOnly() && sentence.isReasonerParticipant()) {
-			if (sentence.isIntegrated()) {
-				dropDown.addMenuEntry("Retract");
-			} else {
-				dropDown.addMenuEntry("Reassert");
-			}
 			dropDown.addMenuSeparator();
 		}
+		
 		dropDown.addMenuEntry("Details");
 		dropDown.addMenuEntry("Logic");
 		
