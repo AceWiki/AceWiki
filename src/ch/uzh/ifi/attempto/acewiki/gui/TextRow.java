@@ -95,10 +95,6 @@ public class TextRow extends Column implements ActionListener {
 			}
 		}
 		
-		if (!sentence.isIntegrated() && !sentence.isReadOnly()) {
-			dropDown.addMenuEntry("Reassert");
-			dropDown.addMenuSeparator();
-		}
 		if (!sentence.isReadOnly()) {
 			dropDown.addMenuEntry("Edit...");
 		}
@@ -110,6 +106,14 @@ public class TextRow extends Column implements ActionListener {
 			dropDown.addMenuEntry("Delete");
 		}
 		dropDown.addMenuSeparator();
+		if (!sentence.isReadOnly() && sentence.isReasonerParticipant()) {
+			if (sentence.isIntegrated()) {
+				dropDown.addMenuEntry("Retract");
+			} else {
+				dropDown.addMenuEntry("Reassert");
+			}
+			dropDown.addMenuSeparator();
+		}
 		dropDown.addMenuEntry("Details");
 		dropDown.addMenuEntry("Logic");
 		
@@ -222,7 +226,12 @@ public class TextRow extends Column implements ActionListener {
 			}
 			if (sentence.isIntegrated()) {
 				update();
+				hostPage.update();
 			}
+		} else if (e.getActionCommand().equals("Retract")) {
+			sentence.retract();
+			update();
+			hostPage.update();
 		} else if (e.getActionCommand().equals("Details")) {
 			wiki.log("page", "dropdown: details sentence: " + sentence.getText());
 			wiki.showPage(new SentencePage(wiki, sentence));

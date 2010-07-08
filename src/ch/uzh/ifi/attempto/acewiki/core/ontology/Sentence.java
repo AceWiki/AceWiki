@@ -160,6 +160,7 @@ public abstract class Sentence extends Statement {
 		return owlxml;
 	}
 	
+	// TODO rename this, because "reasoner participant" is confusing
 	/**
 	 * Returns true if this sentence can participate in reasoning.
 	 * 
@@ -321,7 +322,8 @@ public abstract class Sentence extends Statement {
 	 * This method tries to reassert a sentence that is not yet integrated. This is
 	 * used for sentences that have an OWL representation but the integration failed
 	 * because it introduced an inconsistency. Later, when the ontology has changed,
-	 * the integration might succeed.
+	 * the integration might succeed. It can also be used for sentences that have been
+	 * manually retracted.
 	 * 
 	 * @return An integer value denoting the success/failure of the operation.
 	 * @see Ontology#commitSentence(Sentence)
@@ -330,6 +332,15 @@ public abstract class Sentence extends Statement {
 		int success = getOntology().commitSentence(this);
 		getOntology().save(getOwner());
 		return success;
+	}
+	
+	/**
+	 * This method retracts an integrated sentence so that it is still part of the wiki
+	 * article but does not participate in reasoning anymore.
+	 */
+	public void retract() {
+		getOntology().retractSentence(this);
+		getOntology().save(getOwner());
 	}
 	
 	/**
