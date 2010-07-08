@@ -64,6 +64,7 @@ public class IndexPage extends WikiPage implements ActionListener {
 		addTab("Main Page", this);
 		addSelectedTab("Index");
 		addTab("Search", this);
+		addTab("About", this);
 		
 		add(new VSpace(20));
 		
@@ -138,6 +139,8 @@ public class IndexPage extends WikiPage implements ActionListener {
 			getWiki().showStartPage();
 		} else if ("Search".equals(e.getActionCommand())) {
 			getWiki().showSearchPage();
+		} else if ("About".equals(e.getActionCommand())) {
+			getWiki().showAboutPage();
 		}
 	}
 	

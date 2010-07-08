@@ -53,6 +53,7 @@ import ch.uzh.ifi.attempto.acewiki.gui.editor.NounOfForm;
 import ch.uzh.ifi.attempto.acewiki.gui.editor.ProperNameForm;
 import ch.uzh.ifi.attempto.acewiki.gui.editor.TrAdjForm;
 import ch.uzh.ifi.attempto.acewiki.gui.editor.VerbForm;
+import ch.uzh.ifi.attempto.acewiki.gui.page.AboutPage;
 import ch.uzh.ifi.attempto.acewiki.gui.page.ArticlePage;
 import ch.uzh.ifi.attempto.acewiki.gui.page.IndexPage;
 import ch.uzh.ifi.attempto.acewiki.gui.page.SearchPage;
@@ -103,6 +104,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private SmallButton indexButton = new SmallButton("Index", this, 12);
 	private SmallButton homeButton = new SmallButton("Main Page", this, 12);
 	private SmallButton randomButton = new SmallButton("Random Article", this, 12);
+	private SmallButton aboutButton = new SmallButton("About", this, 12);
 	private SmallButton searchButton = new SmallButton("Search:", this, 12);
 	private TextField searchTextField = new TextField(110, this);
 	private SmallButton newButton = new SmallButton("New Word...", this, 12);
@@ -182,6 +184,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		sideCol.add(label1);
 		sideCol.add(new ListItem(homeButton));
 		sideCol.add(new ListItem(indexButton));
+		sideCol.add(new ListItem(aboutButton));
 		sideCol.add(new ListItem(randomButton));
 		sideCol.add(new ListItem(searchButton, null, searchTextField));
 		
@@ -409,6 +412,13 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	}
 	
 	/**
+	 * Show the about page.
+	 */
+	public void showAboutPage() {
+		showPage(new AboutPage(this));
+	}
+	
+	/**
 	 * Returns the ontology;
 	 * 
 	 * @return The ontology.
@@ -468,6 +478,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		} else if (e.getSource() == indexButton) {
 			log("page", "pressed: index");
 			showIndexPage();
+		} else if (e.getSource() == aboutButton) {
+			log("page", "pressed: about");
+			showAboutPage();
 		} else if (e.getSource() == homeButton) {
 			log("page", "pressed: main page");
 			showStartPage();

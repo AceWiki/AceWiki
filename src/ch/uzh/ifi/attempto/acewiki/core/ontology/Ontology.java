@@ -322,6 +322,16 @@ public class Ontology {
 	public OWLProfile getOWLProfile() {
 		return owlProfile;
 	}
+	
+	/**
+	 * Returns the name of the current OWL profile.
+	 * 
+	 * @return The OWL profile name.
+	 */
+	public String getOWLProfileName() {
+		if (owlProfile == null) return "OWL 2 Full";
+		return owlProfile.getName();
+	}
 
 	/**
 	 * Returns a new OWL ontology object representing the full ontology or the consistent part of

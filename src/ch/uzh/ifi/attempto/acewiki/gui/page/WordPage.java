@@ -16,8 +16,6 @@ package ch.uzh.ifi.attempto.acewiki.gui.page;
 
 import java.util.List;
 
-import nextapp.echo2.app.Border;
-import nextapp.echo2.app.Color;
 import nextapp.echo2.app.Column;
 import nextapp.echo2.app.Extent;
 import nextapp.echo2.app.Font;
@@ -35,6 +33,7 @@ import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.TrAdjRole;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.VerbRole;
+import ch.uzh.ifi.attempto.acewiki.gui.NameValueTable;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.acewiki.gui.editor.NounForm;
 import ch.uzh.ifi.attempto.acewiki.gui.editor.NounOfForm;
@@ -45,7 +44,6 @@ import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.echocomp.SmallButton;
-import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
 
 /**
@@ -105,11 +103,8 @@ public class WordPage extends WikiPage implements ActionListener {
 		iconRow.setInsets(new Insets(0, 0, 0, 10));
 		textColumn.add(iconRow);
 		
-		Grid lexiconGrid = new Grid(2);
-		lexiconGrid.setInsets(new Insets(5, 1, 20, 2));
-		lexiconGrid.setBorder(new Border(1, Color.DARKGRAY, Border.STYLE_SOLID));
-		lexiconGrid.setBackground(new Color(245, 245, 245));
-		textColumn.add(lexiconGrid);
+		NameValueTable lexiconTable = new NameValueTable();
+		textColumn.add(lexiconTable);
 
 		OntologyElement oe = page.getOntologyElement();
 		if (oe instanceof Individual) {
@@ -131,19 +126,14 @@ public class WordPage extends WikiPage implements ActionListener {
 					),
 					Font.ITALIC
 				));
-			lexiconGrid.add(new SolidLabel("word class", Font.ITALIC + Font.BOLD, 11));
-			lexiconGrid.add(new SolidLabel("proper name", Font.ITALIC));
-			lexiconGrid.add(new SolidLabel("word", Font.ITALIC + Font.BOLD, 11));
-			lexiconGrid.add(new SolidLabel(ind.getPrettyWord(1)));
-			lexiconGrid.add(new SolidLabel("... used with \"the\"", Font.ITALIC + Font.BOLD, 11));
-			lexiconGrid.add(new SolidLabel((ind.hasDefiniteArticle(0) ? "yes" : "no"), Font.ITALIC));
-			lexiconGrid.add(new SolidLabel("abbreviation", Font.ITALIC + Font.BOLD, 11));
-			lexiconGrid.add(new SolidLabel(ind.getAbbreviation()));
-			lexiconGrid.add(new SolidLabel("... used with \"the\"", Font.ITALIC + Font.BOLD, 11));
+			lexiconTable.addEntry("word class", "proper name");
+			lexiconTable.addACEEntry("word", ind.getPrettyWord(1));
+			lexiconTable.addEntry("... used with \"the\"", (ind.hasDefiniteArticle(0) ? "yes" : "no"));
+			lexiconTable.addACEEntry("abbreviation", ind.getAbbreviation());
 			if (ind.getAbbreviation() == null) {
-				lexiconGrid.add(new SolidLabel());
+				lexiconTable.addEntry("... used with \"the\"", "");
 			} else {
-				lexiconGrid.add(new SolidLabel((ind.hasDefiniteArticle(2) ? "yes" : "no"), Font.ITALIC));
+				lexiconTable.addEntry("... used with \"the\"", (ind.hasDefiniteArticle(2) ? "yes" : "no"));
 			}
 		} else if (oe instanceof NounConcept) {
 			NounConcept noun = (NounConcept) oe;
@@ -158,12 +148,9 @@ public class WordPage extends WikiPage implements ActionListener {
 					"The singular form is \"" + sg + "\" and the plural form is \"" + pl + "\".",
 					Font.ITALIC
 				));
-			lexiconGrid.add(new SolidLabel("word class", Font.ITALIC + Font.BOLD, 11));
-			lexiconGrid.add(new SolidLabel("noun", Font.ITALIC));
-			lexiconGrid.add(new SolidLabel("singular", Font.ITALIC + Font.BOLD, 11));
-			lexiconGrid.add(new SolidLabel(sg));
-			lexiconGrid.add(new SolidLabel("plural", Font.ITALIC + Font.BOLD, 11));
-			lexiconGrid.add(new SolidLabel(pl));
+			lexiconTable.addEntry("word class", "noun");
+			lexiconTable.addACEEntry("singular", sg);
+			lexiconTable.addACEEntry("plural", pl);
 		} else if (oe instanceof VerbRole) {
 			VerbRole verb = (VerbRole) oe;
 			String th = verb.getPrettyWord(0);
@@ -180,14 +167,10 @@ public class WordPage extends WikiPage implements ActionListener {
 					 (pp == null ? "undefined" : "\"" + pp + "\"") + ".",
 					Font.ITALIC
 				));
-			lexiconGrid.add(new SolidLabel("word class", Font.ITALIC + Font.BOLD, 11));
-			lexiconGrid.add(new SolidLabel("verb", Font.ITALIC));
-			lexiconGrid.add(new SolidLabel("third singular", Font.ITALIC + Font.BOLD, 11));
-			lexiconGrid.add(new SolidLabel(th));
-			lexiconGrid.add(new SolidLabel("bare infinitive", Font.ITALIC + Font.BOLD, 11));
-			lexiconGrid.add(new SolidLabel(inf));
-			lexiconGrid.add(new SolidLabel("past participle", Font.ITALIC + Font.BOLD, 11));
-			lexiconGrid.add(new SolidLabel(pp));
+			lexiconTable.addEntry("word class", "verb");
+			lexiconTable.addACEEntry("third singular", th);
+			lexiconTable.addACEEntry("bare infinitive", inf);
+			lexiconTable.addACEEntry("past participle", pp);
 		} else if (oe instanceof OfRole) {
 			OfRole of = (OfRole) oe;
 			iconRow.add(new Label(
@@ -200,10 +183,8 @@ public class WordPage extends WikiPage implements ActionListener {
 					of.getPrettyNoun() + "\" plus the preposition \"of\".",
 					Font.ITALIC
 				));
-			lexiconGrid.add(new SolidLabel("word class", Font.ITALIC + Font.BOLD, 11));
-			lexiconGrid.add(new SolidLabel("of-construct", Font.ITALIC));
-			lexiconGrid.add(new SolidLabel("noun", Font.ITALIC + Font.BOLD, 11));
-			lexiconGrid.add(new SolidLabel(of.getPrettyNoun()));
+			lexiconTable.addEntry("word class", "of-construct");
+			lexiconTable.addACEEntry("noun", of.getPrettyNoun());
 		} else if (oe instanceof TrAdjRole) {
 			TrAdjRole tradj = (TrAdjRole) oe;
 			iconRow.add(new Label(
@@ -215,10 +196,8 @@ public class WordPage extends WikiPage implements ActionListener {
 					"things are " + tradj.getPrettyWord(0) + " other things. ",
 					Font.ITALIC
 				));
-			lexiconGrid.add(new SolidLabel("word class", Font.ITALIC + Font.BOLD, 11));
-			lexiconGrid.add(new SolidLabel("transitive adjective", Font.ITALIC));
-			lexiconGrid.add(new SolidLabel("word", Font.ITALIC + Font.BOLD, 11));
-			lexiconGrid.add(new SolidLabel(tradj.getPrettyWord(0)));
+			lexiconTable.addEntry("word class", "transitive adjective");
+			lexiconTable.addACEEntry("word", tradj.getPrettyWord(0));
 		}
 		
 		textColumn.add(new VSpace());

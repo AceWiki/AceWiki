@@ -18,9 +18,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import nextapp.echo2.app.Color;
 import nextapp.echo2.app.Column;
-import nextapp.echo2.app.Extent;
 import nextapp.echo2.app.Font;
 import nextapp.echo2.app.Insets;
 import nextapp.echo2.app.Row;
@@ -32,8 +30,6 @@ import ch.uzh.ifi.attempto.acewiki.gui.ListItem;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.acewiki.gui.WikiLink;
 import ch.uzh.ifi.attempto.echocomp.Label;
-import ch.uzh.ifi.attempto.echocomp.SolidLabel;
-import ch.uzh.ifi.attempto.echocomp.Style;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
 
 /**
@@ -63,6 +59,7 @@ public class StartPage extends WikiPage implements ActionListener {
 		addSelectedTab("Main Page");
 		addTab("Index", this);
 		addTab("Search", this);
+		addTab("About", this);
 		
 		add(new VSpace(10));
 		
@@ -79,31 +76,6 @@ public class StartPage extends WikiPage implements ActionListener {
 		add(linksColumn);
 
 		add(new VSpace(20));
-		addHorizontalLine();
-		
-		Column footer = new Column();
-		footer.setInsets(new Insets(10, 10, 0, 20));
-		String vers = Wiki.getInfo("acewiki-version");
-		String stage = Wiki.getInfo("acewiki-release-stage");
-		String dev = Wiki.getInfo("acewiki-developer");
-		String date = Wiki.getInfo("acewiki-build-date");
-		SolidLabel footerLabel1 = new SolidLabel(
-				"AceWiki " + vers + " (" + stage + "), " + dev + ", " + date,
-				Font.ITALIC
-			);
-		footerLabel1.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
-		footerLabel1.setForeground(Color.DARKGRAY);
-		footer.add(footerLabel1);
-		String r = "none";
-		String rName = wiki.getOntology().getReasonerName();
-		if (rName != null) r = rName;
-		String rVersion = wiki.getOntology().getReasonerVersion();
-		if (rVersion != null) r += " " + rVersion;
-		SolidLabel footerLabel2 = new SolidLabel("Reasoner: " + r, Font.ITALIC);
-		footerLabel2.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
-		footerLabel2.setForeground(Color.DARKGRAY);
-		footer.add(footerLabel2);
-		add(footer);
 	}
 	
 	protected void doUpdate() {
@@ -129,6 +101,8 @@ public class StartPage extends WikiPage implements ActionListener {
 			getWiki().showIndexPage();
 		} else if ("Search".equals(e.getActionCommand())) {
 			getWiki().showSearchPage();
+		} else if ("About".equals(e.getActionCommand())) {
+			getWiki().showAboutPage();
 		}
 	}
 
