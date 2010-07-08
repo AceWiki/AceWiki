@@ -194,6 +194,7 @@ public class Ontology {
 					ontology.loadSentence(s);
 				}
 			}
+			ontology.save(oe);
 		}
 		pb2.complete();
 		

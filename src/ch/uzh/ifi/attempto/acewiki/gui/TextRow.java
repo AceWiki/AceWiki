@@ -117,7 +117,7 @@ public class TextRow extends Column implements ActionListener {
 		Color color = Color.BLACK;
 		boolean isRed = !sentence.isIntegrated() && !sentence.isReadOnly() && !(sentence instanceof Question);
 		if (isRed) {
-			color = new Color(193, 0, 0);
+			color = new Color(180, 0, 0);
 		}
 		for (TextElement e : sentence.getTextElements()) {
 			if (!e.getText().matches("[.?]") && r.getComponentCount() > 0) {

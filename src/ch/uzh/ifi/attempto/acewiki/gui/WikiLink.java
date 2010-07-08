@@ -89,7 +89,7 @@ public class WikiLink extends Button implements ActionListener {
 		setRolloverEnabled(true);
 		setFont(new Font(Style.fontTypeface, Font.PLAIN, new Extent(13)));
 		setRolloverForeground(Color.BLUE);
-		if (red) setForeground(new Color(193, 0, 0));
+		if (red) setForeground(new Color(180, 0, 0));
 		addActionListener(this);
 	}
 

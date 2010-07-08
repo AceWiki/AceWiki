@@ -161,9 +161,9 @@ public abstract class Sentence extends Statement {
 	}
 	
 	/**
-	 * Returns true if this sentence participates in reasoning.
+	 * Returns true if this sentence can participate in reasoning.
 	 * 
-	 * @return true if this sentence participates in reasoning.
+	 * @return true if this sentence can participate in reasoning.
 	 */
 	public boolean isReasonerParticipant() {
 		if (reasonerParticipant == null) {
@@ -296,7 +296,7 @@ public abstract class Sentence extends Statement {
 			}
 		}
 		OWLProfile owlProfile = getOntology().getOWLProfile();
-		if (reasonerParticipant && owlOntology != null && owlProfile != null) {
+		if (reasonerParticipant && owlOntology != null && owlProfile != null && this instanceof Declaration) {
 			OWLProfileReport r = owlProfile.checkOntology(owlOntology);
 			for (OWLProfileViolation v : r.getViolations()) {
 				if (!v.toString().startsWith("Use of undeclared")) {
@@ -307,6 +307,9 @@ public abstract class Sentence extends Statement {
 		}
 		if (owlOntology != null) {
 			ontologyManager.removeOntology(owlOntology);
+		}
+		if (!reasonerParticipant && integrated) {
+			integrated = false;
 		}
 		//String messages = mc.toString();
 		//if (messages.length() > 0) {
@@ -339,7 +342,11 @@ public abstract class Sentence extends Statement {
 	}
 	
 	void setIntegrated(boolean integrated) {
-		this.integrated = integrated;
+		if (integrated && reasonerParticipant != null && !reasonerParticipant) {
+			this.integrated = false;
+		} else {
+			this.integrated = integrated;
+		}
 	}
 	
 	/**
