@@ -246,11 +246,6 @@ public abstract class Sentence extends Statement {
 		MessageContainer mc = parserResult.getMessageContainer();
 		owlxml = parserResult.get(OWLXML);
 		if (owlxml != null) {
-			// Every OWL ontology object needs its own URI:
-			long hashCode = (long) getText().hashCode() - Integer.MIN_VALUE;
-			String uri = getOntology().getURI();
-			owlxml = owlxml.replace("URI=\"" + uri + "\">", "URI=\"" + uri + "/" + hashCode + "\">");
-			
 			// Transform from OWL 1.1 to OWL 2:
 			owlxml = owlxml.replaceAll("http://www.w3.org/2006/12/owl11-xml#", "http://www.w3.org/2002/07/owl#");
 			owlxml = owlxml.replaceAll("InverseObjectProperty>", "ObjectInverseOf>");
