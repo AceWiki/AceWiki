@@ -32,6 +32,19 @@
             file="src/ch/uzh/ifi/attempto/aceeditor/aceeditor.properties"
             tofile="classes/ch/uzh/ifi/attempto/aceeditor/aceeditor.properties"
         />
+    	<tstamp>
+    		<format property="TODAY" pattern="yyyy-MM-dd hh:mm"/>
+    	</tstamp>
+    	<replace
+    		file="classes/ch/uzh/ifi/attempto/acewiki/acewiki.properties"
+    		token="@acewiki-build-date@"
+    		value="${TODAY}"
+    	/>
+    	<replace
+    		file="classes/ch/uzh/ifi/attempto/aceeditor/aceeditor.properties"
+    		token="@aceeditor-build-date@"
+    		value="${TODAY}"
+    	/>
     </target>
     
     <target name="createjars"
