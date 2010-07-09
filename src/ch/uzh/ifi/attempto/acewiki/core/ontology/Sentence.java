@@ -247,17 +247,7 @@ public abstract class Sentence extends Statement {
 		MessageContainer mc = parserResult.getMessageContainer();
 		owlxml = parserResult.get(OWLXML);
 		if (owlxml != null) {
-			// Transform from OWL 1.1 to OWL 2:
-			owlxml = owlxml.replaceAll("http://www.w3.org/2006/12/owl11-xml#", "http://www.w3.org/2002/07/owl#");
-			owlxml = owlxml.replaceAll("InverseObjectProperty>", "ObjectInverseOf>");
-			owlxml = owlxml.replaceAll("SubObjectPropertyChain>", "ObjectPropertyChain>");
-			owlxml = owlxml.replaceAll("ObjectExistsSelf>", "ObjectHasSelf>");
-			owlxml = owlxml.replaceAll(" URI=\"", " IRI=\"");
-			
-			//if (this instanceof Question) {
-			//	owlxml = owlxml.replace("<Class IRI=\"http://www.w3.org/2002/07/owl#Thing\"/>\n  </SubClassOf>\n</Ontology>",
-			//				"<Class IRI=\"http://attempto.ifi.uzh.ch/ace#Question" + hashCode + "\"/>/>\n  </SubClassOf>\n</Ontology>");
-			//}
+			owlxml = OWLXMLTransformer.transform(owlxml);
 		}
 		
 		reasonerParticipant =
