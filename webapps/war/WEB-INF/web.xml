@@ -170,6 +170,15 @@
       <param-value>off</param-value>
     </init-param>
     
+    <!--
+      The parameter 'readonly' can be used to lock the wiki data so that no changes can be made.
+      The default is 'off'.
+    -->
+    <init-param>
+      <param-name>readonly</param-name>
+      <param-value>off</param-value>
+    </init-param>
+    
   </servlet>
   
   <!--

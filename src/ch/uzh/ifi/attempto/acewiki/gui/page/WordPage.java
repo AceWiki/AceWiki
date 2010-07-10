@@ -202,11 +202,13 @@ public class WordPage extends WikiPage implements ActionListener {
 		
 		textColumn.add(new VSpace());
 		
-		Row headButtonRow = new Row();
-		headButtonRow.add(editButton);
-		headButtonRow.add(new HSpace());
-		headButtonRow.add(delButton);
-		textColumn.add(headButtonRow);
+		if (!getWiki().isReadOnly()) {
+			Row headButtonRow = new Row();
+			headButtonRow.add(editButton);
+			headButtonRow.add(new HSpace());
+			headButtonRow.add(delButton);
+			textColumn.add(headButtonRow);
+		}
 	}
 
 	public void actionPerformed(ActionEvent e) {

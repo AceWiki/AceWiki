@@ -177,7 +177,15 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			));
 		sideCol.add(logo);
 		
-		sideCol.add(new VSpace(30));
+		sideCol.add(new VSpace(10));
+		
+		if (isReadOnly()) {
+			SolidLabel rolabel = new SolidLabel("- READ ONLY MODE -", Font.ITALIC);
+			rolabel.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
+			sideCol.add(rolabel);
+		}
+		
+		sideCol.add(new VSpace(20));
 		
 		SolidLabel label1 = new SolidLabel("Navigation:", Font.ITALIC);
 		label1.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
@@ -193,7 +201,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		SolidLabel label2 = new SolidLabel("Actions:", Font.ITALIC);
 		label2.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
 		sideCol.add(label2);
-		sideCol.add(new ListItem(newButton));
+		if (!isReadOnly()) {
+			sideCol.add(new ListItem(newButton));
+		}
 		sideCol.add(new ListItem(exportButton));
 		logoutListItem = new ListItem(logoutButton);
 		logoutButton.setWidth(new Extent(110));
@@ -315,6 +325,15 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 */
 	public String getParameter(String paramName) {
 		return parameters.get(paramName);
+	}
+	
+	/**
+	 * Returns true if this wiki is set to be read-only.
+	 * 
+	 * @return true if this wiki is read-only.
+	 */
+	public boolean isReadOnly() {
+		return "on".equals(parameters.get("readonly"));
 	}
 	
 	/**

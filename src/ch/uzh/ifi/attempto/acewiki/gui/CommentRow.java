@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nextapp.echo2.app.Alignment;
+import nextapp.echo2.app.Border;
 import nextapp.echo2.app.Color;
 import nextapp.echo2.app.Column;
 import nextapp.echo2.app.Component;
@@ -78,11 +79,16 @@ public class CommentRow extends Column implements ActionListener {
 	
 	private void update() {
 		dropDown = new DropDownMenu(DropDownMenu.COMMENT_TYPE, this);
-		dropDown.addMenuEntry("Edit...", "Edit this comment");
-		dropDown.addMenuEntry("Delete", "Delete this comment from the article");
-		dropDown.addMenuSeparator();
-		dropDown.addMenuEntry("Add Sentence...", "Add a new sentence here");
-		dropDown.addMenuEntry("Add Comment...", "Add a new comment here");
+		if (!wiki.isReadOnly()) {
+			dropDown.addMenuEntry("Edit...", "Edit this comment");
+			dropDown.addMenuEntry("Delete", "Delete this comment from the article");
+			dropDown.addMenuSeparator();
+			dropDown.addMenuEntry("Add Sentence...", "Add a new sentence here");
+			dropDown.addMenuEntry("Add Comment...", "Add a new comment here");
+		} else {
+			dropDown.setPopUp(null);
+			dropDown.setPopUpBorder(new Border(0, Color.BLACK, Border.STYLE_SOLID));
+		}
 		RowLayoutData layout = new RowLayoutData();
 		layout.setAlignment(new Alignment(Alignment.CENTER, Alignment.TOP));
 		dropDown.setLayoutData(layout);

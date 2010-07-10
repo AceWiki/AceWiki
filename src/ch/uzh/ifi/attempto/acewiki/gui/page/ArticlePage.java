@@ -111,9 +111,11 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 			textColumn.add(new SolidLabel("(article is empty)", Font.ITALIC, 10));
 		}
 		
-		Row addButtonRow = new Row();
-		addButtonRow.add(dropDown);
-		textColumn.add(addButtonRow);
+		if (!getWiki().isReadOnly()) {
+			Row addButtonRow = new Row();
+			addButtonRow.add(dropDown);
+			textColumn.add(addButtonRow);
+		}
 	}
 
 	public boolean equals(Object obj) {

@@ -95,7 +95,7 @@ public class TextRow extends Column implements ActionListener {
 			}
 		}
 		
-		if (!sentence.isReadOnly()) {
+		if (!wiki.isReadOnly() && !sentence.isReadOnly()) {
 			dropDown.addMenuEntry("Edit...", "Edit this sentence");
 			if (sentence.isReasonerParticipant()) {
 				if (sentence.isIntegrated()) {
@@ -108,7 +108,7 @@ public class TextRow extends Column implements ActionListener {
 			dropDown.addMenuSeparator();
 		}
 		
-		if (hostPage instanceof ArticlePage) {
+		if (!wiki.isReadOnly() && hostPage instanceof ArticlePage) {
 			dropDown.addMenuEntry("Add Sentence...", "Add a new sentence here");
 			dropDown.addMenuEntry("Add Comment...", "Add a new comment here");
 			dropDown.addMenuSeparator();
