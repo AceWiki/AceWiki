@@ -78,10 +78,11 @@ public class CommentRow extends Column implements ActionListener {
 	
 	private void update() {
 		dropDown = new DropDownMenu(DropDownMenu.COMMENT_TYPE, this);
-		dropDown.addMenuEntry("Edit...");
-		dropDown.addMenuEntry("Add Sentence...");
-		dropDown.addMenuEntry("Add Comment...");
-		dropDown.addMenuEntry("Delete");
+		dropDown.addMenuEntry("Edit...", "Edit this comment");
+		dropDown.addMenuEntry("Delete", "Delete this comment from the article");
+		dropDown.addMenuSeparator();
+		dropDown.addMenuEntry("Add Sentence...", "Add a new sentence here");
+		dropDown.addMenuEntry("Add Comment...", "Add a new comment here");
 		RowLayoutData layout = new RowLayoutData();
 		layout.setAlignment(new Alignment(Alignment.CENTER, Alignment.TOP));
 		dropDown.setLayoutData(layout);

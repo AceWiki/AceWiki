@@ -87,35 +87,35 @@ public class TextRow extends Column implements ActionListener {
 			
 			if (question != null && question.getQuestionOWLIndividual() == null) {
 				if (question.isShowPossibleAnswersEnabled()) {
-					dropDown.addMenuEntry("Necessary Answers");
+					dropDown.addMenuEntry("Necessary Answers", "Show the necessary answers for this question");
 				} else {
-					dropDown.addMenuEntry("Possible Answers");
+					dropDown.addMenuEntry("Possible Answers", "Show the possible answers for this question");
 				}
 				dropDown.addMenuSeparator();
 			}
 		}
 		
 		if (!sentence.isReadOnly()) {
-			dropDown.addMenuEntry("Edit...");
+			dropDown.addMenuEntry("Edit...", "Edit this sentence");
 			if (sentence.isReasonerParticipant()) {
 				if (sentence.isIntegrated()) {
-					dropDown.addMenuEntry("Retract");
+					dropDown.addMenuEntry("Retract", "Retract this sentence from the knowledge base");
 				} else {
-					dropDown.addMenuEntry("Reassert");
+					dropDown.addMenuEntry("Reassert", "Reassert this sentence in the knowledge base");
 				}
 			}
-			dropDown.addMenuEntry("Delete");
+			dropDown.addMenuEntry("Delete", "Delete this sentence from the article");
 			dropDown.addMenuSeparator();
 		}
 		
 		if (hostPage instanceof ArticlePage) {
-			dropDown.addMenuEntry("Add Sentence...");
-			dropDown.addMenuEntry("Add Comment...");
+			dropDown.addMenuEntry("Add Sentence...", "Add a new sentence here");
+			dropDown.addMenuEntry("Add Comment...", "Add a new comment here");
 			dropDown.addMenuSeparator();
 		}
 		
-		dropDown.addMenuEntry("Details");
-		dropDown.addMenuEntry("Logic");
+		dropDown.addMenuEntry("Details", "Show the details of this sentence");
+		dropDown.addMenuEntry("Logic", "Show the logic of this sentence");
 		
 		Row r = new Row();
 		Color color = Color.BLACK;

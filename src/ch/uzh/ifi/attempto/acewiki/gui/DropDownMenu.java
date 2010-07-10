@@ -14,7 +14,6 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui;
 
-import ch.uzh.ifi.attempto.echocomp.Style;
 import nextapp.echo2.app.Alignment;
 import nextapp.echo2.app.Border;
 import nextapp.echo2.app.Button;
@@ -26,6 +25,7 @@ import nextapp.echo2.app.Insets;
 import nextapp.echo2.app.ResourceImageReference;
 import nextapp.echo2.app.event.ActionEvent;
 import nextapp.echo2.app.event.ActionListener;
+import ch.uzh.ifi.attempto.echocomp.Style;
 import echopointng.DropDown;
 
 /**
@@ -124,8 +124,9 @@ public class DropDownMenu extends DropDown implements ActionListener {
 	 * Adds a menu entry to the drop down menu.
 	 * 
 	 * @param text The text of the menu entry.
+	 * @param tooltip The tool tip text of the menu entry.
 	 */
-	public void addMenuEntry(String text) {
+	public void addMenuEntry(String text, String tooltip) {
 		if (menuSeparator != null) {
 			menuColumn.add(menuSeparator);
 			menuSeparator = null;
@@ -143,7 +144,7 @@ public class DropDownMenu extends DropDown implements ActionListener {
 		menuEntry.setAlignment(new Alignment(Alignment.LEFT, Alignment.CENTER));
 		menuEntry.setTextAlignment(new Alignment(Alignment.LEFT, Alignment.CENTER));
 		menuEntry.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
-		menuEntry.setToolTipText(" ");
+		menuEntry.setToolTipText(tooltip);
 		menuEntry.addActionListener(this);
 		menuColumn.add(menuEntry);
 	}
