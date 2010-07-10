@@ -28,6 +28,7 @@ import java.util.Set;
 
 import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -96,10 +97,14 @@ public class Ontology {
 		this.name = name.toString();  // null value throws an exception
 		
 		String b = parameters.get("baseuri");
-		if (b == null) {
-			baseURI = "";
+		if (b == null || b.equals("")) {
+			baseURI = "http://attempto.ifi.uzh.ch/acewiki/default/";
 		} else {
-			baseURI = b;
+			if (b.endsWith("/")) {
+				baseURI = b;
+			} else {
+				baseURI = b + "/";
+			}
 		}
 		
 		String grp = (parameters.get("global_restrictions_policy") + "").toLowerCase();
@@ -341,7 +346,6 @@ public class Ontology {
 	 * @return An OWL ontology object of the full ontology.
 	 */
 	public OWLOntology exportOWLOntology(boolean consistent) {
-		// TODO Use ontology URI as IRI for the OWL ontology.
 		Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
 		for (OntologyElement el : getOntologyElements()) {
 			axioms.add(el.getOWLDeclaration());
@@ -355,7 +359,7 @@ public class Ontology {
 		
 		OWLOntology o = null;
 		try {
-			o = manager.createOntology(axioms);
+			o = manager.createOntology(axioms, IRI.create(getURI()));
 			manager.removeOntology(o);
 		} catch (Exception ex) {
 			ex.printStackTrace();
