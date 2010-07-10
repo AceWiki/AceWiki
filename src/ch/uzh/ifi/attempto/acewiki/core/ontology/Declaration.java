@@ -58,7 +58,7 @@ public class Declaration extends Sentence {
 		} else if (isIntegrated()) {
 			return "asserted";
 		} else {
-			return "inconsistent";
+			return "unasserted";
 		}
 	}
 
