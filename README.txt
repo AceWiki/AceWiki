@@ -4,6 +4,7 @@ AceWiki
 Copyright 2008-2010, Tobias Kuhn.
 
 Website: http://attempto.ifi.uzh.ch/acewiki/
+Repository and Bug tracking: https://launchpad.net/acewiki
 
 AceWiki is a semantic wiki making use of the controlled natural language ACE. AceWiki is free
 software licensed under the GNU Lesser General Public Licence (see licenses/gpl-3.txt and
@@ -15,12 +16,12 @@ See lib/README.txt for information about the used third-party libraries.
 1. Content
 ----------
 
-The content is divided into four jar-files:
+The code for AceWiki and the ACE Editor is divided into four jar-files:
 
 - attempto-echo.jar contains basic GUI components and a predictive editor.
 - attempto-chartparser.jar contains a chart parser (concretely an Earley parser).
-- attempto-acewiki.jar contains the AceWiki application.
-- attempto-aceeditor.jar contains an additional application: an editor called ACE Editor.
+- attempto-acewiki-xxx.jar contains the AceWiki application.
+- attempto-aceeditor-xxx.jar contains an additional application: an editor called ACE Editor.
 
 See docs/index.html for the detailed documentation of the packages and classes.
 
@@ -57,9 +58,25 @@ Furthermore, you have to use the following Java VM argument that points to the l
 SWI Prolog system file libjpl.jnilib (under Mac OS X), jpl.dll (under Windows), or libjpl.so (under
 Linux) is located:
 
-  -Djava.library.path="/opt/local/lib/swipl-5.6.45/lib/i386-darwin8.10.1"
+  -Djava.library.path="/usr/lib/pl-5.8.3/lib/i386-linux"
 
-Note that the exact path is most probably different on your system.
+Under Linux, the environment variable LD_PRELOAD has to be set additionally to refer to the SWI
+Prolog library. Under some circumstances, also LD_LIBRARY_PATH has to be set. This can be done, for
+example, as follows:
+
+export LD_PRELOAD=/usr/lib/pl-5.8.3/lib/i386-linux/libjpl.so
+export LD_LIBRARY_PATH=/usr/lib/jvm/java-6-openjdk/jre/lib/i386:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/lib/jvm/java-6-openjdk/jre/lib/i386/server:$LD_LIBRARY_PATH
+
+Note that the exact paths are most probably different on your system. See also the script
+"run-webapps-with-jettyrunner.sh".
+
+If AceWiki is run on a server without a graphical interface loaded, you should additionally use the
+following Java option:
+
+   -Djava.awt.headless=true
+
+This prevents Java from trying to use graphical libraries that might not be available.
 
 
 4. Web Applications
@@ -93,13 +110,18 @@ Using Jetty Runner, the web applications can be started with
 
   java -Djava.library.path=LIBJPLPATH -jar jetty-runner.jar webapps.war
 
-where LIBJPLPATH is the path of the SWI Prolog JPL library.
+where LIBJPLPATH is the path of the SWI Prolog JPL library, or you can use the Unix shell script
+"run-webapps-with-jettyrunner.sh".
 
 
-5. Mailing List
----------------
+5. Help
+-------
 
-If you encounter problems, you can get help from the Attempto community. Visit the Attempto Mailing
-List site:
+If you encounter problems, you can get help from the community. Bugs and questions can be submitted
+to the AceWiki site on Launchpad:
+
+  https://launchpad.net/acewiki
+
+Alternatively, you can write to the Attempto Mailing List:
 
   http://attempto.ifi.uzh.ch/site/mailinglist/
