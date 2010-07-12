@@ -14,7 +14,7 @@ General:
 (+) Import of ontologies
 (+) Include lexical meta information for OWL export so that it can be imported nicely in ACE View
 (*) AceWiki gets slow after some time when many sentences are added (but is fast again after a restart)
-( ) Support different subsets of OWL (e.g. EL, QL, RL) in order to make reasoning faster
+(X) Support different OWL profiles (EL, QL and RL) in order to make reasoning faster
 (*) Pressing the enter key should perform "OK" in message windows
 ( ) Context parameter in the web.xml file for defining the path where the directories "logs" and "data" should be created
 ( ) Meta statements in ACE, e.g: "country" is a noun.
