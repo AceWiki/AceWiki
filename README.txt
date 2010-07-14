@@ -16,12 +16,17 @@ See lib/README.txt for information about the used third-party libraries.
 1. Content
 ----------
 
+This package contains the semantic wiki AceWiki and the ACE Editor, which is a general-purpose
+editor with support for predictive text editing. Both tools rely on the language ACE, which is a
+controlled natural language, concretely a subset of natural English. See
+http://attempto.ifi.uzh.ch/site/ for more information about ACE.
+
 The code for AceWiki and the ACE Editor is divided into four jar-files:
 
 - attempto-echo.jar contains basic GUI components and a predictive editor.
 - attempto-chartparser.jar contains a chart parser (concretely an Earley parser).
 - attempto-acewiki-xxx.jar contains the AceWiki application.
-- attempto-aceeditor-xxx.jar contains an additional application: an editor called ACE Editor.
+- attempto-aceeditor-xxx.jar contains the ACE Editor application.
 
 See docs/index.html for the detailed documentation of the packages and classes.
 
@@ -55,14 +60,14 @@ available. The file "ape.exe" can be complied from the APE package that can be o
 Attempto download page: http://attempto.ifi.uzh.ch/site/downloads/
 
 Furthermore, you have to use the following Java VM argument that points to the location where the
-SWI Prolog system file libjpl.jnilib (under Mac OS X), jpl.dll (under Windows), or libjpl.so (under
-Linux) is located:
+SWI Prolog library libjpl.jnilib (under Mac OS X), jpl.dll (under Windows), or libjpl.so (under
+Linux) is located. For example:
 
   -Djava.library.path="/usr/lib/pl-5.8.3/lib/i386-linux"
 
 Under Linux, the environment variable LD_PRELOAD has to be set additionally to refer to the SWI
-Prolog library. Under some circumstances, also LD_LIBRARY_PATH has to be set. This can be done, for
-example, as follows:
+Prolog library file. Under some circumstances, also LD_LIBRARY_PATH has to be set. This can be done,
+for example, as follows:
 
 export LD_PRELOAD=/usr/lib/pl-5.8.3/lib/i386-linux/libjpl.so
 export LD_LIBRARY_PATH=/usr/lib/jvm/java-6-openjdk/jre/lib/i386:$LD_LIBRARY_PATH
