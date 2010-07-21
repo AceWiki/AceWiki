@@ -28,7 +28,7 @@ Version 0.4.0:
 - A new "About" page has been added with information about the given wiki instance.
 - The predictive editor has been improved:
   - Improved calculation of the content of the menu blocks.
-  - Better implemenation of the asynchronous menu creation.
+  - Better implementation of the asynchronous menu creation.
 - Refactoring of the ontology classes of AceWiki.
 - New export feature for AceWiki: The wiki content can now be downloaded as two CSV lists (one
   containing the entities and another one containing the statements).
