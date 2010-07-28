@@ -203,7 +203,7 @@
   
   
   <!--
-    The following is an exemplary servlet definition for an AceWiki instance.
+    The following is an exemplary servlet definition for an ACE Editor instance.
   -->
   <servlet>
   
