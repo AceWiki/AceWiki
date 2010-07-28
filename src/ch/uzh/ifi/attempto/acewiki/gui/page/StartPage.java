@@ -66,13 +66,13 @@ public class StartPage extends WikiPage implements ActionListener {
 		if (description != null && description.length() > 0) {
 			addHeadline("Description");
 			Row desc = new Row();
-			desc.setInsets(new Insets(10, 10, 0, 15));
+			desc.setInsets(new Insets(10, 10, 10, 15));
 			desc.add(new Label(description, Font.ITALIC));
 			add(desc);
 		}
 		
 		addHeadline("Largest Articles");
-		linksColumn.setInsets(new Insets(10, 10, 0, 15));
+		linksColumn.setInsets(new Insets(10, 10, 10, 15));
 		add(linksColumn);
 
 		add(new VSpace(20));

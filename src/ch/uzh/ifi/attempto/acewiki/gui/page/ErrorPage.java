@@ -44,7 +44,7 @@ public class ErrorPage extends WikiPage {
 		this.text = text;
 		
 		Row textRow = new Row();
-		textRow.setInsets(new Insets(10, 10, 0, 15));
+		textRow.setInsets(new Insets(10, 10, 10, 15));
 		textRow.add(new SolidLabel(text, Font.ITALIC));
 		add(textRow);
 	}

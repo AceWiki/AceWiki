@@ -195,7 +195,7 @@ public abstract class WikiPage extends Column {
 	 */
 	protected void addHeadline(String text, Component comp) {
 		Row headline = new Row();
-		headline.setInsets(new Insets(10, 10, 0, 0));
+		headline.setInsets(new Insets(10, 10, 10, 0));
 		headline.setCellSpacing(new Extent(5));
 		Label title = new Label(text);
 		title.setFont(new Font(Style.fontTypeface, Font.ITALIC | Font.UNDERLINE, new Extent(13)));

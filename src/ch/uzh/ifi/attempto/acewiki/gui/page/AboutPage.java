@@ -51,17 +51,17 @@ public class AboutPage extends WikiPage implements ActionListener {
 		
 		addHeadline("System");
 		table1 = new NameValueTable();
-		table1.setInsets(new Insets(10, 10, 0, 15));
+		table1.setInsets(new Insets(10, 10, 10, 15));
 		add(table1);
 
 		addHeadline("Ontology");
 		table2 = new NameValueTable();
-		table2.setInsets(new Insets(10, 10, 0, 15));
+		table2.setInsets(new Insets(10, 10, 10, 15));
 		add(table2);
 
 		addHeadline("Reasoner");
 		table3 = new NameValueTable();
-		table3.setInsets(new Insets(10, 10, 0, 15));
+		table3.setInsets(new Insets(10, 10, 10, 15));
 		add(table3);
 		
 		add(new VSpace(20));
