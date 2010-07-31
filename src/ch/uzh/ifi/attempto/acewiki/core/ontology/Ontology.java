@@ -134,10 +134,10 @@ public class Ontology {
 	}
 	
 	/**
-	 * Loads an ontology (or creates an empty ontology if the ontology cannot be found). A
-	 * parameter map is used for ontology parameters. When the ontology with the respective name
-	 * was already loaded, this ontology is returned and the parameters are ignored. The following
-	 * parameters are supported:
+	 * Returns the ontology with the given name (or creates an empty ontology if the ontology
+	 * cannot be found). A parameter map is used for ontology parameters. When the ontology with
+	 * the respective name has already been loaded, this ontology is returned and the parameters
+	 * are ignored. The following parameters are supported:
 	 * "baseuri": The base URI that is used to identify the ontology elements. The complete URI of
 	 *     the ontology is baseURI + name. The default is an empty string.
 	 * "global_restrictions_policy": A string representing the policy how to enforce the global
@@ -154,7 +154,14 @@ public class Ontology {
 	 * @param parameters The parameters.
 	 * @return The loaded ontology.
 	 */
-	public synchronized static Ontology loadOntology(String name, Map<String, String> parameters) {
+	public static Ontology getOntology(String name, Map<String, String> parameters) {
+		if (ontologies.get(name) != null) {
+			return ontologies.get(name);
+		}
+		return loadOntology(name, parameters);
+	}
+	
+	private synchronized static Ontology loadOntology(String name, Map<String, String> parameters) {
 		if (ontologies.get(name) != null) {
 			return ontologies.get(name);
 		}
