@@ -89,8 +89,7 @@ public abstract class FormPane extends WordEditorForm {
 	 * @param wordNumber The word form id.
 	 */
 	protected void finished(OntologyElement el, int wordNumber) {
-		parent.setVisible(false);
-		dispose();
+		wiki.removeWindow(parent);
 		
 		// a text element is used to store the ontology element and the word number in one object:
 		OntologyTextElement te = OntologyTextElement.createTextElement(el, wordNumber);
@@ -145,8 +144,7 @@ public abstract class FormPane extends WordEditorForm {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == cancelButton) {
-			parent.setVisible(false);
-			dispose();
+			wiki.removeWindow(parent);
 		} else {
 			save();
 		}

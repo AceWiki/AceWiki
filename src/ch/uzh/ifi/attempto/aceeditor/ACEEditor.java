@@ -259,9 +259,24 @@ public class ACEEditor extends Window implements ActionListener, KeyStrokes {
 	}
 	
 	void showWindow(WindowPane window) {
+		cleanWindows();
 		getContent().add(window);
 	}
-
+	
+	void removeWindow(WindowPane window) {
+		window.setVisible(false);
+		window.dispose();
+		cleanWindows();
+	}
+	
+	private void cleanWindows() {
+		for (Component c : getContent().getComponents()) {
+			if (!c.isVisible()) {
+				getContent().remove(c);
+			}
+		}
+	}
+	
 	public void actionPerformed(ActionEvent e) {
 		String c = e.getActionCommand();
 		Object source = e.getSource();
@@ -327,16 +342,14 @@ public class ACEEditor extends Window implements ActionListener, KeyStrokes {
 			selectedEntry.setExpanded(true);
 		} else if (source instanceof PreditorWindow && c.equals("Cancel")) {
 			PreditorWindow preditor = (PreditorWindow) source;
-			preditor.setVisible(false);
-			preditor.dispose();
+			removeWindow(preditor);
 			refreshKeyStrokeListener();
 		} else if (source instanceof PreditorWindow && c.equals("OK")) {
 			PreditorWindow preditor = (PreditorWindow) source;
 			preditor.setContextChecker(contextChecker);
 			TextContainer textContainer = preditor.getTextContainer();
 			if (textContainer.getTextElementsCount() == 0) {
-				preditor.dispose();
-				preditor.setVisible(false);
+				removeWindow(preditor);
 				refreshKeyStrokeListener();
 			} else {
 				List<TextElement> finalElements = preditor.getPossibleNextTokens(".", "?");
@@ -358,8 +371,7 @@ public class ACEEditor extends Window implements ActionListener, KeyStrokes {
 						textColumn.add(newEntry, textColumn.indexOf(selectedEntry));
 						select(newEntry);
 					}
-					preditor.dispose();
-					preditor.setVisible(false);
+					removeWindow(preditor);
 					refreshKeyStrokeListener();
 				} else {
 					showWindow(new MessageWindow(

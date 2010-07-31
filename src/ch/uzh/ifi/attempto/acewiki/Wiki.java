@@ -26,6 +26,7 @@ import nextapp.echo2.app.Alignment;
 import nextapp.echo2.app.ApplicationInstance;
 import nextapp.echo2.app.Color;
 import nextapp.echo2.app.Column;
+import nextapp.echo2.app.Component;
 import nextapp.echo2.app.ContentPane;
 import nextapp.echo2.app.Extent;
 import nextapp.echo2.app.Font;
@@ -117,8 +118,6 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	
 	private Stack<WikiPage> history = new Stack<WikiPage>();
 	private Stack<WikiPage> forward = new Stack<WikiPage>();
-	
-	private List<WindowPane> windows = new ArrayList<WindowPane>();
 	
 	private Grammar grammar = new AceWikiGrammar();
 	
@@ -282,7 +281,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 							public synchronized void run() {
 								fTask.updateGUI();
 								if (waitWindow != null) {
-									waitWindow.setVisible(false);
+									removeWindow(waitWindow);
 									waitWindow = null;
 								}
 							}
@@ -337,25 +336,39 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	}
 	
 	/**
-	 * Displays the window in the wiki.
+	 * Shows the window.
 	 * 
 	 * @param window The window to be shown.
 	 */
-	public void showWindow(final WindowPane window) {
+	public void showWindow(WindowPane window) {
+		cleanWindows();
 		if (window instanceof WordEditorWindow ||
 				window instanceof PreditorWindow ||
 				window instanceof TextAreaWindow) {
-			List<WindowPane> windowsNew = new ArrayList<WindowPane>();
-			for (WindowPane wp : windows) {
-				if (wp.isVisible()) windowsNew.add(wp);
-			}
-			windows = windowsNew;
-			int c = windows.size();
+			int c = getContentPane().getComponentCount() - 1;
 			window.setPositionX(new Extent(50 + (c % 5)*40));
 			window.setPositionY(new Extent(50 + (c % 5)*20));
-			windows.add(window);
 		}
 		getContentPane().add(window);
+	}
+	
+	/**
+	 * Removes the window.
+	 * 
+	 * @param window The window to be removed.
+	 */
+	public void removeWindow(WindowPane window) {
+		window.setVisible(false);
+		window.dispose();
+		cleanWindows();
+	}
+	
+	private void cleanWindows() {
+		for (Component c : getContentPane().getComponents()) {
+			if (!c.isVisible()) {
+				getContentPane().remove(c);
+			}
+		}
 	}
 	
 	/**

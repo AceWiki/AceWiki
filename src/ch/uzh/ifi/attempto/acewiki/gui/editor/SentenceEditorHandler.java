@@ -130,8 +130,7 @@ public class SentenceEditorHandler implements ActionListener {
 				page.getWiki().showWindow(mw);
 			}
 		} else if (e.getSource() == editorWindow && e.getActionCommand().equals("Cancel")) {
-			editorWindow.setVisible(false);
-			editorWindow.dispose();
+			wiki.removeWindow(editorWindow);
 		} else if (e.getSource() == messageWindow && e.getActionCommand().equals("a ...")) {
 			checked++;
 			checkSentence();
@@ -236,7 +235,7 @@ public class SentenceEditorHandler implements ActionListener {
 				);
 		}
 		
-		editorWindow.setVisible(false);
+		wiki.removeWindow(editorWindow);
 	}
 
 }

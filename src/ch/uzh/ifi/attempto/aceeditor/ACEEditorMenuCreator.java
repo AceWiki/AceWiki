@@ -416,8 +416,7 @@ class ACEEditorMenuCreator extends MenuCreator implements ActionListener {
 					preditorWindow.addTextElement(word.getTextElement());
 				}
 			}
-			wew.setVisible(false);
-			wew.dispose();
+			editor.removeWindow(wew);
 		}
 	}
 

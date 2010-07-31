@@ -101,11 +101,9 @@ public class CommentEditorHandler implements ActionListener {
 				owner.add(statement, StatementFactory.createComment(textAreaWindow.getText(), owner));
 				page.update();
 			}
-			textAreaWindow.setVisible(false);
-			textAreaWindow.dispose();
+			page.getWiki().removeWindow(textAreaWindow);
 		} else if (e.getActionCommand().equals("Cancel")) {
-			textAreaWindow.setVisible(false);
-			textAreaWindow.dispose();
+			page.getWiki().removeWindow(textAreaWindow);
 		}
 	}
 
