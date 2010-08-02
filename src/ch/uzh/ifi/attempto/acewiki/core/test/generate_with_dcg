@@ -1,0 +1,18 @@
+#---------------------------------------------------------------------------------------------------
+# This bash script generates all sentences of the test grammar up to a certain length. The result
+# is stored in "sentences.txt".
+#
+# Author: Tobias Kuhn
+#---------------------------------------------------------------------------------------------------
+
+echo "sentence count"
+cat sentences.txt | wc -l
+echo "unique sentence count"
+sort -u sentences.txt | wc -l
+echo "generate sentences..."
+time swipl -g "consult(generate_with_dcg)." -t halt | sort > sentences.txt
+echo "finished."
+echo "sentence count"
+cat sentences.txt | wc -l
+echo "unique sentence count"
+sort -u sentences.txt | wc -l

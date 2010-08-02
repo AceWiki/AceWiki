@@ -1,0 +1,20 @@
+#---------------------------------------------------------------------------------------------------
+# This bash script extracts a test grammar (testgrammar.pl) and the grammar to be used by the ACE
+# Editor (../aceeditor_grammar.pl) from the master grammar (grammar.pl). Then, other
+# representations like a DCG grammar and a Java class are generated for each of the two grammars.
+#
+# SWI Prolog has to be installed. This script assumes that the SWI Prolog command is "swipl". If
+# this is different (e.g. "pl"), the script has to be changed accordingly.
+#
+# Author: Tobias Kuhn
+#---------------------------------------------------------------------------------------------------
+
+cat grammar.pl | perl extract_subgrammar.perl m > ../aceeditor_grammar.pl
+cat grammar.pl | perl extract_subgrammar.perl t > testgrammar.pl
+
+swipl -s ../../codeco/validate_codeco.pl -g "validate_codeco('testgrammar.pl')" -t halt
+swipl -s ../../codeco/generate_dcg.pl -g "generate_dcg('testgrammar.pl', 'testgrammar_dcg.pl')" -t halt
+swipl -s ../../codeco/generate_java.pl -g "generate_java('testgrammar.pl', 'ch.uzh.ifi.attempto.aceeditor.test.TestGrammar')" -t halt
+
+cd ..
+bash compile_grammar

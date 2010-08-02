@@ -1,0 +1,13 @@
+#---------------------------------------------------------------------------------------------------
+# This bash script parses all sentences of "sentences.txt" with the Prolog DCG version of the
+# grammar.
+#
+# Author: Tobias Kuhn
+#---------------------------------------------------------------------------------------------------
+
+cat sentences.txt |
+	sed "s/ *$/'])./" |
+	sed "s/^/text(['/" |
+	sed "s/  /', '/g" > sentences.pl
+time swipl -g "consult(parse_with_dcg)." -t halt
+rm sentences.pl

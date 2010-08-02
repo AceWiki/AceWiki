@@ -1,0 +1,10 @@
+#---------------------------------------------------------------------------------------------------
+# This bash script feeds all sentences of "sentences.txt" to the Attempto Parsing Engine (APE) in
+# order to check whether they are all within ACE. The APE executable is invoked directly.
+#
+# Author: Tobias Kuhn
+#---------------------------------------------------------------------------------------------------
+
+time cat sentences.txt |
+  sed 's_.*_echo "&"; ape.exe -text "&" -ulexfile test.lex.pl -noclex -solo syntax_' |
+  bash > sentences_parsed_with_ape.txt

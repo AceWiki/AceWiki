@@ -1,0 +1,13 @@
+#---------------------------------------------------------------------------------------------------
+# This bash script feeds all sentences of "sentences.txt" to the Attempto Parsing Engine (APE) in
+# order to check whether they are all within ACE. The APE executable is invoked through the HTTP
+# interface. APE has to be running as an HTTP server:
+#   swipl -x ape.exe -- -httpserver -port 8001 &
+#
+# Author: Tobias Kuhn
+#---------------------------------------------------------------------------------------------------
+
+time cat sentences.txt |
+  sed 's_  *_+_g' |
+  sed 's_.*_echo "&"; curl "http://localhost:8001/?text=&\&solo=syntax" ; echo_' |
+  bash 2> /dev/null > sentences_parsed_with_apehttpserver.txt

@@ -157,7 +157,7 @@
             destfile="acewiki-${version}.zip"
             basedir="."
             includes="**"
-            excludes="*.zip *.war .* .bzr/** classes/** webapps/war/WEB-INF/lib/** **/local/** **/test/**"
+            excludes="*.zip *.war .* .bzr/** classes/** webapps/war/WEB-INF/lib/** **/local/**"
         />
     </target>
 
