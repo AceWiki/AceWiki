@@ -1088,7 +1088,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(preterm);
 		addGrammarRule(new GrammarRule(l, false));
 		
-		// np(id:A, exist:plus, of:minus, pl:minus, copula:minus, whin:B, whout:B)=>num_quant(exact:plus), ['1'], #A, $noun(human:C, gender:D, text:E), >(id:A, human:C, gender:D, type:noun, hasvar:minus, noun:E)
+		// np(id:A, exist:plus, of:minus, pl:minus, copula:minus, whin:B, whout:B)=>num_quant, ['1'], #A, $noun(human:C, gender:D, text:E), >(id:A, human:C, gender:D, type:noun, hasvar:minus, noun:E)
 		l.clear();
 		featureHash.clear();
 		nonterm = new Nonterminal("np");
@@ -1104,7 +1104,6 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		nonterm = new Nonterminal("num_quant");
 		fm = new FeatureMap();
-		fm.setFeature("exact", new StringRef("plus"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		term = new Terminal("1");
@@ -1131,38 +1130,6 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "noun", 4, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
-		addGrammarRule(new GrammarRule(l, false));
-		
-		// np(id:A, exist:plus, of:minus, pl:minus, copula:minus, whin:B, whout:B)=>num_quant(exact:minus), ['1'], #A, $noun
-		l.clear();
-		featureHash.clear();
-		nonterm = new Nonterminal("np");
-		fm = new FeatureMap();
-		setFeature(fm, "id", 0, featureHash);
-		fm.setFeature("exist", new StringRef("plus"));
-		fm.setFeature("of", new StringRef("minus"));
-		fm.setFeature("pl", new StringRef("minus"));
-		fm.setFeature("copula", new StringRef("minus"));
-		setFeature(fm, "whin", 1, featureHash);
-		setFeature(fm, "whout", 1, featureHash);
-		nonterm.setFeatureMap(fm);
-		l.add(nonterm);
-		nonterm = new Nonterminal("num_quant");
-		fm = new FeatureMap();
-		fm.setFeature("exact", new StringRef("minus"));
-		nonterm.setFeatureMap(fm);
-		l.add(nonterm);
-		term = new Terminal("1");
-		l.add(term);
-		nonterm = new Nonterminal("#");
-		fm = new FeatureMap();
-		setFeature(fm, "pos", 0, featureHash);
-		nonterm.setFeatureMap(fm);
-		l.add(nonterm);
-		preterm = new Preterminal("noun");
-		fm = new FeatureMap();
-		preterm.setFeatureMap(fm);
-		l.add(preterm);
 		addGrammarRule(new GrammarRule(l, false));
 		
 		// np(id:A, exist:plus, of:minus, pl:minus, whout:plus)=> #A, [what], >(id:A, human:minus, type:wh, hasvar:minus)
@@ -2125,60 +2092,55 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		
 		/* The category 'num_quant' stands for numerical quantifiers: */
 		
-		// num_quant(exact:minus)=>['at least']
+		// num_quant=>['at least']
 		l.clear();
 		featureHash.clear();
 		nonterm = new Nonterminal("num_quant");
 		fm = new FeatureMap();
-		fm.setFeature("exact", new StringRef("minus"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		term = new Terminal("at least");
 		l.add(term);
 		addGrammarRule(new GrammarRule(l, false));
 		
-		// num_quant(exact:minus)=>['at most']
+		// num_quant=>['at most']
 		l.clear();
 		featureHash.clear();
 		nonterm = new Nonterminal("num_quant");
 		fm = new FeatureMap();
-		fm.setFeature("exact", new StringRef("minus"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		term = new Terminal("at most");
 		l.add(term);
 		addGrammarRule(new GrammarRule(l, false));
 		
-		// num_quant(exact:minus)=>['less than']
+		// num_quant=>['less than']
 		l.clear();
 		featureHash.clear();
 		nonterm = new Nonterminal("num_quant");
 		fm = new FeatureMap();
-		fm.setFeature("exact", new StringRef("minus"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		term = new Terminal("less than");
 		l.add(term);
 		addGrammarRule(new GrammarRule(l, false));
 		
-		// num_quant(exact:minus)=>['more than']
+		// num_quant=>['more than']
 		l.clear();
 		featureHash.clear();
 		nonterm = new Nonterminal("num_quant");
 		fm = new FeatureMap();
-		fm.setFeature("exact", new StringRef("minus"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		term = new Terminal("more than");
 		l.add(term);
 		addGrammarRule(new GrammarRule(l, false));
 		
-		// num_quant(exact:plus)=>[exactly]
+		// num_quant=>[exactly]
 		l.clear();
 		featureHash.clear();
 		nonterm = new Nonterminal("num_quant");
 		fm = new FeatureMap();
-		fm.setFeature("exact", new StringRef("plus"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		term = new Terminal("exactly");

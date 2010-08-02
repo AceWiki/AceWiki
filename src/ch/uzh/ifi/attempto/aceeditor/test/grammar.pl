@@ -294,20 +294,12 @@ np(id:ID, exist:plus, of:minus, pl:plus, copula:minus, whin:Wh, whout:Wh) =>
 
 %% m t
 np(id:ID, exist:plus, of:minus, pl:minus, copula:minus, whin:Wh, whout:Wh) =>
-	num_quant(exact:plus),
+	num_quant,
 	['1'],
 	#ID,
 	opt_adj_coord,
 	$noun_sg(human:H, gender:G, text:Noun),
 	>(id:ID, human:H, gender:G, type:noun, hasvar:minus, noun:Noun).
-
-%% m
-np(id:ID, exist:plus, of:minus, pl:minus, copula:minus, whin:Wh, whout:Wh) =>
-	num_quant(exact:minus),
-	['1'],
-	#ID,
-	opt_adj_coord,
-	$noun_sg.
 
 %% m
 np(id:ID, exist:plus, of:minus, pl:minus, whout:plus) =>
@@ -923,23 +915,23 @@ quant(exist:minus) =>
 paragraph:'The category ''num_quant'' stands for numerical quantifiers:'.
 
 %% m
-num_quant(exact:minus) =>
+num_quant =>
 	['at least'].
 
 %% m
-num_quant(exact:minus) =>
+num_quant =>
 	['at most'].
 
 %% m
-num_quant(exact:minus) =>
+num_quant =>
 	['less than'].
 
 %% m
-num_quant(exact:minus) =>
+num_quant =>
 	['more than'].
 
 %% m t
-num_quant(exact:plus) =>
+num_quant =>
 	['exactly'].
 
 %% m t

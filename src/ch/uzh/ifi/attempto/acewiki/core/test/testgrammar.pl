@@ -177,7 +177,7 @@ np(id:ID, exist:plus, of:minus, pl:plus, copula:minus, whin:Wh, whout:Wh) =>
 	$nounpl.
 
 np(id:ID, exist:plus, of:minus, pl:minus, copula:minus, whin:Wh, whout:Wh) =>
-	num_quant(exact:plus),
+	num_quant,
 	['1'],
 	#ID,
 	$noun(human:H, gender:G, text:Noun),
@@ -304,7 +304,7 @@ quant(exist:minus) =>
 	//,
 	[every].
 
-num_quant(exact:plus) =>
+num_quant =>
 	['exactly'].
 
 

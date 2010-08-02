@@ -192,7 +192,7 @@ np(id:ID, exist:plus, of:minus, pl:plus, copula:minus, whin:Wh, whout:Wh) =>
 	$noun_pl.
 
 np(id:ID, exist:plus, of:minus, pl:minus, copula:minus, whin:Wh, whout:Wh) =>
-	num_quant(exact:plus),
+	num_quant,
 	['1'],
 	#ID,
 	opt_adj_coord,
@@ -441,7 +441,7 @@ quant(exist:minus) =>
 	//,
 	[every].
 
-num_quant(exact:plus) =>
+num_quant =>
 	['exactly'].
 
 

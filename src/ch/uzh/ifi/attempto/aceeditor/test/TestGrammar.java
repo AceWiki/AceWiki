@@ -1095,7 +1095,7 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(preterm);
 		addGrammarRule(new GrammarRule(l, false));
 		
-		// np(id:A, exist:plus, of:minus, pl:minus, copula:minus, whin:B, whout:B)=>num_quant(exact:plus), ['1'], #A, opt_adj_coord, $noun_sg(human:C, gender:D, text:E), >(id:A, human:C, gender:D, type:noun, hasvar:minus, noun:E)
+		// np(id:A, exist:plus, of:minus, pl:minus, copula:minus, whin:B, whout:B)=>num_quant, ['1'], #A, opt_adj_coord, $noun_sg(human:C, gender:D, text:E), >(id:A, human:C, gender:D, type:noun, hasvar:minus, noun:E)
 		l.clear();
 		featureHash.clear();
 		nonterm = new Nonterminal("np");
@@ -1111,7 +1111,6 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		nonterm = new Nonterminal("num_quant");
 		fm = new FeatureMap();
-		fm.setFeature("exact", new StringRef("plus"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		term = new Terminal("1");
@@ -2485,12 +2484,11 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(term);
 		addGrammarRule(new GrammarRule(l, false));
 		
-		// num_quant(exact:plus)=>[exactly]
+		// num_quant=>[exactly]
 		l.clear();
 		featureHash.clear();
 		nonterm = new Nonterminal("num_quant");
 		fm = new FeatureMap();
-		fm.setFeature("exact", new StringRef("plus"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		term = new Terminal("exactly");
