@@ -89,6 +89,11 @@ class AceWikiApp extends ApplicationInstance {
 		return window;
 	}
 	
+	public void dispose() {
+		wiki.dispose();
+		super.dispose();
+	}
+
 	/**
 	 * Logs out the current user. Note that login/logout is only implemented very rudimentary at the
 	 * moment.

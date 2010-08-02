@@ -126,9 +126,13 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private List<Task> strongTasks = new ArrayList<Task>();
 	private List<Task> weakTasks = new ArrayList<Task>();
 	
+	private ExternalEventMonitor externalEventMonitor;
+	
 	private ApplicationInstance application;
 	
 	private static Properties properties;
+	
+	private boolean disposed = false;
 	
 	/**
 	 * Creates a new wiki instance.
@@ -210,7 +214,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		logoutListItem.setVisible(false);
 		sideCol.add(logoutListItem);
 		
-		ExternalEventMonitor externalEventMonitor = new ExternalEventMonitor();
+		externalEventMonitor = new ExternalEventMonitor();
 		externalEventMonitor.addExternalEventListener(this);
 		sideCol.add(externalEventMonitor);
 		
@@ -266,6 +270,10 @@ public class Wiki implements ActionListener, ExternalEventListener {
 					try {
 						sleep(500);
 					} catch (InterruptedException ex) {}
+					
+					if (disposed) {
+						break;
+					}
 					
 					Task task = null;
 					if (strongTasks.size() > 0) {
@@ -669,6 +677,15 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		}
 		
 		return properties.getProperty(key);
+	}
+	
+	/**
+	 * Cleans up when the object is no longer used.
+	 */
+	public void dispose() {
+		disposed = true;
+		externalEventMonitor.removeExternalEventListener(this);
+		externalEventMonitor.dispose();
 	}
 
 }
