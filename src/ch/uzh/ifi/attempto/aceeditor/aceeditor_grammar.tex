@@ -54,7 +54,7 @@
 
 \section*{ACE Editor Grammar}
 
-\noindent - Tobias Kuhn, 17 November 2009 - \vspace{2mm}
+\noindent - Tobias Kuhn, 2 August 2010 - \vspace{2mm}
 
 \noindent Below, the grammar rules of the ACE Editor grammar are shown: \vspace{2mm}
 
@@ -103,9 +103,10 @@
 {\scriptsize
 \noindent$
 \ruleid
-\nrule{
+\scrule{
   \scat{complete\_sentence}
 }{
+  \scopeopensymb{}
   \cat{simple\_sentence\_2}{\featc{whin}{--}\featc{whout}{+}}
   \term{?}
 }$
@@ -592,12 +593,27 @@
 \nrule{
   \cat{np}{\featc{copula}{--}\featc{exist}{+}\featv{id}{1}\featc{of}{--}\featc{pl}{--}\featv{whin}{2}\featv{whout}{2}}
 }{
-  \scat{num\_quant}
+  \cat{num\_quant}{\featc{exact}{+}}
   \term{1}
   \pos{1}
   \scat{opt\_adj\_coord}
   \preterm{noun\_sg}{\featv{gender}{4}\featv{human}{3}\featv{text}{5}}
   \fwref{\featv{gender}{4}\featc{hasvar}{--}\featv{human}{3}\featv{id}{1}\featv{noun}{5}\featc{type}{noun}}
+}$
+\vspace{2mm}
+
+}
+{\scriptsize
+\noindent$
+\ruleid
+\nrule{
+  \cat{np}{\featc{copula}{--}\featc{exist}{+}\featv{id}{1}\featc{of}{--}\featc{pl}{--}\featv{whin}{2}\featv{whout}{2}}
+}{
+  \cat{num\_quant}{\featc{exact}{--}}
+  \term{1}
+  \pos{1}
+  \scat{opt\_adj\_coord}
+  \spreterm{noun\_sg}
 }$
 \vspace{2mm}
 
@@ -1934,7 +1950,7 @@
 \noindent$
 \ruleid
 \nrule{
-  \scat{num\_quant}
+  \cat{num\_quant}{\featc{exact}{--}}
 }{
   \term{at least}
 }$
@@ -1945,7 +1961,7 @@
 \noindent$
 \ruleid
 \nrule{
-  \scat{num\_quant}
+  \cat{num\_quant}{\featc{exact}{--}}
 }{
   \term{at most}
 }$
@@ -1956,7 +1972,7 @@
 \noindent$
 \ruleid
 \nrule{
-  \scat{num\_quant}
+  \cat{num\_quant}{\featc{exact}{--}}
 }{
   \term{less than}
 }$
@@ -1967,7 +1983,7 @@
 \noindent$
 \ruleid
 \nrule{
-  \scat{num\_quant}
+  \cat{num\_quant}{\featc{exact}{--}}
 }{
   \term{more than}
 }$
@@ -1978,7 +1994,7 @@
 \noindent$
 \ruleid
 \nrule{
-  \scat{num\_quant}
+  \cat{num\_quant}{\featc{exact}{+}}
 }{
   \term{exactly}
 }$

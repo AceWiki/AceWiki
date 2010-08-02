@@ -41,11 +41,12 @@ text ~>
 paragraph:'A complete sentence is represented by the category ''complete_sentence'' and is either
 		a declarative sentence that ends with a full stop or a question ending with a question mark:'.
 
-complete_sentence =>
+complete_sentence ~>
 	sentence,
 	['.'].
 
-complete_sentence =>
+complete_sentence ~>
+	//,
 	simple_sentence_2(whin:minus, whout:plus),
 	['?'].
 
@@ -222,11 +223,17 @@ np(id:ID, exist:plus, of:minus, pl:plus, copula:minus, whin:Wh, whout:Wh) =>
 	$nounpl.
 
 np(id:ID, exist:plus, of:minus, pl:minus, copula:minus, whin:Wh, whout:Wh) =>
-	num_quant,
+	num_quant(exact:plus),
 	['1'],
 	#ID,
 	$noun(human:H, gender:G, text:Noun),
 	>(id:ID, human:H, gender:G, type:noun, hasvar:minus, noun:Noun).
+
+np(id:ID, exist:plus, of:minus, pl:minus, copula:minus, whin:Wh, whout:Wh) =>
+	num_quant(exact:minus),
+	['1'],
+	#ID,
+	$noun.
 
 np(id:ID, exist:plus, of:minus, pl:minus, whout:plus) =>
 	#ID,
@@ -431,19 +438,19 @@ quant(exist:minus) =>
 
 paragraph:'The category ''num_quant'' stands for numerical quantifiers:'.
 
-num_quant =>
+num_quant(exact:minus) =>
 	['at least'].
 
-num_quant =>
+num_quant(exact:minus) =>
 	['at most'].
 
-num_quant =>
+num_quant(exact:minus) =>
 	['less than'].
 
-num_quant =>
+num_quant(exact:minus) =>
 	['more than'].
 
-num_quant =>
+num_quant(exact:plus) =>
 	['exactly'].
 
 

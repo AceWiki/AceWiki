@@ -21,7 +21,7 @@
 
 title:'ACE Editor Grammar'.
 
-paragraph:'- Tobias Kuhn, 17 November 2009 -'.
+paragraph:'- Tobias Kuhn, 2 August 2010 -'.
 
 paragraph:'Below, the grammar rules of the ACE Editor grammar are shown:'.
 
@@ -45,7 +45,8 @@ complete_sentence =>
 	sentence,
 	['.'].
 
-complete_sentence =>
+complete_sentence ~>
+	//,
 	simple_sentence_2(whin:minus, whout:plus),
 	['?'].
 
@@ -238,12 +239,19 @@ np(id:ID, exist:plus, of:minus, pl:plus, copula:minus, whin:Wh, whout:Wh) =>
 	$noun_pl.
 
 np(id:ID, exist:plus, of:minus, pl:minus, copula:minus, whin:Wh, whout:Wh) =>
-	num_quant,
+	num_quant(exact:plus),
 	['1'],
 	#ID,
 	opt_adj_coord,
 	$noun_sg(human:H, gender:G, text:Noun),
 	>(id:ID, human:H, gender:G, type:noun, hasvar:minus, noun:Noun).
+
+np(id:ID, exist:plus, of:minus, pl:minus, copula:minus, whin:Wh, whout:Wh) =>
+	num_quant(exact:minus),
+	['1'],
+	#ID,
+	opt_adj_coord,
+	$noun_sg.
 
 np(id:ID, exist:plus, of:minus, pl:minus, whout:plus) =>
 	#ID,
@@ -731,19 +739,19 @@ quant(exist:minus) =>
 
 paragraph:'The category ''num_quant'' stands for numerical quantifiers:'.
 
-num_quant =>
+num_quant(exact:minus) =>
 	['at least'].
 
-num_quant =>
+num_quant(exact:minus) =>
 	['at most'].
 
-num_quant =>
+num_quant(exact:minus) =>
 	['less than'].
 
-num_quant =>
+num_quant(exact:minus) =>
 	['more than'].
 
-num_quant =>
+num_quant(exact:plus) =>
 	['exactly'].
 
 

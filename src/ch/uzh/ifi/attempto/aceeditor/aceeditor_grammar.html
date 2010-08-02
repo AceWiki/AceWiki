@@ -48,7 +48,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 <body>
 
 <h1>ACE Editor Grammar</h1>
-<p>- Tobias Kuhn, 17 November 2009 -</p>
+<p>- Tobias Kuhn, 2 August 2010 -</p>
 <p>Below, the grammar rules of the ACE Editor grammar are shown:</p>
 <h3>Texts and Sentences</h3>
 <p>'text' stands for a complete text consisting of an arbitrary number of complete
@@ -80,7 +80,8 @@ a[href]:hover {color: blue; text-decoration: none; }
 <table class="r"><tr>
   <td class="id">(4)</td>
   <td class="cat"><a href="#complete_sentence">complete_sentence</a></td>
-<td class="arrow"><a name="complete_sentence"/>=></td>
+<td class="arrow"><a name="complete_sentence"/>~></td>
+  <td class="special">//</td>
   <td class="cat"><a href="#simple_sentence_2">simple_sentence_2</a></td><td><table class="f"><tr><td class="f">whin: <strong>&ndash;</strong></td></tr><tr><td class="f">whout: <strong>+</strong></td></tr>  </table></td> <td></td>
   <td class="cat">[ <span class="term">?</span> ]</td>
 </tr></table>
@@ -410,7 +411,7 @@ a[href]:hover {color: blue; text-decoration: none; }
   <td class="id">(41)</td>
   <td class="cat"><a href="#np">np</a></td><td><table class="f"><tr><td class="f">copula: <strong>&ndash;</strong></td></tr><tr><td class="f">exist: <strong>+</strong></td></tr><tr><td class="f">id: <span class="var"> 1 </span></td></tr><tr><td class="f">of: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>&ndash;</strong></td></tr><tr><td class="f">whin: <span class="var"> 2 </span></td></tr><tr><td class="f">whout: <span class="var"> 2 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="np"/>=></td>
-  <td class="cat"><a href="#num_quant">num_quant</a></td>
+  <td class="cat"><a href="#num_quant">num_quant</a></td><td><table class="f"><tr><td class="f">exact: <strong>+</strong></td></tr>  </table></td> <td></td>
   <td class="cat">[ <span class="term">1</span> ]</td>
   <td class="special">#</td><td><span class="var">1</span></td>
   <td class="cat"><a href="#opt_adj_coord">opt_adj_coord</a></td>
@@ -420,6 +421,17 @@ a[href]:hover {color: blue; text-decoration: none; }
 
 <table class="r"><tr>
   <td class="id">(42)</td>
+  <td class="cat"><a href="#np">np</a></td><td><table class="f"><tr><td class="f">copula: <strong>&ndash;</strong></td></tr><tr><td class="f">exist: <strong>+</strong></td></tr><tr><td class="f">id: <span class="var"> 1 </span></td></tr><tr><td class="f">of: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>&ndash;</strong></td></tr><tr><td class="f">whin: <span class="var"> 2 </span></td></tr><tr><td class="f">whout: <span class="var"> 2 </span></td></tr>  </table></td> <td></td>
+<td class="arrow"><a name="np"/>=></td>
+  <td class="cat"><a href="#num_quant">num_quant</a></td><td><table class="f"><tr><td class="f">exact: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
+  <td class="cat">[ <span class="term">1</span> ]</td>
+  <td class="special">#</td><td><span class="var">1</span></td>
+  <td class="cat"><a href="#opt_adj_coord">opt_adj_coord</a></td>
+  <td class="preterm"><a href="#_noun_sg">noun_sg</a></td>
+</tr></table>
+
+<table class="r"><tr>
+  <td class="id">(43)</td>
   <td class="cat"><a href="#np">np</a></td><td><table class="f"><tr><td class="f">exist: <strong>+</strong></td></tr><tr><td class="f">id: <span class="var"> 1 </span></td></tr><tr><td class="f">of: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>&ndash;</strong></td></tr><tr><td class="f">whout: <strong>+</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="np"/>=></td>
   <td class="special">#</td><td><span class="var">1</span></td>
@@ -428,7 +440,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(43)</td>
+  <td class="id">(44)</td>
   <td class="cat"><a href="#np">np</a></td><td><table class="f"><tr><td class="f">exist: <strong>+</strong></td></tr><tr><td class="f">id: <span class="var"> 1 </span></td></tr><tr><td class="f">of: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>&ndash;</strong></td></tr><tr><td class="f">whout: <strong>+</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="np"/>=></td>
   <td class="special">#</td><td><span class="var">1</span></td>
@@ -437,7 +449,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(44)</td>
+  <td class="id">(45)</td>
   <td class="cat"><a href="#np">np</a></td><td><table class="f"><tr><td class="f">embv: <span class="var"> 5 </span></td></tr><tr><td class="f">exist: <strong>+</strong></td></tr><tr><td class="f">id: <span class="var"> 1 </span></td></tr><tr><td class="f">of: <span class="var"> 4 </span></td></tr><tr><td class="f">pl: <strong>&ndash;</strong></td></tr><tr><td class="f">rel: <span class="var"> 3 </span></td></tr><tr><td class="f">subj: <span class="var"> 2 </span></td></tr><tr><td class="f">whout: <strong>+</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="np"/>=></td>
   <td class="cat">[ <span class="term">which</span> ]</td>
@@ -445,7 +457,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(45)</td>
+  <td class="id">(46)</td>
   <td class="cat"><a href="#np">np</a></td><td><table class="f"><tr><td class="f">exist: <strong>+</strong></td></tr><tr><td class="f">id: <span class="var"> 1 </span></td></tr><tr><td class="f">of: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>+</strong></td></tr><tr><td class="f">whout: <strong>+</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="np"/>=></td>
   <td class="cat">[ <span class="term">which</span> ]</td>
@@ -457,7 +469,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 <p>The category 'nc' represents nouns optionally followed by variables, relative clauses,
 		and prepositional phrases using "of":</p>
 <table class="r"><tr>
-  <td class="id">(46)</td>
+  <td class="id">(47)</td>
   <td class="cat"><a href="#nc">nc</a></td><td><table class="f"><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">id: <span class="var"> 1 </span></td></tr><tr><td class="f">of: <strong>&ndash;</strong></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="nc"/>=></td>
   <td class="cat"><a href="#n">n</a></td><td><table class="f"><tr><td class="f">gender: <span class="var"> 7 </span></td></tr><tr><td class="f">human: <span class="var"> 6 </span></td></tr><tr><td class="f">id: <span class="var"> 1 </span></td></tr><tr><td class="f">text: <span class="var"> 8 </span></td></tr>  </table></td> <td></td>
@@ -467,7 +479,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(47)</td>
+  <td class="id">(48)</td>
   <td class="cat"><a href="#nc">nc</a></td><td><table class="f"><tr><td class="f">embv: <span class="var"> 4 </span></td></tr><tr><td class="f">id: <span class="var"> 1 </span></td></tr><tr><td class="f">of: <strong>+</strong></td></tr><tr><td class="f">rel: <span class="var"> 3 </span></td></tr><tr><td class="f">subj: <span class="var"> 2 </span></td></tr><tr><td class="f">whin: <span class="var"> 5 </span></td></tr><tr><td class="f">whout: <span class="var"> 6 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="nc"/>~></td>
   <td class="cat"><a href="#n">n</a></td><td><table class="f"><tr><td class="f">gender: <span class="var"> 8 </span></td></tr><tr><td class="f">human: <span class="var"> 7 </span></td></tr><tr><td class="f">id: <span class="var"> 1 </span></td></tr><tr><td class="f">text: <span class="var"> 9 </span></td></tr>  </table></td> <td></td>
@@ -479,7 +491,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 <p>The category 'n' stands for nouns that are preceded by an optional adjective
 		coordination:</p>
 <table class="r"><tr>
-  <td class="id">(48)</td>
+  <td class="id">(49)</td>
   <td class="cat"><a href="#n">n</a></td><td><table class="f"><tr><td class="f">gender: <span class="var"> 3 </span></td></tr><tr><td class="f">human: <span class="var"> 2 </span></td></tr><tr><td class="f">id: <span class="var"> 1 </span></td></tr><tr><td class="f">text: <span class="var"> 4 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="n"/>=></td>
   <td class="cat"><a href="#opt_adj_coord">opt_adj_coord</a></td>
@@ -490,20 +502,20 @@ a[href]:hover {color: blue; text-decoration: none; }
 <p>New variables, optional and mandatory, are represented by 'opt_newvar' and 'newvar',
 		respectively:</p>
 <table class="r"><tr>
-  <td class="id">(49)</td>
+  <td class="id">(50)</td>
   <td class="cat"><a href="#opt_newvar">opt_newvar</a></td><td><table class="f"><tr><td class="f">hasvar: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="opt_newvar"/>=></td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(50)</td>
+  <td class="id">(51)</td>
   <td class="cat"><a href="#opt_newvar">opt_newvar</a></td><td><table class="f"><tr><td class="f">hasvar: <strong>+</strong></td></tr><tr><td class="f">var: <span class="var"> 1 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="opt_newvar"/>=></td>
   <td class="cat"><a href="#newvar">newvar</a></td><td><table class="f"><tr><td class="f">var: <span class="var"> 1 </span></td></tr>  </table></td> <td></td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(51)</td>
+  <td class="id">(52)</td>
   <td class="cat"><a href="#newvar">newvar</a></td><td><table class="f"><tr><td class="f">var: <span class="var"> 1 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="newvar"/>=></td>
   <td class="preterm"><a href="#_var">var</a></td><td><table class="f"><tr><td class="f">text: <span class="var"> 1 </span></td></tr>  </table></td> <td></td>
@@ -513,14 +525,14 @@ a[href]:hover {color: blue; text-decoration: none; }
 <p>Proper names can either require the definite article "the" or not, and are represented
 		by the category 'prop':</p>
 <table class="r"><tr>
-  <td class="id">(52)</td>
+  <td class="id">(53)</td>
   <td class="cat"><a href="#prop">prop</a></td><td><table class="f"><tr><td class="f">gender: <span class="var"> 3 </span></td></tr><tr><td class="f">human: <span class="var"> 2 </span></td></tr><tr><td class="f">id: <span class="var"> 1 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="prop"/>=></td>
   <td class="preterm"><a href="#_prop_sg">prop_sg</a></td><td><table class="f"><tr><td class="f">gender: <span class="var"> 3 </span></td></tr><tr><td class="f">human: <span class="var"> 2 </span></td></tr><tr><td class="f">text: <span class="var"> 1 </span></td></tr>  </table></td> <td></td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(53)</td>
+  <td class="id">(54)</td>
   <td class="cat"><a href="#prop">prop</a></td><td><table class="f"><tr><td class="f">gender: <span class="var"> 3 </span></td></tr><tr><td class="f">human: <span class="var"> 2 </span></td></tr><tr><td class="f">id: <span class="var"> 1 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="prop"/>=></td>
   <td class="preterm"><a href="#_propdef_sg">propdef_sg</a></td><td><table class="f"><tr><td class="f">gender: <span class="var"> 3 </span></td></tr><tr><td class="f">human: <span class="var"> 2 </span></td></tr><tr><td class="f">text: <span class="var"> 1 </span></td></tr>  </table></td> <td></td>
@@ -530,27 +542,27 @@ a[href]:hover {color: blue; text-decoration: none; }
 <p>Adjectives can be only coordinated by "and", and are represented by 'opt_adj_coord'
 		for the optional case and by 'adj_coord' if mandatory:</p>
 <table class="r"><tr>
-  <td class="id">(54)</td>
+  <td class="id">(55)</td>
   <td class="cat"><a href="#opt_adj_coord">opt_adj_coord</a></td>
 <td class="arrow"><a name="opt_adj_coord"/>=></td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(55)</td>
+  <td class="id">(56)</td>
   <td class="cat"><a href="#opt_adj_coord">opt_adj_coord</a></td>
 <td class="arrow"><a name="opt_adj_coord"/>=></td>
   <td class="cat"><a href="#adj_coord">adj_coord</a></td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(56)</td>
+  <td class="id">(57)</td>
   <td class="cat"><a href="#adj_coord">adj_coord</a></td>
 <td class="arrow"><a name="adj_coord"/>=></td>
   <td class="cat"><a href="#adj">adj</a></td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(57)</td>
+  <td class="id">(58)</td>
   <td class="cat"><a href="#adj_coord">adj_coord</a></td>
 <td class="arrow"><a name="adj_coord"/>=></td>
   <td class="cat"><a href="#adj">adj</a></td>
@@ -561,17 +573,9 @@ a[href]:hover {color: blue; text-decoration: none; }
 <p>Uncoordinated adjectives are represented by 'adj' and can be used in positive,
 		comparative and superlative forms:</p>
 <table class="r"><tr>
-  <td class="id">(58)</td>
-  <td class="cat"><a href="#adj">adj</a></td>
-<td class="arrow"><a name="adj"/>=></td>
-  <td class="preterm"><a href="#_adj_itr">adj_itr</a></td>
-</tr></table>
-
-<table class="r"><tr>
   <td class="id">(59)</td>
   <td class="cat"><a href="#adj">adj</a></td>
 <td class="arrow"><a name="adj"/>=></td>
-  <td class="cat">[ <span class="term">more</span> ]</td>
   <td class="preterm"><a href="#_adj_itr">adj_itr</a></td>
 </tr></table>
 
@@ -579,11 +583,19 @@ a[href]:hover {color: blue; text-decoration: none; }
   <td class="id">(60)</td>
   <td class="cat"><a href="#adj">adj</a></td>
 <td class="arrow"><a name="adj"/>=></td>
-  <td class="preterm"><a href="#_adj_itr_comp">adj_itr_comp</a></td>
+  <td class="cat">[ <span class="term">more</span> ]</td>
+  <td class="preterm"><a href="#_adj_itr">adj_itr</a></td>
 </tr></table>
 
 <table class="r"><tr>
   <td class="id">(61)</td>
+  <td class="cat"><a href="#adj">adj</a></td>
+<td class="arrow"><a name="adj"/>=></td>
+  <td class="preterm"><a href="#_adj_itr_comp">adj_itr_comp</a></td>
+</tr></table>
+
+<table class="r"><tr>
+  <td class="id">(62)</td>
   <td class="cat"><a href="#adj">adj</a></td>
 <td class="arrow"><a name="adj"/>=></td>
   <td class="cat">[ <span class="term">most</span> ]</td>
@@ -591,7 +603,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(62)</td>
+  <td class="id">(63)</td>
   <td class="cat"><a href="#adj">adj</a></td>
 <td class="arrow"><a name="adj"/>=></td>
   <td class="preterm"><a href="#_adj_itr_sup">adj_itr_sup</a></td>
@@ -600,7 +612,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 <p>The category 'adjc' stands for more complicated adjective constructions including
 		nested noun phrases that represent a comparison object:</p>
 <table class="r"><tr>
-  <td class="id">(63)</td>
+  <td class="id">(64)</td>
   <td class="cat"><a href="#adjc">adjc</a></td><td><table class="f"><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="adjc"/>=></td>
   <td class="cat">[ <span class="term">as</span> ]</td>
@@ -610,7 +622,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(64)</td>
+  <td class="id">(65)</td>
   <td class="cat"><a href="#adjc">adjc</a></td><td><table class="f"><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="adjc"/>=></td>
   <td class="preterm"><a href="#_adj_itr_comp">adj_itr_comp</a></td>
@@ -619,7 +631,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(65)</td>
+  <td class="id">(66)</td>
   <td class="cat"><a href="#adjc">adjc</a></td><td><table class="f"><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="adjc"/>=></td>
   <td class="cat">[ <span class="term">more</span> ]</td>
@@ -629,18 +641,9 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(66)</td>
-  <td class="cat"><a href="#adjc">adjc</a></td><td><table class="f"><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
-<td class="arrow"><a name="adjc"/>=></td>
-  <td class="preterm"><a href="#_adj_tr">adj_tr</a></td><td><table class="f"><tr><td class="f">prep: <span class="var"> 6 </span></td></tr>  </table></td> <td></td>
-  <td class="cat"><a href="#np">np</a></td><td><table class="f"><tr><td class="f">case: <strong>acc</strong></td></tr><tr><td class="f">copula: <strong>&ndash;</strong></td></tr><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
-</tr></table>
-
-<table class="r"><tr>
   <td class="id">(67)</td>
   <td class="cat"><a href="#adjc">adjc</a></td><td><table class="f"><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="adjc"/>=></td>
-  <td class="cat">[ <span class="term">more</span> ]</td>
   <td class="preterm"><a href="#_adj_tr">adj_tr</a></td><td><table class="f"><tr><td class="f">prep: <span class="var"> 6 </span></td></tr>  </table></td> <td></td>
   <td class="cat"><a href="#np">np</a></td><td><table class="f"><tr><td class="f">case: <strong>acc</strong></td></tr><tr><td class="f">copula: <strong>&ndash;</strong></td></tr><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
 </tr></table>
@@ -649,7 +652,7 @@ a[href]:hover {color: blue; text-decoration: none; }
   <td class="id">(68)</td>
   <td class="cat"><a href="#adjc">adjc</a></td><td><table class="f"><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="adjc"/>=></td>
-  <td class="cat">[ <span class="term">most</span> ]</td>
+  <td class="cat">[ <span class="term">more</span> ]</td>
   <td class="preterm"><a href="#_adj_tr">adj_tr</a></td><td><table class="f"><tr><td class="f">prep: <span class="var"> 6 </span></td></tr>  </table></td> <td></td>
   <td class="cat"><a href="#np">np</a></td><td><table class="f"><tr><td class="f">case: <strong>acc</strong></td></tr><tr><td class="f">copula: <strong>&ndash;</strong></td></tr><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
 </tr></table>
@@ -658,11 +661,9 @@ a[href]:hover {color: blue; text-decoration: none; }
   <td class="id">(69)</td>
   <td class="cat"><a href="#adjc">adjc</a></td><td><table class="f"><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="adjc"/>=></td>
-  <td class="cat">[ <span class="term">as</span> ]</td>
+  <td class="cat">[ <span class="term">most</span> ]</td>
   <td class="preterm"><a href="#_adj_tr">adj_tr</a></td><td><table class="f"><tr><td class="f">prep: <span class="var"> 6 </span></td></tr>  </table></td> <td></td>
-  <td class="cat"><a href="#np">np</a></td><td><table class="f"><tr><td class="f">case: <strong>acc</strong></td></tr><tr><td class="f">copula: <strong>&ndash;</strong></td></tr><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <strong>&ndash;</strong></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 7 </span></td></tr>  </table></td> <td></td>
-  <td class="cat">[ <span class="term">as</span> ]</td>
-  <td class="cat"><a href="#np">np</a></td><td><table class="f"><tr><td class="f">case: <strong>acc</strong></td></tr><tr><td class="f">copula: <strong>&ndash;</strong></td></tr><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 7 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
+  <td class="cat"><a href="#np">np</a></td><td><table class="f"><tr><td class="f">case: <strong>acc</strong></td></tr><tr><td class="f">copula: <strong>&ndash;</strong></td></tr><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
 </tr></table>
 
 <table class="r"><tr>
@@ -673,7 +674,6 @@ a[href]:hover {color: blue; text-decoration: none; }
   <td class="preterm"><a href="#_adj_tr">adj_tr</a></td><td><table class="f"><tr><td class="f">prep: <span class="var"> 6 </span></td></tr>  </table></td> <td></td>
   <td class="cat"><a href="#np">np</a></td><td><table class="f"><tr><td class="f">case: <strong>acc</strong></td></tr><tr><td class="f">copula: <strong>&ndash;</strong></td></tr><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <strong>&ndash;</strong></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 7 </span></td></tr>  </table></td> <td></td>
   <td class="cat">[ <span class="term">as</span> ]</td>
-  <td class="preterm"><a href="#_adj_prep">adj_prep</a></td><td><table class="f"><tr><td class="f">prep: <span class="var"> 6 </span></td></tr>  </table></td> <td></td>
   <td class="cat"><a href="#np">np</a></td><td><table class="f"><tr><td class="f">case: <strong>acc</strong></td></tr><tr><td class="f">copula: <strong>&ndash;</strong></td></tr><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 7 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
 </tr></table>
 
@@ -681,10 +681,11 @@ a[href]:hover {color: blue; text-decoration: none; }
   <td class="id">(71)</td>
   <td class="cat"><a href="#adjc">adjc</a></td><td><table class="f"><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="adjc"/>=></td>
-  <td class="cat">[ <span class="term">more</span> ]</td>
+  <td class="cat">[ <span class="term">as</span> ]</td>
   <td class="preterm"><a href="#_adj_tr">adj_tr</a></td><td><table class="f"><tr><td class="f">prep: <span class="var"> 6 </span></td></tr>  </table></td> <td></td>
   <td class="cat"><a href="#np">np</a></td><td><table class="f"><tr><td class="f">case: <strong>acc</strong></td></tr><tr><td class="f">copula: <strong>&ndash;</strong></td></tr><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <strong>&ndash;</strong></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 7 </span></td></tr>  </table></td> <td></td>
-  <td class="cat">[ <span class="term">than</span> ]</td>
+  <td class="cat">[ <span class="term">as</span> ]</td>
+  <td class="preterm"><a href="#_adj_prep">adj_prep</a></td><td><table class="f"><tr><td class="f">prep: <span class="var"> 6 </span></td></tr>  </table></td> <td></td>
   <td class="cat"><a href="#np">np</a></td><td><table class="f"><tr><td class="f">case: <strong>acc</strong></td></tr><tr><td class="f">copula: <strong>&ndash;</strong></td></tr><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 7 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
 </tr></table>
 
@@ -692,7 +693,8 @@ a[href]:hover {color: blue; text-decoration: none; }
   <td class="id">(72)</td>
   <td class="cat"><a href="#adjc">adjc</a></td><td><table class="f"><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="adjc"/>=></td>
-  <td class="preterm"><a href="#_adj_tr_comp">adj_tr_comp</a></td><td><table class="f"><tr><td class="f">prep: <span class="var"> 6 </span></td></tr>  </table></td> <td></td>
+  <td class="cat">[ <span class="term">more</span> ]</td>
+  <td class="preterm"><a href="#_adj_tr">adj_tr</a></td><td><table class="f"><tr><td class="f">prep: <span class="var"> 6 </span></td></tr>  </table></td> <td></td>
   <td class="cat"><a href="#np">np</a></td><td><table class="f"><tr><td class="f">case: <strong>acc</strong></td></tr><tr><td class="f">copula: <strong>&ndash;</strong></td></tr><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <strong>&ndash;</strong></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 7 </span></td></tr>  </table></td> <td></td>
   <td class="cat">[ <span class="term">than</span> ]</td>
   <td class="cat"><a href="#np">np</a></td><td><table class="f"><tr><td class="f">case: <strong>acc</strong></td></tr><tr><td class="f">copula: <strong>&ndash;</strong></td></tr><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 7 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
@@ -702,6 +704,16 @@ a[href]:hover {color: blue; text-decoration: none; }
   <td class="id">(73)</td>
   <td class="cat"><a href="#adjc">adjc</a></td><td><table class="f"><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="adjc"/>=></td>
+  <td class="preterm"><a href="#_adj_tr_comp">adj_tr_comp</a></td><td><table class="f"><tr><td class="f">prep: <span class="var"> 6 </span></td></tr>  </table></td> <td></td>
+  <td class="cat"><a href="#np">np</a></td><td><table class="f"><tr><td class="f">case: <strong>acc</strong></td></tr><tr><td class="f">copula: <strong>&ndash;</strong></td></tr><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <strong>&ndash;</strong></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 7 </span></td></tr>  </table></td> <td></td>
+  <td class="cat">[ <span class="term">than</span> ]</td>
+  <td class="cat"><a href="#np">np</a></td><td><table class="f"><tr><td class="f">case: <strong>acc</strong></td></tr><tr><td class="f">copula: <strong>&ndash;</strong></td></tr><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 7 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
+</tr></table>
+
+<table class="r"><tr>
+  <td class="id">(74)</td>
+  <td class="cat"><a href="#adjc">adjc</a></td><td><table class="f"><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
+<td class="arrow"><a name="adjc"/>=></td>
   <td class="cat">[ <span class="term">more</span> ]</td>
   <td class="preterm"><a href="#_adj_tr">adj_tr</a></td><td><table class="f"><tr><td class="f">prep: <span class="var"> 6 </span></td></tr>  </table></td> <td></td>
   <td class="cat"><a href="#np">np</a></td><td><table class="f"><tr><td class="f">case: <strong>acc</strong></td></tr><tr><td class="f">copula: <strong>&ndash;</strong></td></tr><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <strong>&ndash;</strong></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 7 </span></td></tr>  </table></td> <td></td>
@@ -711,7 +723,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(74)</td>
+  <td class="id">(75)</td>
   <td class="cat"><a href="#adjc">adjc</a></td><td><table class="f"><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="adjc"/>=></td>
   <td class="preterm"><a href="#_adj_tr_comp">adj_tr_comp</a></td><td><table class="f"><tr><td class="f">prep: <span class="var"> 6 </span></td></tr>  </table></td> <td></td>
@@ -725,13 +737,13 @@ a[href]:hover {color: blue; text-decoration: none; }
 <p>Relative pronouns are represented by 'relpron' and can be either "that", "who" or
 		"which":</p>
 <table class="r"><tr>
-  <td class="id">(75)</td>
+  <td class="id">(76)</td>
   <td class="cat"><a href="#relcl">relcl</a></td><td><table class="f"><tr><td class="f">whin: <span class="var"> 1 </span></td></tr><tr><td class="f">whout: <span class="var"> 1 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="relcl"/>=></td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(76)</td>
+  <td class="id">(77)</td>
   <td class="cat"><a href="#relcl">relcl</a></td><td><table class="f"><tr><td class="f">embv: <strong>+</strong></td></tr><tr><td class="f">human: <span class="var"> 2 </span></td></tr><tr><td class="f">rel: <strong>+</strong></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 3 </span></td></tr><tr><td class="f">whout: <span class="var"> 4 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="relcl"/>=></td>
   <td class="cat"><a href="#relpron">relpron</a></td><td><table class="f"><tr><td class="f">human: <span class="var"> 2 </span></td></tr><tr><td class="f">relpron: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
@@ -741,7 +753,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 <p>Like sentences and verb phrases, relative clauses can be coordinated by "or"
 		('relcl1') and "and" ('relcl2'):</p>
 <table class="r"><tr>
-  <td class="id">(77)</td>
+  <td class="id">(78)</td>
   <td class="cat"><a href="#relcl1">relcl1</a></td><td><table class="f"><tr><td class="f">human: <span class="var"> 2 </span></td></tr><tr><td class="f">relpron: <span class="var"> 3 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="relcl1"/>~></td>
   <td class="special">//</td>
@@ -751,14 +763,14 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(78)</td>
+  <td class="id">(79)</td>
   <td class="cat"><a href="#relcl1">relcl1</a></td><td><table class="f"><tr><td class="f">human: <span class="var"> 2 </span></td></tr><tr><td class="f">relpron: <span class="var"> 3 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="relcl1"/>=></td>
   <td class="cat"><a href="#relcl2">relcl2</a></td><td><table class="f"><tr><td class="f">human: <span class="var"> 2 </span></td></tr><tr><td class="f">relpron: <span class="var"> 3 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(79)</td>
+  <td class="id">(80)</td>
   <td class="cat"><a href="#relcl2">relcl2</a></td><td><table class="f"><tr><td class="f">human: <span class="var"> 4 </span></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">relpron: <span class="var"> 3 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 5 </span></td></tr><tr><td class="f">whout: <span class="var"> 6 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="relcl2"/>=></td>
   <td class="cat"><a href="#vp">vp</a></td><td><table class="f"><tr><td class="f">pl: <strong>&ndash;</strong></td></tr><tr><td class="f">rel: <strong>&ndash;</strong></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 5 </span></td></tr><tr><td class="f">whout: <span class="var"> 7 </span></td></tr>  </table></td> <td></td>
@@ -767,14 +779,14 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(80)</td>
+  <td class="id">(81)</td>
   <td class="cat"><a href="#relcl2">relcl2</a></td><td><table class="f"><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 3 </span></td></tr><tr><td class="f">whout: <span class="var"> 4 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="relcl2"/>=></td>
   <td class="cat"><a href="#vp">vp</a></td><td><table class="f"><tr><td class="f">pl: <strong>&ndash;</strong></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 3 </span></td></tr><tr><td class="f">whout: <span class="var"> 4 </span></td></tr>  </table></td> <td></td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(81)</td>
+  <td class="id">(82)</td>
   <td class="cat"><a href="#relcl2">relcl2</a></td><td><table class="f"><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 3 </span></td></tr><tr><td class="f">whout: <span class="var"> 4 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="relcl2"/>~></td>
   <td class="cat"><a href="#np">np</a></td><td><table class="f"><tr><td class="f">case: <strong>nom</strong></td></tr><tr><td class="f">copula: <strong>&ndash;</strong></td></tr><tr><td class="f">embv: <span class="var"> 7 </span></td></tr><tr><td class="f">id: <span class="var"> 5 </span></td></tr><tr><td class="f">pl: <span class="var"> 6 </span></td></tr><tr><td class="f">refl: <strong>&ndash;</strong></td></tr><tr><td class="f">rel: <strong>&ndash;</strong></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 3 </span></td></tr><tr><td class="f">whout: <span class="var"> 8 </span></td></tr>  </table></td> <td></td>
@@ -784,7 +796,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(82)</td>
+  <td class="id">(83)</td>
   <td class="cat"><a href="#relcl2">relcl2</a></td><td><table class="f"><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 3 </span></td></tr><tr><td class="f">whout: <span class="var"> 4 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="relcl2"/>~></td>
   <td class="cat"><a href="#np">np</a></td><td><table class="f"><tr><td class="f">case: <strong>nom</strong></td></tr><tr><td class="f">copula: <strong>&ndash;</strong></td></tr><tr><td class="f">embv: <span class="var"> 7 </span></td></tr><tr><td class="f">id: <span class="var"> 5 </span></td></tr><tr><td class="f">pl: <span class="var"> 6 </span></td></tr><tr><td class="f">refl: <strong>&ndash;</strong></td></tr><tr><td class="f">rel: <strong>&ndash;</strong></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 3 </span></td></tr><tr><td class="f">whout: <span class="var"> 8 </span></td></tr>  </table></td> <td></td>
@@ -795,21 +807,21 @@ a[href]:hover {color: blue; text-decoration: none; }
 <p>Relative pronouns are represented by 'relpron' and can be either "that", "who" or
 		"which":</p>
 <table class="r"><tr>
-  <td class="id">(83)</td>
+  <td class="id">(84)</td>
   <td class="cat"><a href="#relpron">relpron</a></td><td><table class="f"><tr><td class="f">relpron: <strong>that</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="relpron"/>=></td>
   <td class="cat">[ <span class="term">that</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(84)</td>
+  <td class="id">(85)</td>
   <td class="cat"><a href="#relpron">relpron</a></td><td><table class="f"><tr><td class="f">human: <strong>+</strong></td></tr><tr><td class="f">relpron: <strong>who</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="relpron"/>=></td>
   <td class="cat">[ <span class="term">who</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(85)</td>
+  <td class="id">(86)</td>
   <td class="cat"><a href="#relpron">relpron</a></td><td><table class="f"><tr><td class="f">human: <strong>&ndash;</strong></td></tr><tr><td class="f">relpron: <strong>which</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="relpron"/>=></td>
   <td class="cat">[ <span class="term">which</span> ]</td>
@@ -818,7 +830,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 <p>The categories 'or_relpron' and 'and_relpron' define shortcuts - like "or that" as
 		one token - for better usability inside of the predictive editor:</p>
 <table class="r"><tr>
-  <td class="id">(86)</td>
+  <td class="id">(87)</td>
   <td class="cat"><a href="#or_relpron">or_relpron</a></td><td><table class="f"><tr><td class="f">human: <span class="var"> 1 </span></td></tr><tr><td class="f">relpron: <span class="var"> 2 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="or_relpron"/>=></td>
   <td class="cat">[ <span class="term">or</span> ]</td>
@@ -826,28 +838,28 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(87)</td>
+  <td class="id">(88)</td>
   <td class="cat"><a href="#or_relpron">or_relpron</a></td><td><table class="f"><tr><td class="f">relpron: <strong>that</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="or_relpron"/>=></td>
   <td class="cat">[ <span class="term">or that</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(88)</td>
+  <td class="id">(89)</td>
   <td class="cat"><a href="#or_relpron">or_relpron</a></td><td><table class="f"><tr><td class="f">human: <strong>+</strong></td></tr><tr><td class="f">relpron: <strong>who</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="or_relpron"/>=></td>
   <td class="cat">[ <span class="term">or who</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(89)</td>
+  <td class="id">(90)</td>
   <td class="cat"><a href="#or_relpron">or_relpron</a></td><td><table class="f"><tr><td class="f">human: <strong>&ndash;</strong></td></tr><tr><td class="f">relpron: <strong>which</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="or_relpron"/>=></td>
   <td class="cat">[ <span class="term">or which</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(90)</td>
+  <td class="id">(91)</td>
   <td class="cat"><a href="#and_relpron">and_relpron</a></td><td><table class="f"><tr><td class="f">human: <span class="var"> 1 </span></td></tr><tr><td class="f">relpron: <span class="var"> 2 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="and_relpron"/>=></td>
   <td class="cat">[ <span class="term">and</span> ]</td>
@@ -855,21 +867,21 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(91)</td>
+  <td class="id">(92)</td>
   <td class="cat"><a href="#and_relpron">and_relpron</a></td><td><table class="f"><tr><td class="f">relpron: <strong>that</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="and_relpron"/>=></td>
   <td class="cat">[ <span class="term">and that</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(92)</td>
+  <td class="id">(93)</td>
   <td class="cat"><a href="#and_relpron">and_relpron</a></td><td><table class="f"><tr><td class="f">human: <strong>+</strong></td></tr><tr><td class="f">relpron: <strong>who</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="and_relpron"/>=></td>
   <td class="cat">[ <span class="term">and who</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(93)</td>
+  <td class="id">(94)</td>
   <td class="cat"><a href="#and_relpron">and_relpron</a></td><td><table class="f"><tr><td class="f">human: <strong>&ndash;</strong></td></tr><tr><td class="f">relpron: <strong>which</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="and_relpron"/>=></td>
   <td class="cat">[ <span class="term">and which</span> ]</td>
@@ -879,13 +891,13 @@ a[href]:hover {color: blue; text-decoration: none; }
 <p>Verb phrase modifiers are represented by 'vmod' and the auxiliary category 'vmod_x',
 		and are always optional:</p>
 <table class="r"><tr>
-  <td class="id">(94)</td>
+  <td class="id">(95)</td>
   <td class="cat"><a href="#vmod">vmod</a></td><td><table class="f"><tr><td class="f">whin: <span class="var"> 1 </span></td></tr><tr><td class="f">whout: <span class="var"> 1 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="vmod"/>=></td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(95)</td>
+  <td class="id">(96)</td>
   <td class="cat"><a href="#vmod">vmod</a></td><td><table class="f"><tr><td class="f">copula: <span class="var"> 3 </span></td></tr><tr><td class="f">embv: <strong>&ndash;</strong></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="vmod"/>=></td>
   <td class="cat"><a href="#adv_coord">adv_coord</a></td><td><table class="f"><tr><td class="f">copula: <span class="var"> 3 </span></td></tr>  </table></td> <td></td>
@@ -893,7 +905,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(96)</td>
+  <td class="id">(97)</td>
   <td class="cat"><a href="#vmod">vmod</a></td><td><table class="f"><tr><td class="f">copula: <span class="var"> 3 </span></td></tr><tr><td class="f">embv: <strong>&ndash;</strong></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="vmod"/>=></td>
   <td class="cat"><a href="#pp">pp</a></td><td><table class="f"><tr><td class="f">embv: <span class="var"> 6 </span></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 7 </span></td></tr>  </table></td> <td></td>
@@ -901,13 +913,13 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(97)</td>
+  <td class="id">(98)</td>
   <td class="cat"><a href="#vmod_x">vmod_x</a></td><td><table class="f"><tr><td class="f">whin: <span class="var"> 1 </span></td></tr><tr><td class="f">whout: <span class="var"> 1 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="vmod_x"/>=></td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(98)</td>
+  <td class="id">(99)</td>
   <td class="cat"><a href="#vmod_x">vmod_x</a></td><td><table class="f"><tr><td class="f">copula: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="vmod_x"/>=></td>
   <td class="cat"><a href="#pp">pp</a></td><td><table class="f"><tr><td class="f">embv: <span class="var"> 6 </span></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 7 </span></td></tr>  </table></td> <td></td>
@@ -916,7 +928,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 
 <p>The category 'pp' represents prepositional phrases:</p>
 <table class="r"><tr>
-  <td class="id">(99)</td>
+  <td class="id">(100)</td>
   <td class="cat"><a href="#pp">pp</a></td><td><table class="f"><tr><td class="f">embv: <span class="var"> 3 </span></td></tr><tr><td class="f">rel: <span class="var"> 2 </span></td></tr><tr><td class="f">subj: <span class="var"> 1 </span></td></tr><tr><td class="f">whin: <span class="var"> 4 </span></td></tr><tr><td class="f">whout: <span class="var"> 5 </span></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="pp"/>=></td>
   <td class="preterm"><a href="#_prep">prep</a></td>
@@ -925,14 +937,14 @@ a[href]:hover {color: blue; text-decoration: none; }
 
 <p>Adverbs can be coordinated by "and", which is represented by 'adv_coord':</p>
 <table class="r"><tr>
-  <td class="id">(100)</td>
+  <td class="id">(101)</td>
   <td class="cat"><a href="#adv_coord">adv_coord</a></td><td><table class="f"><tr><td class="f">copula: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="adv_coord"/>=></td>
   <td class="cat"><a href="#adv_phrase">adv_phrase</a></td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(101)</td>
+  <td class="id">(102)</td>
   <td class="cat"><a href="#adv_coord">adv_coord</a></td><td><table class="f"><tr><td class="f">copula: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="adv_coord"/>=></td>
   <td class="cat"><a href="#adv_phrase">adv_phrase</a></td>
@@ -943,17 +955,9 @@ a[href]:hover {color: blue; text-decoration: none; }
 <p>Adverbial phrases are represented by 'adv_phrase', and can be in positive, comparative
 		or superlative form:</p>
 <table class="r"><tr>
-  <td class="id">(102)</td>
-  <td class="cat"><a href="#adv_phrase">adv_phrase</a></td>
-<td class="arrow"><a name="adv_phrase"/>=></td>
-  <td class="preterm"><a href="#_adv">adv</a></td>
-</tr></table>
-
-<table class="r"><tr>
   <td class="id">(103)</td>
   <td class="cat"><a href="#adv_phrase">adv_phrase</a></td>
 <td class="arrow"><a name="adv_phrase"/>=></td>
-  <td class="cat">[ <span class="term">more</span> ]</td>
   <td class="preterm"><a href="#_adv">adv</a></td>
 </tr></table>
 
@@ -961,11 +965,19 @@ a[href]:hover {color: blue; text-decoration: none; }
   <td class="id">(104)</td>
   <td class="cat"><a href="#adv_phrase">adv_phrase</a></td>
 <td class="arrow"><a name="adv_phrase"/>=></td>
-  <td class="preterm"><a href="#_adv_comp">adv_comp</a></td>
+  <td class="cat">[ <span class="term">more</span> ]</td>
+  <td class="preterm"><a href="#_adv">adv</a></td>
 </tr></table>
 
 <table class="r"><tr>
   <td class="id">(105)</td>
+  <td class="cat"><a href="#adv_phrase">adv_phrase</a></td>
+<td class="arrow"><a name="adv_phrase"/>=></td>
+  <td class="preterm"><a href="#_adv_comp">adv_comp</a></td>
+</tr></table>
+
+<table class="r"><tr>
+  <td class="id">(106)</td>
   <td class="cat"><a href="#adv_phrase">adv_phrase</a></td>
 <td class="arrow"><a name="adv_phrase"/>=></td>
   <td class="cat">[ <span class="term">most</span> ]</td>
@@ -973,7 +985,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(106)</td>
+  <td class="id">(107)</td>
   <td class="cat"><a href="#adv_phrase">adv_phrase</a></td>
 <td class="arrow"><a name="adv_phrase"/>=></td>
   <td class="preterm"><a href="#_adv_sup">adv_sup</a></td>
@@ -982,49 +994,49 @@ a[href]:hover {color: blue; text-decoration: none; }
 <h3>Verbs</h3>
 <p>The category 'verb' represents main verbs that can be intransitive or transitive:</p>
 <table class="r"><tr>
-  <td class="id">(107)</td>
+  <td class="id">(108)</td>
   <td class="cat"><a href="#verb">verb</a></td><td><table class="f"><tr><td class="f">be: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>&ndash;</strong></td></tr><tr><td class="f">vcat: <strong>itr</strong></td></tr><tr><td class="f">vform: <strong>fin</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="verb"/>=></td>
   <td class="preterm"><a href="#_iv_finsg">iv_finsg</a></td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(108)</td>
+  <td class="id">(109)</td>
   <td class="cat"><a href="#verb">verb</a></td><td><table class="f"><tr><td class="f">be: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>+</strong></td></tr><tr><td class="f">vcat: <strong>itr</strong></td></tr><tr><td class="f">vform: <strong>fin</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="verb"/>=></td>
   <td class="preterm"><a href="#_iv_infpl">iv_infpl</a></td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(109)</td>
+  <td class="id">(110)</td>
   <td class="cat"><a href="#verb">verb</a></td><td><table class="f"><tr><td class="f">be: <strong>&ndash;</strong></td></tr><tr><td class="f">vcat: <strong>itr</strong></td></tr><tr><td class="f">vform: <strong>inf</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="verb"/>=></td>
   <td class="preterm"><a href="#_iv_infpl">iv_infpl</a></td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(110)</td>
+  <td class="id">(111)</td>
   <td class="cat"><a href="#verb">verb</a></td><td><table class="f"><tr><td class="f">be: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>&ndash;</strong></td></tr><tr><td class="f">vcat: <strong>tr</strong></td></tr><tr><td class="f">vform: <strong>fin</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="verb"/>=></td>
   <td class="preterm"><a href="#_tv_finsg">tv_finsg</a></td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(111)</td>
+  <td class="id">(112)</td>
   <td class="cat"><a href="#verb">verb</a></td><td><table class="f"><tr><td class="f">be: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>+</strong></td></tr><tr><td class="f">vcat: <strong>tr</strong></td></tr><tr><td class="f">vform: <strong>fin</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="verb"/>=></td>
   <td class="preterm"><a href="#_tv_infpl">tv_infpl</a></td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(112)</td>
+  <td class="id">(113)</td>
   <td class="cat"><a href="#verb">verb</a></td><td><table class="f"><tr><td class="f">be: <strong>&ndash;</strong></td></tr><tr><td class="f">vcat: <strong>tr</strong></td></tr><tr><td class="f">vform: <strong>inf</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="verb"/>=></td>
   <td class="preterm"><a href="#_tv_infpl">tv_infpl</a></td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(113)</td>
+  <td class="id">(114)</td>
   <td class="cat"><a href="#verb">verb</a></td><td><table class="f"><tr><td class="f">be: <strong>+</strong></td></tr><tr><td class="f">vcat: <strong>tr</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="verb"/>=></td>
   <td class="preterm"><a href="#_tv_pp">tv_pp</a></td>
@@ -1032,18 +1044,10 @@ a[href]:hover {color: blue; text-decoration: none; }
 
 <p>Auxiliary verbs are represented by 'aux', which includes negation markers:</p>
 <table class="r"><tr>
-  <td class="id">(114)</td>
+  <td class="id">(115)</td>
   <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>+</strong></td></tr><tr><td class="f">exist: <strong>+</strong></td></tr><tr><td class="f">pl: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="aux"/>=></td>
   <td class="cat">[ <span class="term">is</span> ]</td>
-</tr></table>
-
-<table class="r"><tr>
-  <td class="id">(115)</td>
-  <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>+</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
-<td class="arrow"><a name="aux"/>=></td>
-  <td class="special">//</td>
-  <td class="cat">[ <span class="term">is not</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
@@ -1051,23 +1055,23 @@ a[href]:hover {color: blue; text-decoration: none; }
   <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>+</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="aux"/>=></td>
   <td class="special">//</td>
+  <td class="cat">[ <span class="term">is not</span> ]</td>
+</tr></table>
+
+<table class="r"><tr>
+  <td class="id">(117)</td>
+  <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>+</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
+<td class="arrow"><a name="aux"/>=></td>
+  <td class="special">//</td>
   <td class="cat">[ <span class="term">is</span> ]</td>
   <td class="cat">[ <span class="term">not</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(117)</td>
+  <td class="id">(118)</td>
   <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>+</strong></td></tr><tr><td class="f">exist: <strong>+</strong></td></tr><tr><td class="f">pl: <strong>+</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="aux"/>=></td>
   <td class="cat">[ <span class="term">are</span> ]</td>
-</tr></table>
-
-<table class="r"><tr>
-  <td class="id">(118)</td>
-  <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>+</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>+</strong></td></tr>  </table></td> <td></td>
-<td class="arrow"><a name="aux"/>=></td>
-  <td class="special">//</td>
-  <td class="cat">[ <span class="term">are not</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
@@ -1075,12 +1079,20 @@ a[href]:hover {color: blue; text-decoration: none; }
   <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>+</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>+</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="aux"/>=></td>
   <td class="special">//</td>
+  <td class="cat">[ <span class="term">are not</span> ]</td>
+</tr></table>
+
+<table class="r"><tr>
+  <td class="id">(120)</td>
+  <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>+</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>+</strong></td></tr>  </table></td> <td></td>
+<td class="arrow"><a name="aux"/>=></td>
+  <td class="special">//</td>
   <td class="cat">[ <span class="term">are</span> ]</td>
   <td class="cat">[ <span class="term">not</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(120)</td>
+  <td class="id">(121)</td>
   <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>&ndash;</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="aux"/>=></td>
   <td class="special">//</td>
@@ -1088,7 +1100,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(121)</td>
+  <td class="id">(122)</td>
   <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>&ndash;</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>+</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="aux"/>=></td>
   <td class="special">//</td>
@@ -1096,19 +1108,11 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(122)</td>
-  <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>&ndash;</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
-<td class="arrow"><a name="aux"/>=></td>
-  <td class="special">//</td>
-  <td class="cat">[ <span class="term">can</span> ]</td>
-</tr></table>
-
-<table class="r"><tr>
   <td class="id">(123)</td>
   <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>&ndash;</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="aux"/>=></td>
   <td class="special">//</td>
-  <td class="cat">[ <span class="term">should</span> ]</td>
+  <td class="cat">[ <span class="term">can</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
@@ -1116,11 +1120,19 @@ a[href]:hover {color: blue; text-decoration: none; }
   <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>&ndash;</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="aux"/>=></td>
   <td class="special">//</td>
-  <td class="cat">[ <span class="term">must</span> ]</td>
+  <td class="cat">[ <span class="term">should</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
   <td class="id">(125)</td>
+  <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>&ndash;</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
+<td class="arrow"><a name="aux"/>=></td>
+  <td class="special">//</td>
+  <td class="cat">[ <span class="term">must</span> ]</td>
+</tr></table>
+
+<table class="r"><tr>
+  <td class="id">(126)</td>
   <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>&ndash;</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="aux"/>=></td>
   <td class="special">//</td>
@@ -1128,7 +1140,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(126)</td>
+  <td class="id">(127)</td>
   <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>&ndash;</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>+</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="aux"/>=></td>
   <td class="special">//</td>
@@ -1136,20 +1148,11 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(127)</td>
-  <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>+</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
-<td class="arrow"><a name="aux"/>=></td>
-  <td class="special">//</td>
-  <td class="cat">[ <span class="term">can</span> ]</td>
-  <td class="cat">[ <span class="term">be</span> ]</td>
-</tr></table>
-
-<table class="r"><tr>
   <td class="id">(128)</td>
   <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>+</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="aux"/>=></td>
   <td class="special">//</td>
-  <td class="cat">[ <span class="term">should</span> ]</td>
+  <td class="cat">[ <span class="term">can</span> ]</td>
   <td class="cat">[ <span class="term">be</span> ]</td>
 </tr></table>
 
@@ -1158,12 +1161,21 @@ a[href]:hover {color: blue; text-decoration: none; }
   <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>+</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="aux"/>=></td>
   <td class="special">//</td>
-  <td class="cat">[ <span class="term">must</span> ]</td>
+  <td class="cat">[ <span class="term">should</span> ]</td>
   <td class="cat">[ <span class="term">be</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
   <td class="id">(130)</td>
+  <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>+</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
+<td class="arrow"><a name="aux"/>=></td>
+  <td class="special">//</td>
+  <td class="cat">[ <span class="term">must</span> ]</td>
+  <td class="cat">[ <span class="term">be</span> ]</td>
+</tr></table>
+
+<table class="r"><tr>
+  <td class="id">(131)</td>
   <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>+</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="aux"/>=></td>
   <td class="special">//</td>
@@ -1172,7 +1184,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(131)</td>
+  <td class="id">(132)</td>
   <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>+</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>+</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="aux"/>=></td>
   <td class="special">//</td>
@@ -1181,7 +1193,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(132)</td>
+  <td class="id">(133)</td>
   <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>+</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="aux"/>=></td>
   <td class="special">//</td>
@@ -1190,7 +1202,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(133)</td>
+  <td class="id">(134)</td>
   <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>+</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="aux"/>=></td>
   <td class="special">//</td>
@@ -1200,7 +1212,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(134)</td>
+  <td class="id">(135)</td>
   <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>+</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="aux"/>=></td>
   <td class="special">//</td>
@@ -1210,7 +1222,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(135)</td>
+  <td class="id">(136)</td>
   <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>+</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="aux"/>=></td>
   <td class="special">//</td>
@@ -1220,7 +1232,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(136)</td>
+  <td class="id">(137)</td>
   <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>+</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>+</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="aux"/>=></td>
   <td class="special">//</td>
@@ -1230,7 +1242,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(137)</td>
+  <td class="id">(138)</td>
   <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>&ndash;</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="aux"/>=></td>
   <td class="special">//</td>
@@ -1238,7 +1250,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(138)</td>
+  <td class="id">(139)</td>
   <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>&ndash;</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="aux"/>=></td>
   <td class="special">//</td>
@@ -1247,7 +1259,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(139)</td>
+  <td class="id">(140)</td>
   <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>&ndash;</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="aux"/>=></td>
   <td class="special">//</td>
@@ -1256,7 +1268,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(140)</td>
+  <td class="id">(141)</td>
   <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>&ndash;</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="aux"/>=></td>
   <td class="special">//</td>
@@ -1265,7 +1277,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(141)</td>
+  <td class="id">(142)</td>
   <td class="cat"><a href="#aux">aux</a></td><td><table class="f"><tr><td class="f">be: <strong>&ndash;</strong></td></tr><tr><td class="f">exist: <strong>&ndash;</strong></td></tr><tr><td class="f">pl: <strong>+</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="aux"/>=></td>
   <td class="special">//</td>
@@ -1276,21 +1288,21 @@ a[href]:hover {color: blue; text-decoration: none; }
 <h3>Quantifiers</h3>
 <p>Existential and universal quantifiers are represented by 'quant':</p>
 <table class="r"><tr>
-  <td class="id">(142)</td>
+  <td class="id">(143)</td>
   <td class="cat"><a href="#quant">quant</a></td><td><table class="f"><tr><td class="f">exist: <strong>+</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="quant"/>=></td>
   <td class="cat">[ <span class="term">a</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(143)</td>
+  <td class="id">(144)</td>
   <td class="cat"><a href="#quant">quant</a></td><td><table class="f"><tr><td class="f">exist: <strong>+</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="quant"/>=></td>
   <td class="cat">[ <span class="term">an</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(144)</td>
+  <td class="id">(145)</td>
   <td class="cat"><a href="#quant">quant</a></td><td><table class="f"><tr><td class="f">exist: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="quant"/>=></td>
   <td class="special">//</td>
@@ -1298,7 +1310,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(145)</td>
+  <td class="id">(146)</td>
   <td class="cat"><a href="#quant">quant</a></td><td><table class="f"><tr><td class="f">exist: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="quant"/>=></td>
   <td class="special">//</td>
@@ -1307,36 +1319,36 @@ a[href]:hover {color: blue; text-decoration: none; }
 
 <p>The category 'num_quant' stands for numerical quantifiers:</p>
 <table class="r"><tr>
-  <td class="id">(146)</td>
-  <td class="cat"><a href="#num_quant">num_quant</a></td>
+  <td class="id">(147)</td>
+  <td class="cat"><a href="#num_quant">num_quant</a></td><td><table class="f"><tr><td class="f">exact: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="num_quant"/>=></td>
   <td class="cat">[ <span class="term">at least</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(147)</td>
-  <td class="cat"><a href="#num_quant">num_quant</a></td>
+  <td class="id">(148)</td>
+  <td class="cat"><a href="#num_quant">num_quant</a></td><td><table class="f"><tr><td class="f">exact: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="num_quant"/>=></td>
   <td class="cat">[ <span class="term">at most</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(148)</td>
-  <td class="cat"><a href="#num_quant">num_quant</a></td>
+  <td class="id">(149)</td>
+  <td class="cat"><a href="#num_quant">num_quant</a></td><td><table class="f"><tr><td class="f">exact: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="num_quant"/>=></td>
   <td class="cat">[ <span class="term">less than</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(149)</td>
-  <td class="cat"><a href="#num_quant">num_quant</a></td>
+  <td class="id">(150)</td>
+  <td class="cat"><a href="#num_quant">num_quant</a></td><td><table class="f"><tr><td class="f">exact: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="num_quant"/>=></td>
   <td class="cat">[ <span class="term">more than</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(150)</td>
-  <td class="cat"><a href="#num_quant">num_quant</a></td>
+  <td class="id">(151)</td>
+  <td class="cat"><a href="#num_quant">num_quant</a></td><td><table class="f"><tr><td class="f">exact: <strong>+</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="num_quant"/>=></td>
   <td class="cat">[ <span class="term">exactly</span> ]</td>
 </tr></table>
@@ -1344,21 +1356,21 @@ a[href]:hover {color: blue; text-decoration: none; }
 <h3>Indefinite Pronouns</h3>
 <p>Indefinite pronouns are represented by 'ipron':</p>
 <table class="r"><tr>
-  <td class="id">(151)</td>
+  <td class="id">(152)</td>
   <td class="cat"><a href="#ipron">ipron</a></td><td><table class="f"><tr><td class="f">exist: <strong>+</strong></td></tr><tr><td class="f">human: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="ipron"/>=></td>
   <td class="cat">[ <span class="term">something</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(152)</td>
+  <td class="id">(153)</td>
   <td class="cat"><a href="#ipron">ipron</a></td><td><table class="f"><tr><td class="f">exist: <strong>+</strong></td></tr><tr><td class="f">human: <strong>+</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="ipron"/>=></td>
   <td class="cat">[ <span class="term">somebody</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(153)</td>
+  <td class="id">(154)</td>
   <td class="cat"><a href="#ipron">ipron</a></td><td><table class="f"><tr><td class="f">exist: <strong>&ndash;</strong></td></tr><tr><td class="f">human: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="ipron"/>=></td>
   <td class="special">//</td>
@@ -1366,7 +1378,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(154)</td>
+  <td class="id">(155)</td>
   <td class="cat"><a href="#ipron">ipron</a></td><td><table class="f"><tr><td class="f">exist: <strong>&ndash;</strong></td></tr><tr><td class="f">human: <strong>+</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="ipron"/>=></td>
   <td class="special">//</td>
@@ -1374,7 +1386,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(155)</td>
+  <td class="id">(156)</td>
   <td class="cat"><a href="#ipron">ipron</a></td><td><table class="f"><tr><td class="f">exist: <strong>&ndash;</strong></td></tr><tr><td class="f">human: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="ipron"/>=></td>
   <td class="special">//</td>
@@ -1382,7 +1394,7 @@ a[href]:hover {color: blue; text-decoration: none; }
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(156)</td>
+  <td class="id">(157)</td>
   <td class="cat"><a href="#ipron">ipron</a></td><td><table class="f"><tr><td class="f">exist: <strong>&ndash;</strong></td></tr><tr><td class="f">human: <strong>+</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="ipron"/>=></td>
   <td class="special">//</td>
@@ -1392,56 +1404,56 @@ a[href]:hover {color: blue; text-decoration: none; }
 <h3>Anaphoric Pronouns</h3>
 <p>The category 'pron' represents reflexive and irreflexive anaphoric pronouns:</p>
 <table class="r"><tr>
-  <td class="id">(157)</td>
+  <td class="id">(158)</td>
   <td class="preterm"><a href="#_pron">pron</a></td><td><table class="f"><tr><td class="f">human: <strong>&ndash;</strong></td></tr><tr><td class="f">refl: <strong>+</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="_pron"/>=></td>
   <td class="cat">[ <span class="term">itself</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(158)</td>
+  <td class="id">(159)</td>
   <td class="preterm"><a href="#_pron">pron</a></td><td><table class="f"><tr><td class="f">gender: <strong>masc</strong></td></tr><tr><td class="f">human: <strong>+</strong></td></tr><tr><td class="f">refl: <strong>+</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="_pron"/>=></td>
   <td class="cat">[ <span class="term">himself</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(159)</td>
+  <td class="id">(160)</td>
   <td class="preterm"><a href="#_pron">pron</a></td><td><table class="f"><tr><td class="f">gender: <strong>fem</strong></td></tr><tr><td class="f">human: <strong>+</strong></td></tr><tr><td class="f">refl: <strong>+</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="_pron"/>=></td>
   <td class="cat">[ <span class="term">herself</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(160)</td>
+  <td class="id">(161)</td>
   <td class="preterm"><a href="#_pron">pron</a></td><td><table class="f"><tr><td class="f">human: <strong>&ndash;</strong></td></tr><tr><td class="f">refl: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="_pron"/>=></td>
   <td class="cat">[ <span class="term">it</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(161)</td>
+  <td class="id">(162)</td>
   <td class="preterm"><a href="#_pron">pron</a></td><td><table class="f"><tr><td class="f">case: <strong>nom</strong></td></tr><tr><td class="f">gender: <strong>masc</strong></td></tr><tr><td class="f">human: <strong>+</strong></td></tr><tr><td class="f">refl: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="_pron"/>=></td>
   <td class="cat">[ <span class="term">he</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(162)</td>
+  <td class="id">(163)</td>
   <td class="preterm"><a href="#_pron">pron</a></td><td><table class="f"><tr><td class="f">case: <strong>acc</strong></td></tr><tr><td class="f">gender: <strong>masc</strong></td></tr><tr><td class="f">human: <strong>+</strong></td></tr><tr><td class="f">refl: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="_pron"/>=></td>
   <td class="cat">[ <span class="term">him</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(163)</td>
+  <td class="id">(164)</td>
   <td class="preterm"><a href="#_pron">pron</a></td><td><table class="f"><tr><td class="f">case: <strong>nom</strong></td></tr><tr><td class="f">gender: <strong>fem</strong></td></tr><tr><td class="f">human: <strong>+</strong></td></tr><tr><td class="f">refl: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="_pron"/>=></td>
   <td class="cat">[ <span class="term">she</span> ]</td>
 </tr></table>
 
 <table class="r"><tr>
-  <td class="id">(164)</td>
+  <td class="id">(165)</td>
   <td class="preterm"><a href="#_pron">pron</a></td><td><table class="f"><tr><td class="f">case: <strong>acc</strong></td></tr><tr><td class="f">gender: <strong>fem</strong></td></tr><tr><td class="f">human: <strong>+</strong></td></tr><tr><td class="f">refl: <strong>&ndash;</strong></td></tr>  </table></td> <td></td>
 <td class="arrow"><a name="_pron"/>=></td>
   <td class="cat">[ <span class="term">her</span> ]</td>
