@@ -5,8 +5,8 @@ package ch.uzh.ifi.attempto.acewiki.core.ontology;
  */
 class ConsoleProgressBar {
 	
-	private int maxPoints;
-	private int progress = 0;
+	private long maxPoints;
+	private long progress = 0;
 	private int steps = 0;
 	
 	/**
@@ -14,9 +14,18 @@ class ConsoleProgressBar {
 	 * 
 	 * @param maxPoints The number of points representing 100%.
 	 */
-	public ConsoleProgressBar(int maxPoints) {
+	public ConsoleProgressBar(long maxPoints) {
 		this.maxPoints = maxPoints;
 		System.err.print("0%");
+	}
+	
+	/**
+	 * Creates and starts a new progress bar.
+	 * 
+	 * @param maxPoints The number of points representing 100%.
+	 */
+	public ConsoleProgressBar(int maxPoints) {
+		this((long) maxPoints);
 	}
 	
 	/**
@@ -31,14 +40,14 @@ class ConsoleProgressBar {
 	 * 
 	 * @param points The number of points to be added.
 	 */
-	public void add(int points) {
+	public void add(long points) {
 		if (points < 0) return;
 		progress += points;
 		int s;
 		if (maxPoints == 0) {
 			s = 40;
 		} else {
-			s = (40 * progress) / maxPoints;
+			s = (int) ((40 * progress) / maxPoints);
 		}
 		for (int i = steps+1 ; i <= s ; i++) {
 			if (i % 4 == 0) {
@@ -48,6 +57,15 @@ class ConsoleProgressBar {
 			}
 		}
 		steps = s;
+	}
+	
+	/**
+	 * Increases the progress bar by the specified amount of points.
+	 * 
+	 * @param points The number of points to be added.
+	 */
+	public void add(int points) {
+		add((long) points);
 	}
 	
 	/**

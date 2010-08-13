@@ -14,36 +14,38 @@
 
 package ch.uzh.ifi.attempto.acewiki.core.ontology;
 
+import java.io.IOException;
 
 /**
- * This class represents a comment that is a part of an article. A comment must have
- * an ontology element as owner.
+ * This exporter generates a file that contains the complete wiki data in a special AceWiki data
+ * format.
+ * 
+ * @author Tobias Kuhn
  */
-public class Comment extends Statement {
-	
-	private final String text;
+public class AceWikiDataExporter extends OntologyExporter {
 	
 	/**
-	 * Creates a new comment.
+	 * Creates a new AceWiki data exporter.
 	 * 
-	 * @param text The comment text.
-	 * @param owner The owner ontology element.
+	 * @param ontology The ontology.
 	 */
-	protected Comment(String text, OntologyElement owner) {
-		super(owner);
-		this.text = text;
+	public AceWikiDataExporter(Ontology ontology) {
+		super(ontology);
 	}
 	
-	public String getText() {
-		return text;
+	protected void writeContent() throws IOException {
+		for (OntologyElement oe : getOntologyElements()) {
+			write(oe.serialize(false));
+			write("\n");
+		}
 	}
 	
-	public String getType() {
-		return "comment";
+	public String getFileSuffix() {
+		return ".acewikidata";
 	}
 	
-	String serialize(boolean encodeWords) {
-		return "c " + text.replaceAll("~", "~t").replaceAll("\\n", "~n") + "\n";
+	public String getContentType() {
+		return "text/plain";
 	}
 
 }

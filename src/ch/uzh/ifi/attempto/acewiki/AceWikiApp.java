@@ -90,7 +90,7 @@ class AceWikiApp extends ApplicationInstance {
 	}
 	
 	public void dispose() {
-		wiki.dispose();
+		if (wiki != null) wiki.dispose();
 		super.dispose();
 	}
 

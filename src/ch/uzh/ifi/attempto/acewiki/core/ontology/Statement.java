@@ -84,9 +84,11 @@ public abstract class Statement {
 	/**
 	 * This method returns a serialization of the statement.
 	 * 
+	 * @param encodeWords defines whether words should be encoded (for the internal "database") or
+	 *   not (for export in the AceWiki data format.
 	 * @return The serialized representation of the statement.
 	 */
-	abstract String serialize();
+	abstract String serialize(boolean encodeWords);
 	
 	public String toString() {
 		return getText();

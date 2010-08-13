@@ -462,9 +462,11 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 	/**
 	 * Serializes this ontology element as a string.
 	 * 
+	 * @param encodeWords defines whether words should be encoded (for the internal "database") or
+	 *   not (for export in the AceWiki data format.
 	 * @return The serialized ontology element.
 	 */
-	String serialize() {
+	String serialize(boolean encodeWords) {
 		String s = "type:";
 		s += getInternalType() + "\nwords:";
 		for (String word : getWords()) {
@@ -476,7 +478,7 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 		}
 		s += "\n";
 		for (Statement statement : statements) {
-			s += statement.serialize();
+			s += statement.serialize(encodeWords);
 		}
 		return s;
 	}

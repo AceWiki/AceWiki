@@ -35,6 +35,7 @@ import nextapp.echo2.app.layout.GridLayoutData;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.ACELexiconExporter;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.ACETextExporter;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.AceWikiDataExporter;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.LexiconTableExporter;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OWLXMLExporter;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Ontology;
@@ -110,7 +111,8 @@ public class ExportWindow extends WindowPane implements ActionListener {
 				"OWL Ontology, consistent (.owl)",
 				"OWL Ontology, full (.owl)",
 				"Lexicon Table (.csv)",
-				"Statement Table (.csv)"
+				"Statement Table (.csv)",
+				"AceWiki data file (.acewikidata)"
 		});
 		listBox.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(11)));
 		listBox.setBackground(Style.lightBackground);
@@ -153,6 +155,8 @@ public class ExportWindow extends WindowPane implements ActionListener {
 				exporter = new LexiconTableExporter(ontology);
 			} else if (export.startsWith("Statement Table")) {
 				exporter = new StatementTableExporter(ontology);
+			} else if (export.startsWith("AceWiki data")) {
+				exporter = new AceWikiDataExporter(ontology);
 			} else {
 				return;
 			}

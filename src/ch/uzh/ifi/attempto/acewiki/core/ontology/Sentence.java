@@ -408,7 +408,7 @@ public abstract class Sentence extends Statement {
 		return t;
 	}
 	
-	String serialize() {
+	String serialize(boolean encodeWords) {
 		if (textContainer == null) {
 			tokenize();
 		}
@@ -421,7 +421,11 @@ public abstract class Sentence extends Statement {
 		for (TextElement te : textContainer.getTextElements()) {
 			if (te instanceof OntologyTextElement) {
 				OntologyTextElement ot = (OntologyTextElement) te;
-				s += " <" + ot.getOntologyElement().getId() + "," + ot.getWordNumber() + ">";
+				if (encodeWords) {
+					s += " <" + ot.getOntologyElement().getId() + "," + ot.getWordNumber() + ">";
+				} else {
+					s += " " + ot.getUnderscoredText();
+				}
 			} else {
 				s += " " + te.getText();
 			}

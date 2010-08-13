@@ -14,17 +14,19 @@
 
 package ch.uzh.ifi.attempto.acewiki.core.ontology;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -70,8 +72,8 @@ public class Ontology {
 	private static OWLDataFactory dataFactory = new OWLDataFactoryImpl();
 	
 	private List<OntologyElement> elements = new ArrayList<OntologyElement>();
-	private Map<String, OntologyElement> wordIndex = new Hashtable<String, OntologyElement>();
-	private Map<Long, OntologyElement> idIndex = new Hashtable<Long, OntologyElement>();
+	private Map<String, OntologyElement> wordIndex = new TreeMap<String, OntologyElement>();
+	private Map<Long, OntologyElement> idIndex = new TreeMap<Long, OntologyElement>();
 	
 	private final String name;
 	private final String baseURI;
@@ -170,6 +172,7 @@ public class Ontology {
 		ontology.log("loading ontology");
 		System.err.println("Loading '" + name + "'");
 		File dataDir = new File("data/" + name);
+		File dataFile = new File("data/" + name + ".acewikidata");
 		if (dataDir.exists()) {
 			System.err.print("Entities:   ");
 			ConsoleProgressBar pb1 = new ConsoleProgressBar(dataDir.listFiles().length);
@@ -177,7 +180,6 @@ public class Ontology {
 				pb1.addOne();
 				try {
 					long id = new Long(file.getName());
-					ontology.log("reading file: " + file.getName());
 					FileInputStream in = new FileInputStream(file);
 					byte[] bytes = new byte[in.available()];
 					in.read(bytes);
@@ -191,6 +193,33 @@ public class Ontology {
 				}
 			}
 			pb1.complete();
+		} else if (dataFile.exists()) {
+			System.err.print("Entities:   ");
+			ConsoleProgressBar pb1 = null;
+			try {
+				BufferedReader in = new BufferedReader(new FileReader(dataFile));
+				pb1 = new ConsoleProgressBar(dataFile.length());
+				long id = 1;
+				String s = "";
+				String line = in.readLine();
+				while (line != null) {
+					pb1.add(line.length() + 1);
+					if (line.matches("\\s*")) {
+						if (s.length() > 0) {
+							OntologyElement.loadOntologyElement(s, id, ontology);
+							id++;
+							s = "";
+						}
+					} else {
+						s += line + "\n";
+					}
+					line = in.readLine();
+				}
+				in.close();
+			} catch (IOException ex) {
+				ontology.log("cannot read file: " + dataFile.getName());
+			}
+			if (pb1 != null) pb1.complete();
 		} else {
 			ontology.log("no data found; blank ontology is created");
 		}
@@ -226,7 +255,7 @@ public class Ontology {
 		
 		try {
 			FileOutputStream out = new FileOutputStream("data/" + name + "/" + oe.getId());
-			out.write(oe.serialize().getBytes("UTF-8"));
+			out.write(oe.serialize(true).getBytes("UTF-8"));
 			out.close();
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -443,7 +472,7 @@ public class Ontology {
 	 * @return A list of all ontology elements.
 	 */
 	public List<OntologyElement> getOntologyElements() {
-		return new ArrayList<OntologyElement>(elements);
+		return new ArrayList<OntologyElement>(idIndex.values());
 	}
 	
 	/**
