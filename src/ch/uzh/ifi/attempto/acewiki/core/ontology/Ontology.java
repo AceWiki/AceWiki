@@ -71,7 +71,6 @@ public class Ontology {
 	
 	private static OWLDataFactory dataFactory = new OWLDataFactoryImpl();
 	
-	private List<OntologyElement> elements = new ArrayList<OntologyElement>();
 	private Map<String, OntologyElement> wordIndex = new TreeMap<String, OntologyElement>();
 	private Map<Long, OntologyElement> idIndex = new TreeMap<Long, OntologyElement>();
 	
@@ -226,8 +225,9 @@ public class Ontology {
 
 		ontology.log("loading statements");
 		System.err.print("Statements: ");
-		ConsoleProgressBar pb2 = new ConsoleProgressBar(ontology.elements.size());
-		for (OntologyElement oe : ontology.elements) {
+		List<OntologyElement> elements = ontology.getOntologyElements();
+		ConsoleProgressBar pb2 = new ConsoleProgressBar(elements.size());
+		for (OntologyElement oe : elements) {
 			pb2.addOne();
 			ontology.loadElement(oe);
 			for (Sentence s : oe.getSentences()) {
@@ -248,7 +248,7 @@ public class Ontology {
 		if (!(new File("data")).exists()) (new File("data")).mkdir();
 		if (!(new File("data/" + name)).exists()) (new File("data/" + name)).mkdir();
 		
-		if (!elements.contains(oe)) {
+		if (!contains(oe)) {
 			(new File("data/" + name + "/" + oe.getId())).delete();
 			return;
 		}
@@ -263,7 +263,7 @@ public class Ontology {
 	}
 	
 	synchronized void register(OntologyElement element) {
-		if (elements.contains(element)) {
+		if (contains(element)) {
 			log("error: element already registered");
 			throw new RuntimeException("Registration failed: Element is already registered.");
 		}
@@ -274,7 +274,6 @@ public class Ontology {
 		if (element.getId() == -1) {
 			element.setId(nextId());
 		}
-		elements.add(element);
 		idIndex.put(element.getId(), element);
 		if (element.getId() > idCount) idCount = element.getId();
 		
@@ -304,7 +303,7 @@ public class Ontology {
 	 * @param element The ontology element to be removed.
 	 */
 	public synchronized void remove(OntologyElement element) {
-		if (!elements.contains(element)) {
+		if (!contains(element)) {
 			log("error: unknown element");
 			return;
 		}
@@ -316,7 +315,6 @@ public class Ontology {
 			if (word == null) continue;
 			wordIndex.remove(word);
 		}
-		elements.remove(element);
 		idIndex.remove(element.getId());
 		for (Sentence s : element.getSentences()) {
 			retractSentence(s);
@@ -414,7 +412,7 @@ public class Ontology {
 	 */
 	public synchronized List<Sentence> getReferences(OntologyElement element, int wordNumber) {
 		List<Sentence> list = new ArrayList<Sentence>();
-		for (OntologyElement el : elements) {
+		for (OntologyElement el : idIndex.values()) {
 			for (Sentence s : el.getSentences()) {
 				if (wordNumber == -1 && s.contains(element)) {
 					list.add(s);
@@ -482,7 +480,7 @@ public class Ontology {
 	 * @return true if the ontology element is contained by the ontology.
 	 */
 	public boolean contains(OntologyElement ontologyElement) {
-		return elements.contains(ontologyElement);
+		return idIndex.containsValue(ontologyElement);
 	}
 	
 	/**
