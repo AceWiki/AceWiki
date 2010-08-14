@@ -29,7 +29,7 @@ swipl -s validate_codeco.pl -g "validate_codeco('my_codeco_grammar.pl')" -t halt
 
 You may have to replace "swipl" by the name of your SWI Prolog executable.
 
-More more information about Codeco, see the following thesis:
+For more information about Codeco, see the following thesis:
 http://attempto.ifi.uzh.ch/site/pubs/papers/doctoral_thesis_kuhn.pdf 
 
 @author Tobias Kuhn

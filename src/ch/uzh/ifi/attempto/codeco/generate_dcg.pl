@@ -34,7 +34,7 @@ Before transforming a file, you should make sure that it is a well-formed Codeco
 swipl -s validate_codeco.pl -g "validate_codeco('my_codeco_grammar.pl')" -t halt
 ==
 
-More more information about Codeco, see the following thesis:
+For more information about Codeco, see the following thesis:
 http://attempto.ifi.uzh.ch/site/pubs/papers/doctoral_thesis_kuhn.pdf 
 
 @author Tobias Kuhn
