@@ -204,11 +204,14 @@ public class Ontology {
 				while (line != null) {
 					pb1.add(line.length() + 1);
 					if (line.matches("\\s*")) {
+						// empty line
 						if (s.length() > 0) {
 							OntologyElement.loadOntologyElement(s, id, ontology);
 							id++;
 							s = "";
 						}
+					} else if (line.startsWith("%")) {
+						// comment
 					} else {
 						s += line + "\n";
 					}
