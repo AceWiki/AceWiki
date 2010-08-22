@@ -37,8 +37,8 @@ import ch.uzh.ifi.attempto.echocomp.Logger;
  * SWI Prolog needs to be installed on the server and you need to have a compiled version of the
  * Attempto APE distribution. See the documentation of {@link APELocal} for more information.
  *<p>
- * The execution of the reasoner Pellet is quite memory intensive. For that reason, the stack and
- * heap sizes should be adjusted, for example by the following Java VM arguments:
+ * For larger ontologies it might be necessary to adjust the stack and heap size, for example by
+ * the following Java VM arguments:
  * <code>-Xmx400m -Xss4m</code>
  * 
  * @author Tobias Kuhn
