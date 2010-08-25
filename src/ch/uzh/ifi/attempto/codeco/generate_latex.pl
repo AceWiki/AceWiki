@@ -37,7 +37,7 @@ For more information about Codeco, see the following thesis:
 http://attempto.ifi.uzh.ch/site/pubs/papers/doctoral_thesis_kuhn.pdf 
 
 @author Tobias Kuhn
-@version 2009-11-19
+@version 2010-08-25
 */
 
 
@@ -86,6 +86,7 @@ process(In, Out) :-
 	( Term == end_of_file ->
 		true
 	;
+		retractall(var_number(_, _)),
 		numbervars(Term, 1, _),
 		process_term(Out, Term),
 		process(In, Out)
@@ -164,8 +165,9 @@ process_cat(Out, $ Cat) :-
     process_features(Out, Features),
     write(Out, '}\n').
 
-process_cat(Out, # '$VAR'(N)) :-
+process_cat(Out, # '$VAR'(V)) :-
     !,
+    get_var_number(V, N),
     format(Out, '  \\pos{~l}\n', N).
 
 process_cat(Out, '//') :-
@@ -256,8 +258,9 @@ process_features(Out, Features) :-
 
 process_features_x(_, []).
 
-process_features_x(Out, [Name:'$VAR'(N)|Rest]) :-
+process_features_x(Out, [Name:'$VAR'(V)|Rest]) :-
     !,
+    get_var_number(V, N),
     format(Out, '\\featv{~l}{~l}', [Name, N]),
     process_features_x(Out, Rest).
 
@@ -275,6 +278,23 @@ process_features_x(Out, [Name:Value|Rest]) :-
     !,
     format(Out, '\\featc{~l}{~l}', [Name, Value]),
     process_features_x(Out, Rest).
+
+
+:- dynamic(var_number/2).
+
+
+get_var_number(VarID, VarNumber) :-
+    var_number(VarID, VarNumber),
+    !.
+
+get_var_number(VarID, VarNumber) :-
+    var_number(_, LastVarNumber),
+    !,
+    VarNumber is LastVarNumber + 1,
+    asserta(var_number(VarID, VarNumber)).
+
+get_var_number(VarID, 1) :-
+    asserta(var_number(VarID, 1)).
 
 
 replace(Input, Search, Replace, Output) :-

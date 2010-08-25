@@ -37,7 +37,7 @@ For more information about Codeco, see the following thesis:
 http://attempto.ifi.uzh.ch/site/pubs/papers/doctoral_thesis_kuhn.pdf 
 
 @author Tobias Kuhn
-@version 2009-11-19
+@version 2010-08-25
 */
 
 
@@ -83,18 +83,12 @@ generate_html(InputFile, OutputFile) :-
     close(Out).
 
 
-%% next_id(-GrammarRuleID)
-%
-% This predicate is used as a counter for numbering the grammar rules.
-
-:- dynamic(next_id/1).
-
-
 process(In, Out) :-
 	read_term(In, Term, [module(generate_html)]),
 	( Term == end_of_file ->
 		true
 	;
+		retractall(var_number(_, _)),
 		numbervars(Term, 1, _),
 		process_term(Out, Term),
 		process(In, Out)
@@ -171,8 +165,9 @@ process_cat(Out, $ Cat) :-
     process_features(Out, Features),
     write(Out, '  </table></td> <td></td>\n').
 
-process_cat(Out, # '$VAR'(N)) :-
+process_cat(Out, # '$VAR'(V)) :-
     !,
+    get_var_number(V, N),
     format(Out, '  <td class="special">#</td><td><span class="var">~l</span></td>\n', N).
 
 process_cat(Out, '//') :-
@@ -263,8 +258,9 @@ process_features(Out, Features) :-
 
 process_features_x(_, []).
 
-process_features_x(Out, [Name:'$VAR'(N)|Rest]) :-
+process_features_x(Out, [Name:'$VAR'(V)|Rest]) :-
     !,
+    get_var_number(V, N),
     format(Out, '<tr><td class="f">~l: <span class="var"> ~l </span></td></tr>', [Name, N]),
     process_features_x(Out, Rest).
 
@@ -294,12 +290,32 @@ get_category_name(C, N) :-
 	C =.. [N|_].
 
 
+:- dynamic(next_id/1).
+
+
 write_id(Out) :-
 	next_id(ID),
     format(Out, '  <td class="id">(~w)</td>\n', ID),
 	retractall(next_id(_)),
 	NewID is ID + 1,
 	assert(next_id(NewID)).
+
+
+:- dynamic(var_number/2).
+
+
+get_var_number(VarID, VarNumber) :-
+    var_number(VarID, VarNumber),
+    !.
+
+get_var_number(VarID, VarNumber) :-
+    var_number(_, LastVarNumber),
+    !,
+    VarNumber is LastVarNumber + 1,
+    asserta(var_number(VarID, VarNumber)).
+
+get_var_number(VarID, 1) :-
+    asserta(var_number(VarID, 1)).
 
 
 replace(Input, Search, Replace, Output) :-
