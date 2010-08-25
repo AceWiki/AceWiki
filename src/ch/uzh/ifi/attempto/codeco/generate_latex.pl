@@ -172,7 +172,7 @@ process_cat(Out, # '$VAR'(V)) :-
 
 process_cat(Out, '//') :-
     !,
-    write(Out, '  \\scopeopensymb{}\n').
+    write(Out, '  \\scopeopener{}\n').
 
 process_cat(Out, Cat) :-
     Cat =.. [Name],
