@@ -5,6 +5,20 @@ This file lists the changes between the different AceWiki versions. See the Baza
 details.
 
 
+Version 0.4.1:
+
+- Two memory leaks (in the broad sense, as they can also occur with Java) have been fixed:
+  - References to closed windows were internally retained, which prevented them (and the objects
+    they referenced) from being garbage collected.
+  - References to the closed application instances were retained.
+- There is a new AceWiki data format, in which the wiki content can be exported (on the client-
+  side) and imported (on the server-side).
+- The test scripts for the two grammars are included.
+- Some minor improvements of the Latex and HTML outputs of the Codeco transformation.
+- One small bug in the grammars has been fixed.
+- The internals of the Ontology class have been improved.
+
+
 Version 0.4.0:
 
 - Moved from version 2 to version 3 of the OWL API.

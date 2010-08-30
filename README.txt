@@ -119,7 +119,19 @@ where LIBJPLPATH is the path of the SWI Prolog JPL library, or you can use the U
 "run-webapps-with-jettyrunner.sh".
 
 
-5. Help
+5. AceWiki Data
+---------------
+
+The AceWiki data is stored on the server in a directory called "data". Each AceWiki instance gets
+its own subdirectory therein. In order to import an AceWiki data file "*.acewikidata", this file
+needs to have the name of the ontology into which it should be importet (as defined by the web.xml
+file) and needs to be located in the "data" directory. Furthermore, the AceWiki data file is only
+loaded if no subdirectory with the respective ontology name exists. Thus, if there already exists
+data, the respective directory has to be removed or renamed before an AceWiki data file can be
+imported.
+
+
+6. Help
 -------
 
 If you encounter problems, you can get help from the community. Bugs and questions can be submitted
