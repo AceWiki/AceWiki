@@ -21,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -70,6 +71,9 @@ public class Ontology {
 	private static final HashMap<String, Ontology> ontologies = new HashMap<String, Ontology>();
 	
 	private static OWLDataFactory dataFactory = new OWLDataFactoryImpl();
+	private static OWLlinkHTTPXMLReasonerFactory owllinkReasonerFactory;
+	
+	private static Object owllinkReasonerSyncToken = new Object();
 	
 	private Map<String, OntologyElement> wordIndex = new TreeMap<String, OntologyElement>();
 	private Map<Long, OntologyElement> idIndex = new TreeMap<Long, OntologyElement>();
@@ -84,6 +88,7 @@ public class Ontology {
 	private OWLOntology owlOntology;
 	private Map<OWLAxiom, Integer> axiomsMap = new HashMap<OWLAxiom, Integer>();
 	private OWLReasoner reasoner;
+	private Object reasonerSyncToken = new Object();
 	private String reasonerType = "none";
 	private OWLDifferentIndividualsAxiom differentIndividualsAxiom;
 	private final OWLProfile owlProfile;
@@ -594,7 +599,12 @@ public class Ontology {
 		} else if (type.equals("owllink")) {
 			log("loading OWLlink");
 			reasonerType = "OWLlink";
-			reasoner = (new OWLlinkHTTPXMLReasonerFactory()).createReasoner(owlOntology);
+			if (owllinkReasonerFactory == null) {
+				owllinkReasonerFactory = new OWLlinkHTTPXMLReasonerFactory();
+			}
+			reasoner = owllinkReasonerFactory.createReasoner(owlOntology);
+			// reasoner calls over OWLlink have to be synchronized:
+			reasonerSyncToken = owllinkReasonerSyncToken;
 		//} else if (type.equals("dig")) {
             //try {
 			//	reasoner = new DIGReasoner(OWLManager.createOWLOntologyManager());
@@ -756,9 +766,7 @@ public class Ontology {
 	 */
 	public synchronized List<Concept> getConcepts(Individual ind) {
 		List<Concept> concepts = new ArrayList<Concept>();
-		if (reasoner == null) return concepts;
-		Set<OWLClass> owlClasses = reasoner.getTypes(ind.getOWLRepresentation(), false).getFlattened();
-		for (OWLClass oc : owlClasses) {
+		for (OWLClass oc : getConcepts(ind.getOWLRepresentation())) {
 			if (oc.isOWLThing() || oc.isOWLNothing()) continue;
 			String conceptURI = oc.getIRI().toString();
 			if (conceptURI.startsWith("http://attempto.ifi.uzh.ch/ace#")) continue;
@@ -766,6 +774,16 @@ public class Ontology {
 			concepts.add((Concept) get(conceptName));
 		}
 		return concepts;
+	}
+	
+	private synchronized Set<OWLClass> getConcepts(OWLNamedIndividual owlInd) {
+		if (reasoner == null) {
+			return Collections.emptySet();
+		} else {
+			synchronized (reasonerSyncToken) {
+				return reasoner.getTypes(owlInd, false).getFlattened();
+			}
+		}
 	}
 	
 	/**
@@ -777,15 +795,23 @@ public class Ontology {
 	 */
 	public synchronized List<Individual> getIndividuals(Concept concept) {
 		List<Individual> inds = new ArrayList<Individual>();
-		if (reasoner == null) return inds;
-		Set<OWLNamedIndividual> owlInds = reasoner.getInstances(concept.getOWLRepresentation(), false).getFlattened();
-		for (OWLNamedIndividual oi : owlInds) {
+		for (OWLNamedIndividual oi : getIndividuals(concept.getOWLRepresentation())) {
 			OntologyElement oe = get(oi);
 			if (oe instanceof Individual) {
 				inds.add((Individual) oe);
 			}
 		}
 		return inds;
+	}
+	
+	private synchronized Set<OWLNamedIndividual> getIndividuals(OWLClassExpression owlClass) {
+		if (reasoner == null) {
+			return Collections.emptySet();
+		} else {
+			synchronized (reasonerSyncToken) {
+				return reasoner.getInstances(owlClass, false).getFlattened();
+			}
+		}
 	}
 	
 	/**
@@ -797,15 +823,23 @@ public class Ontology {
 	 */
 	public synchronized List<Concept> getSuperConcepts(Concept concept) {
 		List<Concept> concepts = new ArrayList<Concept>();
-		if (reasoner == null) return concepts;
-		Set<OWLClass> owlClasses = reasoner.getSuperClasses(concept.getOWLRepresentation(), false).getFlattened();
-		for (OWLClass oc : owlClasses) {
+		for (OWLClass oc : getSuperConcepts(concept.getOWLRepresentation())) {
 			OntologyElement oe = get(oc);
 			if (oe instanceof Concept) {
 				concepts.add((Concept) oe);
 			}
 		}
 		return concepts;
+	}
+	
+	private synchronized Set<OWLClass> getSuperConcepts(OWLClass owlClass) {
+		if (reasoner == null) {
+			return Collections.emptySet();
+		} else {
+			synchronized (reasonerSyncToken) {
+				return reasoner.getSuperClasses(owlClass, false).getFlattened();
+			}
+		}
 	}
 	
 	/**
@@ -817,15 +851,23 @@ public class Ontology {
 	 */
 	public synchronized List<Concept> getSubConcepts(Concept concept) {
 		List<Concept> concepts = new ArrayList<Concept>();
-		if (reasoner == null) return concepts;
-		Set<OWLClass> owlClasses = reasoner.getSubClasses(concept.getOWLRepresentation(), false).getFlattened();
-		for (OWLClass oc : owlClasses) {
+		for (OWLClass oc : getSubConcepts(concept.getOWLRepresentation())) {
 			OntologyElement oe = get(oc);
 			if (oe instanceof Concept) {
 				concepts.add((Concept) oe);
 			}
 		}
 		return concepts;
+	}
+	
+	private synchronized Set<OWLClass> getSubConcepts(OWLClass owlClass) {
+		if (reasoner == null) {
+			return Collections.emptySet();
+		} else {
+			synchronized (reasonerSyncToken) {
+				return reasoner.getSubClasses(owlClass, false).getFlattened();
+			}
+		}
 	}
 	
 	/**
@@ -853,7 +895,7 @@ public class Ontology {
 		}
 		
 		if (quInd != null) {
-			Set<OWLClass> owlClasses = reasoner.getTypes(quInd, false).getFlattened();
+			Set<OWLClass> owlClasses = getConcepts(quInd);
 			for (OWLClass oc : owlClasses) {
 				OntologyElement oe = get(oc);
 				if (oe instanceof Concept) {
@@ -861,7 +903,7 @@ public class Ontology {
 				}
 			}
 		} else if (quClass != null) {
-			Set<OWLNamedIndividual> owlInds = reasoner.getInstances(quClass, false).getFlattened();
+			Set<OWLNamedIndividual> owlInds = getIndividuals(quClass);
 			for (OWLNamedIndividual oi : owlInds) {
 				OntologyElement oe = get(oi);
 				if (oe instanceof Individual) {
@@ -893,9 +935,11 @@ public class Ontology {
 		if (reasoner == null) return true;
 		boolean c = true;
 		try {
-			// The method isConsistent is poorly supported by the implementations.
-			//c = reasoner.isConsistent();
-			c = reasoner.isSatisfiable(dataFactory.getOWLThing());
+			synchronized (reasonerSyncToken) {
+				// The method isConsistent is poorly supported by the implementations.
+				//c = reasoner.isConsistent();
+				c = reasoner.isSatisfiable(dataFactory.getOWLThing());
+			}
 		} catch (Exception ex) {
 			c = false;
 		}
@@ -911,14 +955,20 @@ public class Ontology {
 	public synchronized boolean isSatisfiable(Concept concept) {
 		if (reasoner == null) return true;
 		if (owlOntology.containsClassInSignature(concept.getIRI())) {
-			return reasoner.isSatisfiable(concept.getOWLRepresentation());
+			synchronized (reasonerSyncToken) {
+				return reasoner.isSatisfiable(concept.getOWLRepresentation());
+			}
 		} else {
 			return true;
 		}
 	}
 	
 	private void flushReasoner() {
-		if (reasoner != null) reasoner.flush();
+		if (reasoner != null) {
+			synchronized (reasonerSyncToken) {
+				reasoner.flush();
+			}
+		}
 	}
 	
 	private void loadElement(OntologyElement element) {

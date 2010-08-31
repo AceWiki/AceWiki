@@ -222,28 +222,30 @@ public abstract class Sentence extends Statement {
 	 * Furthermore, it needs to be called each time a word form of an ontology element
 	 * (that occurs in the sentence) has changed.
 	 */
-	synchronized void parse() {
-		APELocal.getInstance().setURI(getOntology().getURI());
-		APELocal.getInstance().setClexEnabled(false);
-		Lexicon lexicon = new Lexicon();
-		for (TextElement te : getTextElements()) {
-			if (te instanceof OntologyTextElement) {
-				OntologyElement oe = ((OntologyTextElement) te).getOntologyElement();
-				for (LexiconEntry le : oe.getLexiconEntries()) {
-					lexicon.addEntry(le);
+	void parse() {
+		synchronized (APELocal.class) {
+			APELocal.getInstance().setURI(getOntology().getURI());
+			APELocal.getInstance().setClexEnabled(false);
+			Lexicon lexicon = new Lexicon();
+			for (TextElement te : getTextElements()) {
+				if (te instanceof OntologyTextElement) {
+					OntologyElement oe = ((OntologyTextElement) te).getOntologyElement();
+					for (LexiconEntry le : oe.getLexiconEntries()) {
+						lexicon.addEntry(le);
+					}
 				}
 			}
+			parserResult = APELocal.getInstance().getMultiOutput(
+					getText(),
+					lexicon,
+					PARAPHRASE1,
+					SYNTAX,
+					SYNTAXPP, 
+					OWLXML,
+					OWLRDF,
+					DRSPP
+				);
 		}
-		parserResult = APELocal.getInstance().getMultiOutput(
-				getText(),
-				lexicon,
-				PARAPHRASE1,
-				SYNTAX,
-				SYNTAXPP, 
-				OWLXML,
-				OWLRDF,
-				DRSPP
-			);
 		MessageContainer mc = parserResult.getMessageContainer();
 		owlxml = parserResult.get(OWLXML);
 		if (owlxml != null) {
