@@ -54,7 +54,7 @@
 
 \section*{ACE Editor Grammar}
 
-\noindent - Tobias Kuhn, 2 August 2010 - \vspace{2mm}
+\noindent - Tobias Kuhn, 17 September 2010 - \vspace{2mm}
 
 \noindent Below, the grammar rules of the ACE Editor grammar are shown: \vspace{2mm}
 
@@ -373,9 +373,9 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{v}{\featc{be}{--}\featc{copula}{--}\featv{exist}{1}\featv{pl}{2}\featv{vform}{3}\featv{whin}{4}\featv{whout}{4}}
+  \cat{v}{\featc{be}{--}\featc{copula}{--}\featv{pl}{1}\featv{vform}{2}\featv{whin}{3}\featv{whout}{3}}
 }{
-  \cat{verb}{\featc{be}{--}\featv{exist}{1}\featv{pl}{2}\featc{vcat}{itr}\featv{vform}{3}}
+  \cat{verb}{\featc{be}{--}\featv{pl}{1}\featc{vcat}{itr}\featv{vform}{2}}
 }$
 \vspace{2mm}
 
@@ -384,10 +384,10 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{v}{\featc{be}{--}\featc{copula}{--}\featv{embv}{1}\featv{exist}{2}\featv{pl}{3}\featv{rel}{4}\featv{subj}{5}\featv{vform}{6}\featv{whin}{7}\featv{whout}{8}}
+  \cat{v}{\featc{be}{--}\featc{copula}{--}\featv{embv}{1}\featv{pl}{2}\featv{rel}{3}\featv{subj}{4}\featv{vform}{5}\featv{whin}{6}\featv{whout}{7}}
 }{
-  \cat{verb}{\featc{be}{--}\featv{exist}{2}\featv{pl}{3}\featc{vcat}{tr}\featv{vform}{6}}
-  \cat{np}{\featc{case}{acc}\featv{embv}{1}\featv{rel}{4}\featv{subj}{5}\featc{vcat}{tr}\featv{whin}{7}\featv{whout}{8}}
+  \cat{verb}{\featc{be}{--}\featv{pl}{2}\featc{vcat}{tr}\featv{vform}{5}}
+  \cat{np}{\featc{case}{acc}\featv{embv}{1}\featv{rel}{3}\featv{subj}{4}\featc{vcat}{tr}\featv{whin}{6}\featv{whout}{7}}
 }$
 \vspace{2mm}
 
@@ -398,7 +398,7 @@
 \nrule{
   \cat{v}{\featc{be}{+}\featc{copula}{--}\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
 }{
-  \cat{verb}{\featc{be}{+}\featv{exist}{6}\featv{pl}{7}\featc{vcat}{tr}\featv{vform}{8}}
+  \cat{verb}{\featc{be}{+}\featc{vcat}{tr}}
   \term{by}
   \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
 }$
@@ -431,7 +431,7 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{v}{\featc{be}{+}\featc{copula}{+}\featv{rel}{1}\featv{whin}{2}\featv{whout}{2}}
+  \cat{v}{\featc{be}{+}\featc{copula}{+}\featv{whin}{1}\featv{whout}{1}}
 }{
   \scat{adj\_coord}
 }$
@@ -1048,8 +1048,8 @@
 }
 \subsection*{Relative Clauses}
 
-\noindent Relative pronouns are represented by 'relpron' and can be either "that", "who" or
-		"which": \vspace{2mm}
+\noindent Relative clauses are represented by 'relcl'. They start with a relative pronoun and
+		are always optional: \vspace{2mm}
 
 {\scriptsize
 \noindent$
@@ -1132,8 +1132,8 @@
   \cat{relcl2}{\featv{rel}{1}\featv{subj}{2}\featv{whin}{3}\featv{whout}{4}}
 }{
   \cat{np}{\featc{case}{nom}\featc{copula}{--}\featv{embv}{5}\featv{id}{6}\featv{pl}{7}\featc{refl}{--}\featc{rel}{--}\featv{subj}{2}\featv{whin}{3}\featv{whout}{8}}
-  \cat{aux}{\featc{be}{--}\featv{exist}{9}\featv{pl}{7}}
-  \cat{verb}{\featc{be}{--}\featv{exist}{9}\featv{pl}{7}\featc{vcat}{tr}\featc{vform}{inf}}
+  \cat{aux}{\featc{be}{--}\featv{pl}{7}}
+  \cat{verb}{\featc{be}{--}\featv{pl}{7}\featc{vcat}{tr}\featc{vform}{inf}}
   \cat{vmod}{\featc{copula}{--}\featv{embv}{5}\featv{rel}{1}\featv{subj}{6}\featv{whin}{8}\featv{whout}{4}}
 }$
 \vspace{2mm}
@@ -1146,7 +1146,7 @@
   \cat{relcl2}{\featv{rel}{1}\featv{subj}{2}\featv{whin}{3}\featv{whout}{4}}
 }{
   \cat{np}{\featc{case}{nom}\featc{copula}{--}\featv{embv}{5}\featv{id}{6}\featv{pl}{7}\featc{refl}{--}\featc{rel}{--}\featv{subj}{2}\featv{whin}{3}\featv{whout}{8}}
-  \cat{verb}{\featc{be}{--}\featc{exist}{+}\featv{pl}{7}\featc{vcat}{tr}\featc{vform}{fin}}
+  \cat{verb}{\featc{be}{--}\featv{pl}{7}\featc{vcat}{tr}\featc{vform}{fin}}
   \cat{vmod}{\featc{copula}{--}\featv{embv}{5}\featv{rel}{1}\featv{subj}{6}\featv{whin}{8}\featv{whout}{4}}
 }$
 \vspace{2mm}

@@ -85,8 +85,8 @@ opt_newvar([A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, plus, T, U,
 newvar([A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X], Y/Z)--> $variable([A1, B1, C1, D1, E1, F1, G1, H1, I1, J1, K1, L1, M1, N1, O1, P1, Q1, U, R1, S1, T1, U1, V1, W1], Y/Y), /<([X1, Y1, Z1, A2, B2, C2, D2, E2, F2, G2, H2, I2, J2, K2, L2, M2, N2, O2, P2, plus, U, Q2, R2, S2], Y/Z).
 
 /* --- Relative Clauses --- */
-/* Relative pronouns are represented by 'relpron' and can be either "that", "who" or
-		"which": */
+/* Relative clauses are represented by 'relcl'. They start with a relative pronoun and
+		are always optional: */
 relcl([A, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W], X/X)-->[].
 relcl([A, B, C, D, E, F, G, H, plus, I, J, K, L, plus, M, N, O, P, Q, R, S, T, U, V], W/X)-->relpron([Y, Z, A1, B1, C1, D1, E1, F1, G1, H1, I1, J1, K1, L1, M1, N, N1, O1, P1, Q1, R1, S1, T1, U1], W/V1), relcl1([A, B, C, W1, X1, Y1, Z1, A2, B2, C2, D2, E2, F2, G2, H2, N, I2, J2, K2, L2, M2, N2, T1, O2], V1/X).
 /* Like sentences and verb phrases, relative clauses can be coordinated by "or"

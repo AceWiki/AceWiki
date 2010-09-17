@@ -117,7 +117,7 @@ v(subj:Subj, be:minus, exist:E, rel:R, pl:PL, vform:VF, embv:EmbV, copula:minus,
 	np(subj:Subj, rel:R, vcat:tr, embv:EmbV, case:acc, whin:WhIn, whout:WhOut).
 
 v(subj:Subj, be:plus, rel:R, embv:EmbV, copula:minus, whin:WhIn, whout:WhOut) =>
-	verb(vcat:tr, be:plus, pl:PL, exist:E, vform:VF),
+	verb(vcat:tr, be:plus),
 	np(subj:Subj, rel:R, copula:minus, embv:EmbV, case:acc, whin:WhIn, whout:WhOut).
 
 v(subj:Subj, be:plus, rel:R, embv:EmbV, copula:plus, whin:WhIn, whout:WhOut) =>
@@ -203,7 +203,7 @@ nc(id:ID, rel:R, of:minus, embv:EmbV, whin:WhIn, whout:WhOut) =>
 	>(id:ID, human:H, gender:G, type:noun, hasvar:HasVar, noun:Noun, var:Var),
 	relcl(subj:ID, rel:R, embv:EmbV, human:H, whin:WhIn, whout:WhOut).
 
-nc(id:ID, subj:Subj, rel:R, of:plus, embv:EmbV, whin:WhIn, whout:WhOut) ~>
+nc(subj:Subj, rel:R, of:plus, embv:EmbV, whin:WhIn, whout:WhOut) ~>
 	$nounof,
 	np(subj:Subj, rel:R, embv:EmbV, case:acc, whin:WhIn, whout:WhOut).
 
@@ -241,13 +241,13 @@ relcl2(subj:ID, rel:R, relpron:RP, human:H, whin:WhIn, whout:WhOut) =>
 relcl2(subj:ID, rel:R, whin:WhIn, whout:WhOut) =>
 	vp(subj:ID, rel:R, pl:minus, whin:WhIn, whout:WhOut).
 
-relcl2(subj:Subj, rel:R, whin:WhIn, whout:WhOut) ~>
-	np(id:ID, subj:Subj, rel:minus, copula:minus, pl:PL, case:nom, refl:minus, whin:WhIn, whout:WhOut),
+relcl2(subj:Subj, whin:WhIn, whout:WhOut) ~>
+	np(subj:Subj, rel:minus, copula:minus, pl:PL, case:nom, refl:minus, whin:WhIn, whout:WhOut),
 	aux(be:minus, exist:E, pl:PL),
 	verb(vcat:tr, be:minus, exist:E, pl:PL, vform:inf).
 
 relcl2(subj:Subj, whin:WhIn, whout:WhOut) ~>
-	np(id:ID, subj:Subj, rel:minus, copula:minus, pl:PL, case:nom, refl:minus, whin:WhIn, whout:WhOut),
+	np(subj:Subj, rel:minus, copula:minus, pl:PL, case:nom, refl:minus, whin:WhIn, whout:WhOut),
 	verb(vcat:tr, be:minus, exist:plus, pl:PL, vform:fin).
 
 relpron(human:plus, relpron:who) =>

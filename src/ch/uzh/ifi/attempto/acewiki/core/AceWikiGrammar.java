@@ -634,7 +634,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(l, false));
 		
-		// v(subj:A, be:plus, rel:B, embv:C, copula:minus, whin:D, whout:E)=>verb(vcat:tr, be:plus, pl:F, exist:G, vform:H), np(subj:A, rel:B, copula:minus, embv:C, case:acc, whin:D, whout:E)
+		// v(subj:A, be:plus, rel:B, embv:C, copula:minus, whin:D, whout:E)=>verb(vcat:tr, be:plus), np(subj:A, rel:B, copula:minus, embv:C, case:acc, whin:D, whout:E)
 		l.clear();
 		featureHash.clear();
 		nonterm = new Nonterminal("v");
@@ -652,9 +652,6 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm = new FeatureMap();
 		fm.setFeature("vcat", new StringRef("tr"));
 		fm.setFeature("be", new StringRef("plus"));
-		setFeature(fm, "pl", 5, featureHash);
-		setFeature(fm, "exist", 6, featureHash);
-		setFeature(fm, "vform", 7, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("np");
@@ -1298,18 +1295,17 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(l, false));
 		
-		// nc(id:A, subj:B, rel:C, of:plus, embv:D, whin:E, whout:F)~> $nounof, np(subj:B, rel:C, embv:D, case:acc, whin:E, whout:F)
+		// nc(subj:A, rel:B, of:plus, embv:C, whin:D, whout:E)~> $nounof, np(subj:A, rel:B, embv:C, case:acc, whin:D, whout:E)
 		l.clear();
 		featureHash.clear();
 		nonterm = new Nonterminal("nc");
 		fm = new FeatureMap();
-		setFeature(fm, "id", 0, featureHash);
-		setFeature(fm, "subj", 1, featureHash);
-		setFeature(fm, "rel", 2, featureHash);
+		setFeature(fm, "subj", 0, featureHash);
+		setFeature(fm, "rel", 1, featureHash);
 		fm.setFeature("of", new StringRef("plus"));
-		setFeature(fm, "embv", 3, featureHash);
-		setFeature(fm, "whin", 4, featureHash);
-		setFeature(fm, "whout", 5, featureHash);
+		setFeature(fm, "embv", 2, featureHash);
+		setFeature(fm, "whin", 3, featureHash);
+		setFeature(fm, "whout", 4, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		preterm = new Preterminal("nounof");
@@ -1318,12 +1314,12 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(preterm);
 		nonterm = new Nonterminal("np");
 		fm = new FeatureMap();
-		setFeature(fm, "subj", 1, featureHash);
-		setFeature(fm, "rel", 2, featureHash);
-		setFeature(fm, "embv", 3, featureHash);
+		setFeature(fm, "subj", 0, featureHash);
+		setFeature(fm, "rel", 1, featureHash);
+		setFeature(fm, "embv", 2, featureHash);
 		fm.setFeature("case", new StringRef("acc"));
-		setFeature(fm, "whin", 4, featureHash);
-		setFeature(fm, "whout", 5, featureHash);
+		setFeature(fm, "whin", 3, featureHash);
+		setFeature(fm, "whout", 4, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(l, true));
@@ -1408,8 +1404,8 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		
 		/* --- Relative Clauses --- */
 		
-		/* Relative pronouns are represented by 'relpron' and can be either "that", "who" or
-		"which": */
+		/* Relative clauses are represented by 'relcl'. They start with a relative pronoun and
+		are always optional: */
 		
 		// relcl(whin:A, whout:A)=>[]
 		l.clear();
@@ -1583,49 +1579,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(l, false));
 		
-		// relcl2(subj:A, rel:B, whin:C, whout:D)~>np(id:E, subj:A, rel:minus, copula:minus, pl:F, case:nom, refl:minus, whin:C, whout:D), aux(be:minus, exist:G, pl:F), verb(vcat:tr, be:minus, exist:G, pl:F, vform:inf)
-		l.clear();
-		featureHash.clear();
-		nonterm = new Nonterminal("relcl2");
-		fm = new FeatureMap();
-		setFeature(fm, "subj", 0, featureHash);
-		setFeature(fm, "rel", 1, featureHash);
-		setFeature(fm, "whin", 2, featureHash);
-		setFeature(fm, "whout", 3, featureHash);
-		nonterm.setFeatureMap(fm);
-		l.add(nonterm);
-		nonterm = new Nonterminal("np");
-		fm = new FeatureMap();
-		setFeature(fm, "id", 4, featureHash);
-		setFeature(fm, "subj", 0, featureHash);
-		fm.setFeature("rel", new StringRef("minus"));
-		fm.setFeature("copula", new StringRef("minus"));
-		setFeature(fm, "pl", 5, featureHash);
-		fm.setFeature("case", new StringRef("nom"));
-		fm.setFeature("refl", new StringRef("minus"));
-		setFeature(fm, "whin", 2, featureHash);
-		setFeature(fm, "whout", 3, featureHash);
-		nonterm.setFeatureMap(fm);
-		l.add(nonterm);
-		nonterm = new Nonterminal("aux");
-		fm = new FeatureMap();
-		fm.setFeature("be", new StringRef("minus"));
-		setFeature(fm, "exist", 6, featureHash);
-		setFeature(fm, "pl", 5, featureHash);
-		nonterm.setFeatureMap(fm);
-		l.add(nonterm);
-		nonterm = new Nonterminal("verb");
-		fm = new FeatureMap();
-		fm.setFeature("vcat", new StringRef("tr"));
-		fm.setFeature("be", new StringRef("minus"));
-		setFeature(fm, "exist", 6, featureHash);
-		setFeature(fm, "pl", 5, featureHash);
-		fm.setFeature("vform", new StringRef("inf"));
-		nonterm.setFeatureMap(fm);
-		l.add(nonterm);
-		addGrammarRule(new GrammarRule(l, true));
-		
-		// relcl2(subj:A, whin:B, whout:C)~>np(id:D, subj:A, rel:minus, copula:minus, pl:E, case:nom, refl:minus, whin:B, whout:C), verb(vcat:tr, be:minus, exist:plus, pl:E, vform:fin)
+		// relcl2(subj:A, whin:B, whout:C)~>np(subj:A, rel:minus, copula:minus, pl:D, case:nom, refl:minus, whin:B, whout:C), aux(be:minus, exist:E, pl:D), verb(vcat:tr, be:minus, exist:E, pl:D, vform:inf)
 		l.clear();
 		featureHash.clear();
 		nonterm = new Nonterminal("relcl2");
@@ -1637,11 +1591,50 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		nonterm = new Nonterminal("np");
 		fm = new FeatureMap();
-		setFeature(fm, "id", 3, featureHash);
 		setFeature(fm, "subj", 0, featureHash);
 		fm.setFeature("rel", new StringRef("minus"));
 		fm.setFeature("copula", new StringRef("minus"));
-		setFeature(fm, "pl", 4, featureHash);
+		setFeature(fm, "pl", 3, featureHash);
+		fm.setFeature("case", new StringRef("nom"));
+		fm.setFeature("refl", new StringRef("minus"));
+		setFeature(fm, "whin", 1, featureHash);
+		setFeature(fm, "whout", 2, featureHash);
+		nonterm.setFeatureMap(fm);
+		l.add(nonterm);
+		nonterm = new Nonterminal("aux");
+		fm = new FeatureMap();
+		fm.setFeature("be", new StringRef("minus"));
+		setFeature(fm, "exist", 4, featureHash);
+		setFeature(fm, "pl", 3, featureHash);
+		nonterm.setFeatureMap(fm);
+		l.add(nonterm);
+		nonterm = new Nonterminal("verb");
+		fm = new FeatureMap();
+		fm.setFeature("vcat", new StringRef("tr"));
+		fm.setFeature("be", new StringRef("minus"));
+		setFeature(fm, "exist", 4, featureHash);
+		setFeature(fm, "pl", 3, featureHash);
+		fm.setFeature("vform", new StringRef("inf"));
+		nonterm.setFeatureMap(fm);
+		l.add(nonterm);
+		addGrammarRule(new GrammarRule(l, true));
+		
+		// relcl2(subj:A, whin:B, whout:C)~>np(subj:A, rel:minus, copula:minus, pl:D, case:nom, refl:minus, whin:B, whout:C), verb(vcat:tr, be:minus, exist:plus, pl:D, vform:fin)
+		l.clear();
+		featureHash.clear();
+		nonterm = new Nonterminal("relcl2");
+		fm = new FeatureMap();
+		setFeature(fm, "subj", 0, featureHash);
+		setFeature(fm, "whin", 1, featureHash);
+		setFeature(fm, "whout", 2, featureHash);
+		nonterm.setFeatureMap(fm);
+		l.add(nonterm);
+		nonterm = new Nonterminal("np");
+		fm = new FeatureMap();
+		setFeature(fm, "subj", 0, featureHash);
+		fm.setFeature("rel", new StringRef("minus"));
+		fm.setFeature("copula", new StringRef("minus"));
+		setFeature(fm, "pl", 3, featureHash);
 		fm.setFeature("case", new StringRef("nom"));
 		fm.setFeature("refl", new StringRef("minus"));
 		setFeature(fm, "whin", 1, featureHash);
@@ -1653,7 +1646,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("vcat", new StringRef("tr"));
 		fm.setFeature("be", new StringRef("minus"));
 		fm.setFeature("exist", new StringRef("plus"));
-		setFeature(fm, "pl", 4, featureHash);
+		setFeature(fm, "pl", 3, featureHash);
 		fm.setFeature("vform", new StringRef("fin"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);

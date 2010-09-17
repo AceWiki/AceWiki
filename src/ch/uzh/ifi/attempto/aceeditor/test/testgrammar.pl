@@ -21,7 +21,7 @@
 
 title:'ACE Editor Grammar'.
 
-paragraph:'- Tobias Kuhn, 2 August 2010 -'.
+paragraph:'- Tobias Kuhn, 17 September 2010 -'.
 
 
 section:'Texts and Sentences'.
@@ -111,15 +111,15 @@ vp(subj:Subj, exist:plus, rel:R, pl:PL, whin:WhIn, whout:WhOut) ~>
 	v(subj:Subj, be:minus, exist:plus, pl:PL, rel:R, vform:fin, embv:EmbV, copula:Cop, whin:WhIn, whout:WhTemp),
 	vmod(subj:Subj, embv:EmbV, copula:Cop, whin:WhTemp, whout:WhOut).
 
-v(be:minus, exist:E, pl:PL, vform:VF, copula:minus, whin:Wh, whout:Wh) =>
-	verb(vcat:itr, be:minus, pl:PL, exist:E, vform:VF).
+v(be:minus, pl:PL, vform:VF, copula:minus, whin:Wh, whout:Wh) =>
+	verb(vcat:itr, be:minus, pl:PL, vform:VF).
 
-v(subj:Subj, be:minus, exist:E, rel:R, pl:PL, vform:VF, embv:EmbV, copula:minus, whin:WhIn, whout:WhOut) =>
-	verb(vcat:tr, be:minus, pl:PL, exist:E, vform:VF),
+v(subj:Subj, be:minus, rel:R, pl:PL, vform:VF, embv:EmbV, copula:minus, whin:WhIn, whout:WhOut) =>
+	verb(vcat:tr, be:minus, pl:PL, vform:VF),
 	np(subj:Subj, rel:R, vcat:tr, embv:EmbV, case:acc, whin:WhIn, whout:WhOut).
 
 v(subj:Subj, be:plus, rel:R, embv:EmbV, copula:minus, whin:WhIn, whout:WhOut) =>
-	verb(vcat:tr, be:plus, pl:PL, exist:E, vform:VF),
+	verb(vcat:tr, be:plus),
 	[by],
 	np(subj:Subj, rel:R, copula:minus, embv:EmbV, case:acc, whin:WhIn, whout:WhOut).
 
@@ -129,7 +129,7 @@ v(subj:Subj, be:plus, rel:R, embv:EmbV, copula:plus, whin:WhIn, whout:WhOut) =>
 v(subj:Subj, be:plus, rel:R, pl:minus, embv:EmbV, copula:plus, whin:WhIn, whout:WhOut) =>
 	np(subj:Subj, of:minus, rel:R, pl:minus, copula:plus, embv:EmbV, case:acc, whin:WhIn, whout:WhOut).
 
-v(be:plus, rel:R, copula:plus, whin:Wh, whout:Wh) =>
+v(be:plus, copula:plus, whin:Wh, whout:Wh) =>
 	adj_coord.
 
 v(subj:Subj, be:plus, rel:R, embv:EmbV, copula:plus, whin:WhIn, whout:WhOut) =>
@@ -329,13 +329,13 @@ relcl2(subj:ID, rel:R, whin:WhIn, whout:WhOut) =>
 
 relcl2(subj:Subj, rel:R, whin:WhIn, whout:WhOut) ~>
 	np(id:ID, subj:Subj, rel:minus, copula:minus, pl:PL, embv:EmbV, case:nom, refl:minus, whin:WhIn, whout:WhTemp),
-	aux(be:minus, exist:E, pl:PL),
-	verb(vcat:tr, be:minus, exist:E, pl:PL, vform:inf),
+	aux(be:minus, pl:PL),
+	verb(vcat:tr, be:minus, pl:PL, vform:inf),
 	vmod(subj:ID, rel:R, embv:EmbV, copula:minus, whin:WhTemp, whout:WhOut).
 
 relcl2(subj:Subj, rel:R, whin:WhIn, whout:WhOut) ~>
 	np(id:ID, subj:Subj, rel:minus, copula:minus, pl:PL, embv:EmbV, case:nom, refl:minus, whin:WhIn, whout:WhTemp),
-	verb(vcat:tr, be:minus, exist:plus, pl:PL, vform:fin),
+	verb(vcat:tr, be:minus, pl:PL, vform:fin),
 	vmod(subj:ID, rel:R, embv:EmbV, copula:minus, whin:WhTemp, whout:WhOut).
 
 relpron(human:plus, relpron:who) =>
