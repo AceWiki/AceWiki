@@ -17,10 +17,8 @@ package ch.uzh.ifi.attempto.acewiki;
 import java.util.Map;
 
 import nextapp.echo2.app.ApplicationInstance;
-import nextapp.echo2.app.ContentPane;
 import nextapp.echo2.app.Window;
 import nextapp.echo2.webcontainer.ContainerContext;
-import ch.uzh.ifi.attempto.acewiki.gui.page.LoginScreen;
 import ch.uzh.ifi.attempto.echocomp.ServerDelayMessage;
 import ch.uzh.ifi.attempto.echocomp.Style;
 
@@ -72,12 +70,9 @@ class AceWikiApp extends ApplicationInstance {
 		// Show login window if required:
 		String l = parameters.get("login");
 		if ("yes".equals(l) || "pw".equals(l)) {
-			ContentPane contentPane = new ContentPane();
-			contentPane.add(new LoginScreen(wiki, window, parameters.get("title"), "pw".equals(l)));
-			window.setContent(contentPane);
-		} else {
-			window.setContent(wiki.getContentPane());
+			wiki.showLoginScreen();
 		}
+		window.setContent(wiki.getContentPane());
 		
 		window.setTitle("AceWiki");
 		
@@ -104,9 +99,8 @@ class AceWikiApp extends ApplicationInstance {
 			wiki.log("syst", "logout");
 			wiki = new Wiki(parameters, sessionID++);
 			wiki.log("syst", "start session");
-			ContentPane contentPane = new ContentPane();
-			contentPane.add(new LoginScreen(wiki, window, parameters.get("title"), "pw".equals(l)));
-			window.setContent(contentPane);
+			wiki.showLoginScreen();
+			window.setContent(wiki.getContentPane());
 		}
 	}
 	

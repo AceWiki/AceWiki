@@ -47,8 +47,11 @@ import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyTextElement;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.TrAdjRole;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.VerbRole;
+import ch.uzh.ifi.attempto.acewiki.core.user.User;
+import ch.uzh.ifi.attempto.acewiki.core.user.UserBase;
 import ch.uzh.ifi.attempto.acewiki.gui.ExportWindow;
 import ch.uzh.ifi.attempto.acewiki.gui.ListItem;
+import ch.uzh.ifi.attempto.acewiki.gui.LoginWindow;
 import ch.uzh.ifi.attempto.acewiki.gui.editor.NounForm;
 import ch.uzh.ifi.attempto.acewiki.gui.editor.NounOfForm;
 import ch.uzh.ifi.attempto.acewiki.gui.editor.ProperNameForm;
@@ -91,12 +94,15 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private Map<String, String> parameters;
 
 	private final Ontology ontology;
+	private User user;
 	
 	private WikiPage currentPage;
 	private ContentPane mainPane = new ContentPane();
 	private ContentPane contentPane = new ContentPane();
 	private Row navigationButtons = new Row();
 	private Logger logger;
+	private SplitPane wikiPane;
+	private Column loginBackground;
 	
 	private GeneralButton backButton = new GeneralButton("<Back", this);
 	private GeneralButton forwardButton = new GeneralButton("Forward>", this);
@@ -112,7 +118,6 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private SmallButton exportButton = new SmallButton("Export...", this, 12);
 	private SmallButton logoutButton = new SmallButton("Logout", this, 12);
 	private ListItem logoutListItem;
-	private Label logo;
 	
 	private StartPage startPage;
 	
@@ -163,11 +168,11 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		ContentPane menuBar = new ContentPane();
 		menuBar.add(navigationButtons);
 		
-		SplitPane splitPane2 = new SplitPane(
+		wikiPane = new SplitPane(
 				SplitPane.ORIENTATION_HORIZONTAL_LEFT_RIGHT, 
 				new Extent(145)
 			);
-		splitPane2.setSeparatorHeight(new Extent(0));
+		wikiPane.setSeparatorHeight(new Extent(0));
 		
 		ContentPane sideBar = new ContentPane();
 		sideBar.setBackground(new Color(230, 230, 230));
@@ -175,7 +180,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		sideCol.setInsets(new Insets(10, 10));
 		sideCol.setCellSpacing(new Extent(1));
 		
-		logo = new Label(new ResourceImageReference(
+		Label logo = new Label(new ResourceImageReference(
 				"ch/uzh/ifi/attempto/acewiki/gui/img/AceWikiLogoSmall.png"
 			));
 		sideCol.add(logo);
@@ -241,10 +246,17 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		splitPane1.add(menuBar);
 		splitPane1.add(splitPane3);
 		
-		splitPane2.add(sideBar);
-		splitPane2.add(splitPane1);
+		wikiPane.add(sideBar);
+		wikiPane.add(splitPane1);
+
+		contentPane.add(wikiPane);
 		
-		contentPane.add(splitPane2);
+		loginBackground = new Column();
+		loginBackground.setInsets(new Insets(10, 10));
+		Label loginBgLogo = new Label(new ResourceImageReference(
+				"ch/uzh/ifi/attempto/acewiki/gui/img/AceWikiLogoSmall.png"
+			));
+		loginBackground.add(loginBgLogo);
 		
 		startPage = new StartPage(this, getParameter("title"), getParameter("description"));
 		
@@ -380,6 +392,25 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	}
 	
 	/**
+	 * Shows the login screen with login window.
+	 */
+	public void showLoginScreen() {
+		getContentPane().removeAll();
+		getContentPane().add(loginBackground);
+		getContentPane().setBackground(new Color(230, 230, 230));
+		showWindow(new LoginWindow(this));
+	}
+	
+	/**
+	 * Shows the regular wiki screen.
+	 */
+	public void showWikiScreen() {
+		getContentPane().removeAll();
+		getContentPane().add(wikiPane);
+		getContentPane().setBackground(Color.WHITE);
+	}
+	
+	/**
 	 * Switches to the given page.
 	 * 
 	 * @param page The page to switch to.
@@ -465,6 +496,15 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 */
 	public Ontology getOntology() {
 		return ontology;
+	}
+	
+	/**
+	 * Returns the user base for this wiki.
+	 * 
+	 * @return The user base.
+	 */
+	public UserBase getUserBase() {
+		return UserBase.getUserBase(ontology);
 	}
 	
 	/**
@@ -588,13 +628,23 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	}
 	
 	/**
-	 * Sets the user name.
+	 * Returns the user of this wiki object.
 	 * 
-	 * @param username The user name.
+	 * @return The user.
 	 */
-	public void setUsername(String username) {
-		logger.setUsername(username);
-		logoutButton.setText("Logout: " + username);
+	public User getUser() {
+		return user;
+	}
+	
+	/**
+	 * Sets the user.
+	 * 
+	 * @param user The user.
+	 */
+	public void setUser(User user) {
+		this.user = user;
+		logger.setUsername(user.getName());
+		logoutButton.setText("Logout: " + user.getName());
 		logoutListItem.setVisible(true);
 	}
 	
