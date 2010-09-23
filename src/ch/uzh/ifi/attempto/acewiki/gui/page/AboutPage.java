@@ -32,7 +32,7 @@ public class AboutPage extends WikiPage implements ActionListener {
 	
 	private static final long serialVersionUID = -5184590884798735077L;
 	
-	private NameValueTable table1, table2, table3;
+	private NameValueTable table1, table2, table3, table4;
 	
 	/**
 	 * Creates a new about page.
@@ -63,6 +63,11 @@ public class AboutPage extends WikiPage implements ActionListener {
 		table3 = new NameValueTable();
 		table3.setInsets(new Insets(10, 10, 10, 15));
 		add(table3);
+
+		addHeadline("Users");
+		table4 = new NameValueTable();
+		table4.setInsets(new Insets(10, 10, 10, 15));
+		add(table4);
 		
 		add(new VSpace(20));
 	}
@@ -71,6 +76,7 @@ public class AboutPage extends WikiPage implements ActionListener {
 		table1.clear();
 		table2.clear();
 		table3.clear();
+		table4.clear();
 		
 		Wiki w = getWiki();
 		Ontology o = w.getOntology();
@@ -89,6 +95,12 @@ public class AboutPage extends WikiPage implements ActionListener {
 		table3.addEntry("reasoner type", o.getReasonerType());
 		table3.addEntry("reasoner name", o.getReasonerName());
 		table3.addEntry("reasoner version", o.getReasonerVersion());
+
+		table4.addEntry("number of registered users", w.getUserBase().getUserCount() + "");
+		table4.addEntry("login enabled", (w.isLoginEnabled() ? "yes" : "no"));
+		table4.addEntry("login required for viewing", (w.isLoginRequiredForViewing() ? "yes" : "no"));
+		table4.addEntry("login required for editing", (w.isLoginRequiredForEditing() ? "yes" : "no"));
+		table4.addEntry("open user registration", (w.isUserRegistrationOpen() ? "yes" : "no"));
 	}
 
 	public void actionPerformed(ActionEvent e) {

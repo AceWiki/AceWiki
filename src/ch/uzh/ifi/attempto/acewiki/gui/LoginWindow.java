@@ -67,7 +67,7 @@ public class LoginWindow extends WindowPane implements ActionListener {
 		setHeight(new Extent(220));
 		setResizable(false);
 		setMovable(true);
-		setClosable(false);
+		setClosable(!wiki.isLoginRequiredForViewing());
 		setTitleBackground(Style.windowTitleBackground);
 		setStyleName("Default");
 		
@@ -105,8 +105,11 @@ public class LoginWindow extends WindowPane implements ActionListener {
 		buttonBar.setCellSpacing(new Extent(10));
 		buttonBar.setInsets(new Insets(0, 0, 0, 10));
 		buttonBar.add(new GeneralButton("Login", 80, this));
-		if (!"no".equals(wiki.getParameter("register"))) {
+		if (wiki.isUserRegistrationOpen()) {
 			buttonBar.add(new GeneralButton("Register", 80, this));
+		}
+		if (!wiki.isLoginRequiredForViewing()) {
+			buttonBar.add(new GeneralButton("Cancel", 80, this));
 		}
 		GridLayoutData layout2 = new GridLayoutData();
 		layout2.setAlignment(new Alignment(Alignment.CENTER, Alignment.BOTTOM));
@@ -120,7 +123,11 @@ public class LoginWindow extends WindowPane implements ActionListener {
 		UserBase ub = wiki.getUserBase();
 		String username = usernameField.getText();
 		String password = passwordField.getText();
-		if ("Register".equals(e.getActionCommand())) {
+		if ("Cancel".equals(e.getActionCommand())) {
+			wiki.log("logi", "login canceled");
+			setVisible(false);
+			wiki.removeWindow(this);
+		} else if ("Register".equals(e.getActionCommand())) {
 			wiki.log("logi", "pressed: signup");
 			if (username.length() < 3 || username.length() > 20) {
 				wiki.log("logi", "invalid username");
@@ -154,9 +161,8 @@ public class LoginWindow extends WindowPane implements ActionListener {
 						));
 				} else {
 					wiki.log("logi", "signup successful for " + username);
-					wiki.setUser(user);
 					wiki.log("syst", "login");
-					wiki.showWikiScreen();
+					wiki.setUser(user);
 				}
 			}
 		} else {
@@ -164,9 +170,8 @@ public class LoginWindow extends WindowPane implements ActionListener {
 			User user = ub.login(username, password);
 			if (user != null) {
 				wiki.log("logi", "correct password for " + username);
-				wiki.setUser(user);
 				wiki.log("syst", "login");
-				wiki.showWikiScreen();
+				wiki.setUser(user);
 			} else {
 				wiki.log("logi", "incorrect username or password for " + username);
 				wiki.showWindow(new MessageWindow(

@@ -176,62 +176,90 @@ public class TextRow extends Column implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Edit...")) {
 			wiki.log("page", "dropdown: edit sentence: " + sentence.getText());
-			ArticlePage page = ArticlePage.create(sentence.getOwner(), wiki);
-			wiki.showPage(page);
-			wiki.showWindow(SentenceEditorHandler.generateEditWindow(sentence, page));
+			if (!wiki.isEditable()) {
+				wiki.showLoginWindow();
+			} else {
+				ArticlePage page = ArticlePage.create(sentence.getOwner(), wiki);
+				wiki.showPage(page);
+				wiki.showWindow(SentenceEditorHandler.generateEditWindow(sentence, page));
+			}
 		} else if (e.getActionCommand().equals("Add Sentence...")) {
 			wiki.log("page", "dropdown: add sentence");
-			wiki.showWindow(SentenceEditorHandler.generateCreationWindow(
-					sentence,
-					(ArticlePage) hostPage
-				));
+			if (!wiki.isEditable()) {
+				wiki.showLoginWindow();
+			} else {
+				wiki.showWindow(SentenceEditorHandler.generateCreationWindow(
+						sentence,
+						(ArticlePage) hostPage
+					));
+			}
 		} else if (e.getActionCommand().equals("Add Comment...")) {
 			wiki.log("page", "dropdown: add comment");
-			wiki.showWindow(CommentEditorHandler.generateCreationWindow(
-					sentence,
-					(ArticlePage) hostPage
-				));
+			if (!wiki.isEditable()) {
+				wiki.showLoginWindow();
+			} else {
+				wiki.showWindow(CommentEditorHandler.generateCreationWindow(
+						sentence,
+						(ArticlePage) hostPage
+					));
+			}
 		} else if (e.getActionCommand().equals("Delete")) {
 			wiki.log("page", "dropdown: delete sentence: " + sentence.getText());
-			wiki.showWindow(new MessageWindow(
-					"Delete",
-					"Do you really want to delete this sentence?",
-					null,
-					this,
-					"Yes",
-					"No"
-				));
+			if (!wiki.isEditable()) {
+				wiki.showLoginWindow();
+			} else {
+				wiki.showWindow(new MessageWindow(
+						"Delete",
+						"Do you really want to delete this sentence?",
+						null,
+						this,
+						"Yes",
+						"No"
+					));
+			}
 		} else if (e.getActionCommand().equals("Necessary Answers")) {
+			wiki.log("page", "dropdown: necessary answers: " + sentence.getText());
 			((Question) sentence).setShowPossibleAnswersEnabled(false);
 			update();
 		} else if (e.getActionCommand().equals("Possible Answers")) {
+			wiki.log("page", "dropdown: possible answers: " + sentence.getText());
 			((Question) sentence).setShowPossibleAnswersEnabled(true);
 			update();
 		} else if (e.getActionCommand().equals("Reassert")) {
-			int success = sentence.reassert();
-			if (success == 1) {
-				wiki.showWindow(new MessageWindow(
-						"Conflict",
-						"A sentence is in conflict with the current knowledge. For that reason, " +
-							"it cannot be added to the knowledge base.",
-						"OK"
-					));
-			} else if (success == 2) {
-				wiki.showWindow(new MessageWindow(
-						"Error",
-						"A sentence could not be added to the knowledge base because the " +
-							"knowledge base got too complex.",
-						"OK"
-					));
+			wiki.log("page", "dropdown: reassert: " + sentence.getText());
+			if (!wiki.isEditable()) {
+				wiki.showLoginWindow();
+			} else {
+				int success = sentence.reassert();
+				if (success == 1) {
+					wiki.showWindow(new MessageWindow(
+							"Conflict",
+							"A sentence is in conflict with the current knowledge. For that reason, " +
+								"it cannot be added to the knowledge base.",
+							"OK"
+						));
+				} else if (success == 2) {
+					wiki.showWindow(new MessageWindow(
+							"Error",
+							"A sentence could not be added to the knowledge base because the " +
+								"knowledge base got too complex.",
+							"OK"
+						));
+				}
+				if (sentence.isIntegrated()) {
+					update();
+					hostPage.update();
+				}
 			}
-			if (sentence.isIntegrated()) {
+		} else if (e.getActionCommand().equals("Retract")) {
+			wiki.log("page", "dropdown: retract: " + sentence.getText());
+			if (!wiki.isEditable()) {
+				wiki.showLoginWindow();
+			} else {
+				sentence.retract();
 				update();
 				hostPage.update();
 			}
-		} else if (e.getActionCommand().equals("Retract")) {
-			sentence.retract();
-			update();
-			hostPage.update();
 		} else if (e.getActionCommand().equals("Details")) {
 			wiki.log("page", "dropdown: details sentence: " + sentence.getText());
 			wiki.showPage(new SentencePage(wiki, sentence));

@@ -45,7 +45,7 @@ public class SmallButton extends Button {
 		setActionCommand(text);
 		addActionListener(actionListener);
 		
-		setHeight(new Extent(size + 2));
+		setHeight(new Extent(size + 4));
 		setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(size)));
 		setBackground(null);
 		setForeground(Style.mediumForeground);
@@ -56,7 +56,7 @@ public class SmallButton extends Button {
 		setRolloverEnabled(true);
 		setRolloverForeground(Style.lightForeground);
 		setRolloverBackground(Style.darkBackground);
-		setInsets(new Insets(2, 1));
+		setInsets(new Insets(2, 0));
 		setAlignment(new Alignment(Alignment.CENTER, Alignment.CENTER));
 		setTextAlignment(new Alignment(Alignment.CENTER, Alignment.CENTER));
 		

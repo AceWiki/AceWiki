@@ -120,6 +120,15 @@ public class UserBase {
 	}
 	
 	/**
+	 * Returns the number of registered users.
+	 * 
+	 * @return The number of users.
+	 */
+	public int getUserCount() {
+		return userIdMap.size();
+	}
+	
+	/**
 	 * Tries to login a user. The user object is returned if the login was successful. Null is
 	 * returned otherwise.
 	 * 

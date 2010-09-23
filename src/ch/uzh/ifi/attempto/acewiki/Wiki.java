@@ -52,6 +52,7 @@ import ch.uzh.ifi.attempto.acewiki.core.user.UserBase;
 import ch.uzh.ifi.attempto.acewiki.gui.ExportWindow;
 import ch.uzh.ifi.attempto.acewiki.gui.ListItem;
 import ch.uzh.ifi.attempto.acewiki.gui.LoginWindow;
+import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.acewiki.gui.editor.NounForm;
 import ch.uzh.ifi.attempto.acewiki.gui.editor.NounOfForm;
 import ch.uzh.ifi.attempto.acewiki.gui.editor.ProperNameForm;
@@ -102,7 +103,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private Row navigationButtons = new Row();
 	private Logger logger;
 	private SplitPane wikiPane;
-	private Column loginBackground;
+	private Row loginBackground;
 	
 	private GeneralButton backButton = new GeneralButton("<Back", this);
 	private GeneralButton forwardButton = new GeneralButton("Forward>", this);
@@ -117,7 +118,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private SmallButton newButton = new SmallButton("New Word...", this, 12);
 	private SmallButton exportButton = new SmallButton("Export...", this, 12);
 	private SmallButton logoutButton = new SmallButton("Logout", this, 12);
+	private SmallButton loginButton = new SmallButton("Login...", this, 12);
 	private ListItem logoutListItem;
+	private ListItem loginListItem;
 	
 	private StartPage startPage;
 	
@@ -218,6 +221,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		logoutButton.setAlignment(new Alignment(Alignment.LEFT, Alignment.CENTER));
 		logoutListItem.setVisible(false);
 		sideCol.add(logoutListItem);
+		loginListItem = new ListItem(loginButton);
+		loginListItem.setVisible(isLoginEnabled());
+		sideCol.add(loginListItem);
 		
 		externalEventMonitor = new ExternalEventMonitor();
 		externalEventMonitor.addExternalEventListener(this);
@@ -251,12 +257,14 @@ public class Wiki implements ActionListener, ExternalEventListener {
 
 		contentPane.add(wikiPane);
 		
-		loginBackground = new Column();
+		loginBackground = new Row();
 		loginBackground.setInsets(new Insets(10, 10));
+		loginBackground.setCellSpacing(new Extent(30));
 		Label loginBgLogo = new Label(new ResourceImageReference(
 				"ch/uzh/ifi/attempto/acewiki/gui/img/AceWikiLogoSmall.png"
 			));
 		loginBackground.add(loginBgLogo);
+		loginBackground.add(new Title(getParameter("title"), true));
 		
 		startPage = new StartPage(this, getParameter("title"), getParameter("description"));
 		
@@ -347,6 +355,56 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	}
 	
 	/**
+	 * Returns whether the login features are enabled.
+	 * 
+	 * @return true if login is enabled.
+	 */
+	public boolean isLoginEnabled() {
+		return "yes".equals(getParameter("login"));
+	}
+	
+	/**
+	 * Returns whether login is required for viewing the wiki data.
+	 * 
+	 * @return true if login is required for viewing.
+	 */
+	public boolean isLoginRequiredForViewing() {
+		if (!isLoginEnabled()) return false;
+		return "yes".equals(getParameter("login_required"));
+	}
+	
+	/**
+	 * Returns whether login is required for editing the wiki data.
+	 * 
+	 * @return true if login is required for editing.
+	 */
+	public boolean isLoginRequiredForEditing() {
+		if (!isLoginEnabled()) return false;
+		if (isLoginRequiredForViewing()) return true;
+		return "edit".equals(getParameter("login_required"));
+	}
+	
+	/**
+	 * Returns whether the user registration is open to everyone.
+	 * 
+	 * @return true if the user registration is open.
+	 */
+	public boolean isUserRegistrationOpen() {
+		if (!isLoginEnabled()) return false;
+		return !"no".equals(getParameter("register"));
+	}
+	
+	/**
+	 * Returns whether the wiki is in the current situation editable. This depends on the fact
+	 * whether a user is logged in and whether login is required for editing the wiki data.
+	 * 
+	 * @return true if the wiki is editable.
+	 */
+	public boolean isEditable() {
+		return (user != null || !isLoginRequiredForEditing());
+	}
+	
+	/**
 	 * Returns true if this wiki is set to be read-only.
 	 * 
 	 * @return true if this wiki is read-only.
@@ -392,22 +450,15 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	}
 	
 	/**
-	 * Shows the login screen with login window.
+	 * Shows the login window.
 	 */
-	public void showLoginScreen() {
-		getContentPane().removeAll();
-		getContentPane().add(loginBackground);
-		getContentPane().setBackground(new Color(230, 230, 230));
+	public void showLoginWindow() {
+		if (isLoginRequiredForViewing()) {
+			getContentPane().removeAll();
+			getContentPane().add(loginBackground);
+			getContentPane().setBackground(new Color(230, 230, 230));
+		}
 		showWindow(new LoginWindow(this));
-	}
-	
-	/**
-	 * Shows the regular wiki screen.
-	 */
-	public void showWikiScreen() {
-		getContentPane().removeAll();
-		getContentPane().add(wikiPane);
-		getContentPane().setBackground(Color.WHITE);
 	}
 	
 	/**
@@ -599,7 +650,15 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		} else if (e.getSource() == exportButton) {
 			showWindow(new ExportWindow(this));
 		} else if (e.getSource() == logoutButton) {
-			showWindow(new MessageWindow("Logout", "Do you really want to log out?", null, this, "Yes", "No"));
+			showWindow(new MessageWindow(
+					"Logout",
+					"Do you really want to log out?",
+					null,
+					this,
+					"Yes", "No"
+				));
+		} else if (e.getSource() == loginButton) {
+			showLoginWindow();
 		} else if (e.getSource() instanceof MessageWindow && e.getActionCommand().equals("Yes")) {
 			((AceWikiApp) ApplicationInstance.getActive()).logout();
 		} else if (e.getSource() instanceof OntologyTextElement) {
@@ -645,7 +704,11 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		this.user = user;
 		logger.setUsername(user.getName());
 		logoutButton.setText("Logout: " + user.getName());
+		loginListItem.setVisible(false);
 		logoutListItem.setVisible(true);
+		getContentPane().removeAll();
+		getContentPane().add(wikiPane);
+		getContentPane().setBackground(Color.WHITE);
 	}
 	
 	/**

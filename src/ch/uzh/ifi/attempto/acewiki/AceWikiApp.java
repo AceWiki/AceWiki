@@ -68,9 +68,8 @@ class AceWikiApp extends ApplicationInstance {
 		wiki.log("syst", "start session");
 		
 		// Show login window if required:
-		String l = parameters.get("login");
-		if ("yes".equals(l) || "pw".equals(l)) {
-			wiki.showLoginScreen();
+		if (wiki.isLoginRequiredForViewing()) {
+			wiki.showLoginWindow();
 		}
 		window.setContent(wiki.getContentPane());
 		
@@ -90,18 +89,17 @@ class AceWikiApp extends ApplicationInstance {
 	}
 
 	/**
-	 * Logs out the current user. Note that login/logout is only implemented very rudimentary at the
-	 * moment.
+	 * Logs out the current user. 
 	 */
 	public void logout() {
-		String l = parameters.get("login");
-		if ("yes".equals(l) || "pw".equals(l)) {
-			wiki.log("syst", "logout");
-			wiki = new Wiki(parameters, sessionID++);
-			wiki.log("syst", "start session");
-			wiki.showLoginScreen();
-			window.setContent(wiki.getContentPane());
+		wiki.log("syst", "logout");
+		wiki.dispose();
+		wiki = new Wiki(parameters, sessionID++);
+		wiki.log("syst", "start session");
+		if (wiki.isLoginRequiredForViewing()) {
+			wiki.showLoginWindow();
 		}
+		window.setContent(wiki.getContentPane());
 	}
 	
 	/**

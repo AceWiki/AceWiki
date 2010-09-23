@@ -104,13 +104,24 @@
     </init-param>
     
     <!--
-      The 'login' parameter defines whether users have to login before they can use the wiki: 'no'
-      means that no login is possible (default); 'pw' or 'yes' means that a login with password
-      protection is required. The option 'nonpw' for a login without password is no longer
-      supported.
+      The 'login' parameter defines whether the login features are enabled: 'no' means that no
+      login is possible (default); 'yes' means that login with password protection is enabled. The
+      option 'nonpw' for a login without password is no longer supported.
     -->
     <init-param>
       <param-name>login</param-name>
+      <param-value>no</param-value>
+    </init-param>
+    
+    <!--
+      The 'login_required' parameter defines if and when login is required: 'no' means that no
+      login is required to view and edit the wiki data (default); 'edit' means that login is
+      required to edit the wiki data but not to view it; 'yes' means that login is required for
+      viewing or editing the wiki data. This option is only relevant if the 'login' option is set
+      to 'yes'.
+    -->
+    <init-param>
+      <param-name>login_required</param-name>
       <param-value>no</param-value>
     </init-param>
     

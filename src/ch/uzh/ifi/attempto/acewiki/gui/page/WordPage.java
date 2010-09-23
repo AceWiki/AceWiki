@@ -230,30 +230,34 @@ public class WordPage extends WikiPage implements ActionListener {
 			wiki.showPage(new AssignmentsPage((IndividualPage) page));
 		} else if (e.getSource() == delButton) {
 			log("page", "pressed: delete");
-			OntologyElement oe = page.getOntologyElement();
-			List<Sentence> references = wiki.getOntology().getReferences(oe);
-			for (Sentence s : oe.getSentences()) {
-				references.remove(s);
-			}
-			if (!references.isEmpty()) {
-				log("page", "error: cannot delete article with references");
-				wiki.showWindow(new MessageWindow(
-						"Error",
-						"This article cannot be deleted, because other articles refer to it.",
-						null,
-						this,
-						"OK"
-					));
+			if (!wiki.isEditable()) {
+				wiki.showLoginWindow();
 			} else {
-				log("page", "delete confirmation");
-				wiki.showWindow(new MessageWindow(
-						"Delete",
-						"Do you really want to delete this word and all the content of its article?",
-						null,
-						this,
-						"Yes",
-						"No"
-					));
+				OntologyElement oe = page.getOntologyElement();
+				List<Sentence> references = wiki.getOntology().getReferences(oe);
+				for (Sentence s : oe.getSentences()) {
+					references.remove(s);
+				}
+				if (!references.isEmpty()) {
+					log("page", "error: cannot delete article with references");
+					wiki.showWindow(new MessageWindow(
+							"Error",
+							"This article cannot be deleted, because other articles refer to it.",
+							null,
+							this,
+							"OK"
+						));
+				} else {
+					log("page", "delete confirmation");
+					wiki.showWindow(new MessageWindow(
+							"Delete",
+							"Do you really want to delete this word and all the content of its article?",
+							null,
+							this,
+							"Yes",
+							"No"
+						));
+				}
 			}
 		} else if (e.getSource() instanceof MessageWindow && e.getActionCommand().equals("Yes")) {
 			log("page", "delete confirmed");
@@ -261,31 +265,35 @@ public class WordPage extends WikiPage implements ActionListener {
 			wiki.showStartPage();
 		} else if (e.getSource() == editButton) {
 			log("page", "pressed: edit word");
-			if (page instanceof ConceptPage) {
-				wiki.showWindow(NounForm.createEditorWindow(
-						(NounConcept) page.getOntologyElement(),
-						wiki
-					));
-			} else if (page instanceof IndividualPage) {
-				wiki.showWindow(ProperNameForm.createEditorWindow(
-						(Individual) page.getOntologyElement(),
-						wiki
-					));
-			} else if (page.getOntologyElement() instanceof OfRole) {
-				wiki.showWindow(NounOfForm.createEditorWindow(
-						(OfRole) page.getOntologyElement(),
-						wiki
-					));
-			} else if (page.getOntologyElement() instanceof VerbRole) {
-				wiki.showWindow(VerbForm.createEditorWindow(
-						(VerbRole) page.getOntologyElement(),
-						wiki
-					));
-			} else if (page.getOntologyElement() instanceof TrAdjRole) {
-				wiki.showWindow(TrAdjForm.createEditorWindow(
-						(TrAdjRole) page.getOntologyElement(),
-						wiki
-					));
+			if (!wiki.isEditable()) {
+				wiki.showLoginWindow();
+			} else {
+				if (page instanceof ConceptPage) {
+					wiki.showWindow(NounForm.createEditorWindow(
+							(NounConcept) page.getOntologyElement(),
+							wiki
+						));
+				} else if (page instanceof IndividualPage) {
+					wiki.showWindow(ProperNameForm.createEditorWindow(
+							(Individual) page.getOntologyElement(),
+							wiki
+						));
+				} else if (page.getOntologyElement() instanceof OfRole) {
+					wiki.showWindow(NounOfForm.createEditorWindow(
+							(OfRole) page.getOntologyElement(),
+							wiki
+						));
+				} else if (page.getOntologyElement() instanceof VerbRole) {
+					wiki.showWindow(VerbForm.createEditorWindow(
+							(VerbRole) page.getOntologyElement(),
+							wiki
+						));
+				} else if (page.getOntologyElement() instanceof TrAdjRole) {
+					wiki.showWindow(TrAdjForm.createEditorWindow(
+							(TrAdjRole) page.getOntologyElement(),
+							wiki
+						));
+				}
 			}
 		}
 	}
