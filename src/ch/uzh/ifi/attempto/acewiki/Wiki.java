@@ -50,6 +50,7 @@ import ch.uzh.ifi.attempto.acewiki.core.ontology.VerbRole;
 import ch.uzh.ifi.attempto.acewiki.core.user.User;
 import ch.uzh.ifi.attempto.acewiki.core.user.UserBase;
 import ch.uzh.ifi.attempto.acewiki.gui.ExportWindow;
+import ch.uzh.ifi.attempto.acewiki.gui.IconButton;
 import ch.uzh.ifi.attempto.acewiki.gui.ListItem;
 import ch.uzh.ifi.attempto.acewiki.gui.LoginWindow;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
@@ -65,7 +66,6 @@ import ch.uzh.ifi.attempto.acewiki.gui.page.SearchPage;
 import ch.uzh.ifi.attempto.acewiki.gui.page.StartPage;
 import ch.uzh.ifi.attempto.acewiki.gui.page.WikiPage;
 import ch.uzh.ifi.attempto.chartparser.Grammar;
-import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.Logger;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
@@ -105,9 +105,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private SplitPane wikiPane;
 	private Row loginBackground;
 	
-	private GeneralButton backButton = new GeneralButton("<Back", this);
-	private GeneralButton forwardButton = new GeneralButton("Forward>", this);
-	private GeneralButton refreshButton = new GeneralButton("Refresh", this);
+	private IconButton backButton = new IconButton("Back", this);
+	private IconButton forwardButton = new IconButton("Forward", this);
+	private IconButton refreshButton = new IconButton("Refresh", this);
 	
 	private SmallButton indexButton = new SmallButton("Index", this, 12);
 	private SmallButton homeButton = new SmallButton("Main Page", this, 12);
@@ -160,7 +160,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		splitPane1.setSeparatorPosition(new Extent(50));
 		splitPane1.setSeparatorHeight(new Extent(0));
 		
-		navigationButtons.setInsets(new Insets(5, 5, 5, 26));
+		navigationButtons.setInsets(new Insets(5, 5, 5, 20));
 		navigationButtons.setCellSpacing(new Extent(5));
 		navigationButtons.setBackground(new Color(230, 230, 230));
 		
