@@ -22,7 +22,6 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.Stack;
 
-import nextapp.echo2.app.Alignment;
 import nextapp.echo2.app.ApplicationInstance;
 import nextapp.echo2.app.Color;
 import nextapp.echo2.app.Column;
@@ -66,6 +65,7 @@ import ch.uzh.ifi.attempto.acewiki.gui.page.SearchPage;
 import ch.uzh.ifi.attempto.acewiki.gui.page.StartPage;
 import ch.uzh.ifi.attempto.acewiki.gui.page.WikiPage;
 import ch.uzh.ifi.attempto.chartparser.Grammar;
+import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.Logger;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
@@ -108,6 +108,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private IconButton backButton = new IconButton("Back", this);
 	private IconButton forwardButton = new IconButton("Forward", this);
 	private IconButton refreshButton = new IconButton("Refresh", this);
+	private IconButton loginButton = new IconButton("Login", this);
+	private IconButton logoutButton = new IconButton("Logout", this);
+	private Label userLabel = new SolidLabel("Anonymous", Font.ITALIC);
 	
 	private SmallButton indexButton = new SmallButton("Index", this, 12);
 	private SmallButton homeButton = new SmallButton("Main Page", this, 12);
@@ -117,10 +120,6 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private TextField searchTextField = new TextField(110, this);
 	private SmallButton newButton = new SmallButton("New Word...", this, 12);
 	private SmallButton exportButton = new SmallButton("Export...", this, 12);
-	private SmallButton logoutButton = new SmallButton("Logout", this, 12);
-	private SmallButton loginButton = new SmallButton("Login...", this, 12);
-	private ListItem logoutListItem;
-	private ListItem loginListItem;
 	
 	private StartPage startPage;
 	
@@ -167,6 +166,16 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		navigationButtons.add(backButton);
 		navigationButtons.add(forwardButton);
 		navigationButtons.add(refreshButton);
+		navigationButtons.add(new HSpace(20));
+		Row userRow = new Row();
+		userRow.add(loginButton);
+		userRow.add(new HSpace(3));
+		userLabel.setForeground(Color.DARKGRAY);
+		userRow.add(userLabel);
+		logoutButton.setVisible(false);
+		userRow.add(logoutButton);
+		userRow.setVisible(isLoginEnabled());
+		navigationButtons.add(userRow);
 		
 		ContentPane menuBar = new ContentPane();
 		menuBar.add(navigationButtons);
@@ -216,14 +225,6 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			sideCol.add(new ListItem(newButton));
 		}
 		sideCol.add(new ListItem(exportButton));
-		logoutListItem = new ListItem(logoutButton);
-		logoutButton.setWidth(new Extent(110));
-		logoutButton.setAlignment(new Alignment(Alignment.LEFT, Alignment.CENTER));
-		logoutListItem.setVisible(false);
-		sideCol.add(logoutListItem);
-		loginListItem = new ListItem(loginButton);
-		loginListItem.setVisible(isLoginEnabled());
-		sideCol.add(loginListItem);
 		
 		externalEventMonitor = new ExternalEventMonitor();
 		externalEventMonitor.addExternalEventListener(this);
@@ -703,9 +704,10 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	public void setUser(User user) {
 		this.user = user;
 		logger.setUsername(user.getName());
-		logoutButton.setText("Logout: " + user.getName());
-		loginListItem.setVisible(false);
-		logoutListItem.setVisible(true);
+		userLabel.setForeground(Color.BLACK);
+		userLabel.setText(user.getName());
+		loginButton.setEnabled(false);
+		logoutButton.setVisible(true);
 		getContentPane().removeAll();
 		getContentPane().add(wikiPane);
 		getContentPane().setBackground(Color.WHITE);
