@@ -205,10 +205,8 @@
   
   <!--
     You can have several servlet definitions of the same servlet class within a single web.xml
-    file. Uncomment the code below to launch a second AceWiki instance. Make sure that you
-    uncomment the respective mapping as well.
+    file. The code below launches a second AceWiki instance.
   -->
-  <!--
   <servlet>
     <servlet-name>AceWiki2</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
@@ -221,7 +219,6 @@
       <param-value>http://attempto.ifi.uzh.ch/acewiki/</param-value>
     </init-param>
   </servlet>
-  -->
   
   
   <!--
@@ -305,7 +302,7 @@
   </servlet-mapping>
   
   <!--
-    This is the mapping for the AceWiki servlet.
+    This is the mapping for the first AceWiki instance.
   -->
   <servlet-mapping>
     <servlet-name>AceWiki</servlet-name>
@@ -313,15 +310,12 @@
   </servlet-mapping>
   
   <!--
-    Uncomment the mapping below for starting another AceWiki instance. See the commented-out
-    servlet definition above.
+    This is the mapping for the second AceWiki instance.
   -->
-  <!--
   <servlet-mapping>
     <servlet-name>AceWiki2</servlet-name>
     <url-pattern>/acewiki2/</url-pattern>
   </servlet-mapping>
-  -->
 
   <!--
     This is the mapping for the ACE Editor servlet.

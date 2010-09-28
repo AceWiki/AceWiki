@@ -1,0 +1,96 @@
+body {
+	color: black;
+	background-color: white;
+	font-family: Verdana, Helvetica, sans-serif;
+	margin-left: 2em;
+	margin-right: 2em;
+	margin-top: 2em;
+	margin-bottom: 3em;
+}
+
+div {
+	margin: 1em 1em 1em 1em;
+}
+
+div.center {
+	text-align: center;
+}
+
+em {
+	color: inherit;
+	background-color: inherit;
+}
+
+code {
+	font-family: Courier, monospace;
+}
+
+ol, ul {
+	font-family: inherit;
+	padding-left: 1.5em;
+}
+
+li {
+	margin-top: 0.3em;
+}
+
+small {
+	font-size: 80%;
+}
+
+pre {
+	font-family: Courier, monospace;
+	font-size: 90%;
+	text-align: left;
+	margin-left: 1em;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	padding: 2px 2px 2px 2px;
+	clear: both;
+}
+
+p, li {
+	font-family: inherit;
+}
+
+p.subtitle {
+	text-align: center;
+	margin-bottom: 3em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	color: black;
+	background-color: inherit;
+	clear: both;
+}
+
+h1 { font-size: 160%; }
+h2 { font-size: 130%; }
+h3 { font-size: 120%; }
+h4 { font-size: 110%; }
+h5 { font-size: 100%; }
+h6 { font-size: 100%; }
+
+h1, h2, h3, h4, h5, h6 {
+	margin-top: 2em;
+	margin-bottom: 1em;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:link {
+	color: #88E;
+	background-color: transparent;
+}
+
+a:visited {
+	color: #22D;
+	background-color: transparent;
+}
+
+a:active {
+	color: #000;
+	background-color: transparent
+}
