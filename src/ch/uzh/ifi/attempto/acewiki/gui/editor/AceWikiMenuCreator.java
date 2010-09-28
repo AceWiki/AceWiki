@@ -30,7 +30,6 @@ import ch.uzh.ifi.attempto.preditor.MenuCreator;
 import ch.uzh.ifi.attempto.preditor.MenuEntry;
 import ch.uzh.ifi.attempto.preditor.MenuItem;
 import ch.uzh.ifi.attempto.preditor.SpecialMenuItem;
-import ch.uzh.ifi.attempto.preditor.TextElement;
 
 /**
  * This is the menu creator class that generates the menu entries for the predictive editor
@@ -94,10 +93,9 @@ class AceWikiMenuCreator extends MenuCreator implements ActionListener {
 					Preterminal cat = new Preterminal("defnoun");
 					cat.setFeature("noun", el.getWord(0));
 					cat.setFeature("text", "the " + el.getWord(0));
-					menuItems.add(new MenuEntry(
-							new TextElement("the " + el.getWord(0), cat),
-							"reference"
-						));
+					OntologyTextElement te = new OntologyTextElement(el, 0, cat);
+					te.setPreText("the ");
+					menuItems.add(new MenuEntry(te, "reference"));
 				}
 				if (options.containsPreterminal("nounpl")) {
 					menuItems.add(createMenuEntry(el, 1, "plural noun"));
@@ -173,7 +171,7 @@ class AceWikiMenuCreator extends MenuCreator implements ActionListener {
 		}
 	}
 	
-	private MenuEntry createMenuEntry(OntologyElement el, int wordNumber,String menuBlockName) {
+	private MenuEntry createMenuEntry(OntologyElement el, int wordNumber, String menuBlockName) {
 		MenuEntry menuEntry = new MenuEntry(
 				OntologyTextElement.createTextElement(el, wordNumber),
 				menuBlockName

@@ -31,7 +31,9 @@ public class OntologyTextElement extends TextElement {
 	
 	private OntologyElement ontologyElement;
 	private int wordNumber;
-	private String category;
+	private Preterminal category;
+	private String pre = "";
+	private String post = "";
 	
 	/**
 	 * Creates a new text element for the given word form (by word form id) of the given
@@ -79,17 +81,36 @@ public class OntologyTextElement extends TextElement {
 	/**
 	 * Creates a new ontology text element.
 	 * 
-	 * @param ontologyElement The ontology element.
-	 * @param wordNumber The word number.
-	 * @param category The category name.
+	 * @param oe The ontology element.
+	 * @param wn The word number.
+	 * @param cat The preterminal category.
 	 */
-	public OntologyTextElement(OntologyElement ontologyElement, int wordNumber, String category) {
-		if (ontologyElement.getWord(wordNumber) == null) {
-			throw new RuntimeException(ontologyElement + " has no word number " + wordNumber);
+	public OntologyTextElement(OntologyElement oe, int wn, Preterminal cat) {
+		if (oe.getWord(wn) == null) {
+			throw new RuntimeException(oe + " has no word number " + wn);
 		}
-		this.ontologyElement = ontologyElement;
-		this.wordNumber = wordNumber;
-		this.category = category;
+		this.ontologyElement = oe;
+		this.wordNumber = wn;
+		this.category = cat;
+	}
+	
+	/**
+	 * Creates a new ontology text element.
+	 * 
+	 * @param oe The ontology element.
+	 * @param wn The word number.
+	 * @param catname The category name.
+	 */
+	public OntologyTextElement(OntologyElement oe, int wn, String catname) {
+		this(oe, wn, new Preterminal(catname));
+		category.setFeature("text", getOriginalText());
+		if (category.getName().equals("propername")) {
+			if (((Individual) ontologyElement).hasDefiniteArticle(wordNumber)) {
+				category.setFeature("capitalize", "true");
+			} else {
+				category.setFeature("capitalize", "false");
+			}
+		}
 	}
 
 	/**
@@ -109,7 +130,25 @@ public class OntologyTextElement extends TextElement {
 	}
 	
 	public String getOriginalText() {
-		return ontologyElement.getWord(wordNumber);
+		return pre + ontologyElement.getWord(wordNumber) + post;
+	}
+	
+	/**
+	 * This method adds a text to the front of the word of the ontology element.
+	 * 
+	 * @param pre The text to be added to the front.
+	 */
+	public void setPreText(String pre) {
+		if (pre != null) this.pre = pre;
+	}
+	
+	/**
+	 * This method adds a text to the end of the word of the ontology element.
+	 * 
+	 * @param post The text to be added to the end.
+	 */
+	public void setPostText(String post) {
+		if (post != null) this.post = post;
 	}
 
 	/**
@@ -123,21 +162,12 @@ public class OntologyTextElement extends TextElement {
 	}
 	
 	public Terminal getTerminal() {
-		return new Terminal(ontologyElement.getWord(wordNumber));
+		return new Terminal(getOriginalText());
 	}
 
 	public List<Preterminal> getCategories() {
-		Preterminal cat = new Preterminal(category);
-		cat.setFeature("text", ontologyElement.getWord(wordNumber));
-		if (category.equals("propername")) {
-			if (((Individual) ontologyElement).hasDefiniteArticle(wordNumber)) {
-				cat.setFeature("capitalize", "true");
-			} else {
-				cat.setFeature("capitalize", "false");
-			}
-		}
 		List<Preterminal> list = new ArrayList<Preterminal>();
-		list.add(cat);
+		list.add(category);
 		return list;
 	}
 	
