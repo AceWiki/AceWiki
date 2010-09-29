@@ -34,13 +34,15 @@ public class TextField extends nextapp.echo2.app.TextField {
 	 * 
 	 * @param width The width of the text field.
 	 * @param actionListener The action-listener of the text field.
+	 * @param style The style of the text.
 	 */
-	public TextField(int width, ActionListener actionListener) {
+	public TextField(int width, ActionListener actionListener, int style) {
 		setWidth(new Extent(width));
 		setHeight(new Extent(17));
-		setFont(new Font(Style.fontTypeface, Font.PLAIN, new Extent(13)));
+		setFont(new Font(Style.fontTypeface, style, new Extent(13)));
 		setBackground(Style.lightBackground);
 		setBorder(new Border(1, Color.BLACK, Border.STYLE_INSET));
+		setDisabledBackground(Style.lightDisabled);
 		if (actionListener != null) {
 			addActionListener(actionListener);
 		}
@@ -50,9 +52,19 @@ public class TextField extends nextapp.echo2.app.TextField {
 	 * Creates a new text field.
 	 * 
 	 * @param width The width of the text field.
+	 * @param actionListener The action-listener of the text field.
+	 */
+	public TextField(int width, ActionListener actionListener) {
+		this(width, actionListener, Font.PLAIN);
+	}
+	
+	/**
+	 * Creates a new text field.
+	 * 
+	 * @param width The width of the text field.
 	 */
 	public TextField(int width) {
-		this(width, null);
+		this(width, null, Font.PLAIN);
 	}
 	
 	/**
@@ -61,14 +73,14 @@ public class TextField extends nextapp.echo2.app.TextField {
 	 * @param actionListener The action-listener of the text field.
 	 */
 	public TextField(ActionListener actionListener) {
-		this(500, actionListener);
+		this(500, actionListener, Font.PLAIN);
 	}
 	
 	/**
 	 * Creates a new text field.
 	 */
 	public TextField() {
-		this(500, null);
+		this(500, null, Font.PLAIN);
 	}
 
 }

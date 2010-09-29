@@ -53,6 +53,7 @@ import ch.uzh.ifi.attempto.acewiki.gui.IconButton;
 import ch.uzh.ifi.attempto.acewiki.gui.ListItem;
 import ch.uzh.ifi.attempto.acewiki.gui.LoginWindow;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
+import ch.uzh.ifi.attempto.acewiki.gui.UserWindow;
 import ch.uzh.ifi.attempto.acewiki.gui.editor.NounForm;
 import ch.uzh.ifi.attempto.acewiki.gui.editor.NounOfForm;
 import ch.uzh.ifi.attempto.acewiki.gui.editor.ProperNameForm;
@@ -108,7 +109,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private IconButton backButton = new IconButton("Back", this);
 	private IconButton forwardButton = new IconButton("Forward", this);
 	private IconButton refreshButton = new IconButton("Refresh", this);
-	private IconButton loginButton = new IconButton("Login", this);
+	private IconButton userButton = new IconButton("User", this);
 	private IconButton logoutButton = new IconButton("Logout", this);
 	private Label userLabel = new SolidLabel("Anonymous", Font.ITALIC);
 	
@@ -168,7 +169,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		navigationButtons.add(refreshButton);
 		navigationButtons.add(new HSpace(20));
 		Row userRow = new Row();
-		userRow.add(loginButton);
+		userRow.add(userButton);
 		userRow.add(new HSpace(3));
 		userLabel.setForeground(Color.DARKGRAY);
 		userRow.add(userLabel);
@@ -658,8 +659,12 @@ public class Wiki implements ActionListener, ExternalEventListener {
 					this,
 					"Yes", "No"
 				));
-		} else if (e.getSource() == loginButton) {
-			showLoginWindow();
+		} else if (e.getSource() == userButton) {
+			if (user == null) {
+				showLoginWindow();
+			} else {
+				showWindow(new UserWindow(this));
+			}
 		} else if (e.getSource() instanceof MessageWindow && e.getActionCommand().equals("Yes")) {
 			((AceWikiApp) ApplicationInstance.getActive()).logout();
 		} else if (e.getSource() instanceof OntologyTextElement) {
@@ -706,7 +711,6 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		logger.setUsername(user.getName());
 		userLabel.setForeground(Color.BLACK);
 		userLabel.setText(user.getName());
-		loginButton.setEnabled(false);
 		logoutButton.setVisible(true);
 		getContentPane().removeAll();
 		getContentPane().add(wikiPane);

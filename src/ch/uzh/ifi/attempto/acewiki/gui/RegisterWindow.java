@@ -38,50 +38,57 @@ import ch.uzh.ifi.attempto.echocomp.VSpace;
 import ch.uzh.ifi.attempto.echocomp.WindowPane;
 
 /**
- * This class represents a login window.
+ * This class represents a window for the registration of a new user.
  * 
  * @author Tobias Kuhn
  */
-public class LoginWindow extends WindowPane implements ActionListener {
+public class RegisterWindow extends WindowPane implements ActionListener {
 	
 	private static final long serialVersionUID = -6704597832001286479L;
 	
 	private Wiki wiki;
 	
-	private TextField usernameField = new TextField(300, this, Font.ITALIC);
-	private PasswordField passwordField = new PasswordField(300, this);
+	private TextField usernameField = new TextField(250, this, Font.ITALIC);
+	private TextField emailField = new TextField(250, this, Font.ITALIC);
+	private PasswordField passwordField = new PasswordField(250, this);
+	private PasswordField retypePasswordField = new PasswordField(250, this);
 	
 	/**
-	 * Creates a new login window.
+	 * Creates a new registration window.
 	 * 
+	 * @param username The default username (from the login window).
+	 * @param password The default password (from the login window).
 	 * @param wiki The wiki instance.
 	 */
-	public LoginWindow(Wiki wiki) {
+	public RegisterWindow(String username, String password, Wiki wiki) {
 		this.wiki = wiki;
 		
-		setTitle("Login");
+		usernameField.setText(username);
+		passwordField.setText(password);
+		
+		setTitle("User Registration");
 		setTitleFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		setModal(true);
 		setWidth(new Extent(470));
-		setHeight(new Extent(220));
+		setHeight(new Extent(270));
 		setResizable(false);
 		setMovable(true);
 		setClosable(!wiki.isLoginRequiredForViewing());
 		setTitleBackground(Style.windowTitleBackground);
 		setStyleName("Default");
 		
-		wiki.log("logi", "login window");
+		wiki.log("logi", "registration window");
 
 		Grid mainGrid = new Grid(1);
 		mainGrid.setInsets(new Insets(10, 10, 10, 0));
 		mainGrid.setColumnWidth(0, new Extent(450));
-		mainGrid.setRowHeight(0, new Extent(130));
+		mainGrid.setRowHeight(0, new Extent(180));
 		
 		Column messageColumn = new Column();
 		GridLayoutData layout1 = new GridLayoutData();
 		layout1.setAlignment(new Alignment(Alignment.LEFT, Alignment.TOP));
 		messageColumn.setLayoutData(layout1);
-		Label label = new Label("Enter your username and password:");
+		Label label = new Label("Enter your data for registration:");
 		label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		messageColumn.add(label);
 		messageColumn.add(new VSpace());
@@ -90,8 +97,12 @@ public class LoginWindow extends WindowPane implements ActionListener {
 		formGrid.setInsets(new Insets(10, 10, 10, 0));
 		formGrid.add(new SolidLabel("username:", Font.ITALIC));
 		formGrid.add(usernameField);
+		formGrid.add(new SolidLabel("email:", Font.ITALIC));
+		formGrid.add(emailField);
 		formGrid.add(new SolidLabel("password:", Font.ITALIC));
 		formGrid.add(passwordField);
+		formGrid.add(new SolidLabel("retype password:", Font.ITALIC));
+		formGrid.add(retypePasswordField);
 		messageColumn.add(formGrid);
 		
 		mainGrid.add(messageColumn);
@@ -99,13 +110,8 @@ public class LoginWindow extends WindowPane implements ActionListener {
 		Row buttonBar = new Row();
 		buttonBar.setCellSpacing(new Extent(10));
 		buttonBar.setInsets(new Insets(0, 0, 0, 10));
-		buttonBar.add(new GeneralButton("Login", 80, this));
-		if (wiki.isUserRegistrationOpen()) {
-			buttonBar.add(new GeneralButton("Register...", 80, this));
-		}
-		if (!wiki.isLoginRequiredForViewing()) {
-			buttonBar.add(new GeneralButton("Cancel", 80, this));
-		}
+		buttonBar.add(new GeneralButton("Register", 80, this));
+		buttonBar.add(new GeneralButton("Cancel", 80, this));
 		GridLayoutData layout2 = new GridLayoutData();
 		layout2.setAlignment(new Alignment(Alignment.CENTER, Alignment.BOTTOM));
 		buttonBar.setLayoutData(layout2);
@@ -118,28 +124,66 @@ public class LoginWindow extends WindowPane implements ActionListener {
 		UserBase ub = wiki.getUserBase();
 		String username = usernameField.getText();
 		String password = passwordField.getText();
+		String password2 = retypePasswordField.getText();
+		String email = emailField.getText();
 		if ("Cancel".equals(e.getActionCommand())) {
-			wiki.log("logi", "login canceled");
+			wiki.log("logi", "registration canceled");
 			setVisible(false);
 			wiki.removeWindow(this);
-		} else if ("Register...".equals(e.getActionCommand())) {
-			wiki.log("logi", "pressed: register...");
-			wiki.showWindow(new RegisterWindow(username, password, wiki));
-			wiki.removeWindow(this);
+			if (wiki.isLoginRequiredForViewing()) {
+				wiki.showLoginWindow();
+			}
 		} else {
-			wiki.log("logi", "pressed: login");
-			User user = ub.login(username, password);
-			if (user != null) {
-				wiki.log("logi", "correct password for " + username);
-				wiki.log("syst", "login");
-				wiki.setUser(user);
-			} else {
-				wiki.log("logi", "incorrect username or password for " + username);
+			wiki.log("logi", "pressed: register");
+			if (username.length() < 3 || username.length() > 20) {
+				wiki.log("logi", "invalid username");
 				wiki.showWindow(new MessageWindow(
 						"Error",
-						"Invalid username or password!",
+						"Username needs between 3 and 20 characters.",
 						"OK"
 					));
+			} else if (!username.matches("[a-zA-Z0-9'.][a-zA-Z0-9'._\\- ]*[a-zA-Z0-9'.]")) {
+				wiki.log("logi", "invalid username");
+				wiki.showWindow(new MessageWindow(
+						"Error",
+						"Username contains illegal characters.",
+						"OK"
+					));
+			} else if (password.length() < 5) {
+				wiki.log("logi", "invalid password");
+				wiki.showWindow(new MessageWindow(
+						"Error",
+						"Password needs at least 5 characters.",
+						"OK"
+					));
+			} else if (!password.equals(password2)) {
+				wiki.log("logi", "retype password does not match");
+				wiki.showWindow(new MessageWindow(
+						"Error",
+						"The two passwords do not match.",
+						"OK"
+					));
+			} else if (email.indexOf("@") < 0) {
+				wiki.log("logi", "no email");
+				wiki.showWindow(new MessageWindow(
+						"Error",
+						"Please provide a valid email address.",
+						"OK"
+					));
+			} else {
+				User user = ub.register(username, email, password);
+				if (user == null) {
+					wiki.log("logi", "username already taken: " + username);
+					wiki.showWindow(new MessageWindow(
+							"Error",
+							"Username is already taken.",
+							"OK"
+						));
+				} else {
+					wiki.log("logi", "register successful for " + username);
+					wiki.log("syst", "login");
+					wiki.setUser(user);
+				}
 			}
 		}
 	}

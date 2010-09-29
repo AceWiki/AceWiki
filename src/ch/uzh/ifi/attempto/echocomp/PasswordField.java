@@ -27,25 +27,47 @@ import nextapp.echo2.app.event.ActionListener;
 public class PasswordField extends nextapp.echo2.app.PasswordField {
 	
 	private static final long serialVersionUID = 7918679972682431845L;
+	
+	/**
+	 * Creates a new password field.
+	 * 
+	 * @param width The width of the password field.
+	 * @param actionListener The action-listener.
+	 */
+	public PasswordField(int width, ActionListener actionListener) {
+		setWidth(new Extent(width));
+		setHeight(new Extent(17));
+		setBackground(Style.lightBackground);
+		setBorder(new Border(1, Color.BLACK, Border.STYLE_INSET));
+		setDisabledBackground(Style.lightDisabled);
+		if (actionListener != null) {
+			addActionListener(actionListener);
+		}
+	}
+	
+	/**
+	 * Creates a new password field.
+	 * 
+	 * @param actionListener The action-listener.
+	 */
+	public PasswordField(ActionListener actionListener) {
+		this(500, actionListener);
+	}
+	
+	/**
+	 * Creates a new password field.
+	 * 
+	 * @param width The width of the password field.
+	 */
+	public PasswordField(int width) {
+		this(width, null);
+	}
 
 	/**
 	 * Creates a new password field.
 	 */
 	public PasswordField() {
-		setWidth(new Extent(500));
-		setHeight(new Extent(17));
-		setBackground(Style.lightBackground);
-		setBorder(new Border(1, Color.BLACK, Border.STYLE_INSET));
-	}
-	
-	/**
-	 * Creates a new password field with the given action-listener.
-	 * 
-	 * @param actionListener The action-listener.
-	 */
-	public PasswordField(ActionListener actionListener) {
-		this();
-		addActionListener(actionListener);
+		this(500, null);
 	}
 
 }

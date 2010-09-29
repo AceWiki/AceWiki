@@ -1,14 +1,12 @@
 package ch.uzh.ifi.attempto.acewiki.core.user;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Ontology;
-import ch.uzh.ifi.attempto.echocomp.Logger;
 
 /**
  * This class stands for the set of registered users for a particular AceWiki instance.
@@ -43,60 +41,31 @@ public class UserBase {
 	 */
 	private UserBase(Ontology ontology) {
 		this.ontology = ontology;
-		File dataDir = new File("data/" + ontology.getName() + ".users");
-		if (dataDir.exists()) {
-			for (File file : dataDir.listFiles()) {
-				try {
-					long id = new Long(file.getName());
-					if (id > idCount) idCount = id;
-					FileInputStream in = new FileInputStream(file);
-					byte[] bytes = new byte[in.available()];
-					in.read(bytes);
-					in.close();
-					String s = new String(bytes, "UTF-8");
-					User user = User.loadUser(id, s);
-					register(user);
-				} catch (NumberFormatException ex) {
-					log("ignoring file: " + file.getName());
-				} catch (IOException ex) {
-					log("cannot read file: " + file.getName());
-				}
-			}
-		}
-	}
-	
-	/**
-	 * Registers a new user.
-	 * 
-	 * @param user A new user.
-	 */
-	private void register(User user) {
-		if (user == null) return;
-		userNameMap.put(user.getName(), user);
-		userIdMap.put(user.getId(), user);
-		save(user);
-	}
-	
-	/**
-	 * Saves the data of the given user into a file on the server.
-	 * 
-	 * @param user The user whose data should be stored.
-	 */
-	private void save(User user) {
 		String dataDirPath = "data/";
 		String userDirPath = dataDirPath + ontology.getName() + ".users";
 		File dataDir = new File(dataDirPath);
 		File userDir = new File(userDirPath);
 		if (!dataDir.exists()) dataDir.mkdir();
-		if (!userDir.exists()) userDir.mkdir();
-		
-		try {
-			FileOutputStream out = new FileOutputStream(userDirPath + "/" + user.getId());
-			out.write(user.serialize().getBytes("UTF-8"));
-			out.close();
-		} catch (IOException ex) {
-			ex.printStackTrace();
+		if (userDir.exists()) {
+			for (File file : userDir.listFiles()) {
+				User user = User.loadUser(file);
+				if (user.getId() > idCount) idCount = user.getId();
+				addUser(user);
+			}
+		} else {
+			userDir.mkdir();
 		}
+	}
+	
+	/**
+	 * Adds a user to this user base.
+	 * 
+	 * @param user The user to be added.
+	 */
+	private void addUser(User user) {
+		if (user == null) return;
+		userNameMap.put(user.getName(), user);
+		userIdMap.put(user.getId(), user);
 	}
 	
 	/**
@@ -139,7 +108,11 @@ public class UserBase {
 	public User login(String name, String password) {
 		User user = getUser(name);
 		if (user == null) return null;
-		if (user.isCorrectPassword(password)) return user;
+		if (user.isCorrectPassword(password)) {
+			user.setUserData("lastlogin", getTimeNow());
+			user.addToUserDataCounter("logincount", 1);
+			return user;
+		}
 		return null;
 	}
 	
@@ -148,18 +121,32 @@ public class UserBase {
 	 * Null is returned otherwise.
 	 * 
 	 * @param name The name of the new user.
+	 * @param email The email address of the new user.
 	 * @param password The password for the new user.
 	 * @return The new user object.
 	 */
-	public User register(String name, String password) {
+	public User register(String name, String email, String password) {
 		if (getUser(name) != null) return null;
-		User user = User.createUser(++idCount, name, password);
-		register(user);
+		Map<String,String> userdata = new HashMap<String, String>();
+		userdata.put("email", email);
+		String now = getTimeNow();
+		userdata.put("registerdate", now);
+		userdata.put("lastlogin", now);
+		userdata.put("logincount", "1");
+		long id = ++idCount;
+		User user = User.createUser(
+				id,
+				name,
+				password,
+				userdata,
+				new File("data/" + ontology.getName() + ".users" + "/" + id)
+			);
+		addUser(user);
 		return user;
 	}
 	
-	private void log(String text) {
-		Logger.log(ontology.getName(), "onto", 0, "onto", text);
+	private String getTimeNow() {
+		return (new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")).format(new Date());
 	}
 
 }
