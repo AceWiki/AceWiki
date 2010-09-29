@@ -110,7 +110,7 @@
     -->
     <init-param>
       <param-name>login</param-name>
-      <param-value>no</param-value>
+      <param-value>yes</param-value>
     </init-param>
     
     <!--
@@ -122,7 +122,7 @@
     -->
     <init-param>
       <param-name>login_required</param-name>
-      <param-value>no</param-value>
+      <param-value>edit</param-value>
     </init-param>
     
     <!--

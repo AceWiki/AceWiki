@@ -146,7 +146,7 @@ public class UserBase {
 	}
 	
 	private String getTimeNow() {
-		return (new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")).format(new Date());
+		return (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date());
 	}
 
 }
