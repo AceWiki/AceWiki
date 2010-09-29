@@ -138,9 +138,6 @@ public class UserWindow extends WindowPane implements ActionListener {
 			wiki.log("logi", "registration canceled");
 			setVisible(false);
 			wiki.removeWindow(this);
-			if (wiki.isLoginRequiredForViewing()) {
-				wiki.showLoginWindow();
-			}
 		} else if ("Unlock".equals(e.getActionCommand())) {
 			emailField.setEnabled(true);
 			passwordField.setEnabled(true);

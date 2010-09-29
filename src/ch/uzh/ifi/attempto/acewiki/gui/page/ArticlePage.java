@@ -66,7 +66,7 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 		dropDown.addMenuEntry("Add Sentence...", "Add a new sentence here");
 		dropDown.addMenuEntry("Add Comment...", "Add a new comment here");
 		
-		textColumn.setInsets(new Insets(10, 20, 0, 70));
+		textColumn.setInsets(new Insets(10, 20, 0, 50));
 		textColumn.setCellSpacing(new Extent(2));
 		add(textColumn);
 	}

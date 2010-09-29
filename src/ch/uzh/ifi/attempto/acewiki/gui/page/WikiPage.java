@@ -55,6 +55,8 @@ public abstract class WikiPage extends Column {
 		this.wiki = wiki;
 		this.title = title;
 		
+		setInsets(new Insets(0, 0, 0, 40));
+		
 		tabRow = new Row();
 		tabRow.setInsets(new Insets(10, 0, 0, 0));
 		add(tabRow);
