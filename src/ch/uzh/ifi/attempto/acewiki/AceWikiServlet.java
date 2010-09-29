@@ -31,7 +31,7 @@ import ch.uzh.ifi.attempto.echocomp.Logger;
 /**
  * This servlet class is used by the web server to start AceWiki.
  * In order to run the AceWiki servlet, a web application archive (WAR) file has to be created.
- * See the <a href="{@docRoot}/README.txt">README file of the Attempto Java Packages</a> and the
+ * See the <a href="{@docRoot}/README.txt">README file</a> and the
  * <a href="{@docRoot}/web.xml">web.xml example file</a>.
  *<p>
  * SWI Prolog needs to be installed on the server and you need to have a compiled version of the

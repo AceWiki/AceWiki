@@ -18,9 +18,9 @@ import ch.uzh.ifi.attempto.chartparser.FeatureMap;
  * This grammar class is automatically generated on the basis of a file in Codeco notation.
  *<p>
  * For more information, see the Codeco package {@link ch.uzh.ifi.attempto.codeco} of the
- * <a href="http://attempto.ifi.uzh.ch/site/downloads/" target="_top">Attempto Java Packages</a>
- * and the thesis "<a href="http://attempto.ifi.uzh.ch/site/pubs/papers/doctoral_thesis_kuhn.pdf"
- * >Controlled English for Knowledge Representation</a>".
+ * <a href="http://attempto.ifi.uzh.ch/acewiki/" target="_top">AceWiki</a> system and the thesis
+ * "<a href="http://attempto.ifi.uzh.ch/site/pubs/papers/doctoral_thesis_kuhn.pdf">Controlled
+ * English for Knowledge Representation</a>".
  */
 @SuppressWarnings("all")
 public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {

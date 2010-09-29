@@ -1,7 +1,7 @@
 % This code is automatically generated on the basis of a file in Codeco notation.
 %
-% For more information, see the package ch.uzh.ifi.attempto.codeco of the Attempto Java Packages
-% (http://attempto.ifi.uzh.ch/site/downloads/) and the thesis "Controlled English for Knowledge
+% For more information, see the package ch.uzh.ifi.attempto.codeco of the AceWiki system
+% (http://attempto.ifi.uzh.ch/acewiki/) and the thesis "Controlled English for Knowledge
 % Representation" (http://attempto.ifi.uzh.ch/site/pubs/papers/doctoral_thesis_kuhn.pdf).
 
 
