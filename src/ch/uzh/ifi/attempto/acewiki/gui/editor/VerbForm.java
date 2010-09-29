@@ -14,7 +14,6 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui.editor;
 
-import nextapp.echo2.app.ApplicationInstance;
 import nextapp.echo2.app.ResourceImageReference;
 import nextapp.echo2.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
@@ -72,7 +71,7 @@ public class VerbForm extends FormPane {
 		infField.setText(verbRole.getPrettyWord(1));
 		pastPartField.setText(verbRole.getPrettyPastPart());
 		
-		ApplicationInstance.getActive().setFocusedComponent(thirdSgField);
+		wiki.getApplication().setFocusedComponent(thirdSgField);
 	}
 	
 	/**

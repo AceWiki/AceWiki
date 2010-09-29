@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import nextapp.echo2.app.ApplicationInstance;
 import nextapp.echo2.app.Column;
 import nextapp.echo2.app.Extent;
 import nextapp.echo2.app.Font;
@@ -100,7 +99,7 @@ public class SearchPage extends WikiPage implements ActionListener {
 	}
 	
 	protected void doUpdate() {
-		ApplicationInstance.getActive().setFocusedComponent(textField);
+		getWiki().getApplication().setFocusedComponent(textField);
 		
 		resultColumn.removeAll();
 		if (textField.getText().length() == 0) {

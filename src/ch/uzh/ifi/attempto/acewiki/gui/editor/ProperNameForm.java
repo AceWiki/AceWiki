@@ -14,7 +14,6 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui.editor;
 
-import nextapp.echo2.app.ApplicationInstance;
 import nextapp.echo2.app.ResourceImageReference;
 import nextapp.echo2.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
@@ -74,7 +73,7 @@ public class ProperNameForm extends FormPane {
 		abbrevField.setText(ind.getAbbreviation());
 		abbrevDefArtCheckBox.setSelected(ind.hasDefiniteArticle(2));
 		
-		ApplicationInstance.getActive().setFocusedComponent(nameField);
+		wiki.getApplication().setFocusedComponent(nameField);
 	}
 	
 	/**

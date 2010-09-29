@@ -118,6 +118,8 @@ public class RegisterWindow extends WindowPane implements ActionListener {
 		mainGrid.add(buttonBar);
 		
 		add(mainGrid);
+		
+		wiki.getApplication().setFocusedComponent(usernameField);
 	}
 
 	public void actionPerformed(ActionEvent e) {

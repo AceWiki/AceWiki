@@ -136,7 +136,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	
 	private ExternalEventMonitor externalEventMonitor;
 	
-	private ApplicationInstance application;
+	private AceWikiApp application;
 	
 	private static Properties properties;
 	
@@ -153,7 +153,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		
 		ontology = Ontology.getOntology(getParameter("ontology"), parameters);
 		logger = new Logger(ontology.getName(), "anon", sessionID);
-		application = ApplicationInstance.getActive();
+		application = (AceWikiApp) ApplicationInstance.getActive();
 		taskQueue = application.createTaskQueue();
 		
 		SplitPane splitPane1 = new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM);
@@ -666,7 +666,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 				showWindow(new UserWindow(this));
 			}
 		} else if (e.getSource() instanceof MessageWindow && e.getActionCommand().equals("Yes")) {
-			((AceWikiApp) ApplicationInstance.getActive()).logout();
+			application.logout();
 		} else if (e.getSource() instanceof OntologyTextElement) {
 			// for newly generated elements
 			OntologyTextElement te = (OntologyTextElement) e.getSource();

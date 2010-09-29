@@ -75,7 +75,7 @@ class AceWikiApp extends ApplicationInstance {
 		
 		window.setTitle("AceWiki");
 		
-		ContainerContext cc = (ContainerContext) ApplicationInstance.getActive()
+		ContainerContext cc = (ContainerContext) wiki.getApplication()
 			.getContextProperty(ContainerContext.CONTEXT_PROPERTY_NAME);
 		cc.setServerDelayMessage(new ServerDelayMessage("Please wait...", "../wait.gif"));
 		// (The wait icon should be copied at the right place on the server.)

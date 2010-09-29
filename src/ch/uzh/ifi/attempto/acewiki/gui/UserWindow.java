@@ -150,6 +150,7 @@ public class UserWindow extends WindowPane implements ActionListener {
 			buttonBar.removeAll();
 			buttonBar.add(new GeneralButton("Change", 80, this));
 			buttonBar.add(new GeneralButton("Cancel", 80, this));
+			wiki.getApplication().setFocusedComponent(emailField);
 		} else {
 			wiki.log("logi", "pressed: change user data");
 			if (!user.isCorrectPassword(password)) {

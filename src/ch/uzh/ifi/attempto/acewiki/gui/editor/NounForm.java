@@ -14,7 +14,6 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui.editor;
 
-import nextapp.echo2.app.ApplicationInstance;
 import nextapp.echo2.app.ResourceImageReference;
 import nextapp.echo2.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
@@ -67,7 +66,7 @@ public class NounForm extends FormPane {
 		singularField.setText(concept.getPrettyWord(0));
 		pluralField.setText(concept.getPrettyWord(1));
 		
-		ApplicationInstance.getActive().setFocusedComponent(singularField);
+		wiki.getApplication().setFocusedComponent(singularField);
 	}
 	
 	/**
