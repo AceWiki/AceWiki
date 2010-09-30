@@ -5,6 +5,24 @@ This file lists the changes between the different AceWiki versions. See the Baza
 details.
 
 
+Version 0.4.2
+
+- Proper user login with password protection is now possible and can be configured with the
+  following web.xml parameters:
+  - login: defines whether login features are enabled or not
+  - login_required: defines whether login is required for viewing, only for editing, or not at all.
+  - register: defines whether registration is open to everyone.
+- GUI improvements:
+  - Icons for back/forward/refresh buttons.
+  - Modified icons to represent individuals/concepts/relations.
+  - New GUI elements for login and logout.
+  - And other minor improvements.
+- The start page of the exemplary web application server has been improved.
+- Some syntactical improvements of the AceWiki and ACE Editor grammars.
+- Better synchronization of the classes Sentence and Ontology.
+- Minor code clean-up and improvement.
+
+
 Version 0.4.1:
 
 - Two memory leaks (in the broad sense, as they can also occur with Java) have been fixed:
