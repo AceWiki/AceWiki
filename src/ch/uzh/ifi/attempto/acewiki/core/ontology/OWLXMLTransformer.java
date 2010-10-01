@@ -40,19 +40,19 @@ class OWLXMLTransformer {
 		out = out.replaceAll("InverseObjectProperty>", "ObjectInverseOf>");
 		out = out.replaceAll("SubObjectPropertyChain>", "ObjectPropertyChain>");
 		out = out.replaceAll("ObjectExistsSelf>", "ObjectHasSelf>");
-		out = out.replaceAll(" URI=\"", " IRI=\"");
+		out = out.replaceAll("(\\s)URI=\"", "$1IRI=\"");
 		
 		// Rewrite as ObjectPropertyDomain axiom when possible:
 		out = out.replaceAll(
 				"( *)<SubClassOf>\\s*" +
 					"<ObjectIntersectionOf>\\s*" +
-						"<Class IRI=\"http://www\\.w3\\.org/2002/07/owl#Thing\"/>\\s*" +
+						"<Class\\s*IRI=\"http://www\\.w3\\.org/2002/07/owl#Thing\"/>\\s*" +
 						"<ObjectSomeValuesFrom>\\s*" +
-							"(<ObjectProperty IRI=\"[^\"]+\"/>)\\s*" +
-							"<Class IRI=\"http://www\\.w3\\.org/2002/07/owl#Thing\"/>\\s*" +
+							"(<ObjectProperty\\s*IRI=\"[^\"]+\"/>)\\s*" +
+							"<Class\\s*IRI=\"http://www\\.w3\\.org/2002/07/owl#Thing\"/>\\s*" +
 						"</ObjectSomeValuesFrom>\\s*" +
 					"</ObjectIntersectionOf>\\s*" +
-					"(<Class IRI=\"[^\"]+\"/>)\\s*" +
+					"(<Class\\s*IRI=\"[^\"]+\"/>)\\s*" +
 				"</SubClassOf>"
 				,
 				"$1<ObjectPropertyDomain>\n" +
@@ -65,15 +65,15 @@ class OWLXMLTransformer {
 		out = out.replaceAll(
 				"( *)<SubClassOf>\\s*" +
 					"<ObjectIntersectionOf>\\s*" +
-						"<Class IRI=\"http://www\\.w3\\.org/2002/07/owl#Thing\"/>\\s*" +
+						"<Class\\s*IRI=\"http://www\\.w3\\.org/2002/07/owl#Thing\"/>\\s*" +
 						"<ObjectSomeValuesFrom>\\s*" +
 							"<ObjectInverseOf>\\s*" +
-								"(<ObjectProperty IRI=\"[^\"]+\"/>)\\s*" +
+								"(<ObjectProperty\\s*IRI=\"[^\"]+\"/>)\\s*" +
 							"</ObjectInverseOf>\\s*" +
-							"<Class IRI=\"http://www\\.w3\\.org/2002/07/owl#Thing\"/>\\s*" +
+							"<Class\\s*IRI=\"http://www\\.w3\\.org/2002/07/owl#Thing\"/>\\s*" +
 						"</ObjectSomeValuesFrom>\\s*" +
 					"</ObjectIntersectionOf>\\s*" +
-					"(<Class IRI=\"[^\"]+\"/>)\\s*" +
+					"(<Class\\s*IRI=\"[^\"]+\"/>)\\s*" +
 				"</SubClassOf>"
 				,
 				"$1<ObjectPropertyRange>\n" +
