@@ -37,6 +37,7 @@ import ch.uzh.ifi.attempto.ape.APELocal;
 import ch.uzh.ifi.attempto.ape.Lexicon;
 import ch.uzh.ifi.attempto.ape.Message;
 import ch.uzh.ifi.attempto.ape.OutputType;
+import ch.uzh.ifi.attempto.echocomp.SquareButton;
 import ch.uzh.ifi.attempto.echocomp.Style;
 
 /**
@@ -51,7 +52,7 @@ class TextEntry extends Column implements ActionListener {
 
 	private static final long serialVersionUID = -1976178070379593477L;
 	
-	private static final String imgpath = "ch/uzh/ifi/attempto/aceeditor/img/";
+	private static final String imgpath = "ch/uzh/ifi/attempto/echocomp/style/";
 
 	// Use a local instance of APE:
 	private static ACEParser aceParser = APELocal.getInstance();
@@ -68,7 +69,8 @@ class TextEntry extends Column implements ActionListener {
 	private String text;
 
 	private Column resultsColumn;
-	private Button sentenceButton, expandButton;
+	private Button sentenceButton;
+	private SquareButton expandButton = new SquareButton("right", this);
 
 	/**
 	 * Creates a new text entry with collapsed result items.
@@ -115,16 +117,7 @@ class TextEntry extends Column implements ActionListener {
 		sentenceRow.setInsets(new Insets(0, 0, 5, 0));
 		RowLayoutData layout = new RowLayoutData();
 		layout.setAlignment(new Alignment(Alignment.LEFT, Alignment.TOP));
-
-		expandButton = new Button();
-		expandButton.setFont(new Font(Style.fontTypeface, Font.BOLD, new Extent(13)));
-		expandButton.setAlignment(new Alignment(Alignment.CENTER, Alignment.CENTER));
-		expandButton.setInsets(new Insets(0, 0, 0, 0));
-		expandButton.setWidth(new Extent(20));
-		expandButton.setHeight(new Extent(20));
-		expandButton.setRolloverEnabled(true);
-		expandButton.setRolloverBackground(Style.lightBackground);
-		expandButton.addActionListener(this);
+		
 		expandButton.setLayoutData(layout);
 		sentenceRow.add(expandButton);
 
@@ -306,12 +299,12 @@ class TextEntry extends Column implements ActionListener {
 		}
 		this.expanded = expanded;
 		if (expanded) {
-			expandButton.setIcon(new ResourceImageReference(imgpath + "down1.png"));
-			expandButton.setRolloverIcon(new ResourceImageReference(imgpath + "down2.png"));
+			expandButton.setIcon(new ResourceImageReference(imgpath + "down.png"));
+			expandButton.setRolloverIcon(new ResourceImageReference(imgpath + "downh.png"));
 			add(resultsColumn);
 		} else {
-			expandButton.setIcon(new ResourceImageReference(imgpath + "right1.png"));
-			expandButton.setRolloverIcon(new ResourceImageReference(imgpath + "right2.png"));
+			expandButton.setIcon(new ResourceImageReference(imgpath + "right.png"));
+			expandButton.setRolloverIcon(new ResourceImageReference(imgpath + "righth.png"));
 			remove(resultsColumn);
 		}
 		owner.entryChanged(this);
@@ -357,21 +350,17 @@ class TextEntry extends Column implements ActionListener {
 
 	private void update() {
 		if (text == null) {
-			expandButton.setIcon(new ResourceImageReference(imgpath + "plus1.png"));
-			expandButton.setRolloverIcon(new ResourceImageReference(imgpath + "plus2.png"));
+			expandButton.setIconName("plus");
 			sentenceButton.setHeight(new Extent(17));
 		} else if (text.startsWith("# ")) {
-			expandButton.setIcon(new ResourceImageReference(imgpath + "diamond1.png"));
-			expandButton.setRolloverIcon(new ResourceImageReference(imgpath + "diamond2.png"));
+			expandButton.setIconName("diamond");
 			sentenceButton.setText(text.substring(2));
 			comment = true;
 		} else {
 			if (isExpanded()) {
-				expandButton.setIcon(new ResourceImageReference(imgpath + "down1.png"));
-				expandButton.setRolloverIcon(new ResourceImageReference(imgpath + "down2.png"));
+				expandButton.setIconName("down");
 			} else {
-				expandButton.setIcon(new ResourceImageReference(imgpath + "right1.png"));
-				expandButton.setRolloverIcon(new ResourceImageReference(imgpath + "right2.png"));
+				expandButton.setIconName("right");
 			}
 			sentenceButton.setText(text);
 
