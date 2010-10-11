@@ -59,13 +59,15 @@ public class IndexPage extends WikiPage implements ActionListener {
 	 * @param wiki The wiki instance.
 	 */
 	public IndexPage(Wiki wiki) {
-		super(wiki, new Title("Index", true));
+		super(wiki);
 		
 		addTab("Main Page", this);
 		addSelectedTab("Index");
 		addTab("Search", this);
 		addTab("About", this);
 		
+		add(new Title("Index", true));
+		addHorizontalLine();
 		add(new VSpace(20));
 		
 		letterIndexBar = new IndexBar("First letter:", this);

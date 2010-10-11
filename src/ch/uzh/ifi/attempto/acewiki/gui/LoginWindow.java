@@ -135,6 +135,7 @@ public class LoginWindow extends WindowPane implements ActionListener {
 				wiki.log("logi", "correct password for " + username);
 				wiki.log("syst", "login");
 				wiki.setUser(user);
+				wiki.removeWindow(this);
 			} else {
 				wiki.log("logi", "incorrect username or password for " + username);
 				wiki.showWindow(new MessageWindow(

@@ -40,13 +40,15 @@ public class AboutPage extends WikiPage implements ActionListener {
 	 * @param wiki The wiki instance.
 	 */
 	public AboutPage(Wiki wiki) {
-		super(wiki, new Title("About", true));
+		super(wiki);
 
 		addTab("Main Page", this);
 		addTab("Index", this);
 		addTab("Search", this);
 		addSelectedTab("About");
 		
+		add(new Title("About", true));
+		addHorizontalLine();
 		add(new VSpace(10));
 		
 		addHeadline("System");

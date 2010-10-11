@@ -50,18 +50,18 @@ public class ProperNameForm extends FormPane {
 	 * @param actionListener The actionlistener.
 	 */
 	public ProperNameForm(Individual ind, WindowPane window, Wiki wiki, ActionListener actionListener) {
-		super("Proper Name", window, wiki, actionListener);
+		super("Proper Name", ind != null, window, wiki, actionListener);
+		if (ind == null) {
+			ind = new Individual();
+		}
 		this.ind = ind;
 		
 		setExplanationComponent(
 				new ResourceImageReference("ch/uzh/ifi/attempto/acewiki/gui/img/individual.png"),
 				"Every proper name represents a certain individual. " +
-					"The country \"Switzerland\", the person \"Bob Dylan\", the river \"Nile\", " +
-					"and the organization \"United Nations\" are typical examples. " +
-					"Some proper names are used with \"the\" (\"the Nile\", \"the United " +
-					"Nations\") and others are not (\"Switzerland\", \"Bob Dylan\"). " +
-					"Proper names can have an abbreviation that has the same meaning as the " +
-					"longer proper name."
+					"The country \"Switzerland\" and the person \"Bob Dylan\" are typical " +
+					"examples. Proper names can have an abbreviation that has the same meaning " +
+					"as the longer proper name."
 			);
 		addRow("proper name", nameField, "examples: Switzerland, Bob Dylan, Nile, United Nations", true);
 		addRow("... used with \"the\"", nameDefArtCheckBox, "examples: the Nile, the United Nations", false);
@@ -105,6 +105,10 @@ public class ProperNameForm extends FormPane {
 		WordEditorWindow editorWindow = new WordEditorWindow("Word Editor");
 		editorWindow.addTab(new ProperNameForm(ind, editorWindow, wiki, wiki));
 		return editorWindow;
+	}
+
+	public OntologyElement getOntologyElement() {
+		return ind;
 	}
 
 	protected void save() {

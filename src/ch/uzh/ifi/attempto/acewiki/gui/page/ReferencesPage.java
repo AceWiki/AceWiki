@@ -33,6 +33,7 @@ import ch.uzh.ifi.attempto.acewiki.gui.IndexBar;
 import ch.uzh.ifi.attempto.acewiki.gui.TextRow;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.acewiki.gui.WikiLink;
+import ch.uzh.ifi.attempto.acewiki.gui.editor.FormPane;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
@@ -53,6 +54,7 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 	private IndexBar indexBar;
 	private List<Sentence> sentences;
 	private int chosenPage = 0;
+	private Title title;
 	
 	/**
 	 * Creates a new references page.
@@ -60,11 +62,10 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 	 * @param page The main page that contains the article.
 	 */
 	public ReferencesPage(ArticlePage page) {
-		super(page.getWiki(), new Title(page.getOntologyElement().getHeadword(), "- References"));
+		super(page.getWiki());
 		this.page = page;
 		
 		addTab("Article", this);
-		addTab(page.getOntologyElement().getType(), "Word", this);
 		addSelectedTab("References");
 		if (page instanceof ConceptPage) {
 			addTab("Individuals", this);
@@ -74,6 +75,10 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 			addTab("Assignments", this);
 		}
 		
+		OntologyElement oe = page.getOntologyElement();
+		title = new Title(oe.getHeadword(), "- References", oe.getType(), this);
+		add(title);
+		addHorizontalLine();
 		add(new VSpace(18));
 		
 		indexBar = new IndexBar("Page:", 0, this);
@@ -85,7 +90,7 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 	}
 	
 	protected void doUpdate() {
-		getTitle().setText(page.getOntologyElement().getHeadword());
+		title.setText(page.getOntologyElement().getHeadword());
 		referenceColumn.removeAll();
 		List<OntologyElement> ontologyElements = getWiki().getOntologyElements();
 		sentences = new ArrayList<Sentence>();
@@ -154,9 +159,6 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 		if ("Article".equals(e.getActionCommand())) {
 			log("page", "pressed: article");
 			wiki.showPage(page);
-		} else if ("Word".equals(e.getActionCommand())) {
-			log("page", "pressed: word");
-			wiki.showPage(new WordPage(page));
 		} else if ("Individuals".equals(e.getActionCommand())) {
 			log("page", "pressed: individuals");
 			wiki.showPage(new IndividualsPage((ConceptPage) page));
@@ -170,6 +172,8 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 			chosenPage = Integer.parseInt(e.getActionCommand()) - 1;
 			log("page", "pressed: page " + (chosenPage+1));
 			updatePage();
+		} else if (e.getSource() == title) {
+			wiki.showWindow(FormPane.createEditorWindow(page.getOntologyElement(), wiki));
 		}
 	}
 

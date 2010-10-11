@@ -28,12 +28,14 @@ import nextapp.echo2.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Individual;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.StatementFactory;
 import ch.uzh.ifi.attempto.acewiki.gui.IndexBar;
 import ch.uzh.ifi.attempto.acewiki.gui.RecalcIcon;
 import ch.uzh.ifi.attempto.acewiki.gui.TextRow;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
+import ch.uzh.ifi.attempto.acewiki.gui.editor.FormPane;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
 
@@ -52,6 +54,7 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 	private IndividualPage page;
 	private Column assignmentsColumn = new Column();
 	private int chosenPage = 0;
+	private Title title;
 	
 	/**
 	 * Creates a new assignments page.
@@ -59,20 +62,23 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 	 * @param page The main page that contains the article.
 	 */
 	public AssignmentsPage(IndividualPage page) {
-		super(page.getWiki(), new Title(page.getOntologyElement().getHeadword(), "- Assignments"));
+		super(page.getWiki());
 		this.page = page;
 		
 		addTab("Article", this);
-		addTab("Proper Name", this);
 		addTab("References", this);
 		addSelectedTab("Assignments");
-
+		
+		OntologyElement oe = page.getOntologyElement();
+		title = new Title(oe.getHeadword(), "- Assignments", oe.getType(), this);
+		add(title);
+		addHorizontalLine();
 		add(new VSpace(18));
 		add(assignmentsColumn);
 	}
 	
 	protected void doUpdate() {
-		getTitle().setText(page.getOntologyElement().getHeadword());
+		title.setText(page.getOntologyElement().getHeadword());
 		assignmentsColumn.removeAll();
 		
 		final Column waitComp = new Column();
@@ -105,12 +111,11 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 		if ("Article".equals(e.getActionCommand())) {
 			log("page", "pressed: article");
 			getWiki().showPage(page);
-		} else if ("Proper Name".equals(e.getActionCommand())) {
-			log("page", "pressed: word");
-			getWiki().showPage(new WordPage(page));
 		} else if ("References".equals(e.getActionCommand())) {
 			log("page", "pressed: references");
 			getWiki().showPage(new ReferencesPage(page));
+		} else if (e.getSource() == title) {
+			getWiki().showWindow(FormPane.createEditorWindow(page.getOntologyElement(), getWiki()));
 		}
 	}
 

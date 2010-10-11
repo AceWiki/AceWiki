@@ -61,13 +61,15 @@ public class SearchPage extends WikiPage implements ActionListener {
 	 * @param text The search text.
 	 */
 	public SearchPage(Wiki wiki, String text) {
-		super(wiki, new Title("Search", true));
+		super(wiki);
 		
 		addTab("Main Page", this);
 		addTab("Index", this);
 		addSelectedTab("Search");
 		addTab("About", this);
 		
+		add(new Title("Search", true));
+		addHorizontalLine();
 		add(new VSpace(15));
 		
 		addHeadline("Search word");

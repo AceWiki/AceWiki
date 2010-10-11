@@ -46,14 +46,17 @@ public class TrAdjForm extends FormPane {
 	 * @param actionListener The actionlistener.
 	 */
 	public TrAdjForm(TrAdjRole role, WindowPane window, Wiki wiki, ActionListener actionListener) {
-		super("Transitive Adjective", window, wiki, actionListener);
+		super("Transitive Adjective", role != null, window, wiki, actionListener);
+		if (role == null) {
+			role = new TrAdjRole();
+		}
 		this.role = role;
 
 		setExplanationComponent(
 				new ResourceImageReference("ch/uzh/ifi/attempto/acewiki/gui/img/role.png"),
 				"Every transitive adjective represents a certain relation between things. " +
 					"For example, the transitive adjective \"located in\" relates things to " +
-					"their location. Transitive adjectives should consists of an adjective that " +
+					"their location. Transitive adjectives consist of an adjective that " +
 					"is followed by a preposition."
 			);
 		addRow("tr. adjective", trAdjField, "examples: located in, matched with, fond of", true);
@@ -72,7 +75,7 @@ public class TrAdjForm extends FormPane {
 	 */
 	public static WordEditorWindow createCreatorWindow(Wiki wiki, ActionListener actionListener) {
 		WordEditorWindow creatorWindow = new WordEditorWindow("Word Creator");
-		creatorWindow.addTab(new TrAdjForm(new TrAdjRole(), creatorWindow, wiki, actionListener));
+		creatorWindow.addTab(new TrAdjForm(null, creatorWindow, wiki, actionListener));
 		return creatorWindow;
 	}
 	
@@ -87,6 +90,10 @@ public class TrAdjForm extends FormPane {
 		WordEditorWindow editorWindow = new WordEditorWindow("Word Editor");
 		editorWindow.addTab(new TrAdjForm(role, editorWindow, wiki, wiki));
 		return editorWindow;
+	}
+
+	public OntologyElement getOntologyElement() {
+		return role;
 	}
 
 	protected void save() {

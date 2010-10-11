@@ -50,18 +50,21 @@ public class NounForm extends FormPane {
 	 */
 	public NounForm(NounConcept concept, int wordNumber, WindowPane window, Wiki wiki,
 			ActionListener actionListener) {
-		super("Noun", window, wiki, actionListener);
+		super("Noun", concept != null, window, wiki, actionListener);
+		if (concept == null) {
+			concept = new NounConcept();
+		}
 		this.concept = concept;
+		
 		this.wordNumber = wordNumber;
 
 		setExplanationComponent(
 				new ResourceImageReference("ch/uzh/ifi/attempto/acewiki/gui/img/concept.png"),
 				"Every noun represents a certain type of things. " +
-					"For example, the noun \"credit card\" stands for all things that are " +
-					"credit cards. Every noun has a singular form and a plural form."
+					"For example, the noun \"city\" stands for all things that are cities."
 			);
-		addRow("singular", singularField, "examples: woman, credit card, process", true);
-		addRow("plural", pluralField, "examples: women, credit cards, processes", true);
+		addRow("singular", singularField, "examples: woman, city, process", true);
+		addRow("plural", pluralField, "examples: women, cities, processes", true);
 		
 		singularField.setText(concept.getPrettyWord(0));
 		pluralField.setText(concept.getPrettyWord(1));
@@ -81,7 +84,7 @@ public class NounForm extends FormPane {
 			ActionListener actionListener) {
 		WordEditorWindow creatorWindow = new WordEditorWindow("Word Creator");
 		creatorWindow.addTab(new NounForm(
-				new NounConcept(),
+				null,
 				wordNumber,
 				creatorWindow,
 				wiki,
@@ -101,6 +104,10 @@ public class NounForm extends FormPane {
 		WordEditorWindow editorWindow = new WordEditorWindow("Word Editor");
 		editorWindow.addTab(new NounForm(concept, 0, editorWindow, wiki, wiki));
 		return editorWindow;
+	}
+
+	public OntologyElement getOntologyElement() {
+		return concept;
 	}
 
 	protected void save() {

@@ -27,6 +27,8 @@ import nextapp.echo2.app.ResourceImageReference;
 public class CheckBox extends nextapp.echo2.app.CheckBox {
 
 	private static final long serialVersionUID = -8160475963811004744L;
+	
+	private static final String iconPath = "ch/uzh/ifi/attempto/echocomp/style/";
 
 	/**
 	 * Creates a new check box having a text and an icon.
@@ -36,8 +38,8 @@ public class CheckBox extends nextapp.echo2.app.CheckBox {
 	 */
 	public CheckBox(String text, ImageReference icon) {
 		super(text, icon);
-		setStateIcon(new ResourceImageReference("ch/uzh/ifi/attempto/echocomp/style/notchecked.png"));
-		setSelectedStateIcon(new ResourceImageReference("ch/uzh/ifi/attempto/echocomp/style/checked.png"));
+		setStateIcon(new ResourceImageReference(iconPath + "notchecked.png"));
+		setSelectedStateIcon(new ResourceImageReference(iconPath + "checked.png"));
 		setFont(new Font(Style.fontTypeface, Font.PLAIN, new Extent(13)));
 	}
 	
@@ -64,6 +66,17 @@ public class CheckBox extends nextapp.echo2.app.CheckBox {
 	 */
 	public CheckBox() {
 		this(null, null);
+	}
+	
+	public void setEnabled(boolean enabled) {
+		super.setEnabled(enabled);
+		if (enabled) {
+			setStateIcon(new ResourceImageReference(iconPath + "notchecked.png"));
+			setSelectedStateIcon(new ResourceImageReference(iconPath + "checked.png"));
+		} else {
+			setStateIcon(new ResourceImageReference(iconPath + "notcheckedi.png"));
+			setSelectedStateIcon(new ResourceImageReference(iconPath + "checkedi.png"));
+		}
 	}
 
 }

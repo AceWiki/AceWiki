@@ -46,7 +46,11 @@ public class NounOfForm extends FormPane {
 	 * @param actionListener The actionlistener.
 	 */
 	public NounOfForm(OfRole role, WindowPane window, Wiki wiki, ActionListener actionListener) {
-		super("Of-Construct", window, wiki, actionListener);
+		super("Of-Construct", role != null, window, wiki, actionListener);
+		this.role = role;
+		if (role == null) {
+			role = new OfRole();
+		}
 		this.role = role;
 
 		setExplanationComponent(
@@ -54,7 +58,7 @@ public class NounOfForm extends FormPane {
 				"Every of-construct represents a certain relation between things. " +
 					"For example, the of-construct \"child of\" relates persons to their " +
 					"parents. Every of-construct consists of a noun plus the preposition " +
-					"\"of\", for example \"part of\", \"child of\", \"owner of\", etc."
+					"\"of\"."
 			);
 		addRow("noun", nounField, "examples: part, child, owner", true);
 		
@@ -72,7 +76,7 @@ public class NounOfForm extends FormPane {
 	 */
 	public static WordEditorWindow createCreatorWindow(Wiki wiki, ActionListener actionListener) {
 		WordEditorWindow creatorWindow = new WordEditorWindow("Word Creator");
-		creatorWindow.addTab(new NounOfForm(new OfRole(), creatorWindow, wiki, actionListener));
+		creatorWindow.addTab(new NounOfForm(null, creatorWindow, wiki, actionListener));
 		return creatorWindow;
 	}
 	
@@ -87,6 +91,10 @@ public class NounOfForm extends FormPane {
 		WordEditorWindow editorWindow = new WordEditorWindow("Word Editor");
 		editorWindow.addTab(new NounOfForm(role, editorWindow, wiki, wiki));
 		return editorWindow;
+	}
+
+	public OntologyElement getOntologyElement() {
+		return role;
 	}
 
 	protected void save() {

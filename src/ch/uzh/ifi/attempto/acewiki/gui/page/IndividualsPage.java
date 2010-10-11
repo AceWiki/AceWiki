@@ -29,12 +29,14 @@ import nextapp.echo2.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Individual;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.StatementFactory;
 import ch.uzh.ifi.attempto.acewiki.gui.IndexBar;
 import ch.uzh.ifi.attempto.acewiki.gui.RecalcIcon;
 import ch.uzh.ifi.attempto.acewiki.gui.TextRow;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
+import ch.uzh.ifi.attempto.acewiki.gui.editor.FormPane;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
 
@@ -52,6 +54,7 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 	private ConceptPage page;
 	private Column individualsColumn = new Column();
 	private int chosenPage = 0;
+	private Title title;
 	
 	/**
 	 * Creates a new individuals page.
@@ -59,22 +62,25 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 	 * @param page The main page that contains the article.
 	 */
 	public IndividualsPage(ConceptPage page) {
-		super(page.getWiki(), new Title(page.getOntologyElement().getHeadword(), "- Individuals"));
+		super(page.getWiki());
 		this.page = page;
 		
 		addTab("Article", this);
-		addTab("Noun", this);
 		addTab("References", this);
 		addSelectedTab("Individuals");
 		addTab("Hierarchy", this);
 		
+		OntologyElement oe = page.getOntologyElement();
+		title = new Title(oe.getHeadword(), "- Individuals", oe.getType(), this);
+		add(title);
+		addHorizontalLine();
 		add(new VSpace(18));
 		
 		add(individualsColumn);
 	}
 	
 	protected void doUpdate() {
-		getTitle().setText(page.getOntologyElement().getHeadword());
+		title.setText(page.getOntologyElement().getHeadword());
 		individualsColumn.removeAll();
 		
 		final Column waitComp = new Column();
@@ -107,15 +113,14 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 		if ("Article".equals(e.getActionCommand())) {
 			log("page", "pressed: article");
 			getWiki().showPage(page);
-		} else if ("Noun".equals(e.getActionCommand())) {
-			log("page", "pressed: word");
-			getWiki().showPage(new WordPage(page));
 		} else if ("References".equals(e.getActionCommand())) {
 			log("page", "pressed: references");
 			getWiki().showPage(new ReferencesPage(page));
 		} else if ("Hierarchy".equals(e.getActionCommand())) {
 			log("page", "pressed: hierarchy");
 			getWiki().showPage(new HierarchyPage(page));
+		} else if (e.getSource() == title) {
+			getWiki().showWindow(FormPane.createEditorWindow(page.getOntologyElement(), getWiki()));
 		}
 	}
 

@@ -46,12 +46,14 @@ public class SentencePage extends WikiPage implements ActionListener {
 	 * @param sentence The sentence to be shown in the page.
 	 */
 	public SentencePage(Wiki wiki, Sentence sentence) {
-		super(wiki, new Title(sentence.toString(), false));
+		super(wiki);
 		this.sentence = sentence;
 		
 		addSelectedTab("Sentence");
 		addTab("Logic", this);
 		
+		add(new Title(sentence.toString(), false));
+		addHorizontalLine();
 		add(new VSpace(15));
 		
 		addHeadline("Paraphrase");

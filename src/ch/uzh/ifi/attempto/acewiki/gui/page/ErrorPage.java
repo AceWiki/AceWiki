@@ -40,8 +40,10 @@ public class ErrorPage extends WikiPage {
 	 * @param text The error text.
 	 */
 	public ErrorPage(Wiki wiki, String text) {
-		super(wiki, new Title("Error", true));
+		super(wiki);
 		this.text = text;
+		
+		add(new Title("Error", true));
 		
 		Row textRow = new Row();
 		textRow.setInsets(new Insets(10, 10, 10, 15));

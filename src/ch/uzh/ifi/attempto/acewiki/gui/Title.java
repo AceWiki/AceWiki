@@ -14,41 +14,66 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui;
 
-import ch.uzh.ifi.attempto.echocomp.Label;
-import ch.uzh.ifi.attempto.echocomp.SolidLabel;
-import ch.uzh.ifi.attempto.echocomp.Style;
 import nextapp.echo2.app.Alignment;
+import nextapp.echo2.app.Button;
 import nextapp.echo2.app.Color;
+import nextapp.echo2.app.Component;
 import nextapp.echo2.app.Extent;
 import nextapp.echo2.app.Font;
 import nextapp.echo2.app.Insets;
 import nextapp.echo2.app.Row;
+import nextapp.echo2.app.event.ActionEvent;
+import nextapp.echo2.app.event.ActionListener;
 import nextapp.echo2.app.layout.RowLayoutData;
+import ch.uzh.ifi.attempto.echocomp.Label;
+import ch.uzh.ifi.attempto.echocomp.SolidLabel;
+import ch.uzh.ifi.attempto.echocomp.Style;
 
 /**
  * This class represents a title label which is used for article titles.
  * 
  * @author Tobias Kuhn
  */
-public class Title extends Row {
+public class Title extends Row implements ActionListener {
 	
 	private static final long serialVersionUID = 7797492687936611323L;
 	
-	private Label titleLabel;
+	private Component titleComp;
+	private ActionListener actionListener;
 	
 	/**
-	 * Creates a new title which has two parts. The second part is shown in gray font.
+	 * Creates a new clickable title which has two parts. The second part is shown in gray.
 	 * 
 	 * @param text The text of the main part of the title.
-	 * @param postTitle The text of the second part of the title in gray font.
+	 * @param postTitle The text of the second part of the title in gray.
+	 * @param tooltip The tooltip text.
+	 * @param actionListener The action listener.
 	 */
-	public Title(String text, String postTitle) {
+	public Title(String text, String postTitle, String tooltip, ActionListener actionListener) {
+		this.actionListener = actionListener;
 		setInsets(new Insets(10, 5, 10, 5));
 		Row row = new Row();
 		row.setCellSpacing(new Extent(5));
-		titleLabel = new Label(text);
-		titleLabel.setFont(new Font(Style.fontTypeface, Font.PLAIN, new Extent(20)));
-		row.add(titleLabel);
+		if (actionListener == null) {
+			Label l = new Label(text);
+			if (tooltip != null) {
+				l.setToolTipText(tooltip);
+			}
+			titleComp = l;
+		} else {
+			Button b = new Button(text);
+			b.setInsets(new Insets(0, 0, 0, 0));
+			b.setLineWrap(false);
+			b.setRolloverEnabled(true);
+			b.setRolloverForeground(Color.BLUE);
+			b.addActionListener(this);
+			if (tooltip != null) {
+				b.setToolTipText(tooltip);
+			}
+			titleComp = b;
+		}
+		titleComp.setFont(new Font(Style.fontTypeface, Font.PLAIN, new Extent(20)));
+		row.add(titleComp);
 		SolidLabel postTitleLabel = new SolidLabel(postTitle);
 		postTitleLabel.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(20)));
 		postTitleLabel.setForeground(Color.DARKGRAY);
@@ -58,31 +83,81 @@ public class Title extends Row {
 		row.add(postTitleLabel);
 		add(row);
 	}
+	/**
+	 * Creates a new non-clickable title which has two parts. The second part is shown in gray.
+	 * 
+	 * @param text The text of the main part of the title.
+	 * @param postTitle The text of the second part of the title in gray.
+	 */
+	public Title(String text, String postTitle) {
+		this(text, postTitle, null, null);
+	}
 	
 	/**
-	 * Creates a new title.
+	 * Creates a new clickable title.
+	 * 
+	 * @param text The text of the title.
+	 * @param italic Defines whether the title text should be displayed in italics.
+	 * @param tooltip The tooltip text.
+	 * @param actionListener The action listener.
+	 */
+	public Title(String text, boolean italic, String tooltip, ActionListener actionListener) {
+		this.actionListener = actionListener;
+		setInsets(new Insets(10, 5, 5, 5));
+		if (actionListener == null) {
+			Label l = new Label(text);
+			if (tooltip != null) {
+				l.setToolTipText(tooltip);
+			}
+			titleComp = l;
+		} else {
+			Button b = new Button(text);
+			b.setInsets(new Insets(0, 0, 0, 0));
+			b.setLineWrap(false);
+			b.setRolloverEnabled(true);
+			b.setRolloverForeground(Color.BLUE);
+			b.addActionListener(this);
+			if (tooltip != null) {
+				b.setToolTipText(tooltip);
+			}
+			titleComp = b;
+		}
+		if (italic) {
+			titleComp.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(20)));
+		} else {
+			titleComp.setFont(new Font(Style.fontTypeface, Font.PLAIN, new Extent(20)));
+		}
+		add(titleComp);
+	}
+	
+	/**
+	 * Creates a new non-clickable title.
+	 * 
+	 * @param text The text of the title.
+	 * @param tooltip The tooltip text.
+	 * @param actionListener The action listener.
+	 */
+	public Title(String text, String tooltip, ActionListener actionListener) {
+		this(text, false, tooltip, actionListener);
+	}
+	
+	/**
+	 * Creates a new clickable title.
 	 * 
 	 * @param text The text of the title.
 	 * @param italic Defines whether the title text should be displayed in italics.
 	 */
 	public Title(String text, boolean italic) {
-		setInsets(new Insets(10, 5, 5, 5));
-		titleLabel = new Label(text);
-		if (italic) {
-			titleLabel.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(20)));
-		} else {
-			titleLabel.setFont(new Font(Style.fontTypeface, Font.PLAIN, new Extent(20)));
-		}
-		add(titleLabel);
+		this(text, italic, null, null);
 	}
 	
 	/**
-	 * Creates a new title.
+	 * Creates a new non-clickable title.
 	 * 
 	 * @param text The title text.
 	 */
 	public Title(String text) {
-		this(text, false);
+		this(text, false, null, null);
 	}
 	
 	/**
@@ -91,7 +166,11 @@ public class Title extends Row {
 	 * @param text The title text.
 	 */
 	public void setText(String text) {
-		titleLabel.setText(text);
+		if (titleComp instanceof Label) {
+			((Label) titleComp).setText(text);
+		} else if (titleComp instanceof Button) {
+			((Button) titleComp).setText(text);
+		}
 	}
 	
 	/**
@@ -100,7 +179,11 @@ public class Title extends Row {
 	 * @param color The foreground color.
 	 */
 	public void setColor(Color color) {
-		titleLabel.setForeground(color);
+		titleComp.setForeground(color);
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		actionListener.actionPerformed(new ActionEvent(this, "Title clicked"));
 	}
 	
 }

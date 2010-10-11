@@ -44,12 +44,14 @@ public class LogicPage extends WikiPage implements ActionListener {
 	 * @param sentence The sentence whose logical representation should be shown in the page.
 	 */
 	public LogicPage(Wiki wiki, Sentence sentence) {
-		super(wiki, new Title(sentence.toString(), "- Logic"));
+		super(wiki);
 		this.sentence = sentence;
 		
 		addTab("Sentence", this);
 		addSelectedTab("Logic");
 		
+		add(new Title(sentence.toString(), "- Logic"));
+		addHorizontalLine();
 		add(new VSpace(15));
 		
 		addHeadline("Logical representation");

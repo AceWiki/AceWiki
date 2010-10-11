@@ -34,6 +34,7 @@ import ch.uzh.ifi.attempto.acewiki.gui.DropDownMenu;
 import ch.uzh.ifi.attempto.acewiki.gui.TextRow;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.acewiki.gui.editor.CommentEditorHandler;
+import ch.uzh.ifi.attempto.acewiki.gui.editor.FormPane;
 import ch.uzh.ifi.attempto.acewiki.gui.editor.SentenceEditorHandler;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 
@@ -49,6 +50,7 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 	
 	private Column textColumn = new Column();
 	private DropDownMenu dropDown = new DropDownMenu(DropDownMenu.EMPTY_TYPE, this);
+	private Title title;
 	
 	/**
 	 * Creates a new article page.
@@ -57,11 +59,14 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 	 * @param ontologyElement The ontology element whose article should be shown.
 	 */
 	protected ArticlePage(Wiki wiki, OntologyElement ontologyElement) {
-		super(wiki, new Title(ontologyElement.getHeadword()));
+		super(wiki);
 		
 		addSelectedTab("Article");
-		addTab(ontologyElement.getType(), "Word", this);
 		addTab("References", this);
+		
+		title = new Title(ontologyElement.getHeadword(), ontologyElement.getType(), this);
+		add(title);
+		addHorizontalLine();
 		
 		dropDown.addMenuEntry("Add Sentence...", "Add a new sentence here");
 		dropDown.addMenuEntry("Add Comment...", "Add a new comment here");
@@ -132,6 +137,15 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 	public boolean isExpired() {
 		return !getWiki().getOntology().contains(getOntologyElement());
 	}
+	
+	/**
+	 * Returns the title object of this page.
+	 * 
+	 * @return The title.
+	 */
+	protected Title getTitle() {
+		return title;
+	}
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Add Sentence...")) {
@@ -151,9 +165,8 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 		} else if ("References".equals(e.getActionCommand())) {
 			log("page", "pressed: references");
 			getWiki().showPage(new ReferencesPage(this));
-		} else if ("Word".equals(e.getActionCommand())) {
-			log("page", "pressed: word");
-			getWiki().showPage(new WordPage(this));
+		} else if (e.getSource() == title) {
+			getWiki().showWindow(FormPane.createEditorWindow(getOntologyElement(), getWiki()));
 		}
 	}
 

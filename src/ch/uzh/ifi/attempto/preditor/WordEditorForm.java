@@ -45,26 +45,9 @@ public class WordEditorForm extends ContentPane implements ActionListener {
 
 	private static final long serialVersionUID = 5886665203518065212L;
 	
-	/**
-	 * The action-listener.
-	 */
-	protected ActionListener actionListener;
-	
-	/**
-	 * The parent window.
-	 */
-	protected WindowPane parent;
-	
-	/**
-	 * The "OK" button.
-	 */
-	protected GeneralButton okButton;
-	
-	/**
-	 * The "Cancel" button.
-	 */
-	protected GeneralButton cancelButton;
-	
+	private ActionListener actionListener;
+	private WindowPane parentWindow;
+	private Row buttonBar;
 	private String title;
 	private Column column;
 	private Row explanationRow;
@@ -75,16 +58,16 @@ public class WordEditorForm extends ContentPane implements ActionListener {
 	 * Creates a new word editor form.
 	 * 
 	 * @param title The title of the word editor form.
-	 * @param parent The parent window.
+	 * @param parentWindow The parent window.
 	 * @param actionListener The action-listener.
 	 */
-	public WordEditorForm(String title, WindowPane parent, ActionListener actionListener) {
+	public WordEditorForm(String title, WindowPane parentWindow, ActionListener actionListener) {
 		this.title = title;
-		this.parent = parent;
+		this.parentWindow = parentWindow;
 		this.actionListener = actionListener;
 		
 		Grid grid = new Grid(1);
-		grid.setRowHeight(0, new Extent(parent.getHeight().getValue()-173));
+		grid.setRowHeight(0, new Extent(parentWindow.getHeight().getValue()-173));
 		grid.setRowHeight(1, new Extent(30));
 		
 		column = new Column();
@@ -103,15 +86,14 @@ public class WordEditorForm extends ContentPane implements ActionListener {
 		footerRow.add(new Label("* required field", Font.ITALIC, 11));
 		grid.add(footerRow);
 		
-		Row buttonBar = new Row();
+		buttonBar = new Row();
 		buttonBar.setAlignment(new Alignment(Alignment.RIGHT, Alignment.CENTER));
 		buttonBar.setInsets(new Insets(10, 10, 10, 10));
 		buttonBar.setCellSpacing(new Extent(5));
-		okButton = new GeneralButton("OK", 70, this);
-		buttonBar.add(okButton);
-		cancelButton = new GeneralButton("Cancel", 70, this);
-		buttonBar.add(cancelButton);
 		grid.add(buttonBar);
+		
+		addButton("OK");
+		addButton("Cancel");
 		
 		add(grid);
 	}
@@ -124,7 +106,46 @@ public class WordEditorForm extends ContentPane implements ActionListener {
 	public String getTitle() {
 		return title;
 	}
-
+	
+	/**
+	 * Return the parent window of this form.
+	 * 
+	 * @return The parent window.
+	 */
+	public WindowPane getParentWindow() {
+		return parentWindow;
+	}
+	
+	/**
+	 * Returns the action-listener.
+	 * 
+	 * @return The action-listener.
+	 */
+	public ActionListener getActionListener() {
+		return actionListener;
+	}
+	
+	/**
+	 * Adds a button to the button bar.
+	 * 
+	 * @param buttonText The text of the button.
+	 */
+	public void addButton(String buttonText) {
+		buttonBar.add(new GeneralButton(buttonText, 70, this));
+	}
+	
+	/**
+	 * Removes all existing buttons and adds the given buttons to the button bar.
+	 * 
+	 * @param buttonTexts The texts for the buttons.
+	 */
+	public void setButtons(String... buttonTexts) {
+		buttonBar.removeAll();
+		for (String t : buttonTexts) {
+			addButton(t);
+		}
+	}
+	
 	/**
 	 * Adds a new row to the form.
 	 * 
@@ -140,7 +161,7 @@ public class WordEditorForm extends ContentPane implements ActionListener {
 		grid.add(new SolidLabel(labelText, Font.ITALIC));
 		formElements.add(formElement);
 		if (formElement instanceof TextField) {
-			((TextField) formElement).setWidth(new Extent(parent.getWidth().getValue()-223));
+			((TextField) formElement).setWidth(new Extent(parentWindow.getWidth().getValue()-223));
 		}
 		grid.add(formElement);
 		if (required) {
@@ -199,7 +220,7 @@ public class WordEditorForm extends ContentPane implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		actionListener.actionPerformed(new ActionEvent(parent, e.getActionCommand()));
+		actionListener.actionPerformed(new ActionEvent(parentWindow, e.getActionCommand()));
 	}
 
 }

@@ -185,6 +185,7 @@ public class RegisterWindow extends WindowPane implements ActionListener {
 					wiki.log("logi", "register successful for " + username);
 					wiki.log("syst", "login");
 					wiki.setUser(user);
+					wiki.removeWindow(this);
 				}
 			}
 		}

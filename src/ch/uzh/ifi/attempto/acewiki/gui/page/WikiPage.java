@@ -14,13 +14,6 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui.page;
 
-import ch.uzh.ifi.attempto.acewiki.Wiki;
-import ch.uzh.ifi.attempto.acewiki.gui.Title;
-import ch.uzh.ifi.attempto.echocomp.HSpace;
-import ch.uzh.ifi.attempto.echocomp.Label;
-import ch.uzh.ifi.attempto.echocomp.SmallButton;
-import ch.uzh.ifi.attempto.echocomp.Style;
-import ch.uzh.ifi.attempto.echocomp.VSpace;
 import nextapp.echo2.app.Border;
 import nextapp.echo2.app.Button;
 import nextapp.echo2.app.Color;
@@ -31,6 +24,12 @@ import nextapp.echo2.app.Font;
 import nextapp.echo2.app.Insets;
 import nextapp.echo2.app.Row;
 import nextapp.echo2.app.event.ActionListener;
+import ch.uzh.ifi.attempto.acewiki.Wiki;
+import ch.uzh.ifi.attempto.echocomp.HSpace;
+import ch.uzh.ifi.attempto.echocomp.Label;
+import ch.uzh.ifi.attempto.echocomp.SmallButton;
+import ch.uzh.ifi.attempto.echocomp.Style;
+import ch.uzh.ifi.attempto.echocomp.VSpace;
 
 /**
  * This is the superclass of all page classes. It represents a wiki page of AceWiki.
@@ -42,18 +41,15 @@ public abstract class WikiPage extends Column {
 	private static final long serialVersionUID = -1972548696966691981L;
 	
 	private Wiki wiki;
-	private Title title;
 	private Row tabRow;
 	
 	/**
 	 * Initializes a new wiki page.
 	 * 
 	 * @param wiki The wiki instance.
-	 * @param title The title component.
 	 */
-	public WikiPage(Wiki wiki, Title title) {
+	public WikiPage(Wiki wiki) {
 		this.wiki = wiki;
-		this.title = title;
 		
 		setInsets(new Insets(0, 0, 0, 40));
 		
@@ -61,8 +57,6 @@ public abstract class WikiPage extends Column {
 		tabRow.setInsets(new Insets(10, 0, 0, 0));
 		add(tabRow);
 		add(new VSpace(20));
-		add(title);
-		addHorizontalLine();
 	}
 	
 	/**
@@ -92,15 +86,6 @@ public abstract class WikiPage extends Column {
 	}
 	
 	/**
-	 * Returns the title component.
-	 * 
-	 * @return The title component.
-	 */
-	protected Title getTitle() {
-		return title;
-	}
-	
-	/**
 	 * Writes a log entry.
 	 * 
 	 * @param type The type of the log entry.
@@ -124,28 +109,15 @@ public abstract class WikiPage extends Column {
 	 * Adds a new tab to the tab row.
 	 * 
 	 * @param tabName The name of the tab.
-	 * @param actionCommand The action command that is given to the action event object.
 	 * @param actionListener The actionlistener.
 	 */
-	protected void addTab(String tabName, String actionCommand, ActionListener actionListener) {
+	protected void addTab(String tabName, ActionListener actionListener) {
 		SmallButton b = new SmallButton(tabName, actionListener, true);
-		if (actionCommand != null) {
-			b.setActionCommand(actionCommand);
-		}
+		b.setActionCommand(tabName);
 		tabRow.add(b);
 		tabRow.add(new HSpace(8));
 		tabRow.add(createTabSeparator());
 		tabRow.add(new HSpace(8));
-	}
-	
-	/**
-	 * Adds a new tab to the tab row.
-	 * 
-	 * @param tabName The name of the tab.
-	 * @param actionListener The actionlistener.
-	 */
-	protected void addTab(String tabName, ActionListener actionListener) {
-		addTab(tabName, null, actionListener);
 	}
 	
 	/**

@@ -52,16 +52,18 @@ public class VerbForm extends FormPane {
 	 */
 	public VerbForm(VerbRole verbRole, int wordNumber, WindowPane window, Wiki wiki,
 			ActionListener actionListener) {
-		super("Verb", window, wiki, actionListener);
+		super("Verb", verbRole != null, window, wiki, actionListener);
+		if (verbRole == null) {
+			verbRole = new VerbRole();
+		}
 		this.verbRole = verbRole;
+		
 		this.wordNumber = wordNumber;
 
 		setExplanationComponent(
 				new ResourceImageReference("ch/uzh/ifi/attempto/acewiki/gui/img/role.png"),
 				"Every verb represents a certain relation between things. " +
-					"For example, the verb \"owns\" relates persons to their possessions. " +
-					"Every verb has a third singular form, a bare infinitive form, and an " +
-					"optional past participle form."
+					"For example, the verb \"owns\" relates persons to their possessions."
 			);
 		addRow("third singular", thirdSgField, "examples: owns, applies to, touches", true);
 		addRow("bare infinitive", infField, "examples: own, apply to, touch", true);
@@ -86,7 +88,7 @@ public class VerbForm extends FormPane {
 			ActionListener actionListener) {
 		WordEditorWindow creatorWindow = new WordEditorWindow("Word Creator");
 		creatorWindow.addTab(new VerbForm(
-				new VerbRole(),
+				null,
 				wordNumber,
 				creatorWindow,
 				wiki,
@@ -106,6 +108,10 @@ public class VerbForm extends FormPane {
 		WordEditorWindow editorWindow = new WordEditorWindow("Word Editor");
 		editorWindow.addTab(new VerbForm(role, 0, editorWindow, wiki, wiki));
 		return editorWindow;
+	}
+
+	public OntologyElement getOntologyElement() {
+		return verbRole;
 	}
 
 	protected void save() {

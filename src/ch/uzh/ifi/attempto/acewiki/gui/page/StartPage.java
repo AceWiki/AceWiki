@@ -47,20 +47,22 @@ public class StartPage extends WikiPage implements ActionListener {
 	 * Creates a new start page.
 	 * 
 	 * @param wiki The wiki instance.
-	 * @param title The title of the wiki.
+	 * @param titleText The title of the wiki.
 	 * @param description The description of the wiki.
 	 */
-	public StartPage(Wiki wiki, String title, String description) {
-		super(wiki, new Title(
-				( title == null || title.length() == 0 ? "Untitled Wiki" : title ),
-				true
-			));
+	public StartPage(Wiki wiki, String titleText, String description) {
+		super(wiki);
 		
 		addSelectedTab("Main Page");
 		addTab("Index", this);
 		addTab("Search", this);
 		addTab("About", this);
 		
+		if (titleText == null || titleText.length() == 0) {
+			titleText = "Untitled Wiki";
+		}
+		add(new Title(titleText, true));
+		addHorizontalLine();
 		add(new VSpace(10));
 		
 		if (description != null && description.length() > 0) {

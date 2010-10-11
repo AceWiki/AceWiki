@@ -38,14 +38,9 @@ import nextapp.echo2.app.event.ActionEvent;
 import nextapp.echo2.app.event.ActionListener;
 import nextapp.echo2.webcontainer.ContainerContext;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiGrammar;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.Individual;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.NounConcept;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.OfRole;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyTextElement;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.TrAdjRole;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.VerbRole;
 import ch.uzh.ifi.attempto.acewiki.core.user.User;
 import ch.uzh.ifi.attempto.acewiki.core.user.UserBase;
 import ch.uzh.ifi.attempto.acewiki.gui.ExportWindow;
@@ -259,15 +254,6 @@ public class Wiki implements ActionListener, ExternalEventListener {
 
 		contentPane.add(wikiPane);
 		
-		loginBackground = new Row();
-		loginBackground.setInsets(new Insets(10, 10));
-		loginBackground.setCellSpacing(new Extent(30));
-		Label loginBgLogo = new Label(new ResourceImageReference(
-				"ch/uzh/ifi/attempto/acewiki/gui/img/AceWikiLogoSmall.png"
-			));
-		loginBackground.add(loginBgLogo);
-		loginBackground.add(new Title(getParameter("title"), true));
-		
 		startPage = new StartPage(this, getParameter("title"), getParameter("description"));
 		
 		ContainerContext cc = (ContainerContext) application.
@@ -457,6 +443,14 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	public void showLoginWindow() {
 		if (isLoginRequiredForViewing()) {
 			getContentPane().removeAll();
+			loginBackground = new Row();
+			loginBackground.setInsets(new Insets(10, 10));
+			loginBackground.setCellSpacing(new Extent(30));
+			Label loginBgLogo = new Label(new ResourceImageReference(
+					"ch/uzh/ifi/attempto/acewiki/gui/img/AceWikiLogoSmall.png"
+				));
+			loginBackground.add(loginBgLogo);
+			loginBackground.add(new Title(getParameter("title"), true));
 			getContentPane().add(loginBackground);
 			getContentPane().setBackground(new Color(230, 230, 230));
 		}
@@ -633,11 +627,11 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		} else if (e.getSource() == newButton) {
 			log("page", "pressed: new word");
 			WordEditorWindow w = new WordEditorWindow("Word Creator");
-			w.addTab(new ProperNameForm(new Individual(), w, this, this));
-			w.addTab(new NounForm(new NounConcept(), 0, w, this, this));
-			w.addTab(new NounOfForm(new OfRole(), w, this, this));
-			w.addTab(new VerbForm(new VerbRole(), 0, w, this, this));
-			w.addTab(new TrAdjForm(new TrAdjRole(), w, this, this));
+			w.addTab(new ProperNameForm(null, w, this, this));
+			w.addTab(new NounForm(null, 0, w, this, this));
+			w.addTab(new NounOfForm(null, w, this, this));
+			w.addTab(new VerbForm(null, 0, w, this, this));
+			w.addTab(new TrAdjForm(null, w, this, this));
 			showWindow(w);
 		} else if (e.getSource() == searchButton || e.getSource() == searchTextField) {
 			log("page", "pressed: search '" + searchTextField.getText() + "'");
@@ -712,9 +706,12 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		userLabel.setForeground(Color.BLACK);
 		userLabel.setText(user.getName());
 		logoutButton.setVisible(true);
-		getContentPane().removeAll();
-		getContentPane().add(wikiPane);
-		getContentPane().setBackground(Color.WHITE);
+		if (loginBackground != null) {
+			getContentPane().removeAll();
+			getContentPane().add(wikiPane);
+			getContentPane().setBackground(Color.WHITE);
+			loginBackground = null;
+		}
 	}
 	
 	/**
