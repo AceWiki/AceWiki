@@ -34,8 +34,10 @@ import nextapp.echo2.app.event.ActionListener;
 import nextapp.echo2.app.event.WindowPaneEvent;
 import nextapp.echo2.app.event.WindowPaneListener;
 import ch.uzh.ifi.attempto.chartparser.ChartParser;
+import ch.uzh.ifi.attempto.chartparser.Edge;
 import ch.uzh.ifi.attempto.chartparser.FeatureMap;
 import ch.uzh.ifi.attempto.chartparser.Grammar;
+import ch.uzh.ifi.attempto.chartparser.Nonterminal;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.Logger;
@@ -88,10 +90,12 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 	 * @param title The title of the window.
 	 * @param grammar The grammar to be used.
 	 * @param startCategoryName The name of the start category.
+	 * @param context A list of forward references and scope openers that define the context.
 	 * @param menuCreator The menu creator to be used.
 	 */
-	public PreditorWindow(String title, Grammar grammar, String startCategoryName, MenuCreator menuCreator) {
-		this.parser = new ChartParser(grammar, startCategoryName);
+	public PreditorWindow(String title, Grammar grammar, String startCategoryName, 
+			List<Nonterminal> context, MenuCreator menuCreator) {
+		this.parser = new ChartParser(grammar, startCategoryName, context);
 		this.menuCreator = menuCreator;
 		
 		addWindowPaneListener(this);
@@ -216,6 +220,19 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		splitPane.add(editorPane);
 		
 		update();
+	}
+	
+	/**
+	 * Creates a new predictive editor window for the given grammar using the given menu creator.
+	 * 
+	 * @param title The title of the window.
+	 * @param grammar The grammar to be used.
+	 * @param startCategoryName The name of the start category.
+	 * @param menuCreator The menu creator to be used.
+	 */
+	public PreditorWindow(String title, Grammar grammar, String startCategoryName, 
+			MenuCreator menuCreator) {
+		this(title, grammar, startCategoryName, null, menuCreator);
 	}
 	
 	/**
@@ -574,16 +591,10 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 			return;
 		} else if (e.getSource() == deleteButton) {
 			log("pressed: < delete");
-			if (getTokenCount() > 0) {
-				textContainer.removeLastElement();
-				parser.removeToken();
-				textField.setText("");
-			}
+			removeLastToken();
 		} else if (e.getSource() == clearButton) {
 			log("pressed: clear");
-			textContainer.removeAllElements();
-			parser.removeAllTokens();
-			textField.setText("");
+			clearTokens();
 		} else if (e.getSource() instanceof MenuEntry) {
 			TextElement te = ((MenuEntry) e.getSource()).getTextElement();
 			log("pressed: menu-entry " + te.getText());
@@ -624,6 +635,44 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 			String s = getStartString();
 			if (s != null) textField.setText(s);
 		}
+	}
+	
+	/**
+	 * Removes the last token.
+	 */
+	public void removeLastToken() {
+		if (getTokenCount() > 0) {
+			textContainer.removeLastElement();
+			parser.removeToken();
+			textField.setText("");
+		}
+	}
+	
+	/**
+	 * Removes all tokens.
+	 */
+	public void clearTokens() {
+		textContainer.removeAllElements();
+		parser.removeAllTokens();
+		textField.setText("");
+	}
+	
+	/**
+	 * Returns true if the current text is a complete statement.
+	 * 
+	 * @return true if the current text is a complete statement.
+	 */
+	public boolean isTextComplete() {
+		return parser.isComplete();
+	}
+	
+	/**
+	 * Returns the syntax tree of the text if it is complete. Null is returned for uncomplete texts.
+	 * 
+	 * @return The edge representing the top node of the tree.
+	 */
+	public Edge getSyntaxTree() {
+		return parser.getSyntaxTree();
 	}
 	
 	public void windowPaneClosing(WindowPaneEvent e) {

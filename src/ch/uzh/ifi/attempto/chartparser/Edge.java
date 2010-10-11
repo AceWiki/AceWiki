@@ -33,7 +33,7 @@ import java.util.List;
  * @see GrammarRule
  * @author Tobias Kuhn
  */
-class Edge {
+public class Edge {
 	
 	private int startPos;
 	private int endPos;
@@ -47,6 +47,8 @@ class Edge {
 	private int progress = 0;
 	private String identifier;
 	
+	private List<Edge> children;
+	
 	private Edge() {
 	}
 	
@@ -56,7 +58,7 @@ class Edge {
 	 * @param pos Start and end position.
 	 * @param rule The grammar rule that is the basis for the creation of the edge.
 	 */
-	public Edge(int pos, GrammarRule rule) {
+	Edge(int pos, GrammarRule rule) {
 		this.startPos = pos;
 		this.endPos = pos;
 		this.head = rule.getHead();
@@ -64,6 +66,7 @@ class Edge {
 		this.externalAnteList = new Category[0];
 		this.internalAnteList = new Category[0];
 		this.scopeclosing = rule.isScopeClosing();
+		this.children = new ArrayList<Edge>();
 	}
 	
 	/**
@@ -73,14 +76,19 @@ class Edge {
 	 * @param rule The grammar rule that is the basis for the creation of the edge.
 	 * @param externalAnteList The list of external antecedents.
 	 */
-	public Edge(int pos, GrammarRule rule, Category[] externalAnteList) {
+	Edge(int pos, GrammarRule rule, Category[] externalAnteList) {
 		this.startPos = pos;
 		this.endPos = pos;
 		this.head = rule.getHead();
 		this.body = rule.getBody();
-		this.externalAnteList = externalAnteList;
+		if (externalAnteList == null || rule.hasEmptyBody()) {
+			this.externalAnteList = new Category[0];
+		} else {
+			this.externalAnteList = externalAnteList;
+		}
 		this.internalAnteList = new Category[0];
 		this.scopeclosing = rule.isScopeClosing();
+		this.children = new ArrayList<Edge>();
 	}
 	
 	/**
@@ -90,7 +98,7 @@ class Edge {
 	 * @param startPos Start position.
 	 * @param lexRule The lexical rule that is the basis for the creation of the edge.
 	 */
-	public Edge(int startPos, LexicalRule lexRule) {
+	Edge(int startPos, LexicalRule lexRule) {
 		this.startPos = startPos;
 		this.endPos = startPos + 1;
 		this.progress = 1;
@@ -99,6 +107,7 @@ class Edge {
 		this.externalAnteList = new Category[0];
 		this.internalAnteList = new Category[0];
 		this.scopeclosing = false;
+		this.children = new ArrayList<Edge>();
 	}
 	
 	/**
@@ -108,7 +117,7 @@ class Edge {
 	 * @param startPos Start position.
 	 * @param head The head category.
 	 */
-	public Edge(int startPos, Category head) {
+	Edge(int startPos, Terminal head) {
 		this.startPos = startPos;
 		this.endPos = startPos + 1;
 		this.head = head;
@@ -116,6 +125,7 @@ class Edge {
 		this.externalAnteList = new Category[0];
 		this.internalAnteList = new Category[0];
 		this.scopeclosing = false;
+		this.children = new ArrayList<Edge>();
 	}
 	
 	/**
@@ -237,6 +247,17 @@ class Edge {
 	}
 	
 	/**
+	 * Returns the edges that are children of this edge, i.e. the edges on the basis of which this
+	 * edge has been completed. It is assumed that the grammar is unambiguous. For ambiguous
+	 * grammars, the returned children might be incomplete or incorrect.
+	 * 
+	 * @return The edges that are children of this edge.
+	 */
+	public List<Edge> getChildren() {
+		return children;
+	}
+	
+	/**
 	 * Moves the parsing progress forward to the given position. The given edge is stored as a link.
 	 * No checking is done within this method whether this operation is actually possible according
 	 * to the rules of chart parsing.
@@ -244,7 +265,7 @@ class Edge {
 	 * @param pos The end position to move forward to.
 	 * @param edge The edge that is used for moving forward.
 	 */
-	public void step(int pos, Edge edge) {
+	void step(int pos, Edge edge) {
 		if (!isActive()) {
 			throw new RuntimeException("Passive edge");
 		}
@@ -260,6 +281,7 @@ class Edge {
 				addAntecedents(c);
 			}
 		}
+		children.add(edge);
 	}
 	
 	/**
@@ -267,7 +289,7 @@ class Edge {
 	 * No checking is done within this method whether this operation is actually possible according
 	 * to the rules of chart parsing.
 	 */
-	public void step() {
+	void step() {
 		if (!isActive()) {
 			throw new RuntimeException("Passive edge");
 		}
@@ -279,7 +301,7 @@ class Edge {
 	 * 
 	 * @param newAnteList The feature maps of internal antecedents.
 	 */
-	public void addAntecedents(Category... newAnteList) {
+	void addAntecedents(Category... newAnteList) {
 		Category[] oldInternalList = internalAnteList;
 		int l1 = oldInternalList.length;
 		int l2 = newAnteList.length;
@@ -295,7 +317,7 @@ class Edge {
 	/**
 	 * Skolemizes the variables of this edge.
 	 */
-	public void skolemize() {
+	void skolemize() {
 		head.skolemize();
 		for (Category c : externalAnteList) c.skolemize();
 		for (Category c : internalAnteList) c.skolemize();
@@ -312,7 +334,7 @@ class Edge {
 	 * @param edge The edge to be unified with this edge.
 	 * @throws UnificationFailedException If unification fails.
 	 */
-	public void unify(Edge edge) throws UnificationFailedException {
+	void unify(Edge edge) throws UnificationFailedException {
 		if (scopeclosing != edge.scopeclosing) throw new UnificationFailedException();
 		if (body.length != edge.body.length) throw new UnificationFailedException();
 		if (progress != edge.progress) throw new UnificationFailedException();
@@ -342,7 +364,7 @@ class Edge {
 	 * @param edge The edge to be unified with this edge.
 	 * @throws UnificationFailedException If unification fails.
 	 */
-	public void tryToUnify(Edge edge) throws UnificationFailedException {
+	void tryToUnify(Edge edge) throws UnificationFailedException {
 		if (scopeclosing != edge.scopeclosing) throw new UnificationFailedException();
 		if (body.length != edge.body.length) throw new UnificationFailedException();
 		if (progress != edge.progress) throw new UnificationFailedException();
@@ -374,7 +396,7 @@ class Edge {
 	 * @param edge The edge for which similarity with this edge should be checked.
 	 * @return true if the two edges are similar.
 	 */
-	public boolean isSimilar(Edge edge) {
+	boolean isSimilar(Edge edge) {
 		if (scopeclosing != edge.scopeclosing) return false;
 		if (startPos != edge.startPos) return false;
 		if (endPos != edge.endPos) return false;
@@ -402,9 +424,9 @@ class Edge {
 	 * @param edge The edge for which it is checked whether this edge subsumes it.
 	 * @return true if this edge subsumes the given edge.
 	 */
-	public boolean subsumes(Edge edge) {
+	boolean subsumes(Edge edge) {
 		if (!isSimilar(edge)) return false;
-
+		
 		// Both edges are copied to keep the existing edges untouched:
 		Edge edge1C = deepCopy();
 		Edge edge2C = edge.deepCopy();
@@ -420,22 +442,35 @@ class Edge {
 	}
 	
 	/**
-	 * Creates a deep copy of this edge.
+	 * Creates a deep copy of this edge. This means that all categories are copied. The child edges
+	 * can be linked or copied.
 	 * 
+	 * @param copyChildren defines whether child edges should be copied or just linked.
 	 * @return A deep copy.
 	 */
-	public Edge deepCopy() {
-		return deepCopy(new HashMap<Integer, StringObject>());
+	Edge deepCopy(boolean copyChildren) {
+		return deepCopy(new HashMap<Integer, StringObject>(), copyChildren);
 	}
 	
 	/**
-	 * Creates a deep copy of this edge using the given string objects. This method is
-	 * usually called form another deepCopy-method.
+	 * Creates a deep copy of this edge. All categories of this edge are copied, but the child
+	 * edges are linked without being copied.
 	 * 
-	 * @param stringObjs The string objects to be used.
 	 * @return A deep copy.
 	 */
-	Edge deepCopy(HashMap<Integer, StringObject> stringObjs) {
+	Edge deepCopy() {
+		return deepCopy(false);
+	}
+	
+	/**
+	 * Creates a deep copy of this edge using the given string objects. This method is usually
+	 * called form another deepCopy-method. The child edges can be linked or copied.
+	 * 
+	 * @param stringObjs The string objects to be used.
+	 * @param copyChildren defines whether child edges should be copied or just linked.
+	 * @return A deep copy.
+	 */
+	Edge deepCopy(HashMap<Integer, StringObject> stringObjs, boolean copyChildren) {
 		Edge edgeC = new Edge();
 		edgeC.startPos = startPos;
 		edgeC.endPos = endPos;
@@ -454,7 +489,27 @@ class Edge {
 		for (int i=0 ; i < internalAnteList.length ; i++) {
 			edgeC.internalAnteList[i] = internalAnteList[i].deepCopy(stringObjs);
 		}
+		if (copyChildren) {
+			edgeC.children = new ArrayList<Edge>();
+			for (Edge child : children) {
+				edgeC.children.add(child.deepCopy(true));
+			}
+		} else {
+			edgeC.children = new ArrayList<Edge>(children);
+		}
 		return edgeC;
+	}
+	
+	/**
+	 * Creates a deep copy of this edge using the given string objects. This method is usually
+	 * called form another deepCopy-method. All categories of this edge are copied, but the child
+	 * edges are linked without being copied.
+	 * 
+	 * @param stringObjs The string objects to be used.
+	 * @return A deep copy.
+	 */
+	Edge deepCopy(HashMap<Integer, StringObject> stringObjs) {
+		return deepCopy(stringObjs, false);
 	}
 	
 	void calculateIdentifier(String[] usedFeatureNames) {

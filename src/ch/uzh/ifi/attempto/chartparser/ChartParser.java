@@ -32,6 +32,7 @@ public class ChartParser {
 	
 	private final Grammar grammar;
 	private final String startCategoryName;
+	private final Nonterminal[] context;
 	private final Chart chart;
 	private final List<Terminal> tokens = new ArrayList<Terminal>();
 	private final List<NextTokenOptions> options = new ArrayList<NextTokenOptions>();
@@ -43,14 +44,30 @@ public class ChartParser {
 	 * 
 	 * @param grammar The grammar to be used by the chart parser.
 	 * @param startCategoryName The name of the start category.
+	 * @param context A list of forward references and scope openers that define the context.
 	 */
-	public ChartParser(Grammar grammar, String startCategoryName) {
+	public ChartParser(Grammar grammar, String startCategoryName, List<Nonterminal> context) {
 		this.grammar = grammar;
 		this.startCategoryName = startCategoryName;
+		if (context == null) {
+			this.context = new Nonterminal[0];
+		} else {
+			this.context = (Nonterminal[]) context.toArray(new Nonterminal[0]);
+		}
 		this.chart = new Chart(grammar);
 		options.add(null);
 		init();
 		runParsingSteps();
+	}
+	
+	/**
+	 * Creates a new chart parser for the given grammar. The grammar must not be changed afterwards.
+	 * 
+	 * @param grammar The grammar to be used by the chart parser.
+	 * @param startCategoryName The name of the start category.
+	 */
+	public ChartParser(Grammar grammar, String startCategoryName) {
+		this(grammar, startCategoryName, null);
 	}
 	
 	/**
@@ -92,14 +109,17 @@ public class ChartParser {
 		options.add(null);
 		backwardReferences.add(new ArrayList<FeatureMap>());
 		
+		Terminal tokenCopy = (Terminal) token.deepCopy();
+		
 		// add a new edge to the chart for the new token:
 		if (categories == null) {
-			Edge edge = new Edge(tokens.size()-1, token.deepCopy());
+			Edge edge = new Edge(tokens.size()-1, tokenCopy);
 			chart.addEdge(edge);
 			if (debug) log("SCANNER: " + edge + "\n");
 		} else {
 			for (Preterminal p : categories) {
-				Edge edge = new Edge(tokens.size()-1, p.deepCopy());
+				LexicalRule lr = new LexicalRule((Preterminal) p.deepCopy(), tokenCopy);
+				Edge edge = new Edge(tokens.size()-1, lr);
 				chart.addEdge(edge);
 				if (debug) log("SCANNER: " + edge + "\n");
 			}
@@ -190,18 +210,37 @@ public class ChartParser {
 	}
 	
 	/**
-	 * Returns true if the current token sequence is a complete statement according to the
-	 * grammar.
+	 * Returns true if the current token sequence is a complete statement according to the given
+	 * grammar and start category.
 	 * 
 	 * @return true if the current token sequence is a complete statement.
 	 */
 	public boolean isComplete() {
-		for (Edge e : chart.getEdgesByEndPos(tokens.size())) {
-			if (!e.isActive() && e.getHead().getName().equals(startCategoryName)) {
-				return true;
-			}
+		for (Edge e: chart.getEdgesByEndPos(tokens.size())) {
+			if (e.getStartPos() != 0) continue;
+			if (e.isActive()) continue;
+			if (!e.getHead().getName().equals(startCategoryName)) continue;
+			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Returns the syntax tree of the parsed text if it is a complete statement according to the
+	 * given grammar and start category. The nodes of the tree are represented by edges, each of
+	 * which has links to its child edges. Null is returned if the text is not a complete
+	 * statement.
+	 * 
+	 * @return The edge representing the top node of the tree.
+	 */
+	public Edge getSyntaxTree() {
+		for (Edge e: chart.getEdgesByEndPos(tokens.size())) {
+			if (e.getStartPos() != 0) continue;
+			if (e.isActive()) continue;
+			if (!e.getHead().getName().equals(startCategoryName)) continue;
+			return e.deepCopy(true);
+		}
+		return null;
 	}
 	
 	/**
@@ -424,7 +463,7 @@ public class ChartParser {
 	 */
 	private void init() {
 		for (GrammarRule rule : grammar.getRulesByHeadName(startCategoryName)) {
-			Edge edge = new Edge(0, rule.deepCopy());
+			Edge edge = new Edge(0, rule.deepCopy(), context);
 			chart.addEdge(edge);
 			if (debug) log("INIT: " + rule + "  --->  " + edge + "\n");
 		}
