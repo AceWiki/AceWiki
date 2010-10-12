@@ -132,12 +132,12 @@ public abstract class MenuCreator {
 	private boolean isPossibleMenuItem(MenuItem menuItem, NextTokenOptions options) {
 		if (menuItem instanceof MenuEntry) {
 			TextElement te = ((MenuEntry) menuItem).getTextElement();
-			if (te.getCategories() == null) {
-				if (options.containsTerminal(te.getTerminal().getName())) {
-					return true;
-				}
-			} else {
-				for (Preterminal p : te.getCategories()) {
+			for (Preterminal p : te.getCategories()) {
+				if (p == null) {
+					if (options.containsTerminal(te.getTerminal().getName())) {
+						return true;
+					}
+				} else {
 					if (options.allowsForCategory(p)) {
 						return true;
 					}

@@ -112,12 +112,12 @@ public class ChartParser {
 		Terminal tokenCopy = (Terminal) token.deepCopy();
 		
 		// add a new edge to the chart for the new token:
-		if (categories == null) {
-			Edge edge = new Edge(tokens.size()-1, tokenCopy);
-			chart.addEdge(edge);
-			if (debug) log("SCANNER: " + edge + "\n");
-		} else {
-			for (Preterminal p : categories) {
+		for (Preterminal p : categories) {
+			if (p == null) {
+				Edge edge = new Edge(tokens.size()-1, tokenCopy);
+				chart.addEdge(edge);
+				if (debug) log("SCANNER: " + edge + "\n");
+			} else {
 				LexicalRule lr = new LexicalRule((Preterminal) p.deepCopy(), tokenCopy);
 				Edge edge = new Edge(tokens.size()-1, lr);
 				chart.addEdge(edge);

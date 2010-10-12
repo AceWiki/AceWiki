@@ -14,8 +14,8 @@
 
 package ch.uzh.ifi.attempto.acewiki.core.ontology;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import ch.uzh.ifi.attempto.chartparser.Preterminal;
 import ch.uzh.ifi.attempto.chartparser.Terminal;
@@ -165,10 +165,10 @@ public class OntologyTextElement extends TextElement {
 		return new Terminal(getOriginalText());
 	}
 
-	public List<Preterminal> getCategories() {
-		List<Preterminal> list = new ArrayList<Preterminal>();
-		list.add(category);
-		return list;
+	public Set<Preterminal> getCategories() {
+		Set<Preterminal> set = new HashSet<Preterminal>();
+		set.add(category);
+		return set;
 	}
 	
 	/**

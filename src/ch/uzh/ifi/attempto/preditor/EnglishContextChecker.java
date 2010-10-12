@@ -98,9 +98,9 @@ public class EnglishContextChecker implements ContextChecker {
 			capitalize = defaultCapitalize;
 			if (exceptionsEnabled) {
 				boolean isException = false;
-				if (textElement.getCategories() != null) {
-					isException = true;
-					for (Preterminal cat : textElement.getCategories()) {
+				for (Preterminal cat : textElement.getCategories()) {
+					if (cat != null) {
+						isException = true;
 						StringRef sr = cat.getFeature("capitalize");
 						String s = null;
 						if (sr != null) s = sr.getString();

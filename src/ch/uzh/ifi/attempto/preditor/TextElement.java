@@ -14,8 +14,8 @@
 
 package ch.uzh.ifi.attempto.preditor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import ch.uzh.ifi.attempto.chartparser.Preterminal;
 import ch.uzh.ifi.attempto.chartparser.Terminal;
@@ -30,7 +30,7 @@ import ch.uzh.ifi.attempto.chartparser.Terminal;
 public class TextElement {
 	
 	private String text;
-	private List<Preterminal> categories = null;
+	private Set<Preterminal> categories;
 	private TextContainer textContainer;
 	
 	/**
@@ -41,9 +41,11 @@ public class TextElement {
 	 */
 	public TextElement(String text, Preterminal category) {
 		this.text = text;
-		if (category != null) {
-			this.categories = new ArrayList<Preterminal>();
-			this.categories.add((Preterminal) category.deepCopy());
+		categories = new HashSet<Preterminal>();
+		if (category == null) {
+			categories.add(null);
+		} else {
+			categories.add((Preterminal) category.deepCopy());
 		}
 	}
 	
@@ -82,13 +84,14 @@ public class TextElement {
 	}
 	
 	/**
-	 * Returns the categories of this text element. If this text element has no category then null
-	 * is returned. Text elements can have more then one category if another text element is
-	 * included through the <code>include</code>-method.
+	 * Returns the preterminal categories of this text element. If this text element can be derived
+	 * without a preterminal category then null is an element of the set. If it cannot be derived
+	 * from a preterminal category then null is the only element. Text elements can have more then
+	 * one category if another text element is included through the <code>include</code>-method.
 	 * 
 	 * @return The list of categories or null.
 	 */
-	public List<Preterminal> getCategories() {
+	public Set<Preterminal> getCategories() {
 		return categories;
 	}
 	
@@ -140,9 +143,7 @@ public class TextElement {
 		if (!equals(textElement)) {
 			throw new RuntimeException("Only equal text elements can be included");
 		}
-		if (categories != null) {
-			categories.addAll(textElement.categories);
-		}
+		categories.addAll(textElement.categories);
 	}
 	
 	/**
@@ -152,8 +153,6 @@ public class TextElement {
 		if (!(obj instanceof TextElement)) return false;
 		TextElement other = (TextElement) obj;
 		if (!toString().equals(other.toString())) return false;
-		if (categories == null && other.categories == null) return true;
-		if (categories != null && other.categories != null) return true;
 		return true;
 	}
 	
