@@ -134,7 +134,7 @@ public abstract class MenuCreator {
 			TextElement te = ((MenuEntry) menuItem).getTextElement();
 			for (Preterminal p : te.getCategories()) {
 				if (p == null) {
-					if (options.containsTerminal(te.getTerminal().getName())) {
+					if (options.containsTerminal(te.getOriginalText())) {
 						return true;
 					}
 				} else {

@@ -22,7 +22,6 @@ import java.util.List;
 
 import ch.uzh.ifi.attempto.chartparser.ChartParser;
 import ch.uzh.ifi.attempto.chartparser.ConcreteOption;
-import ch.uzh.ifi.attempto.chartparser.Terminal;
 
 /**
  * Language generation test of the ACE Editor grammar.
@@ -66,7 +65,7 @@ public class ChartParserGenerationTest {
 		
 		List<String> processed = new ArrayList<String>();
 		for (ConcreteOption o : chartparser.getConcreteOptions()) {
-			String n = o.getWord().getName();
+			String n = o.getWord();
 			if (processed.contains(n)) continue;
 			processed.add(n);
 			chartparser.addToken(o.getWord());
@@ -78,8 +77,8 @@ public class ChartParserGenerationTest {
 	private static void printTokens() {
 		try {
 			String s = "";
-			for (Terminal t : chartparser.getTokens()) {
-				s += "  " + t.getName();
+			for (String t : chartparser.getTokens()) {
+				s += "  " + t;
 			}
 			out.write(s.substring(2) + "\n");
 			

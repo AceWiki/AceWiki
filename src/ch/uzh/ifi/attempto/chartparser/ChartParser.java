@@ -34,7 +34,7 @@ public class ChartParser {
 	private final String startCategoryName;
 	private final Nonterminal[] context;
 	private final Chart chart;
-	private final List<Terminal> tokens = new ArrayList<Terminal>();
+	private final List<String> tokens = new ArrayList<String>();
 	private final List<NextTokenOptions> options = new ArrayList<NextTokenOptions>();
 	private final List<List<FeatureMap>> backwardReferences = new ArrayList<List<FeatureMap>>();
 	private boolean debug;
@@ -85,7 +85,7 @@ public class ChartParser {
 	 * 
 	 * @param token The new token to be added.
 	 */
-	public void addToken(Terminal token) {
+	public void addToken(String token) {
 		addToken(token, null);
 	}
 	
@@ -98,27 +98,30 @@ public class ChartParser {
 	 * @param token The token to be added to the token sequence.
 	 * @param categories The pre-terminal categories.
 	 */
-	public void addToken(Terminal token, Collection<Preterminal> categories) {
+	public void addToken(String token, Collection<Preterminal> categories) {
 		// add the token to the list of tokens:
 		tokens.add(token);
 		if (debug) {
 			log("ADD TOKEN: " + token + "\nTOKEN LIST:");
-			for (Terminal t : tokens) log(" " + t);
+			for (String t : tokens) log(" " + t);
 			log("\n");
 		}
 		options.add(null);
 		backwardReferences.add(new ArrayList<FeatureMap>());
 		
-		Terminal tokenCopy = (Terminal) token.deepCopy();
+		if (categories == null) {
+			categories = new ArrayList<Preterminal>();
+			categories.add(null);
+		}
 		
 		// add a new edge to the chart for the new token:
 		for (Preterminal p : categories) {
 			if (p == null) {
-				Edge edge = new Edge(tokens.size()-1, tokenCopy);
+				Edge edge = new Edge(tokens.size()-1, new Terminal(token));
 				chart.addEdge(edge);
 				if (debug) log("SCANNER: " + edge + "\n");
 			} else {
-				LexicalRule lr = new LexicalRule((Preterminal) p.deepCopy(), tokenCopy);
+				LexicalRule lr = new LexicalRule((Preterminal) p.deepCopy(), token);
 				Edge edge = new Edge(tokens.size()-1, lr);
 				chart.addEdge(edge);
 				if (debug) log("SCANNER: " + edge + "\n");
@@ -126,7 +129,7 @@ public class ChartParser {
 		}
 		
 		// add edges for applicable lexical rules:
-		for (LexicalRule lexRule : grammar.getLexRulesByWord(token.getName())) {
+		for (LexicalRule lexRule : grammar.getLexRulesByWord(token)) {
 			Edge edge = new Edge(tokens.size()-1, lexRule.deepCopy());
 			chart.addEdge(edge);
 			if (debug) log("SCANNER: " + edge + "\n");
@@ -147,7 +150,7 @@ public class ChartParser {
 		tokens.remove(tokens.size()-1);
 		if (debug) {
 			log("REMOVE LAST TOKEN.\nTOKEN LIST:");
-			for (Terminal t : tokens) log(" " + t);
+			for (String t : tokens) log(" " + t);
 			log("\n");
 		}
 	}
@@ -171,8 +174,8 @@ public class ChartParser {
 	 * 
 	 * @return The current token sequence.
 	 */
-	public List<Terminal> getTokens() {
-		return new ArrayList<Terminal>(tokens);
+	public List<String> getTokens() {
+		return new ArrayList<String>(tokens);
 	}
 	
 	/**

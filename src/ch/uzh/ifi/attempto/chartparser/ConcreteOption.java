@@ -29,12 +29,12 @@ import java.util.List;
  */
 public class ConcreteOption {
 	
-	private final Terminal word;
+	private final Terminal terminal;
 	private final Preterminal category;
 	private final String identifier;
 	
 	ConcreteOption(Grammar grammar, Terminal word, Preterminal category) {
-		this.word = word;
+		this.terminal = word;
 		this.category = category;
 		identifier = calculateIdentifier(grammar.getUsedFeatureNames());
 	}
@@ -46,10 +46,10 @@ public class ConcreteOption {
 	/**
 	 * Returns the word of this concrete option.
 	 * 
-	 * @return The word in the form of a terminal category.
+	 * @return The word.
 	 */
-	public Terminal getWord() {
-		return word;
+	public String getWord() {
+		return terminal.getName();
 	}
 	
 	/**
@@ -64,7 +64,7 @@ public class ConcreteOption {
 	
 	String calculateIdentifier(String[] usedFeatureNames) {
 		if (category == null) {
-			return word + " <-";
+			return terminal + " <-";
 		} else {
 			List<Integer> vars = new ArrayList<Integer>();
 			List<Integer> mvars = new ArrayList<Integer>();
@@ -72,7 +72,7 @@ public class ConcreteOption {
 			vars.clear();
 			mvars.clear();
 			category.collectVars(vars, mvars);
-			return word + " <- " + category.getIdentifier(mvars, usedFeatureNames);
+			return terminal + " <- " + category.getIdentifier(mvars, usedFeatureNames);
 		}
 	}
 	
@@ -88,9 +88,9 @@ public class ConcreteOption {
 	
 	public String toString() {
 		if (category == null) {
-			return word + " <-";
+			return terminal + " <-";
 		} else {
-			return word + " <- " + category;
+			return terminal + " <- " + category;
 		}
 	}
 

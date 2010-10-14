@@ -324,7 +324,7 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		}
 		
 		textContainer.addElement(te);
-		parser.addToken(te.getTerminal(), te.getCategories());
+		parser.addToken(te.getOriginalText(), te.getCategories());
 		
 		log("words added: " + te);
 	}

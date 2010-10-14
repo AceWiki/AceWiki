@@ -86,7 +86,7 @@ public class MenuEntry extends MenuItem {
 	 * @param menuGroup The menu group to which this entry should be assigned.
 	 */
 	public MenuEntry(ConcreteOption cOption, String menuGroup) {
-		this(cOption.getWord().getName(), cOption.getCategory(), menuGroup);
+		this(cOption.getWord(), cOption.getCategory(), menuGroup);
 	}
     
 	/**

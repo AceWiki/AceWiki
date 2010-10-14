@@ -144,7 +144,7 @@ public class NextTokenOptions {
 		
 		terminalNames = new HashSet<String>();
 		for (ConcreteOption o : cOptions) {
-			terminalNames.add(o.getWord().getName());
+			terminalNames.add(o.getWord());
 		}
 	}
 	

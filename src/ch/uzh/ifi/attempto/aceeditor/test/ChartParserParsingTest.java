@@ -19,7 +19,6 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import ch.uzh.ifi.attempto.chartparser.ChartParser;
-import ch.uzh.ifi.attempto.chartparser.Terminal;
 
 /**
  * Parsing test of the ACE Editor grammar.
@@ -68,7 +67,7 @@ public class ChartParserParsingTest {
 			line = line.replaceFirst(" *$", "");
 			chartparser.removeAllTokens();
 			for (String t : line.split("  ")) {
-				chartparser.addToken(new Terminal(t));
+				chartparser.addToken(t);
 			}
 			if (!chartparser.isComplete()) {
 				System.err.println("ERROR: text could not be parsed: " + line);
