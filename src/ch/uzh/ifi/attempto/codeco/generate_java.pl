@@ -37,7 +37,7 @@ For more information about Codeco, see the following thesis:
 http://attempto.ifi.uzh.ch/site/pubs/papers/doctoral_thesis_kuhn.pdf 
 
 @author Tobias Kuhn
-@version 2009-11-19
+@version 2010-10-15
 */
 
 
@@ -112,6 +112,9 @@ process_term(Out, N:V) :-
 	!,
     format(Out, '\t\t\n\t\t/* ~w: ~w */\n', [N,V]).
 
+process_term(_, { _ } ) :-
+	!.
+
 process_term(Out, $ Head => [Body]) :-
     !,
     write(Out, '\t\t\n\t\t// '),
@@ -119,7 +122,7 @@ process_term(Out, $ Head => [Body]) :-
     write(Out, '\n'),
     write(Out, '\t\tl.clear();\n'),
     write(Out, '\t\tfeatureHash.clear();\n'),
-    process_cat(Out, $ Head),
+    process_head(Out, $ Head),
     process_cat(Out, [Body]),
     write(Out, '\t\taddLexicalRule(new LexicalRule(l));\n').
 
@@ -130,7 +133,7 @@ process_term(Out, Head => Body) :-
     write(Out, '\n'),
     write(Out, '\t\tl.clear();\n'),
     write(Out, '\t\tfeatureHash.clear();\n'),
-    process_cat(Out, Head),
+    process_head(Out, Head),
     process_cats(Out, Body),
     write(Out, '\t\taddGrammarRule(new GrammarRule(l, false));\n').
 
@@ -141,12 +144,20 @@ process_term(Out, Head ~> Body) :-
     write(Out, '\n'),
     write(Out, '\t\tl.clear();\n'),
     write(Out, '\t\tfeatureHash.clear();\n'),
-    process_cat(Out, Head),
+    process_head(Out, Head),
     process_cats(Out, Body),
     write(Out, '\t\taddGrammarRule(new GrammarRule(l, true));\n').
 
 process_term(_, Term) :-
     format(user_error, 'WARNING. Cannot process term: ~q\n', Term).
+
+
+process_head(Out, _ : Cond) :-
+    !,
+    process_cat(Out, Cond).
+
+process_head(Out, Cond) :-
+    process_cat(Out, Cond).
 
 
 process_cats(Out, Body) :-

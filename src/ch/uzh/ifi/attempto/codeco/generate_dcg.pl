@@ -38,7 +38,7 @@ For more information about Codeco, see the following thesis:
 http://attempto.ifi.uzh.ch/site/pubs/papers/doctoral_thesis_kuhn.pdf 
 
 @author Tobias Kuhn
-@version 2009-11-19
+@version 2010-10-15
 */
 
 
@@ -51,6 +51,18 @@ http://attempto.ifi.uzh.ch/site/pubs/papers/doctoral_thesis_kuhn.pdf
 :- op(500, fx, '#').
 :- op(0, xfx, '>').  % Remove declaration
 :- op(0, xfx, '<').  % Remove declaration
+
+
+%% special_category_name(?CatName)
+%
+% This predicate stores the names of the categories with a special meaning in Codeco.
+
+special_category_name('>').
+special_category_name('>>').
+special_category_name('<').
+special_category_name('/<').
+special_category_name('#').
+special_category_name('//').
 
 
 %% generate_dcg(+InputFile, +OutputFile)
@@ -93,24 +105,36 @@ load_terms(In) :-
 		load_terms(In)
 	).
 
+load_term( { Anns } ) :-
+    !,
+    assert(term( { Anns } )).
+
 load_term(Name:Value) :-
 	!,
     assert(term(Name:Value)).
 
 load_term(Head => Body) :-
-    load_cond(Head),
+    load_head(Head),
     load_conds(Body),
     !,
     assert(term(Head => Body)).
 
 load_term(Head ~> Body) :-
-    load_cond(Head),
+    load_head(Head),
     load_conds(Body),
     !,
     assert(term(Head ~> Body)).
 
 load_term(Term) :-
     format(user_error, 'ERROR. Illegal term: ~q\n', Term).
+
+
+load_head(_ : Cond) :-
+    load_cond(Cond),
+    !.
+
+load_head(Cond) :-
+    load_cond(Cond).
 
 
 load_conds((Cond,Rest)) :-
@@ -204,42 +228,53 @@ process_term(Out, paragraph:P) :-
 process_term(Out, Name:Value) :-
 	format(Out, '/* ~w: ~w */\n', [Name,Value]).
 
+process_term(_, { _ } ) :-
+	!.
+
 process_term(Out, Head => Body) :-
-    transform_cond(Head, HeadT, AnteTreeIn/AnteTreeOut),
-    transform_conds(Body, BodyT, AnteTreeIn/AnteTreeOut, ''),
+    transform_head(Head, HeadT, Head => BodyNodes, AnteTreeIn/AnteTreeOut),
+    transform_conds(Body, BodyT, BodyNodes, AnteTreeIn/AnteTreeOut, ''),
     output_term(Out, HeadT --> BodyT).
 
 process_term(Out, Head ~> Body) :-
-    transform_cond(Head, HeadT, AnteTreeIn/AnteTreeOut),
-    transform_conds(Body, BodyT, AnteTreeIn/AnteTreeTemp, ~(AnteTreeIn/AnteTreeTemp/AnteTreeOut)),
+    transform_head(Head, HeadT, Head => BodyNodes, AnteTreeIn/AnteTreeOut),
+    transform_conds(Body, BodyT, BodyNodes, AnteTreeIn/AnteTreeTemp, ~(AnteTreeIn/AnteTreeTemp/AnteTreeOut)),
     output_term(Out, HeadT --> BodyT).
 
 
-transform_conds((Cond,Rest), (CondT,RestT), AnteTreeIn/AnteTreeOut, Last) :-
+transform_head(_ : Cond, CondT, Node, AnteTreeIn/AnteTreeOut) :-
     !,
-    transform_cond(Cond, CondT, AnteTreeIn/AnteTreeTemp),
-    transform_conds(Rest, RestT, AnteTreeTemp/AnteTreeOut, Last).
+    transform_cond(Cond, CondT, Node, AnteTreeIn/AnteTreeOut).
 
-transform_conds(Cond, CondT, AnteTreeIn/AnteTreeOut, '') :-
+transform_head(Cond, CondT, Node, AnteTreeIn/AnteTreeOut) :-
+    transform_cond(Cond, CondT, Node, AnteTreeIn/AnteTreeOut).
+
+
+transform_conds((Cond,Rest), (CondT,RestT), (N,Nodes), AnteTreeIn/AnteTreeOut, Last) :-
+    !,
+    transform_cond(Cond, CondT, N, AnteTreeIn/AnteTreeTemp),
+    transform_conds(Rest, RestT, Nodes, AnteTreeTemp/AnteTreeOut, Last).
+
+transform_conds(Cond, CondT, Node, AnteTreeIn/AnteTreeOut, '') :-
 	!,
-    transform_cond(Cond, CondT, AnteTreeIn/AnteTreeOut).
+    transform_cond(Cond, CondT, Node, AnteTreeIn/AnteTreeOut).
 
-transform_conds(Cond, (CondT,Last), AnteTreeIn/AnteTreeOut, Last) :-
-    transform_cond(Cond, CondT, AnteTreeIn/AnteTreeOut).
+transform_conds(Cond, (CondT,Last), Node, AnteTreeIn/AnteTreeOut, Last) :-
+    transform_cond(Cond, CondT, Node, AnteTreeIn/AnteTreeOut).
 
 
-transform_cond(List, List, AnteTree/AnteTree) :-
+transform_cond(List, List, List, AnteTree/AnteTree) :-
     is_list(List),
     !.
 
-transform_cond($ Cond, $ CondT, AnteTree/AnteTree) :-
-	transform_cond(Cond, CondT, AnteTree/AnteTree),
+transform_cond($ Cond, $ CondT, Node, AnteTree/AnteTree) :-
+	transform_cond(Cond, CondT, Node, AnteTree/AnteTree),
     !.
 
-transform_cond(# Cond, #(Cond), AnteTree/AnteTree) :-
+transform_cond(# Cond, #(Cond), # Cond, AnteTree/AnteTree) :-
     !.
 
-transform_cond(Cond, CondT, AnteTreeIn/AnteTreeOut) :-
+transform_cond(Cond, CondT, Cond, AnteTreeIn/AnteTreeOut) :-
     Cond =.. ['<'|BwrefTerms],
 	\+ BwrefTerms = [],
 	\+ member(_:_, BwrefTerms),
@@ -247,7 +282,7 @@ transform_cond(Cond, CondT, AnteTreeIn/AnteTreeOut) :-
 	transform_bwrefterms(BwrefTerms, BwrefTermsT),
     CondT =.. ['<',BwrefTermsT,AnteTreeIn/AnteTreeOut].
 
-transform_cond(Cond, CondT, AnteTreeIn/AnteTreeOut) :-
+transform_cond(Cond, CondT, Cond, AnteTreeIn/AnteTreeOut) :-
     Cond =.. ['<'|Args],
 	!,
     get_features(Features),
@@ -255,12 +290,21 @@ transform_cond(Cond, CondT, AnteTreeIn/AnteTreeOut) :-
     transform_features(Features, FeaturesT),
     CondT =.. ['<',[+FeaturesT],AnteTreeIn/AnteTreeOut].
 
-transform_cond(Cond, CondT, AnteTreeIn/AnteTreeOut) :-
+transform_cond(Cond, CondT, Cond, AnteTreeIn/AnteTreeOut) :-
     Cond =.. [Pred|Args],
+    special_category_name(Pred),
+    !,
     get_features(Features),
     transform_args(Args, Features),
     transform_features(Features, FeaturesT),
     CondT =.. [Pred,FeaturesT,AnteTreeIn/AnteTreeOut].
+
+transform_cond(Cond, CondT, Node, AnteTreeIn/AnteTreeOut) :-
+    Cond =.. [Pred|Args],
+    get_features(Features),
+    transform_args(Args, Features),
+    transform_features(Features, FeaturesT),
+    CondT =.. [Pred,FeaturesT,Node,AnteTreeIn/AnteTreeOut].
 
 
 transform_args([], _) :-

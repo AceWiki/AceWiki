@@ -141,6 +141,17 @@ public class ChartParser {
 	}
 	
 	/**
+	 * Adds the tokens to the token list.
+	 * 
+	 * @param tokens The tokens to be added.
+	 */
+	public void addTokens(List<String> tokens) {
+		for (String t : tokens) {
+			addToken(t);
+		}
+	}
+	
+	/**
 	 * Removes the last token and reverts the last parsing step.
 	 */
 	public void removeToken() {
@@ -167,6 +178,16 @@ public class ChartParser {
 		chart.clear();
 		init();
 		runParsingSteps();
+	}
+	
+	/**
+	 * Sets the given tokens. Existing tokens are removed and the chart is reset.
+	 * 
+	 * @param tokens The tokens.
+	 */
+	public void setTokens(List<String> tokens) {
+		removeAllTokens();
+		addTokens(tokens);
 	}
 	
 	/**

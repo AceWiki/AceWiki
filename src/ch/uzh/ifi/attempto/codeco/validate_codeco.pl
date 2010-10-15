@@ -33,7 +33,7 @@ For more information about Codeco, see the following thesis:
 http://attempto.ifi.uzh.ch/site/pubs/papers/doctoral_thesis_kuhn.pdf 
 
 @author Tobias Kuhn
-@version 2009-11-19
+@version 2010-10-15
 */
 
 
@@ -84,37 +84,63 @@ process(In) :-
 	).
 
 
-process_term(N:_) :-
-	atom(N),
-	!.
-
-process_term(N:V) :-
-	format(user_error, 'ERROR: This is not a valid Codeco term: ~l\n', [N:V]),
+process_term(V) :-
+	var(V),
+	format(user_error, 'ERROR: This is not a valid Codeco term: ~l\n', [V]),
 	!,
 	fail.
 
-process_term(Head => Body) :-
-    process_head(Head),
-    process_body(Body),
-    !.
+process_term( { Anns } ) :-
+    process_annotations(Anns).
 
-process_term(Head => Body) :-
-	format(user_error, 'ERROR: This is not a valid Codeco rule: ~l\n', [Head => Body]),
-	!,
-	fail.
+process_term(Ann) :-
+    process_annotation(Ann).
 
-process_term(Head ~> Body) :-
-    process_head(Head),
-    process_body(Body),
-    !.
-
-process_term(Head ~> Body) :-
-	format(user_error, 'ERROR: This is not a valid Codeco rule: ~l\n', [Head => Body]),
-	!,
-	fail.
+process_term(Rule) :-
+    process_rule(Rule).
 
 process_term(Term) :-
 	format(user_error, 'ERROR: This is not a valid Codeco term: ~l\n', [Term]),
+	!,
+	fail.
+
+
+process_annotations( (Ann,Anns) ) :-
+    process_annotation(Ann),
+    !,
+    process_annotations(Anns).
+
+process_annotations(Ann) :-
+    process_annotation(Ann).
+
+
+process_annotation(N:_) :-
+	atom(N),
+	!.
+
+process_annotation(N:V) :-
+	format(user_error, 'ERROR: This is not a valid Codeco annotation: ~l\n', [N:V]),
+	!,
+	fail.
+
+
+process_rule(Head => Body) :-
+    process_head(Head),
+    process_body(Body),
+    !.
+
+process_rule(Head => Body) :-
+	format(user_error, 'ERROR: This is not a valid Codeco rule: ~l\n', [Head => Body]),
+	!,
+	fail.
+
+process_rule(Head ~> Body) :-
+    process_head(Head),
+    process_body(Body),
+    !.
+
+process_rule(Head ~> Body) :-
+	format(user_error, 'ERROR: This is not a valid Codeco rule: ~l\n', [Head => Body]),
 	!,
 	fail.
 
@@ -124,6 +150,16 @@ process_head(Head) :-
 	!,
 	write(user_error, 'ERROR: The head of a rule cannot be a variable.\n'),
 	fail.
+
+process_head(_ : (_ : _)) :-
+	!,
+	write(user_error, 'ERROR: Invalid head of a rule.\n'),
+	fail.
+
+process_head( { Anns } : Cond) :-
+    !,
+    process_annotations(Anns),
+    process_head(Cond).
 
 process_head(Head) :-
 	Head =.. [Name|_],

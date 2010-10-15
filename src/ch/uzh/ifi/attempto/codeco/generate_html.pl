@@ -37,7 +37,7 @@ For more information about Codeco, see the following thesis:
 http://attempto.ifi.uzh.ch/site/pubs/papers/doctoral_thesis_kuhn.pdf 
 
 @author Tobias Kuhn
-@version 2010-08-25
+@version 2010-10-15
 */
 
 
@@ -107,12 +107,15 @@ process_term(Out, paragraph:P) :-
 	!,
     format(Out, '<p>~l</p>\n', [P]).
 
+process_term(_, { _ } ) :-
+	!.
+
 process_term(Out, Head => Body) :-
     !,
     get_category_name(Head, N),
     write(Out, '<table class="r"><tr>\n'),
     write_id(Out),
-    process_cat(Out, Head),
+    process_head(Out, Head),
     format(Out, '<td class="arrow"><a name="~l"/>=></td>\n', N),
     process_cats(Out, Body),
     write(Out, '</tr></table>\n\n').
@@ -122,13 +125,21 @@ process_term(Out, Head ~> Body) :-
     get_category_name(Head, N),
     write(Out, '<table class="r"><tr>\n'),
     write_id(Out),
-    process_cat(Out, Head),
+    process_head(Out, Head),
     format(Out, '<td class="arrow"><a name="~l"/>~~></td>\n', N),
     process_cats(Out, Body),
     write(Out, '</tr></table>\n\n').
 
 process_term(_, Term) :-
     format(user_error, 'WARNING. Cannot process term: ~q\n', Term).
+
+
+process_head(Out, _ : Cond) :-
+    !,
+    process_cat(Out, Cond).
+
+process_head(Out, Cond) :-
+    process_cat(Out, Cond).
 
 
 process_cats(Out, Body) :-
@@ -285,6 +296,10 @@ get_category_name(C, N) :-
 	!,
 	P =.. [NN|_],
 	atom_concat('_', NN, N).
+
+get_category_name(_:C, N) :-
+    !,
+    get_category_name(C, N).
 
 get_category_name(C, N) :-
 	C =.. [N|_].

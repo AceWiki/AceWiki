@@ -9,5 +9,5 @@ cat sentences.txt |
 	sed "s/ *$/'])./" |
 	sed "s/^/text(['/" |
 	sed "s/  /', '/g" > sentences.pl
-time swipl -g "consult(parse_with_dcg)." -t halt
+time swipl -g "consult(parse_with_dcg)." -t halt > sentences_syntaxtrees.txt
 rm sentences.pl

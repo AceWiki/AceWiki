@@ -37,7 +37,7 @@ For more information about Codeco, see the following thesis:
 http://attempto.ifi.uzh.ch/site/pubs/papers/doctoral_thesis_kuhn.pdf 
 
 @author Tobias Kuhn
-@version 2010-08-25
+@version 2010-10-15
 */
 
 
@@ -105,13 +105,16 @@ process_term(Out, paragraph:P) :-
 	!,
     format(Out, '\\noindent ~l \\vspace{2mm}\n\n', [P]).
 
+process_term(_, { _ } ) :-
+	!.
+
 process_term(Out, Head => Body) :-
     !,
     write(Out, '{\\scriptsize\n'),
     write(Out, '\\noindent$\n'),
     write(Out, '\\ruleid\n'),
     write(Out, '\\nrule{\n'),
-    process_cat(Out, Head),
+    process_head(Out, Head),
     write(Out, '}{\n'),
     process_cats(Out, Body),
     write(Out, '}$\n\\vspace{2mm}\n\n}\n').
@@ -122,13 +125,21 @@ process_term(Out, Head ~> Body) :-
     write(Out, '\\noindent$\n'),
     write(Out, '\\ruleid\n'),
     write(Out, '\\scrule{\n'),
-    process_cat(Out, Head),
+    process_head(Out, Head),
     write(Out, '}{\n'),
     process_cats(Out, Body),
     write(Out, '}$\n\\vspace{2mm}\n\n}\n').
 
 process_term(_, Term) :-
     format(user_error, 'WARNING. Cannot process term: ~q\n', Term).
+
+
+process_head(Out, _ : Cond) :-
+    !,
+    process_cat(Out, Cond).
+
+process_head(Out, Cond) :-
+    process_cat(Out, Cond).
 
 
 process_cats(Out, Body) :-

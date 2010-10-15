@@ -29,7 +29,7 @@
 run :-
 	count,
 	length(S, 7),
-	phrase(test(_, []/_), S),
+	phrase(test(_, _, []/_), S),
 	numbervars(S, 0, _),
 	format(user_output, '~w  ~w  ~w  ~w  ~w  ~w  ~w', S),
 	count,

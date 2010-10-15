@@ -17,6 +17,8 @@
 %===================================================================================================
 
 
+:- ['../../codeco/extract_syntree'].
+
 :- style_check(-singleton).
 :- style_check(-discontiguous).
 :- [testgrammar_dcg].
@@ -40,7 +42,9 @@ run :-
 
 
 parse(S) :-
-	phrase(test(_, []/_), S),
+	phrase(test(_, ParseTree, []/_), S),
+	extract_syntree(ParseTree, SyntaxTree),
+	format(user_output, '~w\n', SyntaxTree),
 	!.
 
 parse(S) :-
