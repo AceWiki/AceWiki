@@ -14,6 +14,7 @@
 
 package ch.uzh.ifi.attempto.chartparser;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,8 @@ public class ParseTree {
 	private Edge topNode;
 	private String lamFunctor = "lam";
 	private String appFunctor = "app";
+	private String concatFunctor = ".";
+	private String emptySequenceSymbol = "[]";
 	private String semLabel = "sem";
 	
 	/**
@@ -67,6 +70,27 @@ public class ParseTree {
 	 */
 	public void setApplicationFunctor(String appFunctor) {
 		this.appFunctor = appFunctor;
+	}
+
+	/**
+	 * Sets the functor of the concatenation function for the calculation of semantics. The default
+	 * is "." which corresponds to Prolog lists. Terms using the concatenation functor are
+	 * flattened. The functor can be set to null to avoid flattening.
+	 * 
+	 * @param concatFunctor The concatentation functor.
+	 */
+	public void setConcatFunctor(String concatFunctor) {
+		this.concatFunctor = concatFunctor;
+	}
+
+	/**
+	 * Sets the symbol for the empty sequence for the calculation of semantics when concatenation
+	 * is enabled. The default is "[]" which corresponds to the empty list in Prolog.
+	 * 
+	 * @param emptySequenceSymbol The symbol for the empty sequence.
+	 */
+	public void setEmptySequenceSymbol(String emptySequenceSymbol) {
+		this.emptySequenceSymbol = emptySequenceSymbol;
 	}
 	
 	/**
@@ -136,7 +160,11 @@ public class ParseTree {
 	 * @return The semantics tree.
 	 */
 	public Object getSemTree() {
-		return getSemTree(topNode);
+		Object o = getSemTree(topNode);
+		if (concatFunctor != null) {
+			o = applyConcatenation(o);
+		}
+		return o;
 	}
 	
 	private Object getSemTree(Edge parseTree) {
@@ -179,12 +207,15 @@ public class ParseTree {
 	 * @return The beta-reduced semantics tree.
 	 */
 	public Object getLambdaSemTree() {
-		Object o = getSemTree();
+		Object o = getSemTree(topNode);
 		Map<Integer, Object> replace = new HashMap<Integer, Object>();
 		replace.put(-1, "");
 		while (replace.containsKey(-1)) {
 			replace.remove(-1);
 			o = applyBetaReduction(o, replace);
+		}
+		if (concatFunctor != null) {
+			o = applyConcatenation(o);
 		}
 		return o;
 	}
@@ -306,6 +337,70 @@ public class ParseTree {
 			return ((Category) obj).getName();
 		}
 		return "*invalid*";
+	}
+	
+	private Object applyConcatenation(Object obj) {
+		if (isConcatFunction(obj)) {
+			Object[] a = (Object[]) obj;
+			List<Object> cl = new ArrayList<Object>();
+			for (int i = 1 ; i < a.length ; i++) {
+				Object ci = applyConcatenation(a[i]);
+				if (isConcatFunction(ci)) {
+					Object[] ai = (Object[]) ci;
+					for (int j = 1 ; j < ai.length ; j++) {
+						addFlat(cl, ai[j]);
+					}
+				} else if (!isEmptySequence(ci)) {
+					addFlat(cl, ci);
+				}
+			}
+			if (cl.size() == 0) {
+				return emptySequenceSymbol;
+			} else if (cl.size() == 1) {
+				return cl.get(0);
+			} else {
+				cl.add(0, concatFunctor);
+				return cl.toArray();
+			}
+		} else if (obj instanceof Object[]) {
+			Object[] a = (Object[]) obj;
+			Object[] c = new Object[a.length];
+			for (int i = 0 ; i < a.length ; i++) {
+				c[i] = applyConcatenation(a[i]);
+			}
+			return c;
+		} else {
+			return obj;
+		}
+	}
+	
+	private boolean isConcatFunction(Object obj) {
+		if (!(obj instanceof Object[])) return false;
+		Object[] a = (Object[]) obj;
+		if (a.length == 0) return false;
+		if (!(a[0] instanceof String)) return false;
+		if (!a[0].toString().equals(concatFunctor)) return false;
+		return true;
+	}
+	
+	private boolean isEmptySequence(Object obj) {
+		return obj instanceof String && obj.toString().equals(emptySequenceSymbol);
+	}
+	
+	private void addFlat(List<Object> list, Object obj) {
+		if (obj instanceof StringRef && ((StringRef) obj).getString() != null) {
+			obj = ((StringRef) obj).getString();
+		}
+		if (list.isEmpty() || !(obj instanceof String)) {
+			list.add(obj);
+		} else {
+			if (list.get(list.size()-1) instanceof String) {
+				String s = (String) list.remove(list.size()-1);
+				list.add(s + obj);
+			} else {
+				list.add(obj);
+			}
+		}
 	}
 
 }
