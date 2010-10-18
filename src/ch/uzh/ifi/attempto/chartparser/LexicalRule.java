@@ -28,7 +28,25 @@ public class LexicalRule {
 	
 	private final Preterminal category;
 	private final Terminal word;
+	private final Annotation annotation;
 	
+	/**
+	 * Creates a new lexical rule.
+	 * 
+	 * @param annotation The annotation object.
+	 * @param category The category of the lexical rule.
+	 * @param word The word of the lexical rule as a terminal category.
+	 */
+	public LexicalRule(Annotation annotation, Preterminal category, Terminal word) {
+		this.category = category;
+		this.word = word;
+		if (annotation == null) {
+			this.annotation = new Annotation();
+		} else {
+			this.annotation = annotation;
+		}
+	}
+
 	/**
 	 * Creates a new lexical rule.
 	 * 
@@ -36,8 +54,7 @@ public class LexicalRule {
 	 * @param word The word of the lexical rule as a terminal category.
 	 */
 	public LexicalRule(Preterminal category, Terminal word) {
-		this.category = category;
-		this.word = word;
+		this(null, category, word);
 	}
 
 	/**
@@ -63,13 +80,19 @@ public class LexicalRule {
 	/**
 	 * Creates a new lexical rule.
 	 * 
+	 * @param annotation The annotation object.
 	 * @param categories This list must contain exactly two elements. The first one must be a
 	 *     pre-terminal category representing the category of the lexical rule. The second one
 	 *     must be a terminal category representing the word of the lexical rule.
 	 */
-	public LexicalRule(List<Category> categories) {
+	public LexicalRule(Annotation annotation, List<Category> categories) {
 		this.category = (Preterminal) categories.get(0);
 		this.word = (Terminal) categories.get(1);
+		if (annotation == null) {
+			this.annotation = new Annotation();
+		} else {
+			this.annotation = annotation;
+		}
 	}
 	
 	/**
@@ -88,6 +111,15 @@ public class LexicalRule {
 	 */
 	public Terminal getWord() {
 		return word;
+	}
+
+	/**
+	 * Returns the annotation object of this rule.
+	 * 
+	 * @return The annotation object.
+	 */
+	public Annotation getAnnotation() {
+		return annotation;
 	}
 	
 	/**
@@ -109,7 +141,8 @@ public class LexicalRule {
 	LexicalRule deepCopy(HashMap<Integer, StringObject> stringObjs) {
 		Preterminal categoryC = (Preterminal) category.deepCopy(stringObjs);
 		Terminal wordC = (Terminal) word.deepCopy(stringObjs);
-		return new LexicalRule(categoryC, wordC);
+		Annotation annotationC = annotation.deepCopy(stringObjs);
+		return new LexicalRule(annotationC, categoryC, wordC);
 	}
 	
 	public String toString() {

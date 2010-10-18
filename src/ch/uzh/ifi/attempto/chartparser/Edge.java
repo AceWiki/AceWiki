@@ -47,6 +47,8 @@ public class Edge {
 	private int progress = 0;
 	private String identifier;
 	
+	private Annotation annotation;
+	
 	private List<Edge> children;
 	
 	private Edge() {
@@ -66,6 +68,7 @@ public class Edge {
 		this.externalAnteList = new Category[0];
 		this.internalAnteList = new Category[0];
 		this.scopeclosing = rule.isScopeClosing();
+		this.annotation = rule.getAnnotation();
 		this.children = new ArrayList<Edge>();
 	}
 	
@@ -88,6 +91,7 @@ public class Edge {
 		}
 		this.internalAnteList = new Category[0];
 		this.scopeclosing = rule.isScopeClosing();
+		this.annotation = rule.getAnnotation();
 		this.children = new ArrayList<Edge>();
 	}
 	
@@ -106,6 +110,7 @@ public class Edge {
 		this.body = new Category[] {lexRule.getWord()};
 		this.externalAnteList = new Category[0];
 		this.internalAnteList = new Category[0];
+		this.annotation = lexRule.getAnnotation();
 		this.scopeclosing = false;
 		this.children = new ArrayList<Edge>();
 	}
@@ -124,6 +129,7 @@ public class Edge {
 		this.body = new Category[0];
 		this.externalAnteList = new Category[0];
 		this.internalAnteList = new Category[0];
+		this.annotation = new Annotation();
 		this.scopeclosing = false;
 		this.children = new ArrayList<Edge>();
 	}
@@ -205,6 +211,15 @@ public class Edge {
 			l[externalAnteList.length + i] = internalAnteList[i];
 		}
 		return l;
+	}
+	
+	/**
+	 * Returns the annotation object for this edge.
+	 * 
+	 * @return The annotation object.
+	 */
+	public Annotation getAnnotation() {
+		return annotation;
 	}
 	
 	/**
@@ -312,16 +327,6 @@ public class Edge {
 		for (int i = 0 ; i < l2 ; i++) {
 			internalAnteList[l1 + i] = newAnteList[i];
 		}
-	}
-	
-	/**
-	 * Skolemizes the variables of this edge.
-	 */
-	void skolemize() {
-		head.skolemize();
-		for (Category c : externalAnteList) c.skolemize();
-		for (Category c : internalAnteList) c.skolemize();
-		for (Category c : body) c.skolemize();
 	}
 	
 	/**
@@ -442,6 +447,16 @@ public class Edge {
 	}
 	
 	/**
+	 * Skolemizes the variables of this edge.
+	 */
+	private void skolemize() {
+		head.skolemize();
+		for (Category c : externalAnteList) c.skolemize();
+		for (Category c : internalAnteList) c.skolemize();
+		for (Category c : body) c.skolemize();
+	}
+	
+	/**
 	 * Creates a deep copy of this edge. This means that all categories are copied. The child edges
 	 * can be linked or copied.
 	 * 
@@ -489,6 +504,7 @@ public class Edge {
 		for (int i=0 ; i < internalAnteList.length ; i++) {
 			edgeC.internalAnteList[i] = internalAnteList[i].deepCopy(stringObjs);
 		}
+		edgeC.annotation = annotation.deepCopy(stringObjs);
 		if (copyChildren) {
 			edgeC.children = new ArrayList<Edge>();
 			for (Edge child : children) {

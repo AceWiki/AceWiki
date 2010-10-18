@@ -38,7 +38,7 @@ For more information about Codeco, see the following thesis:
 http://attempto.ifi.uzh.ch/site/pubs/papers/doctoral_thesis_kuhn.pdf 
 
 @author Tobias Kuhn
-@version 2010-10-15
+@version 2010-10-18
 */
 
 
@@ -104,10 +104,6 @@ load_terms(In) :-
 		load_term(Term),
 		load_terms(In)
 	).
-
-load_term( { Anns } ) :-
-    !,
-    assert(term( { Anns } )).
 
 load_term(Name:Value) :-
 	!,
@@ -227,9 +223,6 @@ process_term(Out, paragraph:P) :-
 
 process_term(Out, Name:Value) :-
 	format(Out, '/* ~w: ~w */\n', [Name,Value]).
-
-process_term(_, { _ } ) :-
-	!.
 
 process_term(Out, Head => Body) :-
     transform_head(Head, HeadT, Head => BodyNodes, AnteTreeIn/AnteTreeOut),

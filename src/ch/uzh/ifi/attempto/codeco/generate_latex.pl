@@ -37,7 +37,7 @@ For more information about Codeco, see the following thesis:
 http://attempto.ifi.uzh.ch/site/pubs/papers/doctoral_thesis_kuhn.pdf 
 
 @author Tobias Kuhn
-@version 2010-10-15
+@version 2010-10-18
 */
 
 
@@ -104,9 +104,6 @@ process_term(Out, section:S) :-
 process_term(Out, paragraph:P) :-
 	!,
     format(Out, '\\noindent ~l \\vspace{2mm}\n\n', [P]).
-
-process_term(_, { _ } ) :-
-	!.
 
 process_term(Out, Head => Body) :-
     !,

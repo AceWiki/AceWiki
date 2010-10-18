@@ -34,10 +34,10 @@ import nextapp.echo2.app.event.ActionListener;
 import nextapp.echo2.app.event.WindowPaneEvent;
 import nextapp.echo2.app.event.WindowPaneListener;
 import ch.uzh.ifi.attempto.chartparser.ChartParser;
-import ch.uzh.ifi.attempto.chartparser.Edge;
 import ch.uzh.ifi.attempto.chartparser.FeatureMap;
 import ch.uzh.ifi.attempto.chartparser.Grammar;
 import ch.uzh.ifi.attempto.chartparser.Nonterminal;
+import ch.uzh.ifi.attempto.chartparser.ParseTree;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.Logger;
@@ -667,12 +667,12 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 	}
 	
 	/**
-	 * Returns the syntax tree of the text if it is complete. Null is returned for uncomplete texts.
+	 * Returns the parse tree of the text if it is complete. Null is returned for uncomplete texts.
 	 * 
-	 * @return The edge representing the top node of the tree.
+	 * @return The parse tree.
 	 */
-	public Edge getSyntaxTree() {
-		return parser.getSyntaxTree();
+	public ParseTree getParseTree() {
+		return parser.getParseTree();
 	}
 	
 	public void windowPaneClosing(WindowPaneEvent e) {

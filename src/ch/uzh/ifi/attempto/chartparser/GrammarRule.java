@@ -30,6 +30,26 @@ public class GrammarRule {
 	private final Nonterminal head;
 	private final boolean scopeclosing;
 	private final Category[] body;
+	private final Annotation annotation;
+	
+	/**
+	 * Creates a new grammar rule.
+	 * 
+	 * @param annotation The annotation object.
+	 * @param head The head category.
+	 * @param scopeclosing Defines whether the rule is scope-closing or not.
+	 * @param body The category sequence of the body.
+	 */
+	public GrammarRule(Annotation annotation, Nonterminal head, boolean scopeclosing, Category... body) {
+		this.head = head;
+		this.body = body;
+		this.scopeclosing = scopeclosing;
+		if (annotation == null) {
+			this.annotation = new Annotation();
+		} else {
+			this.annotation = annotation;
+		}
+	}
 	
 	/**
 	 * Creates a new grammar rule.
@@ -39,9 +59,7 @@ public class GrammarRule {
 	 * @param body The category sequence of the body.
 	 */
 	public GrammarRule(Nonterminal head, boolean scopeclosing, Category... body) {
-		this.head = head;
-		this.body = body;
-		this.scopeclosing = scopeclosing;
+		this(null, head, scopeclosing, body);
 	}
 	
 	/**
@@ -51,31 +69,27 @@ public class GrammarRule {
 	 * @param body The body category sequence.
 	 */
 	public GrammarRule(Nonterminal head, Category... body) {
-		this(head, false, body);
+		this(null, head, false, body);
 	}
 	
 	/**
 	 * Creates a new grammar rule.
 	 * 
+	 * @param annotation The annotation object.
 	 * @param categories The first category of this list stands for the head category (it has to be
 	 *     a Nonterminal object). The rest stands for the body categories.
 	 * @param scopeclosing Defines whether the rule is scope-closing or not.
 	 */
-	public GrammarRule(List<Category> categories, boolean scopeclosing) {
+	public GrammarRule(Annotation annotation, List<Category> categories, boolean scopeclosing) {
 		this.scopeclosing = scopeclosing;
 		this.head = (Nonterminal) categories.get(0);
 		categories.remove(0);
 		this.body = categories.toArray(new Category[0]);
-	}
-	
-	/**
-	 * Creates a new grammar rule that is not scope-closing.
-	 * 
-	 * @param categories The first category of this list stands for the head category (it has to be
-	 *     a Nonterminal object). The rest stands for the body categories.
-	 */
-	public GrammarRule(List<Category> categories) {
-		this(categories, false);
+		if (annotation == null) {
+			this.annotation = new Annotation();
+		} else {
+			this.annotation = annotation;
+		}
 	}
 	
 	/**
@@ -124,6 +138,15 @@ public class GrammarRule {
 	}
 	
 	/**
+	 * Returns the annotation object of this rule.
+	 * 
+	 * @return The annotation object.
+	 */
+	public Annotation getAnnotation() {
+		return annotation;
+	}
+	
+	/**
 	 * Creates a deep copy of this rule.
 	 * 
 	 * @return A deep copy.
@@ -145,7 +168,8 @@ public class GrammarRule {
 		for (int i=0; i < body.length ; i++) {
 			bodyC[i] = body[i].deepCopy(stringObjs);
 		}
-		return new GrammarRule(headC, scopeclosing, bodyC);
+		Annotation annotationC = annotation.deepCopy(stringObjs);
+		return new GrammarRule(annotationC, headC, scopeclosing, bodyC);
 	}
 	
 	public String toString() {

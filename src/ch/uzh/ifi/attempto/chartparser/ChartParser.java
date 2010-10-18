@@ -37,6 +37,8 @@ public class ChartParser {
 	private final List<String> tokens = new ArrayList<String>();
 	private final List<NextTokenOptions> options = new ArrayList<NextTokenOptions>();
 	private final List<List<FeatureMap>> backwardReferences = new ArrayList<List<FeatureMap>>();
+	private ParseTree parseTree;
+	private boolean recalculateParseTree = true;
 	private boolean debug;
 	
 	/**
@@ -138,6 +140,7 @@ public class ChartParser {
 		runParsingSteps();
 		//if (debug) log("CHART:");
 		//if (debug) log(chart);
+		recalculateParseTree = true;
 	}
 	
 	/**
@@ -164,6 +167,7 @@ public class ChartParser {
 			for (String t : tokens) log(" " + t);
 			log("\n");
 		}
+		recalculateParseTree = true;
 	}
 	
 	/**
@@ -178,6 +182,7 @@ public class ChartParser {
 		chart.clear();
 		init();
 		runParsingSteps();
+		recalculateParseTree = true;
 	}
 	
 	/**
@@ -240,7 +245,7 @@ public class ChartParser {
 	 * @return true if the current token sequence is a complete statement.
 	 */
 	public boolean isComplete() {
-		for (Edge e: chart.getEdgesByEndPos(tokens.size())) {
+		for (Edge e : chart.getEdgesByEndPos(tokens.size())) {
 			if (e.getStartPos() != 0) continue;
 			if (e.isActive()) continue;
 			if (!e.getHead().getName().equals(startCategoryName)) continue;
@@ -250,21 +255,24 @@ public class ChartParser {
 	}
 	
 	/**
-	 * Returns the syntax tree of the parsed text if it is a complete statement according to the
-	 * given grammar and start category. The nodes of the tree are represented by edges, each of
-	 * which has links to its child edges. Null is returned if the text is not a complete
-	 * statement.
+	 * Returns the parse tree of the parsed text if it is a complete statement according to the
+	 * given grammar and start category. Null is returned if the text is not a complete statement.
 	 * 
-	 * @return The edge representing the top node of the tree.
+	 * @return The parse tree.
 	 */
-	public Edge getSyntaxTree() {
-		for (Edge e: chart.getEdgesByEndPos(tokens.size())) {
-			if (e.getStartPos() != 0) continue;
-			if (e.isActive()) continue;
-			if (!e.getHead().getName().equals(startCategoryName)) continue;
-			return e.deepCopy(true);
+	public ParseTree getParseTree() {
+		if (recalculateParseTree) {
+			parseTree = null;
+			for (Edge e : chart.getEdgesByEndPos(tokens.size())) {
+				if (e.getStartPos() != 0) continue;
+				if (e.isActive()) continue;
+				if (!e.getHead().getName().equals(startCategoryName)) continue;
+				parseTree = new ParseTree(e);
+				break;
+			}
 		}
-		return null;
+		recalculateParseTree = false;
+		return parseTree;
 	}
 	
 	/**

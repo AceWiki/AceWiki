@@ -77,7 +77,12 @@ public class StringRef {
 		return stringObject.getString();
 	}
 	
-	int getID() {
+	/**
+	 * Returns the identifier of the string object.
+	 * 
+	 * @return The identifier.
+	 */
+	public int getID() {
 		return stringObject.getID();
 	}
 	

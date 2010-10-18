@@ -33,7 +33,7 @@ For more information about Codeco, see the following thesis:
 http://attempto.ifi.uzh.ch/site/pubs/papers/doctoral_thesis_kuhn.pdf 
 
 @author Tobias Kuhn
-@version 2010-10-15
+@version 2010-10-18
 */
 
 
@@ -86,12 +86,9 @@ process(In) :-
 
 process_term(V) :-
 	var(V),
-	format(user_error, 'ERROR: This is not a valid Codeco term: ~l\n', [V]),
 	!,
+	format(user_error, 'ERROR: This is not a valid Codeco term: ~l\n', [V]),
 	fail.
-
-process_term( { Anns } ) :-
-    process_annotations(Anns).
 
 process_term(Ann) :-
     process_annotation(Ann).
@@ -100,9 +97,8 @@ process_term(Rule) :-
     process_rule(Rule).
 
 process_term(Term) :-
-	format(user_error, 'ERROR: This is not a valid Codeco term: ~l\n', [Term]),
 	!,
-	fail.
+	format(user_error, 'ERROR: This is not a valid Codeco term: ~l\n', [Term]).
 
 
 process_annotations( (Ann,Anns) ) :-
@@ -115,12 +111,18 @@ process_annotations(Ann) :-
 
 
 process_annotation(N:_) :-
-	atom(N),
+	codeco_atom(N),
 	!.
 
+process_annotation(N:_) :-
+	atom(N),
+	!,
+	format(user_error, 'ERROR: Invalid annotation name: ~l\n', [N]),
+	fail.
+
 process_annotation(N:V) :-
+	!,
 	format(user_error, 'ERROR: This is not a valid Codeco annotation: ~l\n', [N:V]),
-	!,
 	fail.
 
 
@@ -130,8 +132,8 @@ process_rule(Head => Body) :-
     !.
 
 process_rule(Head => Body) :-
-	format(user_error, 'ERROR: This is not a valid Codeco rule: ~l\n', [Head => Body]),
 	!,
+	format(user_error, 'ERROR: This is not a valid Codeco rule: ~l\n', [Head => Body]),
 	fail.
 
 process_rule(Head ~> Body) :-
@@ -140,8 +142,8 @@ process_rule(Head ~> Body) :-
     !.
 
 process_rule(Head ~> Body) :-
-	format(user_error, 'ERROR: This is not a valid Codeco rule: ~l\n', [Head => Body]),
 	!,
+	format(user_error, 'ERROR: This is not a valid Codeco rule: ~l\n', [Head => Body]),
 	fail.
 
 
@@ -222,8 +224,14 @@ process_cat($ Cat) :-
 	fail.
 
 process_cat($ Cat) :-
-    atom(Cat),
+    codeco_atom(Cat),
     !.
+
+process_cat($ Cat) :-
+    atom(Cat),
+	!,
+	format(user_error, 'ERROR: Invalid cateogry name: ~l\n', [Cat]),
+	fail.
 
 process_cat($ Cat) :-
     Cat =.. [_|Features],
@@ -249,8 +257,7 @@ process_cat(Cat) :-
 	fail.
 
 process_cat(Cat) :-
-	atom(Cat),
-	\+ special_category_name(Cat),
+	codeco_atom(Cat),
 	!.
 
 process_cat(Cat) :-
@@ -282,13 +289,19 @@ process_cat(Cat) :-
 
 process_cat(Cat) :-
     Cat =.. [Name|Features],
-	\+ special_category_name(Name),
+	codeco_atom(Name),
 	!,
     process_features(Features).
 
 process_cat(Cat) :-
+    Cat =.. [Name|_],
 	!,
-	format(user_error, 'ERROR: This is an invalid category: ~l\n', [Cat]),
+	format(user_error, 'ERROR: Invalid category name: ~l\n', [Name]),
+	fail.
+
+process_cat(Cat) :-
+	!,
+	format(user_error, 'ERROR: This is not a valid category: ~l\n', [Cat]),
 	fail.
 
 
@@ -345,6 +358,12 @@ process_features([Name:_|_]) :-
 	format(user_error, 'ERROR: Feature names must be atoms: ~l\n', [Name]),
 	fail.
 
+process_features([Name:_|_]) :-
+	\+ codeco_atom(Name),
+	!,
+	format(user_error, 'ERROR: Invalid feature name: ~l\n', [Name]),
+	fail.
+
 process_features([Name:_|Rest]) :-
 	member(Name:_, Rest),
 	!,
@@ -357,14 +376,47 @@ process_features([_:V|Rest]) :-
 	process_features(Rest).
 
 process_features([_:V|Rest]) :-
-	atom(V),
+	codeco_atom(V),
 	!,
 	process_features(Rest).
 
 process_features([_:V|_]) :-
 	!,
-	format(user_error, 'ERROR: Feature values must be variables or atoms: ~l\n', [V]),
+	format(user_error, 'ERROR: Invalid feature value: ~l\n', [V]),
 	fail.
+
+
+codeco_atom(A) :-
+	atom(A),
+	atom_codes(A, Chars),
+	codeco_atom_characters(Chars).
+
+
+codeco_atom_characters([]) :-
+    !.
+
+codeco_atom_characters([C|Chars]) :-
+    codeco_atom_character(C),
+    codeco_atom_characters(Chars).
+
+
+codeco_atom_character(C) :-
+    C >= 65,
+    C =< 90,
+    !.
+
+codeco_atom_character(C) :-
+    C >= 97,
+    C =< 122,
+    !.
+
+codeco_atom_character(C) :-
+    C >= 48,
+    C =< 57,
+    !.
+
+codeco_atom_character(95) :-
+    !.
 
 
 :- format_predicate(l, write_codeco_term(_Arg, _Term)).

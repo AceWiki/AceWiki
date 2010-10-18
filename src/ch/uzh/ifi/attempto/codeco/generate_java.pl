@@ -37,7 +37,7 @@ For more information about Codeco, see the following thesis:
 http://attempto.ifi.uzh.ch/site/pubs/papers/doctoral_thesis_kuhn.pdf 
 
 @author Tobias Kuhn
-@version 2010-10-15
+@version 2010-10-18
 */
 
 
@@ -112,9 +112,6 @@ process_term(Out, N:V) :-
 	!,
     format(Out, '\t\t\n\t\t/* ~w: ~w */\n', [N,V]).
 
-process_term(_, { _ } ) :-
-	!.
-
 process_term(Out, $ Head => [Body]) :-
     !,
     write(Out, '\t\t\n\t\t// '),
@@ -122,9 +119,10 @@ process_term(Out, $ Head => [Body]) :-
     write(Out, '\n'),
     write(Out, '\t\tl.clear();\n'),
     write(Out, '\t\tfeatureHash.clear();\n'),
+    write(Out, '\t\tann = new Annotation();\n'),
     process_head(Out, $ Head),
     process_cat(Out, [Body]),
-    write(Out, '\t\taddLexicalRule(new LexicalRule(l));\n').
+    write(Out, '\t\taddLexicalRule(new LexicalRule(ann, l));\n').
 
 process_term(Out, Head => Body) :-
     !,
@@ -133,9 +131,10 @@ process_term(Out, Head => Body) :-
     write(Out, '\n'),
     write(Out, '\t\tl.clear();\n'),
     write(Out, '\t\tfeatureHash.clear();\n'),
+    write(Out, '\t\tann = new Annotation();\n'),
     process_head(Out, Head),
     process_cats(Out, Body),
-    write(Out, '\t\taddGrammarRule(new GrammarRule(l, false));\n').
+    write(Out, '\t\taddGrammarRule(new GrammarRule(ann, l, false));\n').
 
 process_term(Out, Head ~> Body) :-
     !,
@@ -144,20 +143,63 @@ process_term(Out, Head ~> Body) :-
     write(Out, '\n'),
     write(Out, '\t\tl.clear();\n'),
     write(Out, '\t\tfeatureHash.clear();\n'),
+    write(Out, '\t\tann = new Annotation();\n'),
     process_head(Out, Head),
     process_cats(Out, Body),
-    write(Out, '\t\taddGrammarRule(new GrammarRule(l, true));\n').
+    write(Out, '\t\taddGrammarRule(new GrammarRule(ann, l, true));\n').
 
 process_term(_, Term) :-
     format(user_error, 'WARNING. Cannot process term: ~q\n', Term).
 
 
-process_head(Out, _ : Cond) :-
+process_head(Out, { Ann } : Cond) :-
     !,
+    process_annotations(Out, Ann),
     process_cat(Out, Cond).
 
 process_head(Out, Cond) :-
     process_cat(Out, Cond).
+
+
+process_annotations(Out, (A , Anns) ) :-
+    !,
+    process_annotation(Out, A),
+    process_annotations(Out, Anns).
+
+process_annotations(Out, A) :-
+	process_annotation(Out, A).
+
+
+process_annotation(Out, N:V) :-
+    format(Out, '\t\tann.setItem("~w", ', N),
+    process_structure(Out, V),
+    write(Out, ');\n').
+
+
+process_structure(Out, '$VAR'(N)) :-
+    !,
+    format(Out, 'getStringRef(~w, featureHash)', N).
+
+process_structure(Out, Atom) :-
+    atom(Atom),
+    !,
+    format(Out, '"~w"', [Atom]).
+
+process_structure(Out, Term) :-
+    Term =.. [Pred|Args],
+    !,
+    format(Out, 'new Object[] {"~w"', Pred),
+    process_structure_list(Out, Args),
+    write(Out, '}').
+
+
+process_structure_list(_, []) :-
+    !.
+
+process_structure_list(Out, [S|Rest]) :-
+    write(Out, ', '),
+    process_structure(Out, S),
+    process_structure_list(Out, Rest).
 
 
 process_cats(Out, Body) :-
@@ -265,6 +307,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import ch.uzh.ifi.attempto.chartparser.Annotation;
 import ch.uzh.ifi.attempto.chartparser.Nonterminal;
 import ch.uzh.ifi.attempto.chartparser.GrammarRule;
 import ch.uzh.ifi.attempto.chartparser.LexicalRule;
@@ -297,6 +340,7 @@ public class *class* extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		BackrefCategory brefcat;
 		FeatureMap fm;
 		HashMap<Integer, StringRef> featureHash = new HashMap<Integer, StringRef>();
+		Annotation ann;
 ').
 
 
@@ -311,6 +355,15 @@ footer('
 		} else {
 			fm.setFeature(featureName, featureHash.get(varID));
 		}
+	}
+	
+	private StringRef getStringRef(int varID, HashMap<Integer, StringRef> featureHash) {
+		StringRef stringRef = featureHash.get(varID);
+		if (stringRef == null) {
+			stringRef = new StringRef();
+			featureHash.put(varID, stringRef);
+		}
+		return stringRef;
 	}
 	
 }').
