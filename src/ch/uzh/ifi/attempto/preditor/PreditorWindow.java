@@ -346,7 +346,7 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 	 * @param text The text to be added.
 	 */
 	public void addText(String text) {
-		handleTextInput(text);
+		handleTextInput(text, true);
 		update();
 	}
 	
@@ -516,12 +516,16 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		this.filter = filter;
 	}
 	
-	private void handleTextInput() {
-		handleTextInput(textField.getText());
+	private void handleTextInput(boolean enterPressed) {
+		handleTextInput(textField.getText(), enterPressed);
 	}
 	
-	private void handleTextInput(String text) {
-		handleTextInput(getTextOperator().splitIntoTokens(text));
+	private void handleTextInput(String text, boolean enterPressed) {
+		List<String> subtokens = getTextOperator().splitIntoTokens(text);
+		if (enterPressed && (text.equals(filter) || text.endsWith(" "))) {
+			subtokens.add("");
+		}
+		handleTextInput(subtokens);
 	}
 	
 	private void handleTextInput(List<String> subtokens) {
@@ -532,7 +536,7 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 			if (text.length() > 0) text += " ";
 			text += subtokens.remove(0);
 			TextElement te = getTextOperator().createTextElement(text);
-			if (te != null && parser.isPossibleNextToken(te.getOriginalText())) {
+			if (subtokens.size() > 0 && te != null && parser.isPossibleNextToken(te.getOriginalText())) {
 				textElement = te;
 				rest = new ArrayList<String>(subtokens);
 			}
@@ -584,7 +588,7 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 			return;
 		} else if (e.getSource() == okButton) {
 			log("pressed: ok");
-			handleTextInput();
+			handleTextInput(true);
 			update();
 			notifyActionListeners(new ActionEvent(this, "OK"));
 			return;
@@ -605,11 +609,11 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 				notifyActionListeners(new ActionEvent(this, "OK"));
 				return;
 			} else {
-				handleTextInput();
+				handleTextInput(true);
 			}
 		} else if ("Tab".equals(e.getActionCommand())) {
 			log("pressed: tab-key");
-			handleTextInput();
+			handleTextInput(false);
 		} else if ("Esc".equals(e.getActionCommand())) {
 			log("pressed: escape key");
 			notifyActionListeners(new ActionEvent(this, "Cancel"));
