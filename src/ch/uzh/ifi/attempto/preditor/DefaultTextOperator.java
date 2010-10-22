@@ -27,8 +27,8 @@ import ch.uzh.ifi.attempto.ape.ACEUtils;
  */
 public class DefaultTextOperator implements TextOperator {
 	
-	public TextElement createTextElement(String freeText) {
-		return new TextElement(freeText);
+	public TextElement createTextElement(String text) {
+		return new TextElement(text);
 	}
 
 	public String getTextInContext(TextElement textElement, String preceding, String following) {

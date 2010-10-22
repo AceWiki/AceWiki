@@ -525,29 +525,51 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		if (enterPressed && (text.equals(filter) || text.endsWith(" "))) {
 			subtokens.add("");
 		}
-		handleTextInput(subtokens);
+		handleTokenInput(subtokens, true);
 	}
 	
-	private void handleTextInput(List<String> subtokens) {
+	private void handleTokenInput(List<String> subtokens, boolean caseSensitive) {
 		String text = "";
 		TextElement textElement = null;
 		List<String> rest = null;
-		while (subtokens.size() > 0) {
+		List<String> s = new ArrayList<String>(subtokens);
+		while (s.size() > 1) {
 			if (text.length() > 0) text += " ";
-			text += subtokens.remove(0);
-			TextElement te = getTextOperator().createTextElement(text);
-			if (subtokens.size() > 0 && te != null && parser.isPossibleNextToken(te.getOriginalText())) {
+			text += s.remove(0);
+			TextElement te = null;
+			if (caseSensitive) {
+				te = getTextOperator().createTextElement(text);
+			} else {
+				String t = proposeToken(text);
+				if (t != null) {
+					te = getTextOperator().createTextElement(t);
+				}
+			}
+			if (te != null && parser.isPossibleNextToken(te.getOriginalText())) {
 				textElement = te;
-				rest = new ArrayList<String>(subtokens);
+				rest = new ArrayList<String>(s);
 			}
 		}
+		if (text.length() > 0) text += " ";
+		text += s.remove(0);
 		if (textElement != null) {
 			textContainer.addElement(textElement);
 			parser.addToken(textElement.getOriginalText());
-			handleTextInput(rest);
+			handleTokenInput(rest, caseSensitive);
+		} else if (caseSensitive) {
+			handleTokenInput(subtokens, false);
 		} else {
 			textField.setText(text);
 		}
+	}
+	
+	private String proposeToken(String text) {
+		for (ConcreteOption o : parser.getConcreteOptions()) {
+			if (o.getWord().toLowerCase().equals(text.toLowerCase())) {
+				return o.getWord();
+			}
+		}
+		return null;
 	}
 	
 	/**
