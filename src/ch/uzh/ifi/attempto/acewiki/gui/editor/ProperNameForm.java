@@ -86,7 +86,7 @@ public class ProperNameForm extends FormPane {
 	public static WordEditorWindow createCreatorWindow(Wiki wiki, ActionListener actionListener) {
 		WordEditorWindow creatorWindow = new WordEditorWindow("Word Creator");
 		creatorWindow.addTab(new ProperNameForm(
-				new Individual(),
+				null,
 				creatorWindow,
 				wiki,
 				actionListener
