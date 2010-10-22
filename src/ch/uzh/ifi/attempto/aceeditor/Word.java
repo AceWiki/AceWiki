@@ -14,6 +14,7 @@
 
 package ch.uzh.ifi.attempto.aceeditor;
 
+import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 import ch.uzh.ifi.attempto.chartparser.Preterminal;
 import ch.uzh.ifi.attempto.preditor.MenuEntry;
 import ch.uzh.ifi.attempto.preditor.TextElement;
@@ -101,12 +102,21 @@ class Word {
 	}
 	
 	/**
+	 * Returns the lexical rule for this word form.
+	 * 
+	 * @return The lexical rule.
+	 */
+	public LexicalRule getLexicalRule() {
+		return new LexicalRule(category, wordForm);
+	}
+	
+	/**
 	 * Creates a text element containing this word.
 	 * 
 	 * @return A new text element.
 	 */
 	public TextElement getTextElement() {
-		return new TextElement(getTokenText(), category);
+		return new TextElement(getTokenText());
 	}
 	
 	/**
@@ -141,9 +151,6 @@ class Word {
 			} else if (s[0].equals("neutr")) {
 				category.setFeature("human", "minus");
 			}
-		}
-		if (n.equals("prop_sg")) {
-			category.setFeature("capitalize", "false");
 		}
 	}
 

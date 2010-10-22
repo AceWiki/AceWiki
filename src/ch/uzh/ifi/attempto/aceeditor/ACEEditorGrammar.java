@@ -25,6 +25,8 @@ import ch.uzh.ifi.attempto.chartparser.FeatureMap;
  */
 @SuppressWarnings("all")
 public class ACEEditorGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
+
+	public static final ACEEditorGrammar grammar = new ACEEditorGrammar();
 	
 	/**
 	 * Creates a new grammar object.
@@ -4039,24 +4041,4 @@ public class ACEEditorGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		addLexicalRule(new LexicalRule(ann, l));
 
 	}
-	
-	private void setFeature(FeatureMap fm, String featureName, int varID, HashMap<Integer, StringRef> featureHash) {
-		if (featureHash.get(varID) == null) {
-			StringRef stringRef = new StringRef();
-			fm.setFeature(featureName, stringRef);
-			featureHash.put(varID, stringRef);
-		} else {
-			fm.setFeature(featureName, featureHash.get(varID));
-		}
-	}
-	
-	private StringRef getStringRef(int varID, HashMap<Integer, StringRef> featureHash) {
-		StringRef stringRef = featureHash.get(varID);
-		if (stringRef == null) {
-			stringRef = new StringRef();
-			featureHash.put(varID, stringRef);
-		}
-		return stringRef;
-	}
-	
 }

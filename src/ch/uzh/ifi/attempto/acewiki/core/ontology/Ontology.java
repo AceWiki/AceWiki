@@ -56,6 +56,7 @@ import org.semanticweb.owlapi.util.Version;
 import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
 import uk.ac.manchester.cs.owl.owlapi.OWLObjectComplementOfImpl;
 import ch.uzh.ifi.attempto.echocomp.Logger;
+import ch.uzh.ifi.attempto.preditor.TextOperator;
 
 // TODO Synchronization is not 100% secure.
 
@@ -92,6 +93,7 @@ public class Ontology {
 	private String reasonerType = "none";
 	private OWLDifferentIndividualsAxiom differentIndividualsAxiom;
 	private final OWLProfile owlProfile;
+	private AceWikiTextOperator textOperator;
 	
 	/**
 	 * Creates a new empty ontology with the given name and parameters.
@@ -137,6 +139,8 @@ public class Ontology {
 		} catch (OWLOntologyCreationException ex) {
 			ex.printStackTrace();
 		}
+		
+		textOperator = new AceWikiTextOperator(this);
 	}
 	
 	/**
@@ -1025,6 +1029,15 @@ public class Ontology {
 	 */
 	long getStateID() {
 		return stateID;
+	}
+	
+	/**
+	 * Returns the text operator.
+	 * 
+	 * @return The text operator.
+	 */
+	public TextOperator getTextOperator() {
+		return textOperator;
 	}
 	
 }

@@ -14,30 +14,36 @@
 
 package ch.uzh.ifi.attempto.preditor;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import ch.uzh.ifi.attempto.chartparser.ConcreteOption;
 import ch.uzh.ifi.attempto.chartparser.NextTokenOptions;
 
 /**
- * This class is a minimal implementation of a menu creator. No dynamic lexicon entries are
- * generated. Menu items are only generated for the lexicon entries in the grammar. All menu items
- * are put into the same menu block. See the
- * <a href="{@docRoot}/src-html/ch/uzh/ifi/attempto/preditor/MinimalMenuCreator.html">source code</a>.
+ * This class is the default implementation of a menu creator.
  * 
  * @author Tobias Kuhn
  */
-public class MinimalMenuCreator extends MenuCreator {
+public class DefaultMenuCreator implements MenuCreator {
+	
+	private DefaultMenuItemComparator comparator = new DefaultMenuItemComparator();
 
-	public List<MenuItem> getMenuItems(NextTokenOptions options) {
-		List<MenuItem> menuItems = new ArrayList<MenuItem>();
-		
-		for (ConcreteOption o : options.getConcreteOptions()) {
-			menuItems.add(new MenuEntry(o, "function word"));
-		}
-		
-		return menuItems;
+	public MenuEntry createMenuEntry(ConcreteOption option) {
+		return new MenuEntry(option, "word");
+	}
+	
+	public List<SpecialMenuItem> createSpecialMenuItems(NextTokenOptions options) {
+		return Collections.emptyList();
+	}
+
+	public List<String> getMenuGroupOrdering() {
+		return Collections.emptyList();
+	}
+
+	public Comparator<MenuItem> getMenuItemComparator() {
+		return comparator;
 	}
 
 }

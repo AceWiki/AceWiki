@@ -25,6 +25,8 @@ import ch.uzh.ifi.attempto.chartparser.FeatureMap;
  */
 @SuppressWarnings("all")
 public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
+
+	public static final TestGrammar grammar = new TestGrammar();
 	
 	/**
 	 * Creates a new grammar object.
@@ -2955,24 +2957,4 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		addGrammarRule(new GrammarRule(ann, l, false));
 
 	}
-	
-	private void setFeature(FeatureMap fm, String featureName, int varID, HashMap<Integer, StringRef> featureHash) {
-		if (featureHash.get(varID) == null) {
-			StringRef stringRef = new StringRef();
-			fm.setFeature(featureName, stringRef);
-			featureHash.put(varID, stringRef);
-		} else {
-			fm.setFeature(featureName, featureHash.get(varID));
-		}
-	}
-	
-	private StringRef getStringRef(int varID, HashMap<Integer, StringRef> featureHash) {
-		StringRef stringRef = featureHash.get(varID);
-		if (stringRef == null) {
-			stringRef = new StringRef();
-			featureHash.put(varID, stringRef);
-		}
-		return stringRef;
-	}
-	
 }

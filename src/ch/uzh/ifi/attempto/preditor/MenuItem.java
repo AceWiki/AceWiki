@@ -26,12 +26,13 @@ import nextapp.echo2.app.Insets;
  * 
  * @author Tobias Kuhn
  */
-public abstract class MenuItem extends Button implements Comparable<MenuItem> {
+public abstract class MenuItem extends Button {
 	
 	private static final long serialVersionUID = 6061341215846815821L;
 	
 	private String menuGroup;
 	private String id;
+	private boolean highlighted = false;
 	
 	/**
 	 * Initializes a new menu item.
@@ -50,7 +51,7 @@ public abstract class MenuItem extends Button implements Comparable<MenuItem> {
 		setRolloverForeground(Style.lightForeground);
 		setRolloverBackground(Style.darkBackground);
         setLineWrap(false);
-        setFont(new Font(Style.fontTypeface, Font.PLAIN, new Extent(12)));
+        updateStyle();
 	}
 	
 	/**
@@ -72,6 +73,27 @@ public abstract class MenuItem extends Button implements Comparable<MenuItem> {
 		if (id == null) recalculateID();
 		return id;
 	}
+    
+    /**
+     * This method determines whether the menu entry is highlighted or not. Hightlighted menu
+     * entries are displayed in bold font and are shown in front of non-highlighted menu entries
+     * in sorted lists.
+     * 
+     * @param highlighted true if this entry should be highlighted.
+     */
+    public void setHighlighted(boolean highlighted) {
+    	this.highlighted = highlighted;
+    	updateStyle();
+    }
+    
+    /**
+     * Returns whether this menu item is highlighted or not.
+     * 
+     * @return true if this menu item is highlighted.
+     */
+    public boolean isHighlighted() {
+    	return highlighted;
+    }
 	
 	/**
 	 * This method should be called internally whenever something changed that has an influence on
@@ -83,44 +105,15 @@ public abstract class MenuItem extends Button implements Comparable<MenuItem> {
 			id += s.replaceAll(":", "~:").replaceAll("~", "~~") + ":";
 		}
 	}
-
-	public int compareTo(MenuItem m) {
-		String s1 = getText();
-		String s2 = m.getText();
-		
-		if (s1.startsWith("the ") || s1.startsWith("The ")) {
-			s1 = s1.substring(4);
-		}
-		if (s2.startsWith("the ") || s2.startsWith("The ")) {
-			s2 = s2.substring(4);
-		}
-		
-		if (this instanceof SpecialMenuItem && m instanceof SpecialMenuItem) {
-			return s1.compareToIgnoreCase(s2);
-		} else if (this instanceof SpecialMenuItem) {
-			return -1;
-		} else if (m instanceof SpecialMenuItem) {
-			return 1;
-		}
-		
-		Integer i1 = null;
-		Integer i2 = null;
-		
-		try {
-			i1 = Integer.parseInt(s1);
-		} catch (NumberFormatException ex) {}
-		try {
-			i2 = Integer.parseInt(s2);
-		} catch (NumberFormatException ex) {}
-		
-		if (i1 == null && i2 == null) {
-			return s1.compareToIgnoreCase(s2);
-		} else if (i1 == null) {
-			return 1;
-		} else if (i2 == null) {
-			return -1;
+	
+	/**
+	 * This method sets the style according to whether or not this menu item is highlighted.
+	 */
+	protected void updateStyle() {
+		if (highlighted) {
+			setFont(new Font(Style.fontTypeface, Font.BOLD, new Extent(12)));
 		} else {
-			return i1 - i2;
+			setFont(new Font(Style.fontTypeface, Font.PLAIN, new Extent(12)));
 		}
 	}
 	

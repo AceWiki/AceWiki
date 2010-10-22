@@ -15,9 +15,11 @@
 package ch.uzh.ifi.attempto.acewiki.core.ontology;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
+import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 
 /**
  * This class stands for roles that are represented by a transitive verb. Transitive
@@ -114,6 +116,20 @@ public class VerbRole extends Role {
 	
 	public String getInternalType() {
 		return "trverb";
+	}
+	
+	void collectLexicalRules(String catName, Collection<LexicalRule> lexRules) {
+		if (catName == null || catName.equals("verbsg")) {
+			lexRules.add(new LexicalRule("verbsg", getWord(0)));
+		}
+		if (catName == null || catName.equals("verbinf")) {
+			lexRules.add(new LexicalRule("verbinf", getWord(1)));
+		}
+		if (catName == null || catName.equals("pverb")) {
+			if (getWord(2) != null) {
+				lexRules.add(new LexicalRule("pverb", getWord(2)));
+			}
+		}
 	}
 
 }

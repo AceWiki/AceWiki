@@ -36,11 +36,11 @@ paragraph:'''text'' stands for a complete text consisting of an arbitrary number
 		sentences (including zero):'.
 
 %% m
-text ~>
+text =>
 	[].
 
 %% m
-text ~>
+text =>
 	complete_sentence,
 	text.
 
@@ -50,6 +50,7 @@ paragraph:'A complete sentence is represented by the category ''complete_sentenc
 
 %% m t
 complete_sentence ~>
+	//,
 	sentence,
 	['.'].
 

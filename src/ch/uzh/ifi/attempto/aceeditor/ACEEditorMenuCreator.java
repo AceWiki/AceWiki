@@ -23,17 +23,14 @@ import nextapp.echo2.app.Component;
 import nextapp.echo2.app.event.ActionEvent;
 import nextapp.echo2.app.event.ActionListener;
 import ch.uzh.ifi.attempto.ape.FunctionWords;
-import ch.uzh.ifi.attempto.chartparser.AbstractOption;
 import ch.uzh.ifi.attempto.chartparser.ConcreteOption;
 import ch.uzh.ifi.attempto.chartparser.NextTokenOptions;
-import ch.uzh.ifi.attempto.chartparser.Preterminal;
 import ch.uzh.ifi.attempto.echocomp.CheckBox;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.echocomp.TextField;
-import ch.uzh.ifi.attempto.preditor.MenuCreator;
 import ch.uzh.ifi.attempto.preditor.MenuEntry;
-import ch.uzh.ifi.attempto.preditor.MenuItem;
 import ch.uzh.ifi.attempto.preditor.PreditorWindow;
+import ch.uzh.ifi.attempto.preditor.DefaultMenuCreator;
 import ch.uzh.ifi.attempto.preditor.SpecialMenuItem;
 import ch.uzh.ifi.attempto.preditor.WordEditorForm;
 import ch.uzh.ifi.attempto.preditor.WordEditorWindow;
@@ -43,112 +40,91 @@ import ch.uzh.ifi.attempto.preditor.WordEditorWindow;
  * 
  * @author Tobias Kuhn
  */
-class ACEEditorMenuCreator extends MenuCreator implements ActionListener {
+class ACEEditorMenuCreator extends DefaultMenuCreator implements ActionListener {
 
 	private static final long serialVersionUID = -1357779780345075117L;
 	
-	private static Map<String, String> categories = new HashMap<String, String>();
+	private static Map<String, String> cats;
+	private static List<String> extCats;
+	private static List<String> menuGroupOrdering;
 	private LexiconHandler lexiconHandler;
 	private ACEEditor editor;
 	private PreditorWindow preditorWindow;
-
+	
 	static {
-		categories.put("noun_sg", "noun");
-		categories.put("noun_pl", "noun");
-		categories.put("prop_sg", "proper name");
-		categories.put("propdef_sg", "proper name");
-		categories.put("iv_finsg", "intransitive verb");
-		categories.put("iv_infpl", "intransitive verb");
-		categories.put("tv_finsg", "transitive verb");
-		categories.put("tv_infpl", "transitive verb");
-		categories.put("tv_pp", "passive verb");
-		categories.put("adj_itr", "adjective");
-		categories.put("adj_itr_comp", "adjective");
-		categories.put("adj_itr_sup", "adjective");
-		categories.put("adj_tr", "transitive adjective");
-		categories.put("adj_tr_comp", "transitive adjective");
-		categories.put("adv", "adverb");
-		categories.put("adv_comp", "adverb");
-		categories.put("adv_sup", "adverb");
-		categories.put("prep", "preposition");
+		cats = new HashMap<String, String>();
+		cats.put("noun_sg", "noun");
+		cats.put("noun_pl", "noun");
+		cats.put("prop_sg", "proper name");
+		cats.put("propdef_sg", "proper name");
+		cats.put("iv_finsg", "intransitive verb");
+		cats.put("iv_infpl", "intransitive verb");
+		cats.put("tv_finsg", "transitive verb");
+		cats.put("tv_infpl", "transitive verb");
+		cats.put("tv_pp", "passive verb");
+		cats.put("adj_itr", "adjective");
+		cats.put("adj_itr_comp", "adjective");
+		cats.put("adj_itr_sup", "adjective");
+		cats.put("adj_tr", "transitive adjective");
+		cats.put("adj_tr_comp", "transitive adjective");
+		cats.put("adv", "adverb");
+		cats.put("adv_comp", "adverb");
+		cats.put("adv_sup", "adverb");
+		cats.put("prep", "preposition");
+		extCats = new ArrayList<String>(cats.keySet());
+		
+		cats.put("adj_prep", "preposition");
+		cats.put("pron", "reference");
+		cats.put("def_noun_sg", "reference");
+		cats.put("ref", "reference");
+		cats.put("var", "new variable");
+		cats.put("num", "function word");
+		
+		menuGroupOrdering = new ArrayList<String>();
+		menuGroupOrdering.add("function word");
+		menuGroupOrdering.add("proper name");
+		menuGroupOrdering.add("noun");
+		menuGroupOrdering.add("adjective");
+		menuGroupOrdering.add("transitive adjective");
+		menuGroupOrdering.add("intransitive verb");
+		menuGroupOrdering.add("transitive verb");
+		menuGroupOrdering.add("passive verb");
+		menuGroupOrdering.add("adverb");
+		menuGroupOrdering.add("preposition");
+		menuGroupOrdering.add("new variable");
+		menuGroupOrdering.add("reference");
 	}
 
 	ACEEditorMenuCreator(ACEEditor editor, LexiconHandler lexiconHandler) {
 		this.editor = editor;
 		this.lexiconHandler = lexiconHandler;
-		
-		initializeMenuGroup("function word", true);
-		initializeMenuGroup("proper name", true);
-		initializeMenuGroup("noun", true);
-		initializeMenuGroup("adjective", true);
-		initializeMenuGroup("transitive adjective", true);
-		initializeMenuGroup("intransitive verb", true);
-		initializeMenuGroup("transitive verb", true);
-		initializeMenuGroup("passive verb", true);
-		initializeMenuGroup("adverb", true);
-		initializeMenuGroup("preposition", true);
-		initializeMenuGroup("new variable", false);
-		initializeMenuGroup("reference", false);
 	}
 	
 	void setPreditorWindow(PreditorWindow preditorWindow) {
 		this.preditorWindow = preditorWindow;
 	}
-
-	public List<MenuItem> getMenuItems(NextTokenOptions options) {
-		List<MenuItem> menuItems = new ArrayList<MenuItem>();
-
-		for (ConcreteOption o : options.getConcreteOptions()) {
-			if (o.getCategory() != null && o.getCategory().getName().equals("pron")) {
-				menuItems.add(new MenuEntry(o, "reference"));
-			} else {
-				menuItems.add(new MenuEntry(o, "function word"));
-			}
-		}
-		
-		for (AbstractOption o : options.getAbstractOptions("adj_prep")) {
-			menuItems.add(new MenuEntry(
-					o.getCategory().getFeature("prep").getString(),
-					"adj_prep",
-					"preposition"
-				));
-		}
-		
-		for (String c : categories.keySet()) {
-			if (options.containsPreterminal(c)) {
-				for (Word w : lexiconHandler.getWordsByCategory(c)) {
-					menuItems.add(w.getMenuEntry(categories.get(c)));
-				}
-			}
-		}
-
-		if (options.containsPreterminal("def_noun_sg")) {
-			for (Word w : lexiconHandler.getWordsByCategory("noun_sg")) {
-				Preterminal cat = new Preterminal("def_noun_sg");
-				cat.setFeature("noun", w.getWordForm());
-				cat.setFeature("text", "the " + w.getWordForm());
-				menuItems.add(new MenuEntry("the " + w.getWordForm(), cat, "reference"));
-			}
-		}
-		
-		if (options.containsPreterminal("var")) {
-			addVariableEntries(menuItems, "new variable", "var");
-		}
-		
-		if (options.containsPreterminal("ref")) {
-			addVariableEntries(menuItems, "reference", "ref");
-		}
-		
-		if (options.containsPreterminal("num")) {
-			for (int i = 2 ; i < 100 ; i++) {
-				menuItems.add(new MenuEntry(i + "", "num", "function word"));
-			}
-		}
 	
+	public List<String> getMenuGroupOrdering() {
+		return menuGroupOrdering;
+	}
+
+	public MenuEntry createMenuEntry(ConcreteOption option) {
+		String n = option.getCategoryName();
+		if (n == null) {
+			return new MenuEntry(option, "function word");
+		} else if (cats.keySet().contains(n)) {
+			return new MenuEntry(option, cats.get(n));
+		} else {
+			return new MenuEntry(option, "function word");
+		}
+	}
+
+	public List<SpecialMenuItem> createSpecialMenuItems(NextTokenOptions options) {
+		List<SpecialMenuItem> items = new ArrayList<SpecialMenuItem>();
 		Map<String, String> m = new HashMap<String, String>();
-		for (String s : categories.keySet()) {
+		for (String s : extCats) {
 			if (options.containsPreterminal(s)) {
-				String menuGroup = categories.get(s);
+				String menuGroup = cats.get(s);
 				if (m.containsKey(menuGroup)) {
 					m.put(menuGroup, m.get(menuGroup) + s + ":");
 				} else {
@@ -158,7 +134,7 @@ class ACEEditorMenuCreator extends MenuCreator implements ActionListener {
 		}
 		if (!editor.isLexiconImmutable()) {
 			for (String menuGroup : m.keySet()) {
-				menuItems.add(new SpecialMenuItem(
+				items.add(new SpecialMenuItem(
 						"new...",
 						menuGroup,
 						m.get(menuGroup),
@@ -166,19 +142,7 @@ class ACEEditorMenuCreator extends MenuCreator implements ActionListener {
 					));
 			}
 		}
-		return menuItems;
-	}
-	
-	private static void addVariableEntries(List<MenuItem> entries, String menuBlock, String cat) {
-		String[] varNames = new String[] {
-			"X", "Y", "Z", "X1", "Y1", "Z1", "X2", "Y2", "Z2",
-			"X3", "Y3", "Z3", "X4", "Y4", "Z4", "X5", "Y5", "Z5"
-		};
-		for (String s : varNames) {
-			Preterminal p = new Preterminal(cat);
-			p.setFeature("text", s);
-			entries.add(new MenuEntry(s, p, menuBlock));
-		}
+		return items;
 	}
 	
 	public void actionPerformed(ActionEvent e) {

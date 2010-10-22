@@ -15,7 +15,6 @@
 package ch.uzh.ifi.attempto.chartparser;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -33,11 +32,13 @@ public class ChartParser {
 	private final Grammar grammar;
 	private final String startCategoryName;
 	private final Nonterminal[] context;
+	private DynamicLexicon dynLexicon;
 	private final Chart chart;
 	private final List<String> tokens = new ArrayList<String>();
 	private final List<NextTokenOptions> options = new ArrayList<NextTokenOptions>();
 	private final List<List<FeatureMap>> backwardReferences = new ArrayList<List<FeatureMap>>();
 	private ParseTree parseTree;
+	private Map<String, Integer> progressTable;
 	private boolean recalculateParseTree = true;
 	private boolean debug;
 	
@@ -83,24 +84,41 @@ public class ChartParser {
 	}
 	
 	/**
+	 * Sets the dynamic lexicon.
+	 * 
+	 * @param dynLexicon The dynamic lexicon.
+	 */
+	public void setDynamicLexicon(DynamicLexicon dynLexicon) {
+		this.dynLexicon = dynLexicon;
+		updateConcreteOptions(tokens.size());
+	}
+	
+	/**
 	 * Adds the token to the end of the token sequence and runs the parsing algorithm on it.
 	 * 
 	 * @param token The new token to be added.
 	 */
 	public void addToken(String token) {
-		addToken(token, null);
-	}
-	
-	/**
-	 * Adds the token to the end of the token sequence together with its preterminal categories,
-	 * and runs the parsing algorithm on them. If several pre-terminal categories are given then
-	 * these categories are treated in a parallel way, i.e. only one of the pre-terminal categories
-	 * must match.
-	 * 
-	 * @param token The token to be added to the token sequence.
-	 * @param categories The pre-terminal categories.
-	 */
-	public void addToken(String token, Collection<Preterminal> categories) {
+		chart.addEdge(new Edge(tokens.size(), new Terminal(token)));
+		
+		List<LexicalRule> lexRules;
+		if (dynLexicon == null) {
+			lexRules = grammar.lexRulesByWord(token);
+		} else {
+			lexRules = new ArrayList<LexicalRule>();
+			lexRules.addAll(grammar.lexRulesByWord(token));
+			lexRules.addAll(dynLexicon.getLexRulesByWord(token));
+		}
+		
+		// add edges for applicable lexical rules:
+		for (LexicalRule lexRule : lexRules) {
+			Edge edge = new Edge(tokens.size(), lexRule.deepCopy());
+			chart.addEdge(edge);
+			if (debug) log("SCANNER: " + edge + "\n");
+		}
+		
+		runParsingSteps();
+
 		// add the token to the list of tokens:
 		tokens.add(token);
 		if (debug) {
@@ -110,32 +128,7 @@ public class ChartParser {
 		}
 		options.add(null);
 		backwardReferences.add(new ArrayList<FeatureMap>());
-		
-		if (categories == null) {
-			categories = new ArrayList<Preterminal>();
-			categories.add(null);
-		}
-		
-		// add a new edge to the chart for the new token:
-		for (Preterminal p : categories) {
-			if (p == null) {
-				Edge edge = new Edge(tokens.size()-1, new Terminal(token));
-				chart.addEdge(edge);
-				if (debug) log("SCANNER: " + edge + "\n");
-			} else {
-				LexicalRule lr = new LexicalRule((Preterminal) p.deepCopy(), token);
-				Edge edge = new Edge(tokens.size()-1, lr);
-				chart.addEdge(edge);
-				if (debug) log("SCANNER: " + edge + "\n");
-			}
-		}
-		
-		// add edges for applicable lexical rules:
-		for (LexicalRule lexRule : grammar.getLexRulesByWord(token)) {
-			Edge edge = new Edge(tokens.size()-1, lexRule.deepCopy());
-			chart.addEdge(edge);
-			if (debug) log("SCANNER: " + edge + "\n");
-		}
+		progressTable = null;
 		
 		runParsingSteps();
 		//if (debug) log("CHART:");
@@ -162,12 +155,14 @@ public class ChartParser {
 		backwardReferences.remove(tokens.size()-1);
 		options.remove(tokens.size());
 		tokens.remove(tokens.size()-1);
+		progressTable = null;
+		updateConcreteOptions(tokens.size());
+		recalculateParseTree = true;
 		if (debug) {
 			log("REMOVE LAST TOKEN.\nTOKEN LIST:");
 			for (String t : tokens) log(" " + t);
 			log("\n");
 		}
-		recalculateParseTree = true;
 	}
 	
 	/**
@@ -179,6 +174,7 @@ public class ChartParser {
 		options.clear();
 		options.add(null);
 		backwardReferences.clear();
+		progressTable = null;
 		chart.clear();
 		init();
 		runParsingSteps();
@@ -342,6 +338,21 @@ public class ChartParser {
 	}
 	
 	/**
+	 * Returns whether the given token is a possible next token.
+	 * 
+	 * @param token The token.
+	 * @return true if the token is a possible next token.
+	 */
+	public boolean isPossibleNextToken(String token) {
+		if (getNextTokenOptions().containsTerminal(token)) return true;
+		for (LexicalRule lr : dynLexicon.getLexRulesByWord(token)) {
+			if (!lr.getWord().getName().equals(token)) continue;
+			if (getNextTokenOptions().allowsForCategory(lr.getCategory())) return true;
+		}
+		return false;
+	}
+	
+	/**
 	 * Creates the abstract and concrete options at the given position. The options are cached.
 	 * 
 	 * @param position The position for which the options should be calculated.
@@ -349,6 +360,16 @@ public class ChartParser {
 	private void createOptions(int position) {
 		if (options.get(position) == null) {
 			Set<AbstractOption> aOptions = createAbstractOptions(position);
+			Set<ConcreteOption> cOptions = createConcreteOptions(position, aOptions);
+			options.set(position, new NextTokenOptions(aOptions, cOptions));
+		}
+	}
+	
+	private void updateConcreteOptions(int position) {
+		if (options.get(position) == null) {
+			createOptions(position);
+		} else {
+			Set<AbstractOption> aOptions = options.get(position).getAbstractOptions();
 			Set<ConcreteOption> cOptions = createConcreteOptions(position, aOptions);
 			options.set(position, new NextTokenOptions(aOptions, cOptions));
 		}
@@ -477,7 +498,17 @@ public class ChartParser {
 		
 		for (AbstractOption ao : aOptions) {
 			if (ao.getCategory() instanceof Preterminal) {
-				for (LexicalRule lexRule : grammar.getLexRulesByCatName(ao.getCategory().getName())) {
+
+				List<LexicalRule> lexRules;
+				if (dynLexicon == null) {
+					lexRules = grammar.lexRulesByCat(ao.getCategory().getName());
+				} else {
+					lexRules = new ArrayList<LexicalRule>();
+					lexRules.addAll(grammar.lexRulesByCat(ao.getCategory().getName()));
+					lexRules.addAll(dynLexicon.getLexRulesByCatName(ao.getCategory().getName()));
+				}
+				
+				for (LexicalRule lexRule : lexRules) {
 					if (ao.isFulfilledBy(lexRule.getCategory())) {
 						cOptions.add(new ConcreteOption(grammar, lexRule.deepCopy()));
 					}
@@ -494,7 +525,7 @@ public class ChartParser {
 	 * Runs the initialization step of the Earley parsing algorithm.
 	 */
 	private void init() {
-		for (GrammarRule rule : grammar.getRulesByHeadName(startCategoryName)) {
+		for (GrammarRule rule : grammar.rulesByHeadName(startCategoryName)) {
 			Edge edge = new Edge(0, rule.deepCopy(), context);
 			chart.addEdge(edge);
 			if (debug) log("INIT: " + rule + "  --->  " + edge + "\n");
@@ -510,10 +541,12 @@ public class ChartParser {
 		int chartSize = 0;
 		int step = 0;
 		int idleSteps = 0;
-		Map<String, Integer> progressTable = new HashMap<String, Integer>();
-		progressTable.put("prediction", 0);
-		progressTable.put("completion", 0);
-		progressTable.put("resolution", 0);
+		if (progressTable == null) {
+			progressTable = new HashMap<String, Integer>();
+			progressTable.put("prediction", 0);
+			progressTable.put("completion", 0);
+			progressTable.put("resolution", 0);
+		}
 		while (true) {
 			step++;
 			chartSize = chart.getSize();
@@ -554,7 +587,7 @@ public class ChartParser {
 			if (category.isSpecialCategory()) continue;
 			if (debug) log("PREDICTION FOR CATEGORY: " + category + "\n");
 			
-			for (GrammarRule rule : grammar.getRulesByHeadName(category.getName())) {
+			for (GrammarRule rule : grammar.rulesByHeadName(category.getName())) {
 				try {
 					if (!category.isSimilar(rule.getHead())) continue;
 					Edge edgeC = existingEdge.deepCopy();

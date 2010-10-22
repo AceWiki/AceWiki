@@ -27,6 +27,7 @@ paragraph:'- Tobias Kuhn, 2 August 2010 -'.
 section:'Texts and Sentences'.
 
 complete_sentence ~>
+	//,
 	sentence,
 	['.'].
 

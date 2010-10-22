@@ -15,12 +15,14 @@
 package ch.uzh.ifi.attempto.acewiki.core.ontology;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
 import ch.uzh.ifi.attempto.ape.Gender;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
+import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 
 /**
  * This class represents an individual (in logic called "constant"). AceWiki supports only
@@ -244,6 +246,15 @@ public class Individual extends OntologyElement {
 	
 	public OWLNamedIndividual getOWLRepresentation() {
 		return getOWLDataFactory().getOWLNamedIndividual(getIRI());
+	}
+	
+	void collectLexicalRules(String catName, Collection<LexicalRule> lexRules) {
+		if (catName == null || catName.equals("propername")) {
+			lexRules.add(new LexicalRule("propername", getWord(0)));
+			if (getAbbreviation() != null) {
+				lexRules.add(new LexicalRule("propername", getWord(2)));
+			}
+		}
 	}
 
 }

@@ -31,10 +31,10 @@ section:'Texts and Sentences'.
 paragraph:'''text'' stands for a complete text consisting of an arbitrary number of complete
 		sentences (including zero):'.
 
-text ~>
+text =>
 	[].
 
-text ~>
+text =>
 	complete_sentence,
 	text.
 
@@ -42,6 +42,7 @@ paragraph:'A complete sentence is represented by the category ''complete_sentenc
 		a declarative sentence that ends with a full stop or a question ending with a question mark:'.
 
 complete_sentence ~>
+	//,
 	sentence,
 	['.'].
 

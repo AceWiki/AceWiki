@@ -130,12 +130,12 @@ public class StatementFactory {
 	 */
 	public static List<Sentence> createSentences(TextContainer tc, OntologyElement owner) {
 		List<Sentence> l = new ArrayList<Sentence>();
-		TextContainer c = new TextContainer(Sentence.contextChecker);
+		TextContainer c = new TextContainer(tc.getTextOperator());
 		for (TextElement e : tc.getTextElements()) {
 			c.addElement(e);
 			if (e.getText().matches("[.?]")) {
 				l.add(createSentence(Sentence.getUnderscoredText(c), owner));
-				c = new TextContainer(Sentence.contextChecker);
+				c = new TextContainer(tc.getTextOperator());
 			}
 		}
 		return l;

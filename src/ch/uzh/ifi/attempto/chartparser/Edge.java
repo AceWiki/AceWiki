@@ -33,7 +33,7 @@ import java.util.List;
  * @see GrammarRule
  * @author Tobias Kuhn
  */
-public class Edge {
+class Edge {
 	
 	private int startPos;
 	private int endPos;
@@ -49,7 +49,7 @@ public class Edge {
 	
 	private Annotation annotation;
 	
-	private List<Edge> children;
+	private List<Edge> links;
 	
 	private Edge() {
 	}
@@ -69,7 +69,7 @@ public class Edge {
 		this.internalAnteList = new Category[0];
 		this.scopeclosing = rule.isScopeClosing();
 		this.annotation = rule.getAnnotation();
-		this.children = new ArrayList<Edge>();
+		this.links = new ArrayList<Edge>();
 	}
 	
 	/**
@@ -92,27 +92,25 @@ public class Edge {
 		this.internalAnteList = new Category[0];
 		this.scopeclosing = rule.isScopeClosing();
 		this.annotation = rule.getAnnotation();
-		this.children = new ArrayList<Edge>();
+		this.links = new ArrayList<Edge>();
 	}
 	
 	/**
-	 * Creates a new edge on the basis of a lexical rule. The end position is the start position
-	 * plus one.
+	 * Creates a new edge on the basis of a lexical rule.
 	 * 
-	 * @param startPos Start position.
+	 * @param pos Start and end position.
 	 * @param lexRule The lexical rule that is the basis for the creation of the edge.
 	 */
-	Edge(int startPos, LexicalRule lexRule) {
-		this.startPos = startPos;
-		this.endPos = startPos + 1;
-		this.progress = 1;
+	Edge(int pos, LexicalRule lexRule) {
+		this.startPos = pos;
+		this.endPos = pos;
 		this.head = lexRule.getCategory();
 		this.body = new Category[] {lexRule.getWord()};
 		this.externalAnteList = new Category[0];
 		this.internalAnteList = new Category[0];
 		this.annotation = lexRule.getAnnotation();
 		this.scopeclosing = false;
-		this.children = new ArrayList<Edge>();
+		this.links = new ArrayList<Edge>();
 	}
 	
 	/**
@@ -131,7 +129,7 @@ public class Edge {
 		this.internalAnteList = new Category[0];
 		this.annotation = new Annotation();
 		this.scopeclosing = false;
-		this.children = new ArrayList<Edge>();
+		this.links = new ArrayList<Edge>();
 	}
 	
 	/**
@@ -262,14 +260,14 @@ public class Edge {
 	}
 	
 	/**
-	 * Returns the edges that are children of this edge, i.e. the edges on the basis of which this
-	 * edge has been completed. It is assumed that the grammar is unambiguous. For ambiguous
-	 * grammars, the returned children might be incomplete or incorrect.
+	 * Returns the linked edges, i.e. the edges on the basis of which this edge has been completed.
+	 * It is assumed that the grammar is unambiguous. For ambiguous grammars, the links might be
+	 * incomplete or incorrect.
 	 * 
 	 * @return The edges that are children of this edge.
 	 */
-	public List<Edge> getChildren() {
-		return children;
+	public List<Edge> getLinks() {
+		return links;
 	}
 	
 	/**
@@ -296,7 +294,7 @@ public class Edge {
 				addAntecedents(c);
 			}
 		}
-		children.add(edge);
+		links.add(edge);
 	}
 	
 	/**
@@ -309,6 +307,7 @@ public class Edge {
 			throw new RuntimeException("Passive edge");
 		}
 		progress++;
+		links.add(null);
 	}
 	
 	/**
@@ -506,12 +505,16 @@ public class Edge {
 		}
 		edgeC.annotation = annotation.deepCopy(stringObjs);
 		if (copyChildren) {
-			edgeC.children = new ArrayList<Edge>();
-			for (Edge child : children) {
-				edgeC.children.add(child.deepCopy(true));
+			edgeC.links = new ArrayList<Edge>();
+			for (Edge l : links) {
+				if (l == null) {
+					edgeC.links.add(null);
+				} else {
+					edgeC.links.add(l.deepCopy(true));
+				}
 			}
 		} else {
-			edgeC.children = new ArrayList<Edge>(children);
+			edgeC.links = new ArrayList<Edge>(links);
 		}
 		return edgeC;
 	}

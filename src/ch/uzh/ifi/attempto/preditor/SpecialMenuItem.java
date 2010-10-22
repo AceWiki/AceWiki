@@ -42,11 +42,11 @@ public class SpecialMenuItem extends MenuItem {
 		setText(text);
 		if (actionCommand == null) actionCommand = "";
 		setActionCommand(actionCommand);
-        setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(12)));
 		setForeground(Style.mediumForeground);
 		if (actionListener != null) {
 			addActionListener(actionListener);
 		}
+		updateStyle();
     }
 	
 	/**
@@ -78,6 +78,14 @@ public class SpecialMenuItem extends MenuItem {
 	public SpecialMenuItem(String text) {
 		this(text, "", text, null);
 	}
+    
+    protected void updateStyle() {
+		if (isHighlighted()) {
+			setFont(new Font(Style.fontTypeface, Font.BOLD, new Extent(12)));
+		} else {
+			setFont(new Font(Style.fontTypeface, Font.PLAIN, new Extent(12)));
+		}
+    }
 	
 	protected String[] getContent() {
 		return new String[] {"special", getText(), getMenuGroup(), getActionCommand()};

@@ -36,7 +36,7 @@ public class ConcreteOption {
 	ConcreteOption(Grammar grammar, Terminal word, Preterminal category) {
 		this.terminal = word;
 		this.category = category;
-		identifier = calculateIdentifier(grammar.getUsedFeatureNames());
+		identifier = calculateIdentifier(grammar.getFeatureNamesArray());
 	}
 	
 	ConcreteOption(Grammar grammar, LexicalRule lexRule) {
@@ -60,6 +60,20 @@ public class ConcreteOption {
 	 */
 	public Preterminal getCategory() {
 		return category;
+	}
+	
+	/**
+	 * Returns the name of the pre-terminal category of this concrete option, or null if there is
+	 * no pre-terminal category.
+	 * 
+	 * @return The name of the pre-terminal category.
+	 */
+	public String getCategoryName() {
+		if (category == null) {
+			return null;
+		} else {
+			return category.getName();
+		}
 	}
 	
 	String calculateIdentifier(String[] usedFeatureNames) {

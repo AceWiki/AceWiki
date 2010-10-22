@@ -15,10 +15,13 @@
 package ch.uzh.ifi.attempto.acewiki.core.ontology;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import ch.uzh.ifi.attempto.ape.Gender;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
+import ch.uzh.ifi.attempto.chartparser.LexicalRule;
+import ch.uzh.ifi.attempto.chartparser.Preterminal;
 
 /**
  * This class stands for concepts that are represented by nouns. This is the only way how
@@ -70,6 +73,20 @@ public class NounConcept extends Concept {
 	
 	public String getInternalType() {
 		return "noun";
+	}
+	
+	void collectLexicalRules(String catName, Collection<LexicalRule> lexRules) {
+		if (catName == null || catName.equals("noun")) {
+			lexRules.add(new LexicalRule("noun", getWord(0)));
+		}
+		if (catName == null || catName.equals("nounpl")) {
+			lexRules.add(new LexicalRule("nounpl", getWord(1)));
+		}
+		if (catName == null || catName.equals("defnoun")) {
+			Preterminal cat = new Preterminal("defnoun");
+			cat.setFeature("noun", getWord(0));
+			lexRules.add(new LexicalRule(cat, "the " + getWord(0)));
+		}
 	}
 	
 }

@@ -38,6 +38,7 @@ import nextapp.echo2.app.event.ActionEvent;
 import nextapp.echo2.app.event.ActionListener;
 import nextapp.echo2.webcontainer.ContainerContext;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiGrammar;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.LexiconManager;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyTextElement;
@@ -122,7 +123,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private Stack<WikiPage> history = new Stack<WikiPage>();
 	private Stack<WikiPage> forward = new Stack<WikiPage>();
 	
-	private Grammar grammar = new AceWikiGrammar();
+	private LexiconManager lexicon;
 	
 	private TaskQueueHandle taskQueue;
 	private MessageWindow waitWindow;
@@ -147,6 +148,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		this.parameters = parameters;
 		
 		ontology = Ontology.getOntology(getParameter("ontology"), parameters);
+		lexicon = new LexiconManager(ontology);
 		logger = new Logger(ontology.getName(), "anon", sessionID);
 		application = (AceWikiApp) ApplicationInstance.getActive();
 		taskQueue = application.createTaskQueue();
@@ -720,7 +722,16 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * @return The grammar.
 	 */
 	public Grammar getGrammar() {
-		return grammar;
+		return AceWikiGrammar.grammar;
+	}
+	
+	/**
+	 * Returns the lexicon manager.
+	 * 
+	 * @return The lexicon manager.
+	 */
+	public LexiconManager getLexicon() {
+		return lexicon;
 	}
 	
 	/**

@@ -15,6 +15,7 @@
 package ch.uzh.ifi.attempto.acewiki.core.ontology;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
 
@@ -27,6 +28,7 @@ import org.semanticweb.owlapi.model.OWLLogicalEntity;
 import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
 import uk.ac.manchester.cs.owl.owlapi.OWLDeclarationAxiomImpl;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
+import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 
 /**
  * This class represents an ontology element which can be an individual ("constant"), a concept
@@ -132,6 +134,21 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 	 */
 	public String getWord() {
 		return getWord(0);
+	}
+	
+	/**
+	 * Returns the index of the given word form or -1 if this ontology element has no such word
+	 * form.
+	 * 
+	 * @param word The word form.
+	 * @return The index.
+	 */
+	public int getIndexOfWord(String word) {
+		String[] words = getWords();
+		for (int i = 0 ; i < words.length ; i++) {
+			if (word.equals(words[i])) return i;
+		}
+		return -1;
 	}
 	
 	/**
@@ -502,6 +519,16 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 				new ArrayList<OWLAnnotation>()
 			);
 	}
+	
+	/**
+	 * This method should collect the lexical rules of this ontology element for the given category
+	 * name.
+	 * 
+	 * @param catName The category name.
+	 * @param lexRules The lexical rules should be added to this collection.
+	 */
+	// TODO: Improve this.
+	abstract void collectLexicalRules(String catName, Collection<LexicalRule> lexRules);
 
 	public int compareTo(OntologyElement e) {
 		return getHeadword().toLowerCase().compareTo(e.getHeadword().toLowerCase());

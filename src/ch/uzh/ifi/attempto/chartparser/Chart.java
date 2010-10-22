@@ -44,7 +44,7 @@ class Chart {
 	 * @param grammar The grammar for the chart.
 	 */
 	public Chart(Grammar grammar) {
-		this.usedFeatureNames = grammar.getUsedFeatureNames();
+		this.usedFeatureNames = grammar.getFeatureNamesArray();
 	}
 	
 	/**

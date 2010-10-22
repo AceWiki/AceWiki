@@ -15,6 +15,7 @@
 package ch.uzh.ifi.attempto.preditor;
 
 import ch.uzh.ifi.attempto.chartparser.Grammar;
+import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 import ch.uzh.ifi.attempto.chartparser.Nonterminal;
 import ch.uzh.ifi.attempto.chartparser.Preterminal;
 import ch.uzh.ifi.attempto.chartparser.GrammarRule;
@@ -67,6 +68,33 @@ public class ExampleGrammar extends Grammar {
 		// vp ~> $tv, univ_np.
 		addGrammarRule(new GrammarRule(new Nonterminal("vp"), true, new Preterminal("tv"), new Nonterminal("univ_np")));
 		
+		// lexicon entries:
+		addLexicalRule(new LexicalRule("n", "man"));
+		addLexicalRule(new LexicalRule("n", "woman"));
+		addLexicalRule(new LexicalRule("n", "human"));
+		addLexicalRule(new LexicalRule("n", "dog"));
+		addLexicalRule(new LexicalRule("n", "house"));
+		addLexicalRule(new LexicalRule("n", "car"));
+		addLexicalRule(new LexicalRule("pn", "John"));
+		addLexicalRule(new LexicalRule("pn", "Bill"));
+		addLexicalRule(new LexicalRule("pn", "Mary"));
+		addLexicalRule(new LexicalRule("pn", "Sue"));
+		addLexicalRule(new LexicalRule("pn", "Tom"));
+		addLexicalRule(new LexicalRule("pn", "Rick"));
+		addLexicalRule(new LexicalRule("pn", "Paul"));
+		addLexicalRule(new LexicalRule("iv", "waits"));
+		addLexicalRule(new LexicalRule("iv", "sleeps"));
+		addLexicalRule(new LexicalRule("iv", "works"));
+		addLexicalRule(new LexicalRule("iv", "eats"));
+		addLexicalRule(new LexicalRule("iv", "drinks"));
+		addLexicalRule(new LexicalRule("tv", "sees"));
+		addLexicalRule(new LexicalRule("tv", "knows"));
+		addLexicalRule(new LexicalRule("tv", "owns"));
+		addLexicalRule(new LexicalRule("tv", "uses"));
+		addLexicalRule(new LexicalRule("tv", "buys"));
+		addLexicalRule(new LexicalRule("tv", "sells"));
+		addLexicalRule(new LexicalRule("tv", "drives"));
+		addLexicalRule(new LexicalRule("tv", "likes"));
 	}
 
 }

@@ -37,7 +37,7 @@ For more information about Codeco, see the following thesis:
 http://attempto.ifi.uzh.ch/site/pubs/papers/doctoral_thesis_kuhn.pdf 
 
 @author Tobias Kuhn
-@version 2010-10-18
+@version 2010-10-21
 */
 
 
@@ -66,7 +66,6 @@ generate_java(InputFile, Class) :-
     atom_concat(ClassName, '.java', OutputFile),
     open(OutputFile, write, Out),
     header(Header),
-    footer(Footer),
     replace(Header, '*package*', Package, Header1),
     replace(Header1, '*class*', ClassName, Header2),
     write(Out, Header2),
@@ -76,7 +75,7 @@ generate_java(InputFile, Class) :-
     	write(user_error, 'Error during parsing.\n')
     ),
     close(In),
-    write(Out, Footer),
+    write(Out, '\n\t}\n}\n'),
     close(Out).
 
 
@@ -328,6 +327,8 @@ import ch.uzh.ifi.attempto.chartparser.FeatureMap;
  */
 @SuppressWarnings("all")
 public class *class* extends ch.uzh.ifi.attempto.chartparser.Grammar {
+
+	public static final *class* grammar = new *class*();
 	
 	/**
 	 * Creates a new grammar object.
@@ -342,29 +343,3 @@ public class *class* extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		HashMap<Integer, StringRef> featureHash = new HashMap<Integer, StringRef>();
 		Annotation ann;
 ').
-
-
-footer('
-	}
-	
-	private void setFeature(FeatureMap fm, String featureName, int varID, HashMap<Integer, StringRef> featureHash) {
-		if (featureHash.get(varID) == null) {
-			StringRef stringRef = new StringRef();
-			fm.setFeature(featureName, stringRef);
-			featureHash.put(varID, stringRef);
-		} else {
-			fm.setFeature(featureName, featureHash.get(varID));
-		}
-	}
-	
-	private StringRef getStringRef(int varID, HashMap<Integer, StringRef> featureHash) {
-		StringRef stringRef = featureHash.get(varID);
-		if (stringRef == null) {
-			stringRef = new StringRef();
-			featureHash.put(varID, stringRef);
-		}
-		return stringRef;
-	}
-	
-}').
-

@@ -17,19 +17,23 @@ package ch.uzh.ifi.attempto.aceeditor;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import ch.uzh.ifi.attempto.ape.Lexicon;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
+import ch.uzh.ifi.attempto.chartparser.DynamicLexicon;
+import ch.uzh.ifi.attempto.chartparser.LexicalRule;
+import ch.uzh.ifi.attempto.chartparser.Preterminal;
 
 /**
  * This class manages the lexicon of the ACE Editor.
  * 
  * @author Tobias Kuhn
  */
-class LexiconHandler {
+class LexiconHandler implements DynamicLexicon {
 
 	private Lexicon lexicon = new Lexicon();
 	private Map<String,List<Word>> categoryMap = new HashMap<String,List<Word>>();
@@ -145,6 +149,78 @@ class LexiconHandler {
 			sb.append(".\n");
 		}
 		return sb.toString();
+	}
+
+	public Collection<LexicalRule> getLexRulesByCatName(String catName) {
+		Collection<LexicalRule> lexRules = new ArrayList<LexicalRule>();
+		if (catName.equals("def_noun_sg")) {
+			for (Word w : getWordsByCategory("noun_sg")) {
+				Preterminal cat = new Preterminal("def_noun_sg");
+				cat.setFeature("noun", w.getWordForm());
+				cat.setFeature("text", "the " + w.getWordForm());
+				lexRules.add(new LexicalRule(cat, "the " + w.getWordForm()));
+			}
+		} else if (catName.equals("var")) {
+			addVariableEntries(lexRules, "var");
+		} else if (catName.equals("ref")) {
+			addVariableEntries(lexRules, "ref");
+		} else if (catName.equals("num")) {
+			for (int i = 2 ; i < 100 ; i++) {
+				lexRules.add(new LexicalRule("num", i + ""));
+			}
+		} else if (catName.equals("adj_prep")) {
+			for (Word w : getWordsByCategory("adj_tr")) {
+				Preterminal p = new Preterminal("adj_prep");
+				String prep = w.getCategory().getFeature("prep").getString();
+				p.setFeature("prep", prep);
+				lexRules.add(new LexicalRule(p, prep));
+			}
+		} else {
+			for (Word w : getWordsByCategory(catName)) {
+				lexRules.add(w.getLexicalRule());
+			}
+		}
+		return lexRules;
+	}
+
+	public Collection<LexicalRule> getLexRulesByWord(String word) {
+		Collection<LexicalRule> lexRules = new ArrayList<LexicalRule>();
+		if (word.startsWith("the ")) {
+			for (Word w : getWordsByText(word.substring(4))) {
+				if (w.getCategory().getName().equals("noun_sg")) {
+					Preterminal cat = new Preterminal("def_noun_sg");
+					cat.setFeature("noun", w.getWordForm());
+					cat.setFeature("text", "the " + w.getWordForm());
+					lexRules.add(new LexicalRule(cat, "the " + w.getWordForm()));
+				}
+			}
+		} else if (word.matches("[XYZ][0-9]*")) {
+			Preterminal p = new Preterminal("var");
+			p.setFeature("text", word);
+			lexRules.add(new LexicalRule(p, word));
+			p = new Preterminal("ref");
+			p.setFeature("text", word);
+			lexRules.add(new LexicalRule(p, word));
+		} else if (word.matches("[0-9]+")) {
+			lexRules.add(new LexicalRule("num", word));
+		} else {
+			for (Word w : getWordsByText(word)) {
+				lexRules.add(w.getLexicalRule());
+			}
+		}
+		return lexRules;
+	}
+	
+	private static void addVariableEntries(Collection<LexicalRule> entries, String cat) {
+		for (String s : new String[] {"X", "Y", "Z"}) {
+			for (int i = 0 ; i <= 3 ; i++) {
+				Preterminal p = new Preterminal(cat);
+				String t = s;
+				if (i != 0) t += i;
+				p.setFeature("text", t);
+				entries.add(new LexicalRule(p, t));
+			}
+		}
 	}
 
 }

@@ -26,7 +26,7 @@ import java.util.Map;
  */
 public class ParseTree {
 	
-	private Edge topNode;
+	private ParseTreeNode topNode;
 	private String lamFunctor = "lam";
 	private String appFunctor = "app";
 	private String concatFunctor = ".";
@@ -38,8 +38,8 @@ public class ParseTree {
 	 * 
 	 * @param topNode The top node.
 	 */
-	ParseTree(Edge topNode) {
-		this.topNode = topNode.deepCopy(true);
+	ParseTree(Edge edge) {
+		this.topNode = new ParseTreeNode(edge.deepCopy(true));
 	}
 	
 	/**
@@ -94,12 +94,11 @@ public class ParseTree {
 	}
 	
 	/**
-	 * Returns the top node of the parse tree. The nodes of the tree are represented by edges, each
-	 * of which has links to its child edges.
+	 * Returns the top node of the parse tree.
 	 * 
 	 * @return The top node of the parse tree.
 	 */
-	public Edge getTopNode() {
+	public ParseTreeNode getTopNode() {
 		return topNode;
 	}
 	
@@ -113,25 +112,15 @@ public class ParseTree {
 		return getSynTree(topNode);
 	}
 	
-	private Object getSynTree(Edge edge) {
-		if (edge == null) {
-			return null;
-		} else {
-			Category h = edge.getHead();
-			if (h instanceof Terminal) {
-				return h;
-			} else if (h instanceof Preterminal) {
-				return new Object[] {h, edge.getBody()[0]};
-			} else {
-				List<Edge> c = edge.getChildren();
-				Object[] o = new Object[c.size()+1];
-				o[0] = h;
-				for (int i = 0 ; i < c.size() ; i++) {
-					o[i+1] = getSynTree(c.get(i));
-				}
-				return o;
-			}
+	private Object getSynTree(ParseTreeNode n) {
+		Category h = n.getCategory();
+		List<ParseTreeNode> c = n.getChildren();
+		Object[] o = new Object[c.size()+1];
+		o[0] = h;
+		for (int i = 0 ; i < c.size() ; i++) {
+			o[i+1] = getSynTree(c.get(i));
 		}
+		return o;
 	}
 	
 	/**
@@ -167,12 +156,11 @@ public class ParseTree {
 		return o;
 	}
 	
-	private Object getSemTree(Edge parseTree) {
-		if (parseTree == null) return null;
-		Object structure =  parseTree.getAnnotation().getItem(semLabel);
+	private Object getSemTree(ParseTreeNode n) {
+		Object structure =  n.getAnnotation().getItem(semLabel);
 		if (structure == null) return null;
-		for (Edge e : parseTree.getChildren()) {
-			Object o = getSemTree(e);
+		for (ParseTreeNode c : n.getChildren()) {
+			Object o = getSemTree(c);
 			if (o != null) {
 				structure = new Object[] {appFunctor, structure, o};
 			}

@@ -40,7 +40,7 @@ public class AbstractOption {
 		} else {
 			this.exceptions = new Category[] {};
 		}
-		identifier = calculateIdentifier(grammar.getUsedFeatureNames());
+		identifier = calculateIdentifier(grammar.getFeatureNamesArray());
 	}
 	
 	AbstractOption(Grammar grammar, Category category, List<Category> exceptions) {
@@ -58,6 +58,16 @@ public class AbstractOption {
 	 */
 	public Category getCategory() {
 		return category;
+	}
+
+	/**
+	 * Returns the name of the terminal or pre-terminal category that represents possible next
+	 * tokens.
+	 * 
+	 * @return The name of the terminal or pre-terminal category.
+	 */
+	public String getCategoryName() {
+		return category.getName();
 	}
 	
 	/**

@@ -17,6 +17,7 @@ package ch.uzh.ifi.attempto.preditor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,18 +36,18 @@ class MenuBlockContent {
 	private Map<String, MenuItem> idMap = new HashMap<String, MenuItem>();
 	private String name;
 	private String filter = "";
-	private boolean doSort;
 	private boolean isSorted = true;
+	private Comparator<MenuItem> comparator;
 	
 	/**
 	 * Creates a new menu block content object.
 	 * 
 	 * @param name The name of the menu block.
-	 * @param doSort true if the content should be sorted.
+	 * @param comparator The comparator to be used to sort the menu items.
 	 */
-	public MenuBlockContent(String name, boolean doSort) {
+	public MenuBlockContent(String name, Comparator<MenuItem> comparator) {
 		this.name = name;
-		this.doSort = doSort;
+		this.comparator = comparator;
 	}
 	
 	/**
@@ -67,11 +68,7 @@ class MenuBlockContent {
 	 */
 	public void addItem(MenuItem item) {
 		String id = item.getMenuItemID();
-		if (item instanceof MenuEntry && idMap.containsKey(id)) {
-			MenuEntry m1 = (MenuEntry) item;
-			MenuEntry m2 = (MenuEntry) idMap.get(id);
-			m2.getTextElement().include(m1.getTextElement());
-		} else if (!idMap.containsKey(id)) {
+		if (!(item instanceof MenuEntry && idMap.containsKey(id)) && !idMap.containsKey(id)) {
 			items.add(item);
 			idMap.put(id, item);
 			if (item instanceof MenuEntry) {
@@ -116,8 +113,8 @@ class MenuBlockContent {
 	 */
 	public List<MenuItem> getItems() {
 		// TODO improve this method
-		if (!isSorted && doSort) {
-			sort();
+		if (!isSorted && comparator != null) {
+			Collections.sort(items, comparator);
 		}
 		if (filter.length() == 0) {
 			return items;
@@ -186,10 +183,6 @@ class MenuBlockContent {
 			// TODO find a better way to do this without using "°":
 			filteredEntries = entryMap.subMap(this.filter, this.filter + "°").values();
 		}
-	}
-	
-	private void sort() {
-		Collections.sort(items);
 	}
 
 }

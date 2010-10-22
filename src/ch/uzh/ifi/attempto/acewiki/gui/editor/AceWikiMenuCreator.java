@@ -15,21 +15,21 @@
 package ch.uzh.ifi.attempto.acewiki.gui.editor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import nextapp.echo2.app.event.ActionEvent;
 import nextapp.echo2.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyTextElement;
 import ch.uzh.ifi.attempto.chartparser.ConcreteOption;
 import ch.uzh.ifi.attempto.chartparser.NextTokenOptions;
-import ch.uzh.ifi.attempto.chartparser.Preterminal;
-import ch.uzh.ifi.attempto.preditor.MenuCreator;
+import ch.uzh.ifi.attempto.preditor.DefaultMenuCreator;
 import ch.uzh.ifi.attempto.preditor.MenuEntry;
-import ch.uzh.ifi.attempto.preditor.MenuItem;
 import ch.uzh.ifi.attempto.preditor.SpecialMenuItem;
+import ch.uzh.ifi.attempto.preditor.TextOperator;
 
 /**
  * This is the menu creator class that generates the menu entries for the predictive editor
@@ -37,13 +37,41 @@ import ch.uzh.ifi.attempto.preditor.SpecialMenuItem;
  * 
  * @author Tobias Kuhn
  */
-class AceWikiMenuCreator extends MenuCreator implements ActionListener {
+class AceWikiMenuCreator extends DefaultMenuCreator implements ActionListener {
 	
 	private static final long serialVersionUID = -6442603864805781298L;
+	
+	private static Map<String, String> cats;
+	private static List<String> menuGroupOrdering;
 	
 	private Wiki wiki;
 	private OntologyElement highlightedElement;
 	private ActionListener actionListener;
+
+	static {
+		cats = new HashMap<String, String>();
+		cats.put("propername", "proper name");
+		cats.put("noun", "noun");
+		cats.put("defnoun", "reference");
+		cats.put("nounpl", "plural noun");
+		cats.put("nounof", "of-construct");
+		cats.put("verbsg", "verb");
+		cats.put("verbinf", "verb");
+		cats.put("pverb", "passive verb");
+		cats.put("tradj", "transitive adjective");
+
+		menuGroupOrdering = new ArrayList<String>();
+		menuGroupOrdering.add("function word");
+		menuGroupOrdering.add("noun");
+		menuGroupOrdering.add("plural noun");
+		menuGroupOrdering.add("proper name");
+		menuGroupOrdering.add("of-construct");
+		menuGroupOrdering.add("verb");
+		menuGroupOrdering.add("passive verb");
+		menuGroupOrdering.add("transitive adjective");
+		menuGroupOrdering.add("reference");
+		menuGroupOrdering.add("new variable");
+	}
 	
 	/**
 	 * Creates a new AceWiki-specific menu creator object.
@@ -58,79 +86,37 @@ class AceWikiMenuCreator extends MenuCreator implements ActionListener {
 		this.wiki = wiki;
 		this.highlightedElement = highlightedElement;
 		this.actionListener = actionListener;
-		
-		initializeMenuGroup("function word", true);
-		initializeMenuGroup("noun", true);
-		initializeMenuGroup("plural noun", true);
-		initializeMenuGroup("proper name", true);
-		initializeMenuGroup("of-construct", true);
-		initializeMenuGroup("verb", true);
-		initializeMenuGroup("passive verb", true);
-		initializeMenuGroup("transitive adjective", true);
-		initializeMenuGroup("reference", false);
-		initializeMenuGroup("new variable", false);
+	}
+	
+	public List<String> getMenuGroupOrdering() {
+		return menuGroupOrdering;
 	}
 
-	public List<MenuItem> getMenuItems(NextTokenOptions options) {
-		List<MenuItem> menuItems = new ArrayList<MenuItem>();
-		
-		for (ConcreteOption o : options.getConcreteOptions()) {
-			menuItems.add(new MenuEntry(o, "function word"));
+	public MenuEntry createMenuEntry(ConcreteOption option) {
+		String n = option.getCategoryName();
+		String w = option.getWord();
+		if (n == null) {
+			return new MenuEntry(option, "function word");
+		} else if (n.equals("variable")) {
+			return new MenuEntry(option, "new variable");
+		} else if (n.equals("reference")) {
+			return new MenuEntry(option, "reference");
+		} else if (n.equals("number")) {
+			return new MenuEntry(option, "function word");
+		} else if (cats.containsKey(n)) {
+			try {
+				TextOperator to = wiki.getOntology().getTextOperator();
+				OntologyTextElement ote = (OntologyTextElement) to.createTextElement(w);
+				MenuEntry me = new MenuEntry(ote, cats.get(n));
+				me.setHighlighted(ote.getOntologyElement() == highlightedElement);
+				return me;
+			} catch (ClassCastException ex) {}
 		}
-		
-		for (OntologyElement el : wiki.getOntologyElements()) {
-			String t = el.getType();
-			if (t.equals("Proper Name") && options.containsPreterminal("propername")) {
-				menuItems.add(createMenuEntry(el, 0, "proper name"));
-				if (((Individual) el).getAbbreviation() != null) {
-					menuItems.add(createMenuEntry(el, 2, "proper name"));
-				}
-			} else if (t.equals("Noun")) {
-				if (options.containsPreterminal("noun")) {
-					menuItems.add(createMenuEntry(el, 0, "noun"));
-				}
-				if (options.containsPreterminal("defnoun")) {
-					Preterminal cat = new Preterminal("defnoun");
-					cat.setFeature("noun", el.getWord(0));
-					cat.setFeature("text", "the " + el.getWord(0));
-					OntologyTextElement te = new OntologyTextElement(el, 0, cat);
-					te.setPreText("the ");
-					menuItems.add(new MenuEntry(te, "reference"));
-				}
-				if (options.containsPreterminal("nounpl")) {
-					menuItems.add(createMenuEntry(el, 1, "plural noun"));
-				}
-			} else if (t.equals("Of-Construct") && options.containsPreterminal("nounof")) {
-				menuItems.add(createMenuEntry(el, 0, "of-construct"));
-			} else if (t.equals("Verb")) {
-				if (options.containsPreterminal("verbsg")) {
-					menuItems.add(createMenuEntry(el, 0, "verb"));
-				}
-				if (options.containsPreterminal("verbinf")) {
-					menuItems.add(createMenuEntry(el, 1, "verb"));
-				}
-				if (options.containsPreterminal("pverb") && el.getWord(2) != null) {
-					menuItems.add(createMenuEntry(el, 2, "passive verb"));
-				}
-			} else if (t.equals("Transitive Adjective") && options.containsPreterminal("tradj")) {
-				menuItems.add(createMenuEntry(el, 0, "transitive adjective"));
-			}
-		}
-		
-		if (options.containsPreterminal("variable")) {
-			addVariableEntries(menuItems, "new variable", "variable");
-		}
-		
-		if (options.containsPreterminal("reference")) {
-			addVariableEntries(menuItems, "reference", "reference");
-		}
-		
-		if (options.containsPreterminal("number")) {
-			for (int i = 2 ; i < 100 ; i++) {
-				menuItems.add(new MenuEntry(i + "", "number", "function word"));
-			}
-		}
-		
+		return new MenuEntry(option, "function word");
+	}
+
+	public List<SpecialMenuItem> createSpecialMenuItems(NextTokenOptions options) {
+		List<SpecialMenuItem> menuItems = new ArrayList<SpecialMenuItem>();
 		if (options.containsPreterminal("propername")) {
 			menuItems.add(new SpecialMenuItem("new...", "proper name", "new propername", this));
 		}
@@ -156,28 +142,6 @@ class AceWikiMenuCreator extends MenuCreator implements ActionListener {
 			menuItems.add(new SpecialMenuItem("new...", "transitive adjective", "new tradj", this));
 		}
 		return menuItems;
-	}
-	
-	private static void addVariableEntries(List<MenuItem> entries, String menuBlockName,
-			String categoryName) {
-		String[] varNames = new String[] {
-			"X", "Y", "Z", "X1", "Y1", "Z1", "X2", "Y2", "Z2",
-			"X3", "Y3", "Z3", "X4", "Y4", "Z4", "X5", "Y5", "Z5"
-		};
-		for (String s : varNames) {
-			Preterminal p = new Preterminal(categoryName);
-			p.setFeature("text", s);
-			entries.add(new MenuEntry(s, p, menuBlockName));
-		}
-	}
-	
-	private MenuEntry createMenuEntry(OntologyElement el, int wordNumber, String menuBlockName) {
-		MenuEntry menuEntry = new MenuEntry(
-				OntologyTextElement.createTextElement(el, wordNumber),
-				menuBlockName
-			);
-		menuEntry.setHighlighted(el == highlightedElement);
-		return menuEntry;
 	}
 	
 	public void actionPerformed(ActionEvent e) {

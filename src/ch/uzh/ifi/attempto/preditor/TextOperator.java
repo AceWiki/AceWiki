@@ -14,23 +14,41 @@
 
 package ch.uzh.ifi.attempto.preditor;
 
+import java.util.List;
+
 /**
- * This class represents a context checker that is able to do small surface adaptations of a token
- * according to the surrounding tokens. E.g. in English "a" should become "an" in front of "apple".
+ * This interface defines text operations that are needed by the predictive editor.
  * 
  * @author Tobias Kuhn
  */
-public interface ContextChecker {
+public interface TextOperator {
 	
 	/**
-	 * This method should return the adapted text of the text element if it occurs between the given
-	 * tokens.
+	 * This method should split a text into its tokens.
+	 * 
+	 * @param text The input text.
+	 * @return A list of strings representing the tokens.
+	 */
+	public List<String> splitIntoTokens(String text);
+	
+	/**
+	 * This method checks the context of a text element and can do small surface adaptations of a
+	 * token according to the surrounding text. E.g. in English "a" should become "an" in front
+	 * of "apple".
 	 * 
 	 * @param textElement The text element whose text should be adapted to the context.
-	 * @param precedingText The preceding token.
-	 * @param followingText The following token.
+	 * @param preceding The preceding text.
+	 * @param following The following text.
 	 * @return The adapted text.
 	 */
-	public String getTextInContext(TextElement textElement, String precedingText, String followingText);
+	public String getTextInContext(TextElement textElement, String preceding, String following);
 	
+	/**
+	 * This method should create a text element for the given text.
+	 * 
+	 * @param text The text.
+	 * @return The text element.
+	 */
+	public TextElement createTextElement(String text);
+
 }

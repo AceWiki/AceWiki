@@ -60,15 +60,12 @@ public class SentenceEditorHandler implements ActionListener {
 				page.getOntologyElement(),
 				this
 			);
-		editorWindow = new PreditorWindow(
-				"Sentence Editor",
-				wiki.getGrammar(),
-				"text",
-				menuCreator
-			);
+		editorWindow = new PreditorWindow("Sentence Editor", wiki.getGrammar(), "text");
+		editorWindow.setDynamicLexicon(wiki.getLexicon());
+		editorWindow.setMenuCreator(menuCreator);
 		editorWindow.setLogger(wiki.getLogger());
 		editorWindow.addActionListener(this);
-		editorWindow.setContextChecker(Sentence.contextChecker);
+		editorWindow.setTextOperator(wiki.getOntology().getTextOperator());
 		
 		if (edit) {
 			editorWindow.addText(((Sentence) statement).getPrettyText() + " ");
@@ -109,8 +106,12 @@ public class SentenceEditorHandler implements ActionListener {
 		if (e.getSource() == editorWindow && e.getActionCommand().equals("OK")) {
 			TextContainer textContainer = editorWindow.getTextContainer();
 			
-			List<TextElement> finalElements = editorWindow.getPossibleNextTokens(".", "?");
-			if (!finalElements.isEmpty()) textContainer.addElement(finalElements.get(0));
+			if (editorWindow.isPossibleNextToken(".")) {
+				textContainer.addElement(new TextElement("."));
+			}
+			if (editorWindow.isPossibleNextToken("?")) {
+				textContainer.addElement(new TextElement("?"));
+			}
 			
 			List<TextElement> l = textContainer.getTextElements();
 			if (l.isEmpty() || l.get(l.size() - 1).getText().matches("[.?]")) {

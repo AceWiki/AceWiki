@@ -49,10 +49,9 @@ public class ExampleServlet extends WebContainerServlet {
 				PreditorWindow preditor = new PreditorWindow(
 						"My Predictive Editor",
 						new ExampleGrammar(),
-						"text",
-						new ExampleMenuCreator()
+						"text"
 					);
-				preditor.setContextChecker(new EnglishContextChecker(true));
+				preditor.setMenuCreator(new ExampleMenuCreator());
 				preditor.setClosable(false);
 				window.getContent().add(preditor);
 				

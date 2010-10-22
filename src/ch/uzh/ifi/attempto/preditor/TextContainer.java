@@ -26,7 +26,7 @@ import java.util.List;
 public class TextContainer {
 	
 	private List<TextElement> elements = new ArrayList<TextElement>();
-	private ContextChecker contextChecker;
+	private TextOperator textOperator;
 	
 	/**
 	 * Creates a new text container.
@@ -35,12 +35,12 @@ public class TextContainer {
 	}
 	
 	/**
-	 * Creates a new text container using the given context checker.
+	 * Creates a new text container using the given text operator.
 	 * 
-	 * @param contextChecker The context checker to be used.
+	 * @param textOperator The text operator to be used.
 	 */
-	public TextContainer(ContextChecker contextChecker) {
-		setContextChecker(contextChecker);
+	public TextContainer(TextOperator textOperator) {
+		setTextOperator(textOperator);
 	}
 	
 	/**
@@ -55,17 +55,17 @@ public class TextContainer {
 	}
 	
 	/**
-	 * Creates a new text container that uses the given context checker and that contains the
+	 * Creates a new text container that uses the given text operator and that contains the
 	 * given text elements.
 	 * 
-	 * @param contextChecker The context checker to be used.
+	 * @param textOperator The text operator to be used.
 	 * @param elements The elements to be added to the new text container.
 	 */
-	public TextContainer(ContextChecker contextChecker, TextElement... elements) {
+	public TextContainer(TextOperator textOperator, TextElement... elements) {
 		for (TextElement el : elements) {
 			addElement(el);
 		}
-		setContextChecker(contextChecker);
+		setTextOperator(textOperator);
 	}
 	
 	/**
@@ -153,21 +153,21 @@ public class TextContainer {
 	}
 	
 	/**
-	 * Sets the context checker.
+	 * Sets the text operator.
 	 * 
-	 * @param contextChecker The new context checker.
+	 * @param textOperator The new text operator.
 	 */
-	public void setContextChecker(ContextChecker contextChecker) {
-		this.contextChecker = contextChecker;
+	public void setTextOperator(TextOperator textOperator) {
+		this.textOperator = textOperator;
 	}
 	
 	/**
-	 * Returns the context checker of this text container.
+	 * Returns the text operator of this text container.
 	 * 
-	 * @return The context checker.
+	 * @return The text operator.
 	 */
-	public ContextChecker getContextChecker() {
-		return contextChecker;
+	public TextOperator getTextOperator() {
+		return textOperator;
 	}
 	
 	/**
@@ -191,7 +191,7 @@ public class TextContainer {
 	}
 	
 	String getTextElementText(TextElement te) {
-		if (contextChecker == null) {
+		if (textOperator == null) {
 			return te.getOriginalText();
 		} else {
 			String preceding = null;
@@ -203,7 +203,7 @@ public class TextContainer {
 			if (pos < elements.size()-1) {
 				following = elements.get(pos+1).getOriginalText();
 			}
-			return contextChecker.getTextInContext(te, preceding, following);
+			return textOperator.getTextInContext(te, preceding, following);
 		}
 	}
 

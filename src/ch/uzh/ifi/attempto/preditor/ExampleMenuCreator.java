@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.uzh.ifi.attempto.chartparser.ConcreteOption;
-import ch.uzh.ifi.attempto.chartparser.NextTokenOptions;
 
 /**
  * This class is an examplary implementation of a menu creator. See the
@@ -26,62 +25,37 @@ import ch.uzh.ifi.attempto.chartparser.NextTokenOptions;
  * 
  * @author Tobias Kuhn
  */
-public class ExampleMenuCreator extends MenuCreator {
+public class ExampleMenuCreator extends DefaultMenuCreator {
 	
-	/**
-	 * Creates a new menu creator instance.
-	 */
-	public ExampleMenuCreator() {
-		initializeMenuGroup("function word", true);
-		initializeMenuGroup("noun", true);
-		initializeMenuGroup("proper name", true);
-		initializeMenuGroup("intransitive verb", true);
-		initializeMenuGroup("transitive verb", true);
+	private static List<String> menuGroupOrdering;
+	
+	static {
+		List<String> menuGroupOrdering = new ArrayList<String>();
+		menuGroupOrdering.add("function word");
+		menuGroupOrdering.add("noun");
+		menuGroupOrdering.add("proper name");
+		menuGroupOrdering.add("intransitive verb");
+		menuGroupOrdering.add("transitive verb");
 	}
 
-	public List<MenuItem> getMenuItems(NextTokenOptions options) {
-		List<MenuItem> menuItems = new ArrayList<MenuItem>();
-		
-		for (ConcreteOption o : options.getConcreteOptions()) {
-			menuItems.add(new MenuEntry(o, "function word"));
+	public MenuEntry createMenuEntry(ConcreteOption option) {
+		String n = option.getCategoryName();
+		if (n == null) {
+			return new MenuEntry(option, "function word");
+		} else if (n.equals("n")) {
+			return new MenuEntry(option, "noun");
+		} else if (n.equals("pn")) {
+			return new MenuEntry(option, "proper name");
+		} else if (n.equals("iv")) {
+			return new MenuEntry(option, "intransitive verb");
+		} else if (n.equals("tv")) {
+			return new MenuEntry(option, "transitive verb");
 		}
-		
-		if (options.containsPreterminal("n")) {
-			menuItems.add(new MenuEntry("man", "n", "noun"));
-			menuItems.add(new MenuEntry("woman", "n", "noun"));
-			menuItems.add(new MenuEntry("human", "n", "noun"));
-			menuItems.add(new MenuEntry("dog", "n", "noun"));
-			menuItems.add(new MenuEntry("house", "n", "noun"));
-			menuItems.add(new MenuEntry("car", "n", "noun"));
-		}
-		if (options.containsPreterminal("pn")) {
-			menuItems.add(new MenuEntry("John", "pn", "proper name"));
-			menuItems.add(new MenuEntry("Bill", "pn", "proper name"));
-			menuItems.add(new MenuEntry("Mary", "pn", "proper name"));
-			menuItems.add(new MenuEntry("Sue", "pn", "proper name"));
-			menuItems.add(new MenuEntry("Tom", "pn", "proper name"));
-			menuItems.add(new MenuEntry("Rick", "pn", "proper name"));
-			menuItems.add(new MenuEntry("Paul", "pn", "proper name"));
-		}
-		if (options.containsPreterminal("iv")) {
-			menuItems.add(new MenuEntry("waits", "iv", "intransitive verb"));
-			menuItems.add(new MenuEntry("sleeps", "iv", "intransitive verb"));
-			menuItems.add(new MenuEntry("works", "iv", "intransitive verb"));
-			menuItems.add(new MenuEntry("eats", "iv", "intransitive verb"));
-			menuItems.add(new MenuEntry("drinks", "iv", "intransitive verb"));
-		}
-		if (options.containsPreterminal("tv")) {
-			menuItems.add(new MenuEntry("sees", "tv", "transitive verb"));
-			menuItems.add(new MenuEntry("knows", "tv", "transitive verb"));
-			menuItems.add(new MenuEntry("owns", "tv", "transitive verb"));
-			menuItems.add(new MenuEntry("uses", "tv", "transitive verb"));
-			menuItems.add(new MenuEntry("buys", "tv", "transitive verb"));
-			menuItems.add(new MenuEntry("sells", "tv", "transitive verb"));
-			menuItems.add(new MenuEntry("drives", "tv", "transitive verb"));
-			menuItems.add(new MenuEntry("likes", "tv", "transitive verb"));
-		}
-		
-		return menuItems;
+		return new MenuEntry(option, "function word");
+	}
+	
+	public List<String> getMenuGroupOrdering() {
+		return menuGroupOrdering;
 	}
 
 }

@@ -40,7 +40,7 @@ class Tokenizer {
 	 * @return The tokenized ACE text as a text container.
 	 */
 	public static TextContainer tokenize(String aceText, Ontology ontology) {
-		TextContainer textContainer = new TextContainer(Sentence.contextChecker);
+		TextContainer textContainer = new TextContainer(ontology.getTextOperator());
 		
 		String t = "&" + aceText + "&";
 		t = t.replaceAll(" ", "&");
@@ -62,7 +62,7 @@ class Tokenizer {
 					long oeId = new Long(s.substring(1, s.indexOf(",")));
 					int wordNumber = new Integer(s.substring(s.indexOf(",")+1, s.indexOf(">")));
 					OntologyElement oe = ontology.get(oeId);
-					te = OntologyTextElement.createTextElement(oe, wordNumber);
+					te = new OntologyTextElement(oe, wordNumber);
 				} catch (Exception ex) {
 					throw new RuntimeException("Could not resolve link: " + s, ex);
 				}
@@ -93,7 +93,7 @@ class Tokenizer {
 							}
 						}
 					}
-					textContainer.addElement(OntologyTextElement.createTextElement(oe, wordId));
+					textContainer.addElement(new OntologyTextElement(oe, wordId));
 				}
 			}
 		}

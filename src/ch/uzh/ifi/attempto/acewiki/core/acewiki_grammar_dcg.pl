@@ -12,11 +12,11 @@
 /* --- Texts and Sentences --- */
 /* 'text' stands for a complete text consisting of an arbitrary number of complete
 		sentences (including zero): */
-text([A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X], =>(text, []), Y/Z)-->[], ~(Y/Y/Z).
-text([A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X], =>(text, (Y, Z)), A1/B1)-->complete_sentence([C1, D1, E1, F1, G1, H1, I1, J1, K1, L1, M1, N1, O1, P1, Q1, R1, S1, T1, U1, V1, W1, X1, Y1, Z1], Y, A1/A2), text([B2, C2, D2, E2, F2, G2, H2, I2, J2, K2, L2, M2, N2, O2, P2, Q2, R2, S2, T2, U2, V2, W2, X2, Y2], Z, A2/Z2), ~(A1/Z2/B1).
+text([A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X], =>(text, []), Y/Y)-->[].
+text([A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X], =>(text, (Y, Z)), A1/B1)-->complete_sentence([C1, D1, E1, F1, G1, H1, I1, J1, K1, L1, M1, N1, O1, P1, Q1, R1, S1, T1, U1, V1, W1, X1, Y1, Z1], Y, A1/A2), text([B2, C2, D2, E2, F2, G2, H2, I2, J2, K2, L2, M2, N2, O2, P2, Q2, R2, S2, T2, U2, V2, W2, X2, Y2], Z, A2/B1).
 /* A complete sentence is represented by the category 'complete_sentence' and is either
 		a declarative sentence that ends with a full stop or a question ending with a question mark: */
-complete_sentence([A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X], =>(complete_sentence, (Y, ['.'])), Z/A1)-->sentence([B1, C1, D1, E1, F1, G1, H1, I1, J1, K1, L1, M1, N1, O1, P1, Q1, R1, S1, T1, U1, V1, W1, X1, Y1], Y, Z/Z1), ['.'], ~(Z/Z1/A1).
+complete_sentence([A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X], =>(complete_sentence, (//, Y, ['.'])), Z/A1)-->[B1, C1, D1, E1, F1, G1, H1, I1, J1, K1, L1, M1, N1, O1, P1, Q1, R1, S1, T1, U1, V1, W1, X1, Y1]// (Z/Z1), sentence([A2, B2, C2, D2, E2, F2, G2, H2, I2, J2, K2, L2, M2, N2, O2, P2, Q2, R2, S2, T2, U2, V2, W2, X2], Y, Z1/Y2), ['.'], ~(Z/Y2/A1).
 complete_sentence([A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X], =>(complete_sentence, (//, Y, [?])), Z/A1)-->[B1, C1, D1, E1, F1, G1, H1, I1, J1, K1, L1, M1, N1, O1, P1, Q1, R1, S1, T1, U1, V1, W1, X1, Y1]// (Z/Z1), simple_sentence_2([minus, plus, A2, B2, C2, D2, E2, F2, G2, H2, I2, J2, K2, L2, M2, N2, O2, P2, Q2, R2, S2, T2, U2, V2], Y, Z1/W2), [?], ~(Z/W2/A1).
 /* General sentences are represented by 'sentence': */
 sentence([A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X], =>(sentence, Y), Z/A1)-->sentence_coord_1([B1, C1, D1, E1, F1, G1, H1, I1, J1, K1, L1, M1, N1, O1, P1, Q1, R1, S1, T1, U1, V1, W1, X1, Y1], Y, Z/A1).

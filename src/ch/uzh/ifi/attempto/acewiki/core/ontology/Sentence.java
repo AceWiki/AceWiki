@@ -40,8 +40,6 @@ import ch.uzh.ifi.attempto.ape.APELocal;
 import ch.uzh.ifi.attempto.ape.Lexicon;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
 import ch.uzh.ifi.attempto.ape.MessageContainer;
-import ch.uzh.ifi.attempto.preditor.ContextChecker;
-import ch.uzh.ifi.attempto.preditor.EnglishContextChecker;
 import ch.uzh.ifi.attempto.preditor.TextContainer;
 import ch.uzh.ifi.attempto.preditor.TextElement;
 
@@ -58,11 +56,6 @@ import ch.uzh.ifi.attempto.preditor.TextElement;
  * @author Tobias Kuhn
  */
 public abstract class Sentence extends Statement {
-	
-	/**
-	 * The context checker used for AceWiki.
-	 */
-	public static final ContextChecker contextChecker = new EnglishContextChecker(true, true);
 	
 	private static OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
 	

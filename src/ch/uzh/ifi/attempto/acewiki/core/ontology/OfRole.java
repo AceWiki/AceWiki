@@ -15,10 +15,12 @@
 package ch.uzh.ifi.attempto.acewiki.core.ontology;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import ch.uzh.ifi.attempto.ape.Gender;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
+import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 
 /**
  * This class stands for roles that are represented by of-constructs. Of-constructs
@@ -104,6 +106,12 @@ public class OfRole extends Role {
 	
 	public String getInternalType() {
 		return "nounof";
+	}
+	
+	void collectLexicalRules(String catName, Collection<LexicalRule> lexRules) {
+		if (catName == null || catName.equals("nounof")) {
+			lexRules.add(new LexicalRule("nounof", getWord(0)));
+		}
 	}
 
 }

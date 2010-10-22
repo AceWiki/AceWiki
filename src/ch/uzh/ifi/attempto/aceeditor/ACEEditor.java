@@ -37,8 +37,6 @@ import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.echocomp.TextAreaWindow;
 import ch.uzh.ifi.attempto.echocomp.UploadWindow;
 import ch.uzh.ifi.attempto.echocomp.WindowPane;
-import ch.uzh.ifi.attempto.preditor.ContextChecker;
-import ch.uzh.ifi.attempto.preditor.EnglishContextChecker;
 import ch.uzh.ifi.attempto.preditor.PreditorWindow;
 import ch.uzh.ifi.attempto.preditor.TextContainer;
 import ch.uzh.ifi.attempto.preditor.TextElement;
@@ -55,8 +53,7 @@ import echopointng.KeyStrokes;
 public class ACEEditor extends Window implements ActionListener, KeyStrokes {
 
 	private static final long serialVersionUID = -684743065195237612L;
-
-	private static final ContextChecker contextChecker = new EnglishContextChecker(true, true);
+	
 	private static Properties properties;
 
 	private boolean editMode;
@@ -346,14 +343,16 @@ public class ACEEditor extends Window implements ActionListener, KeyStrokes {
 			refreshKeyStrokeListener();
 		} else if (source instanceof PreditorWindow && c.equals("OK")) {
 			PreditorWindow preditor = (PreditorWindow) source;
-			preditor.setContextChecker(contextChecker);
 			TextContainer textContainer = preditor.getTextContainer();
 			if (textContainer.getTextElementsCount() == 0) {
 				removeWindow(preditor);
 				refreshKeyStrokeListener();
 			} else {
-				List<TextElement> finalElements = preditor.getPossibleNextTokens(".", "?");
-				if (!finalElements.isEmpty()) textContainer.addElement(finalElements.get(0));
+				if (preditor.isPossibleNextToken(".")) {
+					textContainer.addElement(new TextElement("."));
+				} else if (preditor.isPossibleNextToken("?")) {
+					textContainer.addElement(new TextElement("?"));
+				}
 				List<TextElement> l = textContainer.getTextElements();
 				if (l.isEmpty() || l.get(l.size() - 1).getText().matches("[.?]")) {
 					if (editMode) {
@@ -494,12 +493,12 @@ public class ACEEditor extends Window implements ActionListener, KeyStrokes {
 		ACEEditorMenuCreator menuCreator = new ACEEditorMenuCreator(this, lexiconHandler);
 		PreditorWindow preditor = new PreditorWindow(
 				"ACE Text Editor",
-				new ACEEditorGrammar(),
-				"text",
-				menuCreator
+				ACEEditorGrammar.grammar,
+				"text"
 			);
+		preditor.setDynamicLexicon(lexiconHandler);
+		preditor.setMenuCreator(menuCreator);
 		menuCreator.setPreditorWindow(preditor);
-		preditor.setContextChecker(contextChecker);
 		preditor.addActionListener(this);
 		this.editMode = edit;
 		if (edit) {

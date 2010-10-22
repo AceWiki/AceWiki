@@ -15,8 +15,9 @@
 package ch.uzh.ifi.attempto.preditor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import nextapp.echo2.app.Alignment;
 import nextapp.echo2.app.ApplicationInstance;
@@ -34,8 +35,11 @@ import nextapp.echo2.app.event.ActionListener;
 import nextapp.echo2.app.event.WindowPaneEvent;
 import nextapp.echo2.app.event.WindowPaneListener;
 import ch.uzh.ifi.attempto.chartparser.ChartParser;
+import ch.uzh.ifi.attempto.chartparser.ConcreteOption;
+import ch.uzh.ifi.attempto.chartparser.DynamicLexicon;
 import ch.uzh.ifi.attempto.chartparser.FeatureMap;
 import ch.uzh.ifi.attempto.chartparser.Grammar;
+import ch.uzh.ifi.attempto.chartparser.NextTokenOptions;
 import ch.uzh.ifi.attempto.chartparser.Nonterminal;
 import ch.uzh.ifi.attempto.chartparser.ParseTree;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
@@ -61,8 +65,9 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 	
 	private static final long serialVersionUID = -7815494421993305554L;
 	
-	private TextContainer textContainer = new TextContainer();
+	private final TextContainer textContainer = new TextContainer();
 	private MenuCreator menuCreator;
+	private TextOperator textOperator;
 	private ChartParser parser;
 	private String filter = "";
 	private List<ActionListener> actionListeners = new ArrayList<ActionListener>();
@@ -83,20 +88,20 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 	private Button okButton = new GeneralButton("OK", 70, this);
 	private Button cancelButton = new GeneralButton("Cancel", 70, this);
 	private KeyStrokeListener keyStrokeListener = new KeyStrokeListener();
+
+	private boolean isInitialized = false;
 	
 	/**
-	 * Creates a new predictive editor window for the given grammar using the given menu creator.
+	 * Creates a new predictive editor window for the given grammar.
 	 * 
 	 * @param title The title of the window.
 	 * @param grammar The grammar to be used.
 	 * @param startCategoryName The name of the start category.
 	 * @param context A list of forward references and scope openers that define the context.
-	 * @param menuCreator The menu creator to be used.
 	 */
-	public PreditorWindow(String title, Grammar grammar, String startCategoryName, 
-			List<Nonterminal> context, MenuCreator menuCreator) {
+	public PreditorWindow(String title, Grammar grammar, String startCategoryName,
+			List<Nonterminal> context) {
 		this.parser = new ChartParser(grammar, startCategoryName, context);
-		this.menuCreator = menuCreator;
 		
 		addWindowPaneListener(this);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -223,16 +228,68 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 	}
 	
 	/**
-	 * Creates a new predictive editor window for the given grammar using the given menu creator.
+	 * Creates a new predictive editor window for the given grammar.
 	 * 
 	 * @param title The title of the window.
 	 * @param grammar The grammar to be used.
 	 * @param startCategoryName The name of the start category.
-	 * @param menuCreator The menu creator to be used.
 	 */
-	public PreditorWindow(String title, Grammar grammar, String startCategoryName, 
-			MenuCreator menuCreator) {
-		this(title, grammar, startCategoryName, null, menuCreator);
+	public PreditorWindow(String title, Grammar grammar, String startCategoryName) {
+		this(title, grammar, startCategoryName, null);
+	}
+	
+	/**
+	 * Sets the menu creator. {@link DefaultMenuCreator} is used by default.
+	 * 
+	 * @param menuCreator The menu creator.
+	 */
+	public void setMenuCreator(MenuCreator menuCreator) {
+		this.menuCreator = menuCreator;
+		update();
+	}
+	
+	/**
+	 * Returns the menu creator.
+	 * 
+	 * @return The menu creator.
+	 */
+	public MenuCreator getMenuCreator() {
+		if (menuCreator == null) {
+			setMenuCreator(new DefaultMenuCreator());
+		}
+		return menuCreator;
+	}
+	
+	/**
+	 * Sets the text operator. {@link DefaultTextOperator} is used by default.
+	 * 
+	 * @param textOperator The text operator.
+	 */
+	public void setTextOperator(TextOperator textOperator) {
+		this.textOperator = textOperator;
+		textContainer.setTextOperator(textOperator);
+	}
+	
+	/**
+	 * Returns the text operator.
+	 * 
+	 * @return The text operator.
+	 */
+	public TextOperator getTextOperator() {
+		if (textOperator == null) {
+			setTextOperator(new DefaultTextOperator());
+		}
+		return textOperator;
+	}
+	
+	/**
+	 * Sets the dynamic lexicon.
+	 * 
+	 * @param dynLexicon The dynamic lexicon.
+	 */
+	public void setDynamicLexicon(DynamicLexicon dynLexicon) {
+		parser.setDynamicLexicon(dynLexicon);
+		update();
 	}
 	
 	/**
@@ -242,15 +299,6 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 	 */
 	public void setClearButtonVisible(boolean visible) {
 		clearButton.setVisible(visible);
-	}
-	
-	/**
-	 * Sets the context checker.
-	 * 
-	 * @param contextChecker The context checker.
-	 */
-	public void setContextChecker(ContextChecker contextChecker) {
-		textContainer.setContextChecker(contextChecker);
 	}
 	
 	/**
@@ -272,21 +320,13 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 	}
 	
 	/**
-	 * Returns a list of text elements that contain one of the given texts and that are
-	 * possible next tokens.
+	 * Returns whether the given token is a possible next token.
 	 * 
-	 * @param text The content of the text elements to search for.
-	 * @return The list of text elements.
+	 * @param token The token.
+	 * @return true if it is a possible next token.
 	 */
-	public List<TextElement> getPossibleNextTokens(String... text) {
-		List<TextElement> l = new ArrayList<TextElement>();
-		for (MenuBlockContent m : menuBlockContents) {
-			for (String s : text) {
-				MenuEntry e = m.getEntry(s);
-				if (e != null) l.add(e.getTextElement());
-			}
-		}
-		return l;
+	public boolean isPossibleNextToken(String token) {
+		return parser.isPossibleNextToken(token);
 	}
 	
 	/**
@@ -306,25 +346,13 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 	 * @param text The text to be added.
 	 */
 	public void addText(String text) {
-		handleTextInput(tokenize(text));
+		handleTextInput(text);
 		update();
 	}
 	
 	private void textElementSelected(TextElement te) {
-		ArrayList<TextElement> l = new ArrayList<TextElement>();
-		l.add(te);
-		textElementSelected(l);
-	}
-	
-	private void textElementSelected(List<TextElement> textElements) {
-		if (textElements.isEmpty()) return;
-		TextElement te = textElements.get(0);
-		for (int i = 1 ; i < textElements.size() ; i++) {
-			te.include(textElements.get(i));
-		}
-		
 		textContainer.addElement(te);
-		parser.addToken(te.getOriginalText(), te.getCategories());
+		parser.addToken(te.getOriginalText());
 		
 		log("words added: " + te);
 	}
@@ -361,6 +389,7 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 	}
 	
 	private void update() {
+		if (!isInitialized) return;
 		updateMenuBlockContents();
 		setFilter(textField.getText());
 		int mbCount = menuBlockContents.size();
@@ -436,11 +465,44 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 				t + "<span style=\"color: rgb(150, 150, 150)\"> ...</span></div>");
 		
 		menuBlockContents.clear();
-		List<MenuBlockContent> newContents = menuCreator.createMenu(parser.getNextTokenOptions());
-		for (MenuBlockContent c : newContents) {
-			if (!c.isEmpty()) {
-				menuBlockContents.add(c);
+		
+		NextTokenOptions options = parser.getNextTokenOptions();
+		HashMap<String, MenuBlockContent> contentsMap = new HashMap<String, MenuBlockContent>();
+		for (MenuItem m : getMenuCreator().createSpecialMenuItems(options)) {
+			addMenuItem(m, contentsMap);
+		}
+		for (ConcreteOption o : options.getConcreteOptions()) {
+			addMenuItem(getMenuCreator().createMenuEntry(o), contentsMap);
+		}
+		
+		for (String mg : getMenuCreator().getMenuGroupOrdering()) {
+			if (contentsMap.containsKey(mg)) {
+				addMenuBlockContent(mg, contentsMap);
 			}
+		}
+		for (String mg : contentsMap.keySet()) {
+			if (!getMenuCreator().getMenuGroupOrdering().contains(mg)) {
+				addMenuBlockContent(mg, contentsMap);
+			}
+		}
+	}
+	
+	private void addMenuItem(MenuItem menuItem, Map<String, MenuBlockContent> contentsMap) {
+		String menuGroup = menuItem.getMenuGroup();
+		MenuBlockContent mbc;
+		if (contentsMap.containsKey(menuGroup)) {
+			mbc = contentsMap.get(menuGroup);
+		} else {
+			mbc = new MenuBlockContent(menuGroup, getMenuCreator().getMenuItemComparator());
+			contentsMap.put(menuGroup, mbc);
+		}
+		mbc.addItem(menuItem);
+	}
+	
+	private void addMenuBlockContent(String menuGroup, Map<String, MenuBlockContent> contentsMap) {
+		MenuBlockContent m = contentsMap.get(menuGroup);
+		if (!m.isEmpty()) {
+			menuBlockContents.add(m);
 		}
 	}
 	
@@ -455,96 +517,33 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 	}
 	
 	private void handleTextInput() {
-		handleTextInput(tokenize(textField.getText()));
+		handleTextInput(textField.getText());
 	}
 	
-	private void handleTextInput(List<String> textList) {
-		
-		List<TextElement> recognizedElements = null;
-		int recognizedElementLength = 0;
+	private void handleTextInput(String text) {
+		handleTextInput(getTextOperator().splitIntoTokens(text));
+	}
+	
+	private void handleTextInput(List<String> subtokens) {
 		String text = "";
-		
-		for (int pos = 0 ; pos < textList.size() ; pos++) {
+		TextElement textElement = null;
+		List<String> rest = null;
+		while (subtokens.size() > 0) {
 			if (text.length() > 0) text += " ";
-			text += textList.get(pos);
-			
-			setFilter(text);
-			List<TextElement> potentialElements = getPossibleNextTokens(text);
-			if (potentialElements.isEmpty()) {
-				potentialElements = null;
-			}
-			
-			// Counting how many different menu entries are available under the current filter.
-			// elCount=2 means two or more entries.
-			int elCount = 0;
-			String firstElementText = null;
-			for (MenuBlockContent m : menuBlockContents) {
-				for (MenuEntry e : m.getEntries()) {
-					String thisElementText = e.getTextElement().getText();
-					if (firstElementText == null) {
-						firstElementText = thisElementText;
-						elCount = 1;
-					} else if (!firstElementText.equals(thisElementText)) {
-						elCount = 2;
-						break;
-					}
-				}
-				if (elCount == 2) break;
-			}
-			
-			boolean atLastPosition = pos == textList.size()-1;
-			
-			if (potentialElements != null && !atLastPosition) {
-				recognizedElements = potentialElements;
-				recognizedElementLength = pos + 1;
-				if (elCount == 1) break;
-			}
-			if (elCount == 0) {
-				break;
-			} else if (atLastPosition) {
-				recognizedElements = null;
-				break;
+			text += subtokens.remove(0);
+			TextElement te = getTextOperator().createTextElement(text);
+			if (te != null && parser.isPossibleNextToken(te.getOriginalText())) {
+				textElement = te;
+				rest = new ArrayList<String>(subtokens);
 			}
 		}
-		
-		setFilter(null);
-		
-		if (recognizedElements != null) {
-			textElementSelected(recognizedElements);
-			updateMenuBlockContents();
-			for (int i = 0; i < recognizedElementLength; i++) {
-				textList.remove(0);
-			}
-			handleTextInput(textList);
+		if (textElement != null) {
+			textContainer.addElement(textElement);
+			parser.addToken(textElement.getOriginalText());
+			handleTextInput(rest);
 		} else {
-			text = "";
-			for (String textPart : textList) {
-				if (text.length() > 0) text += " ";
-				text += textPart;
-			}
 			textField.setText(text);
 		}
-	}
-	
-	private ArrayList<String> tokenize(String text) {
-		text = text.replaceAll("\\.\\s", " . ");
-		text = text.replaceAll("\\.$", " .");
-		text = text.replaceAll("\\?\\s", " ? ");
-		text = text.replaceAll("\\?$", " ?");
-		text = text.replaceAll("\\!\\s", " ! ");
-		text = text.replaceAll("\\!$", " !");
-		
-		ArrayList<String> tokens = new ArrayList<String>(Arrays.asList(text.split(" ")));
-		
-		while (tokens.contains("")) {
-			tokens.remove("");
-		}
-		
-		if (text.endsWith(" ")) {
-			tokens.add("");
-		}
-		
-		return tokens;
 	}
 	
 	/**
@@ -607,11 +606,6 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 				return;
 			} else {
 				handleTextInput();
-				List<TextElement> te = getPossibleNextTokens(textField.getText());
-				if (!te.isEmpty()) {
-					textElementSelected(te);
-					textField.setText("");
-				}
 			}
 		} else if ("Tab".equals(e.getActionCommand())) {
 			log("pressed: tab-key");
@@ -680,6 +674,12 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		notifyActionListeners(new ActionEvent(this, "Cancel"));
 	}
 	
+	public void init() {
+		isInitialized = true;
+		update();
+		super.init();
+	}
+
 	/**
 	 * Sets the logger.
 	 * 

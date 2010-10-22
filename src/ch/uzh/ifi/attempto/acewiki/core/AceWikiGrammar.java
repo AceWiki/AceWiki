@@ -25,6 +25,8 @@ import ch.uzh.ifi.attempto.chartparser.FeatureMap;
  */
 @SuppressWarnings("all")
 public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
+
+	public static final AceWikiGrammar grammar = new AceWikiGrammar();
 	
 	/**
 	 * Creates a new grammar object.
@@ -52,7 +54,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		/* 'text' stands for a complete text consisting of an arbitrary number of complete
 		sentences (including zero): */
 		
-		// text~>[]
+		// text=>[]
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -60,9 +62,9 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm = new FeatureMap();
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
-		addGrammarRule(new GrammarRule(ann, l, true));
+		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// text~>complete_sentence, text
+		// text=>complete_sentence, text
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -78,16 +80,20 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm = new FeatureMap();
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
-		addGrammarRule(new GrammarRule(ann, l, true));
+		addGrammarRule(new GrammarRule(ann, l, false));
 		
 		/* A complete sentence is represented by the category 'complete_sentence' and is either
 		a declarative sentence that ends with a full stop or a question ending with a question mark: */
 		
-		// complete_sentence~>sentence, ['.']
+		// complete_sentence~> //, sentence, ['.']
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
 		nonterm = new Nonterminal("complete_sentence");
+		fm = new FeatureMap();
+		nonterm.setFeatureMap(fm);
+		l.add(nonterm);
+		nonterm = new Nonterminal("//");
 		fm = new FeatureMap();
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
@@ -2336,24 +2342,4 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		addGrammarRule(new GrammarRule(ann, l, false));
 
 	}
-	
-	private void setFeature(FeatureMap fm, String featureName, int varID, HashMap<Integer, StringRef> featureHash) {
-		if (featureHash.get(varID) == null) {
-			StringRef stringRef = new StringRef();
-			fm.setFeature(featureName, stringRef);
-			featureHash.put(varID, stringRef);
-		} else {
-			fm.setFeature(featureName, featureHash.get(varID));
-		}
-	}
-	
-	private StringRef getStringRef(int varID, HashMap<Integer, StringRef> featureHash) {
-		StringRef stringRef = featureHash.get(varID);
-		if (stringRef == null) {
-			stringRef = new StringRef();
-			featureHash.put(varID, stringRef);
-		}
-		return stringRef;
-	}
-	
 }

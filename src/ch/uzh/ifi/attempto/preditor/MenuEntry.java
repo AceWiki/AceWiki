@@ -17,7 +17,6 @@ package ch.uzh.ifi.attempto.preditor;
 import nextapp.echo2.app.Extent;
 import nextapp.echo2.app.Font;
 import ch.uzh.ifi.attempto.chartparser.ConcreteOption;
-import ch.uzh.ifi.attempto.chartparser.Preterminal;
 import ch.uzh.ifi.attempto.echocomp.Style;
 
 /**
@@ -31,30 +30,6 @@ public class MenuEntry extends MenuItem {
 	private static final long serialVersionUID = -4231372412315340523L;
 	
 	private TextElement textElement;
-	private boolean strong = true;
-	private boolean highlighted = false;
-	
-	/**
-	 * Creates a new menu entry for the given word.
-	 * 
-	 * @param word The word.
-	 * @param category The category of the word.
-	 * @param menuGroup The menu group to which this entry should be assigned.
-	 */
-	public MenuEntry(String word, Preterminal category, String menuGroup) {
-		this(new TextElement(word, category), menuGroup);
-	}
-	
-	/**
-	 * Creates a new menu entry for the given word.
-	 * 
-	 * @param word The word.
-	 * @param categoryName The name of the category of the word.
-	 * @param menuGroup The menu group to which this entry should be assigned.
-	 */
-	public MenuEntry(String word, String categoryName, String menuGroup) {
-		this(new TextElement(word, categoryName), menuGroup);
-	}
 	
 	/**
 	 * Creates a new menu entry for the given word.
@@ -86,7 +61,7 @@ public class MenuEntry extends MenuItem {
 	 * @param menuGroup The menu group to which this entry should be assigned.
 	 */
 	public MenuEntry(ConcreteOption cOption, String menuGroup) {
-		this(cOption.getWord(), cOption.getCategory(), menuGroup);
+		this(cOption.getWord(), menuGroup);
 	}
     
 	/**
@@ -97,43 +72,6 @@ public class MenuEntry extends MenuItem {
     public TextElement getTextElement() {
     	return textElement;
     }
-    
-    /**
-     * This method determines whether the menu entry is highlighted or not. Hightlighted menu
-     * entries are displayed in bold font and are shown in front of non-highlighted menu entries
-     * in sorted lists.
-     * 
-     * @param highlighted true if this entry should be highlighted.
-     */
-    public void setHighlighted(boolean highlighted) {
-    	this.highlighted = highlighted;
-		if (highlighted) {
-			setFont(new Font(Style.fontTypeface, Font.BOLD, new Extent(12)));
-		} else {
-			setFont(new Font(Style.fontTypeface, Font.PLAIN, new Extent(12)));
-		}
-    }
-
-	public int compareTo(MenuItem m) {
-		if (m instanceof MenuEntry) {
-			MenuEntry other = (MenuEntry) m;
-			if (this.strong && !other.strong) {
-				return -1;
-			} else if (!this.strong && other.strong) {
-				return 1;
-			} else {
-				if (this.highlighted && !other.highlighted) {
-					return -1;
-				} else if (!this.highlighted && other.highlighted) {
-					return 1;
-				} else {
-					return super.compareTo(m);
-				}
-			}
-		} else {
-			return super.compareTo(m);
-		}
-	}
 	
 	protected String[] getContent() {
 		return new String[] {"entry", getText(), getMenuGroup()};

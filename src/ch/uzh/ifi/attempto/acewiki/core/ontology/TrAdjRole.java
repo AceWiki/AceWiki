@@ -15,9 +15,11 @@
 package ch.uzh.ifi.attempto.acewiki.core.ontology;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
+import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 
 /**
  * This class stands for roles that are represented by transitive adjectives. Transitive
@@ -66,6 +68,12 @@ public class TrAdjRole extends Role {
 	
 	public String getInternalType() {
 		return "tradj";
+	}
+	
+	void collectLexicalRules(String catName, Collection<LexicalRule> lexRules) {
+		if (catName == null || catName.equals("tradj")) {
+			lexRules.add(new LexicalRule("tradj", getWord(0)));
+		}
 	}
 
 }
