@@ -15,7 +15,6 @@
 package ch.uzh.ifi.attempto.acewiki.core.ontology;
 
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiGrammar;
-import ch.uzh.ifi.attempto.ape.ACEUtils;
 import ch.uzh.ifi.attempto.preditor.DefaultTextOperator;
 import ch.uzh.ifi.attempto.preditor.TextElement;
 
@@ -71,40 +70,30 @@ class AceWikiTextOperator extends DefaultTextOperator {
 	}
 	
 	public String getTextInContext(TextElement textElement, String preceding, String following) {
-		String text = textElement.getOriginalText();
-		String t;
-		OntologyElement oe = null;
 		if (textElement instanceof OntologyTextElement) {
-			OntologyTextElement ote = (OntologyTextElement) textElement;
-			if (ote != null) {
-				oe = ote.getOntologyElement();
+			String text = textElement.getOriginalText();
+			String t;
+			OntologyElement oe = ((OntologyTextElement) textElement).getOntologyElement();
+			boolean capitalize = false;
+			if (preceding == null || preceding.matches("[.?!]")) {
+				if (oe == null) {
+					capitalize = true;
+				} else if (oe instanceof Individual && ((Individual) oe).hasDefiniteArticle()) {
+					capitalize = true;
+				} else {
+					capitalize = false;
+				}
 			}
-		}
-		boolean capitalize = false;
-		if (preceding == null || preceding.matches("[.?!]")) {
-			if (oe == null) {
-				capitalize = true;
-			} else if (oe instanceof Individual && ((Individual) oe).hasDefiniteArticle()) {
-				capitalize = true;
+			if (capitalize && text.length() > 0) {
+				String f = text.substring(0, 1);
+				t = f.toUpperCase() + text.substring(1);
 			} else {
-				capitalize = false;
+				t = text;
 			}
-		}
-		if (capitalize && text.length() > 0) {
-			String f = text.substring(0, 1);
-			t = f.toUpperCase() + text.substring(1);
+			return t;
 		} else {
-			t = text;
+			return super.getTextInContext(textElement, preceding, following);
 		}
-		
-		if (following != null && t.matches("(A|a)n?")) {
-			if (ACEUtils.useIndefiniteArticleAn(following)) {
-				t = t.substring(0, 1) + "n";
-			} else {
-				t = t.substring(0, 1);
-			}
-		}
-		return t;
 	}
 
 }
