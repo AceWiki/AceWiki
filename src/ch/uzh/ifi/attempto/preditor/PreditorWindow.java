@@ -357,6 +357,14 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		log("words added: " + te);
 	}
 	
+	private int getEntryCount() {
+		int c = 0;
+		for (MenuBlockContent mc : menuBlockContents) {
+			c += mc.getEntryCount();
+		}
+		return c;
+	}
+	
 	private String getStartString() {
 		String startString = "";
 		List<String> blockStartStrings = new ArrayList<String>();
@@ -516,24 +524,35 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		this.filter = filter;
 	}
 	
+	private void setFilter(List<String> subtokens) {
+		String filter = "";
+		for (String s : subtokens) {
+			filter += s + " ";
+		}
+		setFilter(filter);
+	}
+	
 	private void handleTextInput(boolean enterPressed) {
 		handleTextInput(textField.getText(), enterPressed);
 	}
 	
 	private void handleTextInput(String text, boolean enterPressed) {
 		List<String> subtokens = getTextOperator().splitIntoTokens(text);
-		if (enterPressed && (text.equals(filter) || text.endsWith(" "))) {
-			subtokens.add("");
-		}
-		handleTokenInput(subtokens, true);
+		boolean force = enterPressed && (text.equals(filter) || text.endsWith(" "));
+		handleTokenInput(subtokens, force, true);
 	}
 	
-	private void handleTokenInput(List<String> subtokens, boolean caseSensitive) {
+	private void handleTokenInput(List<String> subtokens, boolean force, boolean caseSensitive) {
+		if (subtokens.size() == 0) {
+			textField.setText("");
+			return;
+		}
+		setFilter(subtokens);
 		String text = "";
 		TextElement textElement = null;
 		List<String> rest = null;
 		List<String> s = new ArrayList<String>(subtokens);
-		while (s.size() > 1) {
+		while (s.size() > 0) {
 			if (text.length() > 0) text += " ";
 			text += s.remove(0);
 			TextElement te = null;
@@ -550,14 +569,17 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 				rest = new ArrayList<String>(s);
 			}
 		}
-		if (text.length() > 0) text += " ";
-		text += s.remove(0);
 		if (textElement != null) {
-			textContainer.addElement(textElement);
-			parser.addToken(textElement.getOriginalText());
-			handleTokenInput(rest, caseSensitive);
-		} else if (caseSensitive) {
-			handleTokenInput(subtokens, false);
+			if ((rest.isEmpty() && force) || (!rest.isEmpty() && getEntryCount() == 0)) {
+				textContainer.addElement(textElement);
+				parser.addToken(textElement.getOriginalText());
+				updateMenuBlockContents();
+				handleTokenInput(rest, force, caseSensitive);
+				return;
+			}
+		}
+		if (caseSensitive) {
+			handleTokenInput(subtokens, force, false);
 		} else {
 			textField.setText(text);
 		}
@@ -628,7 +650,7 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		} else if (e.getSource() == textField) {
 			log("pressed: enter-key");
 			if (textField.getText().equals("") && filter.equals("")) {
-				notifyActionListeners(new ActionEvent(this, "OK"));
+				notifyActionListeners(new ActionEvent(this, "Enter"));
 				return;
 			} else {
 				handleTextInput(true);
@@ -638,7 +660,7 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 			handleTextInput(false);
 		} else if ("Esc".equals(e.getActionCommand())) {
 			log("pressed: escape key");
-			notifyActionListeners(new ActionEvent(this, "Cancel"));
+			notifyActionListeners(new ActionEvent(this, "Escape"));
 			return;
 		} else if ("Ctrl-Backspace".equals(e.getActionCommand())) {
 			log("pressed: ctrl-backspace");
@@ -697,7 +719,7 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 	
 	public void windowPaneClosing(WindowPaneEvent e) {
 		log("pressed: close window");
-		notifyActionListeners(new ActionEvent(this, "Cancel"));
+		notifyActionListeners(new ActionEvent(this, "Close"));
 	}
 	
 	public void init() {

@@ -107,6 +107,15 @@ class MenuBlockContent {
 	}
 	
 	/**
+	 * Returns the number of menu entries (after filtering).
+	 * 
+	 * @return The number of menu entries.
+	 */
+	public int getEntryCount() {
+		return filteredEntries.size();
+	}
+	
+	/**
 	 * Returns all menu items.
 	 * 
 	 * @return A list of all menu items.

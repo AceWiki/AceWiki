@@ -103,7 +103,9 @@ public class SentenceEditorHandler implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == editorWindow && e.getActionCommand().equals("OK")) {
+		Object src = e.getSource();
+		String c = e.getActionCommand();
+		if (src == editorWindow && c.matches("OK|Enter")) {
 			TextContainer textContainer = editorWindow.getTextContainer();
 			
 			if (editorWindow.isPossibleNextToken(".")) {
@@ -120,7 +122,7 @@ public class SentenceEditorHandler implements ActionListener {
 						page.getOntologyElement()
 					);
 				checkSentence();
-			} else {
+			} else if (c.equals("OK")) {
 				wiki.log("edit", "error: unfinished sentences");
 				MessageWindow mw = new MessageWindow(
 						"Error",
@@ -130,22 +132,22 @@ public class SentenceEditorHandler implements ActionListener {
 					);
 				page.getWiki().showWindow(mw);
 			}
-		} else if (e.getSource() == editorWindow && e.getActionCommand().equals("Cancel")) {
+		} else if (src == editorWindow && c.matches("Cancel|Close|Escape")) {
 			wiki.removeWindow(editorWindow);
-		} else if (e.getSource() == messageWindow && e.getActionCommand().equals("a ...")) {
+		} else if (src == messageWindow && c.equals("a ...")) {
 			checked++;
 			checkSentence();
-		} else if (e.getSource() == messageWindow && e.getActionCommand().equals("every ...")) {
+		} else if (src == messageWindow && c.equals("every ...")) {
 			String text = newSentences.get(checked).getText();
 			text = text.replaceFirst("^(A|a)n? ", "Every ");
 			newSentences.remove(checked);
 			newSentences.add(checked, StatementFactory.createSentence(text, page.getOntologyElement()));
 			checked++;
 			checkSentence();
-		} else if (e.getSource() == messageWindow && e.getActionCommand().equals("Close")) {
+		} else if (src == messageWindow && c.equals("Close")) {
 			checked = 0;
-		} else if (e.getSource() instanceof TextElement) {
-			editorWindow.addTextElement((TextElement) e.getSource());
+		} else if (src instanceof TextElement) {
+			editorWindow.addTextElement((TextElement) src);
 		}
 	}
 	

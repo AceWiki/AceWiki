@@ -337,11 +337,11 @@ public class ACEEditor extends Window implements ActionListener, KeyStrokes {
 		} else if (c.startsWith("Show ")) {
 			selectedEntry.setResultItemVisible(c.substring(5), menuBar.isSelected(c));
 			selectedEntry.setExpanded(true);
-		} else if (source instanceof PreditorWindow && c.equals("Cancel")) {
+		} else if (source instanceof PreditorWindow && c.matches("Cancel|Close|Escape")) {
 			PreditorWindow preditor = (PreditorWindow) source;
 			removeWindow(preditor);
 			refreshKeyStrokeListener();
-		} else if (source instanceof PreditorWindow && c.equals("OK")) {
+		} else if (source instanceof PreditorWindow && c.matches("OK|Enter")) {
 			PreditorWindow preditor = (PreditorWindow) source;
 			TextContainer textContainer = preditor.getTextContainer();
 			if (textContainer.getTextElementsCount() == 0) {
@@ -372,7 +372,7 @@ public class ACEEditor extends Window implements ActionListener, KeyStrokes {
 					}
 					removeWindow(preditor);
 					refreshKeyStrokeListener();
-				} else {
+				} else if (c.equals("OK")) {
 					showWindow(new MessageWindow(
 							"Error",
 							"There are unfinished sentences.",
