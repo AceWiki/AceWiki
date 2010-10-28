@@ -182,12 +182,14 @@ process_structure(Out, '$VAR'(N)) :-
 process_structure(Out, Atom) :-
     atom(Atom),
     !,
-    format(Out, '"~w"', [Atom]).
+    escape_string(Atom, AtomE),
+    format(Out, '"~w"', [AtomE]).
 
 process_structure(Out, Term) :-
     Term =.. [Pred|Args],
     !,
-    format(Out, 'new Object[] {"~w"', Pred),
+    escape_string(Pred, PredE),
+    format(Out, 'new Object[] {"~w"', PredE),
     process_structure_list(Out, Args),
     write(Out, '}').
 
@@ -296,6 +298,25 @@ process_bwrefterms(Out, [Term|Rest]) :-
     process_features(Out, Features),
     write(Out, '\t\tbrefcat.addNegFeatureMap(fm);\n'),
 	process_bwrefterms(Out, Rest).
+
+
+escape_string(In, Out) :-
+    atom_codes(In, CodesIn),
+    escape_string_x(CodesIn, CodesOut),
+    atom_codes(Out, CodesOut).
+
+escape_string_x([], []).
+
+escape_string_x([34|In], [92,34|Out]) :-
+    !,
+    escape_string_x(In, Out).
+
+escape_string_x([92|In], [92,92|Out]) :-
+    !,
+    escape_string_x(In, Out).
+
+escape_string_x([C|In], [C|Out]) :-
+    escape_string_x(In, Out).
 
 
 :- style_check(-atom).
