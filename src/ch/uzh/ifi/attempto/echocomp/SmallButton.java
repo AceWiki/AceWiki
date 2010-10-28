@@ -51,7 +51,6 @@ public class SmallButton extends Button {
 		setForeground(Style.mediumForeground);
 		setDisabledBackground(null);
 		setDisabledForeground(Color.BLACK);
-		setActionCommand(text);
 		
 		setRolloverEnabled(true);
 		setRolloverForeground(Style.lightForeground);
