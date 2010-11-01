@@ -36,6 +36,7 @@ import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLLogicalEntity;
@@ -251,6 +252,12 @@ public class Ontology {
 		}
 		pb2.complete();
 		
+		if (ontology.get(0) == null) {
+			OntologyElement mainPage = new DummyOntologyElement("mainpage");
+			mainPage.setId(0);
+			mainPage.registerAt(ontology);
+		}
+		
 		ontology.loadReasoner(parameters.get("reasoner"));
 		
 		return ontology;
@@ -394,7 +401,10 @@ public class Ontology {
 	public OWLOntology exportOWLOntology(boolean consistent) {
 		Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
 		for (OntologyElement el : getOntologyElements()) {
-			axioms.add(el.getOWLDeclaration());
+			OWLDeclarationAxiom owlDecl = el.getOWLDeclaration();
+			if (owlDecl != null) {
+				axioms.add(owlDecl);
+			}
 			for (Sentence s : el.getSentences()) {
 				if (s instanceof Question || !s.isOWL()) continue;
 				if (consistent && (!s.isReasonerParticipant() || !s.isIntegrated())) continue;
@@ -472,7 +482,7 @@ public class Ontology {
 	 * @param id The id of the ontology element.
 	 * @return The ontology element.
 	 */
-	OntologyElement get(long id) {
+	public OntologyElement get(long id) {
 		return idIndex.get(id);
 	}
 	
@@ -976,13 +986,19 @@ public class Ontology {
 	}
 	
 	private void loadElement(OntologyElement element) {
-		manager.addAxiom(owlOntology, element.getOWLDeclaration());
-		flushReasoner();
+		OWLDeclarationAxiom owlDecl = element.getOWLDeclaration();
+		if (owlDecl != null) {
+			manager.addAxiom(owlOntology, owlDecl);
+			flushReasoner();
+		}
 	}
 	
 	private void unloadElement(OntologyElement element) {
-		manager.removeAxiom(owlOntology, element.getOWLDeclaration());
-		flushReasoner();
+		OWLDeclarationAxiom owlDecl = element.getOWLDeclaration();
+		if (owlDecl != null) {
+			manager.removeAxiom(owlOntology, owlDecl);
+			flushReasoner();
+		}
 	}
 	
 	private void loadSentence(Sentence sentence) {

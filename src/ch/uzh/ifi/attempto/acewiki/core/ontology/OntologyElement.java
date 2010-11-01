@@ -15,6 +15,7 @@
 package ch.uzh.ifi.attempto.acewiki.core.ontology;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
@@ -63,18 +64,17 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 	 * @param serializedElement The serialized ontology element.
 	 * @param id The id of the ontology element.
 	 * @param ontology The ontology at which the ontology element should be registered.
-	 * @return The ontology element.
 	 */
-	static OntologyElement loadOntologyElement(String serializedElement, long id,
-			Ontology ontology) {
-		String[] lines = serializedElement.split("\n");
-		if (!lines[0].startsWith("type:") || !lines[1].startsWith("words:")) {
-			System.err.println("Cannot read ontology element " + id);
-			return null;
+	static void loadOntologyElement(String serializedElement, long id, Ontology ontology) {
+		List<String> lines = new ArrayList<String>(Arrays.asList(serializedElement.split("\n")));
+		if (lines.size() == 0 || !lines.get(0).startsWith("type:")) {
+			System.err.println("Cannot read ontology element " + id + " (missing 'type')");
+			return;
 		}
-		String type = lines[0].substring("type:".length());
-		String[] words = lines[1].substring("words:".length()).split(";");
-		OntologyElement oe;
+		String type = lines.remove(0).substring("type:".length());
+		OntologyElement oe = null;
+		
+		// Proper ontology elements:
 		if (type.equals("propername")) {
 			oe = new Individual();
 		} else if (type.equals("noun")) {
@@ -85,19 +85,34 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 			oe = new VerbRole();
 		} else if (type.equals("tradj")) {
 			oe = new TrAdjRole();
-		} else {
-			System.err.println("Cannot read ontology element " + id);
-			return null;
 		}
+		if (oe != null) {
+			if (!lines.get(0).startsWith("words:")) {
+				System.err.println("Cannot read ontology element " + id + " (missing 'words')");
+				return;
+			}
+			String[] words = lines.remove(0).substring("words:".length()).split(";");
+			oe.setWords(words);
+		}
+		
+		// Dummy ontology element for the main page article:
+		if (type.equals("mainpage")) {
+			oe = new DummyOntologyElement("mainpage");
+		}
+		
 		oe.setId(id);
-		oe.setWords(words);
-		for (int i=2 ; i < lines.length ; i++) {
-			Statement statement = StatementFactory.loadStatement(lines[i], oe);
-			oe.statements.add(statement);
+		while (!lines.isEmpty()) {
+			String l = lines.remove(0);
+			Statement statement = StatementFactory.loadStatement(l, oe);
+			if (statement == null) {
+				System.err.println("Cannot read statement: " + l);
+			} else {
+				oe.statements.add(statement);
+			}
 		}
 		oe.ontology = ontology;
 		ontology.register(oe);
-		return oe;
+		return;
 	}
 	
 	/**
@@ -484,16 +499,18 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 	 * @return The serialized ontology element.
 	 */
 	String serialize(boolean encodeWords) {
-		String s = "type:";
-		s += getInternalType() + "\nwords:";
-		for (String word : getWords()) {
-			if (word == null) {
-				s += ";";
-			} else {
-				s += word + ";";
+		String s = "type:" + getInternalType() + "\n";
+		if (getWords().length > 0) {
+			s += "words:";
+			for (String word : getWords()) {
+				if (word == null) {
+					s += ";";
+				} else {
+					s += word + ";";
+				}
 			}
+			s += "\n";
 		}
-		s += "\n";
 		for (Statement statement : statements) {
 			s += statement.serialize(encodeWords);
 		}
@@ -513,11 +530,16 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 	 * @return An OWL declaration axiom.
 	 */
 	public OWLDeclarationAxiom getOWLDeclaration() {
-		return new OWLDeclarationAxiomImpl(
-				dataFactory,
-				getOWLRepresentation(),
-				new ArrayList<OWLAnnotation>()
-			);
+		OWLLogicalEntity owl = getOWLRepresentation();
+		if (owl == null) {
+			return null;
+		} else {
+			return new OWLDeclarationAxiomImpl(
+					dataFactory,
+					getOWLRepresentation(),
+					new ArrayList<OWLAnnotation>()
+				);
+		}
 	}
 	
 	/**

@@ -87,20 +87,11 @@
     </init-param>
     
     <!--
-      The parameter 'title' defines the title that is shown on the main page of the wiki.
+      The parameter 'title' defines the title that is shown below the AceWiki logo.
     -->
     <init-param>
       <param-name>title</param-name>
       <param-value>AceWiki test</param-value>
-    </init-param>
-    
-    <!--
-      The parameter 'description' contains the description that is shown on the main page of the
-      wiki.
-    -->
-    <init-param>
-      <param-name>description</param-name>
-      <param-value>This is an AceWiki test.</param-value>
     </init-param>
     
     <!--

@@ -24,6 +24,7 @@ import nextapp.echo2.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Comment;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Concept;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.DummyOntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Role;
@@ -61,10 +62,14 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 	protected ArticlePage(Wiki wiki, OntologyElement ontologyElement) {
 		super(wiki);
 		
-		addSelectedTab("Article");
-		addTab("References", this);
+		if (!(ontologyElement instanceof DummyOntologyElement)) {
+			addSelectedTab("Article");
+			addTab("References", this);
+			title = new Title(ontologyElement.getHeadword(), ontologyElement.getType(), this);
+		} else {
+			title = new Title("", true, null, null);
+		}
 		
-		title = new Title(ontologyElement.getHeadword(), ontologyElement.getType(), this);
 		add(title);
 		addHorizontalLine();
 		

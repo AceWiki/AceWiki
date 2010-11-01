@@ -22,6 +22,7 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.Stack;
 
+import nextapp.echo2.app.Alignment;
 import nextapp.echo2.app.ApplicationInstance;
 import nextapp.echo2.app.Color;
 import nextapp.echo2.app.Column;
@@ -36,6 +37,7 @@ import nextapp.echo2.app.SplitPane;
 import nextapp.echo2.app.TaskQueueHandle;
 import nextapp.echo2.app.event.ActionEvent;
 import nextapp.echo2.app.event.ActionListener;
+import nextapp.echo2.app.layout.ColumnLayoutData;
 import nextapp.echo2.webcontainer.ContainerContext;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiGrammar;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.LexiconManager;
@@ -197,10 +199,23 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		
 		sideCol.add(new VSpace(10));
 		
+		ColumnLayoutData layout = new ColumnLayoutData();
+		layout.setAlignment(Alignment.ALIGN_CENTER);
+		
+		String title = getParameter("title");
+		if (title != null && title.length() > 0) {
+			Label titleLabel = new Label(title, Font.ITALIC, 14);
+			sideCol.add(titleLabel);
+			titleLabel.setLayoutData(layout);
+			sideCol.add(new VSpace(5));
+		}
+		
 		if (isReadOnly()) {
-			SolidLabel rolabel = new SolidLabel("- READ ONLY MODE -", Font.ITALIC);
+			SolidLabel rolabel = new SolidLabel("— READ ONLY —", Font.ITALIC);
 			rolabel.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
+			rolabel.setLayoutData(layout);
 			sideCol.add(rolabel);
+			sideCol.add(new VSpace(5));
 		}
 		
 		sideCol.add(new VSpace(20));
@@ -256,7 +271,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 
 		contentPane.add(wikiPane);
 		
-		startPage = new StartPage(this, getParameter("title"), getParameter("description"));
+		startPage = new StartPage(this);
 		
 		ContainerContext cc = (ContainerContext) application.
 				getContextProperty(ContainerContext.CONTEXT_PROPERTY_NAME);
