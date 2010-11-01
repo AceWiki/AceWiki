@@ -300,11 +300,9 @@ class TextEntry extends Column implements ActionListener {
 		this.expanded = expanded;
 		if (expanded) {
 			expandButton.setIcon(new ResourceImageReference(imgpath + "down.png"));
-			expandButton.setRolloverIcon(new ResourceImageReference(imgpath + "downh.png"));
 			add(resultsColumn);
 		} else {
 			expandButton.setIcon(new ResourceImageReference(imgpath + "right.png"));
-			expandButton.setRolloverIcon(new ResourceImageReference(imgpath + "righth.png"));
 			remove(resultsColumn);
 		}
 		owner.entryChanged(this);

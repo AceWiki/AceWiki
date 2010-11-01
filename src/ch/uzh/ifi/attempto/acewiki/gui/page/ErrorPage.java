@@ -44,6 +44,7 @@ public class ErrorPage extends WikiPage {
 		this.text = text;
 		
 		add(new Title("Error", true));
+		addHorizontalLine();
 		
 		Row textRow = new Row();
 		textRow.setInsets(new Insets(10, 10, 10, 15));

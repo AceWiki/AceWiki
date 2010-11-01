@@ -25,6 +25,7 @@ public class SquareButton extends Button {
 	 */
 	public SquareButton(String iconName, String tooltip, ActionListener actionListener) {
 		setRolloverEnabled(true);
+		setRolloverBackground(Style.lightBackground);
 		if (tooltip != null) {
 			setToolTipText(tooltip);
 		}
@@ -48,7 +49,6 @@ public class SquareButton extends Button {
 	 */
 	public void setIconName(String iconName) {
 		setIcon(new ResourceImageReference(imgpath + iconName + ".png"));
-		setRolloverIcon(new ResourceImageReference(imgpath + iconName + "h.png"));
 	}
 
 }
