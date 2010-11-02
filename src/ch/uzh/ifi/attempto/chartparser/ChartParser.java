@@ -107,7 +107,7 @@ public class ChartParser {
 		} else {
 			lexRules = new ArrayList<LexicalRule>();
 			lexRules.addAll(grammar.lexRulesByWord(token));
-			lexRules.addAll(dynLexicon.getLexRulesByWord(token));
+			lexRules.addAll(dynLexicon.getLexRules(token));
 		}
 		
 		// add edges for applicable lexical rules:
@@ -345,7 +345,7 @@ public class ChartParser {
 	 */
 	public boolean isPossibleNextToken(String token) {
 		if (getNextTokenOptions().containsTerminal(token)) return true;
-		for (LexicalRule lr : dynLexicon.getLexRulesByWord(token)) {
+		for (LexicalRule lr : dynLexicon.getLexRules(token)) {
 			if (!lr.getWord().getName().equals(token)) continue;
 			if (getNextTokenOptions().allowsForCategory(lr.getCategory())) return true;
 		}
@@ -505,7 +505,7 @@ public class ChartParser {
 				} else {
 					lexRules = new ArrayList<LexicalRule>();
 					lexRules.addAll(grammar.lexRulesByCat(ao.getCategory().getName()));
-					lexRules.addAll(dynLexicon.getLexRulesByCatName(ao.getCategory().getName()));
+					lexRules.addAll(dynLexicon.getLexRules(ao));
 				}
 				
 				for (LexicalRule lexRule : lexRules) {

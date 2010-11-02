@@ -24,6 +24,7 @@ import java.util.Map;
 
 import ch.uzh.ifi.attempto.ape.Lexicon;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
+import ch.uzh.ifi.attempto.chartparser.AbstractOption;
 import ch.uzh.ifi.attempto.chartparser.DynamicLexicon;
 import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 import ch.uzh.ifi.attempto.chartparser.Preterminal;
@@ -151,7 +152,8 @@ class LexiconHandler implements DynamicLexicon {
 		return sb.toString();
 	}
 
-	public Collection<LexicalRule> getLexRulesByCatName(String catName) {
+	public Collection<LexicalRule> getLexRules(AbstractOption option) {
+		String catName = option.getCategoryName();
 		Collection<LexicalRule> lexRules = new ArrayList<LexicalRule>();
 		if (catName.equals("def_noun_sg")) {
 			for (Word w : getWordsByCategory("noun_sg")) {
@@ -183,7 +185,7 @@ class LexiconHandler implements DynamicLexicon {
 		return lexRules;
 	}
 
-	public Collection<LexicalRule> getLexRulesByWord(String word) {
+	public Collection<LexicalRule> getLexRules(String word) {
 		Collection<LexicalRule> lexRules = new ArrayList<LexicalRule>();
 		if (word.startsWith("the ")) {
 			for (Word w : getWordsByText(word.substring(4))) {

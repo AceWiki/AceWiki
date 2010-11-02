@@ -17,6 +17,7 @@ package ch.uzh.ifi.attempto.acewiki.core.ontology;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import ch.uzh.ifi.attempto.chartparser.AbstractOption;
 import ch.uzh.ifi.attempto.chartparser.DynamicLexicon;
 import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 
@@ -38,7 +39,8 @@ public class LexiconManager implements DynamicLexicon {
 		this.ontology = ontology;
 	}
 
-	public Collection<LexicalRule> getLexRulesByCatName(String catName) {
+	public Collection<LexicalRule> getLexRules(AbstractOption option) {
+		String catName = option.getCategoryName();
 		Collection<LexicalRule> lexRules = new ArrayList<LexicalRule>();
 		if (catName.equals("variable")) {
 			addVariableEntries(lexRules, "variable");
@@ -59,7 +61,7 @@ public class LexiconManager implements DynamicLexicon {
 		return lexRules;
 	}
 
-	public Collection<LexicalRule> getLexRulesByWord(String word) {
+	public Collection<LexicalRule> getLexRules(String word) {
 		Collection<LexicalRule> lexRules = new ArrayList<LexicalRule>();
 		if (word.matches("[XYZ][0-9]*")) {
 			lexRules.add(new LexicalRule("variable", word));

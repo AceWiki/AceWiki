@@ -24,16 +24,16 @@ import java.util.Collection;
 public interface DynamicLexicon {
 	
 	/**
-	 * This method should return the lexical rules with the given pre-terminal category name.
-	 * Lexical rules with a different preterminal category name are filtered out afterwards. This
-	 * method is used for the prediction of possible next tokens. The returned collection does not
-	 * need to be complete. For open word classes (e.g. string and numbers) just a subset of all
-	 * possible lexicon entries can be returned.
+	 * This method should return the lexical rules for the given abstract option. Lexical rules
+	 * that do not comply with this abstract option are filtered out afterwards. This method is
+	 * used for the prediction of possible next tokens. The returned collection does not need to be
+	 * complete. For open word classes (e.g. string and numbers) just a subset of all possible
+	 * lexicon entries can be returned.
 	 * 
-	 * @param catName The pre-terminal category name.
-	 * @return The lexical rules with the given pre-terminal category name.
+	 * @param option The abstract option.
+	 * @return The lexical rules for the given abstract option.
 	 */
-	public Collection<LexicalRule> getLexRulesByCatName(String catName);
+	public Collection<LexicalRule> getLexRules(AbstractOption option);
 	
 	/**
 	 * This method should return the lexical rules with the given word (terminal category). Lexical
@@ -42,6 +42,6 @@ public interface DynamicLexicon {
 	 * @param word The word.
 	 * @return The lexical rules with the given word as their terminal category.
 	 */
-	public Collection<LexicalRule> getLexRulesByWord(String word);
+	public Collection<LexicalRule> getLexRules(String word);
 
 }
