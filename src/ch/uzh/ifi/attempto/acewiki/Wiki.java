@@ -91,6 +91,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	
 	private static final long serialVersionUID = 2777443689044226043L;
 	
+	private static final Color sidePaneBackground = new Color(240, 240, 240);
+	
 	private Map<String, String> parameters;
 
 	private final Ontology ontology;
@@ -161,7 +163,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		
 		navigationButtons.setInsets(new Insets(5, 5, 5, 20));
 		navigationButtons.setCellSpacing(new Extent(5));
-		navigationButtons.setBackground(new Color(230, 230, 230));
+		navigationButtons.setBackground(sidePaneBackground);
 		
 		navigationButtons.add(backButton);
 		navigationButtons.add(forwardButton);
@@ -187,7 +189,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		wikiPane.setSeparatorHeight(new Extent(0));
 		
 		ContentPane sideBar = new ContentPane();
-		sideBar.setBackground(new Color(230, 230, 230));
+		sideBar.setBackground(sidePaneBackground);
 		Column sideCol = new Column();
 		sideCol.setInsets(new Insets(10, 10));
 		sideCol.setCellSpacing(new Extent(1));

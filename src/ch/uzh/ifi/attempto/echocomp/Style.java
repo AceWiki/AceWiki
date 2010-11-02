@@ -76,7 +76,7 @@ public class Style {
     /**
      * The light color for disabled components
      */
-    public static Color lightDisabled = new Color(200, 200, 200);
+    public static Color lightDisabled = new Color(220, 220, 220);
     
     /**
      * The dark color for disabled components

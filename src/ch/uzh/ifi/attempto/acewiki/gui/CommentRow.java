@@ -183,7 +183,7 @@ public class CommentRow extends Column implements ActionListener {
 			}
 			if (comp == null) {
 				SolidLabel label = new SolidLabel(s, Font.ITALIC);
-				label.setForeground(new Color(170, 170, 170));
+				label.setForeground(new Color(120, 120, 120));
 				comp = label;
 				text = s;
 			}

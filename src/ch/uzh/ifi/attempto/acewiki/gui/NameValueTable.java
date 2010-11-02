@@ -40,7 +40,7 @@ public class NameValueTable extends Column {
 		grid = new Grid(2);
 		grid.setInsets(new Insets(5, 1, 20, 2));
 		grid.setBorder(new Border(1, Color.DARKGRAY, Border.STYLE_SOLID));
-		grid.setBackground(new Color(245, 245, 245));
+		grid.setBackground(new Color(240, 240, 240));
 		add(grid);
 	}
 	
