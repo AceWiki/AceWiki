@@ -47,7 +47,7 @@ public class ACELexiconExporter extends OntologyExporter {
 				}
 			}
 		}
-		Collections.sort(lexiconEntries);
+		Collections.sort(lexiconEntries, String.CASE_INSENSITIVE_ORDER);
 		for (String s : lexiconEntries) {
 			write(s + ".\n");
 		}

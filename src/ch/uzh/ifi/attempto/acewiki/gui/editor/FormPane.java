@@ -16,6 +16,7 @@ package ch.uzh.ifi.attempto.acewiki.gui.editor;
 
 import java.util.List;
 
+import nextapp.echo2.app.Color;
 import nextapp.echo2.app.Component;
 import nextapp.echo2.app.Extent;
 import nextapp.echo2.app.Font;
@@ -194,7 +195,9 @@ public abstract class FormPane extends WordEditorForm {
 		explanationComp.setColumnWidth(0, new Extent(100));
 		explanationComp.setInsets(new Insets(0, 0, 10, 20));
 		explanationComp.add(new Label(image));
-		explanationComp.add(new Label(text, Font.ITALIC));
+		Label explLabel = new Label(text, Font.ITALIC);
+		explLabel.setForeground(new Color(120, 120, 120));
+		explanationComp.add(explLabel);
 		setExplanationComponent(explanationComp);
 	}
 	

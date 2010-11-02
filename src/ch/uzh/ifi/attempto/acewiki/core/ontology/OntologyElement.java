@@ -553,7 +553,7 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 	abstract void collectLexicalRules(String catName, Collection<LexicalRule> lexRules);
 
 	public int compareTo(OntologyElement e) {
-		return getHeadword().toLowerCase().compareTo(e.getHeadword().toLowerCase());
+		return getHeadword().compareToIgnoreCase(e.getHeadword());
 	}
 	
 	public String toString() {

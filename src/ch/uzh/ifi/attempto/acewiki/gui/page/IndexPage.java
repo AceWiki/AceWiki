@@ -113,7 +113,7 @@ public class IndexPage extends WikiPage implements ActionListener {
 		indexColumn.removeAll();
 		
 		List<String> indexWords = new ArrayList<String>(entries.keySet());
-		Collections.sort(indexWords);
+		Collections.sort(indexWords, String.CASE_INSENSITIVE_ORDER);
 		
 		numberIndexBar.setVisible(entries.size() > pageSize);
 		
