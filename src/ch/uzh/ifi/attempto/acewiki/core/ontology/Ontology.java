@@ -253,7 +253,7 @@ public class Ontology {
 		pb2.complete();
 		
 		if (ontology.get(0) == null) {
-			OntologyElement mainPage = new DummyOntologyElement("mainpage");
+			OntologyElement mainPage = new DummyOntologyElement("mainpage", "Main Page");
 			mainPage.setId(0);
 			mainPage.registerAt(ontology);
 		}

@@ -22,6 +22,7 @@ import nextapp.echo2.app.Insets;
 import nextapp.echo2.app.event.ActionEvent;
 import nextapp.echo2.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.DummyOntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyTextElement;
 import ch.uzh.ifi.attempto.echocomp.Style;
@@ -87,7 +88,11 @@ public class WikiLink extends Button implements ActionListener {
 		setInsets(new Insets(0, 0, 0, 0));
 		setLineWrap(false);
 		setRolloverEnabled(true);
-		setFont(new Font(Style.fontTypeface, Font.PLAIN, new Extent(13)));
+		if (ontologyElement instanceof DummyOntologyElement) {
+			setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
+		} else {
+			setFont(new Font(Style.fontTypeface, Font.PLAIN, new Extent(13)));
+		}
 		setRolloverForeground(Color.BLUE);
 		if (red) setForeground(new Color(180, 0, 0));
 		addActionListener(this);

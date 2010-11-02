@@ -30,14 +30,17 @@ import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 public class DummyOntologyElement extends OntologyElement {
 	
 	String type;
+	String text;
 	
 	/**
 	 * Creates a new dummy ontology element.
 	 * 
 	 * @param type The type of the dummy ontology element.
+	 * @param text The text of the dummy ontology element.
 	 */
-	public DummyOntologyElement(String type) {
+	public DummyOntologyElement(String type, String text) {
 		this.type = type;
+		this.text = text;
 	}
 	
 	public String[] getWords() {
@@ -49,7 +52,7 @@ public class DummyOntologyElement extends OntologyElement {
 	}
 	
 	public String getHeadword() {
-		return "";
+		return text;
 	}
 	
 	public String[] getIndexEntries() {

@@ -97,7 +97,7 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 		
 		// Dummy ontology element for the main page article:
 		if (type.equals("mainpage")) {
-			oe = new DummyOntologyElement("mainpage");
+			oe = new DummyOntologyElement("mainpage", "Main Page");
 		}
 		
 		oe.setId(id);
@@ -553,7 +553,13 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 	abstract void collectLexicalRules(String catName, Collection<LexicalRule> lexRules);
 
 	public int compareTo(OntologyElement e) {
-		return getHeadword().compareToIgnoreCase(e.getHeadword());
+		if (this instanceof DummyOntologyElement && !(e instanceof DummyOntologyElement)) {
+			return -1;
+		} else if (!(this instanceof DummyOntologyElement) && e instanceof DummyOntologyElement) {
+			return 1;
+		} else {
+			return getHeadword().compareToIgnoreCase(e.getHeadword());
+		}
 	}
 	
 	public String toString() {
