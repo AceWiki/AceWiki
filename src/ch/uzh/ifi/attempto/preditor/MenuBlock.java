@@ -138,7 +138,9 @@ class MenuBlock extends SplitPane {
 			for (MenuItem m : items) {
 				menuColumn.add(m);
 				m.setWidth(new Extent(width - 7));
-				m.addActionListener(actionListener);
+				if (m instanceof MenuEntry) {
+					m.addActionListener(actionListener);
+				}
 			}
 			progress = items.size();
 		}
@@ -178,7 +180,9 @@ class MenuBlock extends SplitPane {
 		for (int i = progress ; i < endPos ; i++) {
 			MenuItem m = items.get(i);
 			m.setWidth(new Extent(width - 24));
-			m.addActionListener(actionListener);
+			if (m instanceof MenuEntry) {
+				m.addActionListener(actionListener);
+			}
 			c.add(m);
 		}
 		progress = endPos;
