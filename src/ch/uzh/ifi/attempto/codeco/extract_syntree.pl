@@ -32,8 +32,10 @@ This module extracts a syntax tree from the parse tree as produced by the module
 :- op(1200, xfx, '=>').
 :- op(1200, xfx, '~>').
 :- op(600, xfx, ':').
-:- op(500, fx, '$').
-:- op(500, fx, '#').
+:- op(500, yfx, '+').
+:- op(300, fx, '$').
+:- op(300, fx, '#').
+:- op(0, fx, '+').  % Remove declaration
 :- op(0, xfx, '>').  % Remove declaration
 :- op(0, xfx, '<').  % Remove declaration
 
