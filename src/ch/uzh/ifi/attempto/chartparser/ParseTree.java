@@ -29,8 +29,7 @@ public class ParseTree {
 	private ParseTreeNode topNode;
 	private String lamFunctor = "lam";
 	private String appFunctor = "app";
-	private String concatFunctor = ".";
-	private String emptySequenceSymbol = "[]";
+	private String concatFunctor = "+";
 	private String semLabel = "sem";
 	
 	/**
@@ -74,23 +73,13 @@ public class ParseTree {
 
 	/**
 	 * Sets the functor of the concatenation function for the calculation of semantics. The default
-	 * is "." which corresponds to Prolog lists. Terms using the concatenation functor are
-	 * flattened. The functor can be set to null to avoid flattening.
+	 * is "+". Terms using the concatenation functor are flattened. The functor can be set to null
+	 * to avoid flattening.
 	 * 
 	 * @param concatFunctor The concatentation functor.
 	 */
 	public void setConcatFunctor(String concatFunctor) {
 		this.concatFunctor = concatFunctor;
-	}
-
-	/**
-	 * Sets the symbol for the empty sequence for the calculation of semantics when concatenation
-	 * is enabled. The default is "[]" which corresponds to the empty list in Prolog.
-	 * 
-	 * @param emptySequenceSymbol The symbol for the empty sequence.
-	 */
-	public void setEmptySequenceSymbol(String emptySequenceSymbol) {
-		this.emptySequenceSymbol = emptySequenceSymbol;
 	}
 	
 	/**
@@ -338,12 +327,12 @@ public class ParseTree {
 					for (int j = 1 ; j < ai.length ; j++) {
 						addFlat(cl, ai[j]);
 					}
-				} else if (!isEmptySequence(ci)) {
+				} else if (!"".equals(ci)) {
 					addFlat(cl, ci);
 				}
 			}
 			if (cl.size() == 0) {
-				return emptySequenceSymbol;
+				return "";
 			} else if (cl.size() == 1) {
 				return cl.get(0);
 			} else {
@@ -369,10 +358,6 @@ public class ParseTree {
 		if (!(a[0] instanceof String)) return false;
 		if (!a[0].toString().equals(concatFunctor)) return false;
 		return true;
-	}
-	
-	private boolean isEmptySequence(Object obj) {
-		return obj instanceof String && obj.toString().equals(emptySequenceSymbol);
 	}
 	
 	private void addFlat(List<Object> list, Object obj) {

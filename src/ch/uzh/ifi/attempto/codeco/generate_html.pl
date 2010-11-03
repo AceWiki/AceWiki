@@ -358,6 +358,7 @@ header('<?xml version="1.0" encoding="ISO-8859-1"?>
 
 <style type="text/css">
 h1, h2, h3, h4, h5, h6 { font-family: sans-serif; padding: 0.5em 0em 0em 0em; }
+table td { white-space: nowrap; }
 td { padding: 0.05em 0.05em 0.05em 0.05em; }
 td.cat { padding: 0.05em 0.05em 0.05em 0.8em; }
 td.preterm { text-decoration: underline; padding: 0.05em 0.05em 0.05em 0.8em; }
