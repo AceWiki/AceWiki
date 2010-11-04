@@ -40,6 +40,7 @@ public class ChartParser {
 	private ParseTree parseTree;
 	private Map<String, Integer> progressTable;
 	private boolean recalculateParseTree = true;
+	private String positionIdentifierPrefix = "#";
 	private boolean debug;
 	
 	/**
@@ -91,6 +92,17 @@ public class ChartParser {
 	public void setDynamicLexicon(DynamicLexicon dynLexicon) {
 		this.dynLexicon = dynLexicon;
 		updateConcreteOptions(tokens.size());
+	}
+	
+	/**
+	 * Sets the prefix for the position identifiers that are assigned to the variables of the
+	 * position operator "#". The default prefix is "#" so that the position identifiers are "#0",
+	 * "#1", "#2" and so on.
+	 * 
+	 * @param prefix The new prefix.
+	 */
+	public void setPositionIdentifierPrefix(String prefix) {
+		this.positionIdentifierPrefix = prefix.toString();
 	}
 	
 	/**
@@ -684,7 +696,8 @@ public class ChartParser {
 			if (n.equals("#")) {
 				Edge edgeC = edge.deepCopy();
 				try {
-					edgeC.getNextActive().getFeature("pos").unify(new StringRef("#" + tokens.size()));
+					String posId = positionIdentifierPrefix + tokens.size();
+					edgeC.getNextActive().getFeature("pos").unify(new StringRef(posId));
 					newEdges.add(edgeC);
 				} catch (UnificationFailedException ex) {}
 			} else if (n.equals(">") || n.equals(">>") || n.equals("//")) {
