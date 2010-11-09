@@ -8,6 +8,6 @@
   <g>
     <path
        style="fill:#a0a0ff;fill-opacity:1;stroke:#3c3cdc;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1"
-       d="m 20,5 3,-3 0,10.5 -10.5,0 3,-3 a 4.243,4.243 0 1,0 0,6 l 4.5,4.5 a 10.607,10.607 0 1,1 0,-15 z" />
+       d="m 15.5,7 -3,3 -3,-3 -2,2 3,3 -3,3 2,2 3,-3 3,3 2,-2 -3,-3 3,-3 z" />
   </g>
 </svg>

@@ -4,11 +4,10 @@
    xmlns="http://www.w3.org/2000/svg"
    width="25"
    height="25"
-   id="svg2"
    version="1.1">
   <g>
     <path
        style="fill:#3c3cdc;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1"
-       d="m 12.5,8 0,-6 10.5,10.5 -10.5,10.5 0,-6 -10.5,0 0,-9 z" />
+       d="m 15.5,7 -3,3 -3,-3 -2,2 3,3 -3,3 2,2 3,-3 3,3 2,-2 -3,-3 3,-3 z" />
   </g>
 </svg>
