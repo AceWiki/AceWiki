@@ -111,14 +111,15 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private IconButton refreshButton = new IconButton("Refresh", this);
 	private IconButton userButton = new IconButton("User", this);
 	private IconButton logoutButton = new IconButton("Logout", this);
+	private IconButton searchButton = new IconButton("Search", this);
+	private TextField searchTextField = new TextField(170, this);
 	private Label userLabel = new SolidLabel("Anonymous", Font.ITALIC);
 	
-	private SmallButton indexButton = new SmallButton("Index", this, 12);
 	private SmallButton homeButton = new SmallButton("Main Page", this, 12);
-	private SmallButton randomButton = new SmallButton("Random Article", this, 12);
+	private SmallButton indexButton = new SmallButton("Index", this, 12);
+	private SmallButton searchButton2 = new SmallButton("Search", this, 12);
 	private SmallButton aboutButton = new SmallButton("About", this, 12);
-	private SmallButton searchButton = new SmallButton("Search:", this, 12);
-	private TextField searchTextField = new TextField(110, this);
+	private SmallButton randomButton = new SmallButton("Random Article", this, 12);
 	private SmallButton newButton = new SmallButton("New Word...", this, 12);
 	private SmallButton exportButton = new SmallButton("Export...", this, 12);
 	
@@ -161,14 +162,19 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		splitPane1.setSeparatorPosition(new Extent(50));
 		splitPane1.setSeparatorHeight(new Extent(0));
 		
-		navigationButtons.setInsets(new Insets(5, 5, 5, 20));
-		navigationButtons.setCellSpacing(new Extent(5));
+		SplitPane splitPane2 = new SplitPane(SplitPane.ORIENTATION_HORIZONTAL_RIGHT_LEFT);
+		splitPane2.setSeparatorPosition(new Extent(215));
+		splitPane2.setSeparatorWidth(new Extent(0));
+		
+		navigationButtons.setInsets(new Insets(5));
 		navigationButtons.setBackground(sidePaneBackground);
 		
 		navigationButtons.add(backButton);
+		navigationButtons.add(new HSpace(5));
 		navigationButtons.add(forwardButton);
+		navigationButtons.add(new HSpace(5));
 		navigationButtons.add(refreshButton);
-		navigationButtons.add(new HSpace(20));
+		navigationButtons.add(new HSpace(30));
 		Row userRow = new Row();
 		userRow.add(userButton);
 		userRow.add(new HSpace(3));
@@ -180,7 +186,19 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		navigationButtons.add(userRow);
 		
 		ContentPane menuBar = new ContentPane();
+		menuBar.setBackground(sidePaneBackground);
 		menuBar.add(navigationButtons);
+		
+		Row searchRow = new Row();
+		searchRow.setInsets(new Insets(5));
+		searchRow.setBackground(sidePaneBackground);
+		searchRow.add(searchButton);
+		searchRow.add(new HSpace(5));
+		searchRow.add(searchTextField);
+		
+		ContentPane searchBar = new ContentPane();
+		searchBar.setBackground(sidePaneBackground);
+		searchBar.add(searchRow);
 		
 		wikiPane = new SplitPane(
 				SplitPane.ORIENTATION_HORIZONTAL_LEFT_RIGHT, 
@@ -227,9 +245,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		sideCol.add(label1);
 		sideCol.add(new ListItem(homeButton));
 		sideCol.add(new ListItem(indexButton));
+		sideCol.add(new ListItem(searchButton2));
 		sideCol.add(new ListItem(aboutButton));
 		sideCol.add(new ListItem(randomButton));
-		sideCol.add(new ListItem(searchButton, null, searchTextField));
 		
 		sideCol.add(new VSpace(10));
 
@@ -265,7 +283,10 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		splitPane3.add(splitPane4);
 		splitPane4.add(mainPane);
 		
-		splitPane1.add(menuBar);
+		splitPane2.add(searchBar);
+		splitPane2.add(menuBar);
+		
+		splitPane1.add(splitPane2);
 		splitPane1.add(splitPane3);
 		
 		wikiPane.add(sideBar);
@@ -621,22 +642,25 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == backButton) {
+		Object src = e.getSource();
+		String c = e.getActionCommand();
+		
+		if (src == backButton) {
 			log("page", "pressed: back");
 			back();
-		} else if (e.getSource() == forwardButton) {
+		} else if (src == forwardButton) {
 			log("page", "pressed: forward");
 			forward();
-		} else if (e.getSource() == indexButton) {
+		} else if (src == indexButton) {
 			log("page", "pressed: index");
 			showIndexPage();
-		} else if (e.getSource() == aboutButton) {
+		} else if (src == aboutButton) {
 			log("page", "pressed: about");
 			showAboutPage();
-		} else if (e.getSource() == homeButton) {
+		} else if (src == homeButton) {
 			log("page", "pressed: main page");
 			showStartPage();
-		} else if (e.getSource() == randomButton) {
+		} else if (src == randomButton) {
 			log("page", "pressed: random page");
 			List<OntologyElement> elements = ontology.getOntologyElements();
 			if (elements.size() > 0) {
@@ -645,11 +669,11 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			} else {
 				showStartPage();
 			}
-		} else if (e.getSource() == refreshButton) {
+		} else if (src == refreshButton) {
 			log("page", "pressed: refresh");
 			update();
 			refresh();
-		} else if (e.getSource() == newButton) {
+		} else if (src == newButton) {
 			log("page", "pressed: new word");
 			WordEditorWindow w = new WordEditorWindow("Word Creator");
 			w.addTab(new ProperNameForm(null, w, this, this));
@@ -658,7 +682,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			w.addTab(new VerbForm(null, 0, w, this, this));
 			w.addTab(new TrAdjForm(null, w, this, this));
 			showWindow(w);
-		} else if (e.getSource() == searchButton || e.getSource() == searchTextField) {
+		} else if (src == searchButton || src == searchTextField || src == searchButton2) {
 			log("page", "pressed: search '" + searchTextField.getText() + "'");
 			String s = searchTextField.getText();
 			searchTextField.setText("");
@@ -668,9 +692,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			} else {
 				showPage(el);
 			}
-		} else if (e.getSource() == exportButton) {
+		} else if (src == exportButton) {
 			showWindow(new ExportWindow(this));
-		} else if (e.getSource() == logoutButton) {
+		} else if (src == logoutButton) {
 			showWindow(new MessageWindow(
 					"Logout",
 					"Do you really want to log out?",
@@ -678,17 +702,17 @@ public class Wiki implements ActionListener, ExternalEventListener {
 					this,
 					"Yes", "No"
 				));
-		} else if (e.getSource() == userButton) {
+		} else if (src == userButton) {
 			if (user == null) {
 				showLoginWindow();
 			} else {
 				showWindow(new UserWindow(this));
 			}
-		} else if (e.getSource() instanceof MessageWindow && e.getActionCommand().equals("Yes")) {
+		} else if (src instanceof MessageWindow && c.equals("Yes")) {
 			application.logout();
-		} else if (e.getSource() instanceof OntologyTextElement) {
+		} else if (src instanceof OntologyTextElement) {
 			// for newly generated elements
-			OntologyTextElement te = (OntologyTextElement) e.getSource();
+			OntologyTextElement te = (OntologyTextElement) src;
 			log("edit", "new word: " + te.getOntologyElement().getWord());
 			showPage(te.getOntologyElement());
 		}
