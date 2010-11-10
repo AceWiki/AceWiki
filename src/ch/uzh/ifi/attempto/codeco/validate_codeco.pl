@@ -33,7 +33,7 @@ For more information about Codeco, see the following thesis:
 http://attempto.ifi.uzh.ch/site/pubs/papers/doctoral_thesis_kuhn.pdf 
 
 @author Tobias Kuhn
-@version 2010-10-18
+@version 2010-11-10
 */
 
 
@@ -378,7 +378,7 @@ process_features([_:V|Rest]) :-
 	process_features(Rest).
 
 process_features([_:V|Rest]) :-
-	codeco_atom(V),
+	atom(V),
 	!,
 	process_features(Rest).
 

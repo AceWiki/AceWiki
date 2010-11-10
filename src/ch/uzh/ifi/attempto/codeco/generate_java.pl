@@ -37,7 +37,7 @@ For more information about Codeco, see the following thesis:
 http://attempto.ifi.uzh.ch/site/pubs/papers/doctoral_thesis_kuhn.pdf 
 
 @author Tobias Kuhn
-@version 2010-10-21
+@version 2010-11-10
 */
 
 
@@ -184,14 +184,12 @@ process_structure(Out, '$VAR'(N)) :-
 process_structure(Out, Atom) :-
     atom(Atom),
     !,
-    escape_string(Atom, AtomE),
-    format(Out, '"~w"', [AtomE]).
+    format(Out, '"~l"', [Atom]).
 
 process_structure(Out, Term) :-
     Term =.. [Pred|Args],
     !,
-    escape_string(Pred, PredE),
-    format(Out, 'new Object[] {"~w"', PredE),
+    format(Out, 'new Object[] {"~l"', Pred),
     process_structure_list(Out, Args),
     write(Out, '}').
 
@@ -281,7 +279,7 @@ process_features(Out, [Name:'$VAR'(N)|Rest]) :-
 
 process_features(Out, [Name:Value|Rest]) :-
     !,
-    format(Out, '\t\tfm.setFeature("~w", new StringRef("~w"));\n', [Name, Value]),
+    format(Out, '\t\tfm.setFeature("~w", new StringRef("~l"));\n', [Name, Value]),
     process_features(Out, Rest).
 
 
@@ -302,23 +300,15 @@ process_bwrefterms(Out, [Term|Rest]) :-
 	process_bwrefterms(Out, Rest).
 
 
-escape_string(In, Out) :-
-    atom_codes(In, CodesIn),
-    escape_string_x(CodesIn, CodesOut),
-    atom_codes(Out, CodesOut).
+:- format_predicate(l, write_java_string(_Arg, _Term)).
 
-escape_string_x([], []).
 
-escape_string_x([34|In], [92,34|Out]) :-
-    !,
-    escape_string_x(In, Out).
-
-escape_string_x([92|In], [92,92|Out]) :-
-    !,
-    escape_string_x(In, Out).
-
-escape_string_x([C|In], [C|Out]) :-
-    escape_string_x(In, Out).
+write_java_string(_, Atom) :-
+	replace(Atom, '\\', '\\+', Atom1),
+	replace(Atom1, '"', '\\"', Atom2),
+	replace(Atom2, '\n', '\\n', Atom3),
+	replace(Atom3, '\\+', '\\\\', Atom4),
+    write(Atom4).
 
 
 :- style_check(-atom).
