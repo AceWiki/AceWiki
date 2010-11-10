@@ -68,7 +68,7 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 	static void loadOntologyElement(String serializedElement, long id, Ontology ontology) {
 		List<String> lines = new ArrayList<String>(Arrays.asList(serializedElement.split("\n")));
 		if (lines.size() == 0 || !lines.get(0).startsWith("type:")) {
-			System.err.println("Cannot read ontology element " + id + " (missing 'type')");
+			System.err.println("Cannot read ontology element (missing 'type')");
 			return;
 		}
 		String type = lines.remove(0).substring("type:".length());
@@ -88,7 +88,7 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 		}
 		if (oe != null) {
 			if (!lines.get(0).startsWith("words:")) {
-				System.err.println("Cannot read ontology element " + id + " (missing 'words')");
+				System.err.println("Cannot read ontology element (missing 'words')");
 				return;
 			}
 			String[] words = lines.remove(0).substring("words:".length()).split(";");
@@ -97,6 +97,7 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 		
 		// Dummy ontology element for the main page article:
 		if (type.equals("mainpage")) {
+			id = 0;
 			oe = new DummyOntologyElement("mainpage", "Main Page");
 		}
 		

@@ -208,7 +208,6 @@ public class Ontology {
 			try {
 				BufferedReader in = new BufferedReader(new FileReader(dataFile));
 				pb1 = new ConsoleProgressBar(dataFile.length());
-				long id = 1;
 				String s = "";
 				String line = in.readLine();
 				while (line != null) {
@@ -216,8 +215,7 @@ public class Ontology {
 					if (line.matches("\\s*")) {
 						// empty line
 						if (s.length() > 0) {
-							OntologyElement.loadOntologyElement(s, id, ontology);
-							id++;
+							OntologyElement.loadOntologyElement(s, -1, ontology);
 							s = "";
 						}
 					} else if (line.startsWith("%")) {
