@@ -15,14 +15,31 @@
 package ch.uzh.ifi.attempto.preditor;
 
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This class represents the default comparator to sort menu items in the menus of the predictive
- * editor.
+ * editor. Prefixes can be set that are ignored for comparison. By default, these prefixes are
+ * "the ", "a " and "and " plus their capizalized versions.
  * 
  * @author Tobias Kuhn
  */
 public class DefaultMenuItemComparator implements Comparator<MenuItem> {
+	
+	private Set<String> prefixes = new HashSet<String>();
+	
+	/**
+	 * Creates a new default comparator for menu items.
+	 */
+	public DefaultMenuItemComparator() {
+		prefixes.add("the ");
+		prefixes.add("The ");
+		prefixes.add("a ");
+		prefixes.add("A ");
+		prefixes.add("an ");
+		prefixes.add("An ");
+	}
 
 	public int compare(MenuItem m1, MenuItem m2) {
 		String s1 = m1.getText();
@@ -48,15 +65,28 @@ public class DefaultMenuItemComparator implements Comparator<MenuItem> {
 		}
 		
 		// Certain prefixes are ignored for comparison:
-		String[] prefixes = new String[] {"the ", "The ", "a ", "A ", "an ", "An "};
+		String s1n = null;
+		String s2n = null;
+		String p1 = "";
+		String p2 = "";
 		for (String p : prefixes) {
 			if (s1.startsWith(p)) {
-				s1 = s1.substring(p.length());
+				if (s1n == null || s1n.length() > s1.length() - p.length()) {
+					p1 = s1.substring(0, p.length());
+					s1n = s1.substring(p.length());
+				}
 			}
 			if (s2.startsWith(p)) {
-				s2 = s2.substring(p.length());
+				if (s2n == null || s2n.length() > s2.length() - p.length()) {
+					p2 = s2.substring(0, p.length());
+					s2n = s2.substring(p.length());
+				}
 			}
 		}
+		if (s1n != null) s1 = s1n;
+		if (s2n != null) s2 = s2n;
+		
+		int comp;
 		
 		// For items that are equal apart from trailing digits, the integer value of these trailing
 		// digits is used for comparison:
@@ -69,11 +99,35 @@ public class DefaultMenuItemComparator implements Comparator<MenuItem> {
 			try {
 				i2 = Integer.parseInt(s2.replaceFirst("^.*?([0-9]*)$", "$1"));
 			} catch (NumberFormatException ex) {}
-			return i1 - i2;
+			comp = i1 - i2;
+		} else {
+			comp = s1.compareToIgnoreCase(s2);
 		}
 		
-		// In all other cases, the texts are compared in the usual way:
-		return s1.compareToIgnoreCase(s2);
+		if (comp == 0) {
+			return p1.compareToIgnoreCase(p2);
+		} else {
+			return comp;
+		}
+	}
+	
+	/**
+	 * Adds a prefix.
+	 * 
+	 * @param prefix The prefix to be added.
+	 */
+	public void addPrefix(String prefix) {
+		prefixes.add(prefix);
+	}
+	
+	/**
+	 * Sets the prefixes.
+	 * 
+	 * @param prefixes The set of prefixes.
+	 */
+	public void setPrefixes(Set<String> prefixes) {
+		this.prefixes.clear();
+		this.prefixes.addAll(prefixes);
 	}
 
 }
