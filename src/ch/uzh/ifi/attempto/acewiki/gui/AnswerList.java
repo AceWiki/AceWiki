@@ -56,99 +56,90 @@ class AnswerList extends Column {
 		this.wiki = wiki;
 		this.question = question;
 		this.recalcIcon = recalcIcon;
-		calculateAnswers();
+		
+		setInsets(new Insets(20, 0, 0, 0));
+		
+		updateAnswers();
 	}
 	
-	private void calculateAnswers() {
-		
-		// TODO: clean-up and document this ugly code.
-		
-		if (question.isShowPossibleAnswersEnabled()) {
-			Column pCol = new Column();
-			pCol.setInsets(new Insets(20, 0, 0, 0));
-			pCol.add(new SolidLabel("possibly:", Font.ITALIC, 10));
-			add(pCol);
-		}
-		
-		final Column answerColumn = new Column();
-		answerColumn.setInsets(new Insets(20, 0, 0, 0));
-		add(answerColumn);
+	/**
+	 * Recalculates the answers and updates the answer list.
+	 */
+	public void updateAnswers() {
+		clear();
 		
 		Column cachedAnswerCol = new Column();
-		List<OntologyElement> answer = question.getCachedAnswer();
-		if (answer == null) {
-			cachedAnswerCol.add(new SolidLabel("...", Font.ITALIC, 10));
-		} else if (answer.size() > 0) {
-			Collections.sort(answer);
-			for (OntologyElement oe : answer) {
-				Row answerRow = new Row();
-				if (oe instanceof NounConcept) {
-					String t = (ACEUtils.useIndefiniteArticleAn(oe.getWord()) ? "an" : "a");
-					answerRow.add(new ListItem(
-							new SolidLabel(t),
-							new HSpace(),
-							new WikiLink(oe, wiki)
-						));
-				} else {
-					answerRow.add(new ListItem(new WikiLink(oe, wiki)));
-				}
-				cachedAnswerCol.add(answerRow);
-			}
-		} else {
-			cachedAnswerCol.add(new SolidLabel("(no answer found)", Font.ITALIC, 10));
-		}
-		cachedAnswerCol.add(new VSpace(4));
+		addAnswerToColumn(question.getCachedAnswer(), cachedAnswerCol);
 		
 		if (question.isAnswerCached()) {
-			
-			answerColumn.add(cachedAnswerCol);
-			
+			// Cached answer is up-to-date: no recalculation
+			add(cachedAnswerCol);
 		} else {
+			// Answer is not cached or not up-to-date: recalculation
 			recalcIcon.setVisible(true);
-			answerColumn.add(cachedAnswerCol);
+			add(cachedAnswerCol);
 			wiki.enqueueWeakAsyncTask(new Task() {
 				
 				private Column column;
 				
 				public void run() {
 					column = new Column();
-					List<OntologyElement> answer = question.getAnswer();
-					if (answer == null) {
-						column.add(new SolidLabel("(error)", Font.ITALIC, 10));
-					} else if (answer.size() > 0) {
-						Collections.sort(answer);
-						for (OntologyElement oe : answer) {
-							Row answerRow = new Row();
-							if (oe instanceof NounConcept) {
-								String t = "a";
-								if (ACEUtils.useIndefiniteArticleAn(oe.getWord())) {
-									t = "an";
-								}
-								answerRow.add(new ListItem(
-										new SolidLabel(t),
-										new HSpace(),
-										new WikiLink(oe, wiki)
-									));
-							} else {
-								answerRow.add(new ListItem(new WikiLink(oe, wiki)));
-							}
-							column.add(answerRow);
-						}
-					} else {
-						column.add(new SolidLabel("(no answer found)", Font.ITALIC, 10));
-					}
-					column.add(new VSpace(4));
+					addAnswerToColumn(question.getAnswer(), column);
 				}
 				
 				public void updateGUI() {
-					answerColumn.removeAll();
-					answerColumn.add(column);
+					clear();
+					add(column);
 					recalcIcon.setVisible(false);
 				}
 				
 			});
 		}
+	}
+	
+	private void clear() {
+		removeAll();
 		
+		// Experimental "possible answers" feature:
+		if (question.isShowPossibleAnswersEnabled()) {
+			add(new SolidLabel("possibly:", Font.ITALIC, 10));
+		}
+	}
+	
+	/**
+	 * This method adds the graphical components for the given answer to the given column.
+	 * 
+	 * @param answer The answer as a list of ontology elements.
+	 * @param column The column to which the answer should be added.
+	 */
+	private void addAnswerToColumn(List<OntologyElement> answer, Column column) {
+		if (answer == null) {
+			// The answer is still being calculated, or an error occurred
+			column.add(new SolidLabel("...", Font.ITALIC, 10));
+		} else if (answer.size() > 0) {
+			// Non-empty answer
+			Collections.sort(answer);
+			for (OntologyElement oe : answer) {
+				Row answerRow = new Row();
+				if (oe instanceof NounConcept) {
+					// Nouns as answer are preceded by the article "a" or "an"
+					boolean an = ACEUtils.useIndefiniteArticleAn(oe.getWord());
+					answerRow.add(new ListItem(
+							new SolidLabel(an ? "an" : "a"),
+							new HSpace(),
+							new WikiLink(oe, wiki)
+						));
+				} else {
+					// Proper names as answer
+					answerRow.add(new ListItem(new WikiLink(oe, wiki)));
+				}
+				column.add(answerRow);
+			}
+		} else {
+			// Empty answer
+			column.add(new SolidLabel("(no answer found)", Font.ITALIC, 10));
+		}
+		column.add(new VSpace(4));
 	}
 
 }
