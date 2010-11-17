@@ -72,8 +72,6 @@ public class ProperNameForm extends FormPane {
 		nameDefArtCheckBox.setSelected(ind.hasDefiniteArticle(0));
 		abbrevField.setText(ind.getAbbreviation());
 		abbrevDefArtCheckBox.setSelected(ind.hasDefiniteArticle(2));
-		
-		wiki.getApplication().setFocusedComponent(nameField);
 	}
 	
 	/**

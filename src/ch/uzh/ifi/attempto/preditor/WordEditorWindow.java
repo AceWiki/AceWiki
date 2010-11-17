@@ -17,17 +17,14 @@ package ch.uzh.ifi.attempto.preditor;
 import java.util.ArrayList;
 
 import nextapp.echo2.app.Alignment;
-import nextapp.echo2.app.ApplicationInstance;
 import nextapp.echo2.app.Border;
 import nextapp.echo2.app.Color;
-import nextapp.echo2.app.Component;
 import nextapp.echo2.app.Extent;
 import nextapp.echo2.app.Font;
 import nextapp.echo2.app.Insets;
 import nextapp.echo2.app.event.ChangeEvent;
 import nextapp.echo2.app.event.ChangeListener;
 import ch.uzh.ifi.attempto.echocomp.Style;
-import ch.uzh.ifi.attempto.echocomp.TextField;
 import ch.uzh.ifi.attempto.echocomp.WindowPane;
 import echopointng.ButtonEx;
 import echopointng.TabbedPane;
@@ -148,21 +145,8 @@ public class WordEditorWindow extends WindowPane implements ChangeListener {
 	private void doFocus() {
 		int i = tabbedPane.getSelectedIndex();
 		if (i < tabs.size()) {
-			doFocus(tabs.get(i));
+			tabs.get(i).doFocus();
 		}
-	}
-	
-	private boolean doFocus(Component c) {
-		if (c instanceof TextField) {
-			ApplicationInstance.getActive().setFocusedComponent((TextField) c);
-			return true;
-		} else {
-			for (Component child : c.getComponents()) {
-				boolean b = doFocus(child);
-				if (b) return true;
-			}
-		}
-		return false;
 	}
 	
 	public void stateChanged(ChangeEvent e) {

@@ -63,8 +63,6 @@ public class NounOfForm extends FormPane {
 		addRow("noun", nounField, "examples: part, child, owner", true);
 		
 		nounField.setText(role.getPrettyNoun());
-		
-		wiki.getApplication().setFocusedComponent(nounField);
 	}
 	
 	/**

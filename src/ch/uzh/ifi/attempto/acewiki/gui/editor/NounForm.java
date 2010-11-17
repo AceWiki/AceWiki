@@ -68,8 +68,6 @@ public class NounForm extends FormPane {
 		
 		singularField.setText(concept.getPrettyWord(0));
 		pluralField.setText(concept.getPrettyWord(1));
-		
-		wiki.getApplication().setFocusedComponent(singularField);
 	}
 	
 	/**

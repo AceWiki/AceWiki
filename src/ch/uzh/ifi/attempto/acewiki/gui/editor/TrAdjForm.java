@@ -62,8 +62,6 @@ public class TrAdjForm extends FormPane {
 		addRow("tr. adjective", trAdjField, "examples: located in, matched with, fond of", true);
 		
 		trAdjField.setText(role.getPrettyWord(0));
-		
-		wiki.getApplication().setFocusedComponent(trAdjField);
 	}
 	
 	/**

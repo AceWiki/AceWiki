@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nextapp.echo2.app.Alignment;
+import nextapp.echo2.app.ApplicationInstance;
 import nextapp.echo2.app.Column;
 import nextapp.echo2.app.Component;
 import nextapp.echo2.app.ContentPane;
@@ -217,6 +218,31 @@ public class WordEditorForm extends ContentPane implements ActionListener {
 			}
 		}
 		return textContents;
+	}
+	
+	/**
+	 * This method sets the focus on the first enabled text field of this form.
+	 */
+	protected void doFocus() {
+		doFocus(this);
+	}
+	
+	private boolean doFocus(Component c) {
+		if (c instanceof TextField) {
+			TextField tf = (TextField) c;
+			if (tf.isEnabled()) {
+				ApplicationInstance.getActive().setFocusedComponent(tf);
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			for (Component child : c.getComponents()) {
+				boolean b = doFocus(child);
+				if (b) return true;
+			}
+		}
+		return false;
 	}
 	
 	public void actionPerformed(ActionEvent e) {

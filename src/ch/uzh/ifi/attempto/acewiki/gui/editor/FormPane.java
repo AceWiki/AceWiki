@@ -201,12 +201,22 @@ public abstract class FormPane extends WordEditorForm {
 		setExplanationComponent(explanationComp);
 	}
 	
+	/**
+	 * Returns whether this form is locked or not.
+	 * 
+	 * @return true if this form is locked.
+	 */
+	public boolean isLocked() {
+		return locked;
+	}
+	
 	private void unlock() {
 		setButtons("Delete", "Change", "Cancel");
 		for (Component c : getFormElements()) {
 			c.setEnabled(true);
 		}
 		locked = false;
+		doFocus();
 	}
 	
 	private void prepareDelete() {

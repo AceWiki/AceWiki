@@ -72,8 +72,6 @@ public class VerbForm extends FormPane {
 		thirdSgField.setText(verbRole.getPrettyWord(0));
 		infField.setText(verbRole.getPrettyWord(1));
 		pastPartField.setText(verbRole.getPrettyPastPart());
-		
-		wiki.getApplication().setFocusedComponent(thirdSgField);
 	}
 	
 	/**
