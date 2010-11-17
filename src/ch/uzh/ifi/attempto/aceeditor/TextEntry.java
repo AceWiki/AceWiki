@@ -148,7 +148,6 @@ class TextEntry extends Column implements ActionListener {
 			l.add(createResultItem(ResultItem.FOL, resultItemsTemplate));
 			l.add(createResultItem(ResultItem.PNF, resultItemsTemplate));
 			l.add(createResultItem(ResultItem.OWL_FSS, resultItemsTemplate));
-			l.add(createResultItem(ResultItem.OWL_RDF, resultItemsTemplate));
 			l.add(createResultItem(ResultItem.OWL_XML, resultItemsTemplate));
 
 			for (ResultItem ri : l) {

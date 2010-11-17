@@ -56,16 +56,15 @@ class ResultItem extends Row {
 	public static final String FOL = "First-order Logic";
 	public static final String PNF = "Normalized First-order Logic";
 	public static final String OWL_FSS = "OWL FSS";
-	public static final String OWL_RDF = "OWL RDF";
 	public static final String OWL_XML = "OWL XML";
 
 	public static final String[] TYPES = new String[] {
 		PARAPHRASE, SENTENCES, TOKENS, SYNTAX_LIST, SYNTAX_TREE, SYNTAX_BOXES, DRS_PROLOG,
-		DRS_PRETTY, DRS_XML, FOL, PNF, OWL_FSS, OWL_RDF, OWL_XML
+		DRS_PRETTY, DRS_XML, FOL, PNF, OWL_FSS, OWL_XML
 	};
 
 	private static final String[] PREFORMATED_TYPES = new String[] {
-		SYNTAX_TREE, DRS_PRETTY, DRS_XML, OWL_FSS, OWL_RDF, OWL_XML
+		SYNTAX_TREE, DRS_PRETTY, DRS_XML, OWL_FSS, OWL_XML
 	};
 
 	private static final String[] HTML_TYPES = new String[] {SYNTAX_BOXES};
@@ -171,7 +170,6 @@ class ResultItem extends Row {
 		if (type.equals(ResultItem.FOL)) return parserResult.get(OutputType.FOL);
 		if (type.equals(ResultItem.PNF)) return parserResult.get(OutputType.PNF);
 		if (type.equals(ResultItem.OWL_FSS)) return parserResult.get(OutputType.OWLFSSPP);
-		if (type.equals(ResultItem.OWL_RDF)) return parserResult.get(OutputType.OWLRDF);
 		if (type.equals(ResultItem.OWL_XML)) return parserResult.get(OutputType.OWLXML);
 		return "";
 	}
