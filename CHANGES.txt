@@ -4,6 +4,21 @@ AceWiki Change Log
 This file lists the changes between the different AceWiki versions. See the Bazaar log for more
 details.
 
+Version 0.4.3
+
+- There are no word tabs anymore in AceWiki. The word information is accessed by clicking on the
+  article title.
+- The main page of AceWiki is now a wiki article.
+- The search field of AceWiki has moved to the top right.
+- Extensions of the internal Codeco grammar notation.
+  - Codeco rules can have annotations.
+  - Codeco grammars can produce parse/syntax trees and semantic representations.
+- Design improvement of the chart parser and the predictive editor: dynamic lexicon management and
+  menu creation is now clearly separated.
+- Interface polishing: Nicer icons for AceWiki and small modifications of the interface colors.
+- The OWL RDF option has been removed from the ACE Editor, because it is deprecated.
+- Internal refactoring and improvements at various places.
+
 
 Version 0.4.2
 
