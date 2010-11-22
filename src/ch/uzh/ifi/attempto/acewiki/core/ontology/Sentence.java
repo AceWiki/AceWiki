@@ -15,7 +15,6 @@
 package ch.uzh.ifi.attempto.acewiki.core.ontology;
 
 import static ch.uzh.ifi.attempto.ape.OutputType.DRSPP;
-import static ch.uzh.ifi.attempto.ape.OutputType.OWLRDF;
 import static ch.uzh.ifi.attempto.ape.OutputType.OWLXML;
 import static ch.uzh.ifi.attempto.ape.OutputType.PARAPHRASE1;
 import static ch.uzh.ifi.attempto.ape.OutputType.SYNTAX;
@@ -233,9 +232,8 @@ public abstract class Sentence extends Statement {
 					lexicon,
 					PARAPHRASE1,
 					SYNTAX,
-					SYNTAXPP, 
+					SYNTAXPP,
 					OWLXML,
-					OWLRDF,
 					DRSPP
 				);
 		}
@@ -245,24 +243,22 @@ public abstract class Sentence extends Statement {
 			owlxml = OWLXMLTransformer.transform(owlxml);
 		}
 		
-		reasonerParticipant =
-			(mc.getMessages("owl").size() == 0) &&
-			(owlxml.indexOf("<swrl:Imp>") < 0) &&
-			(owlxml.length() > 0);
-		
-		if (reasonerParticipant && getOntology().getGlobalRestrictionsPolicy().equals("no_chains")) {
-			reasonerParticipant =
-				(owlxml.indexOf("<TransitiveObjectProperty>") < 0) &&
-				(owlxml.indexOf("<ObjectPropertyChain>") < 0);
-		}
-		
-		isOWL =
-			(mc.getMessages("owl").size() == 0) &&
-			(owlxml.indexOf("<swrl:Imp>") < 0) &&
-			(owlxml.length() > 0);
 		isOWLSWRL =
 			(mc.getMessages("owl").size() == 0) &&
 			(owlxml.length() > 0);
+		
+		isOWL = isOWLSWRL &&
+			(owlxml.indexOf("<swrl:Imp>") < 0) &&
+			(owlxml.indexOf("<DLSafeRule>") < 0);
+		
+		if (isOWL && getOntology().getGlobalRestrictionsPolicy().equals("no_chains")) {
+			reasonerParticipant =
+				(owlxml.indexOf("<TransitiveObjectProperty>") < 0) &&
+				(owlxml.indexOf("<ObjectPropertyChain>") < 0);
+		} else {
+			reasonerParticipant = isOWL;
+		}
+		
 		owlAxioms = null;
 		OWLOntology owlOntology = null;
 		if (isOWL) {

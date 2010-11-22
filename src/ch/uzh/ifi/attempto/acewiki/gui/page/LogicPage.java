@@ -64,13 +64,7 @@ public class LogicPage extends WikiPage implements ActionListener {
 		add(drsColumn);
 		
 		if (sentence.isOWLSWRL()) {
-			
-			if (sentence.isOWL()) {
-				addHeadline("OWL (XML syntax)");
-			} else {
-				addHeadline("OWL+SWRL (RDF/XML syntax)");
-			}
-			
+			addHeadline("OWL");
 			Column owlrdfColumn = new Column();
 			owlrdfColumn.setInsets(new Insets(10, 0, 5, 25));
 			owlrdfColumn.add(new DirectHtml(
