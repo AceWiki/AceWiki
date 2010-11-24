@@ -78,6 +78,7 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 	private List<MenuBlock> menuBlocksBottom = new ArrayList<MenuBlock>();
 	private List<SplitPane> menuSplitPanesTop = new ArrayList<SplitPane>();
 	private List<SplitPane> menuSplitPanesBottom = new ArrayList<SplitPane>();
+	private MenuBlock enlargedMenuBlock;
 	
 	private DirectHtml textArea = new DirectHtml();
 	private TextField textField;
@@ -401,7 +402,24 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		updateMenuBlockContents();
 		setFilter(textField.getText());
 		int mbCount = menuBlockContents.size();
-		if (mbCount < 5) {
+		if (enlargedMenuBlock != null) {
+			// One enlarged menu block
+			MenuBlockContent mbc = enlargedMenuBlock.getContent();
+			clearMenuBlocks();
+			enlargedMenuBlock = menuBlocksTop.get(0);
+			enlargedMenuBlock.setContent(mbc, 710, 16);
+			enlargedMenuBlock.setEnlarged(true);
+			menuSplitPanesTop.get(0).setSeparatorPosition(new Extent(710));
+			menuSplitPanesTop.get(0).setVisible(true);
+			for (int i=1; i < menuBlocksTop.size(); i++) {
+				menuSplitPanesTop.get(i).setVisible(false);
+			}
+			for (int i=0; i < menuBlocksBottom.size(); i++) {
+				menuSplitPanesBottom.get(i).setVisible(false);
+			}
+			doubleColumnMenuPane.setSeparatorPosition(new Extent(258));
+		} else if (mbCount < 5) {
+			// Menu blocks on one row
 			int width = ( 720 / ( mbCount > 3 ? mbCount : 3 ) ) - 10;
 			for (int i=0; i < menuBlocksTop.size(); i++) {
 				if (menuBlockContents.size() > i) {
@@ -417,6 +435,7 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 			}
 			doubleColumnMenuPane.setSeparatorPosition(new Extent(258));
 		} else {
+			// Menu blocks on two rows
 			int firstRowCount = (mbCount + 1) / 2;
 			int width = ( 720 / firstRowCount ) - 10;
 			for (int i=0; i < menuBlocksTop.size(); i++) {
@@ -443,6 +462,15 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		ApplicationInstance.getActive().setFocusedComponent(textField);
 		clearButton.setEnabled(getTokenCount() > 0);
 		deleteButton.setEnabled(getTokenCount() > 0);
+	}
+	
+	private void clearMenuBlocks() {
+		for (MenuBlock mb : menuBlocksTop) {
+			mb.clear();
+		}
+		for (MenuBlock mb : menuBlocksBottom) {
+			mb.clear();
+		}
 	}
 	
 	private void updateMenuBlockContents() {
@@ -501,7 +529,9 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		if (contentsMap.containsKey(menuGroup)) {
 			mbc = contentsMap.get(menuGroup);
 		} else {
-			mbc = new MenuBlockContent(menuGroup, getMenuCreator().getMenuItemComparator());
+			mbc = new MenuBlockContent(menuGroup);
+			mbc.setComparator(getMenuCreator().getMenuItemComparator());
+			mbc.setActionListener(this);
 			contentsMap.put(menuGroup, mbc);
 		}
 		mbc.addItem(menuItem);
@@ -626,28 +656,33 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == cancelButton) {
+		Object src = e.getSource();
+		String c = e.getActionCommand();
+
+		if (enlargedMenuBlock != null) {
+			enlargedMenuBlock.setEnlarged(false);
+			enlargedMenuBlock = null;
+		}
+		
+		boolean tabKeyPressed = false;
+		
+		if (src == cancelButton) {
 			log("pressed: cancel");
 			notifyActionListeners(new ActionEvent(this, "Cancel"));
 			return;
-		} else if (e.getSource() == okButton) {
+		} else if (src == okButton) {
 			log("pressed: ok");
 			handleTextInput(true);
 			update();
 			notifyActionListeners(new ActionEvent(this, "OK"));
 			return;
-		} else if (e.getSource() == deleteButton) {
+		} else if (src == deleteButton) {
 			log("pressed: < delete");
 			removeLastToken();
-		} else if (e.getSource() == clearButton) {
+		} else if (src == clearButton) {
 			log("pressed: clear");
 			clearTokens();
-		} else if (e.getSource() instanceof MenuEntry) {
-			TextElement te = ((MenuEntry) e.getSource()).getTextElement();
-			log("pressed: menu-entry " + te.getText());
-			textElementSelected(te);
-			textField.setText("");
-		} else if (e.getSource() == textField) {
+		} else if (src == textField) {
 			log("pressed: enter-key");
 			if (textField.getText().equals("") && filter.equals("")) {
 				notifyActionListeners(new ActionEvent(this, "Enter"));
@@ -655,14 +690,22 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 			} else {
 				handleTextInput(true);
 			}
-		} else if ("Tab".equals(e.getActionCommand())) {
+		} else if (src instanceof MenuEntry) {
+			TextElement te = ((MenuEntry) e.getSource()).getTextElement();
+			log("pressed: menu-entry " + te.getText());
+			textElementSelected(te);
+			textField.setText("");
+		} else if ("enlarge".equals(c) && src instanceof MenuBlock) {
+			enlargedMenuBlock = (MenuBlock) src;
+		} else if ("Tab".equals(c)) {
 			log("pressed: tab-key");
 			handleTextInput(false);
-		} else if ("Esc".equals(e.getActionCommand())) {
+			tabKeyPressed = true;
+		} else if ("Esc".equals(c)) {
 			log("pressed: escape key");
 			notifyActionListeners(new ActionEvent(this, "Escape"));
 			return;
-		} else if ("Ctrl-Backspace".equals(e.getActionCommand())) {
+		} else if ("Ctrl-Backspace".equals(c)) {
 			log("pressed: ctrl-backspace");
 			if (getTokenCount() > 0) {
 				textContainer.removeLastElement();
@@ -673,7 +716,7 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		
 		update();
 		
-		if ("Tab".equals(e.getActionCommand())) {
+		if (tabKeyPressed) {
 			String s = getStartString();
 			if (s != null) textField.setText(s);
 		}

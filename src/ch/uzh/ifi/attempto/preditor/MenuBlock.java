@@ -25,8 +25,10 @@ import nextapp.echo2.app.Component;
 import nextapp.echo2.app.Extent;
 import nextapp.echo2.app.Font;
 import nextapp.echo2.app.Insets;
+import nextapp.echo2.app.Row;
 import nextapp.echo2.app.SplitPane;
 import nextapp.echo2.app.TaskQueueHandle;
+import nextapp.echo2.app.event.ActionEvent;
 import nextapp.echo2.app.event.ActionListener;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.Style;
@@ -38,13 +40,15 @@ import ch.uzh.ifi.attempto.echocomp.WindowPane;
  * 
  * @author Tobias Kuhn
  */
-class MenuBlock extends SplitPane {
+class MenuBlock extends SplitPane implements ActionListener {
 	
 	private static final long serialVersionUID = -5856577034761259001L;
 	
 	private ActionListener actionListener;
+	private MenuBlockContent content;
 	private Column menuColumn = new Column();
 	private Button label = new Button("...");
+	private Button enlargeButton = new Button();
 
 	private int state = 0;
 	private List<MenuItem> items;
@@ -67,6 +71,7 @@ class MenuBlock extends SplitPane {
 		this.taskQueue = app.createTaskQueue();
 		this.actionListener = actionListener;
 		
+		Row labelRow = new Row();
 		label.setEnabled(false);
 		label.setHeight(new Extent(15));
 		label.setWidth(new Extent(100));
@@ -77,7 +82,17 @@ class MenuBlock extends SplitPane {
 		label.setLineWrap(false);
 		label.setAlignment(new Alignment(Alignment.LEFT, Alignment.BOTTOM));
 		label.setInsets(new Insets(1, 0, 0, 0));
-		add(label);
+		labelRow.add(label);
+		enlargeButton.setHeight(new Extent(15));
+		enlargeButton.setWidth(new Extent(10));
+		enlargeButton.setFont(new Font(Style.fontTypeface, Font.BOLD, new Extent(11)));
+		enlargeButton.setForeground(Style.lightBackground);
+		enlargeButton.setRolloverEnabled(true);
+		enlargeButton.setRolloverForeground(Color.BLACK);
+		enlargeButton.addActionListener(this);
+		setEnlarged(false);
+		labelRow.add(enlargeButton);
+		add(labelRow);
 		
 		SplitPane spLeft = new SplitPane(SplitPane.ORIENTATION_HORIZONTAL_LEFT_RIGHT);
 		spLeft.setSeparatorColor(Color.BLACK);
@@ -121,13 +136,14 @@ class MenuBlock extends SplitPane {
 	 * @param width The width of this menu block in pixels.
 	 * @param pageSize The vertical page size in number of items.
 	 */
-	public synchronized void setContent(final MenuBlockContent content, final int width, final int pageSize) {
+	public synchronized void setContent(MenuBlockContent content, final int width, final int pageSize) {
+		this.content = content;
 		state++;
 		label.setText(content.getName());
-		label.setWidth(new Extent(width - 3));
+		label.setWidth(new Extent(width - 13));
 		menuColumn.removeAll();
 		this.width = width;
-
+		
 		items = content.getItems();
 		progress = 0;
 		
@@ -138,12 +154,27 @@ class MenuBlock extends SplitPane {
 			for (MenuItem m : items) {
 				menuColumn.add(m);
 				m.setWidth(new Extent(width - 7));
-				if (m instanceof MenuEntry) {
-					m.addActionListener(actionListener);
-				}
 			}
 			progress = items.size();
 		}
+	}
+	
+	/**
+	 * Returns the current content of this menu block.
+	 * 
+	 * @return The content.
+	 */
+	public MenuBlockContent getContent() {
+		return content;
+	}
+	
+	/**
+	 * Clears the content and removes all menu items.
+	 */
+	public void clear() {
+		state++;
+		content = null;
+		menuColumn.removeAll();
 	}
 	
 	private synchronized void calculateRest(final int state) {
@@ -180,9 +211,6 @@ class MenuBlock extends SplitPane {
 		for (int i = progress ; i < endPos ; i++) {
 			MenuItem m = items.get(i);
 			m.setWidth(new Extent(width - 24));
-			if (m instanceof MenuEntry) {
-				m.addActionListener(actionListener);
-			}
 			c.add(m);
 		}
 		progress = endPos;
@@ -192,6 +220,31 @@ class MenuBlock extends SplitPane {
 	public void setVisible(boolean visible) {
 		state++;
 		super.setVisible(visible);
+	}
+	
+	/**
+	 * This method is used to switch from normal to enlarged mode and back.
+	 * 
+	 * @param enlarged true to switch to enlarged mode; false to switch back.
+	 */
+	public void setEnlarged(boolean enlarged) {
+		state++;
+		if (enlarged) {
+			enlargeButton.setText("–");
+			enlargeButton.setToolTipText("back to normal size");
+			enlargeButton.setActionCommand("downsize");
+		} else {
+			enlargeButton.setText("+");
+			enlargeButton.setToolTipText("enlarge this box");
+			enlargeButton.setActionCommand("enlarge");
+		}
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		String c = e.getActionCommand();
+		if (actionListener != null) {
+			actionListener.actionPerformed(new ActionEvent(this, c));
+		}
 	}
 
 }

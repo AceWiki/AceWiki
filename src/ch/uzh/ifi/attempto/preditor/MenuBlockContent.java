@@ -23,12 +23,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import nextapp.echo2.app.event.ActionEvent;
+import nextapp.echo2.app.event.ActionListener;
+
 /**
  * This class represents the content of a menu block. The content consists of menu items.
  * 
  * @author Tobias Kuhn
  */
-class MenuBlockContent {
+class MenuBlockContent implements ActionListener {
+	
+	private static final long serialVersionUID = 2320151987455571216L;
 	
 	private List<MenuItem> items = new ArrayList<MenuItem>();
 	private TreeMap<String, MenuEntry> entryMap = new TreeMap<String, MenuEntry>();
@@ -38,16 +43,43 @@ class MenuBlockContent {
 	private String filter = "";
 	private boolean isSorted = true;
 	private Comparator<MenuItem> comparator;
+	private ActionListener actionListener;
 	
 	/**
 	 * Creates a new menu block content object.
 	 * 
 	 * @param name The name of the menu block.
-	 * @param comparator The comparator to be used to sort the menu items.
 	 */
-	public MenuBlockContent(String name, Comparator<MenuItem> comparator) {
+	public MenuBlockContent(String name) {
 		this.name = name;
+	}
+	
+	/**
+	 * Sets the comparator to be used to sort the menu items.
+	 * 
+	 * @param comparator The comparator.
+	 */
+	public void setComparator(Comparator<MenuItem> comparator) {
 		this.comparator = comparator;
+	}
+	
+	/**
+	 * Sets the action listener
+	 * 
+	 * @param newActionListener The action listener.
+	 */
+	public void setActionListener(ActionListener newActionListener) {
+		for (MenuItem m : items) {
+			if (m instanceof MenuEntry) {
+				if (actionListener != null) {
+					m.removeActionListener(actionListener);
+				}
+				if (newActionListener != null) {
+					m.addActionListener(newActionListener);
+				}
+			}
+		}
+		actionListener = newActionListener;
 	}
 	
 	/**
@@ -69,6 +101,9 @@ class MenuBlockContent {
 	public void addItem(MenuItem item) {
 		String id = item.getMenuItemID();
 		if (!(item instanceof MenuEntry && idMap.containsKey(id)) && !idMap.containsKey(id)) {
+			if (item instanceof MenuEntry) {
+				item.addActionListener(this);
+			}
 			items.add(item);
 			idMap.put(id, item);
 			if (item instanceof MenuEntry) {
@@ -191,6 +226,12 @@ class MenuBlockContent {
 			this.filter = filter.toLowerCase();
 			// TODO find a better way to do this without using "°":
 			filteredEntries = entryMap.subMap(this.filter, this.filter + "°").values();
+		}
+	}
+
+	public void actionPerformed(ActionEvent ev) {
+		if (actionListener != null) {
+			actionListener.actionPerformed(ev);
 		}
 	}
 
