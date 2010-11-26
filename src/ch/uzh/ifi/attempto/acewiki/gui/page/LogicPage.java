@@ -50,7 +50,7 @@ public class LogicPage extends WikiPage implements ActionListener {
 		addTab("Sentence", this);
 		addSelectedTab("Logic");
 		
-		add(new Title(sentence.toString(), "- Logic"));
+		add(new Title(sentence.getPrettyText(), "- Logic"));
 		addHorizontalLine();
 		add(new VSpace(15));
 		

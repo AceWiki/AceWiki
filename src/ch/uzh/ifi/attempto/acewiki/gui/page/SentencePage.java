@@ -52,7 +52,7 @@ public class SentencePage extends WikiPage implements ActionListener {
 		addSelectedTab("Sentence");
 		addTab("Logic", this);
 		
-		add(new Title(sentence.toString(), false));
+		add(new Title(sentence.getPrettyText(), false));
 		addHorizontalLine();
 		add(new VSpace(15));
 		
