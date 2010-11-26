@@ -115,7 +115,7 @@ public class TrAdjForm extends FormPane {
 			showErrorMessage("'" + nameP + "' is a predefined word and cannot be used here.");
 			return;
 		}
-		OntologyElement oe = wiki.getOntology().get(name);
+		OntologyElement oe = wiki.getOntology().getElement(name);
 		if (oe != null && oe != role) {
 			wiki.log("edit", "error: word is already used");
 			showErrorMessage("The word '" + nameP + "' is already used. Please use a different one.");

@@ -136,7 +136,7 @@ public class NounForm extends FormPane {
 			showErrorMessage("'" + singularP + "' is a predefined word and cannot be used here.");
 			return;
 		}
-		OntologyElement oe = wiki.getOntology().get(singular);
+		OntologyElement oe = wiki.getOntology().getElement(singular);
 		if (oe != null && oe != concept) {
 			wiki.log("edit", "error: word is already used");
 			showErrorMessage("The word '" + singularP + "' is already used. Please use a different one.");
@@ -158,7 +158,7 @@ public class NounForm extends FormPane {
 			showErrorMessage("'" + pluralP + "' is a predefined word and cannot be used here.");
 			return;
 		}
-		oe = wiki.getOntology().get(plural);
+		oe = wiki.getOntology().getElement(plural);
 		if (oe != null && oe != concept) {
 			wiki.log("edit", "error: word is already used");
 			showErrorMessage("The word '" + pluralP + "' is already used. Please use a different one.");

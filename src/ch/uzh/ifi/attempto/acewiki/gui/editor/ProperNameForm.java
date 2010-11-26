@@ -153,13 +153,13 @@ public class ProperNameForm extends FormPane {
 			showErrorMessage("The abbreviation has to be shorter than the full proper name.");
 			return;
 		}
-		OntologyElement oe = wiki.getOntology().get(name);
+		OntologyElement oe = wiki.getOntology().getElement(name);
 		if (oe != null && oe != ind) {
 			wiki.log("edit", "error: word is already used");
 			showErrorMessage("The word '" + nameP + "' is already used. Please use a different one.");
 			return;
 		}
-		oe = wiki.getOntology().get(abbrev);
+		oe = wiki.getOntology().getElement(abbrev);
 		if (oe != null && oe != ind) {
 			wiki.log("edit", "error: word is already used");
 			showErrorMessage("The word '" + abbrevP + "' is already used. Please use a different one.");

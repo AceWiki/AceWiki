@@ -184,7 +184,7 @@ public class CommentRow extends Column implements ActionListener {
 				text = s;
 			} else if (s.startsWith("[[") && s.endsWith("]]")) {
 				String name = s.substring(2, s.length()-2);
-				OntologyElement oe = hostPage.getWiki().getOntology().get(name);
+				OntologyElement oe = hostPage.getWiki().getOntology().getElement(name);
 				if (oe != null) {
 					int wn = oe.getIndexOfWord(name);
 					comp = new WikiLink(oe, oe.getPrettyWord(wn), hostPage.getWiki(), false);

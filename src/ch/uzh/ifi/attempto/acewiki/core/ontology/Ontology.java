@@ -297,9 +297,9 @@ public class Ontology {
 		for (String word : element.getWords()) {
 			if (word == null) continue;
 			
-			if (wordIndex.get(word) == null) {
+			if (getElement(word) == null) {
 				wordIndex.put(word, element);
-			} else if (wordIndex.get(word) != element) {
+			} else if (getElement(word) != element) {
 				log("error: word already used");
 				throw new RuntimeException(
 						"Registration failed: The word '" + word + "' is already used."
@@ -357,9 +357,9 @@ public class Ontology {
 	synchronized void addToWordIndex(OntologyElement oe) {
 		for (String word : oe.getWords()) {
 			if (word != null) {
-				if (wordIndex.get(word) == null) {
+				if (getElement(word) == null) {
 					wordIndex.put(word, oe);
-				} else if (wordIndex.get(word) != oe) {
+				} else if (getElement(word) != oe) {
 					throw new RuntimeException(
 							"Word update failed: The word '" + word + "' is already used."
 						);
@@ -461,7 +461,7 @@ public class Ontology {
 	 * @param name The name of the ontology element.
 	 * @return The ontology element.
 	 */
-	public OntologyElement get(String name) {
+	public OntologyElement getElement(String name) {
 		return wordIndex.get(name);
 	}
 	
@@ -471,7 +471,7 @@ public class Ontology {
 		String iri = owlEntity.getIRI().toString();
 		if (!iri.startsWith(getURI())) return null;
 		String name = iri.substring(iri.indexOf("#") + 1);
-		return get(name);
+		return getElement(name);
 	}
 	
 	/**
@@ -783,7 +783,7 @@ public class Ontology {
 			String conceptURI = oc.getIRI().toString();
 			if (conceptURI.startsWith("http://attempto.ifi.uzh.ch/ace#")) continue;
 			String conceptName = conceptURI.substring(conceptURI.indexOf("#") + 1);
-			concepts.add((Concept) get(conceptName));
+			concepts.add((Concept) getElement(conceptName));
 		}
 		return concepts;
 	}

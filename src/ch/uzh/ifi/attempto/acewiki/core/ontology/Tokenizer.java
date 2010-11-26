@@ -72,7 +72,7 @@ class Tokenizer {
 					throw new RuntimeException("Could not resolve link: " + s);
 				}
 			} else {
-				OntologyElement oe = ontology.get(s);
+				OntologyElement oe = ontology.getElement(s);
 				
 				if (oe == null) {
 					textContainer.addElement(new TextElement(s));

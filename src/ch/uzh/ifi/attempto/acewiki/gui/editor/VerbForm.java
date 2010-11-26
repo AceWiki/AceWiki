@@ -182,19 +182,19 @@ public class VerbForm extends FormPane {
 		}
 		
 		// check whether a word is already defined
-		OntologyElement oe1 = ontology.get(thirdSg);
+		OntologyElement oe1 = ontology.getElement(thirdSg);
 		if (oe1 != null && oe1 != verbRole) {
 			wiki.log("edit", "error: word is already used");
 			showErrorMessage("The word '" + thirdSgP + "' is already used. Please use a different one.");
 			return;
 		}
-		OntologyElement oe2 = ontology.get(inf);
+		OntologyElement oe2 = ontology.getElement(inf);
 		if (oe2 != null && oe2 != verbRole) {
 			wiki.log("edit", "error: word is already used");
 			showErrorMessage("The word '" + infP + "' is already used. Please use a different one.");
 			return;
 		}
-		OntologyElement oe3 = ontology.get(pastPart);
+		OntologyElement oe3 = ontology.getElement(pastPart);
 		if (oe3 != null && oe3 != verbRole) {
 			wiki.log("edit", "error: word is already used");
 			showErrorMessage("The word '" + pastPartP + "' is already used. Please use a different one.");

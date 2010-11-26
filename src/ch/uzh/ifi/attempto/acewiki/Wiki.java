@@ -303,8 +303,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			p = ((String[]) cc.getInitialRequestParameterMap().get("showpage"))[0];
 		} catch (Exception ex) {}
 		
-		if (p != null && ontology.get(p) != null) {
-			setCurrentPage(ArticlePage.create(ontology.get(p), this));
+		if (p != null && ontology.getElement(p) != null) {
+			setCurrentPage(ArticlePage.create(ontology.getElement(p), this));
 		} else {
 			setCurrentPage(startPage);
 		}
@@ -690,7 +690,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			log("page", "pressed: search '" + searchTextField.getText() + "'");
 			String s = searchTextField.getText();
 			searchTextField.setText("");
-			OntologyElement el = ontology.get(s.replace(' ', '_'));
+			OntologyElement el = ontology.getElement(s.replace(' ', '_'));
 			if (el == null) {
 				showPage(new SearchPage(this, s));
 			} else {
@@ -723,9 +723,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	}
 	
 	public void externalEvent(ExternalEvent e) {
-		OntologyElement oe = ontology.get(e.getParameter("page"));
+		OntologyElement oe = ontology.getElement(e.getParameter("page"));
 		if (oe != null) {
-			showPage(ontology.get(e.getParameter("page")));
+			showPage(ontology.getElement(e.getParameter("page")));
 		}
 	}
 	

@@ -69,9 +69,9 @@ public class LexiconManager implements DynamicLexicon {
 		} else if (word.matches("[0-9]+")) {
 			lexRules.add(new LexicalRule("number", word));
 		} else {
-			OntologyElement oe = ontology.get(word);
+			OntologyElement oe = ontology.getElement(word);
 			if (word.startsWith("the ")) {
-				oe = ontology.get(word.substring(4));
+				oe = ontology.getElement(word.substring(4));
 			}
 			if (oe != null) {
 				oe.collectLexicalRules(null, lexRules);

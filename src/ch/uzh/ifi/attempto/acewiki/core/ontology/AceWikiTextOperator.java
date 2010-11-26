@@ -61,7 +61,7 @@ class AceWikiTextOperator extends DefaultTextOperator {
 	}
 	
 	private OntologyTextElement createOntologyTextElement(String text) {
-		OntologyElement oe = ontology.get(text);
+		OntologyElement oe = ontology.getElement(text);
 		if (oe == null) {
 			return null;
 		} else {
