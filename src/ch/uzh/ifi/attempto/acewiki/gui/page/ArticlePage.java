@@ -95,6 +95,8 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 			return new ConceptPage((Concept) oe, wiki);
 		} else if (oe instanceof Role) {
 			return new RolePage((Role) oe, wiki);
+		} else if (oe instanceof DummyOntologyElement) {
+			return new StartPage(wiki);
 		}
 		return null;
 	}

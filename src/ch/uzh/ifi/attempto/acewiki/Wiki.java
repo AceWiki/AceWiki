@@ -519,13 +519,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * @param e The ontology element the page of which should be shown.
 	 */
 	public void showPage(OntologyElement e) {
-		ArticlePage page;
-		if (e.getType().equals("mainpage")) {
-			page = startPage;
-		} else {
-			page = ArticlePage.create(e, this);
-		}
-		showPage(page);
+		showPage(ArticlePage.create(e, this));
 	}
 	
 	/**
