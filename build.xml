@@ -32,7 +32,7 @@
             tofile="classes/ch/uzh/ifi/attempto/aceeditor/aceeditor.properties"
         />
     	<tstamp>
-    		<format property="TODAY" pattern="yyyy-MM-dd hh:mm"/>
+    		<format property="TODAY" pattern="yyyy-MM-dd HH:mm"/>
     	</tstamp>
     	<replace
     		file="classes/ch/uzh/ifi/attempto/acewiki/acewiki.properties"
