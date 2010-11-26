@@ -140,7 +140,16 @@ public class CommentRow extends Column implements ActionListener {
 		List<Component> wrappedText = new ArrayList<Component>();
 		String line = "";
 		Row row = new Row();
-		text = text.replaceAll("~", "~t").replaceAll(" ", " ~b").replaceAll("\\[\\[", "~b[[").replaceAll("\\]\\]", "]]~b").replaceAll("~t", "~");
+		text = text.replaceAll("~", "~t");
+		while (text.matches(".*\\[\\[[^\\]]* [^\\]]*\\]\\].*")) {
+			text = text.replaceAll("\\[\\[([^\\]]*) ([^\\]]*)\\]\\]", "[[$1_$2]]");
+		}
+		text = text.replaceAll(" ", " ~b");
+		text = text.replaceAll("_of\\]\\]", " of]]");
+		text = text.replaceAll("_by\\]\\]", " by]]");
+		text = text.replaceAll("\\[\\[", "~b[[");
+		text = text.replaceAll("\\]\\]", "]]~b");
+		text = text.replaceAll("~t", "~");
 		for (String s : text.split("~b")) {
 			CommentPart cp = new CommentPart(s);
 			if (line.length() == 0 || fontMetrics.stringWidth(line + cp.getText()) < width) {
@@ -177,7 +186,8 @@ public class CommentRow extends Column implements ActionListener {
 				String name = s.substring(2, s.length()-2);
 				OntologyElement oe = hostPage.getWiki().getOntology().get(name);
 				if (oe != null) {
-					comp = new WikiLink(oe, hostPage.getWiki());
+					int wn = oe.getIndexOfWord(name);
+					comp = new WikiLink(oe, oe.getPrettyWord(wn), hostPage.getWiki(), false);
 					text = name;
 				}
 			}
