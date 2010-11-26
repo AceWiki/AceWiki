@@ -63,7 +63,6 @@ public class Title extends Row implements ActionListener {
 		} else {
 			Button b = new Button(text);
 			b.setInsets(new Insets(0, 0, 0, 0));
-			b.setLineWrap(false);
 			b.setRolloverEnabled(true);
 			b.setRolloverForeground(Color.BLUE);
 			b.addActionListener(this);
@@ -113,7 +112,6 @@ public class Title extends Row implements ActionListener {
 		} else {
 			Button b = new Button(text);
 			b.setInsets(new Insets(0, 0, 0, 0));
-			b.setLineWrap(false);
 			b.setRolloverEnabled(true);
 			b.setRolloverForeground(Color.BLUE);
 			b.addActionListener(this);
