@@ -44,7 +44,7 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		
 		/* === ACE Editor Grammar === */
 		
-		/* - Tobias Kuhn, 17 September 2010 - */
+		/* - Tobias Kuhn, 26 November 2010 - */
 		
 		
 		/* --- Texts and Sentences --- */
@@ -65,7 +65,7 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(term);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// complete_sentence~> //, simple_sentence_2(whin:minus, whout:plus), [?]
+		// complete_sentence~> //, simple_sentence_2(qu:plus, whin:minus, whout:plus), [?]
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -79,6 +79,7 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		nonterm = new Nonterminal("simple_sentence_2");
 		fm = new FeatureMap();
+		fm.setFeature("qu", new StringRef("plus"));
 		fm.setFeature("whin", new StringRef("minus"));
 		fm.setFeature("whout", new StringRef("plus"));
 		nonterm.setFeatureMap(fm);
@@ -101,7 +102,7 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// sentence~> //, ['for every'], nc(subj:minus), sentence_coord_1
+		// sentence~> //, ['for every'], nc(subj:minus, qu:minus), sentence_coord_1
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -118,6 +119,7 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		nonterm = new Nonterminal("nc");
 		fm = new FeatureMap();
 		fm.setFeature("subj", new StringRef("minus"));
+		fm.setFeature("qu", new StringRef("minus"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("sentence_coord_1");
@@ -200,7 +202,7 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// simple_sentence_1~> //, ['it is false that'], simple_sentence_2(whin:minus, whout:minus)
+		// simple_sentence_1~> //, ['it is false that'], simple_sentence_2(qu:minus)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -216,13 +218,12 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(term);
 		nonterm = new Nonterminal("simple_sentence_2");
 		fm = new FeatureMap();
-		fm.setFeature("whin", new StringRef("minus"));
-		fm.setFeature("whout", new StringRef("minus"));
+		fm.setFeature("qu", new StringRef("minus"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, true));
 		
-		// simple_sentence_1=>['there is'], np(subj:minus, exist:plus, def:minus, pl:minus, case:nom, whin:minus, whout:minus)
+		// simple_sentence_1=>['there is'], np(subj:minus, exist:plus, def:minus, pl:minus, case:nom, qu:minus)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -239,13 +240,12 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("def", new StringRef("minus"));
 		fm.setFeature("pl", new StringRef("minus"));
 		fm.setFeature("case", new StringRef("nom"));
-		fm.setFeature("whin", new StringRef("minus"));
-		fm.setFeature("whout", new StringRef("minus"));
+		fm.setFeature("qu", new StringRef("minus"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// simple_sentence_1=>['there is'], np(subj:minus, exist:plus, def:minus, pl:minus, case:nom, whin:minus, whout:minus), ['such that'], simple_sentence_1
+		// simple_sentence_1=>['there is'], np(subj:minus, exist:plus, def:minus, pl:minus, case:nom, qu:minus), ['such that'], simple_sentence_1
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -262,8 +262,7 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("def", new StringRef("minus"));
 		fm.setFeature("pl", new StringRef("minus"));
 		fm.setFeature("case", new StringRef("nom"));
-		fm.setFeature("whin", new StringRef("minus"));
-		fm.setFeature("whout", new StringRef("minus"));
+		fm.setFeature("qu", new StringRef("minus"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		term = new Terminal("such that");
@@ -274,7 +273,7 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// simple_sentence_1=>['there are'], np(subj:minus, exist:plus, def:minus, pl:plus, case:nom, whin:minus, whout:minus)
+		// simple_sentence_1=>['there are'], np(subj:minus, exist:plus, def:minus, pl:plus, case:nom, qu:minus)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -291,13 +290,12 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("def", new StringRef("minus"));
 		fm.setFeature("pl", new StringRef("plus"));
 		fm.setFeature("case", new StringRef("nom"));
-		fm.setFeature("whin", new StringRef("minus"));
-		fm.setFeature("whout", new StringRef("minus"));
+		fm.setFeature("qu", new StringRef("minus"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// simple_sentence_1=>simple_sentence_2(whin:minus, whout:minus)
+		// simple_sentence_1=>simple_sentence_2(qu:minus)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -307,38 +305,40 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		nonterm = new Nonterminal("simple_sentence_2");
 		fm = new FeatureMap();
-		fm.setFeature("whin", new StringRef("minus"));
-		fm.setFeature("whout", new StringRef("minus"));
+		fm.setFeature("qu", new StringRef("minus"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// simple_sentence_2(whin:A, whout:B)~>np(id:C, subj:minus, pl:D, case:nom, whin:A, whout:E), vp_coord_1(subj:C, pl:D, whin:E, whout:B)
+		// simple_sentence_2(qu:A, whin:B, whout:C)~>np(id:D, subj:minus, pl:E, case:nom, qu:A, whin:B, whout:F), vp_coord_1(subj:D, pl:E, qu:A, whin:F, whout:C)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
 		nonterm = new Nonterminal("simple_sentence_2");
 		fm = new FeatureMap();
-		setFeature(fm, "whin", 0, featureHash);
-		setFeature(fm, "whout", 1, featureHash);
+		setFeature(fm, "qu", 0, featureHash);
+		setFeature(fm, "whin", 1, featureHash);
+		setFeature(fm, "whout", 2, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("np");
 		fm = new FeatureMap();
-		setFeature(fm, "id", 2, featureHash);
+		setFeature(fm, "id", 3, featureHash);
 		fm.setFeature("subj", new StringRef("minus"));
-		setFeature(fm, "pl", 3, featureHash);
+		setFeature(fm, "pl", 4, featureHash);
 		fm.setFeature("case", new StringRef("nom"));
-		setFeature(fm, "whin", 0, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 0, featureHash);
+		setFeature(fm, "whin", 1, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("vp_coord_1");
 		fm = new FeatureMap();
-		setFeature(fm, "subj", 2, featureHash);
-		setFeature(fm, "pl", 3, featureHash);
-		setFeature(fm, "whin", 4, featureHash);
-		setFeature(fm, "whout", 1, featureHash);
+		setFeature(fm, "subj", 3, featureHash);
+		setFeature(fm, "pl", 4, featureHash);
+		setFeature(fm, "qu", 0, featureHash);
+		setFeature(fm, "whin", 5, featureHash);
+		setFeature(fm, "whout", 2, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, true));
@@ -346,7 +346,7 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		
 		/* --- Verb Phrases --- */
 		
-		// vp_coord_1(subj:A, pl:B, whin:C, whout:D)=>vp_coord_2(subj:A, pl:B, whin:C, whout:D)
+		// vp_coord_1(subj:A, pl:B, qu:C, whin:D, whout:E)=>vp_coord_2(subj:A, pl:B, qu:C, whin:D, whout:E)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -354,60 +354,66 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm = new FeatureMap();
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "pl", 1, featureHash);
-		setFeature(fm, "whin", 2, featureHash);
-		setFeature(fm, "whout", 3, featureHash);
-		nonterm.setFeatureMap(fm);
-		l.add(nonterm);
-		nonterm = new Nonterminal("vp_coord_2");
-		fm = new FeatureMap();
-		setFeature(fm, "subj", 0, featureHash);
-		setFeature(fm, "pl", 1, featureHash);
-		setFeature(fm, "whin", 2, featureHash);
-		setFeature(fm, "whout", 3, featureHash);
-		nonterm.setFeatureMap(fm);
-		l.add(nonterm);
-		addGrammarRule(new GrammarRule(ann, l, false));
-		
-		// vp_coord_2(subj:A, pl:B, whin:C, whout:D)=>vp(subj:A, pl:B, whin:C, whout:D)
-		l.clear();
-		featureHash.clear();
-		ann = new Annotation();
-		nonterm = new Nonterminal("vp_coord_2");
-		fm = new FeatureMap();
-		setFeature(fm, "subj", 0, featureHash);
-		setFeature(fm, "pl", 1, featureHash);
-		setFeature(fm, "whin", 2, featureHash);
-		setFeature(fm, "whout", 3, featureHash);
-		nonterm.setFeatureMap(fm);
-		l.add(nonterm);
-		nonterm = new Nonterminal("vp");
-		fm = new FeatureMap();
-		setFeature(fm, "subj", 0, featureHash);
-		setFeature(fm, "pl", 1, featureHash);
-		setFeature(fm, "whin", 2, featureHash);
-		setFeature(fm, "whout", 3, featureHash);
-		nonterm.setFeatureMap(fm);
-		l.add(nonterm);
-		addGrammarRule(new GrammarRule(ann, l, false));
-		
-		// vp_coord_2(subj:A, pl:B, whin:C, whout:D)=>vp(subj:A, pl:B, whin:C, whout:E), [and], vp_coord_2(subj:A, pl:B, whin:E, whout:D)
-		l.clear();
-		featureHash.clear();
-		ann = new Annotation();
-		nonterm = new Nonterminal("vp_coord_2");
-		fm = new FeatureMap();
-		setFeature(fm, "subj", 0, featureHash);
-		setFeature(fm, "pl", 1, featureHash);
-		setFeature(fm, "whin", 2, featureHash);
-		setFeature(fm, "whout", 3, featureHash);
-		nonterm.setFeatureMap(fm);
-		l.add(nonterm);
-		nonterm = new Nonterminal("vp");
-		fm = new FeatureMap();
-		setFeature(fm, "subj", 0, featureHash);
-		setFeature(fm, "pl", 1, featureHash);
-		setFeature(fm, "whin", 2, featureHash);
+		setFeature(fm, "qu", 2, featureHash);
+		setFeature(fm, "whin", 3, featureHash);
 		setFeature(fm, "whout", 4, featureHash);
+		nonterm.setFeatureMap(fm);
+		l.add(nonterm);
+		nonterm = new Nonterminal("vp_coord_2");
+		fm = new FeatureMap();
+		setFeature(fm, "subj", 0, featureHash);
+		setFeature(fm, "pl", 1, featureHash);
+		setFeature(fm, "qu", 2, featureHash);
+		setFeature(fm, "whin", 3, featureHash);
+		setFeature(fm, "whout", 4, featureHash);
+		nonterm.setFeatureMap(fm);
+		l.add(nonterm);
+		addGrammarRule(new GrammarRule(ann, l, false));
+		
+		// vp_coord_2(subj:A, pl:B, qu:C, whin:D, whout:E)=>vp(subj:A, pl:B, qu:C, whin:D, whout:E)
+		l.clear();
+		featureHash.clear();
+		ann = new Annotation();
+		nonterm = new Nonterminal("vp_coord_2");
+		fm = new FeatureMap();
+		setFeature(fm, "subj", 0, featureHash);
+		setFeature(fm, "pl", 1, featureHash);
+		setFeature(fm, "qu", 2, featureHash);
+		setFeature(fm, "whin", 3, featureHash);
+		setFeature(fm, "whout", 4, featureHash);
+		nonterm.setFeatureMap(fm);
+		l.add(nonterm);
+		nonterm = new Nonterminal("vp");
+		fm = new FeatureMap();
+		setFeature(fm, "subj", 0, featureHash);
+		setFeature(fm, "pl", 1, featureHash);
+		setFeature(fm, "qu", 2, featureHash);
+		setFeature(fm, "whin", 3, featureHash);
+		setFeature(fm, "whout", 4, featureHash);
+		nonterm.setFeatureMap(fm);
+		l.add(nonterm);
+		addGrammarRule(new GrammarRule(ann, l, false));
+		
+		// vp_coord_2(subj:A, pl:B, qu:C, whin:D, whout:E)=>vp(subj:A, pl:B, qu:C, whin:D, whout:F), [and], vp_coord_2(subj:A, pl:B, qu:C, whin:F, whout:E)
+		l.clear();
+		featureHash.clear();
+		ann = new Annotation();
+		nonterm = new Nonterminal("vp_coord_2");
+		fm = new FeatureMap();
+		setFeature(fm, "subj", 0, featureHash);
+		setFeature(fm, "pl", 1, featureHash);
+		setFeature(fm, "qu", 2, featureHash);
+		setFeature(fm, "whin", 3, featureHash);
+		setFeature(fm, "whout", 4, featureHash);
+		nonterm.setFeatureMap(fm);
+		l.add(nonterm);
+		nonterm = new Nonterminal("vp");
+		fm = new FeatureMap();
+		setFeature(fm, "subj", 0, featureHash);
+		setFeature(fm, "pl", 1, featureHash);
+		setFeature(fm, "qu", 2, featureHash);
+		setFeature(fm, "whin", 3, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		term = new Terminal("and");
@@ -416,13 +422,14 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm = new FeatureMap();
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "pl", 1, featureHash);
-		setFeature(fm, "whin", 4, featureHash);
-		setFeature(fm, "whout", 3, featureHash);
+		setFeature(fm, "qu", 2, featureHash);
+		setFeature(fm, "whin", 5, featureHash);
+		setFeature(fm, "whout", 4, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// vp(subj:A, exist:B, rel:C, pl:D, whin:E, whout:F)~>aux(be:G, exist:B, pl:D), v(subj:A, be:G, exist:B, pl:D, rel:C, vform:inf, embv:H, copula:I, whin:E, whout:J), vmod(subj:A, embv:H, copula:I, whin:J, whout:F)
+		// vp(subj:A, exist:B, rel:C, pl:D, qu:E, whin:F, whout:G)~>aux(be:H, exist:B, pl:D), v(subj:A, be:H, exist:B, pl:D, rel:C, vform:inf, embv:I, copula:J, qu:E, whin:F, whout:K), vmod(subj:A, embv:I, copula:J, qu:E, whin:K, whout:G)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -432,13 +439,14 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "exist", 1, featureHash);
 		setFeature(fm, "rel", 2, featureHash);
 		setFeature(fm, "pl", 3, featureHash);
-		setFeature(fm, "whin", 4, featureHash);
-		setFeature(fm, "whout", 5, featureHash);
+		setFeature(fm, "qu", 4, featureHash);
+		setFeature(fm, "whin", 5, featureHash);
+		setFeature(fm, "whout", 6, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("aux");
 		fm = new FeatureMap();
-		setFeature(fm, "be", 6, featureHash);
+		setFeature(fm, "be", 7, featureHash);
 		setFeature(fm, "exist", 1, featureHash);
 		setFeature(fm, "pl", 3, featureHash);
 		nonterm.setFeatureMap(fm);
@@ -446,29 +454,31 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		nonterm = new Nonterminal("v");
 		fm = new FeatureMap();
 		setFeature(fm, "subj", 0, featureHash);
-		setFeature(fm, "be", 6, featureHash);
+		setFeature(fm, "be", 7, featureHash);
 		setFeature(fm, "exist", 1, featureHash);
 		setFeature(fm, "pl", 3, featureHash);
 		setFeature(fm, "rel", 2, featureHash);
 		fm.setFeature("vform", new StringRef("inf"));
-		setFeature(fm, "embv", 7, featureHash);
-		setFeature(fm, "copula", 8, featureHash);
-		setFeature(fm, "whin", 4, featureHash);
-		setFeature(fm, "whout", 9, featureHash);
+		setFeature(fm, "embv", 8, featureHash);
+		setFeature(fm, "copula", 9, featureHash);
+		setFeature(fm, "qu", 4, featureHash);
+		setFeature(fm, "whin", 5, featureHash);
+		setFeature(fm, "whout", 10, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("vmod");
 		fm = new FeatureMap();
 		setFeature(fm, "subj", 0, featureHash);
-		setFeature(fm, "embv", 7, featureHash);
-		setFeature(fm, "copula", 8, featureHash);
-		setFeature(fm, "whin", 9, featureHash);
-		setFeature(fm, "whout", 5, featureHash);
+		setFeature(fm, "embv", 8, featureHash);
+		setFeature(fm, "copula", 9, featureHash);
+		setFeature(fm, "qu", 4, featureHash);
+		setFeature(fm, "whin", 10, featureHash);
+		setFeature(fm, "whout", 6, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, true));
 		
-		// vp(subj:A, exist:plus, rel:B, pl:C, whin:D, whout:E)~>v(subj:A, be:minus, exist:plus, pl:C, rel:B, vform:fin, embv:F, copula:G, whin:D, whout:H), vmod(subj:A, embv:F, copula:G, whin:H, whout:E)
+		// vp(subj:A, exist:plus, rel:B, pl:C, qu:D, whin:E, whout:F)~>v(subj:A, be:minus, exist:plus, pl:C, rel:B, vform:fin, embv:G, copula:H, qu:D, whin:E, whout:I), vmod(subj:A, embv:G, copula:H, qu:D, whin:I, whout:F)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -478,8 +488,9 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("exist", new StringRef("plus"));
 		setFeature(fm, "rel", 1, featureHash);
 		setFeature(fm, "pl", 2, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("v");
@@ -490,19 +501,21 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "pl", 2, featureHash);
 		setFeature(fm, "rel", 1, featureHash);
 		fm.setFeature("vform", new StringRef("fin"));
-		setFeature(fm, "embv", 5, featureHash);
-		setFeature(fm, "copula", 6, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 7, featureHash);
+		setFeature(fm, "embv", 6, featureHash);
+		setFeature(fm, "copula", 7, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 8, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("vmod");
 		fm = new FeatureMap();
 		setFeature(fm, "subj", 0, featureHash);
-		setFeature(fm, "embv", 5, featureHash);
-		setFeature(fm, "copula", 6, featureHash);
-		setFeature(fm, "whin", 7, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "embv", 6, featureHash);
+		setFeature(fm, "copula", 7, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 8, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, true));
@@ -531,7 +544,7 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// v(subj:A, be:minus, rel:B, pl:C, vform:D, embv:E, copula:minus, whin:F, whout:G)=>verb(vcat:tr, be:minus, pl:C, vform:D), np(subj:A, rel:B, vcat:tr, embv:E, case:acc, whin:F, whout:G)
+		// v(subj:A, be:minus, rel:B, pl:C, vform:D, embv:E, copula:minus, qu:F, whin:G, whout:H)=>verb(vcat:tr, be:minus, pl:C, vform:D), np(subj:A, rel:B, vcat:tr, embv:E, case:acc, qu:F, whin:G, whout:H)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -544,8 +557,9 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "vform", 3, featureHash);
 		setFeature(fm, "embv", 4, featureHash);
 		fm.setFeature("copula", new StringRef("minus"));
-		setFeature(fm, "whin", 5, featureHash);
-		setFeature(fm, "whout", 6, featureHash);
+		setFeature(fm, "qu", 5, featureHash);
+		setFeature(fm, "whin", 6, featureHash);
+		setFeature(fm, "whout", 7, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("verb");
@@ -563,13 +577,14 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("vcat", new StringRef("tr"));
 		setFeature(fm, "embv", 4, featureHash);
 		fm.setFeature("case", new StringRef("acc"));
-		setFeature(fm, "whin", 5, featureHash);
-		setFeature(fm, "whout", 6, featureHash);
+		setFeature(fm, "qu", 5, featureHash);
+		setFeature(fm, "whin", 6, featureHash);
+		setFeature(fm, "whout", 7, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// v(subj:A, be:plus, rel:B, embv:C, copula:minus, whin:D, whout:E)=>verb(vcat:tr, be:plus), [by], np(subj:A, rel:B, copula:minus, embv:C, case:acc, whin:D, whout:E)
+		// v(subj:A, be:plus, rel:B, embv:C, copula:minus, qu:D, whin:E, whout:F)=>verb(vcat:tr, be:plus), [by], np(subj:A, rel:B, copula:minus, embv:C, case:acc, qu:D, whin:E, whout:F)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -580,8 +595,9 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "rel", 1, featureHash);
 		setFeature(fm, "embv", 2, featureHash);
 		fm.setFeature("copula", new StringRef("minus"));
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("verb");
@@ -599,13 +615,14 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("copula", new StringRef("minus"));
 		setFeature(fm, "embv", 2, featureHash);
 		fm.setFeature("case", new StringRef("acc"));
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// v(subj:A, be:plus, rel:B, embv:C, copula:plus, whin:D, whout:E)=>np(subj:A, of:plus, rel:B, pl:minus, copula:plus, embv:C, case:acc, whin:D, whout:E)
+		// v(subj:A, be:plus, rel:B, embv:C, copula:plus, qu:D, whin:E, whout:F)=>np(subj:A, of:plus, rel:B, pl:minus, copula:plus, embv:C, case:acc, qu:D, whin:E, whout:F)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -616,8 +633,9 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "rel", 1, featureHash);
 		setFeature(fm, "embv", 2, featureHash);
 		fm.setFeature("copula", new StringRef("plus"));
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("np");
@@ -629,13 +647,14 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("copula", new StringRef("plus"));
 		setFeature(fm, "embv", 2, featureHash);
 		fm.setFeature("case", new StringRef("acc"));
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// v(subj:A, be:plus, rel:B, pl:minus, embv:C, copula:plus, whin:D, whout:E)=>np(subj:A, of:minus, rel:B, pl:minus, copula:plus, embv:C, case:acc, whin:D, whout:E)
+		// v(subj:A, be:plus, rel:B, pl:minus, embv:C, copula:plus, qu:D, whin:E, whout:F)=>np(subj:A, of:minus, rel:B, pl:minus, copula:plus, embv:C, case:acc, qu:D, whin:E, whout:F)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -647,8 +666,9 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("pl", new StringRef("minus"));
 		setFeature(fm, "embv", 2, featureHash);
 		fm.setFeature("copula", new StringRef("plus"));
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("np");
@@ -660,8 +680,9 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("copula", new StringRef("plus"));
 		setFeature(fm, "embv", 2, featureHash);
 		fm.setFeature("case", new StringRef("acc"));
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
@@ -684,7 +705,7 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// v(subj:A, be:plus, rel:B, embv:C, copula:plus, whin:D, whout:E)=>adjc(subj:A, rel:B, embv:C, whin:D, whout:E)
+		// v(subj:A, be:plus, rel:B, embv:C, copula:plus, qu:D, whin:E, whout:F)=>adjc(subj:A, rel:B, embv:C, qu:D, whin:E, whout:F)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -695,8 +716,9 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "rel", 1, featureHash);
 		setFeature(fm, "embv", 2, featureHash);
 		fm.setFeature("copula", new StringRef("plus"));
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("adjc");
@@ -704,8 +726,9 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "rel", 1, featureHash);
 		setFeature(fm, "embv", 2, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
@@ -713,7 +736,7 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		
 		/* --- Noun Phrases --- */
 		
-		// np(id:A, exist:plus, rel:B, of:minus, def:plus, pl:minus, embv:C, whin:D, whout:E)=>prop(id:A, human:F, gender:G), >>(id:A, human:F, gender:G, type:prop, hasvar:minus), relcl(subj:A, rel:B, embv:C, human:F, whin:D, whout:E)
+		// np(id:A, exist:plus, rel:B, of:minus, def:plus, pl:minus, embv:C, qu:D, whin:E, whout:F)=>prop(id:A, human:G, gender:H), >>(id:A, human:G, gender:H, type:prop, hasvar:minus), relcl(subj:A, rel:B, embv:C, human:G, qu:D, whin:E, whout:F)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -726,22 +749,23 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("def", new StringRef("plus"));
 		fm.setFeature("pl", new StringRef("minus"));
 		setFeature(fm, "embv", 2, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("prop");
 		fm = new FeatureMap();
 		setFeature(fm, "id", 0, featureHash);
-		setFeature(fm, "human", 5, featureHash);
-		setFeature(fm, "gender", 6, featureHash);
+		setFeature(fm, "human", 6, featureHash);
+		setFeature(fm, "gender", 7, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal(">>");
 		fm = new FeatureMap();
 		setFeature(fm, "id", 0, featureHash);
-		setFeature(fm, "human", 5, featureHash);
-		setFeature(fm, "gender", 6, featureHash);
+		setFeature(fm, "human", 6, featureHash);
+		setFeature(fm, "gender", 7, featureHash);
 		fm.setFeature("type", new StringRef("prop"));
 		fm.setFeature("hasvar", new StringRef("minus"));
 		nonterm.setFeatureMap(fm);
@@ -751,9 +775,10 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "rel", 1, featureHash);
 		setFeature(fm, "embv", 2, featureHash);
-		setFeature(fm, "human", 5, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "human", 6, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
@@ -1000,7 +1025,7 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// np(id:A, subj:B, exist:C, rel:D, of:E, pl:minus, embv:F, whin:G, whout:H)=>quant(exist:C), nc(id:A, subj:B, rel:D, of:E, embv:F, whin:G, whout:H)
+		// np(id:A, subj:B, exist:C, rel:D, of:E, pl:minus, embv:F, qu:G, whin:H, whout:I)=>quant(exist:C), nc(id:A, subj:B, rel:D, of:E, embv:F, qu:G, whin:H, whout:I)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -1013,8 +1038,9 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "of", 4, featureHash);
 		fm.setFeature("pl", new StringRef("minus"));
 		setFeature(fm, "embv", 5, featureHash);
-		setFeature(fm, "whin", 6, featureHash);
-		setFeature(fm, "whout", 7, featureHash);
+		setFeature(fm, "qu", 6, featureHash);
+		setFeature(fm, "whin", 7, featureHash);
+		setFeature(fm, "whout", 8, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("quant");
@@ -1029,13 +1055,14 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "rel", 3, featureHash);
 		setFeature(fm, "of", 4, featureHash);
 		setFeature(fm, "embv", 5, featureHash);
-		setFeature(fm, "whin", 6, featureHash);
-		setFeature(fm, "whout", 7, featureHash);
+		setFeature(fm, "qu", 6, featureHash);
+		setFeature(fm, "whin", 7, featureHash);
+		setFeature(fm, "whout", 8, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// np(id:A, exist:B, rel:C, of:minus, pl:minus, embv:D, whin:E, whout:F)=> #A, ipron(exist:B, human:G), opt_newvar(hasvar:H, var:I), >(id:A, human:G, type:ipron, hasvar:H, var:I), relcl(subj:A, rel:C, embv:D, human:G, whin:E, whout:F)
+		// np(id:A, exist:B, rel:C, of:minus, pl:minus, embv:D, qu:E, whin:F, whout:G)=> #A, ipron(exist:B, human:H), opt_newvar(hasvar:I, var:J), >(id:A, human:H, type:ipron, hasvar:I, var:J), relcl(subj:A, rel:C, embv:D, human:H, qu:E, whin:F, whout:G)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -1047,8 +1074,9 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("of", new StringRef("minus"));
 		fm.setFeature("pl", new StringRef("minus"));
 		setFeature(fm, "embv", 3, featureHash);
-		setFeature(fm, "whin", 4, featureHash);
-		setFeature(fm, "whout", 5, featureHash);
+		setFeature(fm, "qu", 4, featureHash);
+		setFeature(fm, "whin", 5, featureHash);
+		setFeature(fm, "whout", 6, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("#");
@@ -1059,22 +1087,22 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		nonterm = new Nonterminal("ipron");
 		fm = new FeatureMap();
 		setFeature(fm, "exist", 1, featureHash);
-		setFeature(fm, "human", 6, featureHash);
+		setFeature(fm, "human", 7, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("opt_newvar");
 		fm = new FeatureMap();
-		setFeature(fm, "hasvar", 7, featureHash);
-		setFeature(fm, "var", 8, featureHash);
+		setFeature(fm, "hasvar", 8, featureHash);
+		setFeature(fm, "var", 9, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal(">");
 		fm = new FeatureMap();
 		setFeature(fm, "id", 0, featureHash);
-		setFeature(fm, "human", 6, featureHash);
+		setFeature(fm, "human", 7, featureHash);
 		fm.setFeature("type", new StringRef("ipron"));
-		setFeature(fm, "hasvar", 7, featureHash);
-		setFeature(fm, "var", 8, featureHash);
+		setFeature(fm, "hasvar", 8, featureHash);
+		setFeature(fm, "var", 9, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("relcl");
@@ -1082,9 +1110,10 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "rel", 2, featureHash);
 		setFeature(fm, "embv", 3, featureHash);
-		setFeature(fm, "human", 6, featureHash);
-		setFeature(fm, "whin", 4, featureHash);
-		setFeature(fm, "whout", 5, featureHash);
+		setFeature(fm, "human", 7, featureHash);
+		setFeature(fm, "qu", 4, featureHash);
+		setFeature(fm, "whin", 5, featureHash);
+		setFeature(fm, "whout", 6, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
@@ -1176,7 +1205,7 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// np(id:A, exist:plus, of:minus, pl:minus, whout:plus)=> #A, [who], >(id:A, human:plus, type:wh, hasvar:minus)
+		// np(id:A, exist:plus, of:minus, pl:minus, qu:plus, whout:plus)=> #A, [who], >(id:A, human:plus, type:wh, hasvar:minus)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -1186,6 +1215,7 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("exist", new StringRef("plus"));
 		fm.setFeature("of", new StringRef("minus"));
 		fm.setFeature("pl", new StringRef("minus"));
+		fm.setFeature("qu", new StringRef("plus"));
 		fm.setFeature("whout", new StringRef("plus"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
@@ -1206,7 +1236,7 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// np(id:A, subj:B, exist:plus, rel:C, of:D, embv:E, pl:minus, whout:plus)=>[which], nc(id:A, subj:B, rel:C, of:D, embv:E, whin:plus, whout:plus)
+		// np(id:A, subj:B, exist:plus, rel:C, of:D, embv:E, pl:minus, qu:plus, whout:plus)=>[which], nc(id:A, subj:B, rel:C, of:D, embv:E, qu:plus, whin:plus, whout:plus)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -1219,6 +1249,7 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "of", 3, featureHash);
 		setFeature(fm, "embv", 4, featureHash);
 		fm.setFeature("pl", new StringRef("minus"));
+		fm.setFeature("qu", new StringRef("plus"));
 		fm.setFeature("whout", new StringRef("plus"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
@@ -1231,13 +1262,14 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "rel", 2, featureHash);
 		setFeature(fm, "of", 3, featureHash);
 		setFeature(fm, "embv", 4, featureHash);
+		fm.setFeature("qu", new StringRef("plus"));
 		fm.setFeature("whin", new StringRef("plus"));
 		fm.setFeature("whout", new StringRef("plus"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// np(id:A, exist:plus, of:minus, pl:plus, whout:plus)=>[which], opt_adj_coord, #A, $noun_pl
+		// np(id:A, exist:plus, of:minus, pl:plus, qu:plus, whout:plus)=>[which], opt_adj_coord, #A, $noun_pl
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -1247,6 +1279,7 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("exist", new StringRef("plus"));
 		fm.setFeature("of", new StringRef("minus"));
 		fm.setFeature("pl", new StringRef("plus"));
+		fm.setFeature("qu", new StringRef("plus"));
 		fm.setFeature("whout", new StringRef("plus"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
@@ -1267,7 +1300,7 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(preterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// nc(id:A, rel:B, of:minus, embv:C, whin:D, whout:E)=>n(id:A, human:F, gender:G, text:H), opt_newvar(hasvar:I, var:J), >(id:A, human:F, gender:G, type:noun, hasvar:I, noun:H, var:J), relcl(subj:A, rel:B, embv:C, human:F, whin:D, whout:E)
+		// nc(id:A, rel:B, of:minus, embv:C, qu:D, whin:E, whout:F)=>n(id:A, human:G, gender:H, text:I), opt_newvar(hasvar:J, var:K), >(id:A, human:G, gender:H, type:noun, hasvar:J, noun:I, var:K), relcl(subj:A, rel:B, embv:C, human:G, qu:D, whin:E, whout:F)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -1277,58 +1310,7 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "rel", 1, featureHash);
 		fm.setFeature("of", new StringRef("minus"));
 		setFeature(fm, "embv", 2, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
-		nonterm.setFeatureMap(fm);
-		l.add(nonterm);
-		nonterm = new Nonterminal("n");
-		fm = new FeatureMap();
-		setFeature(fm, "id", 0, featureHash);
-		setFeature(fm, "human", 5, featureHash);
-		setFeature(fm, "gender", 6, featureHash);
-		setFeature(fm, "text", 7, featureHash);
-		nonterm.setFeatureMap(fm);
-		l.add(nonterm);
-		nonterm = new Nonterminal("opt_newvar");
-		fm = new FeatureMap();
-		setFeature(fm, "hasvar", 8, featureHash);
-		setFeature(fm, "var", 9, featureHash);
-		nonterm.setFeatureMap(fm);
-		l.add(nonterm);
-		nonterm = new Nonterminal(">");
-		fm = new FeatureMap();
-		setFeature(fm, "id", 0, featureHash);
-		setFeature(fm, "human", 5, featureHash);
-		setFeature(fm, "gender", 6, featureHash);
-		fm.setFeature("type", new StringRef("noun"));
-		setFeature(fm, "hasvar", 8, featureHash);
-		setFeature(fm, "noun", 7, featureHash);
-		setFeature(fm, "var", 9, featureHash);
-		nonterm.setFeatureMap(fm);
-		l.add(nonterm);
-		nonterm = new Nonterminal("relcl");
-		fm = new FeatureMap();
-		setFeature(fm, "subj", 0, featureHash);
-		setFeature(fm, "rel", 1, featureHash);
-		setFeature(fm, "embv", 2, featureHash);
-		setFeature(fm, "human", 5, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
-		nonterm.setFeatureMap(fm);
-		l.add(nonterm);
-		addGrammarRule(new GrammarRule(ann, l, false));
-		
-		// nc(id:A, subj:B, rel:C, of:plus, embv:D, whin:E, whout:F)~>n(id:A, human:G, gender:H, text:I), >(id:A, human:G, gender:H, type:noun, hasvar:minus, noun:I), [of], np(subj:B, rel:C, embv:D, case:acc, whin:E, whout:F)
-		l.clear();
-		featureHash.clear();
-		ann = new Annotation();
-		nonterm = new Nonterminal("nc");
-		fm = new FeatureMap();
-		setFeature(fm, "id", 0, featureHash);
-		setFeature(fm, "subj", 1, featureHash);
-		setFeature(fm, "rel", 2, featureHash);
-		fm.setFeature("of", new StringRef("plus"));
-		setFeature(fm, "embv", 3, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
 		setFeature(fm, "whin", 4, featureHash);
 		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
@@ -1341,14 +1323,68 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "text", 8, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
+		nonterm = new Nonterminal("opt_newvar");
+		fm = new FeatureMap();
+		setFeature(fm, "hasvar", 9, featureHash);
+		setFeature(fm, "var", 10, featureHash);
+		nonterm.setFeatureMap(fm);
+		l.add(nonterm);
 		nonterm = new Nonterminal(">");
 		fm = new FeatureMap();
 		setFeature(fm, "id", 0, featureHash);
 		setFeature(fm, "human", 6, featureHash);
 		setFeature(fm, "gender", 7, featureHash);
 		fm.setFeature("type", new StringRef("noun"));
-		fm.setFeature("hasvar", new StringRef("minus"));
+		setFeature(fm, "hasvar", 9, featureHash);
 		setFeature(fm, "noun", 8, featureHash);
+		setFeature(fm, "var", 10, featureHash);
+		nonterm.setFeatureMap(fm);
+		l.add(nonterm);
+		nonterm = new Nonterminal("relcl");
+		fm = new FeatureMap();
+		setFeature(fm, "subj", 0, featureHash);
+		setFeature(fm, "rel", 1, featureHash);
+		setFeature(fm, "embv", 2, featureHash);
+		setFeature(fm, "human", 6, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
+		nonterm.setFeatureMap(fm);
+		l.add(nonterm);
+		addGrammarRule(new GrammarRule(ann, l, false));
+		
+		// nc(id:A, subj:B, rel:C, of:plus, embv:D, qu:E, whin:F, whout:G)~>n(id:A, human:H, gender:I, text:J), >(id:A, human:H, gender:I, type:noun, hasvar:minus, noun:J), [of], np(subj:B, rel:C, embv:D, case:acc, qu:E, whin:F, whout:G)
+		l.clear();
+		featureHash.clear();
+		ann = new Annotation();
+		nonterm = new Nonterminal("nc");
+		fm = new FeatureMap();
+		setFeature(fm, "id", 0, featureHash);
+		setFeature(fm, "subj", 1, featureHash);
+		setFeature(fm, "rel", 2, featureHash);
+		fm.setFeature("of", new StringRef("plus"));
+		setFeature(fm, "embv", 3, featureHash);
+		setFeature(fm, "qu", 4, featureHash);
+		setFeature(fm, "whin", 5, featureHash);
+		setFeature(fm, "whout", 6, featureHash);
+		nonterm.setFeatureMap(fm);
+		l.add(nonterm);
+		nonterm = new Nonterminal("n");
+		fm = new FeatureMap();
+		setFeature(fm, "id", 0, featureHash);
+		setFeature(fm, "human", 7, featureHash);
+		setFeature(fm, "gender", 8, featureHash);
+		setFeature(fm, "text", 9, featureHash);
+		nonterm.setFeatureMap(fm);
+		l.add(nonterm);
+		nonterm = new Nonterminal(">");
+		fm = new FeatureMap();
+		setFeature(fm, "id", 0, featureHash);
+		setFeature(fm, "human", 7, featureHash);
+		setFeature(fm, "gender", 8, featureHash);
+		fm.setFeature("type", new StringRef("noun"));
+		fm.setFeature("hasvar", new StringRef("minus"));
+		setFeature(fm, "noun", 9, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		term = new Terminal("of");
@@ -1359,8 +1395,9 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "rel", 2, featureHash);
 		setFeature(fm, "embv", 3, featureHash);
 		fm.setFeature("case", new StringRef("acc"));
-		setFeature(fm, "whin", 4, featureHash);
-		setFeature(fm, "whout", 5, featureHash);
+		setFeature(fm, "qu", 4, featureHash);
+		setFeature(fm, "whin", 5, featureHash);
+		setFeature(fm, "whout", 6, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, true));
@@ -1540,7 +1577,7 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(preterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// adjc(subj:A, rel:B, embv:C, whin:D, whout:E)=>[as], $adj_itr, [as], np(subj:A, rel:B, copula:minus, embv:C, case:acc, whin:D, whout:E)
+		// adjc(subj:A, rel:B, embv:C, qu:D, whin:E, whout:F)=>[as], $adj_itr, [as], np(subj:A, rel:B, copula:minus, embv:C, case:acc, qu:D, whin:E, whout:F)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -1549,8 +1586,9 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "rel", 1, featureHash);
 		setFeature(fm, "embv", 2, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		term = new Terminal("as");
@@ -1568,13 +1606,14 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("copula", new StringRef("minus"));
 		setFeature(fm, "embv", 2, featureHash);
 		fm.setFeature("case", new StringRef("acc"));
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// adjc(subj:A, rel:B, embv:C, whin:D, whout:E)=> $adj_itr_comp, [than], np(subj:A, rel:B, copula:minus, embv:C, case:acc, whin:D, whout:E)
+		// adjc(subj:A, rel:B, embv:C, qu:D, whin:E, whout:F)=> $adj_itr_comp, [than], np(subj:A, rel:B, copula:minus, embv:C, case:acc, qu:D, whin:E, whout:F)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -1583,8 +1622,9 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "rel", 1, featureHash);
 		setFeature(fm, "embv", 2, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		preterm = new Preterminal("adj_itr_comp");
@@ -1600,13 +1640,14 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("copula", new StringRef("minus"));
 		setFeature(fm, "embv", 2, featureHash);
 		fm.setFeature("case", new StringRef("acc"));
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// adjc(subj:A, rel:B, embv:C, whin:D, whout:E)=> $adj_tr(prep:F), np(subj:A, rel:B, copula:minus, embv:C, case:acc, whin:D, whout:E)
+		// adjc(subj:A, rel:B, embv:C, qu:D, whin:E, whout:F)=> $adj_tr(prep:G), np(subj:A, rel:B, copula:minus, embv:C, case:acc, qu:D, whin:E, whout:F)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -1615,13 +1656,14 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "rel", 1, featureHash);
 		setFeature(fm, "embv", 2, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		preterm = new Preterminal("adj_tr");
 		fm = new FeatureMap();
-		setFeature(fm, "prep", 5, featureHash);
+		setFeature(fm, "prep", 6, featureHash);
 		preterm.setFeatureMap(fm);
 		l.add(preterm);
 		nonterm = new Nonterminal("np");
@@ -1631,13 +1673,14 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("copula", new StringRef("minus"));
 		setFeature(fm, "embv", 2, featureHash);
 		fm.setFeature("case", new StringRef("acc"));
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// adjc(subj:A, rel:B, embv:C, whin:D, whout:E)=>[as], $adj_tr(prep:F), np(subj:A, rel:minus, copula:minus, embv:C, case:acc, whin:D, whout:G), [as], np(subj:A, rel:B, copula:minus, embv:C, case:acc, whin:G, whout:E)
+		// adjc(subj:A, rel:B, embv:C, qu:D, whin:E, whout:F)=>[as], $adj_tr(prep:G), np(subj:A, rel:minus, copula:minus, embv:C, case:acc, qu:D, whin:E, whout:H), [as], np(subj:A, rel:B, copula:minus, embv:C, case:acc, qu:D, whin:H, whout:F)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -1646,61 +1689,16 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "rel", 1, featureHash);
 		setFeature(fm, "embv", 2, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		term = new Terminal("as");
 		l.add(term);
 		preterm = new Preterminal("adj_tr");
 		fm = new FeatureMap();
-		setFeature(fm, "prep", 5, featureHash);
-		preterm.setFeatureMap(fm);
-		l.add(preterm);
-		nonterm = new Nonterminal("np");
-		fm = new FeatureMap();
-		setFeature(fm, "subj", 0, featureHash);
-		fm.setFeature("rel", new StringRef("minus"));
-		fm.setFeature("copula", new StringRef("minus"));
-		setFeature(fm, "embv", 2, featureHash);
-		fm.setFeature("case", new StringRef("acc"));
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 6, featureHash);
-		nonterm.setFeatureMap(fm);
-		l.add(nonterm);
-		term = new Terminal("as");
-		l.add(term);
-		nonterm = new Nonterminal("np");
-		fm = new FeatureMap();
-		setFeature(fm, "subj", 0, featureHash);
-		setFeature(fm, "rel", 1, featureHash);
-		fm.setFeature("copula", new StringRef("minus"));
-		setFeature(fm, "embv", 2, featureHash);
-		fm.setFeature("case", new StringRef("acc"));
-		setFeature(fm, "whin", 6, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
-		nonterm.setFeatureMap(fm);
-		l.add(nonterm);
-		addGrammarRule(new GrammarRule(ann, l, false));
-		
-		// adjc(subj:A, rel:B, embv:C, whin:D, whout:E)=>[as], $adj_tr(prep:F), np(subj:A, rel:minus, copula:minus, embv:C, case:acc, whin:D, whout:G), [as], $adj_prep(prep:F), np(subj:A, rel:B, copula:minus, embv:C, case:acc, whin:G, whout:E)
-		l.clear();
-		featureHash.clear();
-		ann = new Annotation();
-		nonterm = new Nonterminal("adjc");
-		fm = new FeatureMap();
-		setFeature(fm, "subj", 0, featureHash);
-		setFeature(fm, "rel", 1, featureHash);
-		setFeature(fm, "embv", 2, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
-		nonterm.setFeatureMap(fm);
-		l.add(nonterm);
-		term = new Terminal("as");
-		l.add(term);
-		preterm = new Preterminal("adj_tr");
-		fm = new FeatureMap();
-		setFeature(fm, "prep", 5, featureHash);
+		setFeature(fm, "prep", 6, featureHash);
 		preterm.setFeatureMap(fm);
 		l.add(preterm);
 		nonterm = new Nonterminal("np");
@@ -1710,15 +1708,65 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("copula", new StringRef("minus"));
 		setFeature(fm, "embv", 2, featureHash);
 		fm.setFeature("case", new StringRef("acc"));
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 6, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 7, featureHash);
+		nonterm.setFeatureMap(fm);
+		l.add(nonterm);
+		term = new Terminal("as");
+		l.add(term);
+		nonterm = new Nonterminal("np");
+		fm = new FeatureMap();
+		setFeature(fm, "subj", 0, featureHash);
+		setFeature(fm, "rel", 1, featureHash);
+		fm.setFeature("copula", new StringRef("minus"));
+		setFeature(fm, "embv", 2, featureHash);
+		fm.setFeature("case", new StringRef("acc"));
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 7, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
+		nonterm.setFeatureMap(fm);
+		l.add(nonterm);
+		addGrammarRule(new GrammarRule(ann, l, false));
+		
+		// adjc(subj:A, rel:B, embv:C, qu:D, whin:E, whout:F)=>[as], $adj_tr(prep:G), np(subj:A, rel:minus, copula:minus, embv:C, case:acc, qu:D, whin:E, whout:H), [as], $adj_prep(prep:G), np(subj:A, rel:B, copula:minus, embv:C, case:acc, qu:D, whin:H, whout:F)
+		l.clear();
+		featureHash.clear();
+		ann = new Annotation();
+		nonterm = new Nonterminal("adjc");
+		fm = new FeatureMap();
+		setFeature(fm, "subj", 0, featureHash);
+		setFeature(fm, "rel", 1, featureHash);
+		setFeature(fm, "embv", 2, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
+		nonterm.setFeatureMap(fm);
+		l.add(nonterm);
+		term = new Terminal("as");
+		l.add(term);
+		preterm = new Preterminal("adj_tr");
+		fm = new FeatureMap();
+		setFeature(fm, "prep", 6, featureHash);
+		preterm.setFeatureMap(fm);
+		l.add(preterm);
+		nonterm = new Nonterminal("np");
+		fm = new FeatureMap();
+		setFeature(fm, "subj", 0, featureHash);
+		fm.setFeature("rel", new StringRef("minus"));
+		fm.setFeature("copula", new StringRef("minus"));
+		setFeature(fm, "embv", 2, featureHash);
+		fm.setFeature("case", new StringRef("acc"));
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 7, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		term = new Terminal("as");
 		l.add(term);
 		preterm = new Preterminal("adj_prep");
 		fm = new FeatureMap();
-		setFeature(fm, "prep", 5, featureHash);
+		setFeature(fm, "prep", 6, featureHash);
 		preterm.setFeatureMap(fm);
 		l.add(preterm);
 		nonterm = new Nonterminal("np");
@@ -1728,13 +1776,14 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("copula", new StringRef("minus"));
 		setFeature(fm, "embv", 2, featureHash);
 		fm.setFeature("case", new StringRef("acc"));
-		setFeature(fm, "whin", 6, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 7, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// adjc(subj:A, rel:B, embv:C, whin:D, whout:E)=> $adj_tr_comp(prep:F), np(subj:A, rel:minus, copula:minus, embv:C, case:acc, whin:D, whout:G), [than], np(subj:A, rel:B, copula:minus, embv:C, case:acc, whin:G, whout:E)
+		// adjc(subj:A, rel:B, embv:C, qu:D, whin:E, whout:F)=> $adj_tr_comp(prep:G), np(subj:A, rel:minus, copula:minus, embv:C, case:acc, qu:D, whin:E, whout:H), [than], np(subj:A, rel:B, copula:minus, embv:C, case:acc, qu:D, whin:H, whout:F)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -1743,13 +1792,14 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "rel", 1, featureHash);
 		setFeature(fm, "embv", 2, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		preterm = new Preterminal("adj_tr_comp");
 		fm = new FeatureMap();
-		setFeature(fm, "prep", 5, featureHash);
+		setFeature(fm, "prep", 6, featureHash);
 		preterm.setFeatureMap(fm);
 		l.add(preterm);
 		nonterm = new Nonterminal("np");
@@ -1759,8 +1809,9 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("copula", new StringRef("minus"));
 		setFeature(fm, "embv", 2, featureHash);
 		fm.setFeature("case", new StringRef("acc"));
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 6, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 7, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		term = new Terminal("than");
@@ -1772,13 +1823,14 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("copula", new StringRef("minus"));
 		setFeature(fm, "embv", 2, featureHash);
 		fm.setFeature("case", new StringRef("acc"));
-		setFeature(fm, "whin", 6, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 7, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// adjc(subj:A, rel:B, embv:C, whin:D, whout:E)=> $adj_tr_comp(prep:F), np(subj:A, rel:minus, copula:minus, embv:C, case:acc, whin:D, whout:G), [than], $adj_prep(prep:F), np(subj:A, rel:B, copula:minus, embv:C, case:acc, whin:G, whout:E)
+		// adjc(subj:A, rel:B, embv:C, qu:D, whin:E, whout:F)=> $adj_tr_comp(prep:G), np(subj:A, rel:minus, copula:minus, embv:C, case:acc, qu:D, whin:E, whout:H), [than], $adj_prep(prep:G), np(subj:A, rel:B, copula:minus, embv:C, case:acc, qu:D, whin:H, whout:F)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -1787,13 +1839,14 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "rel", 1, featureHash);
 		setFeature(fm, "embv", 2, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		preterm = new Preterminal("adj_tr_comp");
 		fm = new FeatureMap();
-		setFeature(fm, "prep", 5, featureHash);
+		setFeature(fm, "prep", 6, featureHash);
 		preterm.setFeatureMap(fm);
 		l.add(preterm);
 		nonterm = new Nonterminal("np");
@@ -1803,15 +1856,16 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("copula", new StringRef("minus"));
 		setFeature(fm, "embv", 2, featureHash);
 		fm.setFeature("case", new StringRef("acc"));
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 6, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 7, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		term = new Terminal("than");
 		l.add(term);
 		preterm = new Preterminal("adj_prep");
 		fm = new FeatureMap();
-		setFeature(fm, "prep", 5, featureHash);
+		setFeature(fm, "prep", 6, featureHash);
 		preterm.setFeatureMap(fm);
 		l.add(preterm);
 		nonterm = new Nonterminal("np");
@@ -1821,8 +1875,9 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("copula", new StringRef("minus"));
 		setFeature(fm, "embv", 2, featureHash);
 		fm.setFeature("case", new StringRef("acc"));
-		setFeature(fm, "whin", 6, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 7, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
@@ -1842,7 +1897,7 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// relcl(subj:A, rel:plus, embv:plus, human:B, whin:C, whout:D)=>relpron(human:B, relpron:E), relcl1(subj:A, human:B, relpron:E, whin:C, whout:D)
+		// relcl(subj:A, rel:plus, embv:plus, human:B, qu:C, whin:D, whout:E)=>relpron(human:B, relpron:F), relcl1(subj:A, human:B, relpron:F, qu:C, whin:D, whout:E)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -1852,28 +1907,30 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("rel", new StringRef("plus"));
 		fm.setFeature("embv", new StringRef("plus"));
 		setFeature(fm, "human", 1, featureHash);
-		setFeature(fm, "whin", 2, featureHash);
-		setFeature(fm, "whout", 3, featureHash);
+		setFeature(fm, "qu", 2, featureHash);
+		setFeature(fm, "whin", 3, featureHash);
+		setFeature(fm, "whout", 4, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("relpron");
 		fm = new FeatureMap();
 		setFeature(fm, "human", 1, featureHash);
-		setFeature(fm, "relpron", 4, featureHash);
+		setFeature(fm, "relpron", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("relcl1");
 		fm = new FeatureMap();
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "human", 1, featureHash);
-		setFeature(fm, "relpron", 4, featureHash);
-		setFeature(fm, "whin", 2, featureHash);
-		setFeature(fm, "whout", 3, featureHash);
+		setFeature(fm, "relpron", 5, featureHash);
+		setFeature(fm, "qu", 2, featureHash);
+		setFeature(fm, "whin", 3, featureHash);
+		setFeature(fm, "whout", 4, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// relcl1(subj:A, human:B, relpron:C, whin:D, whout:E)=>relcl2(subj:A, human:B, relpron:C, whin:D, whout:E)
+		// relcl1(subj:A, human:B, relpron:C, qu:D, whin:E, whout:F)=>relcl2(subj:A, human:B, relpron:C, qu:D, whin:E, whout:F)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -1882,8 +1939,9 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "human", 1, featureHash);
 		setFeature(fm, "relpron", 2, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("relcl2");
@@ -1891,13 +1949,14 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "human", 1, featureHash);
 		setFeature(fm, "relpron", 2, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// relcl2(subj:A, rel:B, relpron:C, human:D, whin:E, whout:F)=>vp(subj:A, rel:minus, pl:minus, whin:E, whout:G), and_relpron(human:D, relpron:C), relcl2(subj:A, rel:B, relpron:C, human:D, whin:G, whout:F)
+		// relcl2(subj:A, rel:B, relpron:C, human:D, qu:E, whin:F, whout:G)=>vp(subj:A, rel:minus, pl:minus, qu:E, whin:F, whout:H), and_relpron(human:D, relpron:C), relcl2(subj:A, rel:B, relpron:C, human:D, qu:E, whin:H, whout:G)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -1907,8 +1966,9 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "rel", 1, featureHash);
 		setFeature(fm, "relpron", 2, featureHash);
 		setFeature(fm, "human", 3, featureHash);
-		setFeature(fm, "whin", 4, featureHash);
-		setFeature(fm, "whout", 5, featureHash);
+		setFeature(fm, "qu", 4, featureHash);
+		setFeature(fm, "whin", 5, featureHash);
+		setFeature(fm, "whout", 6, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("vp");
@@ -1916,8 +1976,9 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "subj", 0, featureHash);
 		fm.setFeature("rel", new StringRef("minus"));
 		fm.setFeature("pl", new StringRef("minus"));
-		setFeature(fm, "whin", 4, featureHash);
-		setFeature(fm, "whout", 6, featureHash);
+		setFeature(fm, "qu", 4, featureHash);
+		setFeature(fm, "whin", 5, featureHash);
+		setFeature(fm, "whout", 7, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("and_relpron");
@@ -1932,13 +1993,14 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "rel", 1, featureHash);
 		setFeature(fm, "relpron", 2, featureHash);
 		setFeature(fm, "human", 3, featureHash);
-		setFeature(fm, "whin", 6, featureHash);
-		setFeature(fm, "whout", 5, featureHash);
+		setFeature(fm, "qu", 4, featureHash);
+		setFeature(fm, "whin", 7, featureHash);
+		setFeature(fm, "whout", 6, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// relcl2(subj:A, rel:B, whin:C, whout:D)=>vp(subj:A, rel:B, pl:minus, whin:C, whout:D)
+		// relcl2(subj:A, rel:B, qu:C, whin:D, whout:E)=>vp(subj:A, rel:B, pl:minus, qu:C, whin:D, whout:E)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -1946,8 +2008,9 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm = new FeatureMap();
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "rel", 1, featureHash);
-		setFeature(fm, "whin", 2, featureHash);
-		setFeature(fm, "whout", 3, featureHash);
+		setFeature(fm, "qu", 2, featureHash);
+		setFeature(fm, "whin", 3, featureHash);
+		setFeature(fm, "whout", 4, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("vp");
@@ -1955,13 +2018,14 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "rel", 1, featureHash);
 		fm.setFeature("pl", new StringRef("minus"));
-		setFeature(fm, "whin", 2, featureHash);
-		setFeature(fm, "whout", 3, featureHash);
+		setFeature(fm, "qu", 2, featureHash);
+		setFeature(fm, "whin", 3, featureHash);
+		setFeature(fm, "whout", 4, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// relcl2(subj:A, rel:B, whin:C, whout:D)~>np(id:E, subj:A, rel:minus, copula:minus, pl:F, embv:G, case:nom, refl:minus, whin:C, whout:H), aux(be:minus, pl:F), verb(vcat:tr, be:minus, pl:F, vform:inf), vmod(subj:E, rel:B, embv:G, copula:minus, whin:H, whout:D)
+		// relcl2(subj:A, rel:B, qu:C, whin:D, whout:E)~>np(id:F, subj:A, rel:minus, copula:minus, pl:G, embv:H, case:nom, refl:minus, qu:C, whin:D, whout:I), aux(be:minus, pl:G), verb(vcat:tr, be:minus, pl:G, vform:inf), vmod(subj:F, rel:B, embv:H, copula:minus, qu:C, whin:I, whout:E)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -1969,51 +2033,54 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm = new FeatureMap();
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "rel", 1, featureHash);
-		setFeature(fm, "whin", 2, featureHash);
-		setFeature(fm, "whout", 3, featureHash);
+		setFeature(fm, "qu", 2, featureHash);
+		setFeature(fm, "whin", 3, featureHash);
+		setFeature(fm, "whout", 4, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("np");
 		fm = new FeatureMap();
-		setFeature(fm, "id", 4, featureHash);
+		setFeature(fm, "id", 5, featureHash);
 		setFeature(fm, "subj", 0, featureHash);
 		fm.setFeature("rel", new StringRef("minus"));
 		fm.setFeature("copula", new StringRef("minus"));
-		setFeature(fm, "pl", 5, featureHash);
-		setFeature(fm, "embv", 6, featureHash);
+		setFeature(fm, "pl", 6, featureHash);
+		setFeature(fm, "embv", 7, featureHash);
 		fm.setFeature("case", new StringRef("nom"));
 		fm.setFeature("refl", new StringRef("minus"));
-		setFeature(fm, "whin", 2, featureHash);
-		setFeature(fm, "whout", 7, featureHash);
+		setFeature(fm, "qu", 2, featureHash);
+		setFeature(fm, "whin", 3, featureHash);
+		setFeature(fm, "whout", 8, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("aux");
 		fm = new FeatureMap();
 		fm.setFeature("be", new StringRef("minus"));
-		setFeature(fm, "pl", 5, featureHash);
+		setFeature(fm, "pl", 6, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("verb");
 		fm = new FeatureMap();
 		fm.setFeature("vcat", new StringRef("tr"));
 		fm.setFeature("be", new StringRef("minus"));
-		setFeature(fm, "pl", 5, featureHash);
+		setFeature(fm, "pl", 6, featureHash);
 		fm.setFeature("vform", new StringRef("inf"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("vmod");
 		fm = new FeatureMap();
-		setFeature(fm, "subj", 4, featureHash);
+		setFeature(fm, "subj", 5, featureHash);
 		setFeature(fm, "rel", 1, featureHash);
-		setFeature(fm, "embv", 6, featureHash);
+		setFeature(fm, "embv", 7, featureHash);
 		fm.setFeature("copula", new StringRef("minus"));
-		setFeature(fm, "whin", 7, featureHash);
-		setFeature(fm, "whout", 3, featureHash);
+		setFeature(fm, "qu", 2, featureHash);
+		setFeature(fm, "whin", 8, featureHash);
+		setFeature(fm, "whout", 4, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, true));
 		
-		// relcl2(subj:A, rel:B, whin:C, whout:D)~>np(id:E, subj:A, rel:minus, copula:minus, pl:F, embv:G, case:nom, refl:minus, whin:C, whout:H), verb(vcat:tr, be:minus, pl:F, vform:fin), vmod(subj:E, rel:B, embv:G, copula:minus, whin:H, whout:D)
+		// relcl2(subj:A, rel:B, qu:C, whin:D, whout:E)~>np(id:F, subj:A, rel:minus, copula:minus, pl:G, embv:H, case:nom, refl:minus, qu:C, whin:D, whout:I), verb(vcat:tr, be:minus, pl:G, vform:fin), vmod(subj:F, rel:B, embv:H, copula:minus, qu:C, whin:I, whout:E)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -2021,40 +2088,43 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm = new FeatureMap();
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "rel", 1, featureHash);
-		setFeature(fm, "whin", 2, featureHash);
-		setFeature(fm, "whout", 3, featureHash);
+		setFeature(fm, "qu", 2, featureHash);
+		setFeature(fm, "whin", 3, featureHash);
+		setFeature(fm, "whout", 4, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("np");
 		fm = new FeatureMap();
-		setFeature(fm, "id", 4, featureHash);
+		setFeature(fm, "id", 5, featureHash);
 		setFeature(fm, "subj", 0, featureHash);
 		fm.setFeature("rel", new StringRef("minus"));
 		fm.setFeature("copula", new StringRef("minus"));
-		setFeature(fm, "pl", 5, featureHash);
-		setFeature(fm, "embv", 6, featureHash);
+		setFeature(fm, "pl", 6, featureHash);
+		setFeature(fm, "embv", 7, featureHash);
 		fm.setFeature("case", new StringRef("nom"));
 		fm.setFeature("refl", new StringRef("minus"));
-		setFeature(fm, "whin", 2, featureHash);
-		setFeature(fm, "whout", 7, featureHash);
+		setFeature(fm, "qu", 2, featureHash);
+		setFeature(fm, "whin", 3, featureHash);
+		setFeature(fm, "whout", 8, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("verb");
 		fm = new FeatureMap();
 		fm.setFeature("vcat", new StringRef("tr"));
 		fm.setFeature("be", new StringRef("minus"));
-		setFeature(fm, "pl", 5, featureHash);
+		setFeature(fm, "pl", 6, featureHash);
 		fm.setFeature("vform", new StringRef("fin"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("vmod");
 		fm = new FeatureMap();
-		setFeature(fm, "subj", 4, featureHash);
+		setFeature(fm, "subj", 5, featureHash);
 		setFeature(fm, "rel", 1, featureHash);
-		setFeature(fm, "embv", 6, featureHash);
+		setFeature(fm, "embv", 7, featureHash);
 		fm.setFeature("copula", new StringRef("minus"));
-		setFeature(fm, "whin", 7, featureHash);
-		setFeature(fm, "whout", 3, featureHash);
+		setFeature(fm, "qu", 2, featureHash);
+		setFeature(fm, "whin", 8, featureHash);
+		setFeature(fm, "whout", 4, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, true));
@@ -2111,7 +2181,7 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// vmod(subj:A, rel:B, embv:minus, copula:C, whin:D, whout:E)=>adv_coord(copula:C), vmod_x(subj:A, rel:B, copula:C, whin:D, whout:E)
+		// vmod(subj:A, rel:B, embv:minus, copula:C, qu:D, whin:E, whout:F)=>adv_coord(copula:C), vmod_x(subj:A, rel:B, copula:C, qu:D, whin:E, whout:F)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -2121,8 +2191,9 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "rel", 1, featureHash);
 		fm.setFeature("embv", new StringRef("minus"));
 		setFeature(fm, "copula", 2, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("adv_coord");
@@ -2135,13 +2206,14 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "rel", 1, featureHash);
 		setFeature(fm, "copula", 2, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// vmod(subj:A, rel:B, embv:minus, copula:C, whin:D, whout:E)=>pp(subj:A, rel:B, embv:F, whin:D, whout:G), vmod(subj:A, rel:B, embv:F, copula:C, whin:G, whout:E)
+		// vmod(subj:A, rel:B, embv:minus, copula:C, qu:D, whin:E, whout:F)=>pp(subj:A, rel:B, embv:G, qu:D, whin:E, whout:H), vmod(subj:A, rel:B, embv:G, copula:C, qu:D, whin:H, whout:F)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -2151,27 +2223,30 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "rel", 1, featureHash);
 		fm.setFeature("embv", new StringRef("minus"));
 		setFeature(fm, "copula", 2, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("pp");
 		fm = new FeatureMap();
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "rel", 1, featureHash);
-		setFeature(fm, "embv", 5, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 6, featureHash);
+		setFeature(fm, "embv", 6, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 7, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("vmod");
 		fm = new FeatureMap();
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "rel", 1, featureHash);
-		setFeature(fm, "embv", 5, featureHash);
+		setFeature(fm, "embv", 6, featureHash);
 		setFeature(fm, "copula", 2, featureHash);
-		setFeature(fm, "whin", 6, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 7, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
@@ -2188,7 +2263,7 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// vmod_x(subj:A, rel:B, copula:C, whin:D, whout:E)=>pp(subj:A, rel:B, embv:F, whin:D, whout:G), vmod(subj:A, rel:B, embv:F, copula:C, whin:G, whout:E)
+		// vmod_x(subj:A, rel:B, copula:C, qu:D, whin:E, whout:F)=>pp(subj:A, rel:B, embv:G, qu:D, whin:E, whout:H), vmod(subj:A, rel:B, embv:G, copula:C, qu:D, whin:H, whout:F)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -2197,32 +2272,35 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "rel", 1, featureHash);
 		setFeature(fm, "copula", 2, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("pp");
 		fm = new FeatureMap();
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "rel", 1, featureHash);
-		setFeature(fm, "embv", 5, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 6, featureHash);
+		setFeature(fm, "embv", 6, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 7, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("vmod");
 		fm = new FeatureMap();
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "rel", 1, featureHash);
-		setFeature(fm, "embv", 5, featureHash);
+		setFeature(fm, "embv", 6, featureHash);
 		setFeature(fm, "copula", 2, featureHash);
-		setFeature(fm, "whin", 6, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 7, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// pp(subj:A, rel:B, embv:C, whin:D, whout:E)=> $prep, np(subj:A, rel:B, embv:C, case:acc, whin:D, whout:E)
+		// pp(subj:A, rel:B, embv:C, qu:D, whin:E, whout:F)=> $prep, np(subj:A, rel:B, embv:C, case:acc, qu:D, whin:E, whout:F)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -2231,8 +2309,9 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "rel", 1, featureHash);
 		setFeature(fm, "embv", 2, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		preterm = new Preterminal("prep");
@@ -2245,8 +2324,9 @@ public class TestGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "rel", 1, featureHash);
 		setFeature(fm, "embv", 2, featureHash);
 		fm.setFeature("case", new StringRef("acc"));
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));

@@ -54,7 +54,7 @@
 
 \section*{ACE Editor Grammar}
 
-\noindent - Tobias Kuhn, 17 September 2010 - \vspace{2mm}
+\noindent - Tobias Kuhn, 26 November 2010 - \vspace{2mm}
 
 \noindent Below, the grammar rules of the ACE Editor grammar are shown: \vspace{2mm}
 
@@ -107,7 +107,7 @@
   \scat{complete\_sentence}
 }{
   \scopeopener{}
-  \cat{simple\_sentence\_2}{\featc{whin}{--}\featc{whout}{+}}
+  \cat{simple\_sentence\_2}{\featc{qu}{+}\featc{whin}{--}\featc{whout}{+}}
   \term{?}
 }$
 \vspace{2mm}
@@ -134,7 +134,7 @@
 }{
   \scopeopener{}
   \term{for every}
-  \cat{nc}{\featc{subj}{--}}
+  \cat{nc}{\featc{qu}{--}\featc{subj}{--}}
   \scat{sentence\_coord\_1}
 }$
 \vspace{2mm}
@@ -218,7 +218,7 @@
 }{
   \scopeopener{}
   \term{it is false that}
-  \cat{simple\_sentence\_2}{\featc{whin}{--}\featc{whout}{--}}
+  \cat{simple\_sentence\_2}{\featc{qu}{--}}
 }$
 \vspace{2mm}
 
@@ -230,7 +230,7 @@
   \scat{simple\_sentence\_1}
 }{
   \term{there is}
-  \cat{np}{\featc{case}{nom}\featc{def}{--}\featc{exist}{+}\featc{pl}{--}\featc{subj}{--}\featc{whin}{--}\featc{whout}{--}}
+  \cat{np}{\featc{case}{nom}\featc{def}{--}\featc{exist}{+}\featc{pl}{--}\featc{qu}{--}\featc{subj}{--}}
 }$
 \vspace{2mm}
 
@@ -242,7 +242,7 @@
   \scat{simple\_sentence\_1}
 }{
   \term{there is}
-  \cat{np}{\featc{case}{nom}\featc{def}{--}\featc{exist}{+}\featc{pl}{--}\featc{subj}{--}\featc{whin}{--}\featc{whout}{--}}
+  \cat{np}{\featc{case}{nom}\featc{def}{--}\featc{exist}{+}\featc{pl}{--}\featc{qu}{--}\featc{subj}{--}}
   \term{such that}
   \scat{simple\_sentence\_1}
 }$
@@ -256,7 +256,7 @@
   \scat{simple\_sentence\_1}
 }{
   \term{there are}
-  \cat{np}{\featc{case}{nom}\featc{def}{--}\featc{exist}{+}\featc{pl}{+}\featc{subj}{--}\featc{whin}{--}\featc{whout}{--}}
+  \cat{np}{\featc{case}{nom}\featc{def}{--}\featc{exist}{+}\featc{pl}{+}\featc{qu}{--}\featc{subj}{--}}
 }$
 \vspace{2mm}
 
@@ -267,7 +267,7 @@
 \nrule{
   \scat{simple\_sentence\_1}
 }{
-  \cat{simple\_sentence\_2}{\featc{whin}{--}\featc{whout}{--}}
+  \cat{simple\_sentence\_2}{\featc{qu}{--}}
 }$
 \vspace{2mm}
 
@@ -276,10 +276,10 @@
 \noindent$
 \ruleid
 \scrule{
-  \cat{simple\_sentence\_2}{\featv{whin}{1}\featv{whout}{2}}
+  \cat{simple\_sentence\_2}{\featv{qu}{1}\featv{whin}{2}\featv{whout}{3}}
 }{
-  \cat{np}{\featc{case}{nom}\featv{id}{3}\featv{pl}{4}\featc{subj}{--}\featv{whin}{1}\featv{whout}{5}}
-  \cat{vp\_coord\_1}{\featv{pl}{4}\featv{subj}{3}\featv{whin}{5}\featv{whout}{2}}
+  \cat{np}{\featc{case}{nom}\featv{id}{4}\featv{pl}{5}\featv{qu}{1}\featc{subj}{--}\featv{whin}{2}\featv{whout}{6}}
+  \cat{vp\_coord\_1}{\featv{pl}{5}\featv{qu}{1}\featv{subj}{4}\featv{whin}{6}\featv{whout}{3}}
 }$
 \vspace{2mm}
 
@@ -293,9 +293,9 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{vp\_coord\_1}{\featv{pl}{1}\featv{subj}{2}\featv{whin}{3}\featv{whout}{4}}
+  \cat{vp\_coord\_1}{\featv{pl}{1}\featv{qu}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
 }{
-  \cat{vp\_coord\_2}{\featv{pl}{1}\featv{subj}{2}\featv{whin}{3}\featv{whout}{4}}
+  \cat{vp\_coord\_2}{\featv{pl}{1}\featv{qu}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
 }$
 \vspace{2mm}
 
@@ -304,12 +304,12 @@
 \noindent$
 \ruleid
 \scrule{
-  \cat{vp\_coord\_1}{\featv{pl}{1}\featv{subj}{2}\featv{whin}{3}\featv{whout}{4}}
+  \cat{vp\_coord\_1}{\featv{pl}{1}\featv{qu}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
 }{
   \scopeopener{}
-  \cat{vp\_coord\_2}{\featv{pl}{1}\featv{subj}{2}\featv{whin}{3}\featv{whout}{5}}
+  \cat{vp\_coord\_2}{\featv{pl}{1}\featv{qu}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{6}}
   \term{or}
-  \cat{vp\_coord\_1}{\featv{pl}{1}\featv{subj}{2}\featv{whin}{5}\featv{whout}{4}}
+  \cat{vp\_coord\_1}{\featv{pl}{1}\featv{qu}{2}\featv{subj}{3}\featv{whin}{6}\featv{whout}{5}}
 }$
 \vspace{2mm}
 
@@ -318,9 +318,9 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{vp\_coord\_2}{\featv{pl}{1}\featv{subj}{2}\featv{whin}{3}\featv{whout}{4}}
+  \cat{vp\_coord\_2}{\featv{pl}{1}\featv{qu}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
 }{
-  \cat{vp}{\featv{pl}{1}\featv{subj}{2}\featv{whin}{3}\featv{whout}{4}}
+  \cat{vp}{\featv{pl}{1}\featv{qu}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
 }$
 \vspace{2mm}
 
@@ -329,11 +329,11 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{vp\_coord\_2}{\featv{pl}{1}\featv{subj}{2}\featv{whin}{3}\featv{whout}{4}}
+  \cat{vp\_coord\_2}{\featv{pl}{1}\featv{qu}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
 }{
-  \cat{vp}{\featv{pl}{1}\featv{subj}{2}\featv{whin}{3}\featv{whout}{5}}
+  \cat{vp}{\featv{pl}{1}\featv{qu}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{6}}
   \term{and}
-  \cat{vp\_coord\_2}{\featv{pl}{1}\featv{subj}{2}\featv{whin}{5}\featv{whout}{4}}
+  \cat{vp\_coord\_2}{\featv{pl}{1}\featv{qu}{2}\featv{subj}{3}\featv{whin}{6}\featv{whout}{5}}
 }$
 \vspace{2mm}
 
@@ -345,11 +345,11 @@
 \noindent$
 \ruleid
 \scrule{
-  \cat{vp}{\featv{exist}{1}\featv{pl}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
+  \cat{vp}{\featv{exist}{1}\featv{pl}{2}\featv{qu}{3}\featv{rel}{4}\featv{subj}{5}\featv{whin}{6}\featv{whout}{7}}
 }{
-  \cat{aux}{\featv{be}{7}\featv{exist}{1}\featv{pl}{2}}
-  \cat{v}{\featv{be}{7}\featv{copula}{8}\featv{embv}{9}\featv{exist}{1}\featv{pl}{2}\featv{rel}{3}\featv{subj}{4}\featc{vform}{inf}\featv{whin}{5}\featv{whout}{10}}
-  \cat{vmod}{\featv{copula}{8}\featv{embv}{9}\featv{subj}{4}\featv{whin}{10}\featv{whout}{6}}
+  \cat{aux}{\featv{be}{8}\featv{exist}{1}\featv{pl}{2}}
+  \cat{v}{\featv{be}{8}\featv{copula}{9}\featv{embv}{10}\featv{exist}{1}\featv{pl}{2}\featv{qu}{3}\featv{rel}{4}\featv{subj}{5}\featc{vform}{inf}\featv{whin}{6}\featv{whout}{11}}
+  \cat{vmod}{\featv{copula}{9}\featv{embv}{10}\featv{qu}{3}\featv{subj}{5}\featv{whin}{11}\featv{whout}{7}}
 }$
 \vspace{2mm}
 
@@ -358,10 +358,10 @@
 \noindent$
 \ruleid
 \scrule{
-  \cat{vp}{\featc{exist}{+}\featv{pl}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{vp}{\featc{exist}{+}\featv{pl}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
-  \cat{v}{\featc{be}{--}\featv{copula}{6}\featv{embv}{7}\featc{exist}{+}\featv{pl}{1}\featv{rel}{2}\featv{subj}{3}\featc{vform}{fin}\featv{whin}{4}\featv{whout}{8}}
-  \cat{vmod}{\featv{copula}{6}\featv{embv}{7}\featv{subj}{3}\featv{whin}{8}\featv{whout}{5}}
+  \cat{v}{\featc{be}{--}\featv{copula}{7}\featv{embv}{8}\featc{exist}{+}\featv{pl}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featc{vform}{fin}\featv{whin}{5}\featv{whout}{9}}
+  \cat{vmod}{\featv{copula}{7}\featv{embv}{8}\featv{qu}{2}\featv{subj}{4}\featv{whin}{9}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -384,10 +384,10 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{v}{\featc{be}{--}\featc{copula}{--}\featv{embv}{1}\featv{pl}{2}\featv{rel}{3}\featv{subj}{4}\featv{vform}{5}\featv{whin}{6}\featv{whout}{7}}
+  \cat{v}{\featc{be}{--}\featc{copula}{--}\featv{embv}{1}\featv{pl}{2}\featv{qu}{3}\featv{rel}{4}\featv{subj}{5}\featv{vform}{6}\featv{whin}{7}\featv{whout}{8}}
 }{
-  \cat{verb}{\featc{be}{--}\featv{pl}{2}\featc{vcat}{tr}\featv{vform}{5}}
-  \cat{np}{\featc{case}{acc}\featv{embv}{1}\featv{rel}{3}\featv{subj}{4}\featc{vcat}{tr}\featv{whin}{6}\featv{whout}{7}}
+  \cat{verb}{\featc{be}{--}\featv{pl}{2}\featc{vcat}{tr}\featv{vform}{6}}
+  \cat{np}{\featc{case}{acc}\featv{embv}{1}\featv{qu}{3}\featv{rel}{4}\featv{subj}{5}\featc{vcat}{tr}\featv{whin}{7}\featv{whout}{8}}
 }$
 \vspace{2mm}
 
@@ -396,11 +396,11 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{v}{\featc{be}{+}\featc{copula}{--}\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{v}{\featc{be}{+}\featc{copula}{--}\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
   \cat{verb}{\featc{be}{+}\featc{vcat}{tr}}
   \term{by}
-  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -409,9 +409,9 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{v}{\featc{be}{+}\featc{copula}{+}\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{v}{\featc{be}{+}\featc{copula}{+}\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
-  \cat{np}{\featc{case}{acc}\featc{copula}{+}\featv{embv}{1}\featc{of}{+}\featc{pl}{--}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{np}{\featc{case}{acc}\featc{copula}{+}\featv{embv}{1}\featc{of}{+}\featc{pl}{--}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -420,9 +420,9 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{v}{\featc{be}{+}\featc{copula}{+}\featv{embv}{1}\featc{pl}{--}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{v}{\featc{be}{+}\featc{copula}{+}\featv{embv}{1}\featc{pl}{--}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
-  \cat{np}{\featc{case}{acc}\featc{copula}{+}\featv{embv}{1}\featc{of}{--}\featc{pl}{--}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{np}{\featc{case}{acc}\featc{copula}{+}\featv{embv}{1}\featc{of}{--}\featc{pl}{--}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -442,9 +442,9 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{v}{\featc{be}{+}\featc{copula}{+}\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{v}{\featc{be}{+}\featc{copula}{+}\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
-  \cat{adjc}{\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{adjc}{\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -458,11 +458,11 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{np}{\featc{def}{+}\featv{embv}{1}\featc{exist}{+}\featv{id}{2}\featc{of}{--}\featc{pl}{--}\featv{rel}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{np}{\featc{def}{+}\featv{embv}{1}\featc{exist}{+}\featv{id}{2}\featc{of}{--}\featc{pl}{--}\featv{qu}{3}\featv{rel}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
-  \cat{prop}{\featv{gender}{6}\featv{human}{7}\featv{id}{2}}
-  \sfwref{\featv{gender}{6}\featc{hasvar}{--}\featv{human}{7}\featv{id}{2}\featc{type}{prop}}
-  \cat{relcl}{\featv{embv}{1}\featv{human}{7}\featv{rel}{3}\featv{subj}{2}\featv{whin}{4}\featv{whout}{5}}
+  \cat{prop}{\featv{gender}{7}\featv{human}{8}\featv{id}{2}}
+  \sfwref{\featv{gender}{7}\featc{hasvar}{--}\featv{human}{8}\featv{id}{2}\featc{type}{prop}}
+  \cat{relcl}{\featv{embv}{1}\featv{human}{8}\featv{qu}{3}\featv{rel}{4}\featv{subj}{2}\featv{whin}{5}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -549,10 +549,10 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{np}{\featv{embv}{1}\featv{exist}{2}\featv{id}{3}\featv{of}{4}\featc{pl}{--}\featv{rel}{5}\featv{subj}{6}\featv{whin}{7}\featv{whout}{8}}
+  \cat{np}{\featv{embv}{1}\featv{exist}{2}\featv{id}{3}\featv{of}{4}\featc{pl}{--}\featv{qu}{5}\featv{rel}{6}\featv{subj}{7}\featv{whin}{8}\featv{whout}{9}}
 }{
   \cat{quant}{\featv{exist}{2}}
-  \cat{nc}{\featv{embv}{1}\featv{id}{3}\featv{of}{4}\featv{rel}{5}\featv{subj}{6}\featv{whin}{7}\featv{whout}{8}}
+  \cat{nc}{\featv{embv}{1}\featv{id}{3}\featv{of}{4}\featv{qu}{5}\featv{rel}{6}\featv{subj}{7}\featv{whin}{8}\featv{whout}{9}}
 }$
 \vspace{2mm}
 
@@ -561,13 +561,13 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{np}{\featv{embv}{1}\featv{exist}{2}\featv{id}{3}\featc{of}{--}\featc{pl}{--}\featv{rel}{4}\featv{whin}{5}\featv{whout}{6}}
+  \cat{np}{\featv{embv}{1}\featv{exist}{2}\featv{id}{3}\featc{of}{--}\featc{pl}{--}\featv{qu}{4}\featv{rel}{5}\featv{whin}{6}\featv{whout}{7}}
 }{
   \pos{3}
-  \cat{ipron}{\featv{exist}{2}\featv{human}{7}}
-  \cat{opt\_newvar}{\featv{hasvar}{8}\featv{var}{9}}
-  \fwref{\featv{hasvar}{8}\featv{human}{7}\featv{id}{3}\featc{type}{ipron}\featv{var}{9}}
-  \cat{relcl}{\featv{embv}{1}\featv{human}{7}\featv{rel}{4}\featv{subj}{3}\featv{whin}{5}\featv{whout}{6}}
+  \cat{ipron}{\featv{exist}{2}\featv{human}{8}}
+  \cat{opt\_newvar}{\featv{hasvar}{9}\featv{var}{10}}
+  \fwref{\featv{hasvar}{9}\featv{human}{8}\featv{id}{3}\featc{type}{ipron}\featv{var}{10}}
+  \cat{relcl}{\featv{embv}{1}\featv{human}{8}\featv{qu}{4}\featv{rel}{5}\featv{subj}{3}\featv{whin}{6}\featv{whout}{7}}
 }$
 \vspace{2mm}
 
@@ -607,7 +607,7 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{np}{\featc{exist}{+}\featv{id}{1}\featc{of}{--}\featc{pl}{--}\featc{whout}{+}}
+  \cat{np}{\featc{exist}{+}\featv{id}{1}\featc{of}{--}\featc{pl}{--}\featc{qu}{+}\featc{whout}{+}}
 }{
   \pos{1}
   \term{what}
@@ -620,7 +620,7 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{np}{\featc{exist}{+}\featv{id}{1}\featc{of}{--}\featc{pl}{--}\featc{whout}{+}}
+  \cat{np}{\featc{exist}{+}\featv{id}{1}\featc{of}{--}\featc{pl}{--}\featc{qu}{+}\featc{whout}{+}}
 }{
   \pos{1}
   \term{who}
@@ -633,10 +633,10 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{np}{\featv{embv}{1}\featc{exist}{+}\featv{id}{2}\featv{of}{3}\featc{pl}{--}\featv{rel}{4}\featv{subj}{5}\featc{whout}{+}}
+  \cat{np}{\featv{embv}{1}\featc{exist}{+}\featv{id}{2}\featv{of}{3}\featc{pl}{--}\featc{qu}{+}\featv{rel}{4}\featv{subj}{5}\featc{whout}{+}}
 }{
   \term{which}
-  \cat{nc}{\featv{embv}{1}\featv{id}{2}\featv{of}{3}\featv{rel}{4}\featv{subj}{5}\featc{whin}{+}\featc{whout}{+}}
+  \cat{nc}{\featv{embv}{1}\featv{id}{2}\featv{of}{3}\featc{qu}{+}\featv{rel}{4}\featv{subj}{5}\featc{whin}{+}\featc{whout}{+}}
 }$
 \vspace{2mm}
 
@@ -645,7 +645,7 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{np}{\featc{exist}{+}\featv{id}{1}\featc{of}{--}\featc{pl}{+}\featc{whout}{+}}
+  \cat{np}{\featc{exist}{+}\featv{id}{1}\featc{of}{--}\featc{pl}{+}\featc{qu}{+}\featc{whout}{+}}
 }{
   \term{which}
   \scat{opt\_adj\_coord}
@@ -662,12 +662,12 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{nc}{\featv{embv}{1}\featv{id}{2}\featc{of}{--}\featv{rel}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{nc}{\featv{embv}{1}\featv{id}{2}\featc{of}{--}\featv{qu}{3}\featv{rel}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
-  \cat{n}{\featv{gender}{6}\featv{human}{7}\featv{id}{2}\featv{text}{8}}
-  \cat{opt\_newvar}{\featv{hasvar}{9}\featv{var}{10}}
-  \fwref{\featv{gender}{6}\featv{hasvar}{9}\featv{human}{7}\featv{id}{2}\featv{noun}{8}\featc{type}{noun}\featv{var}{10}}
-  \cat{relcl}{\featv{embv}{1}\featv{human}{7}\featv{rel}{3}\featv{subj}{2}\featv{whin}{4}\featv{whout}{5}}
+  \cat{n}{\featv{gender}{7}\featv{human}{8}\featv{id}{2}\featv{text}{9}}
+  \cat{opt\_newvar}{\featv{hasvar}{10}\featv{var}{11}}
+  \fwref{\featv{gender}{7}\featv{hasvar}{10}\featv{human}{8}\featv{id}{2}\featv{noun}{9}\featc{type}{noun}\featv{var}{11}}
+  \cat{relcl}{\featv{embv}{1}\featv{human}{8}\featv{qu}{3}\featv{rel}{4}\featv{subj}{2}\featv{whin}{5}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -676,12 +676,12 @@
 \noindent$
 \ruleid
 \scrule{
-  \cat{nc}{\featv{embv}{1}\featv{id}{2}\featc{of}{+}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
+  \cat{nc}{\featv{embv}{1}\featv{id}{2}\featc{of}{+}\featv{qu}{3}\featv{rel}{4}\featv{subj}{5}\featv{whin}{6}\featv{whout}{7}}
 }{
-  \cat{n}{\featv{gender}{7}\featv{human}{8}\featv{id}{2}\featv{text}{9}}
-  \fwref{\featv{gender}{7}\featc{hasvar}{--}\featv{human}{8}\featv{id}{2}\featv{noun}{9}\featc{type}{noun}}
+  \cat{n}{\featv{gender}{8}\featv{human}{9}\featv{id}{2}\featv{text}{10}}
+  \fwref{\featv{gender}{8}\featc{hasvar}{--}\featv{human}{9}\featv{id}{2}\featv{noun}{10}\featc{type}{noun}}
   \term{of}
-  \cat{np}{\featc{case}{acc}\featv{embv}{1}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
+  \cat{np}{\featc{case}{acc}\featv{embv}{1}\featv{qu}{3}\featv{rel}{4}\featv{subj}{5}\featv{whin}{6}\featv{whout}{7}}
 }$
 \vspace{2mm}
 
@@ -880,12 +880,12 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{adjc}{\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{adjc}{\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
   \term{as}
   \spreterm{adj\_itr}
   \term{as}
-  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -894,11 +894,11 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{adjc}{\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{adjc}{\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
   \spreterm{adj\_itr\_comp}
   \term{than}
-  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -907,12 +907,12 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{adjc}{\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{adjc}{\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
   \term{more}
   \spreterm{adj\_itr}
   \term{than}
-  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -921,10 +921,10 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{adjc}{\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{adjc}{\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
-  \preterm{adj\_tr}{\featv{prep}{6}}
-  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \preterm{adj\_tr}{\featv{prep}{7}}
+  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -933,11 +933,11 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{adjc}{\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{adjc}{\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
   \term{more}
-  \preterm{adj\_tr}{\featv{prep}{6}}
-  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \preterm{adj\_tr}{\featv{prep}{7}}
+  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -946,11 +946,11 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{adjc}{\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{adjc}{\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
   \term{most}
-  \preterm{adj\_tr}{\featv{prep}{6}}
-  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \preterm{adj\_tr}{\featv{prep}{7}}
+  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -959,13 +959,13 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{adjc}{\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{adjc}{\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
   \term{as}
-  \preterm{adj\_tr}{\featv{prep}{6}}
-  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featc{rel}{--}\featv{subj}{3}\featv{whin}{4}\featv{whout}{7}}
+  \preterm{adj\_tr}{\featv{prep}{7}}
+  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{qu}{2}\featc{rel}{--}\featv{subj}{4}\featv{whin}{5}\featv{whout}{8}}
   \term{as}
-  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{7}\featv{whout}{5}}
+  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{8}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -974,14 +974,14 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{adjc}{\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{adjc}{\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
   \term{as}
-  \preterm{adj\_tr}{\featv{prep}{6}}
-  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featc{rel}{--}\featv{subj}{3}\featv{whin}{4}\featv{whout}{7}}
+  \preterm{adj\_tr}{\featv{prep}{7}}
+  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{qu}{2}\featc{rel}{--}\featv{subj}{4}\featv{whin}{5}\featv{whout}{8}}
   \term{as}
-  \preterm{adj\_prep}{\featv{prep}{6}}
-  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{7}\featv{whout}{5}}
+  \preterm{adj\_prep}{\featv{prep}{7}}
+  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{8}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -990,13 +990,13 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{adjc}{\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{adjc}{\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
   \term{more}
-  \preterm{adj\_tr}{\featv{prep}{6}}
-  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featc{rel}{--}\featv{subj}{3}\featv{whin}{4}\featv{whout}{7}}
+  \preterm{adj\_tr}{\featv{prep}{7}}
+  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{qu}{2}\featc{rel}{--}\featv{subj}{4}\featv{whin}{5}\featv{whout}{8}}
   \term{than}
-  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{7}\featv{whout}{5}}
+  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{8}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -1005,12 +1005,12 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{adjc}{\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{adjc}{\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
-  \preterm{adj\_tr\_comp}{\featv{prep}{6}}
-  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featc{rel}{--}\featv{subj}{3}\featv{whin}{4}\featv{whout}{7}}
+  \preterm{adj\_tr\_comp}{\featv{prep}{7}}
+  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{qu}{2}\featc{rel}{--}\featv{subj}{4}\featv{whin}{5}\featv{whout}{8}}
   \term{than}
-  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{7}\featv{whout}{5}}
+  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{8}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -1019,14 +1019,14 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{adjc}{\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{adjc}{\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
   \term{more}
-  \preterm{adj\_tr}{\featv{prep}{6}}
-  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featc{rel}{--}\featv{subj}{3}\featv{whin}{4}\featv{whout}{7}}
+  \preterm{adj\_tr}{\featv{prep}{7}}
+  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{qu}{2}\featc{rel}{--}\featv{subj}{4}\featv{whin}{5}\featv{whout}{8}}
   \term{than}
-  \preterm{adj\_prep}{\featv{prep}{6}}
-  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{7}\featv{whout}{5}}
+  \preterm{adj\_prep}{\featv{prep}{7}}
+  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{8}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -1035,13 +1035,13 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{adjc}{\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{adjc}{\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
-  \preterm{adj\_tr\_comp}{\featv{prep}{6}}
-  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featc{rel}{--}\featv{subj}{3}\featv{whin}{4}\featv{whout}{7}}
+  \preterm{adj\_tr\_comp}{\featv{prep}{7}}
+  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{qu}{2}\featc{rel}{--}\featv{subj}{4}\featv{whin}{5}\featv{whout}{8}}
   \term{than}
-  \preterm{adj\_prep}{\featv{prep}{6}}
-  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{7}\featv{whout}{5}}
+  \preterm{adj\_prep}{\featv{prep}{7}}
+  \cat{np}{\featc{case}{acc}\featc{copula}{--}\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{8}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -1065,10 +1065,10 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{relcl}{\featc{embv}{+}\featv{human}{1}\featc{rel}{+}\featv{subj}{2}\featv{whin}{3}\featv{whout}{4}}
+  \cat{relcl}{\featc{embv}{+}\featv{human}{1}\featv{qu}{2}\featc{rel}{+}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
 }{
-  \cat{relpron}{\featv{human}{1}\featv{relpron}{5}}
-  \cat{relcl1}{\featv{human}{1}\featv{relpron}{5}\featv{subj}{2}\featv{whin}{3}\featv{whout}{4}}
+  \cat{relpron}{\featv{human}{1}\featv{relpron}{6}}
+  \cat{relcl1}{\featv{human}{1}\featv{qu}{2}\featv{relpron}{6}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
 }$
 \vspace{2mm}
 
@@ -1080,12 +1080,12 @@
 \noindent$
 \ruleid
 \scrule{
-  \cat{relcl1}{\featv{human}{1}\featv{relpron}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{relcl1}{\featv{human}{1}\featv{qu}{2}\featv{relpron}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
   \scopeopener{}
-  \cat{relcl2}{\featv{human}{1}\featc{rel}{--}\featv{relpron}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{6}}
-  \cat{or\_relpron}{\featv{human}{1}\featv{relpron}{2}}
-  \cat{relcl1}{\featv{human}{1}\featv{relpron}{2}\featv{subj}{3}\featv{whin}{6}\featv{whout}{5}}
+  \cat{relcl2}{\featv{human}{1}\featv{qu}{2}\featc{rel}{--}\featv{relpron}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{7}}
+  \cat{or\_relpron}{\featv{human}{1}\featv{relpron}{3}}
+  \cat{relcl1}{\featv{human}{1}\featv{qu}{2}\featv{relpron}{3}\featv{subj}{4}\featv{whin}{7}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -1094,9 +1094,9 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{relcl1}{\featv{human}{1}\featv{relpron}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{relcl1}{\featv{human}{1}\featv{qu}{2}\featv{relpron}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
-  \cat{relcl2}{\featv{human}{1}\featv{relpron}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{relcl2}{\featv{human}{1}\featv{qu}{2}\featv{relpron}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -1105,11 +1105,11 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{relcl2}{\featv{human}{1}\featv{rel}{2}\featv{relpron}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
+  \cat{relcl2}{\featv{human}{1}\featv{qu}{2}\featv{rel}{3}\featv{relpron}{4}\featv{subj}{5}\featv{whin}{6}\featv{whout}{7}}
 }{
-  \cat{vp}{\featc{pl}{--}\featc{rel}{--}\featv{subj}{4}\featv{whin}{5}\featv{whout}{7}}
-  \cat{and\_relpron}{\featv{human}{1}\featv{relpron}{3}}
-  \cat{relcl2}{\featv{human}{1}\featv{rel}{2}\featv{relpron}{3}\featv{subj}{4}\featv{whin}{7}\featv{whout}{6}}
+  \cat{vp}{\featc{pl}{--}\featv{qu}{2}\featc{rel}{--}\featv{subj}{5}\featv{whin}{6}\featv{whout}{8}}
+  \cat{and\_relpron}{\featv{human}{1}\featv{relpron}{4}}
+  \cat{relcl2}{\featv{human}{1}\featv{qu}{2}\featv{rel}{3}\featv{relpron}{4}\featv{subj}{5}\featv{whin}{8}\featv{whout}{7}}
 }$
 \vspace{2mm}
 
@@ -1118,9 +1118,9 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{relcl2}{\featv{rel}{1}\featv{subj}{2}\featv{whin}{3}\featv{whout}{4}}
+  \cat{relcl2}{\featv{qu}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
 }{
-  \cat{vp}{\featc{pl}{--}\featv{rel}{1}\featv{subj}{2}\featv{whin}{3}\featv{whout}{4}}
+  \cat{vp}{\featc{pl}{--}\featv{qu}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
 }$
 \vspace{2mm}
 
@@ -1129,12 +1129,12 @@
 \noindent$
 \ruleid
 \scrule{
-  \cat{relcl2}{\featv{rel}{1}\featv{subj}{2}\featv{whin}{3}\featv{whout}{4}}
+  \cat{relcl2}{\featv{qu}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
 }{
-  \cat{np}{\featc{case}{nom}\featc{copula}{--}\featv{embv}{5}\featv{id}{6}\featv{pl}{7}\featc{refl}{--}\featc{rel}{--}\featv{subj}{2}\featv{whin}{3}\featv{whout}{8}}
-  \cat{aux}{\featc{be}{--}\featv{pl}{7}}
-  \cat{verb}{\featc{be}{--}\featv{pl}{7}\featc{vcat}{tr}\featc{vform}{inf}}
-  \cat{vmod}{\featc{copula}{--}\featv{embv}{5}\featv{rel}{1}\featv{subj}{6}\featv{whin}{8}\featv{whout}{4}}
+  \cat{np}{\featc{case}{nom}\featc{copula}{--}\featv{embv}{6}\featv{id}{7}\featv{pl}{8}\featv{qu}{1}\featc{refl}{--}\featc{rel}{--}\featv{subj}{3}\featv{whin}{4}\featv{whout}{9}}
+  \cat{aux}{\featc{be}{--}\featv{pl}{8}}
+  \cat{verb}{\featc{be}{--}\featv{pl}{8}\featc{vcat}{tr}\featc{vform}{inf}}
+  \cat{vmod}{\featc{copula}{--}\featv{embv}{6}\featv{qu}{1}\featv{rel}{2}\featv{subj}{7}\featv{whin}{9}\featv{whout}{5}}
 }$
 \vspace{2mm}
 
@@ -1143,11 +1143,11 @@
 \noindent$
 \ruleid
 \scrule{
-  \cat{relcl2}{\featv{rel}{1}\featv{subj}{2}\featv{whin}{3}\featv{whout}{4}}
+  \cat{relcl2}{\featv{qu}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
 }{
-  \cat{np}{\featc{case}{nom}\featc{copula}{--}\featv{embv}{5}\featv{id}{6}\featv{pl}{7}\featc{refl}{--}\featc{rel}{--}\featv{subj}{2}\featv{whin}{3}\featv{whout}{8}}
-  \cat{verb}{\featc{be}{--}\featv{pl}{7}\featc{vcat}{tr}\featc{vform}{fin}}
-  \cat{vmod}{\featc{copula}{--}\featv{embv}{5}\featv{rel}{1}\featv{subj}{6}\featv{whin}{8}\featv{whout}{4}}
+  \cat{np}{\featc{case}{nom}\featc{copula}{--}\featv{embv}{6}\featv{id}{7}\featv{pl}{8}\featv{qu}{1}\featc{refl}{--}\featc{rel}{--}\featv{subj}{3}\featv{whin}{4}\featv{whout}{9}}
+  \cat{verb}{\featc{be}{--}\featv{pl}{8}\featc{vcat}{tr}\featc{vform}{fin}}
+  \cat{vmod}{\featc{copula}{--}\featv{embv}{6}\featv{qu}{1}\featv{rel}{2}\featv{subj}{7}\featv{whin}{9}\featv{whout}{5}}
 }$
 \vspace{2mm}
 
@@ -1300,10 +1300,10 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{vmod}{\featv{copula}{1}\featc{embv}{--}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{vmod}{\featv{copula}{1}\featc{embv}{--}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
   \cat{adv\_coord}{\featv{copula}{1}}
-  \cat{vmod\_x}{\featv{copula}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{vmod\_x}{\featv{copula}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -1312,10 +1312,10 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{vmod}{\featv{copula}{1}\featc{embv}{--}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{vmod}{\featv{copula}{1}\featc{embv}{--}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
-  \cat{pp}{\featv{embv}{6}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{7}}
-  \cat{vmod}{\featv{copula}{1}\featv{embv}{6}\featv{rel}{2}\featv{subj}{3}\featv{whin}{7}\featv{whout}{5}}
+  \cat{pp}{\featv{embv}{7}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{8}}
+  \cat{vmod}{\featv{copula}{1}\featv{embv}{7}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{8}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -1334,10 +1334,10 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{vmod\_x}{\featv{copula}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{vmod\_x}{\featv{copula}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
-  \cat{pp}{\featv{embv}{6}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{7}}
-  \cat{vmod}{\featv{copula}{1}\featv{embv}{6}\featv{rel}{2}\featv{subj}{3}\featv{whin}{7}\featv{whout}{5}}
+  \cat{pp}{\featv{embv}{7}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{8}}
+  \cat{vmod}{\featv{copula}{1}\featv{embv}{7}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{8}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -1348,10 +1348,10 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{pp}{\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{pp}{\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
   \spreterm{prep}
-  \cat{np}{\featc{case}{acc}\featv{embv}{1}\featv{rel}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{np}{\featc{case}{acc}\featv{embv}{1}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }$
 \vspace{2mm}
 

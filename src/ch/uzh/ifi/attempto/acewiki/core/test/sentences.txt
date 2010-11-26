@@ -7691,7 +7691,6 @@ exactly  2  women  do not  ask  X  .
 for every  friend of  a  friend of  everybody  there is  somebody  .
 for every  friend of  a  friend of  Mary  there is  somebody  .
 for every  friend of  a  friend of  somebody  there is  somebody  .
-for every  friend of  a  friend of  who  there is  somebody  .
 for every  friend of  a  friend of  X  there is  somebody  .
 for every  friend of  a  woman  everybody  asks  everybody  .
 for every  friend of  a  woman  everybody  asks  Mary  .
@@ -7987,7 +7986,6 @@ for every  friend of  everybody  X  X  is  X  .
 for every  friend of  every  friend of  everybody  there is  somebody  .
 for every  friend of  every  friend of  Mary  there is  somebody  .
 for every  friend of  every  friend of  somebody  there is  somebody  .
-for every  friend of  every  friend of  who  there is  somebody  .
 for every  friend of  every  friend of  X  there is  somebody  .
 for every  friend of  every  woman  everybody  asks  everybody  .
 for every  friend of  every  woman  everybody  asks  Mary  .
@@ -8465,302 +8463,6 @@ for every  friend of  somebody  X  X  is  everybody  .
 for every  friend of  somebody  X  X  is  Mary  .
 for every  friend of  somebody  X  X  is  somebody  .
 for every  friend of  somebody  X  X  is  X  .
-for every  friend of  which  friend of  everybody  there is  somebody  .
-for every  friend of  which  friend of  Mary  there is  somebody  .
-for every  friend of  which  friend of  somebody  there is  somebody  .
-for every  friend of  which  friend of  who  there is  somebody  .
-for every  friend of  which  friend of  X  there is  somebody  .
-for every  friend of  which  woman  everybody  asks  everybody  .
-for every  friend of  which  woman  everybody  asks  Mary  .
-for every  friend of  which  woman  everybody  asks  somebody  .
-for every  friend of  which  woman  everybody  asks  the woman  .
-for every  friend of  which  woman  everybody  asks  X  .
-for every  friend of  which  woman  everybody  is  everybody  .
-for every  friend of  which  woman  everybody  is  Mary  .
-for every  friend of  which  woman  everybody  is  somebody  .
-for every  friend of  which  woman  everybody  is  the woman  .
-for every  friend of  which  woman  everybody  is  X  .
-for every  friend of  which  woman  Mary  asks  everybody  .
-for every  friend of  which  woman  Mary  asks  Mary  .
-for every  friend of  which  woman  Mary  asks  somebody  .
-for every  friend of  which  woman  Mary  asks  the woman  .
-for every  friend of  which  woman  Mary  asks  X  .
-for every  friend of  which  woman  Mary  is  everybody  .
-for every  friend of  which  woman  Mary  is  Mary  .
-for every  friend of  which  woman  Mary  is  somebody  .
-for every  friend of  which  woman  Mary  is  the woman  .
-for every  friend of  which  woman  Mary  is  X  .
-for every  friend of  which  woman  somebody  asks  everybody  .
-for every  friend of  which  woman  somebody  asks  Mary  .
-for every  friend of  which  woman  somebody  asks  somebody  .
-for every  friend of  which  woman  somebody  asks  the woman  .
-for every  friend of  which  woman  somebody  asks  X  .
-for every  friend of  which  woman  somebody  is  everybody  .
-for every  friend of  which  woman  somebody  is  Mary  .
-for every  friend of  which  woman  somebody  is  somebody  .
-for every  friend of  which  woman  somebody  is  the woman  .
-for every  friend of  which  woman  somebody  is  X  .
-for every  friend of  which  woman  there is  a  woman  .
-for every  friend of  which  woman  there is  somebody  .  
-for every  friend of  which  woman  there is  somebody  X  .
-for every  friend of  which  woman  the woman  asks  everybody  .
-for every  friend of  which  woman  the woman  asks  Mary  .
-for every  friend of  which  woman  the woman  asks  somebody  .
-for every  friend of  which  woman  the woman  asks  the woman  .
-for every  friend of  which  woman  the woman  asks  X  .
-for every  friend of  which  woman  the woman  is  everybody  .
-for every  friend of  which  woman  the woman  is  Mary  .
-for every  friend of  which  woman  the woman  is  somebody  .
-for every  friend of  which  woman  the woman  is  the woman  .
-for every  friend of  which  woman  the woman  is  X  .
-for every  friend of  which  woman  X  asks  everybody  .
-for every  friend of  which  woman  X  asks  Mary  .
-for every  friend of  which  woman  X  asks  somebody  .
-for every  friend of  which  woman  X  asks  the woman  .
-for every  friend of  which  woman  X  asks  X  .
-for every  friend of  which  woman  X  is  everybody  .
-for every  friend of  which  woman  X  is  Mary  .
-for every  friend of  which  woman  X  is  somebody  .
-for every  friend of  which  woman  X  is  the woman  .
-for every  friend of  which  woman  X  is  X  .
-for every  friend of  which  woman  X  there is  somebody  .
-for every  friend of  which  women  everybody  asks  everybody  .
-for every  friend of  which  women  everybody  asks  Mary  .
-for every  friend of  which  women  everybody  asks  somebody  .
-for every  friend of  which  women  everybody  asks  X  .
-for every  friend of  which  women  everybody  is  everybody  .
-for every  friend of  which  women  everybody  is  Mary  .
-for every  friend of  which  women  everybody  is  somebody  .
-for every  friend of  which  women  everybody  is  X  .
-for every  friend of  which  women  Mary  asks  everybody  .
-for every  friend of  which  women  Mary  asks  Mary  .
-for every  friend of  which  women  Mary  asks  somebody  .
-for every  friend of  which  women  Mary  asks  X  .
-for every  friend of  which  women  Mary  is  everybody  .
-for every  friend of  which  women  Mary  is  Mary  .
-for every  friend of  which  women  Mary  is  somebody  .
-for every  friend of  which  women  Mary  is  X  .
-for every  friend of  which  women  somebody  asks  everybody  .
-for every  friend of  which  women  somebody  asks  Mary  .
-for every  friend of  which  women  somebody  asks  somebody  .
-for every  friend of  which  women  somebody  asks  X  .
-for every  friend of  which  women  somebody  is  everybody  .
-for every  friend of  which  women  somebody  is  Mary  .
-for every  friend of  which  women  somebody  is  somebody  .
-for every  friend of  which  women  somebody  is  X  .
-for every  friend of  which  women  there is  a  woman  .
-for every  friend of  which  women  there is  somebody  .  
-for every  friend of  which  women  there is  somebody  X  .
-for every  friend of  which  women  X  asks  everybody  .
-for every  friend of  which  women  X  asks  Mary  .
-for every  friend of  which  women  X  asks  somebody  .
-for every  friend of  which  women  X  asks  X  .
-for every  friend of  which  women  X  is  everybody  .
-for every  friend of  which  women  X  is  Mary  .
-for every  friend of  which  women  X  is  somebody  .
-for every  friend of  which  women  X  is  X  .
-for every  friend of  who  a  woman  asks  everybody  .
-for every  friend of  who  a  woman  asks  Mary  .
-for every  friend of  who  a  woman  asks  somebody  .
-for every  friend of  who  a  woman  asks  the woman  .
-for every  friend of  who  a  woman  asks  X  .
-for every  friend of  who  a  woman  is  everybody  .
-for every  friend of  who  a  woman  is  Mary  .
-for every  friend of  who  a  woman  is  somebody  .
-for every  friend of  who  a  woman  is  the woman  .
-for every  friend of  who  a  woman  is  X  .
-for every  friend of  who  everybody  asks  a  woman  .
-for every  friend of  who  everybody  asks  everybody  .  
-for every  friend of  who  everybody  asks  everybody  X  .
-for every  friend of  who  everybody  asks  every  woman  .
-for every  friend of  who  everybody  asks  Mary  .  
-for every  friend of  who  everybody  asks  somebody  .  
-for every  friend of  who  everybody  asks  somebody  X  .
-for every  friend of  who  everybody  asks  X  .  
-for every  friend of  who  everybody  does not  ask  everybody  .
-for every  friend of  who  everybody  does not  ask  Mary  .
-for every  friend of  who  everybody  does not  ask  somebody  .
-for every  friend of  who  everybody  does not  ask  X  .
-for every  friend of  who  everybody  is  asked by  everybody  .
-for every  friend of  who  everybody  is  asked by  Mary  .
-for every  friend of  who  everybody  is  asked by  somebody  .
-for every  friend of  who  everybody  is  asked by  X  .
-for every  friend of  who  everybody  is  a  woman  .
-for every  friend of  who  everybody  is  everybody  .  
-for every  friend of  who  everybody  is  everybody  X  .
-for every  friend of  who  everybody  is  every  woman  .
-for every  friend of  who  everybody  is  mad-about  everybody  .
-for every  friend of  who  everybody  is  mad-about  Mary  .
-for every  friend of  who  everybody  is  mad-about  somebody  .
-for every  friend of  who  everybody  is  mad-about  X  .
-for every  friend of  who  everybody  is  Mary  .  
-for every  friend of  who  everybody  is  not  everybody  .
-for every  friend of  who  everybody  is  not  Mary  .
-for every  friend of  who  everybody  is  not  somebody  .
-for every  friend of  who  everybody  is  not  X  .
-for every  friend of  who  everybody  is  somebody  .  
-for every  friend of  who  everybody  is  somebody  X  .
-for every  friend of  who  everybody  is  X  .  
-for every  friend of  who  everybody  X  asks  everybody  .
-for every  friend of  who  everybody  X  asks  Mary  .
-for every  friend of  who  everybody  X  asks  somebody  .
-for every  friend of  who  everybody  X  asks  X  .
-for every  friend of  who  everybody  X  is  everybody  .
-for every  friend of  who  everybody  X  is  Mary  .
-for every  friend of  who  everybody  X  is  somebody  .
-for every  friend of  who  everybody  X  is  X  .
-for every  friend of  who  every  woman  asks  everybody  .
-for every  friend of  who  every  woman  asks  Mary  .
-for every  friend of  who  every  woman  asks  somebody  .
-for every  friend of  who  every  woman  asks  the woman  .
-for every  friend of  who  every  woman  asks  X  .
-for every  friend of  who  every  woman  is  everybody  .
-for every  friend of  who  every  woman  is  Mary  .
-for every  friend of  who  every  woman  is  somebody  .
-for every  friend of  who  every  woman  is  the woman  .
-for every  friend of  who  every  woman  is  X  .
-for every  friend of  who  it is false that  everybody  asks  everybody  .
-for every  friend of  who  it is false that  everybody  asks  Mary  .
-for every  friend of  who  it is false that  everybody  asks  somebody  .
-for every  friend of  who  it is false that  everybody  asks  X  .
-for every  friend of  who  it is false that  everybody  is  everybody  .
-for every  friend of  who  it is false that  everybody  is  Mary  .
-for every  friend of  who  it is false that  everybody  is  somebody  .
-for every  friend of  who  it is false that  everybody  is  X  .
-for every  friend of  who  it is false that  Mary  asks  everybody  .
-for every  friend of  who  it is false that  Mary  asks  Mary  .
-for every  friend of  who  it is false that  Mary  asks  somebody  .
-for every  friend of  who  it is false that  Mary  asks  X  .
-for every  friend of  who  it is false that  Mary  is  everybody  .
-for every  friend of  who  it is false that  Mary  is  Mary  .
-for every  friend of  who  it is false that  Mary  is  somebody  .
-for every  friend of  who  it is false that  Mary  is  X  .
-for every  friend of  who  it is false that  somebody  asks  everybody  .
-for every  friend of  who  it is false that  somebody  asks  Mary  .
-for every  friend of  who  it is false that  somebody  asks  somebody  .
-for every  friend of  who  it is false that  somebody  asks  X  .
-for every  friend of  who  it is false that  somebody  is  everybody  .
-for every  friend of  who  it is false that  somebody  is  Mary  .
-for every  friend of  who  it is false that  somebody  is  somebody  .
-for every  friend of  who  it is false that  somebody  is  X  .
-for every  friend of  who  it is false that  X  asks  everybody  .
-for every  friend of  who  it is false that  X  asks  Mary  .
-for every  friend of  who  it is false that  X  asks  somebody  .
-for every  friend of  who  it is false that  X  asks  X  .
-for every  friend of  who  it is false that  X  is  everybody  .
-for every  friend of  who  it is false that  X  is  Mary  .
-for every  friend of  who  it is false that  X  is  somebody  .
-for every  friend of  who  it is false that  X  is  X  .
-for every  friend of  who  Mary  asks  a  woman  .
-for every  friend of  who  Mary  asks  everybody  .  
-for every  friend of  who  Mary  asks  everybody  X  .
-for every  friend of  who  Mary  asks  every  woman  .
-for every  friend of  who  Mary  asks  Mary  .  
-for every  friend of  who  Mary  asks  somebody  .  
-for every  friend of  who  Mary  asks  somebody  X  .
-for every  friend of  who  Mary  asks  X  .  
-for every  friend of  who  Mary  does not  ask  everybody  .
-for every  friend of  who  Mary  does not  ask  Mary  .
-for every  friend of  who  Mary  does not  ask  somebody  .
-for every  friend of  who  Mary  does not  ask  X  .
-for every  friend of  who  Mary  is  asked by  everybody  .
-for every  friend of  who  Mary  is  asked by  Mary  .
-for every  friend of  who  Mary  is  asked by  somebody  .
-for every  friend of  who  Mary  is  asked by  X  .
-for every  friend of  who  Mary  is  a  woman  .
-for every  friend of  who  Mary  is  everybody  .  
-for every  friend of  who  Mary  is  everybody  X  .
-for every  friend of  who  Mary  is  every  woman  .
-for every  friend of  who  Mary  is  mad-about  everybody  .
-for every  friend of  who  Mary  is  mad-about  Mary  .
-for every  friend of  who  Mary  is  mad-about  somebody  .
-for every  friend of  who  Mary  is  mad-about  X  .
-for every  friend of  who  Mary  is  Mary  .  
-for every  friend of  who  Mary  is  not  everybody  .
-for every  friend of  who  Mary  is  not  Mary  .
-for every  friend of  who  Mary  is  not  somebody  .
-for every  friend of  who  Mary  is  not  X  .
-for every  friend of  who  Mary  is  somebody  .  
-for every  friend of  who  Mary  is  somebody  X  .
-for every  friend of  who  Mary  is  X  .  
-for every  friend of  who  somebody  asks  a  woman  .
-for every  friend of  who  somebody  asks  everybody  .  
-for every  friend of  who  somebody  asks  everybody  X  .
-for every  friend of  who  somebody  asks  every  woman  .
-for every  friend of  who  somebody  asks  Mary  .  
-for every  friend of  who  somebody  asks  somebody  .  
-for every  friend of  who  somebody  asks  somebody  X  .
-for every  friend of  who  somebody  asks  X  .  
-for every  friend of  who  somebody  does not  ask  everybody  .
-for every  friend of  who  somebody  does not  ask  Mary  .
-for every  friend of  who  somebody  does not  ask  somebody  .
-for every  friend of  who  somebody  does not  ask  X  .
-for every  friend of  who  somebody  is  asked by  everybody  .
-for every  friend of  who  somebody  is  asked by  Mary  .
-for every  friend of  who  somebody  is  asked by  somebody  .
-for every  friend of  who  somebody  is  asked by  X  .
-for every  friend of  who  somebody  is  a  woman  .
-for every  friend of  who  somebody  is  everybody  .  
-for every  friend of  who  somebody  is  everybody  X  .
-for every  friend of  who  somebody  is  every  woman  .
-for every  friend of  who  somebody  is  mad-about  everybody  .
-for every  friend of  who  somebody  is  mad-about  Mary  .
-for every  friend of  who  somebody  is  mad-about  somebody  .
-for every  friend of  who  somebody  is  mad-about  X  .
-for every  friend of  who  somebody  is  Mary  .  
-for every  friend of  who  somebody  is  not  everybody  .
-for every  friend of  who  somebody  is  not  Mary  .
-for every  friend of  who  somebody  is  not  somebody  .
-for every  friend of  who  somebody  is  not  X  .
-for every  friend of  who  somebody  is  somebody  .  
-for every  friend of  who  somebody  is  somebody  X  .
-for every  friend of  who  somebody  is  X  .  
-for every  friend of  who  somebody  X  asks  everybody  .
-for every  friend of  who  somebody  X  asks  Mary  .
-for every  friend of  who  somebody  X  asks  somebody  .
-for every  friend of  who  somebody  X  asks  X  .
-for every  friend of  who  somebody  X  is  everybody  .
-for every  friend of  who  somebody  X  is  Mary  .
-for every  friend of  who  somebody  X  is  somebody  .
-for every  friend of  who  somebody  X  is  X  .
-for every  friend of  who  there are  exactly  2  women  .
-for every  friend of  who  there is  a  friend of  everybody  .
-for every  friend of  who  there is  a  friend of  Mary  .
-for every  friend of  who  there is  a  friend of  somebody  .
-for every  friend of  who  there is  a  friend of  X  .
-for every  friend of  who  there is  a  woman  .  
-for every  friend of  who  there is  a  woman  X  .
-for every  friend of  who  there is  exactly  1  woman  .
-for every  friend of  who  there is  somebody  .    
-for every  friend of  who  there is  somebody  X  .  
-for every  friend of  who  X  asks  a  woman  .
-for every  friend of  who  X  asks  everybody  .  
-for every  friend of  who  X  asks  every  woman  .
-for every  friend of  who  X  asks  Mary  .  
-for every  friend of  who  X  asks  somebody  .  
-for every  friend of  who  X  asks  X  .  
-for every  friend of  who  X  does not  ask  everybody  .
-for every  friend of  who  X  does not  ask  Mary  .
-for every  friend of  who  X  does not  ask  somebody  .
-for every  friend of  who  X  does not  ask  X  .
-for every  friend of  who  X  is  asked by  everybody  .
-for every  friend of  who  X  is  asked by  Mary  .
-for every  friend of  who  X  is  asked by  somebody  .
-for every  friend of  who  X  is  asked by  X  .
-for every  friend of  who  X  is  a  woman  .
-for every  friend of  who  X  is  everybody  .  
-for every  friend of  who  X  is  every  woman  .
-for every  friend of  who  X  is  mad-about  everybody  .
-for every  friend of  who  X  is  mad-about  Mary  .
-for every  friend of  who  X  is  mad-about  somebody  .
-for every  friend of  who  X  is  mad-about  X  .
-for every  friend of  who  X  is  Mary  .  
-for every  friend of  who  X  is  not  everybody  .
-for every  friend of  who  X  is  not  Mary  .
-for every  friend of  who  X  is  not  somebody  .
-for every  friend of  who  X  is  not  X  .
-for every  friend of  who  X  is  somebody  .  
-for every  friend of  who  X  is  X  .  
 for every  friend of  X  a  woman  asks  everybody  .
 for every  friend of  X  a  woman  asks  Mary  .
 for every  friend of  X  a  woman  asks  somebody  .
@@ -9834,19 +9536,16 @@ for every  woman  who  asks  everybody  there is  somebody  .
 for every  woman  who  asks  Mary  there is  somebody  .
 for every  woman  who  asks  somebody  there is  somebody  .
 for every  woman  who  asks  the woman  there is  somebody  .
-for every  woman  who  asks  who  there is  somebody  .
 for every  woman  who  asks  X  there is  somebody  .
 for every  woman  who  everybody  asks  there is  somebody  .
 for every  woman  who  is  everybody  there is  somebody  .
 for every  woman  who  is  Mary  there is  somebody  .
 for every  woman  who  is  somebody  there is  somebody  .
 for every  woman  who  is  the woman  there is  somebody  .
-for every  woman  who  is  who  there is  somebody  .
 for every  woman  who  is  X  there is  somebody  .
 for every  woman  who  Mary  asks  there is  somebody  .
 for every  woman  who  somebody  asks  there is  somebody  .
 for every  woman  who  the woman  asks  there is  somebody  .
-for every  woman  who  who  asks  there is  somebody  .
 for every  woman  who  X  asks  there is  somebody  .
 for every  woman  X  asks  a  friend of  everybody  .
 for every  woman  X  asks  a  friend of  Mary  .

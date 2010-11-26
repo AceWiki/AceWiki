@@ -21,7 +21,7 @@
 
 title:'AceWiki Grammar'.
 
-paragraph:'- Tobias Kuhn, 2 August 2010 -'.
+paragraph:'- Tobias Kuhn, 26 November 2010 -'.
 
 paragraph:'Below, the grammar rules of the AceWiki grammar are shown:'.
 
@@ -48,7 +48,7 @@ complete_sentence ~>
 
 complete_sentence ~>
 	//,
-	simple_sentence_2(whin:minus, whout:plus),
+	simple_sentence_2(qu:plus, whin:minus, whout:plus),
 	['?'].
 
 paragraph:'General sentences are represented by ''sentence'':'.
@@ -59,7 +59,7 @@ sentence =>
 sentence ~>
 	//,
 	['for every'],
-	nc(subj:minus),
+	nc(subj:minus, qu:minus),
 	sentence_coord_1.
 
 sentence ~>
@@ -95,28 +95,28 @@ paragraph:'Uncoordinated sentences are represented in two levels by ''simple_sen
 simple_sentence_1 ~>
 	//,
 	['it is false that'],
-	simple_sentence_2(whin:minus, whout:minus).
+	simple_sentence_2(qu:minus).
 
 simple_sentence_1 =>
 	['there is'],
-	np(subj:minus, exist:plus, def:minus, pl:minus, case:nom, whin:minus, whout:minus).
+	np(subj:minus, exist:plus, def:minus, pl:minus, case:nom, qu:minus).
 
 simple_sentence_1 =>
 	['there is'],
-	np(subj:minus, exist:plus, def:minus, pl:minus, case:nom, whin:minus, whout:minus),
+	np(subj:minus, exist:plus, def:minus, pl:minus, case:nom, qu:minus),
 	['such that'],
 	simple_sentence_1.
 
 simple_sentence_1 =>
 	['there are'],
-	np(subj:minus, exist:plus, def:minus, pl:plus, case:nom, whin:minus, whout:minus).
+	np(subj:minus, exist:plus, def:minus, pl:plus, case:nom, qu:minus).
 
 simple_sentence_1 =>
-	simple_sentence_2(whin:minus, whout:minus).
+	simple_sentence_2(qu:minus).
 
-simple_sentence_2(whin:WhIn, whout:WhOut) ~>
-	np(id:ID, subj:minus, pl:PL, case:nom, whin:WhIn, whout:WhTemp),
-	vp_coord_1(subj:ID, pl:PL, whin:WhTemp, whout:WhOut).
+simple_sentence_2(qu:Qu, whin:WhIn, whout:WhOut) ~>
+	np(id:ID, subj:minus, pl:PL, case:nom, qu:Qu, whin:WhIn, whout:WhTemp),
+	vp_coord_1(subj:ID, pl:PL, qu:Qu, whin:WhTemp, whout:WhOut).
 
 
 section:'Verb Phrases'.
@@ -124,31 +124,31 @@ section:'Verb Phrases'.
 paragraph:'Like sentences, verb phrases can be coordinated using "or" (''vp_coord_1'') and "and"
 		(''vp_coord_2''):'.
 
-vp_coord_1(subj:Subj, pl:PL, whin:WhIn, whout:WhOut) =>
-	vp_coord_2(subj:Subj, pl:PL, whin:WhIn, whout:WhOut).
+vp_coord_1(subj:Subj, pl:PL, qu:Qu, whin:WhIn, whout:WhOut) =>
+	vp_coord_2(subj:Subj, pl:PL, qu:Qu, whin:WhIn, whout:WhOut).
 
-vp_coord_1(subj:Subj, pl:PL, whin:WhIn, whout:WhOut) ~>
+vp_coord_1(subj:Subj, pl:PL, qu:Qu, whin:WhIn, whout:WhOut) ~>
 	//,
-	vp_coord_2(subj:Subj, pl:PL, whin:WhIn, whout:WhTemp),
+	vp_coord_2(subj:Subj, pl:PL, qu:Qu, whin:WhIn, whout:WhTemp),
 	[or],
-	vp_coord_1(subj:Subj, pl:PL, whin:WhTemp, whout:WhOut).
+	vp_coord_1(subj:Subj, pl:PL, qu:Qu, whin:WhTemp, whout:WhOut).
 
-vp_coord_2(subj:Subj, pl:PL, whin:WhIn, whout:WhOut) =>
-	vp(subj:Subj, pl:PL, whin:WhIn, whout:WhOut).
+vp_coord_2(subj:Subj, pl:PL, qu:Qu, whin:WhIn, whout:WhOut) =>
+	vp(subj:Subj, pl:PL, qu:Qu, whin:WhIn, whout:WhOut).
 
-vp_coord_2(subj:Subj, pl:PL, whin:WhIn, whout:WhOut) =>
-	vp(subj:Subj, pl:PL, whin:WhIn, whout:WhTemp),
+vp_coord_2(subj:Subj, pl:PL, qu:Qu, whin:WhIn, whout:WhOut) =>
+	vp(subj:Subj, pl:PL, qu:Qu, whin:WhIn, whout:WhTemp),
 	[and],
-	vp_coord_2(subj:Subj, pl:PL, whin:WhTemp, whout:WhOut).
+	vp_coord_2(subj:Subj, pl:PL, qu:Qu, whin:WhTemp, whout:WhOut).
 
 paragraph:'Uncoordinated verb phrases represented by ''vp'' can use an auxiliary verb:'.
 
-vp(subj:Subj, exist:E, rel:R, pl:PL, whin:WhIn, whout:WhOut) ~>
+vp(subj:Subj, exist:E, rel:R, pl:PL, qu:Qu, whin:WhIn, whout:WhOut) ~>
 	aux(be:Be, exist:E, pl:PL),
-	v(subj:Subj, be:Be, exist:E, pl:PL, rel:R, vform:inf, whin:WhIn, whout:WhOut).
+	v(subj:Subj, be:Be, exist:E, pl:PL, rel:R, vform:inf, qu:Qu, whin:WhIn, whout:WhOut).
 
-vp(subj:Subj, exist:plus, rel:R, pl:PL, whin:WhIn, whout:WhOut) ~>
-	v(subj:Subj, be:minus, exist:plus, pl:PL, rel:R, vform:fin, whin:WhIn, whout:WhOut).
+vp(subj:Subj, exist:plus, rel:R, pl:PL, qu:Qu, whin:WhIn, whout:WhOut) ~>
+	v(subj:Subj, be:minus, exist:plus, pl:PL, rel:R, vform:fin, qu:Qu, whin:WhIn, whout:WhOut).
 
 paragraph:'The category ''v'' represents the main verb or - if "be" is used as a copula verb - the
 		complementing noun phrase or adjective complement:'.
@@ -156,23 +156,23 @@ paragraph:'The category ''v'' represents the main verb or - if "be" is used as a
 v(be:minus, exist:E, pl:PL, vform:VF, copula:minus, whin:Wh, whout:Wh) =>
 	verb(vcat:itr, be:minus, pl:PL, exist:E, vform:VF).
 
-v(subj:Subj, be:minus, exist:E, rel:R, pl:PL, vform:VF, embv:EmbV, copula:minus, whin:WhIn, whout:WhOut) =>
+v(subj:Subj, be:minus, exist:E, rel:R, pl:PL, vform:VF, embv:EmbV, copula:minus, qu:Qu, whin:WhIn, whout:WhOut) =>
 	verb(vcat:tr, be:minus, pl:PL, exist:E, vform:VF),
-	np(subj:Subj, rel:R, vcat:tr, embv:EmbV, case:acc, whin:WhIn, whout:WhOut).
+	np(subj:Subj, rel:R, vcat:tr, embv:EmbV, case:acc, qu:Qu, whin:WhIn, whout:WhOut).
 
-v(subj:Subj, be:plus, rel:R, embv:EmbV, copula:minus, whin:WhIn, whout:WhOut) =>
+v(subj:Subj, be:plus, rel:R, embv:EmbV, copula:minus, qu:Qu, whin:WhIn, whout:WhOut) =>
 	verb(vcat:tr, be:plus),
-	np(subj:Subj, rel:R, copula:minus, embv:EmbV, case:acc, whin:WhIn, whout:WhOut).
+	np(subj:Subj, rel:R, copula:minus, embv:EmbV, case:acc, qu:Qu, whin:WhIn, whout:WhOut).
 
-v(subj:Subj, be:plus, rel:R, embv:EmbV, copula:plus, whin:WhIn, whout:WhOut) =>
-	np(subj:Subj, of:plus, rel:R, pl:minus, copula:plus, embv:EmbV, case:acc, whin:WhIn, whout:WhOut).
+v(subj:Subj, be:plus, rel:R, embv:EmbV, copula:plus, qu:Qu, whin:WhIn, whout:WhOut) =>
+	np(subj:Subj, of:plus, rel:R, pl:minus, copula:plus, embv:EmbV, case:acc, qu:Qu, whin:WhIn, whout:WhOut).
 
-v(subj:Subj, be:plus, rel:R, pl:minus, embv:EmbV, copula:plus, whin:WhIn, whout:WhOut) =>
-	np(subj:Subj, of:minus, rel:R, pl:minus, copula:plus, embv:EmbV, case:acc, whin:WhIn, whout:WhOut).
+v(subj:Subj, be:plus, rel:R, pl:minus, embv:EmbV, copula:plus, qu:Qu, whin:WhIn, whout:WhOut) =>
+	np(subj:Subj, of:minus, rel:R, pl:minus, copula:plus, embv:EmbV, case:acc, qu:Qu, whin:WhIn, whout:WhOut).
 
-v(subj:Subj, be:plus, rel:R, embv:EmbV, copula:plus, whin:WhIn, whout:WhOut) =>
+v(subj:Subj, be:plus, rel:R, embv:EmbV, copula:plus, qu:Qu, whin:WhIn, whout:WhOut) =>
 	$tradj,
-	np(subj:Subj, rel:R, copula:minus, embv:EmbV, case:acc, whin:WhIn, whout:WhOut).
+	np(subj:Subj, rel:R, copula:minus, embv:EmbV, case:acc, qu:Qu, whin:WhIn, whout:WhOut).
 
 
 section:'Noun Phrases'.
@@ -180,10 +180,10 @@ section:'Noun Phrases'.
 paragraph:'Noun phrases are represented by ''np'' and can consist of proper names, variables,
 		pronouns, and different noun constructs:'.
 
-np(id:ID, exist:plus, rel:R, of:minus, def:plus, pl:minus, embv:EmbV, whin:WhIn, whout:WhOut) =>
+np(id:ID, exist:plus, rel:R, of:minus, def:plus, pl:minus, embv:EmbV, qu:Qu, whin:WhIn, whout:WhOut) =>
 	$propername(human:H, gender:G, text:ID),
 	>>(id:ID, human:H, gender:G, type:prop, hasvar:minus),
-	relcl(subj:ID, rel:R, embv:EmbV, human:H, whin:WhIn, whout:WhOut).
+	relcl(subj:ID, rel:R, embv:EmbV, human:H, qu:Qu, whin:WhIn, whout:WhOut).
 
 np(id:ID, exist:plus, of:minus, def:plus, pl:minus, whin:Wh, whout:Wh) =>
 	#ID,
@@ -206,16 +206,16 @@ np(id:ID, exist:plus, of:minus, def:plus, pl:minus, whin:Wh, whout:Wh) =>
 	<(id:ID, hasvar:plus, var:Var, human:H, gender:G),
 	>(id:ID, human:H, gender:G, type:ref, hasvar:minus).
 
-np(id:ID, subj:Subj, exist:E, rel:R, of:O, pl:minus, embv:EmbV, whin:WhIn, whout:WhOut) =>
+np(id:ID, subj:Subj, exist:E, rel:R, of:O, pl:minus, embv:EmbV, qu:Qu, whin:WhIn, whout:WhOut) =>
 	quant(exist:E),
-	nc(id:ID, subj:Subj, rel:R, of:O, embv:EmbV, whin:WhIn, whout:WhOut).
+	nc(id:ID, subj:Subj, rel:R, of:O, embv:EmbV, qu:Qu, whin:WhIn, whout:WhOut).
 
-np(id:ID, exist:E, rel:R, of:minus, pl:minus, embv:EmbV, whin:WhIn, whout:WhOut) =>
+np(id:ID, exist:E, rel:R, of:minus, pl:minus, embv:EmbV, qu:Qu, whin:WhIn, whout:WhOut) =>
 	#ID,
 	ipron(exist:E, human:H),
 	opt_newvar(hasvar:HasVar, var:Var),
 	>(id:ID, human:H, type:ipron, hasvar:HasVar, var:Var),
- 	relcl(subj:ID, rel:R, embv:EmbV, human:H, whin:WhIn, whout:WhOut).
+ 	relcl(subj:ID, rel:R, embv:EmbV, human:H, qu:Qu, whin:WhIn, whout:WhOut).
 
 np(id:ID, exist:plus, of:minus, pl:plus, copula:minus, whin:Wh, whout:Wh) =>
 	num_quant,
@@ -230,21 +230,21 @@ np(id:ID, exist:plus, of:minus, pl:minus, copula:minus, whin:Wh, whout:Wh) =>
 	$noun(human:H, gender:G, text:Noun),
 	>(id:ID, human:H, gender:G, type:noun, hasvar:minus, noun:Noun).
 
-np(id:ID, exist:plus, of:minus, pl:minus, whout:plus) =>
+np(id:ID, exist:plus, of:minus, pl:minus, qu:plus, whout:plus) =>
 	#ID,
 	[what],
 	>(id:ID, human:minus, type:wh, hasvar:minus).
 
-np(id:ID, exist:plus, of:minus, pl:minus, whout:plus) =>
+np(id:ID, exist:plus, of:minus, pl:minus, qu:plus, whout:plus) =>
 	#ID,
 	[who],
 	>(id:ID, human:plus, type:wh, hasvar:minus).
 
-np(id:ID, subj:Subj, exist:plus, rel:R, of:O, embv:EmbV, pl:minus, whout:plus) =>
+np(id:ID, subj:Subj, exist:plus, rel:R, of:O, embv:EmbV, pl:minus, qu:plus, whout:plus) =>
 	[which],
-	nc(id:ID, subj:Subj, rel:R, of:O, embv:EmbV, whin:plus, whout:plus).
+	nc(id:ID, subj:Subj, rel:R, of:O, embv:EmbV, qu:plus, whin:plus, whout:plus).
 
-np(id:ID, exist:plus, of:minus, pl:plus, whout:plus) =>
+np(id:ID, exist:plus, of:minus, pl:plus, qu:plus, whout:plus) =>
 	[which],
 	#ID,
 	$nounpl.
@@ -252,15 +252,15 @@ np(id:ID, exist:plus, of:minus, pl:plus, whout:plus) =>
 paragraph:'The category ''nc'' represents nouns optionally followed by variables, relative clauses,
 		and of-constructs:'.
 
-nc(id:ID, rel:R, of:minus, embv:EmbV, whin:WhIn, whout:WhOut) =>
+nc(id:ID, rel:R, of:minus, embv:EmbV, qu:Qu, whin:WhIn, whout:WhOut) =>
 	n(id:ID, human:H, gender:G, text:Noun),
 	opt_newvar(hasvar:HasVar, var:Var),
 	>(id:ID, human:H, gender:G, type:noun, hasvar:HasVar, noun:Noun, var:Var),
-	relcl(subj:ID, rel:R, embv:EmbV, human:H, whin:WhIn, whout:WhOut).
+	relcl(subj:ID, rel:R, embv:EmbV, human:H, qu:Qu, whin:WhIn, whout:WhOut).
 
-nc(subj:Subj, rel:R, of:plus, embv:EmbV, whin:WhIn, whout:WhOut) ~>
+nc(subj:Subj, rel:R, of:plus, embv:EmbV, qu:Qu, whin:WhIn, whout:WhOut) ~>
 	$nounof,
-	np(subj:Subj, rel:R, embv:EmbV, case:acc, whin:WhIn, whout:WhOut).
+	np(subj:Subj, rel:R, embv:EmbV, case:acc, qu:Qu, whin:WhIn, whout:WhOut).
 
 paragraph:'The category ''n'' stands for nouns:'.
 
@@ -289,37 +289,37 @@ paragraph:'Relative clauses are represented by ''relcl''. They start with a rela
 relcl(whin:Wh, whout:Wh) =>
 	[].
 
-relcl(subj:ID, rel:plus, embv:plus, human:H, whin:WhIn, whout:WhOut) =>
+relcl(subj:ID, rel:plus, embv:plus, human:H, qu:Qu, whin:WhIn, whout:WhOut) =>
 	relpron(human:H, relpron:RP),
-	relcl1(subj:ID, human:H, relpron:RP, whin:WhIn, whout:WhOut).
+	relcl1(subj:ID, human:H, relpron:RP, qu:Qu, whin:WhIn, whout:WhOut).
 
 paragraph:'Like sentences and verb phrases, relative clauses can be coordinated by "or"
 		(''relcl1'') and "and" (''relcl2''):'.
 
-relcl1(subj:ID, human:H, relpron:RP, whin:WhIn, whout:WhOut) ~>
+relcl1(subj:ID, human:H, relpron:RP, qu:Qu, whin:WhIn, whout:WhOut) ~>
 	//,
-	relcl2(subj:ID, human:H, rel:minus, relpron:RP, whin:WhIn, whout:WhTemp),
+	relcl2(subj:ID, human:H, rel:minus, relpron:RP, qu:Qu, whin:WhIn, whout:WhTemp),
 	or_relpron(human:H, relpron:RP),
-	relcl1(subj:ID, human:H, relpron:RP, whin:WhTemp, whout:WhOut).
+	relcl1(subj:ID, human:H, relpron:RP, qu:Qu, whin:WhTemp, whout:WhOut).
 
-relcl1(subj:ID, human:H, relpron:RP, whin:WhIn, whout:WhOut) =>
-	relcl2(subj:ID, human:H, relpron:RP, whin:WhIn, whout:WhOut).
+relcl1(subj:ID, human:H, relpron:RP, qu:Qu, whin:WhIn, whout:WhOut) =>
+	relcl2(subj:ID, human:H, relpron:RP, qu:Qu, whin:WhIn, whout:WhOut).
 
-relcl2(subj:ID, rel:R, relpron:RP, human:H, whin:WhIn, whout:WhOut) =>
-	vp(subj:ID, rel:minus, pl:minus, whin:WhIn, whout:WhTemp),
+relcl2(subj:ID, rel:R, relpron:RP, human:H, qu:Qu, whin:WhIn, whout:WhOut) =>
+	vp(subj:ID, rel:minus, pl:minus, qu:Qu, whin:WhIn, whout:WhTemp),
 	and_relpron(human:H, relpron:RP),
-	relcl2(subj:ID, rel:R, relpron:RP, human:H, whin:WhTemp, whout:WhOut).
+	relcl2(subj:ID, rel:R, relpron:RP, human:H, qu:Qu, whin:WhTemp, whout:WhOut).
 
-relcl2(subj:ID, rel:R, whin:WhIn, whout:WhOut) =>
-	vp(subj:ID, rel:R, pl:minus, whin:WhIn, whout:WhOut).
+relcl2(subj:ID, rel:R, qu:Qu, whin:WhIn, whout:WhOut) =>
+	vp(subj:ID, rel:R, pl:minus, qu:Qu, whin:WhIn, whout:WhOut).
 
-relcl2(subj:Subj, whin:WhIn, whout:WhOut) ~>
-	np(subj:Subj, rel:minus, copula:minus, pl:PL, case:nom, refl:minus, whin:WhIn, whout:WhOut),
+relcl2(subj:Subj, qu:Qu, whin:WhIn, whout:WhOut) ~>
+	np(subj:Subj, rel:minus, copula:minus, pl:PL, case:nom, refl:minus, qu:Qu, whin:WhIn, whout:WhOut),
 	aux(be:minus, exist:E, pl:PL),
 	verb(vcat:tr, be:minus, exist:E, pl:PL, vform:inf).
 
-relcl2(subj:Subj, whin:WhIn, whout:WhOut) ~>
-	np(subj:Subj, rel:minus, copula:minus, pl:PL, case:nom, refl:minus, whin:WhIn, whout:WhOut),
+relcl2(subj:Subj, qu:Qu, whin:WhIn, whout:WhOut) ~>
+	np(subj:Subj, rel:minus, copula:minus, pl:PL, case:nom, refl:minus, qu:Qu, whin:WhIn, whout:WhOut),
 	verb(vcat:tr, be:minus, exist:plus, pl:PL, vform:fin).
 
 paragraph:'Relative pronouns are represented by ''relpron'' and can be either "that", "who" or
