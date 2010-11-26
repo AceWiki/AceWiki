@@ -675,13 +675,17 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			refresh();
 		} else if (src == newButton) {
 			log("page", "pressed: new word");
-			WordEditorWindow w = new WordEditorWindow("Word Creator");
-			w.addTab(new ProperNameForm(null, w, this, this));
-			w.addTab(new NounForm(null, 0, w, this, this));
-			w.addTab(new NounOfForm(null, w, this, this));
-			w.addTab(new VerbForm(null, 0, w, this, this));
-			w.addTab(new TrAdjForm(null, w, this, this));
-			showWindow(w);
+			if (!isEditable()) {
+				showLoginWindow();
+			} else {
+				WordEditorWindow w = new WordEditorWindow("Word Creator");
+				w.addTab(new ProperNameForm(null, w, this, this));
+				w.addTab(new NounForm(null, 0, w, this, this));
+				w.addTab(new NounOfForm(null, w, this, this));
+				w.addTab(new VerbForm(null, 0, w, this, this));
+				w.addTab(new TrAdjForm(null, w, this, this));
+				showWindow(w);
+			}
 		} else if (src == searchButton || src == searchTextField || src == searchButton2) {
 			log("page", "pressed: search '" + searchTextField.getText() + "'");
 			String s = searchTextField.getText();
