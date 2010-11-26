@@ -184,16 +184,16 @@ np(id:ID, exist:plus, of:minus, pl:minus, copula:minus, whin:Wh, whout:Wh) =>
 	$noun(human:H, gender:G, text:Noun),
 	>(id:ID, human:H, gender:G, type:noun, hasvar:minus, noun:Noun).
 
-np(id:ID, exist:plus, of:minus, pl:minus, qu:plus, whout:plus) =>
+np(id:ID, exist:plus, of:minus, pl:minus, qu:plus, whin:minus, whout:plus) =>
 	#ID,
 	[who],
 	>(id:ID, human:plus, type:wh, hasvar:minus).
 
-np(id:ID, subj:Subj, exist:plus, rel:R, of:O, embv:EmbV, pl:minus, qu:plus, whout:plus) =>
+np(id:ID, subj:Subj, exist:plus, rel:R, of:O, embv:EmbV, pl:minus, qu:plus, whin:minus, whout:plus) =>
 	[which],
 	nc(id:ID, subj:Subj, rel:R, of:O, embv:EmbV, qu:plus, whin:plus, whout:plus).
 
-np(id:ID, exist:plus, of:minus, pl:plus, qu:plus, whout:plus) =>
+np(id:ID, exist:plus, of:minus, pl:plus, qu:plus, whin:minus, whout:plus) =>
 	[which],
 	#ID,
 	$nounpl.

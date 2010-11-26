@@ -1205,7 +1205,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// np(id:A, exist:plus, of:minus, pl:minus, qu:plus, whout:plus)=> #A, [what], >(id:A, human:minus, type:wh, hasvar:minus)
+		// np(id:A, exist:plus, of:minus, pl:minus, qu:plus, whin:minus, whout:plus)=> #A, [what], >(id:A, human:minus, type:wh, hasvar:minus)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -1216,6 +1216,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("of", new StringRef("minus"));
 		fm.setFeature("pl", new StringRef("minus"));
 		fm.setFeature("qu", new StringRef("plus"));
+		fm.setFeature("whin", new StringRef("minus"));
 		fm.setFeature("whout", new StringRef("plus"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
@@ -1236,7 +1237,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// np(id:A, exist:plus, of:minus, pl:minus, qu:plus, whout:plus)=> #A, [who], >(id:A, human:plus, type:wh, hasvar:minus)
+		// np(id:A, exist:plus, of:minus, pl:minus, qu:plus, whin:minus, whout:plus)=> #A, [who], >(id:A, human:plus, type:wh, hasvar:minus)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -1247,6 +1248,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("of", new StringRef("minus"));
 		fm.setFeature("pl", new StringRef("minus"));
 		fm.setFeature("qu", new StringRef("plus"));
+		fm.setFeature("whin", new StringRef("minus"));
 		fm.setFeature("whout", new StringRef("plus"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
@@ -1267,7 +1269,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// np(id:A, subj:B, exist:plus, rel:C, of:D, embv:E, pl:minus, qu:plus, whout:plus)=>[which], nc(id:A, subj:B, rel:C, of:D, embv:E, qu:plus, whin:plus, whout:plus)
+		// np(id:A, subj:B, exist:plus, rel:C, of:D, embv:E, pl:minus, qu:plus, whin:minus, whout:plus)=>[which], nc(id:A, subj:B, rel:C, of:D, embv:E, qu:plus, whin:plus, whout:plus)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -1281,6 +1283,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "embv", 4, featureHash);
 		fm.setFeature("pl", new StringRef("minus"));
 		fm.setFeature("qu", new StringRef("plus"));
+		fm.setFeature("whin", new StringRef("minus"));
 		fm.setFeature("whout", new StringRef("plus"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
@@ -1300,7 +1303,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// np(id:A, exist:plus, of:minus, pl:plus, qu:plus, whout:plus)=>[which], #A, $nounpl
+		// np(id:A, exist:plus, of:minus, pl:plus, qu:plus, whin:minus, whout:plus)=>[which], #A, $nounpl
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -1311,6 +1314,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("of", new StringRef("minus"));
 		fm.setFeature("pl", new StringRef("plus"));
 		fm.setFeature("qu", new StringRef("plus"));
+		fm.setFeature("whin", new StringRef("minus"));
 		fm.setFeature("whout", new StringRef("plus"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
