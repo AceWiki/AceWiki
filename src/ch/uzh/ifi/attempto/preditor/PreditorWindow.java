@@ -616,8 +616,10 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 	}
 	
 	private String proposeToken(String text) {
+		text = text.toLowerCase().replaceAll("\\s+", "_");
 		for (ConcreteOption o : parser.getConcreteOptions()) {
-			if (o.getWord().toLowerCase().equals(text.toLowerCase())) {
+			String t = o.getWord().toLowerCase().replaceAll("\\s+", "_");
+			if (t.equals(text)) {
 				return o.getWord();
 			}
 		}
