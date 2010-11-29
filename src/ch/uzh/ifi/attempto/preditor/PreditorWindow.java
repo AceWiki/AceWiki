@@ -754,7 +754,19 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 	}
 	
 	/**
-	 * Returns the parse tree of the text if it is complete. Null is returned for uncomplete texts.
+	 * Returns the parse tree of the text for the given category if a complete parse tree exists.
+	 * Null is returned for uncomplete texts.
+	 * 
+	 * @param categoryName The category name.
+	 * @return The parse tree.
+	 */
+	public ParseTree getParseTree(String categoryName) {
+		return parser.getParseTree(categoryName);
+	}
+	
+	/**
+	 * Returns the parse tree of the text for the start category if a complete parse tree exists.
+	 * Null is returned for uncomplete texts.
 	 * 
 	 * @return The parse tree.
 	 */

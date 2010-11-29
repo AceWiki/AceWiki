@@ -264,20 +264,30 @@ public class ChartParser {
 	
 	/**
 	 * Returns the parse tree of the parsed text if it is a complete statement according to the
+	 * given grammar and category. Null is returned if the text is not a complete statement.
+	 * 
+	 * @param categoryName The category name.
+	 * @return The parse tree.
+	 */
+	public ParseTree getParseTree(String categoryName) {
+		for (Edge e : chart.getEdgesByEndPos(tokens.size())) {
+			if (e.getStartPos() != 0) continue;
+			if (e.isActive()) continue;
+			if (!e.getHead().getName().equals(categoryName)) continue;
+			return new ParseTree(e);
+		}
+		return null;
+	}
+	
+	/**
+	 * Returns the parse tree of the parsed text if it is a complete statement according to the
 	 * given grammar and start category. Null is returned if the text is not a complete statement.
 	 * 
 	 * @return The parse tree.
 	 */
 	public ParseTree getParseTree() {
 		if (recalculateParseTree) {
-			parseTree = null;
-			for (Edge e : chart.getEdgesByEndPos(tokens.size())) {
-				if (e.getStartPos() != 0) continue;
-				if (e.isActive()) continue;
-				if (!e.getHead().getName().equals(startCategoryName)) continue;
-				parseTree = new ParseTree(e);
-				break;
-			}
+			parseTree = getParseTree(startCategoryName);
 		}
 		recalculateParseTree = false;
 		return parseTree;
