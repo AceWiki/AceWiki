@@ -610,6 +610,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		mainPane.removeAll();
 		mainPane.add(currentPage);
 		
+		removeExpiredPages(history);
+		removeExpiredPages(forward);
 		backButton.setEnabled(!history.isEmpty());
 		forwardButton.setEnabled(!forward.isEmpty());
 		
@@ -621,6 +623,20 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		//} else {
 		//	logo.setIcon(new ResourceImageReference("ch/uzh/ifi/attempto/acewiki/gui/img/AceWikiLogoSmallRed.png"));
 		//}
+	}
+	
+	private void removeExpiredPages(Stack<WikiPage> stack) {
+		WikiPage previousPage = null;
+		for (WikiPage page : new ArrayList<WikiPage>(stack)) {
+			if (page.isExpired() || page.equals(previousPage)) {
+				stack.remove(page);
+			} else {
+				previousPage = page;
+			}
+		}
+		if (stack.size() > 0 && currentPage.equals(stack.peek())) {
+			stack.pop();
+		}
 	}
 	
 	private void setCurrentPage(WikiPage currentPage) {
