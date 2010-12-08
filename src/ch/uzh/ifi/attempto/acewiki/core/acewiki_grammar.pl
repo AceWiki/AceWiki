@@ -21,7 +21,7 @@
 
 title:'AceWiki Grammar'.
 
-paragraph:'- Tobias Kuhn, 26 November 2010 -'.
+paragraph:'- Tobias Kuhn, 8 December 2010 -'.
 
 paragraph:'Below, the grammar rules of the AceWiki grammar are shown:'.
 
@@ -207,12 +207,12 @@ np(id:ID, exist:plus, of:minus, def:plus, pl:minus, whin:Wh, whout:Wh) =>
 	>(id:ID, human:H, gender:G, type:ref, hasvar:minus).
 
 np(id:ID, subj:Subj, exist:E, rel:R, of:O, pl:minus, embv:EmbV, qu:Qu, whin:WhIn, whout:WhOut) =>
-	quant(exist:E),
+	quant(exist:E, qu:Qu),
 	nc(id:ID, subj:Subj, rel:R, of:O, embv:EmbV, qu:Qu, whin:WhIn, whout:WhOut).
 
 np(id:ID, exist:E, rel:R, of:minus, pl:minus, embv:EmbV, qu:Qu, whin:WhIn, whout:WhOut) =>
 	#ID,
-	ipron(exist:E, human:H),
+	ipron(exist:E, human:H, qu:Qu),
 	opt_newvar(hasvar:HasVar, var:Var),
 	>(id:ID, human:H, type:ipron, hasvar:HasVar, var:Var),
  	relcl(subj:ID, rel:R, embv:EmbV, human:H, qu:Qu, whin:WhIn, whout:WhOut).
@@ -423,7 +423,7 @@ quant(exist:plus) =>
 quant(exist:plus) =>
 	[an].
 
-quant(exist:minus) =>
+quant(exist:minus, qu:minus) =>
 	//,
 	[every].
 
@@ -459,11 +459,11 @@ ipron(exist:plus, human:minus) =>
 ipron(exist:plus, human:plus) =>
 	[somebody].
 
-ipron(exist:minus, human:minus) =>
+ipron(exist:minus, human:minus, qu:minus) =>
 	//,
 	[everything].
 
-ipron(exist:minus, human:plus) =>
+ipron(exist:minus, human:plus, qu:minus) =>
 	//,
 	[everybody].
 

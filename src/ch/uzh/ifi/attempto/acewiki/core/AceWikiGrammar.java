@@ -44,7 +44,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		
 		/* === AceWiki Grammar === */
 		
-		/* - Tobias Kuhn, 26 November 2010 - */
+		/* - Tobias Kuhn, 8 December 2010 - */
 		
 		/* Below, the grammar rules of the AceWiki grammar are shown: */
 		
@@ -1033,7 +1033,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// np(id:A, subj:B, exist:C, rel:D, of:E, pl:minus, embv:F, qu:G, whin:H, whout:I)=>quant(exist:C), nc(id:A, subj:B, rel:D, of:E, embv:F, qu:G, whin:H, whout:I)
+		// np(id:A, subj:B, exist:C, rel:D, of:E, pl:minus, embv:F, qu:G, whin:H, whout:I)=>quant(exist:C, qu:G), nc(id:A, subj:B, rel:D, of:E, embv:F, qu:G, whin:H, whout:I)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -1054,6 +1054,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		nonterm = new Nonterminal("quant");
 		fm = new FeatureMap();
 		setFeature(fm, "exist", 2, featureHash);
+		setFeature(fm, "qu", 6, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("nc");
@@ -1070,7 +1071,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// np(id:A, exist:B, rel:C, of:minus, pl:minus, embv:D, qu:E, whin:F, whout:G)=> #A, ipron(exist:B, human:H), opt_newvar(hasvar:I, var:J), >(id:A, human:H, type:ipron, hasvar:I, var:J), relcl(subj:A, rel:C, embv:D, human:H, qu:E, whin:F, whout:G)
+		// np(id:A, exist:B, rel:C, of:minus, pl:minus, embv:D, qu:E, whin:F, whout:G)=> #A, ipron(exist:B, human:H, qu:E), opt_newvar(hasvar:I, var:J), >(id:A, human:H, type:ipron, hasvar:I, var:J), relcl(subj:A, rel:C, embv:D, human:H, qu:E, whin:F, whout:G)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -1096,6 +1097,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm = new FeatureMap();
 		setFeature(fm, "exist", 1, featureHash);
 		setFeature(fm, "human", 7, featureHash);
+		setFeature(fm, "qu", 4, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("opt_newvar");
@@ -2199,13 +2201,14 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(term);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// quant(exist:minus)=> //, [every]
+		// quant(exist:minus, qu:minus)=> //, [every]
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
 		nonterm = new Nonterminal("quant");
 		fm = new FeatureMap();
 		fm.setFeature("exist", new StringRef("minus"));
+		fm.setFeature("qu", new StringRef("minus"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("//");
@@ -2328,7 +2331,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(term);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// ipron(exist:minus, human:minus)=> //, [everything]
+		// ipron(exist:minus, human:minus, qu:minus)=> //, [everything]
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -2336,6 +2339,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm = new FeatureMap();
 		fm.setFeature("exist", new StringRef("minus"));
 		fm.setFeature("human", new StringRef("minus"));
+		fm.setFeature("qu", new StringRef("minus"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("//");
@@ -2346,7 +2350,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(term);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// ipron(exist:minus, human:plus)=> //, [everybody]
+		// ipron(exist:minus, human:plus, qu:minus)=> //, [everybody]
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -2354,6 +2358,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm = new FeatureMap();
 		fm.setFeature("exist", new StringRef("minus"));
 		fm.setFeature("human", new StringRef("plus"));
+		fm.setFeature("qu", new StringRef("minus"));
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("//");

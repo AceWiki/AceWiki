@@ -54,7 +54,7 @@
 
 \section*{AceWiki Grammar}
 
-\noindent - Tobias Kuhn, 26 November 2010 - \vspace{2mm}
+\noindent - Tobias Kuhn, 8 December 2010 - \vspace{2mm}
 
 \noindent Below, the grammar rules of the AceWiki grammar are shown: \vspace{2mm}
 
@@ -513,7 +513,7 @@
 \nrule{
   \cat{np}{\featv{embv}{1}\featv{exist}{2}\featv{id}{3}\featv{of}{4}\featc{pl}{--}\featv{qu}{5}\featv{rel}{6}\featv{subj}{7}\featv{whin}{8}\featv{whout}{9}}
 }{
-  \cat{quant}{\featv{exist}{2}}
+  \cat{quant}{\featv{exist}{2}\featv{qu}{5}}
   \cat{nc}{\featv{embv}{1}\featv{id}{3}\featv{of}{4}\featv{qu}{5}\featv{rel}{6}\featv{subj}{7}\featv{whin}{8}\featv{whout}{9}}
 }$
 \vspace{2mm}
@@ -526,7 +526,7 @@
   \cat{np}{\featv{embv}{1}\featv{exist}{2}\featv{id}{3}\featc{of}{--}\featc{pl}{--}\featv{qu}{4}\featv{rel}{5}\featv{whin}{6}\featv{whout}{7}}
 }{
   \pos{3}
-  \cat{ipron}{\featv{exist}{2}\featv{human}{8}}
+  \cat{ipron}{\featv{exist}{2}\featv{human}{8}\featv{qu}{4}}
   \cat{opt\_newvar}{\featv{hasvar}{9}\featv{var}{10}}
   \fwref{\featv{hasvar}{9}\featv{human}{8}\featv{id}{3}\featc{type}{ipron}\featv{var}{10}}
   \cat{relcl}{\featv{embv}{1}\featv{human}{8}\featv{qu}{4}\featv{rel}{5}\featv{subj}{3}\featv{whin}{6}\featv{whout}{7}}
@@ -1102,7 +1102,7 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{quant}{\featc{exist}{--}}
+  \cat{quant}{\featc{exist}{--}\featc{qu}{--}}
 }{
   \scopeopener{}
   \term{every}
@@ -1209,7 +1209,7 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{ipron}{\featc{exist}{--}\featc{human}{--}}
+  \cat{ipron}{\featc{exist}{--}\featc{human}{--}\featc{qu}{--}}
 }{
   \scopeopener{}
   \term{everything}
@@ -1221,7 +1221,7 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{ipron}{\featc{exist}{--}\featc{human}{+}}
+  \cat{ipron}{\featc{exist}{--}\featc{human}{+}\featc{qu}{--}}
 }{
   \scopeopener{}
   \term{everybody}
