@@ -22,7 +22,7 @@
 
 title:'AceWiki Grammar'.
 
-paragraph:'- Tobias Kuhn, 8 December 2010 -'.
+paragraph:'- Tobias Kuhn, 10 December 2010 -'.
 
 %% m
 paragraph:'Below, the grammar rules of the AceWiki grammar are shown:'.
@@ -140,8 +140,8 @@ simple_sentence_1 =>
 
 %% m t
 simple_sentence_2(qu:Qu, whin:WhIn, whout:WhOut) ~>
-	np(id:ID, subj:minus, pl:PL, case:nom, qu:Qu, whin:WhIn, whout:WhTemp),
-	vp_coord_1(subj:ID, pl:PL, qu:Qu, whin:WhTemp, whout:WhOut).
+	np(id:ID, subj:minus, pl:PL, plquant:PLQ, case:nom, qu:Qu, whin:WhIn, whout:WhTemp),
+	vp_coord_1(subj:ID, pl:PL, plquant:PLQ, qu:Qu, whin:WhTemp, whout:WhOut).
 
 %% m t
 
@@ -152,33 +152,33 @@ paragraph:'Like sentences, verb phrases can be coordinated using "or" (''vp_coor
 		(''vp_coord_2''):'.
 
 %% m t
-vp_coord_1(subj:Subj, pl:PL, qu:Qu, whin:WhIn, whout:WhOut) =>
-	vp_coord_2(subj:Subj, pl:PL, qu:Qu, whin:WhIn, whout:WhOut).
+vp_coord_1(subj:Subj, pl:PL, plquant:PLQ, qu:Qu, whin:WhIn, whout:WhOut) =>
+	vp_coord_2(subj:Subj, pl:PL, plquant:PLQ, qu:Qu, whin:WhIn, whout:WhOut).
 
 %% m
-vp_coord_1(subj:Subj, pl:PL, qu:Qu, whin:WhIn, whout:WhOut) ~>
+vp_coord_1(subj:Subj, pl:PL, plquant:PLQ, qu:Qu, whin:WhIn, whout:WhOut) ~>
 	//,
-	vp_coord_2(subj:Subj, pl:PL, qu:Qu, whin:WhIn, whout:WhTemp),
+	vp_coord_2(subj:Subj, pl:PL, plquant:PLQ, qu:Qu, whin:WhIn, whout:WhTemp),
 	[or],
-	vp_coord_1(subj:Subj, pl:PL, qu:Qu, whin:WhTemp, whout:WhOut).
+	vp_coord_1(subj:Subj, pl:PL, plquant:PLQ, qu:Qu, whin:WhTemp, whout:WhOut).
 
 %% m t
-vp_coord_2(subj:Subj, pl:PL, qu:Qu, whin:WhIn, whout:WhOut) =>
-	vp(subj:Subj, pl:PL, qu:Qu, whin:WhIn, whout:WhOut).
+vp_coord_2(subj:Subj, pl:PL, plquant:PLQ, qu:Qu, whin:WhIn, whout:WhOut) =>
+	vp(subj:Subj, pl:PL, plquant:PLQ, qu:Qu, whin:WhIn, whout:WhOut).
 
 %% m t
-vp_coord_2(subj:Subj, pl:PL, qu:Qu, whin:WhIn, whout:WhOut) =>
-	vp(subj:Subj, pl:PL, qu:Qu, whin:WhIn, whout:WhTemp),
+vp_coord_2(subj:Subj, pl:PL, plquant:PLQ, qu:Qu, whin:WhIn, whout:WhOut) =>
+	vp(subj:Subj, pl:PL, plquant:PLQ, qu:Qu, whin:WhIn, whout:WhTemp),
 	[and],
-	vp_coord_2(subj:Subj, pl:PL, qu:Qu, whin:WhTemp, whout:WhOut).
+	vp_coord_2(subj:Subj, pl:PL, plquant:PLQ, qu:Qu, whin:WhTemp, whout:WhOut).
 
 %% m
 paragraph:'Uncoordinated verb phrases represented by ''vp'' can use an auxiliary verb:'.
 
 %% m t
-vp(subj:Subj, exist:E, rel:R, pl:PL, qu:Qu, whin:WhIn, whout:WhOut) ~>
+vp(subj:Subj, exist:E, rel:R, pl:PL, plquant:PLQ, qu:Qu, whin:WhIn, whout:WhOut) ~>
 	aux(be:Be, exist:E, pl:PL),
-	v(subj:Subj, be:Be, exist:E, pl:PL, rel:R, vform:inf, qu:Qu, whin:WhIn, whout:WhOut).
+	v(subj:Subj, be:Be, exist:E, pl:PL, plquant:PLQ, rel:R, vform:inf, qu:Qu, whin:WhIn, whout:WhOut).
 
 %% m t
 vp(subj:Subj, exist:plus, rel:R, pl:PL, qu:Qu, whin:WhIn, whout:WhOut) ~>
@@ -207,7 +207,7 @@ v(subj:Subj, be:plus, rel:R, embv:EmbV, copula:plus, qu:Qu, whin:WhIn, whout:WhO
 	np(subj:Subj, of:plus, rel:R, pl:minus, copula:plus, embv:EmbV, case:acc, qu:Qu, whin:WhIn, whout:WhOut).
 
 %% m t
-v(subj:Subj, be:plus, rel:R, pl:minus, embv:EmbV, copula:plus, qu:Qu, whin:WhIn, whout:WhOut) =>
+v(subj:Subj, be:plus, rel:R, plquant:minus, embv:EmbV, copula:plus, qu:Qu, whin:WhIn, whout:WhOut) =>
 	np(subj:Subj, of:minus, rel:R, pl:minus, copula:plus, embv:EmbV, case:acc, qu:Qu, whin:WhIn, whout:WhOut).
 
 %% m t
@@ -268,7 +268,7 @@ np(id:ID, exist:E, rel:R, of:minus, pl:minus, embv:EmbV, qu:Qu, whin:WhIn, whout
  	relcl(subj:ID, rel:R, embv:EmbV, human:H, qu:Qu, whin:WhIn, whout:WhOut).
 
 %% m t
-np(id:ID, exist:plus, of:minus, pl:plus, copula:minus, whin:Wh, whout:Wh) =>
+np(id:ID, exist:plus, of:minus, pl:plus, plquant:plus, copula:minus, whin:Wh, whout:Wh) =>
 	num_quant,
 	$number,
 	#ID,
@@ -300,7 +300,7 @@ np(id:ID, subj:Subj, exist:plus, rel:R, of:O, embv:EmbV, pl:minus, qu:plus, whin
 	nc(id:ID, subj:Subj, rel:R, of:O, embv:EmbV, qu:plus, whin:plus, whout:plus).
 
 %% m t
-np(id:ID, exist:plus, of:minus, pl:plus, qu:plus, whin:minus, whout:plus) =>
+np(id:ID, exist:plus, of:minus, pl:plus, plquant:minus, qu:plus, whin:minus, whout:plus) =>
 	[which],
 	#ID,
 	$nounpl.

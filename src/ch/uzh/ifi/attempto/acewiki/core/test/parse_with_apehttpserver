@@ -3,6 +3,8 @@
 # order to check whether they are all within ACE. The APE executable is invoked through the HTTP
 # interface. APE has to be running as an HTTP server:
 #   swipl -x ape.exe -- -httpserver -port 8001 &
+# Find errors with:
+#   cat sentences_parsed_with_apehttpserver.txt | grep error
 #
 # Author: Tobias Kuhn
 #---------------------------------------------------------------------------------------------------

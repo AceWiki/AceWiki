@@ -17350,6 +17350,8 @@ which  women  are  asked by  Mary  ?
 which  women  are  asked by  somebody  ?    
 which  women  are  asked by  somebody  X  ?  
 which  women  are  asked by  X  ?    
+which  women  are  a  woman  ?    
+which  women  are  a  woman  X  ?  
 which  women  are  mad-about  a  friend of  Mary  ?
 which  women  are  mad-about  a  friend of  somebody  ?
 which  women  are  mad-about  a  friend of  X  ?
@@ -17361,6 +17363,22 @@ which  women  are  mad-about  Mary  ?
 which  women  are  mad-about  somebody  ?    
 which  women  are  mad-about  somebody  X  ?  
 which  women  are  mad-about  X  ?    
+which  women  are  Mary  ?      
+which  women  are  Mary  and  are  Mary  ?
+which  women  are  Mary  and  are  somebody  ?
+which  women  are  Mary  and  are  X  ?
+which  women  are  Mary  and  ask  Mary  ?
+which  women  are  Mary  and  ask  somebody  ?
+which  women  are  Mary  and  ask  X  ?
+which  women  are  Mary  who  asks  Mary  ?
+which  women  are  Mary  who  asks  somebody  ?
+which  women  are  Mary  who  asks  X  ?
+which  women  are  Mary  who  is  Mary  ?
+which  women  are  Mary  who  is  somebody  ?
+which  women  are  Mary  who  is  X  ?
+which  women  are  Mary  who  Mary  asks  ?
+which  women  are  Mary  who  somebody  asks  ?
+which  women  are  Mary  who  X  asks  ?
 which  women  are  not  a  friend of  Mary  ?
 which  women  are  not  a  friend of  somebody  ?
 which  women  are  not  a  friend of  X  ?
@@ -17369,11 +17387,41 @@ which  women  are  not  asked by  Mary  ?
 which  women  are  not  asked by  somebody  ?  
 which  women  are  not  asked by  somebody  X  ?
 which  women  are  not  asked by  X  ?  
+which  women  are  not  a  woman  ?  
+which  women  are  not  a  woman  X  ?
 which  women  are  not  mad-about  a  woman  ?
 which  women  are  not  mad-about  Mary  ?  
 which  women  are  not  mad-about  somebody  ?  
 which  women  are  not  mad-about  somebody  X  ?
 which  women  are  not  mad-about  X  ?  
+which  women  are  not  Mary  ?    
+which  women  are  not  somebody  ?    
+which  women  are  not  somebody  X  ?  
+which  women  are  not  X  ?    
+which  women  are  somebody  ?      
+which  women  are  somebody  and  are  Mary  ?
+which  women  are  somebody  and  are  somebody  ?
+which  women  are  somebody  and  are  X  ?
+which  women  are  somebody  and  ask  Mary  ?
+which  women  are  somebody  and  ask  somebody  ?
+which  women  are  somebody  and  ask  X  ?
+which  women  are  somebody  who  asks  Mary  ?
+which  women  are  somebody  who  asks  somebody  ?
+which  women  are  somebody  who  asks  X  ?
+which  women  are  somebody  who  is  Mary  ?
+which  women  are  somebody  who  is  somebody  ?
+which  women  are  somebody  who  is  X  ?
+which  women  are  somebody  who  Mary  asks  ?
+which  women  are  somebody  who  somebody  asks  ?
+which  women  are  somebody  who  X  asks  ?
+which  women  are  somebody  X  ?    
+which  women  are  X  ?      
+which  women  are  X  and  are  Mary  ?
+which  women  are  X  and  are  somebody  ?
+which  women  are  X  and  are  X  ?
+which  women  are  X  and  ask  Mary  ?
+which  women  are  X  and  ask  somebody  ?
+which  women  are  X  and  ask  X  ?
 which  women  ask  a  friend of  a  woman  ?
 which  women  ask  a  friend of  Mary  ?  
 which  women  ask  a  friend of  somebody  ?  
@@ -17384,6 +17432,9 @@ which  women  ask  a  woman  X  ?
 which  women  ask  exactly  1  woman  ?  
 which  women  ask  exactly  2  women  ?  
 which  women  ask  Mary  ?      
+which  women  ask  Mary  and  are  Mary  ?
+which  women  ask  Mary  and  are  somebody  ?
+which  women  ask  Mary  and  are  X  ?
 which  women  ask  Mary  and  ask  Mary  ?
 which  women  ask  Mary  and  ask  somebody  ?
 which  women  ask  Mary  and  ask  X  ?
@@ -17397,6 +17448,9 @@ which  women  ask  Mary  who  Mary  asks  ?
 which  women  ask  Mary  who  somebody  asks  ?
 which  women  ask  Mary  who  X  asks  ?
 which  women  ask  somebody  ?      
+which  women  ask  somebody  and  are  Mary  ?
+which  women  ask  somebody  and  are  somebody  ?
+which  women  ask  somebody  and  are  X  ?
 which  women  ask  somebody  and  ask  Mary  ?
 which  women  ask  somebody  and  ask  somebody  ?
 which  women  ask  somebody  and  ask  X  ?
@@ -17411,6 +17465,9 @@ which  women  ask  somebody  who  somebody  asks  ?
 which  women  ask  somebody  who  X  asks  ?
 which  women  ask  somebody  X  ?    
 which  women  ask  X  ?      
+which  women  ask  X  and  are  Mary  ?
+which  women  ask  X  and  are  somebody  ?
+which  women  ask  X  and  are  X  ?
 which  women  ask  X  and  ask  Mary  ?
 which  women  ask  X  and  ask  somebody  ?
 which  women  ask  X  and  ask  X  ?

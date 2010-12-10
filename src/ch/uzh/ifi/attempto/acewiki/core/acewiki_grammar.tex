@@ -54,7 +54,7 @@
 
 \section*{AceWiki Grammar}
 
-\noindent - Tobias Kuhn, 8 December 2010 - \vspace{2mm}
+\noindent - Tobias Kuhn, 10 December 2010 - \vspace{2mm}
 
 \noindent Below, the grammar rules of the AceWiki grammar are shown: \vspace{2mm}
 
@@ -279,8 +279,8 @@
 \scrule{
   \cat{simple\_sentence\_2}{\featv{qu}{1}\featv{whin}{2}\featv{whout}{3}}
 }{
-  \cat{np}{\featc{case}{nom}\featv{id}{4}\featv{pl}{5}\featv{qu}{1}\featc{subj}{--}\featv{whin}{2}\featv{whout}{6}}
-  \cat{vp\_coord\_1}{\featv{pl}{5}\featv{qu}{1}\featv{subj}{4}\featv{whin}{6}\featv{whout}{3}}
+  \cat{np}{\featc{case}{nom}\featv{id}{4}\featv{pl}{5}\featv{plquant}{6}\featv{qu}{1}\featc{subj}{--}\featv{whin}{2}\featv{whout}{7}}
+  \cat{vp\_coord\_1}{\featv{pl}{5}\featv{plquant}{6}\featv{qu}{1}\featv{subj}{4}\featv{whin}{7}\featv{whout}{3}}
 }$
 \vspace{2mm}
 
@@ -294,9 +294,9 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{vp\_coord\_1}{\featv{pl}{1}\featv{qu}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{vp\_coord\_1}{\featv{pl}{1}\featv{plquant}{2}\featv{qu}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
-  \cat{vp\_coord\_2}{\featv{pl}{1}\featv{qu}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{vp\_coord\_2}{\featv{pl}{1}\featv{plquant}{2}\featv{qu}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -305,12 +305,12 @@
 \noindent$
 \ruleid
 \scrule{
-  \cat{vp\_coord\_1}{\featv{pl}{1}\featv{qu}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{vp\_coord\_1}{\featv{pl}{1}\featv{plquant}{2}\featv{qu}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
   \scopeopener{}
-  \cat{vp\_coord\_2}{\featv{pl}{1}\featv{qu}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{6}}
+  \cat{vp\_coord\_2}{\featv{pl}{1}\featv{plquant}{2}\featv{qu}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{7}}
   \term{or}
-  \cat{vp\_coord\_1}{\featv{pl}{1}\featv{qu}{2}\featv{subj}{3}\featv{whin}{6}\featv{whout}{5}}
+  \cat{vp\_coord\_1}{\featv{pl}{1}\featv{plquant}{2}\featv{qu}{3}\featv{subj}{4}\featv{whin}{7}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -319,9 +319,9 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{vp\_coord\_2}{\featv{pl}{1}\featv{qu}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{vp\_coord\_2}{\featv{pl}{1}\featv{plquant}{2}\featv{qu}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
-  \cat{vp}{\featv{pl}{1}\featv{qu}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{vp}{\featv{pl}{1}\featv{plquant}{2}\featv{qu}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -330,11 +330,11 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{vp\_coord\_2}{\featv{pl}{1}\featv{qu}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{5}}
+  \cat{vp\_coord\_2}{\featv{pl}{1}\featv{plquant}{2}\featv{qu}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
-  \cat{vp}{\featv{pl}{1}\featv{qu}{2}\featv{subj}{3}\featv{whin}{4}\featv{whout}{6}}
+  \cat{vp}{\featv{pl}{1}\featv{plquant}{2}\featv{qu}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{7}}
   \term{and}
-  \cat{vp\_coord\_2}{\featv{pl}{1}\featv{qu}{2}\featv{subj}{3}\featv{whin}{6}\featv{whout}{5}}
+  \cat{vp\_coord\_2}{\featv{pl}{1}\featv{plquant}{2}\featv{qu}{3}\featv{subj}{4}\featv{whin}{7}\featv{whout}{6}}
 }$
 \vspace{2mm}
 
@@ -345,10 +345,10 @@
 \noindent$
 \ruleid
 \scrule{
-  \cat{vp}{\featv{exist}{1}\featv{pl}{2}\featv{qu}{3}\featv{rel}{4}\featv{subj}{5}\featv{whin}{6}\featv{whout}{7}}
+  \cat{vp}{\featv{exist}{1}\featv{pl}{2}\featv{plquant}{3}\featv{qu}{4}\featv{rel}{5}\featv{subj}{6}\featv{whin}{7}\featv{whout}{8}}
 }{
-  \cat{aux}{\featv{be}{8}\featv{exist}{1}\featv{pl}{2}}
-  \cat{v}{\featv{be}{8}\featv{exist}{1}\featv{pl}{2}\featv{qu}{3}\featv{rel}{4}\featv{subj}{5}\featc{vform}{inf}\featv{whin}{6}\featv{whout}{7}}
+  \cat{aux}{\featv{be}{9}\featv{exist}{1}\featv{pl}{2}}
+  \cat{v}{\featv{be}{9}\featv{exist}{1}\featv{pl}{2}\featv{plquant}{3}\featv{qu}{4}\featv{rel}{5}\featv{subj}{6}\featc{vform}{inf}\featv{whin}{7}\featv{whout}{8}}
 }$
 \vspace{2mm}
 
@@ -417,7 +417,7 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{v}{\featc{be}{+}\featc{copula}{+}\featv{embv}{1}\featc{pl}{--}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
+  \cat{v}{\featc{be}{+}\featc{copula}{+}\featv{embv}{1}\featc{plquant}{--}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }{
   \cat{np}{\featc{case}{acc}\featc{copula}{+}\featv{embv}{1}\featc{of}{--}\featc{pl}{--}\featv{qu}{2}\featv{rel}{3}\featv{subj}{4}\featv{whin}{5}\featv{whout}{6}}
 }$
@@ -538,7 +538,7 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{np}{\featc{copula}{--}\featc{exist}{+}\featv{id}{1}\featc{of}{--}\featc{pl}{+}\featv{whin}{2}\featv{whout}{2}}
+  \cat{np}{\featc{copula}{--}\featc{exist}{+}\featv{id}{1}\featc{of}{--}\featc{pl}{+}\featc{plquant}{+}\featv{whin}{2}\featv{whout}{2}}
 }{
   \scat{num\_quant}
   \spreterm{number}
@@ -605,7 +605,7 @@
 \noindent$
 \ruleid
 \nrule{
-  \cat{np}{\featc{exist}{+}\featv{id}{1}\featc{of}{--}\featc{pl}{+}\featc{qu}{+}\featc{whin}{--}\featc{whout}{+}}
+  \cat{np}{\featc{exist}{+}\featv{id}{1}\featc{of}{--}\featc{pl}{+}\featc{plquant}{--}\featc{qu}{+}\featc{whin}{--}\featc{whout}{+}}
 }{
   \term{which}
   \pos{1}

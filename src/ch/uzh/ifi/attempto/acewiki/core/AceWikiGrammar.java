@@ -44,7 +44,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		
 		/* === AceWiki Grammar === */
 		
-		/* - Tobias Kuhn, 8 December 2010 - */
+		/* - Tobias Kuhn, 10 December 2010 - */
 		
 		/* Below, the grammar rules of the AceWiki grammar are shown: */
 		
@@ -382,7 +382,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// simple_sentence_2(qu:A, whin:B, whout:C)~>np(id:D, subj:minus, pl:E, case:nom, qu:A, whin:B, whout:F), vp_coord_1(subj:D, pl:E, qu:A, whin:F, whout:C)
+		// simple_sentence_2(qu:A, whin:B, whout:C)~>np(id:D, subj:minus, pl:E, plquant:F, case:nom, qu:A, whin:B, whout:G), vp_coord_1(subj:D, pl:E, plquant:F, qu:A, whin:G, whout:C)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -398,18 +398,20 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "id", 3, featureHash);
 		fm.setFeature("subj", new StringRef("minus"));
 		setFeature(fm, "pl", 4, featureHash);
+		setFeature(fm, "plquant", 5, featureHash);
 		fm.setFeature("case", new StringRef("nom"));
 		setFeature(fm, "qu", 0, featureHash);
 		setFeature(fm, "whin", 1, featureHash);
-		setFeature(fm, "whout", 5, featureHash);
+		setFeature(fm, "whout", 6, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("vp_coord_1");
 		fm = new FeatureMap();
 		setFeature(fm, "subj", 3, featureHash);
 		setFeature(fm, "pl", 4, featureHash);
+		setFeature(fm, "plquant", 5, featureHash);
 		setFeature(fm, "qu", 0, featureHash);
-		setFeature(fm, "whin", 5, featureHash);
+		setFeature(fm, "whin", 6, featureHash);
 		setFeature(fm, "whout", 2, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
@@ -421,7 +423,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		/* Like sentences, verb phrases can be coordinated using "or" ('vp_coord_1') and "and"
 		('vp_coord_2'): */
 		
-		// vp_coord_1(subj:A, pl:B, qu:C, whin:D, whout:E)=>vp_coord_2(subj:A, pl:B, qu:C, whin:D, whout:E)
+		// vp_coord_1(subj:A, pl:B, plquant:C, qu:D, whin:E, whout:F)=>vp_coord_2(subj:A, pl:B, plquant:C, qu:D, whin:E, whout:F)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -429,23 +431,25 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm = new FeatureMap();
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "pl", 1, featureHash);
-		setFeature(fm, "qu", 2, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "plquant", 2, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("vp_coord_2");
 		fm = new FeatureMap();
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "pl", 1, featureHash);
-		setFeature(fm, "qu", 2, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "plquant", 2, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// vp_coord_1(subj:A, pl:B, qu:C, whin:D, whout:E)~> //, vp_coord_2(subj:A, pl:B, qu:C, whin:D, whout:F), [or], vp_coord_1(subj:A, pl:B, qu:C, whin:F, whout:E)
+		// vp_coord_1(subj:A, pl:B, plquant:C, qu:D, whin:E, whout:F)~> //, vp_coord_2(subj:A, pl:B, plquant:C, qu:D, whin:E, whout:G), [or], vp_coord_1(subj:A, pl:B, plquant:C, qu:D, whin:G, whout:F)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -453,9 +457,10 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm = new FeatureMap();
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "pl", 1, featureHash);
-		setFeature(fm, "qu", 2, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "plquant", 2, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("//");
@@ -466,9 +471,10 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm = new FeatureMap();
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "pl", 1, featureHash);
-		setFeature(fm, "qu", 2, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 5, featureHash);
+		setFeature(fm, "plquant", 2, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 6, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		term = new Terminal("or");
@@ -477,14 +483,15 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm = new FeatureMap();
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "pl", 1, featureHash);
-		setFeature(fm, "qu", 2, featureHash);
-		setFeature(fm, "whin", 5, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "plquant", 2, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 6, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, true));
 		
-		// vp_coord_2(subj:A, pl:B, qu:C, whin:D, whout:E)=>vp(subj:A, pl:B, qu:C, whin:D, whout:E)
+		// vp_coord_2(subj:A, pl:B, plquant:C, qu:D, whin:E, whout:F)=>vp(subj:A, pl:B, plquant:C, qu:D, whin:E, whout:F)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -492,23 +499,25 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm = new FeatureMap();
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "pl", 1, featureHash);
-		setFeature(fm, "qu", 2, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "plquant", 2, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("vp");
 		fm = new FeatureMap();
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "pl", 1, featureHash);
-		setFeature(fm, "qu", 2, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "plquant", 2, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// vp_coord_2(subj:A, pl:B, qu:C, whin:D, whout:E)=>vp(subj:A, pl:B, qu:C, whin:D, whout:F), [and], vp_coord_2(subj:A, pl:B, qu:C, whin:F, whout:E)
+		// vp_coord_2(subj:A, pl:B, plquant:C, qu:D, whin:E, whout:F)=>vp(subj:A, pl:B, plquant:C, qu:D, whin:E, whout:G), [and], vp_coord_2(subj:A, pl:B, plquant:C, qu:D, whin:G, whout:F)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -516,18 +525,20 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm = new FeatureMap();
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "pl", 1, featureHash);
-		setFeature(fm, "qu", 2, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "plquant", 2, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("vp");
 		fm = new FeatureMap();
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "pl", 1, featureHash);
-		setFeature(fm, "qu", 2, featureHash);
-		setFeature(fm, "whin", 3, featureHash);
-		setFeature(fm, "whout", 5, featureHash);
+		setFeature(fm, "plquant", 2, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 4, featureHash);
+		setFeature(fm, "whout", 6, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		term = new Terminal("and");
@@ -536,16 +547,17 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm = new FeatureMap();
 		setFeature(fm, "subj", 0, featureHash);
 		setFeature(fm, "pl", 1, featureHash);
-		setFeature(fm, "qu", 2, featureHash);
-		setFeature(fm, "whin", 5, featureHash);
-		setFeature(fm, "whout", 4, featureHash);
+		setFeature(fm, "plquant", 2, featureHash);
+		setFeature(fm, "qu", 3, featureHash);
+		setFeature(fm, "whin", 6, featureHash);
+		setFeature(fm, "whout", 5, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
 		/* Uncoordinated verb phrases represented by 'vp' can use an auxiliary verb: */
 		
-		// vp(subj:A, exist:B, rel:C, pl:D, qu:E, whin:F, whout:G)~>aux(be:H, exist:B, pl:D), v(subj:A, be:H, exist:B, pl:D, rel:C, vform:inf, qu:E, whin:F, whout:G)
+		// vp(subj:A, exist:B, rel:C, pl:D, plquant:E, qu:F, whin:G, whout:H)~>aux(be:I, exist:B, pl:D), v(subj:A, be:I, exist:B, pl:D, plquant:E, rel:C, vform:inf, qu:F, whin:G, whout:H)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -555,14 +567,15 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "exist", 1, featureHash);
 		setFeature(fm, "rel", 2, featureHash);
 		setFeature(fm, "pl", 3, featureHash);
-		setFeature(fm, "qu", 4, featureHash);
-		setFeature(fm, "whin", 5, featureHash);
-		setFeature(fm, "whout", 6, featureHash);
+		setFeature(fm, "plquant", 4, featureHash);
+		setFeature(fm, "qu", 5, featureHash);
+		setFeature(fm, "whin", 6, featureHash);
+		setFeature(fm, "whout", 7, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		nonterm = new Nonterminal("aux");
 		fm = new FeatureMap();
-		setFeature(fm, "be", 7, featureHash);
+		setFeature(fm, "be", 8, featureHash);
 		setFeature(fm, "exist", 1, featureHash);
 		setFeature(fm, "pl", 3, featureHash);
 		nonterm.setFeatureMap(fm);
@@ -570,14 +583,15 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		nonterm = new Nonterminal("v");
 		fm = new FeatureMap();
 		setFeature(fm, "subj", 0, featureHash);
-		setFeature(fm, "be", 7, featureHash);
+		setFeature(fm, "be", 8, featureHash);
 		setFeature(fm, "exist", 1, featureHash);
 		setFeature(fm, "pl", 3, featureHash);
+		setFeature(fm, "plquant", 4, featureHash);
 		setFeature(fm, "rel", 2, featureHash);
 		fm.setFeature("vform", new StringRef("inf"));
-		setFeature(fm, "qu", 4, featureHash);
-		setFeature(fm, "whin", 5, featureHash);
-		setFeature(fm, "whout", 6, featureHash);
+		setFeature(fm, "qu", 5, featureHash);
+		setFeature(fm, "whin", 6, featureHash);
+		setFeature(fm, "whout", 7, featureHash);
 		nonterm.setFeatureMap(fm);
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, true));
@@ -751,7 +765,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// v(subj:A, be:plus, rel:B, pl:minus, embv:C, copula:plus, qu:D, whin:E, whout:F)=>np(subj:A, of:minus, rel:B, pl:minus, copula:plus, embv:C, case:acc, qu:D, whin:E, whout:F)
+		// v(subj:A, be:plus, rel:B, plquant:minus, embv:C, copula:plus, qu:D, whin:E, whout:F)=>np(subj:A, of:minus, rel:B, pl:minus, copula:plus, embv:C, case:acc, qu:D, whin:E, whout:F)
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -760,7 +774,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		setFeature(fm, "subj", 0, featureHash);
 		fm.setFeature("be", new StringRef("plus"));
 		setFeature(fm, "rel", 1, featureHash);
-		fm.setFeature("pl", new StringRef("minus"));
+		fm.setFeature("plquant", new StringRef("minus"));
 		setFeature(fm, "embv", 2, featureHash);
 		fm.setFeature("copula", new StringRef("plus"));
 		setFeature(fm, "qu", 3, featureHash);
@@ -1128,7 +1142,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// np(id:A, exist:plus, of:minus, pl:plus, copula:minus, whin:B, whout:B)=>num_quant, $number, #A, $nounpl
+		// np(id:A, exist:plus, of:minus, pl:plus, plquant:plus, copula:minus, whin:B, whout:B)=>num_quant, $number, #A, $nounpl
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -1138,6 +1152,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("exist", new StringRef("plus"));
 		fm.setFeature("of", new StringRef("minus"));
 		fm.setFeature("pl", new StringRef("plus"));
+		fm.setFeature("plquant", new StringRef("plus"));
 		fm.setFeature("copula", new StringRef("minus"));
 		setFeature(fm, "whin", 1, featureHash);
 		setFeature(fm, "whout", 1, featureHash);
@@ -1305,7 +1320,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		l.add(nonterm);
 		addGrammarRule(new GrammarRule(ann, l, false));
 		
-		// np(id:A, exist:plus, of:minus, pl:plus, qu:plus, whin:minus, whout:plus)=>[which], #A, $nounpl
+		// np(id:A, exist:plus, of:minus, pl:plus, plquant:minus, qu:plus, whin:minus, whout:plus)=>[which], #A, $nounpl
 		l.clear();
 		featureHash.clear();
 		ann = new Annotation();
@@ -1315,6 +1330,7 @@ public class AceWikiGrammar extends ch.uzh.ifi.attempto.chartparser.Grammar {
 		fm.setFeature("exist", new StringRef("plus"));
 		fm.setFeature("of", new StringRef("minus"));
 		fm.setFeature("pl", new StringRef("plus"));
+		fm.setFeature("plquant", new StringRef("minus"));
 		fm.setFeature("qu", new StringRef("plus"));
 		fm.setFeature("whin", new StringRef("minus"));
 		fm.setFeature("whout", new StringRef("plus"));
