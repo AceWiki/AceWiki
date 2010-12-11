@@ -4,6 +4,29 @@ AceWiki Change Log
 This file lists the changes between the different AceWiki versions. See the Bazaar log for more
 details.
 
+Version 0.4.4
+
+- The individual menu blocks of the predictive editor can now be enlarged for better usability in
+  the case of long words.
+- Many bugs have been fixed:
+  - DLSafeRule elements in the new OWL representation caused errors.
+  - Creating new words in AceWiki was possible without login.
+  - Line wrapping for article titles did not work.
+  - Wiki links in comments did not work as expected.
+  - Blanks were displayed as underscores in the title of sentence pages.
+  - The predictive editor in AceWiki failed to detect multi-word tokens in a case-insensitive way.
+  - There were a number of problems of the AceWiki grammar regarding questions:
+    - Some sentences with question words could be created that cannot be completed.
+    - Questions with more than one question word were allowed, which cannot be answered.
+    - Questions containing "every" were allowed, which cannot be answered either.
+    - Questions like "which areas are a country?" work now.
+  - Invalid expressions like "at least 1 countries" were possible because of a bug in the lexicon
+    handlers.
+  - Editing sentences on the start page caused an error.
+  - Deleted pages are now removed from the browsing history.
+- Some more minor refactoring and code improvement.
+
+
 Version 0.4.3
 
 - There are no word tabs anymore in AceWiki. The word information is accessed by clicking on the

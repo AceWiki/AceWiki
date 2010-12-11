@@ -203,7 +203,7 @@ class LexiconHandler implements DynamicLexicon {
 			p = new Preterminal("ref");
 			p.setFeature("text", word);
 			lexRules.add(new LexicalRule(p, word));
-		} else if (word.matches("[0-9]+")) {
+		} else if (word.matches("[1-9][0-9]+|[2-9]")) {
 			lexRules.add(new LexicalRule("num", word));
 		} else {
 			for (Word w : getWordsByText(word)) {

@@ -66,7 +66,7 @@ public class LexiconManager implements DynamicLexicon {
 		if (word.matches("[XYZ][0-9]*")) {
 			lexRules.add(new LexicalRule("variable", word));
 			lexRules.add(new LexicalRule("reference", word));
-		} else if (word.matches("[0-9]+")) {
+		} else if (word.matches("[1-9][0-9]+|[2-9]")) {
 			lexRules.add(new LexicalRule("number", word));
 		} else {
 			OntologyElement oe = ontology.getElement(word);
