@@ -118,16 +118,47 @@ public class CommentRow extends Column implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Edit...")) {
 			wiki.log("page", "dropdown: edit comment: " + comment.getText());
-			wiki.showWindow(CommentEditorHandler.generateEditWindow(comment, (ArticlePage) hostPage));
+			if (!wiki.isEditable()) {
+				wiki.showLoginWindow();
+			} else {
+				wiki.showWindow(CommentEditorHandler.generateEditWindow(
+						comment,
+						(ArticlePage) hostPage
+					));
+			}
 		} else if (e.getActionCommand().equals("Add Sentence...")) {
 			wiki.log("page", "dropdown: add sentence");
-			wiki.showWindow(SentenceEditorHandler.generateCreationWindow(comment, (ArticlePage) hostPage));
+			if (!wiki.isEditable()) {
+				wiki.showLoginWindow();
+			} else {
+				wiki.showWindow(SentenceEditorHandler.generateCreationWindow(
+						comment,
+						(ArticlePage) hostPage
+					));
+			}
 		} else if (e.getActionCommand().equals("Add Comment...")) {
 			wiki.log("page", "dropdown: add comment");
-			wiki.showWindow(CommentEditorHandler.generateCreationWindow(comment, (ArticlePage) hostPage));
+			if (!wiki.isEditable()) {
+				wiki.showLoginWindow();
+			} else {
+				wiki.showWindow(CommentEditorHandler.generateCreationWindow(
+						comment,
+						(ArticlePage) hostPage
+					));
+			}
 		} else if (e.getActionCommand().equals("Delete")) {
 			wiki.log("page", "dropdown: delete sentence: " + comment.getText());
-			wiki.showWindow(new MessageWindow("Delete", "Do you really want to delete this comment?", null, this, "Yes", "No"));
+			if (!wiki.isEditable()) {
+				wiki.showLoginWindow();
+			} else {
+				wiki.showWindow(new MessageWindow(
+						"Delete",
+						"Do you really want to delete this comment?",
+						null,
+						this,
+						"Yes", "No"
+					));
+			}
 		} else if (e.getSource() instanceof MessageWindow && e.getActionCommand().equals("Yes")) {
 			wiki.log("page", "dropdown: delete confirmed: " + comment.getText());
 			comment.getOwner().remove(comment);
