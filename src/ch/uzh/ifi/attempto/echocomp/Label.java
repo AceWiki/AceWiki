@@ -14,16 +14,16 @@
 
 package ch.uzh.ifi.attempto.echocomp;
 
-import nextapp.echo2.app.Extent;
-import nextapp.echo2.app.Font;
-import nextapp.echo2.app.ImageReference;
+import nextapp.echo.app.Extent;
+import nextapp.echo.app.Font;
+import nextapp.echo.app.ImageReference;
 
 /**
  * This is a convenience class for easy creation of labels.
  * 
  * @author Tobias Kuhn
  */
-public class Label extends nextapp.echo2.app.Label {
+public class Label extends nextapp.echo.app.Label {
 	
 	private static final long serialVersionUID = -1013262375038053365L;
 

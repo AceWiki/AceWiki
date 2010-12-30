@@ -17,8 +17,8 @@ package ch.uzh.ifi.attempto.acewiki.gui.editor;
 import java.util.ArrayList;
 import java.util.List;
 
-import nextapp.echo2.app.event.ActionEvent;
-import nextapp.echo2.app.event.ActionListener;
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;

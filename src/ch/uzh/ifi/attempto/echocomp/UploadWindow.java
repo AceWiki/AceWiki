@@ -15,23 +15,23 @@
 package ch.uzh.ifi.attempto.echocomp;
 
 import java.io.IOException;
-import java.util.TooManyListenersException;
 
-import nextapp.echo2.app.Alignment;
-import nextapp.echo2.app.Column;
-import nextapp.echo2.app.Extent;
-import nextapp.echo2.app.Font;
-import nextapp.echo2.app.Grid;
-import nextapp.echo2.app.Insets;
-import nextapp.echo2.app.Row;
-import nextapp.echo2.app.event.ActionEvent;
-import nextapp.echo2.app.event.ActionListener;
-import nextapp.echo2.app.event.WindowPaneEvent;
-import nextapp.echo2.app.event.WindowPaneListener;
-import nextapp.echo2.app.filetransfer.UploadEvent;
-import nextapp.echo2.app.filetransfer.UploadListener;
-import nextapp.echo2.app.filetransfer.UploadSelect;
-import nextapp.echo2.app.layout.GridLayoutData;
+import nextapp.echo.app.Alignment;
+import nextapp.echo.app.Column;
+import nextapp.echo.app.Extent;
+import nextapp.echo.app.Font;
+import nextapp.echo.app.Grid;
+import nextapp.echo.app.Insets;
+import nextapp.echo.app.Row;
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
+import nextapp.echo.app.event.WindowPaneEvent;
+import nextapp.echo.app.event.WindowPaneListener;
+import nextapp.echo.app.layout.GridLayoutData;
+import nextapp.echo.filetransfer.app.UploadSelect;
+import nextapp.echo.filetransfer.app.event.UploadEvent;
+import nextapp.echo.filetransfer.app.event.UploadListener;
+import nextapp.echo.filetransfer.model.Upload;
 
 /**
  * This is an upload window that allows the user to choose a local file to be uploaded to the server.
@@ -96,15 +96,11 @@ public class UploadWindow extends WindowPane implements ActionListener, UploadLi
 		}
 
 		UploadSelect uploadSelect = new UploadSelect();
-		try {
-			uploadSelect.addUploadListener(this);
-			uploadSelect.setSendButtonDisplayed(false);
-			uploadSelect.setHeight(new Extent(40));
-			uploadSelect.setWidth(new Extent(300));
-			messageColumn.add(uploadSelect);
-		} catch (TooManyListenersException ex) {
-			ex.printStackTrace();
-		}
+		uploadSelect.addUploadListener(this);
+		//uploadSelect.setSendButtonDisplayed(false);
+		//uploadSelect.setHeight(new Extent(40));
+		//uploadSelect.setWidth(new Extent(300));
+		messageColumn.add(uploadSelect);
 
 		fileLabel = new Label();
 		messageColumn.add(fileLabel);
@@ -166,26 +162,25 @@ public class UploadWindow extends WindowPane implements ActionListener, UploadLi
 		}
 	}
 
-	public void fileUpload(UploadEvent e) {
-		if (maxFileSize > 0 && e.getSize() > maxFileSize) {
+	public void uploadComplete(UploadEvent e) {
+		Upload upload = e.getUpload();
+		if (maxFileSize > 0 && upload.getSize() > maxFileSize) {
 			fileContent = null;
-			fileLabel.setText("The chosen file is too large (" + e.getSize() + " Bytes).");
+			fileLabel.setText("The chosen file is too large (" + upload.getSize() + " Bytes).");
 			openButton.setEnabled(false);
 			return;
 		}
 		try {
-			byte[] b = new byte[e.getSize()];
-			e.getInputStream().read(b, 0, e.getSize());
+			byte[] b = new byte[(int) upload.getSize()];
+			upload.getInputStream().read(b, 0, (int) upload.getSize());
 			fileContent = new String(b);
-			String fileName = e.getFileName();
+			String fileName = upload.getFileName();
 			if (fileName.length() > 15) fileName = fileName.substring(0, 15) + "...";
-			fileLabel.setText("Chosen file: " + fileName + " (" + e.getSize() + " Bytes)");
+			fileLabel.setText("Chosen file: " + fileName + " (" + upload.getSize() + " Bytes)");
 			openButton.setEnabled(true);
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
 	}
-
-	public void invalidFileUpload(UploadEvent uploadEvent) {}
 
 }

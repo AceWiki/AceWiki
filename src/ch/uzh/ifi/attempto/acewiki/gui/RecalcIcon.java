@@ -14,7 +14,7 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui;
 
-import nextapp.echo2.app.ResourceImageReference;
+import nextapp.echo.app.ResourceImageReference;
 import ch.uzh.ifi.attempto.echocomp.Label;
 
 /**

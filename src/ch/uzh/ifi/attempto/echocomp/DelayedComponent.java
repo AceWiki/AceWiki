@@ -17,10 +17,10 @@ package ch.uzh.ifi.attempto.echocomp;
 import java.util.HashMap;
 import java.util.Map;
 
-import nextapp.echo2.app.ApplicationInstance;
-import nextapp.echo2.app.Column;
-import nextapp.echo2.app.Component;
-import nextapp.echo2.app.TaskQueueHandle;
+import nextapp.echo.app.ApplicationInstance;
+import nextapp.echo.app.Column;
+import nextapp.echo.app.Component;
+import nextapp.echo.app.TaskQueueHandle;
 
 /**
  * This abstract class can be used to create components that are initialized asynchronously in the background.

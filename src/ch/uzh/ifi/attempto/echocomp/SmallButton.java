@@ -14,13 +14,13 @@
 
 package ch.uzh.ifi.attempto.echocomp;
 
-import nextapp.echo2.app.Alignment;
-import nextapp.echo2.app.Button;
-import nextapp.echo2.app.Color;
-import nextapp.echo2.app.Extent;
-import nextapp.echo2.app.Font;
-import nextapp.echo2.app.Insets;
-import nextapp.echo2.app.event.ActionListener;
+import nextapp.echo.app.Alignment;
+import nextapp.echo.app.Button;
+import nextapp.echo.app.Color;
+import nextapp.echo.app.Extent;
+import nextapp.echo.app.Font;
+import nextapp.echo.app.Insets;
+import nextapp.echo.app.event.ActionListener;
 
 /**
  * This class creates borderless small buttons. 

@@ -14,11 +14,11 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui;
 
-import nextapp.echo2.app.Color;
-import nextapp.echo2.app.Column;
-import nextapp.echo2.app.Row;
-import nextapp.echo2.app.event.ActionEvent;
-import nextapp.echo2.app.event.ActionListener;
+import nextapp.echo.app.Color;
+import nextapp.echo.app.Column;
+import nextapp.echo.app.Row;
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Individual;
@@ -51,7 +51,7 @@ public class TextRow extends Column implements ActionListener {
 	private WikiPage hostPage;
 	
 	private Row sentenceRow = new Row();
-	private DropDownMenu dropDown;
+	private StatementMenu dropDown;
 	private RecalcIcon recalcIcon;
 	
 	/**
@@ -71,13 +71,13 @@ public class TextRow extends Column implements ActionListener {
 	
 	private void update() {
 		if (sentence.isReadOnly()) {
-			dropDown = new DropDownMenu(DropDownMenu.INFERRED_TYPE, this);
+			dropDown = new StatementMenu(StatementMenu.INFERRED_TYPE, this);
 		} else if (sentence instanceof Question) {
-			dropDown = new DropDownMenu(DropDownMenu.QUESTION_TYPE, this);
+			dropDown = new StatementMenu(StatementMenu.QUESTION_TYPE, this);
 		} else if (sentence.isReasonerParticipant()) {
-			dropDown = new DropDownMenu(DropDownMenu.REASONING_TYPE, this);
+			dropDown = new StatementMenu(StatementMenu.REASONING_TYPE, this);
 		} else {
-			dropDown = new DropDownMenu(DropDownMenu.NOREASONING_TYPE, this);
+			dropDown = new StatementMenu(StatementMenu.NOREASONING_TYPE, this);
 		}
 
 		// Experimental "possible answers" feature:
@@ -159,7 +159,6 @@ public class TextRow extends Column implements ActionListener {
 		removeAll();
 		sentenceRow.removeAll();
 		sentenceRow.add(dropDown);
-		sentenceRow.add(new HSpace(5));
 		sentenceRow.add(r);
 		sentenceRow.add(new HSpace(5));
 		sentenceRow.add(recalcIcon);

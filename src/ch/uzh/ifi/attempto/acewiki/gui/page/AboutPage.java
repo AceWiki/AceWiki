@@ -14,9 +14,9 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui.page;
 
-import nextapp.echo2.app.Insets;
-import nextapp.echo2.app.event.ActionEvent;
-import nextapp.echo2.app.event.ActionListener;
+import nextapp.echo.app.Insets;
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Ontology;
 import ch.uzh.ifi.attempto.acewiki.gui.NameValueTable;

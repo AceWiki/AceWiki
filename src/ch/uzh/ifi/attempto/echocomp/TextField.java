@@ -14,18 +14,18 @@
 
 package ch.uzh.ifi.attempto.echocomp;
 
-import nextapp.echo2.app.Border;
-import nextapp.echo2.app.Color;
-import nextapp.echo2.app.Extent;
-import nextapp.echo2.app.Font;
-import nextapp.echo2.app.event.ActionListener;
+import nextapp.echo.app.Border;
+import nextapp.echo.app.Color;
+import nextapp.echo.app.Extent;
+import nextapp.echo.app.Font;
+import nextapp.echo.app.event.ActionListener;
 
 /**
  * This is a convenience class for easy creation of text fields.
  * 
  * @author Tobias Kuhn
  */
-public class TextField extends nextapp.echo2.app.TextField {
+public class TextField extends nextapp.echo.app.TextField {
 	
 	private static final long serialVersionUID = 8965038167453278878L;
 

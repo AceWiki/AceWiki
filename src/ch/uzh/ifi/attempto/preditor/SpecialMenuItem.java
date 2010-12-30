@@ -14,9 +14,9 @@
 
 package ch.uzh.ifi.attempto.preditor;
 
-import nextapp.echo2.app.Extent;
-import nextapp.echo2.app.Font;
-import nextapp.echo2.app.event.ActionListener;
+import nextapp.echo.app.Extent;
+import nextapp.echo.app.Font;
+import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.echocomp.Style;
 
 /**

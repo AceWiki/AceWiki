@@ -18,12 +18,10 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
-import nextapp.echo2.app.ApplicationInstance;
-import nextapp.echo2.app.Window;
-import nextapp.echo2.webcontainer.ContainerContext;
-import nextapp.echo2.webcontainer.WebContainerServlet;
+import nextapp.echo.app.ApplicationInstance;
+import nextapp.echo.app.Window;
+import nextapp.echo.webcontainer.WebContainerServlet;
 import ch.uzh.ifi.attempto.ape.APELocal;
-import ch.uzh.ifi.attempto.echocomp.ServerDelayMessage;
 import ch.uzh.ifi.attempto.echocomp.Style;
 
 /**
@@ -49,17 +47,12 @@ public class ACEEditorServlet extends WebContainerServlet {
 
 			public Window init() {
 				setStyleSheet(Style.styleSheet);
-
+				
 				if (!APELocal.isInitialized()) {
 					String apeCommand = getServletContext().getInitParameter("apecommand");
 					if (apeCommand == null) apeCommand = "ape.exe";
 					APELocal.init(apeCommand);
 				}
-				
-				ContainerContext cc = (ContainerContext) ApplicationInstance.getActive()
-					.getContextProperty(ContainerContext.CONTEXT_PROPERTY_NAME);
-				cc.setServerDelayMessage(new ServerDelayMessage("Please wait...", "../wait.gif"));
-				// (The wait icon should be copied at the right place on the server.)
 				
 				return new ACEEditor(getInitParameters());
 			}

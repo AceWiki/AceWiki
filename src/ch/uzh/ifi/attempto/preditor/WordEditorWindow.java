@@ -14,21 +14,18 @@
 
 package ch.uzh.ifi.attempto.preditor;
 
-import java.util.ArrayList;
-
-import nextapp.echo2.app.Alignment;
-import nextapp.echo2.app.Border;
-import nextapp.echo2.app.Color;
-import nextapp.echo2.app.Extent;
-import nextapp.echo2.app.Font;
-import nextapp.echo2.app.Insets;
-import nextapp.echo2.app.event.ChangeEvent;
-import nextapp.echo2.app.event.ChangeListener;
+import nextapp.echo.app.Border;
+import nextapp.echo.app.Color;
+import nextapp.echo.app.ContentPane;
+import nextapp.echo.app.Extent;
+import nextapp.echo.app.Font;
+import nextapp.echo.app.Insets;
+import nextapp.echo.extras.app.TabPane;
+import nextapp.echo.extras.app.event.TabSelectionEvent;
+import nextapp.echo.extras.app.event.TabSelectionListener;
+import nextapp.echo.extras.app.layout.TabPaneLayoutData;
 import ch.uzh.ifi.attempto.echocomp.Style;
 import ch.uzh.ifi.attempto.echocomp.WindowPane;
-import echopointng.ButtonEx;
-import echopointng.TabbedPane;
-import echopointng.tabbedpane.DefaultTabModel;
 
 /**
  * This class represents a word editor that can be used to create or modify words. It can contain
@@ -36,13 +33,12 @@ import echopointng.tabbedpane.DefaultTabModel;
  * 
  * @author Tobias Kuhn
  */
-public class WordEditorWindow extends WindowPane implements ChangeListener {
+public class WordEditorWindow extends WindowPane implements TabSelectionListener {
 	
 	private static final long serialVersionUID = 6805275173727379038L;
 	
 	private String type;
-	private TabbedPane tabbedPane = new TabbedPane();
-	private ArrayList<WordEditorForm> tabs = new ArrayList<WordEditorForm>();
+	private TabPane tabPane = new TabPane();
 	
 	/**
 	 * Creates a new word editor window.
@@ -69,13 +65,23 @@ public class WordEditorWindow extends WindowPane implements ChangeListener {
 		setTitleBackground(Style.windowTitleBackground);
 		setStyleName("Default");
 		
-		tabbedPane.setOutsets(new Insets(10));
-		tabbedPane.setTabPlacement(Alignment.TOP);
-		tabbedPane.setBorder(new Border(1, Color.BLACK, Border.STYLE_INSET));
-		tabbedPane.setHeight(new Extent(height-103));
-		tabbedPane.getSelectionModel().addChangeListener(this);
+		tabPane.setInsets(new Insets(10, 12, 10, 0));
+		tabPane.setTabPosition(TabPane.TAB_POSITION_TOP);
+		tabPane.setBorder(new Border(0, Color.BLACK, Border.STYLE_SOLID));
+		tabPane.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
+		tabPane.setTabActiveForeground(Color.BLACK);
+		tabPane.setTabInactiveBackground(Style.lightDisabled);
+		tabPane.setTabRolloverEnabled(true);
+		tabPane.setTabRolloverForeground(Color.BLACK);
+		tabPane.setTabRolloverBackground(Style.lightBackground);
+		//tabPane.setTabHeight(new Extent(height-103));
+		tabPane.addTabSelectionListener(this);
 		
-		add(tabbedPane);
+		ContentPane cPane = new ContentPane();
+		cPane.setInsets(new Insets(10, 0));
+		cPane.add(tabPane);
+		
+		add(cPane);
 	}
 	
 	/**
@@ -123,13 +129,13 @@ public class WordEditorWindow extends WindowPane implements ChangeListener {
 	 * @param form The form to be shown in a new tab.
 	 */
 	public void addTab(WordEditorForm form) {
-		DefaultTabModel tabModel = (DefaultTabModel) tabbedPane.getModel();
-		ButtonEx tab = new ButtonEx(form.getTitle(), null);
-		tab.setStyle(DefaultTabModel.DEFAULT_TOP_ALIGNED_STYLE);
-		tab.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
-		tab.setInsets(new Insets(5, 2));
-		tabModel.addTab(tab, form);
-		tabs.add(form);
+		TabPaneLayoutData layout = new TabPaneLayoutData();
+		layout.setTitle(form.getTitle());
+		form.setLayoutData(layout);
+		tabPane.add(form);
+		if (tabPane.getComponentCount() == 1) {
+			tabPane.setActiveTabIndex(0);
+		}
 		doFocus();
 	}
 	
@@ -139,17 +145,14 @@ public class WordEditorWindow extends WindowPane implements ChangeListener {
 	 * @return The current tab.
 	 */
 	public WordEditorForm getCurrentTab() {
-		return tabs.get(tabbedPane.getSelectedIndex());
+		return (WordEditorForm) tabPane.getComponent(tabPane.getActiveTabIndex());
 	}
 	
 	private void doFocus() {
-		int i = tabbedPane.getSelectedIndex();
-		if (i < tabs.size()) {
-			tabs.get(i).doFocus();
-		}
+		getCurrentTab().doFocus();
 	}
 	
-	public void stateChanged(ChangeEvent e) {
+	public void tabSelected(TabSelectionEvent e) {
 		doFocus();
 	}
 	

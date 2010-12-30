@@ -14,13 +14,13 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui.page;
 
-import nextapp.echo2.app.Column;
-import nextapp.echo2.app.Extent;
-import nextapp.echo2.app.Font;
-import nextapp.echo2.app.Insets;
-import nextapp.echo2.app.Row;
-import nextapp.echo2.app.event.ActionEvent;
-import nextapp.echo2.app.event.ActionListener;
+import nextapp.echo.app.Column;
+import nextapp.echo.app.Extent;
+import nextapp.echo.app.Font;
+import nextapp.echo.app.Insets;
+import nextapp.echo.app.Row;
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Comment;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Concept;
@@ -31,7 +31,7 @@ import ch.uzh.ifi.attempto.acewiki.core.ontology.Role;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Statement;
 import ch.uzh.ifi.attempto.acewiki.gui.CommentRow;
-import ch.uzh.ifi.attempto.acewiki.gui.DropDownMenu;
+import ch.uzh.ifi.attempto.acewiki.gui.StatementMenu;
 import ch.uzh.ifi.attempto.acewiki.gui.TextRow;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.acewiki.gui.editor.CommentEditorHandler;
@@ -50,7 +50,7 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 	private static final long serialVersionUID = -297830105047433502L;
 	
 	private Column textColumn = new Column();
-	private DropDownMenu dropDown = new DropDownMenu(DropDownMenu.EMPTY_TYPE, this);
+	private StatementMenu dropDown = new StatementMenu(StatementMenu.EMPTY_TYPE, this);
 	private Title title;
 	
 	/**

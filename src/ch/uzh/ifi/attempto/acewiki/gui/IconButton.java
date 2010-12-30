@@ -1,9 +1,9 @@
 package ch.uzh.ifi.attempto.acewiki.gui;
 
-import nextapp.echo2.app.Button;
-import nextapp.echo2.app.Extent;
-import nextapp.echo2.app.ResourceImageReference;
-import nextapp.echo2.app.event.ActionListener;
+import nextapp.echo.app.Button;
+import nextapp.echo.app.Extent;
+import nextapp.echo.app.ResourceImageReference;
+import nextapp.echo.app.event.ActionListener;
 
 /**
  * This class represents a button consisting of an icon, for example forward and backward arrows to

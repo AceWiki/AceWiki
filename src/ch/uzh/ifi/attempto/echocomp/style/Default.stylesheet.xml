@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ss>
+ <s n="Default" t="nextapp.echo.app.WindowPane">
+   <p n="ieAlphaRenderBorder" t="b">true</p>
+   <p n="titleForeground" t="Color">#ffffff</p>
+   <p n="border" t="FillImageBorder">
+    <fib bi="17px 23px 23px 17px" ci="8px 14px 14px 8px">
+     <fi t="r">
+      <i r="/ch/uzh/ifi/attempto/echocomp/style/BorderTopLeft.png"/>
+     </fi>
+     <fi t="r">
+      <i r="/ch/uzh/ifi/attempto/echocomp/style/BorderTop.png"/>
+     </fi>
+     <fi t="r">
+      <i r="/ch/uzh/ifi/attempto/echocomp/style/BorderTopRight.png"/>
+     </fi>
+     <fi t="r">
+      <i r="/ch/uzh/ifi/attempto/echocomp/style/BorderLeft.png"/>
+     </fi>
+     <fi t="r">
+      <i r="/ch/uzh/ifi/attempto/echocomp/style/BorderRight.png"/>
+     </fi>
+     <fi t="r">
+      <i r="/ch/uzh/ifi/attempto/echocomp/style/BorderBottomLeft.png"/>
+     </fi>
+     <fi t="r">
+      <i r="/ch/uzh/ifi/attempto/echocomp/style/BorderBottom.png"/>
+     </fi>
+     <fi t="r">
+      <i r="/ch/uzh/ifi/attempto/echocomp/style/BorderBottomRight.png"/>
+     </fi>
+    </fib>
+   </p>
+ </s>
+</ss>
+ 

@@ -19,14 +19,14 @@ import java.awt.Font;
 import ch.uzh.ifi.attempto.echocomp.SmallButton;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 
-import nextapp.echo2.app.Border;
-import nextapp.echo2.app.Color;
-import nextapp.echo2.app.Column;
-import nextapp.echo2.app.Extent;
-import nextapp.echo2.app.Insets;
-import nextapp.echo2.app.Row;
-import nextapp.echo2.app.event.ActionEvent;
-import nextapp.echo2.app.event.ActionListener;
+import nextapp.echo.app.Border;
+import nextapp.echo.app.Color;
+import nextapp.echo.app.Column;
+import nextapp.echo.app.Extent;
+import nextapp.echo.app.Insets;
+import nextapp.echo.app.Row;
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
 
 /**
  * This class represents an index bar that shows either letters from A to Z or numbers. This

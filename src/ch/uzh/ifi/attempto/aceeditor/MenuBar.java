@@ -14,26 +14,22 @@
 
 package ch.uzh.ifi.attempto.aceeditor;
 
-import nextapp.echo2.app.Border;
-import nextapp.echo2.app.Color;
-import nextapp.echo2.app.ContentPane;
-import nextapp.echo2.extras.app.MenuBarPane;
-import nextapp.echo2.extras.app.menu.DefaultMenuModel;
-import nextapp.echo2.extras.app.menu.DefaultMenuStateModel;
-import nextapp.echo2.extras.app.menu.DefaultOptionModel;
-import nextapp.echo2.extras.app.menu.DefaultToggleOptionModel;
-import nextapp.echo2.extras.app.menu.MenuModel;
-import nextapp.echo2.extras.app.menu.MenuStateModel;
-import nextapp.echo2.extras.app.menu.SeparatorModel;
+import nextapp.echo.app.Color;
+import nextapp.echo.extras.app.MenuBarPane;
+import nextapp.echo.extras.app.menu.DefaultMenuModel;
+import nextapp.echo.extras.app.menu.DefaultMenuStateModel;
+import nextapp.echo.extras.app.menu.DefaultOptionModel;
+import nextapp.echo.extras.app.menu.DefaultToggleOptionModel;
+import nextapp.echo.extras.app.menu.MenuModel;
+import nextapp.echo.extras.app.menu.MenuStateModel;
+import nextapp.echo.extras.app.menu.SeparatorModel;
 
 /**
  * This class represent the menu bar for the ACE Editor.
  * 
  * @author Tobias Kuhn
  */
-class MenuBar extends ContentPane {
-
-	private static final long serialVersionUID = 1820365726680242835L;
+class MenuBar {
 
 	private MenuBarPane menuBarPane;
 
@@ -48,7 +44,6 @@ class MenuBar extends ContentPane {
 		menuBarPane.setBackground(new Color(230, 230, 230));
 		menuBarPane.setForeground(Color.BLACK);
 		menuBarPane.setSelectionBackground(new Color(100, 100, 200));
-		menuBarPane.setBorder(new Border(1, Color.BLACK, Border.STYLE_SOLID));
 		DefaultMenuModel menuBar = new DefaultMenuModel();
 
 		DefaultMenuModel firstMenu = new DefaultMenuModel("ACE Editor", "ACE Editor");
@@ -98,8 +93,10 @@ class MenuBar extends ContentPane {
 		menuBar.addItem(viewMenu);
 
 		menuBarPane.setModel(menuBar);
-
-		add(menuBarPane);
+	}
+	
+	public MenuBarPane getContent() {
+		return menuBarPane;
 	}
 
 	public boolean isSelected(String id) {

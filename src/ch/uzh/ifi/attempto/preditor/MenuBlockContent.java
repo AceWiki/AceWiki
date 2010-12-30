@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import nextapp.echo2.app.event.ActionEvent;
-import nextapp.echo2.app.event.ActionListener;
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
 
 /**
  * This class represents the content of a menu block. The content consists of menu items.

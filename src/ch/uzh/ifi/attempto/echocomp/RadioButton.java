@@ -14,18 +14,18 @@
 
 package ch.uzh.ifi.attempto.echocomp;
 
-import nextapp.echo2.app.Extent;
-import nextapp.echo2.app.Font;
-import nextapp.echo2.app.ImageReference;
-import nextapp.echo2.app.ResourceImageReference;
-import nextapp.echo2.app.button.ButtonGroup;
+import nextapp.echo.app.Extent;
+import nextapp.echo.app.Font;
+import nextapp.echo.app.ImageReference;
+import nextapp.echo.app.ResourceImageReference;
+import nextapp.echo.app.button.ButtonGroup;
 
 /**
  * This class represents a radio button in blue style.
  * 
  * @author Tobias Kuhn
  */
-public class RadioButton extends nextapp.echo2.app.RadioButton {
+public class RadioButton extends nextapp.echo.app.RadioButton {
 	
 	private static final long serialVersionUID = 1429240270043389676L;
 

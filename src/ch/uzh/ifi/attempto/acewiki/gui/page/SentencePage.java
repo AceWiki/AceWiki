@@ -16,17 +16,17 @@ package ch.uzh.ifi.attempto.acewiki.gui.page;
 
 import static ch.uzh.ifi.attempto.ape.OutputType.PARAPHRASE1;
 import static ch.uzh.ifi.attempto.ape.OutputType.SYNTAXPP;
-import nextapp.echo2.app.Column;
-import nextapp.echo2.app.Insets;
-import nextapp.echo2.app.event.ActionEvent;
-import nextapp.echo2.app.event.ActionListener;
+import nextapp.echo.app.Column;
+import nextapp.echo.app.Insets;
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Sentence;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.ape.SyntaxBoxes;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
-import echopointng.DirectHtml;
+import echopoint.DirectHtml;
 
 /**
  * This class represents a page that shows the details of an ACE sentence.

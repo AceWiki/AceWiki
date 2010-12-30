@@ -14,17 +14,17 @@
 
 package ch.uzh.ifi.attempto.echocomp;
 
-import nextapp.echo2.app.Extent;
-import nextapp.echo2.app.Font;
-import nextapp.echo2.app.ImageReference;
-import nextapp.echo2.app.ResourceImageReference;
+import nextapp.echo.app.Extent;
+import nextapp.echo.app.Font;
+import nextapp.echo.app.ImageReference;
+import nextapp.echo.app.ResourceImageReference;
 
 /**
  * This class represents a check box in blue style.
  * 
  * @author Tobias Kuhn
  */
-public class CheckBox extends nextapp.echo2.app.CheckBox {
+public class CheckBox extends nextapp.echo.app.CheckBox {
 
 	private static final long serialVersionUID = -8160475963811004744L;
 	

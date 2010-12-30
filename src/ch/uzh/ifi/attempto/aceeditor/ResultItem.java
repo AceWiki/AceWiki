@@ -16,22 +16,22 @@ package ch.uzh.ifi.attempto.aceeditor;
 
 import java.util.Arrays;
 
-import nextapp.echo2.app.Border;
-import nextapp.echo2.app.Color;
-import nextapp.echo2.app.Column;
-import nextapp.echo2.app.Component;
-import nextapp.echo2.app.Extent;
-import nextapp.echo2.app.Font;
-import nextapp.echo2.app.Insets;
-import nextapp.echo2.app.Row;
+import nextapp.echo.app.Border;
+import nextapp.echo.app.Color;
+import nextapp.echo.app.Column;
+import nextapp.echo.app.Component;
+import nextapp.echo.app.Extent;
+import nextapp.echo.app.Font;
+import nextapp.echo.app.Insets;
+import nextapp.echo.app.Row;
 import ch.uzh.ifi.attempto.ape.ACEParserResult;
 import ch.uzh.ifi.attempto.ape.OutputType;
 import ch.uzh.ifi.attempto.ape.SyntaxBoxes;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
-import echopointng.DirectHtml;
-import echopointng.util.HtmlKit;
+import echopoint.DirectHtml;
+import echopoint.util.HtmlKit;
 
 /**
  * This class represents a certain result of the parser for a certain ACE text. Such results can be

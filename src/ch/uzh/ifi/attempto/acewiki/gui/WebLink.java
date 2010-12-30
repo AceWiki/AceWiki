@@ -15,15 +15,15 @@
 package ch.uzh.ifi.attempto.acewiki.gui;
 
 import ch.uzh.ifi.attempto.echocomp.Style;
-import nextapp.echo2.app.ApplicationInstance;
-import nextapp.echo2.app.Button;
-import nextapp.echo2.app.Color;
-import nextapp.echo2.app.Extent;
-import nextapp.echo2.app.Font;
-import nextapp.echo2.app.ImageReference;
-import nextapp.echo2.app.event.ActionEvent;
-import nextapp.echo2.app.event.ActionListener;
-import nextapp.echo2.webcontainer.command.BrowserRedirectCommand;
+import nextapp.echo.app.ApplicationInstance;
+import nextapp.echo.app.Button;
+import nextapp.echo.app.Color;
+import nextapp.echo.app.Extent;
+import nextapp.echo.app.Font;
+import nextapp.echo.app.ImageReference;
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
+import nextapp.echo.webcontainer.command.BrowserRedirectCommand;
 
 /**
  * This class represents a web link that points to a foreign website.

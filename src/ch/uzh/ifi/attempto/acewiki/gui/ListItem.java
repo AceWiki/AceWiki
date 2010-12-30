@@ -15,13 +15,13 @@
 package ch.uzh.ifi.attempto.acewiki.gui;
 
 import ch.uzh.ifi.attempto.echocomp.Label;
-import nextapp.echo2.app.Alignment;
-import nextapp.echo2.app.Column;
-import nextapp.echo2.app.Component;
-import nextapp.echo2.app.Extent;
-import nextapp.echo2.app.Font;
-import nextapp.echo2.app.Row;
-import nextapp.echo2.app.layout.RowLayoutData;
+import nextapp.echo.app.Alignment;
+import nextapp.echo.app.Column;
+import nextapp.echo.app.Component;
+import nextapp.echo.app.Extent;
+import nextapp.echo.app.Font;
+import nextapp.echo.app.Row;
+import nextapp.echo.app.layout.RowLayoutData;
 
 /**
  * This class represents a GUI component that is shown as a list item with a preceding "-".

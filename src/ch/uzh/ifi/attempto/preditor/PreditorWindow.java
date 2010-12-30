@@ -19,21 +19,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import nextapp.echo2.app.Alignment;
-import nextapp.echo2.app.ApplicationInstance;
-import nextapp.echo2.app.Border;
-import nextapp.echo2.app.Button;
-import nextapp.echo2.app.Color;
-import nextapp.echo2.app.Column;
-import nextapp.echo2.app.Extent;
-import nextapp.echo2.app.Font;
-import nextapp.echo2.app.Insets;
-import nextapp.echo2.app.Row;
-import nextapp.echo2.app.SplitPane;
-import nextapp.echo2.app.event.ActionEvent;
-import nextapp.echo2.app.event.ActionListener;
-import nextapp.echo2.app.event.WindowPaneEvent;
-import nextapp.echo2.app.event.WindowPaneListener;
+import nextapp.echo.app.Alignment;
+import nextapp.echo.app.ApplicationInstance;
+import nextapp.echo.app.Border;
+import nextapp.echo.app.Button;
+import nextapp.echo.app.Color;
+import nextapp.echo.app.Column;
+import nextapp.echo.app.Extent;
+import nextapp.echo.app.Font;
+import nextapp.echo.app.Grid;
+import nextapp.echo.app.Insets;
+import nextapp.echo.app.Row;
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
+import nextapp.echo.app.event.WindowPaneEvent;
+import nextapp.echo.app.event.WindowPaneListener;
+import nextapp.echo.app.layout.GridLayoutData;
 import ch.uzh.ifi.attempto.chartparser.ChartParser;
 import ch.uzh.ifi.attempto.chartparser.ConcreteOption;
 import ch.uzh.ifi.attempto.chartparser.DynamicLexicon;
@@ -46,11 +47,12 @@ import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.Logger;
 import ch.uzh.ifi.attempto.echocomp.Style;
+import ch.uzh.ifi.attempto.echocomp.TabSensitiveTextField;
 import ch.uzh.ifi.attempto.echocomp.TextField;
 import ch.uzh.ifi.attempto.echocomp.WindowPane;
-import echopointng.DirectHtml;
-import echopointng.KeyStrokeListener;
-import echopointng.KeyStrokes;
+import echopoint.DirectHtml;
+
+//import static ch.uzh.ifi.attempto.echocomp.KeyStrokes.*;
 
 /**
  * This class represents a predictive editor window. The predictive editor enables easy creation of texts that
@@ -60,8 +62,7 @@ import echopointng.KeyStrokes;
  * 
  * @author Tobias Kuhn
  */
-public class PreditorWindow extends WindowPane implements ActionListener, WindowPaneListener,
-		KeyStrokes {
+public class PreditorWindow extends WindowPane implements ActionListener, WindowPaneListener {
 	
 	private static final long serialVersionUID = -7815494421993305554L;
 	
@@ -74,21 +75,19 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 	private Logger logger;
 	
 	private List<MenuBlockContent> menuBlockContents = new ArrayList<MenuBlockContent>();
-	private List<MenuBlock> menuBlocksTop = new ArrayList<MenuBlock>();
-	private List<MenuBlock> menuBlocksBottom = new ArrayList<MenuBlock>();
-	private List<SplitPane> menuSplitPanesTop = new ArrayList<SplitPane>();
-	private List<SplitPane> menuSplitPanesBottom = new ArrayList<SplitPane>();
 	private MenuBlock enlargedMenuBlock;
 	
 	private DirectHtml textArea = new DirectHtml();
-	private TextField textField;
-	private SplitPane menuBlockPane;
-	private SplitPane doubleColumnMenuPane;
+	private TabSensitiveTextField textField;
+	private TextField dummyTextField;
+	private Column menuBlockColumn;
 	private GeneralButton deleteButton = new GeneralButton("< Delete", 70, this);
 	private GeneralButton clearButton = new GeneralButton("Clear", 70, this);
 	private Button okButton = new GeneralButton("OK", 70, this);
 	private Button cancelButton = new GeneralButton("Cancel", 70, this);
-	private KeyStrokeListener keyStrokeListener = new KeyStrokeListener();
+	
+	// TODO: reactive key combinations
+//	private KeyStrokeListener keyStrokeListener = new KeyStrokeListener();
 
 	private boolean isInitialized = false;
 	
@@ -115,31 +114,19 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		setTitleBackground(Style.windowTitleBackground);
 		setStyleName("Default");
 		
-		Row buttonBar = new Row();
-		buttonBar.setAlignment(new Alignment(Alignment.RIGHT, Alignment.CENTER));
-		buttonBar.setInsets(new Insets(10, 17, 10, 10));
-		buttonBar.setCellSpacing(new Extent(5));
-		buttonBar.add(okButton);
-		buttonBar.add(cancelButton);
+		Grid grid = new Grid(1);
+		grid.setColumnWidth(0, new Extent(730));
+		add(grid);
 		
-		SplitPane splitPane = new SplitPane(SplitPane.ORIENTATION_VERTICAL_BOTTOM_TOP, new Extent(47));
-		splitPane.add(buttonBar);
-		add(splitPane);
+		GridLayoutData layout = new GridLayoutData();
+		layout.setAlignment(new Alignment(Alignment.LEFT, Alignment.TOP));
 		
-		SplitPane editorPane = new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM, new Extent(168));
-		SplitPane textPane = new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM, new Extent(70));
-		
-		textArea.setFocusTraversalParticipant(false);
-		SplitPane textAreaBorderTop = new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM, new Extent(10));
-		SplitPane textAreaBorderLeft = new SplitPane(SplitPane.ORIENTATION_HORIZONTAL_LEFT_RIGHT, new Extent(10));
-		SplitPane textAreaBorderRight = new SplitPane(SplitPane.ORIENTATION_HORIZONTAL_RIGHT_LEFT, new Extent(10));
-		textAreaBorderTop.add(new Label());
-		textAreaBorderTop.add(textAreaBorderLeft);
-		textAreaBorderLeft.add(new Label());
-		textAreaBorderLeft.add(textAreaBorderRight);
-		textAreaBorderRight.add(new Label());
-		textAreaBorderRight.add(textArea);
-		textPane.add(textAreaBorderTop);
+		Column textAreaColumn = new Column();
+		textAreaColumn.setInsets(new Insets(10, 10, 10, 0));
+		textAreaColumn.add(textArea);
+		textAreaColumn.setLayoutData(layout);
+		grid.setRowHeight(0, new Extent(68));
+		grid.add(textAreaColumn);
 		
 		Column textColumn = new Column();
 		textColumn.setInsets(new Insets(10, 10, 0, 0));
@@ -150,8 +137,6 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		textAreaButtonBar.setInsets(new Insets(0, 5, 10, 0));
 		textAreaButtonBar.setCellSpacing(new Extent(5));
 		clearButton.setVisible(false);
-		clearButton.setFocusTraversalParticipant(false);
-		deleteButton.setFocusTraversalParticipant(false);
 		textAreaButtonBar.add(clearButton);
 		textAreaButtonBar.add(deleteButton);
 		textColumn.add(textAreaButtonBar);
@@ -161,69 +146,44 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		Label textFieldLabel = new Label("text", Font.ITALIC, 11);
 		textFieldColumn.add(textFieldLabel);
 		
-		textField = new TextField(this);
-		textField.setWidth(new Extent(708));
-		textField.setFocusTraversalParticipant(true);
-		textField.setFocusTraversalIndex(0);
+		textField = new TabSensitiveTextField(this);
+		// TODO: Problem with Chromium: unnecessary scrollbars and misplaced buttons
+		//textField.setWidth(new Extent(708));
+		textField.setWidth(new Extent(700));
 		textField.setDisabledBackground(Style.lightDisabled);
 		Row textFieldRow = new Row();
 		textFieldRow.add(textField);
-		TextField dummyTextField = new TextField();
+		dummyTextField = new TextField();
 		dummyTextField.setWidth(new Extent(1));
-		dummyTextField.setBorder(new Border(0, null, 0));
+		dummyTextField.setBorder(new Border(0, Color.BLACK, 0));
 		dummyTextField.setBackground(Color.WHITE);
 		textFieldRow.add(dummyTextField);
 		textFieldColumn.add(textFieldRow);
 		
-		keyStrokeListener.addKeyCombination(VK_TAB, "Tab");
-		keyStrokeListener.addKeyCombination(VK_ESCAPE, "Esc");
-		keyStrokeListener.addKeyCombination(VK_BACK_SPACE | CONTROL_MASK, "Ctrl-Backspace");
-		keyStrokeListener.addActionListener(this);
-		textFieldColumn.add(keyStrokeListener);
+//		keyStrokeListener.addKeyCombination(VK_TAB, "Tab");
+//		keyStrokeListener.addKeyCombination(VK_ESCAPE, "Esc");
+//		keyStrokeListener.addKeyCombination(VK_BACK_SPACE | CONTROL_MASK, "Ctrl-Backspace");
+//		keyStrokeListener.addActionListener(this);
+//		textFieldColumn.add(keyStrokeListener);
 		
 		textColumn.add(textFieldColumn);
-		textPane.add(textColumn);
-		editorPane.add(textPane);
+		grid.setRowHeight(1, new Extent(88));
+		grid.add(textColumn);
 		
-		menuBlockPane = new SplitPane(SplitPane.ORIENTATION_HORIZONTAL_LEFT_RIGHT, new Extent(0));
-		menuBlockPane.setSeparatorWidth(new Extent(10));
-		menuBlockPane.setSeparatorColor(Color.WHITE);
-		menuBlockPane.add(new Label());
+		menuBlockColumn = new Column();
+		menuBlockColumn.setInsets(new Insets(10, 15, 0, 0));
+		menuBlockColumn.setCellSpacing(new Extent(12));
+		grid.setRowHeight(2, new Extent(260));
+		grid.add(menuBlockColumn);
 		
-		doubleColumnMenuPane =  new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM, new Extent(258));
-		SplitPane parentSplitPane = doubleColumnMenuPane;
-		for (int i=0; i<10; i++) {
-			MenuBlock menuBlock = new MenuBlock(this, this);
-			menuBlocksTop.add(menuBlock);
-			SplitPane menuSplitPane = new SplitPane(SplitPane.ORIENTATION_HORIZONTAL_LEFT_RIGHT);
-			menuSplitPane.setSeparatorWidth(new Extent(10));
-			menuSplitPane.setSeparatorColor(Color.WHITE);
-			menuSplitPane.setVisible(false);
-			menuSplitPane.add(menuBlock);
-			menuSplitPanesTop.add(menuSplitPane);
-			parentSplitPane.add(menuSplitPane);
-			parentSplitPane = menuSplitPane;
-		}
-		
-		parentSplitPane = doubleColumnMenuPane;
-		for (int i=0; i<10; i++) {
-			MenuBlock menuBlock = new MenuBlock(this, this);
-			menuBlocksBottom.add(menuBlock);
-			SplitPane menuSplitPane = new SplitPane(SplitPane.ORIENTATION_HORIZONTAL_LEFT_RIGHT);
-			menuSplitPane.setSeparatorWidth(new Extent(10));
-			menuSplitPane.setSeparatorColor(Color.WHITE);
-			menuSplitPane.setVisible(false);
-			menuSplitPane.add(menuBlock);
-			menuSplitPanesBottom.add(menuSplitPane);
-			parentSplitPane.add(menuSplitPane);
-			parentSplitPane = menuSplitPane;
-		}
-		
-		doubleColumnMenuPane.setSeparatorHeight(new Extent(12));
-		doubleColumnMenuPane.setSeparatorColor(Color.WHITE);
-		menuBlockPane.add(doubleColumnMenuPane);
-		editorPane.add(menuBlockPane);
-		splitPane.add(editorPane);
+		Row buttonBar = new Row();
+		buttonBar.setAlignment(new Alignment(Alignment.RIGHT, Alignment.TOP));
+		buttonBar.setInsets(new Insets(10, 12, 10, 0));
+		buttonBar.setCellSpacing(new Extent(5));
+		buttonBar.add(okButton);
+		buttonBar.add(cancelButton);
+		grid.setRowHeight(3, new Extent(35));
+		grid.add(buttonBar);
 		
 		update();
 	}
@@ -400,77 +360,59 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 	private void update() {
 		if (!isInitialized) return;
 		updateMenuBlockContents();
+		menuBlockColumn.removeAll();
 		setFilter(textField.getText());
 		int mbCount = menuBlockContents.size();
 		if (enlargedMenuBlock != null) {
 			// One enlarged menu block
 			MenuBlockContent mbc = enlargedMenuBlock.getContent();
-			clearMenuBlocks();
-			enlargedMenuBlock = menuBlocksTop.get(0);
 			enlargedMenuBlock.setContent(mbc, 710, 16);
+			enlargedMenuBlock.setWidth(710);
+			enlargedMenuBlock.setHeight(256);
 			enlargedMenuBlock.setEnlarged(true);
-			menuSplitPanesTop.get(0).setSeparatorPosition(new Extent(710));
-			menuSplitPanesTop.get(0).setVisible(true);
-			for (int i=1; i < menuBlocksTop.size(); i++) {
-				menuSplitPanesTop.get(i).setVisible(false);
-			}
-			for (int i=0; i < menuBlocksBottom.size(); i++) {
-				menuSplitPanesBottom.get(i).setVisible(false);
-			}
-			doubleColumnMenuPane.setSeparatorPosition(new Extent(258));
+			menuBlockColumn.add(enlargedMenuBlock);
 		} else if (mbCount < 5) {
 			// Menu blocks on one row
 			int width = ( 720 / ( mbCount > 3 ? mbCount : 3 ) ) - 10;
-			for (int i=0; i < menuBlocksTop.size(); i++) {
-				if (menuBlockContents.size() > i) {
-					menuBlocksTop.get(i).setContent(menuBlockContents.get(i), width, 16);
-					menuSplitPanesTop.get(i).setSeparatorPosition(new Extent(width));
-					menuSplitPanesTop.get(i).setVisible(true);
-				} else {
-					menuSplitPanesTop.get(i).setVisible(false);
-				}
+			Row r = new Row();
+			r.setCellSpacing(new Extent(10));
+			menuBlockColumn.add(r);
+			for (int i=0; i < mbCount; i++) {
+				MenuBlock mb = new MenuBlock(this, this);
+				mb.setContent(menuBlockContents.get(i), width, 16);
+				mb.setWidth(width);
+				mb.setHeight(256);
+				r.add(mb);
 			}
-			for (int i=0; i < menuBlocksBottom.size(); i++) {
-				menuSplitPanesBottom.get(i).setVisible(false);
-			}
-			doubleColumnMenuPane.setSeparatorPosition(new Extent(258));
 		} else {
 			// Menu blocks on two rows
 			int firstRowCount = (mbCount + 1) / 2;
 			int width = ( 720 / firstRowCount ) - 10;
-			for (int i=0; i < menuBlocksTop.size(); i++) {
-				if (i < firstRowCount) {
-					menuBlocksTop.get(i).setContent(menuBlockContents.get(i), width, 7);
-					menuSplitPanesTop.get(i).setSeparatorPosition(new Extent(width));
-					menuSplitPanesTop.get(i).setVisible(true);
-				} else {
-					menuSplitPanesTop.get(i).setVisible(false);
-				}
+			Row r1 = new Row();
+			r1.setCellSpacing(new Extent(10));
+			menuBlockColumn.add(r1);
+			for (int i=0; i < firstRowCount; i++) {
+				MenuBlock mb = new MenuBlock(this, this);
+				mb.setContent(menuBlockContents.get(i), width, 7);
+				mb.setWidth(width);
+				mb.setHeight(121);
+				r1.add(mb);
 			}
-			for (int i=0; i < menuBlocksBottom.size(); i++) {
-				if (firstRowCount + i < mbCount) {
-					menuBlocksBottom.get(i).setContent(menuBlockContents.get(firstRowCount + i), width, 7);
-					menuSplitPanesBottom.get(i).setSeparatorPosition(new Extent(width));
-					menuSplitPanesBottom.get(i).setVisible(true);
-				} else {
-					menuSplitPanesBottom.get(i).setVisible(false);
-				}
+			Row r2 = new Row();
+			r2.setCellSpacing(new Extent(10));
+			menuBlockColumn.add(r2);
+			for (int i=0; i < mbCount - firstRowCount; i++) {
+				MenuBlock mb = new MenuBlock(this, this);
+				mb.setContent(menuBlockContents.get(firstRowCount + i), width, 7);
+				mb.setWidth(width);
+				mb.setHeight(121);
+				r2.add(mb);
 			}
-			doubleColumnMenuPane.setSeparatorPosition(new Extent(123));
 		}
 		textField.setEnabled(menuBlockContents.size() > 0 || !textField.getText().equals(""));
 		ApplicationInstance.getActive().setFocusedComponent(textField);
 		clearButton.setEnabled(getTokenCount() > 0);
 		deleteButton.setEnabled(getTokenCount() > 0);
-	}
-	
-	private void clearMenuBlocks() {
-		for (MenuBlock mb : menuBlocksTop) {
-			mb.clear();
-		}
-		for (MenuBlock mb : menuBlocksBottom) {
-			mb.clear();
-		}
 	}
 	
 	private void updateMenuBlockContents() {
@@ -685,12 +627,18 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 			log("pressed: clear");
 			clearTokens();
 		} else if (src == textField) {
-			log("pressed: enter-key");
-			if (textField.getText().equals("") && filter.equals("")) {
-				notifyActionListeners(new ActionEvent(this, "Enter"));
-				return;
+			if (getApplicationInstance().getFocusedComponent() == dummyTextField) {
+				log("pressed: tab-key");
+				handleTextInput(false);
+				tabKeyPressed = true;
 			} else {
-				handleTextInput(true);
+				log("pressed: enter-key");
+				if (textField.getText().equals("") && filter.equals("")) {
+					notifyActionListeners(new ActionEvent(this, "Enter"));
+					return;
+				} else {
+					handleTextInput(true);
+				}
 			}
 		} else if (src instanceof MenuEntry) {
 			TextElement te = ((MenuEntry) e.getSource()).getTextElement();
@@ -699,10 +647,6 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 			textField.setText("");
 		} else if ("enlarge".equals(c) && src instanceof MenuBlock) {
 			enlargedMenuBlock = (MenuBlock) src;
-		} else if ("Tab".equals(c)) {
-			log("pressed: tab-key");
-			handleTextInput(false);
-			tabKeyPressed = true;
 		} else if ("Esc".equals(c)) {
 			log("pressed: escape key");
 			notifyActionListeners(new ActionEvent(this, "Escape"));

@@ -16,15 +16,15 @@ package ch.uzh.ifi.attempto.acewiki.gui.editor;
 
 import java.util.List;
 
-import nextapp.echo2.app.Color;
-import nextapp.echo2.app.Component;
-import nextapp.echo2.app.Extent;
-import nextapp.echo2.app.Font;
-import nextapp.echo2.app.Grid;
-import nextapp.echo2.app.ImageReference;
-import nextapp.echo2.app.Insets;
-import nextapp.echo2.app.event.ActionEvent;
-import nextapp.echo2.app.event.ActionListener;
+import nextapp.echo.app.Color;
+import nextapp.echo.app.Component;
+import nextapp.echo.app.Extent;
+import nextapp.echo.app.Font;
+import nextapp.echo.app.Grid;
+import nextapp.echo.app.ImageReference;
+import nextapp.echo.app.Insets;
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Individual;

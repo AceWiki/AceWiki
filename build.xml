@@ -14,7 +14,7 @@
         	includeantruntime="false"
             srcdir="src/"
         	excludes="**/test/**"
-            classpath="lib/aterm-java-1.6.jar;lib/attempto-ape.jar;lib/commons-fileupload-1.2.1.jar;lib/commons-httpclient-3.1.jar;lib/commons-lang-2.2.jar;lib/commons-logging-1.1.jar;lib/Echo2_App.jar;lib/Echo2_FileTransfer_App.jar;lib/Echo2_FileTransfer_WebContainer.jar;lib/Echo2_Extras_App.jar;lib/Echo2_Extras_WebContainer.jar;lib/Echo2_WebRender.jar;lib/Echo2_WebContainer.jar;lib/echopointng-2.2.0rc2.jar;lib/jdom.jar;lib/jpl.jar;lib/owlapi-bin.jar;lib/HermiT.jar;lib/owllink-bin.jar;lib/relaxngDatatype.jar;lib/servlet-api.jar;lib/xsdlib.jar"
+            classpath="lib/aterm-java-1.6.jar;lib/attempto-ape.jar;lib/commons-fileupload-1.2.1.jar;lib/commons-httpclient-3.1.jar;lib/commons-lang-2.2.jar;lib/commons-logging-1.1.jar;lib/Echo3_App.jar;lib/Echo3_FileTransfer_App.jar;lib/Echo3_FileTransfer_WebContainer.jar;lib/Echo3_FileTransfer_Model.jar;lib/Echo3_FileTransfer_Receiver.jar;lib/Echo3_Extras_App.jar;lib/Echo3_Extras_WebContainer.jar;lib/Echo3_WebContainer.jar;lib/echopoint-3.0.0b5.jar;lib/jdom.jar;lib/jpl.jar;lib/owlapi-bin.jar;lib/HermiT.jar;lib/owllink-bin.jar;lib/relaxngDatatype.jar;lib/servlet-api.jar;lib/xsdlib.jar"
             destdir="classes/"
         />
         <copy todir="classes/ch/uzh/ifi/attempto/echocomp/style">
@@ -30,6 +30,13 @@
         <copy
             file="src/ch/uzh/ifi/attempto/aceeditor/aceeditor.properties"
             tofile="classes/ch/uzh/ifi/attempto/aceeditor/aceeditor.properties"
+        />
+        <copy todir="classes/ch/uzh/ifi/attempto/echocomp">
+            <fileset dir="src/ch/uzh/ifi/attempto/echocomp" includes="*.js"/>
+        </copy>
+        <copy
+            file="webapps/war/META-INF/nextapp/echo/SynchronizePeerBindings.properties"
+            tofile="classes/META-INF/nextapp/echo/SynchronizePeerBindings.properties"
         />
     	<tstamp>
     		<format property="TODAY" pattern="yyyy-MM-dd HH:mm"/>
@@ -57,7 +64,7 @@
         <jar
             destfile="attempto-echo.jar"
             basedir="classes/"
-            includes="ch/uzh/ifi/attempto/echocomp/** ch/uzh/ifi/attempto/preditor/**"
+            includes="ch/uzh/ifi/attempto/echocomp/** META-INF/** ch/uzh/ifi/attempto/preditor/**"
         />
         <jar
             destfile="attempto-acewiki-${acewiki-version}.jar"

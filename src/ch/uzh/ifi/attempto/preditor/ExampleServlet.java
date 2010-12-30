@@ -14,9 +14,9 @@
 
 package ch.uzh.ifi.attempto.preditor;
 
-import nextapp.echo2.app.ApplicationInstance;
-import nextapp.echo2.app.Window;
-import nextapp.echo2.webcontainer.WebContainerServlet;
+import nextapp.echo.app.ApplicationInstance;
+import nextapp.echo.app.Window;
+import nextapp.echo.webcontainer.WebContainerServlet;
 import ch.uzh.ifi.attempto.echocomp.Style;
 
 /**

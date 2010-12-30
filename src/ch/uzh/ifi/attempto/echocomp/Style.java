@@ -14,11 +14,11 @@
 
 package ch.uzh.ifi.attempto.echocomp;
 
-import nextapp.echo2.app.Color;
-import nextapp.echo2.app.Font;
-import nextapp.echo2.app.StyleSheet;
-import nextapp.echo2.app.componentxml.ComponentXmlException;
-import nextapp.echo2.app.componentxml.StyleSheetLoader;
+import nextapp.echo.app.Color;
+import nextapp.echo.app.Font;
+import nextapp.echo.app.StyleSheet;
+import nextapp.echo.app.serial.SerialException;
+import nextapp.echo.app.serial.StyleSheetLoader;
 
 /**
  * This class defines some style attributes that are used by the components of this package.
@@ -31,9 +31,11 @@ public class Style {
     
     static {
         try {
-            styleSheet = StyleSheetLoader.load("ch/uzh/ifi/attempto/echocomp/style/Default.stylesheet", 
-                    Thread.currentThread().getContextClassLoader());
-        } catch (ComponentXmlException ex) {
+            styleSheet = StyleSheetLoader.load(
+            		"ch/uzh/ifi/attempto/echocomp/style/Default.stylesheet.xml",
+            		Thread.currentThread().getContextClassLoader()
+            	);
+        } catch (SerialException ex) {
             throw new RuntimeException(ex);
         }
     }

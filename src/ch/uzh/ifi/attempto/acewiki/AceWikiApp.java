@@ -16,10 +16,8 @@ package ch.uzh.ifi.attempto.acewiki;
 
 import java.util.Map;
 
-import nextapp.echo2.app.ApplicationInstance;
-import nextapp.echo2.app.Window;
-import nextapp.echo2.webcontainer.ContainerContext;
-import ch.uzh.ifi.attempto.echocomp.ServerDelayMessage;
+import nextapp.echo.app.ApplicationInstance;
+import nextapp.echo.app.Window;
 import ch.uzh.ifi.attempto.echocomp.Style;
 
 /**
@@ -74,11 +72,6 @@ class AceWikiApp extends ApplicationInstance {
 		window.setContent(wiki.getContentPane());
 		
 		window.setTitle("AceWiki");
-		
-		ContainerContext cc = (ContainerContext) wiki.getApplication()
-			.getContextProperty(ContainerContext.CONTEXT_PROPERTY_NAME);
-		cc.setServerDelayMessage(new ServerDelayMessage("Please wait...", "../wait.gif"));
-		// (The wait icon should be copied at the right place on the server.)
 		
 		return window;
 	}

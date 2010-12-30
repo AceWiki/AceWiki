@@ -17,21 +17,21 @@ package ch.uzh.ifi.attempto.acewiki.gui;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import nextapp.echo2.app.Alignment;
-import nextapp.echo2.app.Column;
-import nextapp.echo2.app.Extent;
-import nextapp.echo2.app.Font;
-import nextapp.echo2.app.Grid;
-import nextapp.echo2.app.Insets;
-import nextapp.echo2.app.ListBox;
-import nextapp.echo2.app.Row;
-import nextapp.echo2.app.event.ActionEvent;
-import nextapp.echo2.app.event.ActionListener;
-import nextapp.echo2.app.event.WindowPaneEvent;
-import nextapp.echo2.app.event.WindowPaneListener;
-import nextapp.echo2.app.filetransfer.Download;
-import nextapp.echo2.app.filetransfer.DownloadProvider;
-import nextapp.echo2.app.layout.GridLayoutData;
+import nextapp.echo.app.Alignment;
+import nextapp.echo.app.Column;
+import nextapp.echo.app.Extent;
+import nextapp.echo.app.Font;
+import nextapp.echo.app.Grid;
+import nextapp.echo.app.Insets;
+import nextapp.echo.app.ListBox;
+import nextapp.echo.app.Row;
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
+import nextapp.echo.app.event.WindowPaneEvent;
+import nextapp.echo.app.event.WindowPaneListener;
+import nextapp.echo.app.layout.GridLayoutData;
+import nextapp.echo.filetransfer.app.AbstractDownloadProvider;
+import nextapp.echo.filetransfer.app.DownloadCommand;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.ACELexiconExporter;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.ACETextExporter;
@@ -161,7 +161,9 @@ public class ExportWindow extends WindowPane implements ActionListener {
 				return;
 			}
 			
-			DownloadProvider provider = new DownloadProvider() {
+			AbstractDownloadProvider provider = new AbstractDownloadProvider() {
+				
+				private static final long serialVersionUID = 3491081007747916029L;
 				
 				public String getContentType() {
 					return exporter.getContentType();
@@ -171,17 +173,13 @@ public class ExportWindow extends WindowPane implements ActionListener {
 					return ontology.getName() + exporter.getFileSuffix();
 				}
 
-				public int getSize() {
-					return -1;
-				}
-
 				public void writeFile(OutputStream out) throws IOException {
 					exporter.export(out);
 				}
 				
 			};
 			
-			wiki.getApplication().enqueueCommand(new Download(provider, true));
+			wiki.getApplication().enqueueCommand(new DownloadCommand(provider));
 		}
 	}
 

@@ -14,17 +14,17 @@
 
 package ch.uzh.ifi.attempto.echocomp;
 
-import nextapp.echo2.app.Border;
-import nextapp.echo2.app.Color;
-import nextapp.echo2.app.Extent;
-import nextapp.echo2.app.event.ActionListener;
+import nextapp.echo.app.Border;
+import nextapp.echo.app.Color;
+import nextapp.echo.app.Extent;
+import nextapp.echo.app.event.ActionListener;
 
 /**
  * This is a convenience class for easy creation of password fields.
  * 
  * @author Tobias Kuhn
  */
-public class PasswordField extends nextapp.echo2.app.PasswordField {
+public class PasswordField extends nextapp.echo.app.PasswordField {
 	
 	private static final long serialVersionUID = 7918679972682431845L;
 	

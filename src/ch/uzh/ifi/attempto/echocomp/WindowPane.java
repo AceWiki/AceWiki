@@ -20,7 +20,7 @@ package ch.uzh.ifi.attempto.echocomp;
  * 
  * @author Tobias Kuhn
  */
-public class WindowPane extends nextapp.echo2.app.WindowPane {
+public class WindowPane extends nextapp.echo.app.WindowPane {
 
 	private static final long serialVersionUID = 3451270691632105615L;
 	

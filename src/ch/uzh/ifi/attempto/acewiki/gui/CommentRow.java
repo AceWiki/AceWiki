@@ -20,16 +20,15 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import nextapp.echo2.app.Alignment;
-import nextapp.echo2.app.Border;
-import nextapp.echo2.app.Color;
-import nextapp.echo2.app.Column;
-import nextapp.echo2.app.Component;
-import nextapp.echo2.app.Font;
-import nextapp.echo2.app.Row;
-import nextapp.echo2.app.event.ActionEvent;
-import nextapp.echo2.app.event.ActionListener;
-import nextapp.echo2.app.layout.RowLayoutData;
+import nextapp.echo.app.Alignment;
+import nextapp.echo.app.Color;
+import nextapp.echo.app.Column;
+import nextapp.echo.app.Component;
+import nextapp.echo.app.Font;
+import nextapp.echo.app.Row;
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
+import nextapp.echo.app.layout.RowLayoutData;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Comment;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
@@ -62,7 +61,7 @@ public class CommentRow extends Column implements ActionListener {
 	private WikiPage hostPage;
 	
 	private Row commentRow = new Row();
-	private DropDownMenu dropDown;
+	private StatementMenu dropDown;
 	
 	/**
 	 * Creates a new comment row.
@@ -78,7 +77,7 @@ public class CommentRow extends Column implements ActionListener {
 	}
 	
 	private void update() {
-		dropDown = new DropDownMenu(DropDownMenu.COMMENT_TYPE, this);
+		dropDown = new StatementMenu(StatementMenu.COMMENT_TYPE, this);
 		if (!wiki.isReadOnly()) {
 			dropDown.addMenuEntry("Edit...", "Edit this comment");
 			dropDown.addMenuEntry("Delete", "Delete this comment from the article");
@@ -86,8 +85,9 @@ public class CommentRow extends Column implements ActionListener {
 			dropDown.addMenuEntry("Add Sentence...", "Add a new sentence here");
 			dropDown.addMenuEntry("Add Comment...", "Add a new comment here");
 		} else {
-			dropDown.setPopUp(null);
-			dropDown.setPopUpBorder(new Border(0, Color.BLACK, Border.STYLE_SOLID));
+			// TODO: Check whether this is still needed
+//			dropDown.setPopUp(null);
+//			dropDown.setPopUpBorder(new Border(0, Color.BLACK, Border.STYLE_SOLID));
 		}
 		RowLayoutData layout = new RowLayoutData();
 		layout.setAlignment(new Alignment(Alignment.CENTER, Alignment.TOP));
@@ -109,7 +109,6 @@ public class CommentRow extends Column implements ActionListener {
 		removeAll();
 		commentRow.removeAll();
 		commentRow.add(dropDown);
-		commentRow.add(new HSpace(5));
 		commentRow.add(c);
 		commentRow.add(new HSpace(10));
 		add(commentRow);

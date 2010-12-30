@@ -15,16 +15,16 @@
 package ch.uzh.ifi.attempto.acewiki.gui.page;
 
 import static ch.uzh.ifi.attempto.ape.OutputType.DRSPP;
-import nextapp.echo2.app.Column;
-import nextapp.echo2.app.Insets;
-import nextapp.echo2.app.event.ActionEvent;
-import nextapp.echo2.app.event.ActionListener;
+import nextapp.echo.app.Column;
+import nextapp.echo.app.Insets;
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Sentence;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
-import echopointng.DirectHtml;
-import echopointng.util.HtmlKit;
+import echopoint.DirectHtml;
+import echopoint.util.HtmlKit;
 
 /**
  * This class represents a page that shows the logical representation of an ACE sentence.

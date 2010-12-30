@@ -16,23 +16,24 @@ package ch.uzh.ifi.attempto.preditor;
 
 import java.util.List;
 
-import nextapp.echo2.app.Alignment;
-import nextapp.echo2.app.ApplicationInstance;
-import nextapp.echo2.app.Button;
-import nextapp.echo2.app.Color;
-import nextapp.echo2.app.Column;
-import nextapp.echo2.app.Component;
-import nextapp.echo2.app.Extent;
-import nextapp.echo2.app.Font;
-import nextapp.echo2.app.Insets;
-import nextapp.echo2.app.Row;
-import nextapp.echo2.app.SplitPane;
-import nextapp.echo2.app.TaskQueueHandle;
-import nextapp.echo2.app.event.ActionEvent;
-import nextapp.echo2.app.event.ActionListener;
-import ch.uzh.ifi.attempto.echocomp.Label;
+import nextapp.echo.app.Alignment;
+import nextapp.echo.app.ApplicationInstance;
+import nextapp.echo.app.Border;
+import nextapp.echo.app.Button;
+import nextapp.echo.app.Color;
+import nextapp.echo.app.Column;
+import nextapp.echo.app.Component;
+import nextapp.echo.app.Extent;
+import nextapp.echo.app.Font;
+import nextapp.echo.app.Insets;
+import nextapp.echo.app.Row;
+import nextapp.echo.app.TaskQueueHandle;
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.echocomp.Style;
 import ch.uzh.ifi.attempto.echocomp.WindowPane;
+import echopoint.ContainerEx;
+import echopoint.able.Scrollable;
 
 /**
  * This class represents a menu block of the predictive editor. A menu block consists of a list of
@@ -40,12 +41,13 @@ import ch.uzh.ifi.attempto.echocomp.WindowPane;
  * 
  * @author Tobias Kuhn
  */
-class MenuBlock extends SplitPane implements ActionListener {
+class MenuBlock extends Column implements ActionListener {
 	
 	private static final long serialVersionUID = -5856577034761259001L;
 	
 	private ActionListener actionListener;
 	private MenuBlockContent content;
+	private ContainerEx container;
 	private Column menuColumn = new Column();
 	private Button label = new Button("...");
 	private Button enlargeButton = new Button();
@@ -66,14 +68,13 @@ class MenuBlock extends SplitPane implements ActionListener {
 	 * @param parent The parent window.
 	 */
 	public MenuBlock(ActionListener actionListener, WindowPane parent) {
-		super(ORIENTATION_VERTICAL_TOP_BOTTOM, new Extent(16));
 		this.app = ApplicationInstance.getActive();
 		this.taskQueue = app.createTaskQueue();
 		this.actionListener = actionListener;
 		
 		Row labelRow = new Row();
 		label.setEnabled(false);
-		label.setHeight(new Extent(15));
+		label.setHeight(new Extent(16));
 		label.setWidth(new Extent(100));
 		label.setDisabledBackground(Color.WHITE);
 		label.setDisabledForeground(Color.BLACK);
@@ -94,39 +95,24 @@ class MenuBlock extends SplitPane implements ActionListener {
 		labelRow.add(enlargeButton);
 		add(labelRow);
 		
-		SplitPane spLeft = new SplitPane(SplitPane.ORIENTATION_HORIZONTAL_LEFT_RIGHT);
-		spLeft.setSeparatorColor(Color.BLACK);
-		spLeft.setSeparatorWidth(new Extent(1));
-		spLeft.setSeparatorPosition(new Extent(0));
-		spLeft.add(new Label());
-		add(spLeft);
-		
-		SplitPane spTop = new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM);
-		spTop.setSeparatorColor(Color.BLACK);
-		spTop.setSeparatorHeight(new Extent(1));
-		spTop.setSeparatorPosition(new Extent(0));
-		spTop.add(new Label());
-		spLeft.add(spTop);
-		
-		SplitPane spRight = new SplitPane(SplitPane.ORIENTATION_HORIZONTAL_RIGHT_LEFT);
-		spRight.setSeparatorColor(Color.BLACK);
-		spRight.setSeparatorWidth(new Extent(1));
-		spRight.setSeparatorPosition(new Extent(0));
-		spRight.add(new Label());
-		spTop.add(spRight);
-		
-		SplitPane spBottom = new SplitPane(SplitPane.ORIENTATION_VERTICAL_BOTTOM_TOP);
-		spBottom.setSeparatorColor(Color.BLACK);
-		spBottom.setSeparatorHeight(new Extent(1));
-		spBottom.setSeparatorPosition(new Extent(0));
-		spBottom.add(new Label());
-		spBottom.setBackground(Style.lightBackground);
-		spRight.add(spBottom);
+		container = new ContainerEx();
+		container.setBorder(new Border(1, Color.BLACK, Border.STYLE_INSET));
+		container.setBackground(Style.lightBackground);
+		container.setScrollBarPolicy(Scrollable.AUTO);
+		add(container);
 		
 		Column menuBaseColumn = new Column();
 		menuBaseColumn.setBackground(Style.mediumBackground);
 		menuBaseColumn.add(menuColumn);
-		spBottom.add(menuBaseColumn);
+		container.add(menuBaseColumn);
+	}
+	
+	public void setWidth(int width) {
+		container.setWidth(new Extent(width - 2));
+	}
+	
+	public void setHeight(int height) {
+		container.setHeight(new Extent(height - 16));
 	}
 	
 	/**

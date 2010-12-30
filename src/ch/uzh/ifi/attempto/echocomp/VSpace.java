@@ -14,8 +14,8 @@
 
 package ch.uzh.ifi.attempto.echocomp;
 
-import nextapp.echo2.app.Column;
-import nextapp.echo2.app.Insets;
+import nextapp.echo.app.Column;
+import nextapp.echo.app.Insets;
 
 /**
  * This class produces a vertical empty space.

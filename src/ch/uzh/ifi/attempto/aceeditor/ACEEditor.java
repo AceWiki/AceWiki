@@ -21,18 +21,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import nextapp.echo2.app.ApplicationInstance;
-import nextapp.echo2.app.Column;
-import nextapp.echo2.app.Component;
-import nextapp.echo2.app.Extent;
-import nextapp.echo2.app.Insets;
-import nextapp.echo2.app.SplitPane;
-import nextapp.echo2.app.Window;
-import nextapp.echo2.app.event.ActionEvent;
-import nextapp.echo2.app.event.ActionListener;
-import nextapp.echo2.app.filetransfer.Download;
-import nextapp.echo2.app.filetransfer.DownloadProvider;
-import nextapp.echo2.webcontainer.command.BrowserRedirectCommand;
+import nextapp.echo.app.ApplicationInstance;
+import nextapp.echo.app.Column;
+import nextapp.echo.app.Component;
+import nextapp.echo.app.Extent;
+import nextapp.echo.app.Insets;
+import nextapp.echo.app.SplitPane;
+import nextapp.echo.app.Window;
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
+import nextapp.echo.filetransfer.app.AbstractDownloadProvider;
+import nextapp.echo.filetransfer.app.DownloadCommand;
+import nextapp.echo.webcontainer.command.BrowserRedirectCommand;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.echocomp.TextAreaWindow;
 import ch.uzh.ifi.attempto.echocomp.UploadWindow;
@@ -40,8 +40,6 @@ import ch.uzh.ifi.attempto.echocomp.WindowPane;
 import ch.uzh.ifi.attempto.preditor.PreditorWindow;
 import ch.uzh.ifi.attempto.preditor.TextContainer;
 import ch.uzh.ifi.attempto.preditor.TextElement;
-import echopointng.KeyStrokeListener;
-import echopointng.KeyStrokes;
 
 /**
  * This is the main class of the ACE Editor web application. The ACE Editor allows users to write
@@ -50,7 +48,7 @@ import echopointng.KeyStrokes;
  * 
  * @author Tobias Kuhn
  */
-public class ACEEditor extends Window implements ActionListener, KeyStrokes {
+public class ACEEditor extends Window implements ActionListener {
 
 	private static final long serialVersionUID = -684743065195237612L;
 	
@@ -67,7 +65,9 @@ public class ACEEditor extends Window implements ActionListener, KeyStrokes {
 	private Column textColumn = new Column();
 	private Column mainColumn = new Column();
 	private MenuBar menuBar;
-	private KeyStrokeListener keyStrokeListener = new KeyStrokeListener();
+	
+	// TODO: reactive key combinations
+//	private KeyStrokeListener keyStrokeListener = new KeyStrokeListener();
 	
 	/**
 	 * Creates a new ACE Editor application.
@@ -81,7 +81,7 @@ public class ACEEditor extends Window implements ActionListener, KeyStrokes {
 		lexiconHandler = new LexiconHandler(parameters.get("lexicon"));
 
 		SplitPane splitPane = new SplitPane(SplitPane.ORIENTATION_VERTICAL);
-		splitPane.setSeparatorPosition(new Extent(25));
+		splitPane.setSeparatorPosition(new Extent(23));
 
 		menuBar = new MenuBar(this);
 		menuBar.setSelected("Default Expanded", true);
@@ -89,64 +89,64 @@ public class ACEEditor extends Window implements ActionListener, KeyStrokes {
 		menuBar.setSelected("Default Syntax Boxes", true);
 		menuBar.setSelected("Default Pretty-Printed DRS", true);
 		menuBar.setEnabled("Paste", false);
-		splitPane.add(menuBar);
+		splitPane.add(menuBar.getContent());
 
 		textColumn.setInsets(new Insets(0, 5));
 		textColumn.add(finalEntry);
 
 		mainColumn.add(textColumn);
-
-		// Up and down keys for moving the selection:
-		keyStrokeListener.addKeyCombination(VK_UP, "Up Pressed");
-		keyStrokeListener.addKeyCombination(VK_DOWN, "Down Pressed");
-
-		// Space key for expand/collapse or add:
-		keyStrokeListener.addKeyCombination(VK_SPACE, "Space Pressed");
-
-		// Backspace key for delete:
-		keyStrokeListener.addKeyCombination(VK_BACK_SPACE, "Backspace Pressed");
-
-		// Function key + A for add:
-		keyStrokeListener.addKeyCombination(VK_A | CONTROL_MASK, "Func-A Pressed");
-		keyStrokeListener.addKeyCombination(VK_A | META_MASK, "Func-A Pressed");
-		keyStrokeListener.addKeyCombination(VK_A | ALT_MASK, "Func-A Pressed");
-
-		// Function key + M for modify:
-		keyStrokeListener.addKeyCombination(VK_M | CONTROL_MASK, "Func-M Pressed");
-		keyStrokeListener.addKeyCombination(VK_M | META_MASK, "Func-M Pressed");
-		keyStrokeListener.addKeyCombination(VK_M | ALT_MASK, "Func-M Pressed");
-
-		// Function key + X for cut:
-		keyStrokeListener.addKeyCombination(VK_X | CONTROL_MASK, "Func-X Pressed");
-		keyStrokeListener.addKeyCombination(VK_X | META_MASK, "Func-X Pressed");
-		keyStrokeListener.addKeyCombination(VK_X | ALT_MASK, "Func-X Pressed");
-
-		// Function key + C for copy:
-		keyStrokeListener.addKeyCombination(VK_C | CONTROL_MASK, "Func-C Pressed");
-		keyStrokeListener.addKeyCombination(VK_C | META_MASK, "Func-C Pressed");
-		keyStrokeListener.addKeyCombination(VK_C | ALT_MASK, "Func-C Pressed");
-
-		// Function key + V for paste:
-		keyStrokeListener.addKeyCombination(VK_V | CONTROL_MASK, "Func-V Pressed");
-		keyStrokeListener.addKeyCombination(VK_V | META_MASK, "Func-V Pressed");
-		keyStrokeListener.addKeyCombination(VK_V | ALT_MASK, "Func-V Pressed");
-
-		// Function key + O for open:
-		keyStrokeListener.addKeyCombination(VK_O | CONTROL_MASK, "Func-O Pressed");
-		keyStrokeListener.addKeyCombination(VK_O | META_MASK, "Func-O Pressed");
-		keyStrokeListener.addKeyCombination(VK_O | ALT_MASK, "Func-O Pressed");
-
-		// Function key + S for save:
-		keyStrokeListener.addKeyCombination(VK_S | CONTROL_MASK, "Func-S Pressed");
-		keyStrokeListener.addKeyCombination(VK_S | META_MASK, "Func-S Pressed");
-		keyStrokeListener.addKeyCombination(VK_S | ALT_MASK, "Func-S Pressed");
-
-		keyStrokeListener.addActionListener(this);
-		mainColumn.add(keyStrokeListener);
+		
+//		// Up and down keys for moving the selection:
+//		keyStrokeListener.addKeyCombination(VK_UP, "Up Pressed");
+//		keyStrokeListener.addKeyCombination(VK_DOWN, "Down Pressed");
+//
+//		// Space key for expand/collapse or add:
+//		keyStrokeListener.addKeyCombination(VK_SPACE, "Space Pressed");
+//
+//		// Backspace key for delete:
+//		keyStrokeListener.addKeyCombination(VK_BACK_SPACE, "Backspace Pressed");
+//
+//		// Function key + A for add:
+//		keyStrokeListener.addKeyCombination(VK_A | CONTROL_MASK, "Func-A Pressed");
+//		keyStrokeListener.addKeyCombination(VK_A | META_MASK, "Func-A Pressed");
+//		keyStrokeListener.addKeyCombination(VK_A | ALT_MASK, "Func-A Pressed");
+//
+//		// Function key + M for modify:
+//		keyStrokeListener.addKeyCombination(VK_M | CONTROL_MASK, "Func-M Pressed");
+//		keyStrokeListener.addKeyCombination(VK_M | META_MASK, "Func-M Pressed");
+//		keyStrokeListener.addKeyCombination(VK_M | ALT_MASK, "Func-M Pressed");
+//
+//		// Function key + X for cut:
+//		keyStrokeListener.addKeyCombination(VK_X | CONTROL_MASK, "Func-X Pressed");
+//		keyStrokeListener.addKeyCombination(VK_X | META_MASK, "Func-X Pressed");
+//		keyStrokeListener.addKeyCombination(VK_X | ALT_MASK, "Func-X Pressed");
+//
+//		// Function key + C for copy:
+//		keyStrokeListener.addKeyCombination(VK_C | CONTROL_MASK, "Func-C Pressed");
+//		keyStrokeListener.addKeyCombination(VK_C | META_MASK, "Func-C Pressed");
+//		keyStrokeListener.addKeyCombination(VK_C | ALT_MASK, "Func-C Pressed");
+//
+//		// Function key + V for paste:
+//		keyStrokeListener.addKeyCombination(VK_V | CONTROL_MASK, "Func-V Pressed");
+//		keyStrokeListener.addKeyCombination(VK_V | META_MASK, "Func-V Pressed");
+//		keyStrokeListener.addKeyCombination(VK_V | ALT_MASK, "Func-V Pressed");
+//
+//		// Function key + O for open:
+//		keyStrokeListener.addKeyCombination(VK_O | CONTROL_MASK, "Func-O Pressed");
+//		keyStrokeListener.addKeyCombination(VK_O | META_MASK, "Func-O Pressed");
+//		keyStrokeListener.addKeyCombination(VK_O | ALT_MASK, "Func-O Pressed");
+//
+//		// Function key + S for save:
+//		keyStrokeListener.addKeyCombination(VK_S | CONTROL_MASK, "Func-S Pressed");
+//		keyStrokeListener.addKeyCombination(VK_S | META_MASK, "Func-S Pressed");
+//		keyStrokeListener.addKeyCombination(VK_S | ALT_MASK, "Func-S Pressed");
+//
+//		keyStrokeListener.addActionListener(this);
+//		mainColumn.add(keyStrokeListener);
 
 		splitPane.add(mainColumn);
 		getContent().add(splitPane);
-
+		
 		select(finalEntry);
 	}
 
@@ -483,8 +483,8 @@ public class ACEEditor extends Window implements ActionListener, KeyStrokes {
 	private void refreshKeyStrokeListener() {
 		// The different keystroke listeners somehow interfere with each other so that this
 		// work-around is needed:
-		mainColumn.remove(keyStrokeListener);
-		mainColumn.add(keyStrokeListener);
+//		mainColumn.remove(keyStrokeListener);
+//		mainColumn.add(keyStrokeListener);
 	}
 
 	private void showEditor(boolean edit) {
@@ -564,7 +564,9 @@ public class ACEEditor extends Window implements ActionListener, KeyStrokes {
 
 	private void saveFile() {
 		final String f = getFullText();
-		DownloadProvider provider = new DownloadProvider() {
+		AbstractDownloadProvider provider = new AbstractDownloadProvider() {
+			
+			private static final long serialVersionUID = 898782345234987345L;
 
 			public String getContentType() {
 				return "text/plain";
@@ -574,7 +576,7 @@ public class ACEEditor extends Window implements ActionListener, KeyStrokes {
 				return "text.ace.txt";
 			}
 
-			public int getSize() {
+			public long getSize() {
 				return f.length();
 			}
 
@@ -584,7 +586,7 @@ public class ACEEditor extends Window implements ActionListener, KeyStrokes {
 			}
 
 		};
-		getApplicationInstance().enqueueCommand(new Download(provider, true));
+		getApplicationInstance().enqueueCommand(new DownloadCommand(provider));
 	}
 
 	private void loadLexicon(boolean replace) {
@@ -604,7 +606,9 @@ public class ACEEditor extends Window implements ActionListener, KeyStrokes {
 
 	private void saveLexicon() {
 		final String f = lexiconHandler.getLexiconFileContent();
-		DownloadProvider provider = new DownloadProvider() {
+		AbstractDownloadProvider provider = new AbstractDownloadProvider() {
+			
+			private static final long serialVersionUID = 1932606314346272768L;
 
 			public String getContentType() {
 				return "text/plain";
@@ -614,7 +618,7 @@ public class ACEEditor extends Window implements ActionListener, KeyStrokes {
 				return "text.lex.pl";
 			}
 
-			public int getSize() {
+			public long getSize() {
 				return f.length();
 			}
 
@@ -624,7 +628,7 @@ public class ACEEditor extends Window implements ActionListener, KeyStrokes {
 			}
 
 		};
-		getApplicationInstance().enqueueCommand(new Download(provider, true));
+		getApplicationInstance().enqueueCommand(new DownloadCommand(provider));
 	}
 
 	/**

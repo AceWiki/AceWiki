@@ -14,8 +14,8 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui.editor;
 
-import nextapp.echo2.app.ResourceImageReference;
-import nextapp.echo2.app.event.ActionListener;
+import nextapp.echo.app.ResourceImageReference;
+import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.TrAdjRole;

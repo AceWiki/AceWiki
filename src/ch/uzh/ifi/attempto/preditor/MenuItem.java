@@ -15,10 +15,10 @@
 package ch.uzh.ifi.attempto.preditor;
 
 import ch.uzh.ifi.attempto.echocomp.Style;
-import nextapp.echo2.app.Button;
-import nextapp.echo2.app.Extent;
-import nextapp.echo2.app.Font;
-import nextapp.echo2.app.Insets;
+import nextapp.echo.app.Button;
+import nextapp.echo.app.Extent;
+import nextapp.echo.app.Font;
+import nextapp.echo.app.Insets;
 
 /**
  * This abstract class represents an item of a menu of the predictive editor. Each menu item

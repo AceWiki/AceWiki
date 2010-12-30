@@ -14,7 +14,7 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui.page;
 
-import nextapp.echo2.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionEvent;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
 

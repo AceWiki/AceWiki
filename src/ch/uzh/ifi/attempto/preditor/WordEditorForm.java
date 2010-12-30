@@ -17,19 +17,21 @@ package ch.uzh.ifi.attempto.preditor;
 import java.util.ArrayList;
 import java.util.List;
 
-import nextapp.echo2.app.Alignment;
-import nextapp.echo2.app.ApplicationInstance;
-import nextapp.echo2.app.Column;
-import nextapp.echo2.app.Component;
-import nextapp.echo2.app.ContentPane;
-import nextapp.echo2.app.Extent;
-import nextapp.echo2.app.Font;
-import nextapp.echo2.app.Grid;
-import nextapp.echo2.app.Insets;
-import nextapp.echo2.app.Row;
-import nextapp.echo2.app.event.ActionEvent;
-import nextapp.echo2.app.event.ActionListener;
-import nextapp.echo2.app.layout.GridLayoutData;
+import nextapp.echo.app.Alignment;
+import nextapp.echo.app.ApplicationInstance;
+import nextapp.echo.app.Border;
+import nextapp.echo.app.Color;
+import nextapp.echo.app.Column;
+import nextapp.echo.app.Component;
+import nextapp.echo.app.ContentPane;
+import nextapp.echo.app.Extent;
+import nextapp.echo.app.Font;
+import nextapp.echo.app.Grid;
+import nextapp.echo.app.Insets;
+import nextapp.echo.app.Row;
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
+import nextapp.echo.app.layout.GridLayoutData;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
@@ -67,8 +69,11 @@ public class WordEditorForm extends ContentPane implements ActionListener {
 		this.parentWindow = parentWindow;
 		this.actionListener = actionListener;
 		
+		Column borderCol = new Column();
+		borderCol.setBorder(new Border(1, Color.BLACK, Border.STYLE_INSET));
+		
 		Grid grid = new Grid(1);
-		grid.setRowHeight(0, new Extent(parentWindow.getHeight().getValue()-173));
+		grid.setRowHeight(0, new Extent(parentWindow.getHeight().getValue()-160));
 		grid.setRowHeight(1, new Extent(30));
 		
 		column = new Column();
@@ -96,7 +101,8 @@ public class WordEditorForm extends ContentPane implements ActionListener {
 		addButton("OK");
 		addButton("Cancel");
 		
-		add(grid);
+		borderCol.add(grid);
+		add(borderCol);
 	}
 	
 	/**

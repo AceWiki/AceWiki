@@ -17,10 +17,10 @@ package ch.uzh.ifi.attempto.acewiki.gui;
 import java.util.Collections;
 import java.util.List;
 
-import nextapp.echo2.app.Column;
-import nextapp.echo2.app.Font;
-import nextapp.echo2.app.Insets;
-import nextapp.echo2.app.Row;
+import nextapp.echo.app.Column;
+import nextapp.echo.app.Font;
+import nextapp.echo.app.Insets;
+import nextapp.echo.app.Row;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.NounConcept;

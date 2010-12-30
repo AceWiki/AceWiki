@@ -1,8 +1,8 @@
 package ch.uzh.ifi.attempto.echocomp;
 
-import nextapp.echo2.app.Button;
-import nextapp.echo2.app.ResourceImageReference;
-import nextapp.echo2.app.event.ActionListener;
+import nextapp.echo.app.Button;
+import nextapp.echo.app.ResourceImageReference;
+import nextapp.echo.app.event.ActionListener;
 
 /**
  * This class represents a small square button with one of the following predefined icons: right,

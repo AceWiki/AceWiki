@@ -30,7 +30,7 @@ public class ExampleMenuCreator extends DefaultMenuCreator {
 	private static List<String> menuGroupOrdering;
 	
 	static {
-		List<String> menuGroupOrdering = new ArrayList<String>();
+		menuGroupOrdering = new ArrayList<String>();
 		menuGroupOrdering.add("function word");
 		menuGroupOrdering.add("noun");
 		menuGroupOrdering.add("proper name");

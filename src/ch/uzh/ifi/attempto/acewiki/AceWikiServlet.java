@@ -23,8 +23,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import nextapp.echo2.app.ApplicationInstance;
-import nextapp.echo2.webcontainer.WebContainerServlet;
+import nextapp.echo.app.ApplicationInstance;
+import nextapp.echo.webcontainer.WebContainerServlet;
 import ch.uzh.ifi.attempto.ape.APELocal;
 import ch.uzh.ifi.attempto.echocomp.Logger;
 
@@ -76,12 +76,12 @@ public class AceWikiServlet extends WebContainerServlet {
 		if ("".equals(showpageParam)) showpageParam = null;
 		String pageParam = request.getParameter("page");
 		if ("".equals(pageParam)) pageParam = null;
-		String serviceidParam = request.getParameter("serviceId");
+		String serviceidParam = request.getParameter("sid");
 		if ("".equals(serviceidParam)) serviceidParam = null;
 
 		if (!request.getSession().isNew() && showpageParam != null) {
 			response.sendRedirect(
-					response.encodeRedirectURL("?serviceId=ExternalEvent&page=" + showpageParam)
+					response.encodeRedirectURL("?sid=ExternalEvent&page=" + showpageParam)
 				);
 		}
 		if (showpageParam == null && pageParam != null && serviceidParam == null) {

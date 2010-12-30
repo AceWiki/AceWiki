@@ -14,17 +14,17 @@
 
 package ch.uzh.ifi.attempto.echocomp;
 
-import nextapp.echo2.app.Border;
-import nextapp.echo2.app.Color;
-import nextapp.echo2.app.Extent;
-import nextapp.echo2.app.Font;
+import nextapp.echo.app.Border;
+import nextapp.echo.app.Color;
+import nextapp.echo.app.Extent;
+import nextapp.echo.app.Font;
 
 /**
  * This is a convenience class for easy creation of text area.
  * 
  * @author Tobias Kuhn
  */
-public class TextArea extends nextapp.echo2.app.TextArea {
+public class TextArea extends nextapp.echo.app.TextArea {
 	
 	private static final long serialVersionUID = 8965038167453278878L;
 	

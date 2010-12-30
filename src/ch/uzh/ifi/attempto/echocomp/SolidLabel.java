@@ -14,7 +14,7 @@
 
 package ch.uzh.ifi.attempto.echocomp;
 
-import nextapp.echo2.app.ImageReference;
+import nextapp.echo.app.ImageReference;
 
 /**
  * This is a convenience class for easy creation of labels with no line wrap.
