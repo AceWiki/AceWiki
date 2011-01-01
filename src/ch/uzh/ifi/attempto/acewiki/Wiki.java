@@ -99,11 +99,11 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private User user;
 	
 	private WikiPage currentPage;
-	private ContentPane mainPane = new ContentPane();
 	private ContentPane contentPane = new ContentPane();
 	private Row navigationButtons = new Row();
 	private Logger logger;
 	private SplitPane wikiPane;
+	private SplitPane contentSplitPane;
 	private Row loginBackground;
 	
 	private IconButton backButton = new IconButton("Back", this);
@@ -274,14 +274,14 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		splitPane3.setSeparatorPosition(new Extent(0));
 		splitPane3.add(new Label());
 		
-		SplitPane splitPane4 = new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM);
-		splitPane4.setSeparatorHeight(new Extent(1));
-		splitPane4.setSeparatorColor(Color.BLACK);
-		splitPane4.setSeparatorPosition(new Extent(0));
-		splitPane4.add(new Label());
+		contentSplitPane = new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM);
+		contentSplitPane.setSeparatorHeight(new Extent(1));
+		contentSplitPane.setSeparatorColor(Color.BLACK);
+		contentSplitPane.setSeparatorPosition(new Extent(0));
+		contentSplitPane.add(new Label());
 
-		splitPane3.add(splitPane4);
-		splitPane4.add(mainPane);
+		splitPane3.add(contentSplitPane);
+		contentSplitPane.add(new Label("Loading..."));
 		
 		splitPane2.add(searchBar);
 		splitPane2.add(menuBar);
@@ -607,8 +607,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * Updates the GUI.
 	 */
 	public void update() {
-		mainPane.removeAll();
-		mainPane.add(currentPage);
+		contentSplitPane.remove(1);
+		contentSplitPane.add(currentPage);
 		
 		removeExpiredPages(history);
 		removeExpiredPages(forward);
