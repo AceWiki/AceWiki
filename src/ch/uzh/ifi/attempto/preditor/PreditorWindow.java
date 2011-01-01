@@ -173,7 +173,7 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		menuBlockColumn = new Column();
 		menuBlockColumn.setInsets(new Insets(10, 15, 0, 0));
 		menuBlockColumn.setCellSpacing(new Extent(12));
-		grid.setRowHeight(2, new Extent(260));
+		grid.setRowHeight(2, new Extent(265));
 		grid.add(menuBlockColumn);
 		
 		Row buttonBar = new Row();
@@ -182,7 +182,7 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		buttonBar.setCellSpacing(new Extent(5));
 		buttonBar.add(okButton);
 		buttonBar.add(cancelButton);
-		grid.setRowHeight(3, new Extent(35));
+		grid.setRowHeight(3, new Extent(30));
 		grid.add(buttonBar);
 		
 		update();
