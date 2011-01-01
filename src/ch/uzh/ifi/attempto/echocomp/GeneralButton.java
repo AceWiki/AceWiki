@@ -42,7 +42,7 @@ public class GeneralButton extends Button {
 	public GeneralButton(String text, int width, ActionListener actionListener) {
 		super(text);
 		
-		if (width > 0) {
+		if (width > 0) {setBorder(new Border(1, Color.BLACK, Border.STYLE_OUTSET));
 			setWidth(new Extent(width));
 		}
 		setHeight(new Extent(17));
@@ -51,7 +51,7 @@ public class GeneralButton extends Button {
 		setBorder(new Border(1, Color.BLACK, Border.STYLE_OUTSET));
 		setDisabledBackground(Style.lightDisabled);
 		setDisabledForeground(Style.darkDisabled);
-		setDisabledBorder(new Border(1, Color.BLACK, Border.STYLE_OUTSET));
+		setDisabledBorder(new Border(1, Style.darkDisabled, Border.STYLE_OUTSET));
 		setRolloverEnabled(true);
 		setRolloverForeground(Style.lightForeground);
 		setRolloverBackground(Style.darkBackground);
@@ -73,6 +73,18 @@ public class GeneralButton extends Button {
 	 */
 	public GeneralButton(String text, ActionListener actionListener) {
 		this(text, 0, actionListener);
+	}
+	
+	public void setEnabled(boolean enabled) {
+		super.setEnabled(enabled);
+		
+		// There seems to be a bug in Echo: the disabled background color is not displayed
+		// properly. This is a workaround for this Problem:
+		if (enabled) {
+			setBackground(Style.mediumBackground);
+		} else {
+			setBackground(null);
+		}
 	}
 
 }
