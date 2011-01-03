@@ -214,7 +214,6 @@ class MenuBlock extends Column implements ActionListener {
 	 * @param enlarged true to switch to enlarged mode; false to switch back.
 	 */
 	public void setEnlarged(boolean enlarged) {
-		state++;
 		if (enlarged) {
 			enlargeButton.setText("–");
 			enlargeButton.setToolTipText("back to normal size");
