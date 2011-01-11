@@ -455,12 +455,12 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		
 		for (String mg : getMenuCreator().getMenuGroupOrdering()) {
 			if (contentsMap.containsKey(mg)) {
-				addMenuBlockContent(mg, contentsMap);
+				addMenuBlockContent(contentsMap.get(mg));
 			}
 		}
 		for (String mg : contentsMap.keySet()) {
 			if (!getMenuCreator().getMenuGroupOrdering().contains(mg)) {
-				addMenuBlockContent(mg, contentsMap);
+				addMenuBlockContent(contentsMap.get(mg));
 			}
 		}
 	}
@@ -479,8 +479,7 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		mbc.addItem(menuItem);
 	}
 	
-	private void addMenuBlockContent(String menuGroup, Map<String, MenuBlockContent> contentsMap) {
-		MenuBlockContent m = contentsMap.get(menuGroup);
+	private void addMenuBlockContent(MenuBlockContent m) {
 		if (!m.isEmpty()) {
 			menuBlockContents.add(m);
 		}
