@@ -15,6 +15,7 @@
 package ch.uzh.ifi.attempto.acewiki.core.ontology;
 
 import static ch.uzh.ifi.attempto.ape.OutputType.DRSPP;
+import static ch.uzh.ifi.attempto.ape.OutputType.OWLFSSPP;
 import static ch.uzh.ifi.attempto.ape.OutputType.OWLXML;
 import static ch.uzh.ifi.attempto.ape.OutputType.PARAPHRASE1;
 import static ch.uzh.ifi.attempto.ape.OutputType.SYNTAX;
@@ -152,6 +153,18 @@ public abstract class Sentence extends Statement {
 		return owlxml;
 	}
 	
+	/**
+	 * Returns a pretty-printed OWL representation of this sentence.
+	 * 
+	 * @return The pretty-printed OWL representation.
+	 */
+	public String getPrettyOWL() {
+		if (parserResult == null) {
+			parse();
+		}
+		return parserResult.get(OWLFSSPP);
+	}
+	
 	// TODO rename this, because "reasoner participant" is confusing
 	/**
 	 * Returns true if this sentence can participate in reasoning.
@@ -234,6 +247,7 @@ public abstract class Sentence extends Statement {
 					SYNTAX,
 					SYNTAXPP,
 					OWLXML,
+					OWLFSSPP,
 					DRSPP
 				);
 		}

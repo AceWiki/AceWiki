@@ -68,7 +68,7 @@ public class LogicPage extends WikiPage implements ActionListener {
 			Column owlrdfColumn = new Column();
 			owlrdfColumn.setInsets(new Insets(10, 0, 5, 25));
 			owlrdfColumn.add(new DirectHtml(
-					"<i><pre>" + HtmlKit.encode(sentence.getOWLXML()) + "</pre></i>"
+					"<i><pre>" + HtmlKit.encode(sentence.getPrettyOWL()) + "</pre></i>"
 				));
 			add(owlrdfColumn);
 		}
