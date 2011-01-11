@@ -102,3 +102,9 @@ OWLlink API 1.0.1
   url:       http://www.owllink.org/
   copyright: 2010 Ulm University
   licenses:  GNU Lesser General Public License version 2.1 or later (see licenses/gpl-3.txt)
+
+XStream 1.3.1
+  files:     xstream-1.3.1.jar
+  url:       http://xstream.codehaus.org
+  copyright: 2003-2006, Joe Walnes; 2006-2007, XStream Committers
+  licenses:  BSD license (see licenses/xstream.txt)
