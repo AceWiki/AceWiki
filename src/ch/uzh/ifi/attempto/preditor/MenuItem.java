@@ -14,11 +14,11 @@
 
 package ch.uzh.ifi.attempto.preditor;
 
-import ch.uzh.ifi.attempto.echocomp.Style;
 import nextapp.echo.app.Button;
 import nextapp.echo.app.Extent;
 import nextapp.echo.app.Font;
 import nextapp.echo.app.Insets;
+import ch.uzh.ifi.attempto.echocomp.Style;
 
 /**
  * This abstract class represents an item of a menu of the predictive editor. Each menu item
@@ -33,6 +33,7 @@ public abstract class MenuItem extends Button {
 	private String menuGroup;
 	private String id;
 	private boolean highlighted = false;
+	private int colorShift;
 	
 	/**
 	 * Initializes a new menu item.
@@ -94,6 +95,22 @@ public abstract class MenuItem extends Button {
     public boolean isHighlighted() {
     	return highlighted;
     }
+    
+    /**
+     * This methods sets the color shift that defines the color in which this menu item is to be
+     * displayed.
+     * 
+     * @see MenuCreator#getColorShift
+     * @param colorShift The color shift value.
+     */
+    public void setColorShift(int colorShift) {
+    	int colorShiftDiff = colorShift - this.colorShift;
+    	this.colorShift = colorShift;
+    	setBackground(Style.shiftColor(super.getBackground(), colorShiftDiff));
+    	setForeground(Style.shiftColor(super.getForeground(), colorShiftDiff));
+    	setRolloverBackground(Style.shiftColor(super.getRolloverBackground(), colorShiftDiff));
+    	setRolloverForeground(Style.shiftColor(super.getRolloverForeground(), colorShiftDiff));
+    }
 	
 	/**
 	 * This method should be called internally whenever something changed that has an influence on
@@ -131,5 +148,5 @@ public abstract class MenuItem extends Button {
 			return false;
 		}
 	}
-        
+	
 }

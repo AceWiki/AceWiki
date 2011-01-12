@@ -94,5 +94,29 @@ public class Style {
      * The font typeface.
      */
     public static Font.Typeface fontTypeface = Font.VERDANA;
+    
+    /**
+     * This method is used to modify a given color by keeping its brightness and saturation. A
+	 * shift value of 120, for example, means a shift by 120 "degrees" towards violet. A shift of
+	 * 360 is a full rotation and result in the original color.
+     * 
+     * @param c The original color.
+     * @param colorShift The color shift value.
+     * @return The modified color.
+     */
+	public static Color shiftColor(Color c, int colorShift) {
+		if (colorShift >= 240) {
+			c = new Color(c.getGreen(), c.getBlue(), c.getRed());
+		} else if (colorShift >= 120) {
+			c = new Color(c.getBlue(), c.getRed(), c.getGreen());
+		}
+		double s = (colorShift % 120) / 120.0;
+		Color color = new Color(
+				(int) (s * c.getBlue() + (1-s) * c.getRed()),
+				(int) (s * c.getRed() + (1-s) * c.getGreen()),
+				(int) (s * c.getGreen() + (1-s) * c.getBlue())
+			);
+		return color;
+	}
 
 }

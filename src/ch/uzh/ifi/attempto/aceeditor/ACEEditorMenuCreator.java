@@ -98,6 +98,18 @@ class ACEEditorMenuCreator extends DefaultMenuCreator implements ActionListener 
 	ACEEditorMenuCreator(ACEEditor editor, LexiconHandler lexiconHandler) {
 		this.editor = editor;
 		this.lexiconHandler = lexiconHandler;
+		
+		setColorShift("proper name", 60);
+		setColorShift("noun", 100);
+		setColorShift("adjective", 160);
+		setColorShift("transitive adjective", 180);
+		setColorShift("intransitive verb", 200);
+		setColorShift("transitive verb", 220);
+		setColorShift("passive verb", 220);
+		setColorShift("adverb", 260);
+		setColorShift("preposition", 290);
+		setColorShift("new variable", 320);
+		setColorShift("reference", 320);
 	}
 	
 	void setPreditorWindow(PreditorWindow preditorWindow) {

@@ -62,15 +62,15 @@ class AceWikiMenuCreator extends DefaultMenuCreator implements ActionListener {
 
 		menuGroupOrdering = new ArrayList<String>();
 		menuGroupOrdering.add("function word");
+		menuGroupOrdering.add("proper name");
 		menuGroupOrdering.add("noun");
 		menuGroupOrdering.add("plural noun");
-		menuGroupOrdering.add("proper name");
 		menuGroupOrdering.add("of-construct");
+		menuGroupOrdering.add("transitive adjective");
 		menuGroupOrdering.add("verb");
 		menuGroupOrdering.add("passive verb");
-		menuGroupOrdering.add("transitive adjective");
-		menuGroupOrdering.add("reference");
 		menuGroupOrdering.add("new variable");
+		menuGroupOrdering.add("reference");
 	}
 	
 	/**
@@ -86,6 +86,16 @@ class AceWikiMenuCreator extends DefaultMenuCreator implements ActionListener {
 		this.wiki = wiki;
 		this.highlightedElement = highlightedElement;
 		this.actionListener = actionListener;
+
+		setColorShift("proper name", 60);
+		setColorShift("noun", 100);
+		setColorShift("plural noun", 120);
+		setColorShift("of-construct", 140);
+		setColorShift("transitive adjective", 180);
+		setColorShift("verb", 210);
+		setColorShift("passive verb", 210);
+		setColorShift("new variable", 320);
+		setColorShift("reference", 320);
 	}
 	
 	public List<String> getMenuGroupOrdering() {

@@ -57,6 +57,17 @@ public interface MenuCreator {
 	public List<String> getMenuGroupOrdering();
 	
 	/**
+	 * This method should return the shift of the color to be used for the given menu block. A
+	 * shift value of 120, for example, means a shift by 120 "degrees" towards violet. A shift of
+	 * 360 is a full rotation and result in the original color.
+	 * 
+	 * @param menuBlockName The name of the menu block for which the color shift should be
+	 *        returned.
+	 * @return The color shift value.
+	 */
+	public int getColorShift(String menuBlockName);
+	
+	/**
 	 * This method can return a comparator to define the order of the menu items within each menu
 	 * group.
 	 * 

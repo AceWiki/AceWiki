@@ -366,9 +366,9 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		if (enlargedMenuBlock != null) {
 			// One enlarged menu block
 			MenuBlockContent mbc = enlargedMenuBlock.getContent();
-			enlargedMenuBlock.setContent(mbc, 710, 16);
-			enlargedMenuBlock.setWidth(710);
-			enlargedMenuBlock.setHeight(256);
+			int cs = menuCreator.getColorShift(mbc.getName());
+			enlargedMenuBlock = new MenuBlock(710, 256, cs, this);
+			enlargedMenuBlock.setContent(mbc);
 			enlargedMenuBlock.setEnlarged(true);
 			menuBlockColumn.add(enlargedMenuBlock);
 		} else if (mbCount < 5) {
@@ -378,10 +378,10 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 			r.setCellSpacing(new Extent(10));
 			menuBlockColumn.add(r);
 			for (int i=0; i < mbCount; i++) {
-				MenuBlock mb = new MenuBlock(this, this);
-				mb.setContent(menuBlockContents.get(i), width, 16);
-				mb.setWidth(width);
-				mb.setHeight(256);
+				MenuBlockContent mbc = menuBlockContents.get(i);
+				int cs = menuCreator.getColorShift(mbc.getName());
+				MenuBlock mb = new MenuBlock(width, 256, cs, this);
+				mb.setContent(mbc);
 				r.add(mb);
 			}
 		} else {
@@ -392,20 +392,20 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 			r1.setCellSpacing(new Extent(10));
 			menuBlockColumn.add(r1);
 			for (int i=0; i < firstRowCount; i++) {
-				MenuBlock mb = new MenuBlock(this, this);
-				mb.setContent(menuBlockContents.get(i), width, 7);
-				mb.setWidth(width);
-				mb.setHeight(121);
+				MenuBlockContent mbc = menuBlockContents.get(i);
+				int cs = menuCreator.getColorShift(mbc.getName());
+				MenuBlock mb = new MenuBlock(width, 121, cs, this);
+				mb.setContent(mbc);
 				r1.add(mb);
 			}
 			Row r2 = new Row();
 			r2.setCellSpacing(new Extent(10));
 			menuBlockColumn.add(r2);
 			for (int i=0; i < mbCount - firstRowCount; i++) {
-				MenuBlock mb = new MenuBlock(this, this);
-				mb.setContent(menuBlockContents.get(firstRowCount + i), width, 7);
-				mb.setWidth(width);
-				mb.setHeight(121);
+				MenuBlockContent mbc = menuBlockContents.get(firstRowCount + i);
+				int cs = menuCreator.getColorShift(mbc.getName());
+				MenuBlock mb = new MenuBlock(width, 121, cs, this);
+				mb.setContent(mbc);
 				r2.add(mb);
 			}
 		}

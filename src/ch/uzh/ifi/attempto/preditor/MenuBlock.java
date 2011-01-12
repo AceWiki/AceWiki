@@ -31,7 +31,6 @@ import nextapp.echo.app.TaskQueueHandle;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.echocomp.Style;
-import ch.uzh.ifi.attempto.echocomp.WindowPane;
 import echopoint.ContainerEx;
 import echopoint.able.Scrollable;
 
@@ -54,7 +53,8 @@ class MenuBlock extends Column implements ActionListener {
 
 	private int state = 0;
 	private List<MenuItem> items;
-	private int width;
+	private int width, height;
+	private int colorShift;
 	private int progress;
 	private final ApplicationInstance app;
 	private final TaskQueueHandle taskQueue;
@@ -65,9 +65,11 @@ class MenuBlock extends Column implements ActionListener {
 	 * Creates a new menu block.
 	 * 
 	 * @param actionListener The action listener.
-	 * @param parent The parent window.
 	 */
-	public MenuBlock(ActionListener actionListener, WindowPane parent) {
+	MenuBlock(int width, int height, int colorShift, ActionListener actionListener) {
+		this.width = width - 2;
+		this.height = height - 16;
+		this.colorShift = colorShift % 360;
 		this.app = ApplicationInstance.getActive();
 		this.taskQueue = app.createTaskQueue();
 		this.actionListener = actionListener;
@@ -97,47 +99,43 @@ class MenuBlock extends Column implements ActionListener {
 		
 		container = new ContainerEx();
 		container.setBorder(new Border(1, Color.BLACK, Border.STYLE_INSET));
-		container.setBackground(Style.lightBackground);
+		container.setBackground(shiftColor(Style.lightBackground));
 		container.setScrollBarPolicy(Scrollable.AUTO);
+		container.setWidth(new Extent(this.width));
+		container.setHeight(new Extent(this.height));
 		add(container);
 		
 		Column menuBaseColumn = new Column();
-		menuBaseColumn.setBackground(Style.mediumBackground);
+		menuBaseColumn.setBackground(shiftColor(Style.mediumBackground));
 		menuBaseColumn.add(menuColumn);
 		container.add(menuBaseColumn);
 	}
 	
-	public void setWidth(int width) {
-		container.setWidth(new Extent(width - 2));
-	}
-	
-	public void setHeight(int height) {
-		container.setHeight(new Extent(height - 16));
+	private Color shiftColor(Color color) {
+		return Style.shiftColor(color, colorShift);
 	}
 	
 	/**
 	 * Sets the content and the size of this menu block.
 	 * 
 	 * @param content The content to be shown in this menu block.
-	 * @param width The width of this menu block in pixels.
-	 * @param pageSize The vertical page size in number of items.
 	 */
-	public synchronized void setContent(MenuBlockContent content, final int width, final int pageSize) {
+	public synchronized void setContent(MenuBlockContent content) {
 		this.content = content;
 		state++;
 		label.setText(content.getName());
 		label.setWidth(new Extent(width - 13));
 		menuColumn.removeAll();
-		this.width = width;
 		
 		items = content.getItems();
 		progress = 0;
 		
-		if (items.size() > pageSize) {
+		if (items.size() > height/17) {
 			menuColumn.add(createNextMenuComponent());
 			calculateRest(state);
 		} else {
 			for (MenuItem m : items) {
+				m.setColorShift(colorShift);
 				menuColumn.add(m);
 				m.setWidth(new Extent(width - 7));
 			}
@@ -196,6 +194,7 @@ class MenuBlock extends Column implements ActionListener {
 		if (endPos > items.size()) endPos = items.size();
 		for (int i = progress ; i < endPos ; i++) {
 			MenuItem m = items.get(i);
+			m.setColorShift(colorShift);
 			m.setWidth(new Extent(width - 24));
 			c.add(m);
 		}

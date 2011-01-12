@@ -16,7 +16,9 @@ package ch.uzh.ifi.attempto.preditor;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ch.uzh.ifi.attempto.chartparser.ConcreteOption;
 import ch.uzh.ifi.attempto.chartparser.NextTokenOptions;
@@ -29,6 +31,7 @@ import ch.uzh.ifi.attempto.chartparser.NextTokenOptions;
 public class DefaultMenuCreator implements MenuCreator {
 	
 	private DefaultMenuItemComparator comparator = new DefaultMenuItemComparator();
+	private Map<String, Integer> colors = new HashMap<String, Integer>();
 
 	public MenuEntry createMenuEntry(ConcreteOption option) {
 		return new MenuEntry(option, "word");
@@ -40,6 +43,26 @@ public class DefaultMenuCreator implements MenuCreator {
 
 	public List<String> getMenuGroupOrdering() {
 		return Collections.emptyList();
+	}
+	
+	public int getColorShift(String menuBlockName) {
+		if (colors.containsKey(menuBlockName)) {
+			return colors.get(menuBlockName);
+		} else {
+			return 0;
+		}
+	}
+
+    /**
+     * This methods sets the color shift for the given menu block. It defines the color in which
+     * the menu block is to be displayed.
+     * 
+     * @see MenuCreator#getColorShift
+     * @param menuBlockName The name of the menu block for which the color shift should be set.
+     * @param colorShift The color shift value.
+     */
+	public void setColorShift(String menuBlockName, int colorShift) {
+		colors.put(menuBlockName, colorShift);
 	}
 
 	public Comparator<MenuItem> getMenuItemComparator() {
