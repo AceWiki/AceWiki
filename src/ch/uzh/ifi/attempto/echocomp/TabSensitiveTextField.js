@@ -42,6 +42,6 @@ Attempto.TabSensitiveTextField.Peer = Core.extend(Echo.Sync.TextField, {
 			this.component.doAction();
 		}
 		return status;
-	},
+	}
 
 });

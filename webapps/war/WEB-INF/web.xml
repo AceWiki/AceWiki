@@ -277,11 +277,6 @@
     The mappings connect url-patterns with the servlets that should be shown when the respective
     URL is requested by the client. This can also be the root directory "/" of the servlet or a
     deeper structure like "/test/app1/".
-    
-    However, the server delay window (that is shown on the client when the server is busy)
-    looks for the wait icon "../wait.gif". This link gets broken when a different structure is used
-    unless the picture is copied to the right place. But don't worry too much about this because
-    the only consequence would be that the wait icon is not shown.
   -->
   
   <!--
