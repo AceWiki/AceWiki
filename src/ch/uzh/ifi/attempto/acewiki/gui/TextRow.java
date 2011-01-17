@@ -71,13 +71,13 @@ public class TextRow extends Column implements ActionListener {
 	
 	private void update() {
 		if (sentence.isReadOnly()) {
-			dropDown = new StatementMenu(StatementMenu.INFERRED_TYPE, this);
+			dropDown = new StatementMenu(StatementMenu.INFERRED_TYPE, wiki, this);
 		} else if (sentence instanceof Question) {
-			dropDown = new StatementMenu(StatementMenu.QUESTION_TYPE, this);
+			dropDown = new StatementMenu(StatementMenu.QUESTION_TYPE, wiki, this);
 		} else if (sentence.isReasonerParticipant()) {
-			dropDown = new StatementMenu(StatementMenu.REASONING_TYPE, this);
+			dropDown = new StatementMenu(StatementMenu.REASONING_TYPE, wiki, this);
 		} else {
-			dropDown = new StatementMenu(StatementMenu.NOREASONING_TYPE, this);
+			dropDown = new StatementMenu(StatementMenu.NOREASONING_TYPE, wiki, this);
 		}
 
 		// Experimental "possible answers" feature:
@@ -159,6 +159,7 @@ public class TextRow extends Column implements ActionListener {
 		removeAll();
 		sentenceRow.removeAll();
 		sentenceRow.add(dropDown);
+		sentenceRow.add(new HSpace(5));
 		sentenceRow.add(r);
 		sentenceRow.add(new HSpace(5));
 		sentenceRow.add(recalcIcon);

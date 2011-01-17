@@ -50,7 +50,7 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 	private static final long serialVersionUID = -297830105047433502L;
 	
 	private Column textColumn = new Column();
-	private StatementMenu dropDown = new StatementMenu(StatementMenu.EMPTY_TYPE, this);
+	private StatementMenu dropDown = new StatementMenu(StatementMenu.EMPTY_TYPE, getWiki(), this);
 	private Title title;
 	
 	/**

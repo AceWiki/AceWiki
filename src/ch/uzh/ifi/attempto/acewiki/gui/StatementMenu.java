@@ -14,19 +14,23 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui;
 
+import nextapp.echo.app.Alignment;
 import nextapp.echo.app.Border;
+import nextapp.echo.app.Button;
 import nextapp.echo.app.Color;
+import nextapp.echo.app.Column;
 import nextapp.echo.app.Extent;
 import nextapp.echo.app.Font;
 import nextapp.echo.app.Insets;
 import nextapp.echo.app.ResourceImageReference;
+import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
-import nextapp.echo.extras.app.DropDownMenu;
-import nextapp.echo.extras.app.menu.DefaultMenuModel;
-import nextapp.echo.extras.app.menu.DefaultOptionModel;
-import nextapp.echo.extras.app.menu.SeparatorModel;
+import nextapp.echo.app.layout.RowLayoutData;
+import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.echocomp.Style;
+import echopoint.ContainerEx;
+import echopoint.able.Positionable;
 
 /**
  * This class represents drop down menus that are shown in front of the ACE sentences as small
@@ -34,7 +38,7 @@ import ch.uzh.ifi.attempto.echocomp.Style;
  * 
  * @author Tobias Kuhn
  */
-public class StatementMenu extends DropDownMenu implements ActionListener {
+public class StatementMenu extends Row implements ActionListener {
 
 	private static final long serialVersionUID = 3646511994109953476L;
 	
@@ -68,67 +72,67 @@ public class StatementMenu extends DropDownMenu implements ActionListener {
 	 */
 	public static final int EMPTY_TYPE = 5;
 	
-	private DefaultMenuModel menuModel = new DefaultMenuModel();
+	private Button toggle = new Button();
+	private ContainerEx popup;
+	private Button overlayLockButton;
+	
+	private Column menuColumn = new Column();
 	private ActionListener actionListener;
+	private Column menuSeparator = null;
+	private Wiki wiki;
+	private RowLayoutData layout;
 	
 	/**
 	 * Creates a empty drop down menu with an icon of the given color.
 	 * 
 	 * @param type The type of the statement.
+	 * @param wiki The wiki object.
 	 * @param actionListener The action-listener.
 	 */
-	public StatementMenu(int type, ActionListener actionListener) {
+	public StatementMenu(int type, Wiki wiki, ActionListener actionListener) {
+		this.wiki = wiki;
 		this.actionListener = actionListener;
-		setModel(menuModel);
 		
-		setWidth(new Extent(15));
+		layout = new RowLayoutData();
+		layout.setAlignment(new Alignment(Alignment.LEFT, Alignment.TOP));
+		
+		toggle.setWidth(new Extent(13));
+		toggle.setHeight(new Extent(13));
+		toggle.setInsets(new Insets(1));
+		toggle.setLayoutData(layout);
 		String img1 = null;
-		//String img2 = null;
-		// TODO: reactivate tooltips
+		String img2 = null;
 		if (type == REASONING_TYPE ) {
 			img1 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDown1.png";
-			//img2 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDown2.png";
-			//setToolTipText("Blue triangle: This statement is considered for reasoning.");
+			img2 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDown2.png";
+			toggle.setToolTipText("Blue triangle: This statement is considered for reasoning.");
 		} else if (type == QUESTION_TYPE) {
 			img1 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDown1.png";
-			//img2 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDown2.png";
-			//setToolTipText("This is a question that is automatically answered.");
+			img2 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDown2.png";
+			toggle.setToolTipText("This is a question that is automatically answered.");
 		} else if (type == NOREASONING_TYPE) {
 			img1 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownRed1.png";
-			//img2 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownRed2.png";
-			//setToolTipText("Red triangle: This statement is too complex to be considered for reasoning.");
+			img2 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownRed2.png";
+			toggle.setToolTipText("Red triangle: This statement is too complex to be considered for reasoning.");
 		} else if (type == INFERRED_TYPE) {
 			img1 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownLBlue1.png";
-			//img2 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownLBlue2.png";
-			//setToolTipText("White triangle: This statement is automatically inferred.");
+			img2 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownLBlue2.png";
+			toggle.setToolTipText("White triangle: This statement is automatically inferred.");
 		} else if (type == COMMENT_TYPE) {
 			img1 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownGray1.png";
-			//img2 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownGray2.png";
-			//setToolTipText("Gray triangle: This statement is an informal comment.");
+			img2 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownGray2.png";
+			toggle.setToolTipText("Gray triangle: This statement is an informal comment.");
 		} else if (type == EMPTY_TYPE) {
 			img1 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownGray1.png";
-			//img2 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownGray2.png";
-			//setToolTipText("Click here to add a sentence or comment.");
+			img2 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownGray2.png";
+			toggle.setToolTipText("Click here to add a sentence or comment.");
 		}
-		setBackground(Color.WHITE);
-		setInsets(new Insets(0));
-		setExpandIcon(new ResourceImageReference(img1));
-		//setMenuExpandIcon(new ResourceImageReference(img2));
-		//setDisabledExpandIcon(new ResourceImageReference(img2));
-		// TODO: reactivate effects for rollover and pressed
-		//setsetToggleRolloverIcon(new ResourceImageReference(img2));
-		//setTogglePressedIcon(new ResourceImageReference(img2));
-		setBorder(new Border(0, Color.BLACK, Border.STYLE_SOLID));
-		//setRolloverBorder(new Border(0, Color.BLACK, Border.STYLE_SOLID));
-		
-		setMenuBackground(Style.mediumBackground);
-		setMenuForeground(Style.darkForeground);
-		setMenuWidth(new Extent(140));
-		setMenuBorder(new Border(1, Color.BLACK, Border.STYLE_OUTSET));
-		setSelectionBackground(Style.darkBackground);
-		setSelectionForeground(Style.lightForeground);
-		setMenuFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(11)));
-		addActionListener(this);
+		toggle.setIcon(new ResourceImageReference(img1));
+		toggle.setRolloverEnabled(true);
+		toggle.setRolloverIcon(new ResourceImageReference(img2));
+		toggle.setPressedIcon(new ResourceImageReference(img2));
+		toggle.addActionListener(this);
+		add(toggle);
 	}
 	
 	/**
@@ -138,18 +142,104 @@ public class StatementMenu extends DropDownMenu implements ActionListener {
 	 * @param tooltip The tool tip text of the menu entry.
 	 */
 	public void addMenuEntry(String text, String tooltip) {
-		menuModel.addItem(new DefaultOptionModel(text, text, null));
+		if (menuSeparator != null) {
+			menuColumn.add(menuSeparator);
+			menuSeparator = null;
+		}
+		Button menuEntry = new Button(text);
+		menuEntry.setActionCommand(text);
+		menuEntry.setHeight(new Extent(16));
+		menuEntry.setWidth(new Extent(140));
+		menuEntry.setBackground(Style.mediumBackground);
+		menuEntry.setForeground(Style.darkForeground);
+		menuEntry.setRolloverEnabled(true);
+		menuEntry.setRolloverForeground(Style.lightForeground);
+		menuEntry.setRolloverBackground(Style.darkBackground);
+		menuEntry.setInsets(new Insets(2, 0));
+		menuEntry.setAlignment(new Alignment(Alignment.LEFT, Alignment.CENTER));
+		menuEntry.setTextAlignment(new Alignment(Alignment.LEFT, Alignment.CENTER));
+		menuEntry.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
+		menuEntry.setToolTipText(tooltip);
+		menuEntry.addActionListener(this);
+		menuColumn.add(menuEntry);
 	}
 	
 	/**
 	 * Adds a separator to the menu.
 	 */
 	public void addMenuSeparator() {
-		menuModel.addItem(new SeparatorModel());
+		if (menuColumn.getComponentCount() == 0) return;
+		menuSeparator = new Column();
+		menuSeparator.setInsets(new Insets(2, 0, 2, 0));
+		menuSeparator.setBackground(Style.mediumBackground);
+		Column line = new Column();
+		line.setBackground(Style.darkBackground);
+		line.setInsets(new Insets(0, 1, 0, 0));
+		menuSeparator.add(line);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		actionListener.actionPerformed(new ActionEvent(this, e.getActionCommand()));
+		Object src = e.getSource();
+		
+		if (src == toggle) {
+			setExpanded(true);
+		} else if (src == wiki) {
+			setExpanded(false);
+		} else if (src == overlayLockButton) {
+			setExpanded(false);
+		} else {
+			setExpanded(false);
+			actionListener.actionPerformed(new ActionEvent(this, e.getActionCommand()));
+		}
+	}
+	
+	/**
+	 * This method shows or hides the popup part of the menu.
+	 * 
+	 * @param expanded true to show the popup; false to hide it.
+	 */
+	public void setExpanded(boolean expanded) {
+		if (expanded) {
+			if (isExpanded()) return;
+			wiki.lock(this);
+			if (popup == null) {
+				popup = new ContainerEx();
+				popup.setPosition(Positionable.ABSOLUTE);
+				popup.add(menuColumn);
+				popup.setBorder(new Border(1, Color.BLACK, Border.STYLE_OUTSET));
+				popup.setZIndex(Integer.MAX_VALUE);
+				popup.setLayoutData(layout);
+				add(popup);
+				
+				ContainerEx overlayLockComponent = new ContainerEx();
+				overlayLockComponent.setPosition(Positionable.FIXED);
+				overlayLockComponent.setTop(new Extent(0));
+				overlayLockComponent.setLeft(new Extent(0));
+				overlayLockButton = new Button();
+				overlayLockButton.setWidth(new Extent(10000));
+				overlayLockButton.setHeight(new Extent(10000));
+				overlayLockButton.addActionListener(this);
+				overlayLockComponent.add(overlayLockButton);
+				add(overlayLockComponent);
+			} else {
+				popup.setVisible(true);
+				overlayLockButton.setVisible(true);
+			}
+		} else {
+			if (!isExpanded()) return;
+			wiki.unlock();
+			popup.setVisible(false);
+			overlayLockButton.setVisible(false);
+		}
+	}
+	
+	/**
+	 * Returns whether the menu is expanded.
+	 * 
+	 * @return true if the menu is expanded.
+	 */
+	public boolean isExpanded() {
+		return popup != null && popup.isVisible();
 	}
 
 }

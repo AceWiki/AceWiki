@@ -77,7 +77,7 @@ public class CommentRow extends Column implements ActionListener {
 	}
 	
 	private void update() {
-		dropDown = new StatementMenu(StatementMenu.COMMENT_TYPE, this);
+		dropDown = new StatementMenu(StatementMenu.COMMENT_TYPE, wiki, this);
 		if (!wiki.isReadOnly()) {
 			dropDown.addMenuEntry("Edit...", "Edit this comment");
 			dropDown.addMenuEntry("Delete", "Delete this comment from the article");
@@ -109,6 +109,7 @@ public class CommentRow extends Column implements ActionListener {
 		removeAll();
 		commentRow.removeAll();
 		commentRow.add(dropDown);
+		commentRow.add(new HSpace(5));
 		commentRow.add(c);
 		commentRow.add(new HSpace(10));
 		add(commentRow);

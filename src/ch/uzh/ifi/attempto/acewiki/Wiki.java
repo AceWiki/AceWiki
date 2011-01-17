@@ -77,9 +77,9 @@ import ch.uzh.ifi.attempto.echocomp.VSpace;
 import ch.uzh.ifi.attempto.echocomp.WindowPane;
 import ch.uzh.ifi.attempto.preditor.PreditorWindow;
 import ch.uzh.ifi.attempto.preditor.WordEditorWindow;
-import echopoint.externalevent.ExternalEventMonitor;
 import echopoint.externalevent.ExternalEvent;
 import echopoint.externalevent.ExternalEventListener;
+import echopoint.externalevent.ExternalEventMonitor;
 
 /**
  * This class represents an AceWiki wiki instance (including its graphical user interface). There
@@ -99,11 +99,11 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private User user;
 	
 	private WikiPage currentPage;
+	private Column pageCol;
 	private ContentPane contentPane = new ContentPane();
 	private Row navigationButtons = new Row();
 	private Logger logger;
 	private SplitPane wikiPane;
-	private SplitPane contentSplitPane;
 	private Row loginBackground;
 	
 	private IconButton backButton = new IconButton("Back", this);
@@ -142,6 +142,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private static Properties properties;
 	
 	private boolean disposed = false;
+	
+	private boolean locked = false;
+	private ActionListener lockedListener;
 	
 	/**
 	 * Creates a new wiki instance.
@@ -274,14 +277,15 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		splitPane3.setSeparatorPosition(new Extent(0));
 		splitPane3.add(new Label());
 		
-		contentSplitPane = new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM);
-		contentSplitPane.setSeparatorHeight(new Extent(1));
-		contentSplitPane.setSeparatorColor(Color.BLACK);
-		contentSplitPane.setSeparatorPosition(new Extent(0));
-		contentSplitPane.add(new Label());
+		SplitPane splitPane4 = new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM);
+		splitPane4.setSeparatorHeight(new Extent(1));
+		splitPane4.setSeparatorColor(Color.BLACK);
+		splitPane4.setSeparatorPosition(new Extent(0));
+		splitPane4.add(new Label());
 
-		splitPane3.add(contentSplitPane);
-		contentSplitPane.add(new Label("Loading..."));
+		splitPane3.add(splitPane4);
+		pageCol = new Column();
+		splitPane4.add(pageCol);
 		
 		splitPane2.add(searchBar);
 		splitPane2.add(menuBar);
@@ -607,8 +611,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * Updates the GUI.
 	 */
 	public void update() {
-		contentSplitPane.remove(1);
-		contentSplitPane.add(currentPage);
+		pageCol.removeAll();
+		pageCol.add(currentPage);
 		
 		removeExpiredPages(history);
 		removeExpiredPages(forward);
@@ -654,6 +658,13 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	public void actionPerformed(ActionEvent e) {
 		Object src = e.getSource();
 		String c = e.getActionCommand();
+		
+		if (locked) {
+			if (lockedListener != null) {
+				lockedListener.actionPerformed(new ActionEvent(this, "locked"));
+			}
+			return;
+		}
 		
 		if (src == backButton) {
 			log("page", "pressed: back");
@@ -874,6 +885,25 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		disposed = true;
 		externalEventMonitor.removeExternalEventListener(this);
 		externalEventMonitor.dispose();
+	}
+	
+	/**
+	 * This methods locks the general buttons of the wiki interface. When one of these buttons
+	 * is pressed, the locked-listener is called.
+	 * 
+	 * @param lockedListener The listener to be called when one of the buttons is pressed.
+	 */
+	public void lock(ActionListener lockedListener) {
+		if (locked) return;
+		locked = true;
+		this.lockedListener = lockedListener;
+	}
+	
+	/**
+	 * Unlocks the wiki interface, if it has been locked before.
+	 */
+	public void unlock() {
+		locked = false;
 	}
 
 }
