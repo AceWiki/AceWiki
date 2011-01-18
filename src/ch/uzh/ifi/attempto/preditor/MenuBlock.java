@@ -124,20 +124,20 @@ class MenuBlock extends Column implements ActionListener {
 		this.content = content;
 		state++;
 		label.setText(content.getName());
-		label.setWidth(new Extent(width - 13));
+		label.setWidth(new Extent(width - 8));
 		menuColumn.removeAll();
 		
 		items = content.getItems();
 		progress = 0;
 		
-		if (items.size() > height/17) {
+		if (items.size() > height/15) {
 			menuColumn.add(createNextMenuComponent());
 			calculateRest(state);
 		} else {
 			for (MenuItem m : items) {
 				m.setColorShift(colorShift);
 				menuColumn.add(m);
-				m.setWidth(new Extent(width - 7));
+				m.setWidth(new Extent(width - 4));
 			}
 			progress = items.size();
 		}
@@ -195,7 +195,7 @@ class MenuBlock extends Column implements ActionListener {
 		for (int i = progress ; i < endPos ; i++) {
 			MenuItem m = items.get(i);
 			m.setColorShift(colorShift);
-			m.setWidth(new Extent(width - 24));
+			m.setWidth(new Extent(width - 20));
 			c.add(m);
 		}
 		progress = endPos;
