@@ -67,13 +67,14 @@ class MenuBlock extends Column implements ActionListener {
 	 * @param actionListener The action listener.
 	 */
 	MenuBlock(int width, int height, int colorShift, ActionListener actionListener) {
-		this.width = width - 2;
-		this.height = height - 16;
+		this.width = width;
+		this.height = height;
 		this.colorShift = colorShift % 360;
 		this.app = ApplicationInstance.getActive();
 		this.taskQueue = app.createTaskQueue();
 		this.actionListener = actionListener;
 		
+		setInsets(new Insets(0, 1, 0, 0));
 		Row labelRow = new Row();
 		label.setEnabled(false);
 		label.setHeight(new Extent(16));

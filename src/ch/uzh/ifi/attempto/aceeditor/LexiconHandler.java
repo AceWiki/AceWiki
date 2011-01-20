@@ -215,7 +215,7 @@ class LexiconHandler implements DynamicLexicon {
 	
 	private static void addVariableEntries(Collection<LexicalRule> entries, String cat) {
 		for (String s : new String[] {"X", "Y", "Z"}) {
-			for (int i = 0 ; i <= 3 ; i++) {
+			for (int i = 0 ; i <= 2 ; i++) {
 				Preterminal p = new Preterminal(cat);
 				String t = s;
 				if (i != 0) t += i;

@@ -70,17 +70,16 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 	private MenuCreator menuCreator;
 	private TextOperator textOperator;
 	private ChartParser parser;
-	private String filter = "";
 	private List<ActionListener> actionListeners = new ArrayList<ActionListener>();
 	private Logger logger;
 	
-	private List<MenuBlockContent> menuBlockContents = new ArrayList<MenuBlockContent>();
+	private MenuBlockManager menuBlockManager;
 	private MenuBlock enlargedMenuBlock;
 	
 	private DirectHtml textArea = new DirectHtml();
 	private TabSensitiveTextField textField;
 	private TextField dummyTextField;
-	private Column menuBlockColumn;
+	private Column menuBlockArea;
 	private GeneralButton deleteButton = new GeneralButton("< Delete", 70, this);
 	private GeneralButton clearButton = new GeneralButton("Clear", 70, this);
 	private Button okButton = new GeneralButton("OK", 70, this);
@@ -102,6 +101,8 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 	public PreditorWindow(String title, Grammar grammar, String startCategoryName,
 			List<Nonterminal> context) {
 		this.parser = new ChartParser(grammar, startCategoryName, context);
+		
+		this.menuBlockManager = new MenuBlockManager(this);
 		
 		addWindowPaneListener(this);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -147,9 +148,7 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		textFieldColumn.add(textFieldLabel);
 		
 		textField = new TabSensitiveTextField(this);
-		// TODO: Problem with Chromium: unnecessary scrollbars and misplaced buttons
-		//textField.setWidth(new Extent(708));
-		textField.setWidth(new Extent(700));
+		textField.setWidth(new Extent(708));
 		textField.setDisabledBackground(Style.lightDisabled);
 		Row textFieldRow = new Row();
 		textFieldRow.add(textField);
@@ -170,11 +169,10 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		grid.setRowHeight(1, new Extent(88));
 		grid.add(textColumn);
 		
-		menuBlockColumn = new Column();
-		menuBlockColumn.setInsets(new Insets(10, 15, 0, 0));
-		menuBlockColumn.setCellSpacing(new Extent(12));
+		menuBlockArea = new Column();
+		menuBlockArea.setInsets(new Insets(10, 15, 0, 0));
 		grid.setRowHeight(2, new Extent(265));
-		grid.add(menuBlockColumn);
+		grid.add(menuBlockArea);
 		
 		Row buttonBar = new Row();
 		buttonBar.setAlignment(new Alignment(Alignment.RIGHT, Alignment.TOP));
@@ -318,98 +316,23 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		log("words added: " + te);
 	}
 	
-	private int getEntryCount() {
-		int c = 0;
-		for (MenuBlockContent mc : menuBlockContents) {
-			c += mc.getEntryCount();
-		}
-		return c;
-	}
-	
-	private String getStartString() {
-		String startString = "";
-		List<String> blockStartStrings = new ArrayList<String>();
-		
-		for (MenuBlockContent mc : menuBlockContents) {
-			String s = mc.getStartString();
-			if (s != null) {
-				blockStartStrings.add(s);
-			}
-		}
-		
-		if (blockStartStrings.isEmpty()) return null;
-		
-		String first = blockStartStrings.get(0);
-		blockStartStrings.remove(0);
-		
-		if (blockStartStrings.isEmpty()) return first;
-		
-		for (int i = 0; i < first.length(); i++) {
-			char c = first.charAt(i);
-			boolean stop = false;
-			for (String s : blockStartStrings) {
-				if (s.length() <= i || s.charAt(i) != c) stop = true;
-			}
-			if (stop) break;
-			startString += c;
-		}
-		
-		return startString;
-	}
-	
 	private void update() {
 		if (!isInitialized) return;
 		updateMenuBlockContents();
-		menuBlockColumn.removeAll();
-		setFilter(textField.getText());
-		int mbCount = menuBlockContents.size();
+		menuBlockArea.removeAll();
+		menuBlockManager.setFilter(textField.getText());
 		if (enlargedMenuBlock != null) {
 			// One enlarged menu block
 			MenuBlockContent mbc = enlargedMenuBlock.getContent();
 			int cs = menuCreator.getColorShift(mbc.getName());
-			enlargedMenuBlock = new MenuBlock(710, 256, cs, this);
+			enlargedMenuBlock = new MenuBlock(708, 240, cs, this);
 			enlargedMenuBlock.setContent(mbc);
 			enlargedMenuBlock.setEnlarged(true);
-			menuBlockColumn.add(enlargedMenuBlock);
-		} else if (mbCount < 5) {
-			// Menu blocks on one row
-			int width = ( 720 / ( mbCount > 3 ? mbCount : 3 ) ) - 10;
-			Row r = new Row();
-			r.setCellSpacing(new Extent(10));
-			menuBlockColumn.add(r);
-			for (int i=0; i < mbCount; i++) {
-				MenuBlockContent mbc = menuBlockContents.get(i);
-				int cs = menuCreator.getColorShift(mbc.getName());
-				MenuBlock mb = new MenuBlock(width, 256, cs, this);
-				mb.setContent(mbc);
-				r.add(mb);
-			}
+			menuBlockArea.add(enlargedMenuBlock);
 		} else {
-			// Menu blocks on two rows
-			int firstRowCount = (mbCount + 1) / 2;
-			int width = ( 720 / firstRowCount ) - 10;
-			Row r1 = new Row();
-			r1.setCellSpacing(new Extent(10));
-			menuBlockColumn.add(r1);
-			for (int i=0; i < firstRowCount; i++) {
-				MenuBlockContent mbc = menuBlockContents.get(i);
-				int cs = menuCreator.getColorShift(mbc.getName());
-				MenuBlock mb = new MenuBlock(width, 121, cs, this);
-				mb.setContent(mbc);
-				r1.add(mb);
-			}
-			Row r2 = new Row();
-			r2.setCellSpacing(new Extent(10));
-			menuBlockColumn.add(r2);
-			for (int i=0; i < mbCount - firstRowCount; i++) {
-				MenuBlockContent mbc = menuBlockContents.get(firstRowCount + i);
-				int cs = menuCreator.getColorShift(mbc.getName());
-				MenuBlock mb = new MenuBlock(width, 121, cs, this);
-				mb.setContent(mbc);
-				r2.add(mb);
-			}
+			menuBlockArea.add(menuBlockManager.createGUI());
 		}
-		textField.setEnabled(menuBlockContents.size() > 0 || !textField.getText().equals(""));
+		textField.setEnabled(menuBlockManager.getMenuBlockCount() > 0 || !textField.getText().equals(""));
 		ApplicationInstance.getActive().setFocusedComponent(textField);
 		clearButton.setEnabled(getTokenCount() > 0);
 		deleteButton.setEnabled(getTokenCount() > 0);
@@ -442,7 +365,7 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		textArea.setText("<div style=\"font-family: Verdana,Arial,Helvetica,Sans-Serif; font-size: 12px\">" +
 				t + "<span style=\"color: rgb(150, 150, 150)\"> ...</span></div>");
 		
-		menuBlockContents.clear();
+		menuBlockManager.clear();
 		
 		NextTokenOptions options = parser.getNextTokenOptions();
 		HashMap<String, MenuBlockContent> contentsMap = new HashMap<String, MenuBlockContent>();
@@ -455,12 +378,12 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		
 		for (String mg : getMenuCreator().getMenuGroupOrdering()) {
 			if (contentsMap.containsKey(mg)) {
-				addMenuBlockContent(contentsMap.get(mg));
+				menuBlockManager.addMenuBlockContent(contentsMap.get(mg));
 			}
 		}
 		for (String mg : contentsMap.keySet()) {
 			if (!getMenuCreator().getMenuGroupOrdering().contains(mg)) {
-				addMenuBlockContent(contentsMap.get(mg));
+				menuBlockManager.addMenuBlockContent(contentsMap.get(mg));
 			}
 		}
 	}
@@ -479,37 +402,13 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		mbc.addItem(menuItem);
 	}
 	
-	private void addMenuBlockContent(MenuBlockContent m) {
-		if (!m.isEmpty()) {
-			menuBlockContents.add(m);
-		}
-	}
-	
-	private void setFilter(String filter) {
-		if (filter == null) filter = "";
-		filter = filter.replaceFirst("^\\s*", "").replaceFirst("\\s*$", "");
-		
-		for (MenuBlockContent c : menuBlockContents) {
-			c.setFilter(filter);
-		}
-		this.filter = filter;
-	}
-	
-	private void setFilter(List<String> subtokens) {
-		String filter = "";
-		for (String s : subtokens) {
-			filter += s + " ";
-		}
-		setFilter(filter);
-	}
-	
 	private void handleTextInput(boolean enterPressed) {
 		handleTextInput(textField.getText(), enterPressed);
 	}
 	
 	private void handleTextInput(String text, boolean enterPressed) {
 		List<String> subtokens = getTextOperator().splitIntoTokens(text);
-		boolean force = enterPressed && (text.equals(filter) || text.endsWith(" "));
+		boolean force = enterPressed && (text.equals(menuBlockManager.getFilter()) || text.endsWith(" "));
 		handleTokenInput(subtokens, force, true);
 	}
 	
@@ -518,7 +417,11 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 			textField.setText("");
 			return;
 		}
-		setFilter(subtokens);
+		
+		String filter = "";
+		for (String s : subtokens) filter += s + " ";
+		menuBlockManager.setFilter(filter);
+		
 		String text = "";
 		TextElement textElement = null;
 		List<String> rest = null;
@@ -541,7 +444,7 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 			}
 		}
 		if (textElement != null) {
-			if ((rest.isEmpty() && force) || (!rest.isEmpty() && getEntryCount() == 0)) {
+			if ((rest.isEmpty() && force) || (!rest.isEmpty() && menuBlockManager.getMenuEntryCount() == 0)) {
 				textContainer.addElement(textElement);
 				parser.addToken(textElement.getOriginalText());
 				updateMenuBlockContents();
@@ -632,7 +535,7 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 				tabKeyPressed = true;
 			} else {
 				log("pressed: enter-key");
-				if (textField.getText().equals("") && filter.equals("")) {
+				if (textField.getText().equals("") && menuBlockManager.getFilter().equals("")) {
 					notifyActionListeners(new ActionEvent(this, "Enter"));
 					return;
 				} else {
@@ -662,7 +565,7 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 		update();
 		
 		if (tabKeyPressed) {
-			String s = getStartString();
+			String s = menuBlockManager.getStartString();
 			if (s != null) textField.setText(s);
 		}
 	}

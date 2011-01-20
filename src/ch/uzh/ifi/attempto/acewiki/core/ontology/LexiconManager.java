@@ -85,11 +85,8 @@ public class LexiconManager implements DynamicLexicon {
 	
 	private static void addVariableEntries(Collection<LexicalRule> entries, String cat) {
 		for (String s : new String[] {"X", "Y", "Z"}) {
-			for (int i = 0 ; i <= 3 ; i++) {
-				String t = s;
-				if (i != 0) t += i;
-				entries.add(new LexicalRule(cat, t));
-			}
+			String t = s;
+			entries.add(new LexicalRule(cat, t));
 		}
 	}
 

@@ -133,6 +133,15 @@ class MenuBlockContent implements ActionListener {
 	}
 	
 	/**
+	 * Returns the number of items, regardless of the current filter.
+	 * 
+	 * @return The number of items.
+	 */
+	public int getUnfilteredItemCount() {
+		return items.size();
+	}
+	
+	/**
 	 * Returns all menu items that are menu entries.
 	 * 
 	 * @return A list of all menu entries.
