@@ -169,7 +169,7 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 				
 				Comparator<Individual> comparator = new Comparator<Individual>() {
 					public int compare(Individual o1, Individual o2) {
-						return o1.getWord(2).compareToIgnoreCase(o2.getWord(2));
+						return o1.getWord(1).compareToIgnoreCase(o2.getWord(1));
 					}
 				};
 				
