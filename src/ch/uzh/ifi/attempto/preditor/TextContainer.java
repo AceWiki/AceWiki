@@ -206,5 +206,12 @@ public class TextContainer {
 			return textOperator.getTextInContext(te, preceding, following);
 		}
 	}
+	
+	public TextContainer clone() {
+		TextContainer clone = new TextContainer();
+		clone.elements = new ArrayList<TextElement>(this.elements);
+		clone.textOperator = this.textOperator;
+		return clone;
+	}
 
 }

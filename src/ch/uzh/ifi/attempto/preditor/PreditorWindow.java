@@ -261,12 +261,13 @@ public class PreditorWindow extends WindowPane implements ActionListener, Window
 	}
 	
 	/**
-	 * Returns the (partial) text that has been entered .
+	 * Returns a copy of the text container object that contains the (partial) text that has been
+	 * entered.
 	 * 
-	 * @return The (partial) text in the form of a text container.
+	 * @return A copy of the text container object.
 	 */
 	public TextContainer getTextContainer() {
-		return textContainer;
+		return textContainer.clone();
 	}
 	
 	/**
