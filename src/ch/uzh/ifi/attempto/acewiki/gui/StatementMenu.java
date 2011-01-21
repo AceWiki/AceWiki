@@ -76,6 +76,8 @@ public class StatementMenu extends Row implements ActionListener {
 	private ContainerEx popup;
 	private Button overlayLockButton;
 	
+	private int type;
+	
 	private Column menuColumn = new Column();
 	private ActionListener actionListener;
 	private Column menuSeparator = null;
@@ -90,6 +92,7 @@ public class StatementMenu extends Row implements ActionListener {
 	 * @param actionListener The action-listener.
 	 */
 	public StatementMenu(int type, Wiki wiki, ActionListener actionListener) {
+		this.type = type;
 		this.wiki = wiki;
 		this.actionListener = actionListener;
 		
@@ -100,37 +103,11 @@ public class StatementMenu extends Row implements ActionListener {
 		toggle.setHeight(new Extent(13));
 		toggle.setInsets(new Insets(1));
 		toggle.setLayoutData(layout);
-		String img1 = null;
-		String img2 = null;
-		if (type == REASONING_TYPE ) {
-			img1 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDown1.png";
-			img2 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDown2.png";
-			toggle.setToolTipText("Blue triangle: This statement is considered for reasoning.");
-		} else if (type == QUESTION_TYPE) {
-			img1 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDown1.png";
-			img2 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDown2.png";
-			toggle.setToolTipText("This is a question that is automatically answered.");
-		} else if (type == NOREASONING_TYPE) {
-			img1 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownRed1.png";
-			img2 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownRed2.png";
-			toggle.setToolTipText("Red triangle: This statement is too complex to be considered for reasoning.");
-		} else if (type == INFERRED_TYPE) {
-			img1 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownLBlue1.png";
-			img2 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownLBlue2.png";
-			toggle.setToolTipText("White triangle: This statement is automatically inferred.");
-		} else if (type == COMMENT_TYPE) {
-			img1 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownGray1.png";
-			img2 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownGray2.png";
-			toggle.setToolTipText("Gray triangle: This statement is an informal comment.");
-		} else if (type == EMPTY_TYPE) {
-			img1 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownGray1.png";
-			img2 = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownGray2.png";
-			toggle.setToolTipText("Click here to add a sentence or comment.");
-		}
-		toggle.setIcon(new ResourceImageReference(img1));
+		toggle.setIcon(getNormalIcon());
 		toggle.setRolloverEnabled(true);
-		toggle.setRolloverIcon(new ResourceImageReference(img2));
-		toggle.setPressedIcon(new ResourceImageReference(img2));
+		toggle.setRolloverIcon(getActiveIcon());
+		toggle.setPressedIcon(getActiveIcon());
+		toggle.setToolTipText(getTooltipText());
 		toggle.addActionListener(this);
 		add(toggle);
 	}
@@ -202,6 +179,7 @@ public class StatementMenu extends Row implements ActionListener {
 		if (expanded) {
 			if (isExpanded()) return;
 			wiki.lock(this);
+			toggle.setIcon(getActiveIcon());
 			if (popup == null) {
 				popup = new ContainerEx();
 				popup.setPosition(Positionable.ABSOLUTE);
@@ -228,6 +206,7 @@ public class StatementMenu extends Row implements ActionListener {
 		} else {
 			if (!isExpanded()) return;
 			wiki.unlock();
+			toggle.setIcon(getNormalIcon());
 			popup.setVisible(false);
 			overlayLockButton.setVisible(false);
 		}
@@ -240,6 +219,60 @@ public class StatementMenu extends Row implements ActionListener {
 	 */
 	public boolean isExpanded() {
 		return popup != null && popup.isVisible();
+	}
+	
+	private ResourceImageReference getNormalIcon() {
+		String img = null;
+		if (type == REASONING_TYPE ) {
+			img = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDown1.png";
+		} else if (type == QUESTION_TYPE) {
+			img = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDown1.png";
+		} else if (type == NOREASONING_TYPE) {
+			img = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownRed1.png";
+		} else if (type == INFERRED_TYPE) {
+			img = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownLBlue1.png";
+		} else if (type == COMMENT_TYPE) {
+			img = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownGray1.png";
+		} else if (type == EMPTY_TYPE) {
+			img = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownGray1.png";
+		}
+		return new ResourceImageReference(img);
+	}
+	
+	private ResourceImageReference getActiveIcon() {
+		String img = null;
+		if (type == REASONING_TYPE ) {
+			img = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDown2.png";
+		} else if (type == QUESTION_TYPE) {
+			img = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDown2.png";
+		} else if (type == NOREASONING_TYPE) {
+			img = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownRed2.png";
+		} else if (type == INFERRED_TYPE) {
+			img = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownLBlue2.png";
+		} else if (type == COMMENT_TYPE) {
+			img = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownGray2.png";
+		} else if (type == EMPTY_TYPE) {
+			img = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownGray2.png";
+		}
+		return new ResourceImageReference(img);
+	}
+	
+	private String getTooltipText() {
+		String t = null;
+		if (type == REASONING_TYPE ) {
+			t = "Blue triangle: This statement is considered for reasoning.";
+		} else if (type == QUESTION_TYPE) {
+			t = "This is a question that is automatically answered.";
+		} else if (type == NOREASONING_TYPE) {
+			t = "Red triangle: This statement is too complex to be considered for reasoning.";
+		} else if (type == INFERRED_TYPE) {
+			t = "White triangle: This statement is automatically inferred.";
+		} else if (type == COMMENT_TYPE) {
+			t = "Gray triangle: This statement is an informal comment.";
+		} else if (type == EMPTY_TYPE) {
+			t = "Click here to add a sentence or comment.";
+		}
+		return t;
 	}
 
 }
