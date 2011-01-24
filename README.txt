@@ -1,7 +1,7 @@
 AceWiki
 =======
 
-Copyright 2008-2010, Tobias Kuhn.
+Copyright 2008-2011, Tobias Kuhn.
 
 Website: http://attempto.ifi.uzh.ch/acewiki/
 Repository and Bug tracking: https://launchpad.net/acewiki
