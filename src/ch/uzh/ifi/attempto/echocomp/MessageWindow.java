@@ -15,6 +15,7 @@
 package ch.uzh.ifi.attempto.echocomp;
 
 import nextapp.echo.app.Alignment;
+import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Column;
 import nextapp.echo.app.Extent;
 import nextapp.echo.app.Font;
@@ -50,7 +51,8 @@ public class MessageWindow extends WindowPane implements ActionListener {
 	 * @param actionListener The action-listener.
 	 * @param options A list of options each represented by a button in the message window.
 	 */
-	public MessageWindow(String title, ResourceImageReference image, String message, WindowPane parent, ActionListener actionListener, String... options) {
+	public MessageWindow(String title, ResourceImageReference image, String message,
+			WindowPane parent, ActionListener actionListener, String... options) {
 		this.actionListener = actionListener;
 		setTitle(title);
 		setTitleFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
@@ -98,6 +100,9 @@ public class MessageWindow extends WindowPane implements ActionListener {
 		for (String s : options) {
 			buttonBar.add(new GeneralButton(s, 80, this));
 		}
+		if (options.length == 1) {
+			ApplicationInstance.getActive().setFocusedComponent(buttonBar.getComponent(0));
+		}
 		GridLayoutData layout2 = new GridLayoutData();
 		layout2.setAlignment(new Alignment(Alignment.CENTER, Alignment.BOTTOM));
 		buttonBar.setLayoutData(layout2);
@@ -106,8 +111,12 @@ public class MessageWindow extends WindowPane implements ActionListener {
 		add(grid);
 		
 		if (parent != null && parent.getPositionX() != null) {
-			setPositionX(new Extent(parent.getPositionX().getValue() + (parent.getWidth().getValue() - getWidth().getValue())/2));
-			setPositionY(new Extent(parent.getPositionY().getValue() + (parent.getHeight().getValue() - getHeight().getValue())/2));
+			int px = parent.getPositionX().getValue();
+			int py = parent.getPositionY().getValue();
+			int pw = parent.getWidth().getValue();
+			int ph = parent.getHeight().getValue();
+			setPositionX(new Extent(px + (pw - getWidth().getValue())/2));
+			setPositionY(new Extent(py + (ph - getHeight().getValue())/2));
 		}
 	}
 	
@@ -120,7 +129,8 @@ public class MessageWindow extends WindowPane implements ActionListener {
 	 * @param actionListener The action-listener.
 	 * @param options A list of options each represented by a button in the message window.
 	 */
-	public MessageWindow(String title, String message, WindowPane parent, ActionListener actionListener, String... options) {
+	public MessageWindow(String title, String message, WindowPane parent,
+			ActionListener actionListener, String... options) {
 		this(title, null, message, parent, actionListener, options);
 	}
 	
