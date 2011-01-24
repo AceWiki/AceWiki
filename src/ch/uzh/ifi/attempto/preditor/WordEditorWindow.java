@@ -20,12 +20,12 @@ import nextapp.echo.app.ContentPane;
 import nextapp.echo.app.Extent;
 import nextapp.echo.app.Font;
 import nextapp.echo.app.Insets;
+import nextapp.echo.app.WindowPane;
 import nextapp.echo.extras.app.TabPane;
 import nextapp.echo.extras.app.event.TabSelectionEvent;
 import nextapp.echo.extras.app.event.TabSelectionListener;
 import nextapp.echo.extras.app.layout.TabPaneLayoutData;
 import ch.uzh.ifi.attempto.echocomp.Style;
-import ch.uzh.ifi.attempto.echocomp.WindowPane;
 
 /**
  * This class represents a word editor that can be used to create or modify words. It can contain

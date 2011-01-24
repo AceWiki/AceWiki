@@ -25,6 +25,7 @@ import nextapp.echo.app.Grid;
 import nextapp.echo.app.Insets;
 import nextapp.echo.app.ListBox;
 import nextapp.echo.app.Row;
+import nextapp.echo.app.WindowPane;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.event.WindowPaneEvent;
@@ -45,7 +46,6 @@ import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.Style;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
-import ch.uzh.ifi.attempto.echocomp.WindowPane;
 
 /**
  * This is a window that allows the user to choose from different kinds of file types for

@@ -49,7 +49,6 @@ import ch.uzh.ifi.attempto.echocomp.Logger;
 import ch.uzh.ifi.attempto.echocomp.Style;
 import ch.uzh.ifi.attempto.echocomp.TabSensitiveTextField;
 import ch.uzh.ifi.attempto.echocomp.TextField;
-import ch.uzh.ifi.attempto.echocomp.WindowPane;
 import echopoint.DirectHtml;
 
 //import static ch.uzh.ifi.attempto.echocomp.KeyStrokes.*;
@@ -62,7 +61,7 @@ import echopoint.DirectHtml;
  * 
  * @author Tobias Kuhn
  */
-public class PreditorWindow extends WindowPane implements ActionListener, WindowPaneListener {
+public class PreditorWindow extends nextapp.echo.app.WindowPane implements ActionListener, WindowPaneListener {
 	
 	private static final long serialVersionUID = -7815494421993305554L;
 	

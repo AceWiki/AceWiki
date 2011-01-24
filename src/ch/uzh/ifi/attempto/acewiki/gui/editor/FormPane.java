@@ -23,6 +23,7 @@ import nextapp.echo.app.Font;
 import nextapp.echo.app.Grid;
 import nextapp.echo.app.ImageReference;
 import nextapp.echo.app.Insets;
+import nextapp.echo.app.WindowPane;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
@@ -37,7 +38,6 @@ import ch.uzh.ifi.attempto.acewiki.core.ontology.TrAdjRole;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.VerbRole;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
-import ch.uzh.ifi.attempto.echocomp.WindowPane;
 import ch.uzh.ifi.attempto.preditor.WordEditorForm;
 import ch.uzh.ifi.attempto.preditor.WordEditorWindow;
 

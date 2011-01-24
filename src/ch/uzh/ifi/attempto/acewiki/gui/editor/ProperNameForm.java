@@ -15,6 +15,7 @@
 package ch.uzh.ifi.attempto.acewiki.gui.editor;
 
 import nextapp.echo.app.ResourceImageReference;
+import nextapp.echo.app.WindowPane;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Individual;
@@ -22,7 +23,6 @@ import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
 import ch.uzh.ifi.attempto.ape.FunctionWords;
 import ch.uzh.ifi.attempto.echocomp.CheckBox;
 import ch.uzh.ifi.attempto.echocomp.TextField;
-import ch.uzh.ifi.attempto.echocomp.WindowPane;
 import ch.uzh.ifi.attempto.preditor.WordEditorWindow;
 
 /**
