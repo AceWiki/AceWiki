@@ -61,6 +61,11 @@ public class Style {
     public static Color darkBackground = new Color(60, 60, 220);
     
     /**
+     * The color for shaded background areas.
+     */
+    public static Color shadedBackground = new Color(240, 240, 240);
+    
+    /**
      * The light foreground color.
      */
     public static Color lightForeground = new Color(255, 255, 255);

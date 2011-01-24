@@ -91,8 +91,6 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	
 	private static final long serialVersionUID = 2777443689044226043L;
 	
-	private static final Color sidePaneBackground = new Color(240, 240, 240);
-	
 	private Map<String, String> parameters;
 
 	private final Ontology ontology;
@@ -170,7 +168,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		splitPane2.setSeparatorWidth(new Extent(0));
 		
 		navigationButtons.setInsets(new Insets(5));
-		navigationButtons.setBackground(sidePaneBackground);
+		navigationButtons.setBackground(Style.shadedBackground);
 		
 		navigationButtons.add(backButton);
 		navigationButtons.add(new HSpace(5));
@@ -189,18 +187,18 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		navigationButtons.add(userRow);
 		
 		ContentPane menuBar = new ContentPane();
-		menuBar.setBackground(sidePaneBackground);
+		menuBar.setBackground(Style.shadedBackground);
 		menuBar.add(navigationButtons);
 		
 		Row searchRow = new Row();
 		searchRow.setInsets(new Insets(5));
-		searchRow.setBackground(sidePaneBackground);
+		searchRow.setBackground(Style.shadedBackground);
 		searchRow.add(searchButton);
 		searchRow.add(new HSpace(5));
 		searchRow.add(searchTextField);
 		
 		ContentPane searchBar = new ContentPane();
-		searchBar.setBackground(sidePaneBackground);
+		searchBar.setBackground(Style.shadedBackground);
 		searchBar.add(searchRow);
 		
 		wikiPane = new SplitPane(
@@ -210,7 +208,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		wikiPane.setSeparatorHeight(new Extent(0));
 		
 		ContentPane sideBar = new ContentPane();
-		sideBar.setBackground(sidePaneBackground);
+		sideBar.setBackground(Style.shadedBackground);
 		Column sideCol = new Column();
 		sideCol.setInsets(new Insets(10, 10));
 		sideCol.setCellSpacing(new Extent(1));

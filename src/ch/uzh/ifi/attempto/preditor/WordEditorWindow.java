@@ -70,7 +70,8 @@ public class WordEditorWindow extends WindowPane implements TabSelectionListener
 		tabPane.setBorder(new Border(0, Color.BLACK, Border.STYLE_SOLID));
 		tabPane.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		tabPane.setTabActiveForeground(Color.BLACK);
-		tabPane.setTabInactiveBackground(Style.lightDisabled);
+		tabPane.setTabInactiveBackground(Style.shadedBackground);
+		tabPane.setTabInactiveForeground(Style.darkDisabled);
 		tabPane.setTabRolloverEnabled(true);
 		tabPane.setTabRolloverForeground(Color.BLACK);
 		tabPane.setTabRolloverBackground(Style.lightBackground);
