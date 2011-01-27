@@ -50,7 +50,7 @@ Sun Multi-Schema XML Validator (MSV)
   copyright: 2002-2006 Sun Microsystems, Inc.
   licenses:  BSD license (see licenses/msv.txt)
 
-OWL API 3.0.0
+OWL API 3.2.0
   files:     owlapi-bin.jar
   url:       http://sourceforge.net/projects/owlapi
   copyright: 2007 University of Manchester
@@ -91,13 +91,13 @@ APE 6.5-091130
   copyright: 2008-2009 Attempto Group
   licenses:  GNU Lesser General Public License version 3 or later (see licenses/gpl-3.txt)
 
-HermiT 1.2.4
+HermiT 1.3.2
   files:     HermiT.jar
   url:       http://hermit-reasoner.com/
   copyright: 2009 Oxford University Computing Laboratory
   licenses:  GNU Lesser General Public License version 3 or later (see licenses/gpl-3.txt)
 
-OWLlink API 1.0.1
+OWLlink API 1.1.0
   files:     owllink-bin.jar
   url:       http://www.owllink.org/
   copyright: 2010 Ulm University
