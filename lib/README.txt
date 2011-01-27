@@ -50,7 +50,7 @@ Sun Multi-Schema XML Validator (MSV)
   copyright: 2002-2006 Sun Microsystems, Inc.
   licenses:  BSD license (see licenses/msv.txt)
 
-OWL API 3.2.0
+OWL API 3.1.0
   files:     owlapi-bin.jar
   url:       http://sourceforge.net/projects/owlapi
   copyright: 2007 University of Manchester

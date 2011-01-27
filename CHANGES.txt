@@ -16,13 +16,14 @@ Version 0.5.0
   - The menu blocks are now arranged in several columns of one or more blocks. Before, they were
     arranged in one or two rows.
   - A new algorithm is implemented to arrange the menu blocks.
+- New versions for the following third-party libraries: OWL API, OWLlink and HermiT.
 - The logic page for AceWiki now shows a pretty-printed OWL/FSS syntax instead of OWL/XML.
 - Some bugs have been fixed:
   - The menu items for comments did not check whether the user was logged in.
   - Enlarged menu blocks of the predictive editor did not show all menu entries.
   - The external XStream library has been added, which seems to be required in some situations.
   - Pressing enter closes messages if no decision is required.
-  - The alphabetical sorting on the individuals page in AceWiki now ignores the initial "the"
+  - The alphabetical sorting on the individuals page in AceWiki now ignores the initial "the".
 - General refactoring and clean-up.
 - Other minor bugs have been fixed.
 
