@@ -4,6 +4,29 @@ AceWiki Change Log
 This file lists the changes between the different AceWiki versions. See the Bazaar log for more
 details.
 
+Version 0.5.0
+
+- Moved from version 2 to version 3 of the Echo Web Framework. This makes AceWiki more stable and
+  gives more options for the future. However, there are some minor issues:
+  - The ACE Editor does not react on certain keystrokes anymore, e.g. key up/down for selecting the
+    previous/next item.
+  - When a statement menu is opened using the Opera browser, unnecessary scrolling takes place.
+- Major changes of the predictive editor:
+  - The menu blocks have different colors to emphasize their different types.
+  - The menu blocks are now arranged in several columns of one or more blocks. Before, they were
+    arranged in one or two rows.
+  - A new algorithm is implemented to arrange the menu blocks.
+- The logic page for AceWiki now shows a pretty-printed OWL/FSS syntax instead of OWL/XML.
+- Some bugs have been fixed:
+  - The menu items for comments did not check whether the user was logged in.
+  - Enlarged menu blocks of the predictive editor did not show all menu entries.
+  - The external XStream library has been added, which seems to be required in some situations.
+  - Pressing enter closes messages if no decision is required.
+  - The alphabetical sorting on the individuals page in AceWiki now ignores the initial "the"
+- General refactoring and clean-up.
+- Other minor bugs have been fixed.
+
+
 Version 0.4.4
 
 - The individual menu blocks of the predictive editor can now be enlarged for better usability in
