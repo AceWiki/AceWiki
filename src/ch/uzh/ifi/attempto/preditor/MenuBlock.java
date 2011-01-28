@@ -196,7 +196,7 @@ class MenuBlock extends Column implements ActionListener {
 		for (int i = progress ; i < endPos ; i++) {
 			MenuItem m = items.get(i);
 			m.setColorShift(colorShift);
-			m.setWidth(new Extent(width - 20));
+			m.setWidth(new Extent(width - 24));
 			c.add(m);
 		}
 		progress = endPos;
