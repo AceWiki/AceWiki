@@ -210,6 +210,10 @@ class LexiconHandler implements DynamicLexicon {
 				lexRules.add(w.getLexicalRule());
 			}
 		}
+		Preterminal p = new Preterminal("adj_prep");
+		p.setFeature("prep", word);
+		lexRules.add(new LexicalRule(p, word));
+		
 		return lexRules;
 	}
 	
