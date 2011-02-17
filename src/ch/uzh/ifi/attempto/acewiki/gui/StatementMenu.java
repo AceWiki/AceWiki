@@ -222,39 +222,32 @@ public class StatementMenu extends Row implements ActionListener {
 	}
 	
 	private ResourceImageReference getNormalIcon() {
-		String img = null;
-		if (type == REASONING_TYPE ) {
-			img = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDown1.png";
-		} else if (type == QUESTION_TYPE) {
-			img = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDown1.png";
-		} else if (type == NOREASONING_TYPE) {
-			img = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownRed1.png";
-		} else if (type == INFERRED_TYPE) {
-			img = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownLBlue1.png";
-		} else if (type == COMMENT_TYPE) {
-			img = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownGray1.png";
-		} else if (type == EMPTY_TYPE) {
-			img = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownGray1.png";
-		}
-		return new ResourceImageReference(img);
+		return new ResourceImageReference(
+				"ch/uzh/ifi/attempto/acewiki/gui/img/tri" + getIconType() + ".png"
+			);
 	}
 	
 	private ResourceImageReference getActiveIcon() {
-		String img = null;
+		return new ResourceImageReference(
+				"ch/uzh/ifi/attempto/acewiki/gui/img/tri" + getIconType() + "l.png"
+			);
+	}
+	
+	private String getIconType() {
 		if (type == REASONING_TYPE ) {
-			img = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDown2.png";
+			return "blue";
 		} else if (type == QUESTION_TYPE) {
-			img = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDown2.png";
+			return "blue";
 		} else if (type == NOREASONING_TYPE) {
-			img = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownRed2.png";
+			return "red";
 		} else if (type == INFERRED_TYPE) {
-			img = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownLBlue2.png";
+			return "white";
 		} else if (type == COMMENT_TYPE) {
-			img = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownGray2.png";
+			return "gray";
 		} else if (type == EMPTY_TYPE) {
-			img = "ch/uzh/ifi/attempto/acewiki/gui/img/DropDownGray2.png";
+			return "gray";
 		}
-		return new ResourceImageReference(img);
+		return "";
 	}
 	
 	private String getTooltipText() {
