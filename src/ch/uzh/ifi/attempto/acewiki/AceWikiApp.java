@@ -85,7 +85,6 @@ class AceWikiApp extends ApplicationInstance {
 	 * Logs out the current user. 
 	 */
 	public void logout() {
-		wiki.log("syst", "logout");
 		wiki.dispose();
 		wiki = new Wiki(parameters, sessionID++);
 		wiki.log("syst", "start session");

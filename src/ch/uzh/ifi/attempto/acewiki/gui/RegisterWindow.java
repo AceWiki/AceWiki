@@ -28,6 +28,7 @@ import nextapp.echo.app.layout.GridLayoutData;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.user.User;
 import ch.uzh.ifi.attempto.acewiki.core.user.UserBase;
+import ch.uzh.ifi.attempto.echocomp.CheckBox;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
@@ -52,25 +53,28 @@ public class RegisterWindow extends WindowPane implements ActionListener {
 	private TextField emailField = new TextField(250, this, Font.ITALIC);
 	private PasswordField passwordField = new PasswordField(250, this);
 	private PasswordField retypePasswordField = new PasswordField(250, this);
+	private CheckBox stayLoggedInCheckBox = new CheckBox();
 	
 	/**
 	 * Creates a new registration window.
 	 * 
 	 * @param username The default username (from the login window).
 	 * @param password The default password (from the login window).
+	 * @param stayLoggedIn The default value for staying logged in (from the login window).
 	 * @param wiki The wiki instance.
 	 */
-	public RegisterWindow(String username, String password, Wiki wiki) {
+	public RegisterWindow(String username, String password, boolean stayLoggedIn, Wiki wiki) {
 		this.wiki = wiki;
 		
 		usernameField.setText(username);
 		passwordField.setText(password);
+		stayLoggedInCheckBox.setSelected(stayLoggedIn);
 		
 		setTitle("User Registration");
 		setTitleFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		setModal(true);
 		setWidth(new Extent(470));
-		setHeight(new Extent(270));
+		setHeight(new Extent(290));
 		setResizable(false);
 		setMovable(true);
 		setClosable(!wiki.isLoginRequiredForViewing());
@@ -82,7 +86,7 @@ public class RegisterWindow extends WindowPane implements ActionListener {
 		Grid mainGrid = new Grid(1);
 		mainGrid.setInsets(new Insets(10, 10, 10, 0));
 		mainGrid.setColumnWidth(0, new Extent(450));
-		mainGrid.setRowHeight(0, new Extent(180));
+		mainGrid.setRowHeight(0, new Extent(200));
 		
 		Column messageColumn = new Column();
 		GridLayoutData layout1 = new GridLayoutData();
@@ -103,6 +107,8 @@ public class RegisterWindow extends WindowPane implements ActionListener {
 		formGrid.add(passwordField);
 		formGrid.add(new SolidLabel("retype password:", Font.ITALIC));
 		formGrid.add(retypePasswordField);
+		formGrid.add(new SolidLabel("stay logged in:", Font.ITALIC));
+		formGrid.add(stayLoggedInCheckBox);
 		messageColumn.add(formGrid);
 		
 		mainGrid.add(messageColumn);
@@ -128,6 +134,7 @@ public class RegisterWindow extends WindowPane implements ActionListener {
 		String password = passwordField.getText();
 		String password2 = retypePasswordField.getText();
 		String email = emailField.getText();
+		boolean stayLoggedIn = stayLoggedInCheckBox.isSelected();
 		if ("Cancel".equals(e.getActionCommand())) {
 			wiki.log("logi", "registration canceled");
 			setVisible(false);
@@ -183,8 +190,7 @@ public class RegisterWindow extends WindowPane implements ActionListener {
 						));
 				} else {
 					wiki.log("logi", "register successful for " + username);
-					wiki.log("syst", "login");
-					wiki.setUser(user);
+					wiki.login(user, stayLoggedIn);
 					wiki.removeWindow(this);
 				}
 			}

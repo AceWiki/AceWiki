@@ -22,6 +22,8 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.Stack;
 
+import javax.servlet.http.Cookie;
+
 import nextapp.echo.app.Alignment;
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Color;
@@ -298,11 +300,30 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		
 		startPage = new StartPage(this);
 		
-		ContainerContext cc = (ContainerContext) application.
-				getContextProperty(ContainerContext.CONTEXT_PROPERTY_NAME);
+		// auto login
+		if (isLoginEnabled()) {
+			User user = getUserBase().getUser(getCookie("lastusername"));
+			boolean stayLoggedIn = getCookie("stayloggedin").equals("true");
+			if (user != null && stayLoggedIn) {
+				String clientToken = getCookie("stayloggedintoken");
+				String serverToken = user.getUserData("stayloggedintoken");
+				if (clientToken.length() > 0) {
+					log("syst", "try auto login...");
+					if (clientToken.equals(serverToken)) {
+						log("syst", "auto login successful: " + user.getName());
+						setUser(user);
+					} else {
+						log("syst", "auto login failed: " + user.getName());
+						clearCookie("stayloggedintoken");
+					}
+				}
+			}
+		}
+		
 		String p = null;
 		try {
-			p = ((String[]) cc.getInitialRequestParameterMap().get("showpage"))[0];
+			p = ((String[]) getContainerContext().getInitialRequestParameterMap()
+					.get("showpage"))[0];
 		} catch (Exception ex) {}
 		
 		if (p != null && ontology.getElement(p) != null) {
@@ -732,7 +753,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 				showWindow(new UserWindow(this));
 			}
 		} else if (src instanceof MessageWindow && c.equals("Yes")) {
-			application.logout();
+			logout();
 		} else if (src instanceof OntologyTextElement) {
 			// for newly generated elements
 			OntologyTextElement te = (OntologyTextElement) src;
@@ -756,6 +777,37 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 */
 	public void log(String type, String text) {
 		logger.log(type, text);
+	}
+	
+	/**
+	 * Logs in the given user.
+	 * 
+	 * @param user The user to log in.
+	 * @param stayLoggedIn Defines whether the user should stay logged in or not.
+	 */
+	public void login(User user, boolean stayLoggedIn) {
+		log("syst", "login");
+		user.setUserData("stayloggedin", stayLoggedIn + "");
+		setCookie("stayloggedin", stayLoggedIn + "");
+		String stayloggedintoken;
+		if (stayLoggedIn) {
+			stayloggedintoken = (new Random()).nextLong() + "";
+		} else {
+			stayloggedintoken = "";
+		}
+		user.setUserData("stayloggedintoken", stayloggedintoken);
+		setCookie("stayloggedintoken", stayloggedintoken);
+		setUser(user);
+	}
+	
+	/**
+	 * Logs out the current user.
+	 */
+	public void logout() {
+		log("syst", "logout");
+		user.setUserData("stayloggedintoken", "");
+		setCookie("stayloggedintoken", "");
+		application.logout();
 	}
 	
 	/**
@@ -784,6 +836,51 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			getContentPane().setBackground(Color.WHITE);
 			loginBackground = null;
 		}
+		setCookie("lastusername", user.getName());
+	}
+	
+	/**
+	 * Sets a cookie on the client.
+	 * 
+	 * @param name The name of the cookie.
+	 * @param value The value of the cookie.
+	 */
+	public void setCookie(String name, String value) {
+		Cookie cookie = new Cookie(name, value);
+		cookie.setMaxAge(1000000000);
+		getContainerContext().addCookie(cookie);
+	}
+	
+	/**
+	 * Clears the given cookie on the client.
+	 * 
+	 * @param name The name of the cookie.
+	 */
+	public void clearCookie(String name) {
+		getContainerContext().addCookie(new Cookie(name, null));
+	}
+	
+	/**
+	 * Returns the value of the cookie on the client, or "" if there is no such cookie.
+	 * 
+	 * @param name The name of the cookie.
+	 * @return The value of the cookie.
+	 */
+	public String getCookie(String name) {
+		for (Cookie cookie : getContainerContext().getCookies()) {
+			if ((name + "").equals(cookie.getName())) {
+				String value = cookie.getValue();
+				if (value == null) return "";
+				return value;
+			}
+		}
+		return "";
+	}
+	
+	private ContainerContext getContainerContext() {
+		return (ContainerContext) application.getContextProperty(
+			ContainerContext.CONTEXT_PROPERTY_NAME
+		);
 	}
 	
 	/**

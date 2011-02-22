@@ -28,6 +28,7 @@ import nextapp.echo.app.layout.GridLayoutData;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.user.User;
 import ch.uzh.ifi.attempto.acewiki.core.user.UserBase;
+import ch.uzh.ifi.attempto.echocomp.CheckBox;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
@@ -50,6 +51,7 @@ public class LoginWindow extends WindowPane implements ActionListener {
 	
 	private TextField usernameField = new TextField(300, this, Font.ITALIC);
 	private PasswordField passwordField = new PasswordField(300, this);
+	private CheckBox stayLoggedInCheckBox = new CheckBox();
 	
 	/**
 	 * Creates a new login window.
@@ -63,7 +65,7 @@ public class LoginWindow extends WindowPane implements ActionListener {
 		setTitleFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		setModal(true);
 		setWidth(new Extent(470));
-		setHeight(new Extent(220));
+		setHeight(new Extent(240));
 		setResizable(false);
 		setMovable(true);
 		setClosable(!wiki.isLoginRequiredForViewing());
@@ -75,7 +77,7 @@ public class LoginWindow extends WindowPane implements ActionListener {
 		Grid mainGrid = new Grid(1);
 		mainGrid.setInsets(new Insets(10, 10, 10, 0));
 		mainGrid.setColumnWidth(0, new Extent(450));
-		mainGrid.setRowHeight(0, new Extent(130));
+		mainGrid.setRowHeight(0, new Extent(150));
 		
 		Column messageColumn = new Column();
 		GridLayoutData layout1 = new GridLayoutData();
@@ -90,12 +92,16 @@ public class LoginWindow extends WindowPane implements ActionListener {
 		formGrid.setInsets(new Insets(10, 10, 10, 0));
 		formGrid.add(new SolidLabel("username:", Font.ITALIC));
 		formGrid.add(usernameField);
+		usernameField.setText(wiki.getCookie("lastusername"));
 		formGrid.add(new SolidLabel("password:", Font.ITALIC));
 		formGrid.add(passwordField);
+		formGrid.add(new SolidLabel("stay logged in:", Font.ITALIC));
+		stayLoggedInCheckBox.setSelected(!wiki.getCookie("stayloggedin").equals("false"));
+		formGrid.add(stayLoggedInCheckBox);
 		messageColumn.add(formGrid);
 		
 		mainGrid.add(messageColumn);
-
+		
 		Row buttonBar = new Row();
 		buttonBar.setCellSpacing(new Extent(10));
 		buttonBar.setInsets(new Insets(0, 0, 0, 10));
@@ -113,28 +119,32 @@ public class LoginWindow extends WindowPane implements ActionListener {
 		
 		add(mainGrid);
 		
-		wiki.getApplication().setFocusedComponent(usernameField);
+		if (usernameField.getText().length() == 0) {
+			wiki.getApplication().setFocusedComponent(usernameField);
+		} else {
+			wiki.getApplication().setFocusedComponent(passwordField);
+		}
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		UserBase ub = wiki.getUserBase();
 		String username = usernameField.getText();
 		String password = passwordField.getText();
+		boolean stayLoggedIn = stayLoggedInCheckBox.isSelected();
 		if ("Cancel".equals(e.getActionCommand())) {
 			wiki.log("logi", "login canceled");
 			setVisible(false);
 			wiki.removeWindow(this);
 		} else if ("Register...".equals(e.getActionCommand())) {
 			wiki.log("logi", "pressed: register...");
-			wiki.showWindow(new RegisterWindow(username, password, wiki));
+			wiki.showWindow(new RegisterWindow(username, password, stayLoggedIn, wiki));
 			wiki.removeWindow(this);
 		} else {
 			wiki.log("logi", "pressed: login");
 			User user = ub.login(username, password);
 			if (user != null) {
 				wiki.log("logi", "correct password for " + username);
-				wiki.log("syst", "login");
-				wiki.setUser(user);
+				wiki.login(user, stayLoggedInCheckBox.isSelected());
 				wiki.removeWindow(this);
 			} else {
 				wiki.log("logi", "incorrect username or password for " + username);
