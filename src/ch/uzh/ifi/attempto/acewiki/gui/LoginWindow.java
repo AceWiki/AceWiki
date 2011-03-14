@@ -49,8 +49,8 @@ public class LoginWindow extends WindowPane implements ActionListener {
 	
 	private Wiki wiki;
 	
-	private TextField usernameField = new TextField(300, this, Font.ITALIC);
-	private PasswordField passwordField = new PasswordField(300, this);
+	private TextField usernameField = new TextField(250, this, Font.ITALIC);
+	private PasswordField passwordField = new PasswordField(250, this);
 	private CheckBox stayLoggedInCheckBox = new CheckBox();
 	
 	/**
