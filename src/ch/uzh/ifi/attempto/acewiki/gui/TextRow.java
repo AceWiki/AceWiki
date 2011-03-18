@@ -79,21 +79,6 @@ public class TextRow extends Column implements ActionListener {
 		} else {
 			dropDown = new StatementMenu(StatementMenu.NOREASONING_TYPE, wiki, this);
 		}
-
-		// Experimental "possible answers" feature:
-		if ("on".equals(wiki.getParameter("possible_answers"))) {
-			Question question = null;
-			if (sentence instanceof Question) question = (Question) sentence;
-			
-			if (question != null && question.getQuestionOWLIndividual() == null) {
-				if (question.isShowPossibleAnswersEnabled()) {
-					dropDown.addMenuEntry("Necessary Answers", "Show the necessary answers for this question");
-				} else {
-					dropDown.addMenuEntry("Possible Answers", "Show the possible answers for this question");
-				}
-				dropDown.addMenuSeparator();
-			}
-		}
 		
 		if (!wiki.isReadOnly() && !sentence.isReadOnly()) {
 			dropDown.addMenuEntry("Edit...", "Edit this sentence");
@@ -217,14 +202,6 @@ public class TextRow extends Column implements ActionListener {
 						"No"
 					));
 			}
-		} else if (e.getActionCommand().equals("Necessary Answers")) {
-			wiki.log("page", "dropdown: necessary answers: " + sentence.getText());
-			((Question) sentence).setShowPossibleAnswersEnabled(false);
-			update();
-		} else if (e.getActionCommand().equals("Possible Answers")) {
-			wiki.log("page", "dropdown: possible answers: " + sentence.getText());
-			((Question) sentence).setShowPossibleAnswersEnabled(true);
-			update();
 		} else if (e.getActionCommand().equals("Reassert")) {
 			wiki.log("page", "dropdown: reassert: " + sentence.getText());
 			if (!wiki.isEditable()) {

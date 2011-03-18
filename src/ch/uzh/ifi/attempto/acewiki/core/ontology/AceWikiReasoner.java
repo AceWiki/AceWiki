@@ -46,6 +46,10 @@ public interface AceWikiReasoner {
 	
 	public List<OntologyElement> getAnswer(Question question);
 	
+	public List<OntologyElement> getCachedAnswer(Question question);
+	
+	public boolean isAnswerCacheUpToDate();
+	
 	public boolean isConsistent();
 	
 	public boolean isSatisfiable(Concept concept);

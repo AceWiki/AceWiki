@@ -48,6 +48,8 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 	
 	private OWLOntologyManager manager;
 	private OWLOntology owlOntology;
+	private Map<String, List<OntologyElement>> answerCache = new HashMap<String, List<OntologyElement>>();
+	private long answerCacheState = -1;
 	private Map<OWLAxiom, Integer> axiomsMap = new HashMap<OWLAxiom, Integer>();
 	private OWLReasoner owlReasoner;
 	private String reasonerType = "none";
@@ -404,17 +406,39 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 		}
 	}
 	
+	public boolean isAnswerCacheUpToDate() {
+		return answerCacheState == ontology.getStateID();
+	}
+	
+	private void updateAnswerCache() {
+		if (!isAnswerCacheUpToDate()) {
+			answerCache = new HashMap<String, List<OntologyElement>>();
+			answerCacheState = ontology.getStateID();
+		}
+	}
+	
+	public synchronized List<OntologyElement> getCachedAnswer(Question question) {
+		List<OntologyElement> a = answerCache.get(question.serialize(true));
+		if (a != null) {
+			return new ArrayList<OntologyElement>(a);
+		} else {
+			return null;
+		}
+	}
+	
 	public synchronized List<OntologyElement> getAnswer(Question question) {
 		if (owlReasoner == null) return null;
 		
-		List<OntologyElement> answer = new ArrayList<OntologyElement>();
+		updateAnswerCache();
+		List<OntologyElement> answer = answerCache.get(question.serialize(true));
+		if (answer != null) {
+			return new ArrayList<OntologyElement>(answer);
+		}
+		
+		answer = new ArrayList<OntologyElement>();
 		
 		OWLNamedIndividual quInd = question.getQuestionOWLIndividual();
 		OWLClassExpression quClass = question.getQuestionOWLClass();
-		
-		if (question.isShowPossibleAnswersEnabled() && quClass != null) {
-			quClass = new OWLObjectComplementOfImpl(manager.getOWLDataFactory(), quClass);
-		}
 		
 		if (quInd != null) {
 			Set<OWLClass> owlClasses = getConcepts(quInd);
@@ -434,17 +458,8 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 			}
 		}
 		
-		if (question.isShowPossibleAnswersEnabled()) {
-			List<OntologyElement> realAnswer = new ArrayList<OntologyElement>();
-			for (OntologyElement oe : getOntologyElements()) {
-				if (oe instanceof Individual && !answer.contains(oe)) {
-					realAnswer.add(oe);
-				}
-			}
-			return realAnswer;
-		}
-		
-		return answer;
+		answerCache.put(question.serialize(true), answer);
+		return new ArrayList<OntologyElement>(answer);
 	}
 	
 	public synchronized boolean isConsistent() {

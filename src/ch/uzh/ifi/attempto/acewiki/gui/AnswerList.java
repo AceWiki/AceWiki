@@ -23,6 +23,7 @@ import nextapp.echo.app.Insets;
 import nextapp.echo.app.Row;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.AceWikiReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.NounConcept;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Question;
@@ -66,43 +67,33 @@ class AnswerList extends Column {
 	 * Recalculates the answers and updates the answer list.
 	 */
 	public void updateAnswers() {
-		clear();
+		removeAll();
 		
+		final AceWikiReasoner reasoner = wiki.getOntology().getReasoner();
 		Column cachedAnswerCol = new Column();
-		addAnswerToColumn(question.getCachedAnswer(), cachedAnswerCol);
+		List<OntologyElement> cachedAnswer = reasoner.getCachedAnswer(question);
+		addAnswerToColumn(cachedAnswer, cachedAnswerCol);
+		add(cachedAnswerCol);
 		
-		if (question.isAnswerCached()) {
-			// Cached answer is up-to-date: no recalculation
-			add(cachedAnswerCol);
-		} else {
+		if (cachedAnswer == null || !reasoner.isAnswerCacheUpToDate()) {
 			// Answer is not cached or not up-to-date: recalculation
 			recalcIcon.setVisible(true);
-			add(cachedAnswerCol);
 			wiki.enqueueWeakAsyncTask(new Task() {
 				
 				private Column column;
 				
 				public void run() {
 					column = new Column();
-					addAnswerToColumn(question.getAnswer(), column);
+					addAnswerToColumn(reasoner.getAnswer(question), column);
 				}
 				
 				public void updateGUI() {
-					clear();
+					removeAll();
 					add(column);
 					recalcIcon.setVisible(false);
 				}
 				
 			});
-		}
-	}
-	
-	private void clear() {
-		removeAll();
-		
-		// Experimental "possible answers" feature:
-		if (question.isShowPossibleAnswersEnabled()) {
-			add(new SolidLabel("possibly:", Font.ITALIC, 10));
 		}
 	}
 	
