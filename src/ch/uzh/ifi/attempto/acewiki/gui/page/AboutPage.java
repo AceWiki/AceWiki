@@ -91,12 +91,18 @@ public class AboutPage extends WikiPage implements ActionListener {
 		table2.addEntry("ontology name", o.getName());
 		table2.addEntry("number of ontology elements", o.getOntologyElements().size() + "");
 		table2.addEntry("ontology URI", o.getURI());
-		table2.addEntry("global restrictions policy", o.getGlobalRestrictionsPolicy());
-		table2.addEntry("OWL profile", o.getOWLProfileName());
 		
-		table3.addEntry("reasoner type", o.getReasonerType());
-		table3.addEntry("reasoner name", o.getReasonerName());
-		table3.addEntry("reasoner version", o.getReasonerVersion());
+		table3.addEntry("reasoner type", o.getReasoner().getReasonerType());
+		table3.addEntry("reasoner name", o.getReasoner().getReasonerName());
+		table3.addEntry("reasoner version", o.getReasoner().getReasonerVersion());
+		for (String s : o.getReasoner().getInfo()) {
+			int i = s.indexOf(": ");
+			if (i < 0) {
+				table3.addEntry("", s);
+			} else {
+				table3.addEntry(s.substring(0, i), s.substring(i+2));
+			}
+		}
 
 		table4.addEntry("number of registered users", w.getUserBase().getUserCount() + "");
 		table4.addEntry("login enabled", (w.isLoginEnabled() ? "yes" : "no"));

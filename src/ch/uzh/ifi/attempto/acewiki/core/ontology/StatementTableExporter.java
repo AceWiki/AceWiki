@@ -47,6 +47,14 @@ public class StatementTableExporter extends OntologyExporter {
 		}
 	}
 	
+	public boolean isApplicable() {
+		return true;
+	}
+	
+	public String getText() {
+		return "Statement Table";
+	}
+	
 	public String getFileSuffix() {
 		return "-st.csv";
 	}

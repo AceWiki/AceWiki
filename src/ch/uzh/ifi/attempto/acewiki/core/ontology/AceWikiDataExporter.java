@@ -40,6 +40,14 @@ public class AceWikiDataExporter extends OntologyExporter {
 		}
 	}
 	
+	public boolean isApplicable() {
+		return true;
+	}
+	
+	public String getText() {
+		return "AceWiki data file";
+	}
+	
 	public String getFileSuffix() {
 		return ".acewikidata";
 	}

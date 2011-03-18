@@ -228,6 +228,9 @@ public abstract class Sentence extends Statement {
 	 * (that occurs in the sentence) has changed.
 	 */
 	void parse() {
+		// TODO: only works with OWL, needs generalization
+		AceWikiOWLReasoner reasoner = (AceWikiOWLReasoner) getOntology().getReasoner();
+		
 		synchronized (APELocal.class) {
 			APELocal.getInstance().setURI(getOntology().getURI());
 			APELocal.getInstance().setClexEnabled(false);
@@ -265,7 +268,7 @@ public abstract class Sentence extends Statement {
 			(owlxml.indexOf("<swrl:Imp>") < 0) &&
 			(owlxml.indexOf("<DLSafeRule>") < 0);
 		
-		if (isOWL && getOntology().getGlobalRestrictionsPolicy().equals("no_chains")) {
+		if (isOWL && reasoner.getGlobalRestrictionsPolicy().equals("no_chains")) {
 			reasonerParticipant =
 				(owlxml.indexOf("<TransitiveObjectProperty>") < 0) &&
 				(owlxml.indexOf("<ObjectPropertyChain>") < 0);
@@ -291,7 +294,7 @@ public abstract class Sentence extends Statement {
 				ex.printStackTrace();
 			}
 		}
-		OWLProfile owlProfile = getOntology().getOWLProfile();
+		OWLProfile owlProfile = reasoner.getOWLProfile();
 		if (reasonerParticipant && owlOntology != null && owlProfile != null && this instanceof Declaration) {
 			OWLProfileReport r = owlProfile.checkOntology(owlOntology);
 			for (OWLProfileViolation v : r.getViolations()) {

@@ -55,6 +55,14 @@ public class ACETextExporter extends OntologyExporter {
 		}
 	}
 	
+	public String getText() {
+		return "ACE Text, " + (consistent ? "consistent" : "full");
+	}
+	
+	public boolean isApplicable() {
+		return true;
+	}
+	
 	public String getFileSuffix() {
 		return ".ace.txt";
 	}

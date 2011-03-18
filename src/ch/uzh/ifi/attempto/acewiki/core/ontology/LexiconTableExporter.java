@@ -51,6 +51,14 @@ public class LexiconTableExporter extends OntologyExporter {
 		}
 	}
 	
+	public boolean isApplicable() {
+		return true;
+	}
+	
+	public String getText() {
+		return "Lexicon Table";
+	}
+	
 	public String getFileSuffix() {
 		return "-lex.csv";
 	}

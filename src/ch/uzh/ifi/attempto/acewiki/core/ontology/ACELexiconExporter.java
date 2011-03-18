@@ -53,6 +53,14 @@ public class ACELexiconExporter extends OntologyExporter {
 		}
 	}
 	
+	public String getText() {
+		return "ACE Lexicon";
+	}
+	
+	public boolean isApplicable() {
+		return true;
+	}
+	
 	public String getFileSuffix() {
 		return ".lex.pl";
 	}

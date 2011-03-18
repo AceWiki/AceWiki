@@ -43,10 +43,17 @@ import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.layout.ColumnLayoutData;
 import nextapp.echo.webcontainer.ContainerContext;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiGrammar;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.ACELexiconExporter;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.ACETextExporter;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.AceWikiDataExporter;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.LexiconManager;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.LexiconTableExporter;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.OWLXMLExporter;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyExportManager;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyTextElement;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.StatementTableExporter;
 import ch.uzh.ifi.attempto.acewiki.core.user.User;
 import ch.uzh.ifi.attempto.acewiki.core.user.UserBase;
 import ch.uzh.ifi.attempto.acewiki.gui.ExportWindow;
@@ -97,6 +104,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 
 	private final Ontology ontology;
 	private User user;
+	private OntologyExportManager ontologyExportManager;
 	
 	private WikiPage currentPage;
 	private Column pageCol;
@@ -160,6 +168,16 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		logger = new Logger(ontology.getName(), "anon", sessionID);
 		application = (AceWikiApp) ApplicationInstance.getActive();
 		taskQueue = application.createTaskQueue();
+		
+		ontologyExportManager = new OntologyExportManager();
+		ontologyExportManager.addExporter(new OWLXMLExporter(ontology, true));
+		ontologyExportManager.addExporter(new OWLXMLExporter(ontology, false));
+		ontologyExportManager.addExporter(new ACETextExporter(ontology, true));
+		ontologyExportManager.addExporter(new ACETextExporter(ontology, false));
+		ontologyExportManager.addExporter(new ACELexiconExporter(ontology));
+		ontologyExportManager.addExporter(new LexiconTableExporter(ontology));
+		ontologyExportManager.addExporter(new StatementTableExporter(ontology));
+		ontologyExportManager.addExporter(new AceWikiDataExporter(ontology));
 		
 		SplitPane splitPane1 = new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM);
 		splitPane1.setSeparatorPosition(new Extent(50));
@@ -606,6 +624,10 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 */
 	public Ontology getOntology() {
 		return ontology;
+	}
+	
+	public OntologyExportManager getOntologyExportManager() {
+		return ontologyExportManager;
 	}
 	
 	/**

@@ -16,6 +16,9 @@ package ch.uzh.ifi.attempto.acewiki.gui;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
+
+import javax.swing.DefaultListSelectionModel;
 
 import nextapp.echo.app.Alignment;
 import nextapp.echo.app.Column;
@@ -34,14 +37,8 @@ import nextapp.echo.app.layout.GridLayoutData;
 import nextapp.echo.filetransfer.app.AbstractDownloadProvider;
 import nextapp.echo.filetransfer.app.DownloadCommand;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.ACELexiconExporter;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.ACETextExporter;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.AceWikiDataExporter;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.LexiconTableExporter;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.OWLXMLExporter;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyExporter;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.StatementTableExporter;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.Style;
@@ -59,6 +56,7 @@ public class ExportWindow extends WindowPane implements ActionListener {
 	
 	private Wiki wiki;
 	
+	private List<OntologyExporter> exporters;
 	private ListBox listBox;
 
 	/**
@@ -104,16 +102,15 @@ public class ExportWindow extends WindowPane implements ActionListener {
 		messageColumn.add(label);
 		messageColumn.add(new VSpace());
 		
-		listBox = new ListBox(new String[] {
-				"ACE Text, consistent (.ace.txt)",
-				"ACE Text, full (.ace.txt)",
-				"ACE Lexicon (.lex.pl)",
-				"OWL Ontology, consistent (.owl)",
-				"OWL Ontology, full (.owl)",
-				"Lexicon Table (.csv)",
-				"Statement Table (.csv)",
-				"AceWiki data file (.acewikidata)"
-		});
+		exporters = wiki.getOntologyExportManager().getExporters();
+		String[] options = new String[exporters.size()];
+		for (int i = 0 ; i < exporters.size() ; i++) {
+			OntologyExporter e = exporters.get(i);
+			options[i] = e.getText() + " (" + e.getFileSuffix() + ")";
+		}
+		
+		listBox = new ListBox(options);
+		listBox.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
 		listBox.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(11)));
 		listBox.setBackground(Style.lightBackground);
 		listBox.setHeight(new Extent(70));
@@ -140,26 +137,8 @@ public class ExportWindow extends WindowPane implements ActionListener {
 		
 		if (e.getActionCommand().equals("Export")) {
 			
-			final OntologyExporter exporter;
 			final Ontology ontology = wiki.getOntology();
-			String export = listBox.getSelectedValue().toString();
-			boolean consistent = export.indexOf("consistent") > 0;
-			
-			if (export.startsWith("OWL Ontology")) {
-				exporter = new OWLXMLExporter(ontology, consistent);
-			} else if (export.startsWith("ACE Text")) {
-				exporter = new ACETextExporter(ontology, consistent);
-			} else if (export.startsWith("ACE Lexicon")) {
-				exporter = new ACELexiconExporter(ontology);
-			} else if (export.startsWith("Lexicon Table")) {
-				exporter = new LexiconTableExporter(ontology);
-			} else if (export.startsWith("Statement Table")) {
-				exporter = new StatementTableExporter(ontology);
-			} else if (export.startsWith("AceWiki data")) {
-				exporter = new AceWikiDataExporter(ontology);
-			} else {
-				return;
-			}
+			final OntologyExporter exporter = exporters.get(listBox.getSelectedIndices()[0]);
 			
 			AbstractDownloadProvider provider = new AbstractDownloadProvider() {
 				

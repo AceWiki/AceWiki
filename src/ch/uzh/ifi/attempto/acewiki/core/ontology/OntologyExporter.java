@@ -21,8 +21,6 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.List;
 
-import org.semanticweb.owlapi.model.OWLOntologyManager;
-
 /**
  * This abstract class is used to export AceWiki ontologies in different formats.
  * 
@@ -61,6 +59,10 @@ public abstract class OntologyExporter {
 		}
 	}
 	
+	public abstract boolean isApplicable();
+	
+	public abstract String getText();
+	
 	/**
 	 * This internal method should write the export content.
 	 * 
@@ -89,15 +91,6 @@ public abstract class OntologyExporter {
 	 */
 	protected Ontology getOntology()  {
 		return ontology;
-	}
-	
-	/**
-	 * Returns the OWL ontology manager.
-	 * 
-	 * @return The OWL ontology manager.
-	 */
-	protected OWLOntologyManager getOWLOntologyManager() {
-		return ontology.getOWLOntologyManager();
 	}
 	
 	/**

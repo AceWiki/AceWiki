@@ -41,13 +41,22 @@ public class OWLXMLExporter extends OntologyExporter {
 	}
 	
 	protected void writeContent() throws IOException {
-		OWLOntology owlOntology = getOntology().exportOWLOntology(consistent);
+		AceWikiOWLReasoner owlReasoner = (AceWikiOWLReasoner) getOntology().getReasoner();
+		OWLOntology owlOntology = owlReasoner.exportOWLOntology(consistent);
         try {
-            OWLXMLRenderer renderer = new OWLXMLRenderer(getOWLOntologyManager());
+            OWLXMLRenderer renderer = new OWLXMLRenderer(owlReasoner.getOWLOntologyManager());
             renderer.render(owlOntology, getOutputStream());
         } catch (OWLRendererException ex) {
             ex.printStackTrace();
         }
+	}
+	
+	public String getText() {
+		return "OWL Ontology, " + (consistent ? "consistent" : "full");
+	}
+	
+	public boolean isApplicable() {
+		return getOntology().getReasoner() instanceof AceWikiOWLReasoner;
 	}
 	
 	public String getFileSuffix() {
