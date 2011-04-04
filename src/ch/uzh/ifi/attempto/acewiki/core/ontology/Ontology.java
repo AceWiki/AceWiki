@@ -43,6 +43,8 @@ public class Ontology {
 	private static final HashMap<String, Ontology> ontologies = new HashMap<String, Ontology>();
 	
 	private AceWikiReasoner reasoner;
+	private StatementFactory statementFactory;
+	private LanguageFactory languageFactory;
 	
 	private Map<String, OntologyElement> wordIndex = new TreeMap<String, OntologyElement>();
 	private Map<Long, OntologyElement> idIndex = new TreeMap<Long, OntologyElement>();
@@ -66,7 +68,10 @@ public class Ontology {
 		this.name = name.toString();  // null value throws an exception
 		this.parameters = parameters;
 		
+		// TODO: make this general
 		reasoner = new AceWikiOWLReasoner(this);
+		statementFactory = new StatementFactory(this);
+		languageFactory = new ACELanguageFactory();
 		
 		String b = getParameter("baseuri");
 		if (b == null || b.equals("")) {
@@ -201,6 +206,14 @@ public class Ontology {
 	
 	public AceWikiReasoner getReasoner() {
 		return reasoner;
+	}
+	
+	public StatementFactory getStatementFactory() {
+		return statementFactory;
+	}
+	
+	public LanguageFactory getLanguageFactory() {
+		return languageFactory;
 	}
 	
 	synchronized void save(OntologyElement oe) {

@@ -24,23 +24,12 @@ package ch.uzh.ifi.attempto.acewiki.core.ontology;
 public class Declaration extends Sentence {
 	
 	/**
-	 * Creates a new asserted sentence. Asserted sentences must be part of an article.
+	 * Creates a new sentence.
 	 * 
 	 * @param text The sentence text.
-	 * @param article The article.
 	 */
-	protected Declaration(String text, Article article) {
-		super(text, article);
-	}
-	
-	/**
-	 * Creates a new inferred sentence. Inferred sentences have no article.
-	 * 
-	 * @param text The sentence text.
-	 * @param ontology The ontology.
-	 */
-	protected Declaration(String text, Ontology ontology) {
-		super(text, ontology);
+	protected Declaration(String text) {
+		super(text);
 	}
 	
 	/**

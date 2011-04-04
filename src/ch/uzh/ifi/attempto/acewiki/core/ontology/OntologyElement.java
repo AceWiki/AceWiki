@@ -71,20 +71,7 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 			return;
 		}
 		String type = lines.remove(0).substring("type:".length());
-		OntologyElement oe = null;
-		
-		// Proper ontology elements:
-		if (type.equals("propername")) {
-			oe = new Individual();
-		} else if (type.equals("noun")) {
-			oe = new NounConcept();
-		} else if (type.equals("nounof")) {
-			oe = new OfRole();
-		} else if (type.equals("trverb")) {
-			oe = new VerbRole();
-		} else if (type.equals("tradj")) {
-			oe = new TrAdjRole();
-		}
+		OntologyElement oe = ontology.getLanguageFactory().createOntologyElement(type);
 		if (oe != null) {
 			if (!lines.get(0).startsWith("words:")) {
 				System.err.println("Cannot read ontology element (missing 'words')");

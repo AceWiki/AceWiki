@@ -28,20 +28,13 @@ public abstract class Statement {
 	
 	/**
 	 * Initializes a new independent statement.
-	 * 
-	 * @param ontology The ontology of the new statement.
 	 */
-	protected Statement(Ontology ontology) {
-		this.ontology = ontology;
-		
+	protected Statement() {
 	}
 	
-	/**
-	 * Initializes a new statement with the given ontology element as its owner.
-	 */
-	protected Statement(Article article) {
+	void init(Ontology ontology, Article article) {
+		this.ontology = ontology;
 		this.article = article;
-		this.ontology = article.getOntology();
 	}
 	
 	/**
@@ -50,9 +43,6 @@ public abstract class Statement {
 	 * @return The ontology.
 	 */
 	public Ontology getOntology() {
-		if (ontology == null) {
-			ontology = article.getOntology();
-		}
 		return ontology;
 	}
 	

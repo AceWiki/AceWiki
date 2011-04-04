@@ -36,10 +36,9 @@ public class Question extends Sentence {
 	 * Creates a new question.
 	 * 
 	 * @param text The question text.
-	 * @param article The article.
 	 */
-	protected Question(String text, Article article) {
-		super(text, article);
+	protected Question(String text) {
+		super(text);
 	}
 	
 	/**

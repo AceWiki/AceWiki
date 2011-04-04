@@ -17,9 +17,10 @@ public class Article {
 	
 	static Article loadArticle(List<String> lines, OntologyElement element) {
 		Article a = new Article(element);
+		Ontology ontology = element.getOntology();
 		while (!lines.isEmpty()) {
 			String l = lines.remove(0);
-			Statement statement = StatementFactory.loadStatement(l, a);
+			Statement statement = ontology.getStatementFactory().loadStatement(l, a);
 			if (statement == null) {
 				System.err.println("Cannot read statement: " + l);
 			} else {

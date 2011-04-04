@@ -19,7 +19,6 @@ import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Article;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Comment;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Statement;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.StatementFactory;
 import ch.uzh.ifi.attempto.acewiki.gui.page.ArticlePage;
 import ch.uzh.ifi.attempto.echocomp.TextAreaWindow;
 
@@ -93,7 +92,8 @@ public class CommentEditorHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("OK")) {
 			Article article = page.getArticle();
-			Comment comment = StatementFactory.createComment(textAreaWindow.getText(), article);
+			Comment comment = article.getOntology().getStatementFactory()
+				.createComment(textAreaWindow.getText(), article);
 			if (edit) {
 				article.edit(statement, comment);
 			} else {

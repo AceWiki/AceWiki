@@ -27,10 +27,8 @@ public class Comment extends Statement {
 	 * Creates a new comment.
 	 * 
 	 * @param text The comment text.
-	 * @param article The article.
 	 */
-	protected Comment(String text, Article article) {
-		super(article);
+	protected Comment(String text) {
 		this.text = text;
 	}
 	

@@ -72,24 +72,11 @@ public abstract class Sentence extends Statement {
 	private Set<OWLAxiom> owlAxioms;
 	
 	/**
-	 * Initializes a new sentence for the given article.
+	 * Initializes a new sentence.
 	 * 
 	 * @param text The sentence text.
-	 * @param article The article.
 	 */
-	protected Sentence(String text, Article article) {
-		super(article);
-		this.text = text;
-	}
-	
-	/**
-	 * Initializes a new independent sentence.
-	 * 
-	 * @param text The sentence text.
-	 * @param ontology The ontology.
-	 */
-	protected Sentence(String text, Ontology ontology) {
-		super(ontology);
+	protected Sentence(String text) {
 		this.text = text;
 	}
 	

@@ -28,42 +28,10 @@ import ch.uzh.ifi.attempto.preditor.TextElement;
  */
 public class StatementFactory {
 	
-	// no instances allowed
-	private StatementFactory() {}
-
-	/**
-	 * Creates a new asserted declaration (declarative sentence). Asserted declarations must be
-	 * part of an article.
-	 * 
-	 * @param text The sentence text.
-	 * @param article The article
-	 * @return The new declaration.
-	 */
-	public static Declaration createDeclaration(String text, Article article) {
-		return new Declaration(text, article);
-	}
-
-	/**
-	 * Creates a new inferred declaration (declarative sentence). Inferred declarations have no
-	 * articles.
-	 * 
-	 * @param text The sentence text.
-	 * @param ontology The ontology.
-	 * @return The new declaration.
-	 */
-	public static Declaration createDeclaration(String text, Ontology ontology) {
-		return new Declaration(text, ontology);
-	}
+	private Ontology ontology;
 	
-	/**
-	 * Creates a new question. Questions must be part of an article.
-	 * 
-	 * @param text The question text.
-	 * @param article The article.
-	 * @return The new declaration.
-	 */
-	protected Question createQuestion(String text, Article article) {
-		return new Question(text, article);
+	StatementFactory(Ontology ontology) {
+		this.ontology = ontology;
 	}
 
 	/**
@@ -73,25 +41,33 @@ public class StatementFactory {
 	 * @param article The article.
 	 * @return The new comment.
 	 */
-	public static Comment createComment(String text, Article article) {
-		return new Comment(text, article);
+	public Comment createComment(String text, Article article) {
+		Comment c = new Comment(text);
+		c.init(ontology, article);
+		return c;
 	}
 
 	/**
-	 * Creates a new sentence object (either a declaration or a question) with the given article.
+	 * Creates a new independent sentence object.
+	 * 
+	 * @param text The sentence text.
+	 * @return The new sentence object.
+	 */
+	public Sentence createSentence(String text) {
+		return createSentence(text, null);
+	}
+
+	/**
+	 * Creates a new sentence object with the given article.
 	 * 
 	 * @param text The sentence text.
 	 * @param article The article.
 	 * @return The new sentence object.
 	 */
-	public static Sentence createSentence(String text, Article article) {
-		// remove leading and trailing blank spaces.
-		text = text.replaceFirst("^\\s+", "").replaceFirst("\\s+$", "");
-		if (text.substring(text.length()-1).equals("?")) {
-			return new Question(text, article);
-		} else {
-			return new Declaration(text, article);
-		}
+	public Sentence createSentence(String text, Article article) {
+		Sentence s = ontology.getLanguageFactory().createSentence(text);
+		s.init(ontology, article);
+		return s;
 	}
 	
 	/**
@@ -101,20 +77,24 @@ public class StatementFactory {
 	 * @param article The article of the statement.
 	 * @return The new statement object.
 	 */
-	public static Statement loadStatement(String serializedStatement, Article article) {
+	public Statement loadStatement(String serializedStatement, Article article) {
 		if (serializedStatement.length() < 2) return null;
 		String s = serializedStatement.substring(2);
 
 		if (serializedStatement.startsWith("| ")) {
-			Sentence sentence = StatementFactory.createSentence(s, article);
+			Sentence sentence = createSentence(s);
+			sentence.init(ontology, article);
 			sentence.setIntegrated(true);
 			return sentence;
 		} else if (serializedStatement.startsWith("# ")) {
-			Sentence sentence = StatementFactory.createSentence(s, article);
+			Sentence sentence = createSentence(s);
+			sentence.init(ontology, article);
 			sentence.setIntegrated(false);
 			return sentence;
 		} else if (serializedStatement.startsWith("c ")) {
-			return new Comment(s.replaceAll("~n", "\n").replaceAll("~t", "~"), article);
+			Comment comment = new Comment(s.replaceAll("~n", "\n").replaceAll("~t", "~"));
+			comment.init(ontology, article);
+			return comment;
 		}
 		
 		return null;
@@ -124,10 +104,10 @@ public class StatementFactory {
 	 * Generates sentence objects out of a text container.
 	 * 
 	 * @param tc The text container.
-	 * @param owner The owner ontology element of the sentences.
+	 * @param article The article of the sentences.
 	 * @return A list of sentences.
 	 */
-	public static List<Sentence> createSentences(TextContainer tc, Article article) {
+	public List<Sentence> createSentences(TextContainer tc, Article article) {
 		List<Sentence> l = new ArrayList<Sentence>();
 		TextContainer c = new TextContainer(tc.getTextOperator());
 		for (TextElement e : tc.getTextElements()) {

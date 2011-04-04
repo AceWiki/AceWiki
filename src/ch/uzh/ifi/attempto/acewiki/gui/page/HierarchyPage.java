@@ -29,7 +29,6 @@ import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Sentence;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.StatementFactory;
 import ch.uzh.ifi.attempto.acewiki.gui.IndexBar;
 import ch.uzh.ifi.attempto.acewiki.gui.RecalcIcon;
 import ch.uzh.ifi.attempto.acewiki.gui.TextRow;
@@ -212,14 +211,12 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 				Collections.sort(concepts);
 				for (Concept c : concepts) {
 					if (up) {
-						sentences.add(StatementFactory.createDeclaration(
-								"Every " + concept.getWord() + " is a " + c.getWord() + ".",
-								concept.getOntology()
+						sentences.add(getWiki().getOntology().getStatementFactory().createSentence(
+								"Every " + concept.getWord() + " is a " + c.getWord() + "."
 							));
 					} else {
-						sentences.add(StatementFactory.createDeclaration(
-								"Every " + c.getWord() + " is a " + concept.getWord() + ".",
-								concept.getOntology()
+						sentences.add(getWiki().getOntology().getStatementFactory().createSentence(
+								"Every " + c.getWord() + " is a " + concept.getWord() + "."
 							));
 					}
 				}
