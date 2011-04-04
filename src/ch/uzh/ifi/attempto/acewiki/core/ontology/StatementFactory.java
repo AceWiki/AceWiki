@@ -32,20 +32,20 @@ public class StatementFactory {
 	private StatementFactory() {}
 
 	/**
-	 * Creates a new asserted declaration (declarative sentence). Asserted declarations must have
-	 * an owner.
+	 * Creates a new asserted declaration (declarative sentence). Asserted declarations must be
+	 * part of an article.
 	 * 
 	 * @param text The sentence text.
-	 * @param owner The owner ontology element.
+	 * @param article The article
 	 * @return The new declaration.
 	 */
-	public static Declaration createDeclaration(String text, OntologyElement owner) {
-		return new Declaration(text, owner);
+	public static Declaration createDeclaration(String text, Article article) {
+		return new Declaration(text, article);
 	}
 
 	/**
 	 * Creates a new inferred declaration (declarative sentence). Inferred declarations have no
-	 * owner.
+	 * articles.
 	 * 
 	 * @param text The sentence text.
 	 * @param ontology The ontology.
@@ -56,42 +56,41 @@ public class StatementFactory {
 	}
 	
 	/**
-	 * Creates a new question. Questions must have an owner.
+	 * Creates a new question. Questions must be part of an article.
 	 * 
 	 * @param text The question text.
-	 * @param owner The owner ontology element.
+	 * @param article The article.
 	 * @return The new declaration.
 	 */
-	protected Question createQuestion(String text, OntologyElement owner) {
-		return new Question(text, owner);
+	protected Question createQuestion(String text, Article article) {
+		return new Question(text, article);
 	}
 
 	/**
-	 * Creates a new comment. Comments must have an owner.
+	 * Creates a new comment. Comments must be part of an article.
 	 * 
 	 * @param text The comment text.
-	 * @param owner The owner ontology element.
+	 * @param article The article.
 	 * @return The new comment.
 	 */
-	public static Comment createComment(String text, OntologyElement owner) {
-		return new Comment(text, owner);
+	public static Comment createComment(String text, Article article) {
+		return new Comment(text, article);
 	}
 
 	/**
-	 * Creates a new sentence object (either a declaration or a question) with the given ontology
-	 * element as its owner.
+	 * Creates a new sentence object (either a declaration or a question) with the given article.
 	 * 
 	 * @param text The sentence text.
-	 * @param owner The owner ontology element.
+	 * @param article The article.
 	 * @return The new sentence object.
 	 */
-	public static Sentence createSentence(String text, OntologyElement owner) {
+	public static Sentence createSentence(String text, Article article) {
 		// remove leading and trailing blank spaces.
 		text = text.replaceFirst("^\\s+", "").replaceFirst("\\s+$", "");
 		if (text.substring(text.length()-1).equals("?")) {
-			return new Question(text, owner);
+			return new Question(text, article);
 		} else {
-			return new Declaration(text, owner);
+			return new Declaration(text, article);
 		}
 	}
 	
@@ -99,23 +98,23 @@ public class StatementFactory {
 	 * Loads a statement from a serialized form.
 	 * 
 	 * @param serializedStatement The serialized statement as a string.
-	 * @param owner The owner ontology element of the statement.
+	 * @param article The article of the statement.
 	 * @return The new statement object.
 	 */
-	public static Statement loadStatement(String serializedStatement, OntologyElement owner) {
+	public static Statement loadStatement(String serializedStatement, Article article) {
 		if (serializedStatement.length() < 2) return null;
 		String s = serializedStatement.substring(2);
 
 		if (serializedStatement.startsWith("| ")) {
-			Sentence sentence = StatementFactory.createSentence(s, owner);
+			Sentence sentence = StatementFactory.createSentence(s, article);
 			sentence.setIntegrated(true);
 			return sentence;
 		} else if (serializedStatement.startsWith("# ")) {
-			Sentence sentence = StatementFactory.createSentence(s, owner);
+			Sentence sentence = StatementFactory.createSentence(s, article);
 			sentence.setIntegrated(false);
 			return sentence;
 		} else if (serializedStatement.startsWith("c ")) {
-			return new Comment(s.replaceAll("~n", "\n").replaceAll("~t", "~"), owner);
+			return new Comment(s.replaceAll("~n", "\n").replaceAll("~t", "~"), article);
 		}
 		
 		return null;
@@ -128,13 +127,13 @@ public class StatementFactory {
 	 * @param owner The owner ontology element of the sentences.
 	 * @return A list of sentences.
 	 */
-	public static List<Sentence> createSentences(TextContainer tc, OntologyElement owner) {
+	public static List<Sentence> createSentences(TextContainer tc, Article article) {
 		List<Sentence> l = new ArrayList<Sentence>();
 		TextContainer c = new TextContainer(tc.getTextOperator());
 		for (TextElement e : tc.getTextElements()) {
 			c.addElement(e);
 			if (e.getText().matches("[.?]")) {
-				l.add(createSentence(Sentence.getUnderscoredText(c), owner));
+				l.add(createSentence(Sentence.getUnderscoredText(c), article));
 				c = new TextContainer(tc.getTextOperator());
 			}
 		}

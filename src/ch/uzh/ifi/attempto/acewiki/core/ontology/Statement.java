@@ -16,15 +16,15 @@ package ch.uzh.ifi.attempto.acewiki.core.ontology;
 
 /**
  * This class represents a statement that can be either an ACE sentence or a comment. A
- * statement can either have an ontology element as its owner (in this case it occurs on
- * the article of the owner) or it can be an independent statement that has no owner.
+ * statement can either be part of an article or it can be an independent statement that has no
+ * article.
  * 
  * @author Tobias Kuhn
  */
 public abstract class Statement {
 	
 	private Ontology ontology;
-	private OntologyElement owner;
+	private Article article;
 	
 	/**
 	 * Initializes a new independent statement.
@@ -38,12 +38,10 @@ public abstract class Statement {
 	
 	/**
 	 * Initializes a new statement with the given ontology element as its owner.
-	 * 
-	 * @param owner The ontology element that is the owner of the new statement.
 	 */
-	protected Statement(OntologyElement owner) {
-		this.owner = owner;
-		this.ontology = owner.getOntology();
+	protected Statement(Article article) {
+		this.article = article;
+		this.ontology = article.getOntology();
 	}
 	
 	/**
@@ -53,7 +51,7 @@ public abstract class Statement {
 	 */
 	public Ontology getOntology() {
 		if (ontology == null) {
-			ontology = owner.getOntology();
+			ontology = article.getOntology();
 		}
 		return ontology;
 	}
@@ -63,8 +61,8 @@ public abstract class Statement {
 	 * 
 	 * @return The owner ontology element.
 	 */
-	public OntologyElement getOwner() {
-		return owner;
+	public Article getArticle() {
+		return article;
 	}
 	
 	/**

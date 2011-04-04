@@ -47,8 +47,8 @@ import ch.uzh.ifi.attempto.preditor.TextElement;
  * This class represents an ACE sentence, which can be either a declaration (declarative sentence)
  * or a question.
  *<p>
- * ACE sentences can either have an ontology element as owner (in the case of asserted sentences or
- * questions) or can be independent statements with no owner (in the case of inferred sentences).
+ * ACE sentences can either be part of an article (in the case of asserted sentences or
+ * questions) or can be independent statements with no article (in the case of inferred sentences).
  *<p>
  * Parsing of the sentence is done lazily, i.e. at the first time when a parsing result is
  * required. Parsing fails silently. No exceptions are thrown if a sentence is not ACE compliant.
@@ -72,13 +72,13 @@ public abstract class Sentence extends Statement {
 	private Set<OWLAxiom> owlAxioms;
 	
 	/**
-	 * Initializes a new sentence with the given ontology element as its owner.
+	 * Initializes a new sentence for the given article.
 	 * 
 	 * @param text The sentence text.
-	 * @param owner The owner ontology element.
+	 * @param article The article.
 	 */
-	protected Sentence(String text, OntologyElement owner) {
-		super(owner);
+	protected Sentence(String text, Article article) {
+		super(article);
 		this.text = text;
 	}
 	
@@ -328,7 +328,7 @@ public abstract class Sentence extends Statement {
 	 */
 	public int reassert() {
 		int success = getOntology().commitSentence(this);
-		getOntology().save(getOwner());
+		getOntology().save(getArticle().getOntologyElement());
 		return success;
 	}
 	
@@ -338,7 +338,7 @@ public abstract class Sentence extends Statement {
 	 */
 	public void retract() {
 		getOntology().retractSentence(this);
-		getOntology().save(getOwner());
+		getOntology().save(getArticle().getOntologyElement());
 	}
 	
 	/**

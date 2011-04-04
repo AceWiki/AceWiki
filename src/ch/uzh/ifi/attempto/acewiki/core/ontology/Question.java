@@ -36,10 +36,10 @@ public class Question extends Sentence {
 	 * Creates a new question.
 	 * 
 	 * @param text The question text.
-	 * @param owner The owner ontology element.
+	 * @param article The article.
 	 */
-	protected Question(String text, OntologyElement owner) {
-		super(text, owner);
+	protected Question(String text, Article article) {
+		super(text, article);
 	}
 	
 	/**

@@ -24,17 +24,17 @@ package ch.uzh.ifi.attempto.acewiki.core.ontology;
 public class Declaration extends Sentence {
 	
 	/**
-	 * Creates a new asserted sentence. Asserted sentences must have an owner.
+	 * Creates a new asserted sentence. Asserted sentences must be part of an article.
 	 * 
 	 * @param text The sentence text.
-	 * @param owner The owner ontology element.
+	 * @param article The article.
 	 */
-	protected Declaration(String text, OntologyElement owner) {
-		super(text, owner);
+	protected Declaration(String text, Article article) {
+		super(text, article);
 	}
 	
 	/**
-	 * Creates a new inferred sentence. Inferred sentences have no owner.
+	 * Creates a new inferred sentence. Inferred sentences have no article.
 	 * 
 	 * @param text The sentence text.
 	 * @param ontology The ontology.
@@ -49,11 +49,11 @@ public class Declaration extends Sentence {
 	 * @return true if the sentence is read-only.
 	 */
 	public boolean isReadOnly() {
-		return getOwner() == null;
+		return getArticle() == null;
 	}
 	
 	public String getType() {
-		if (getOwner() == null) {
+		if (getArticle() == null) {
 			return "inferred";
 		} else if (isIntegrated()) {
 			return "asserted";

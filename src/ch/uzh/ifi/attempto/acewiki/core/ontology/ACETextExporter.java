@@ -43,7 +43,7 @@ public class ACETextExporter extends OntologyExporter {
 		Collections.sort(elements);
 		for (OntologyElement oe : elements) {
 			String heading = "\n# " + oe.getHeadword() + "\n\n";
-			for (Sentence s : oe.getSentences()) {
+			for (Sentence s : oe.getArticle().getSentences()) {
 				if (!consistent || (s.isIntegrated() && s.isReasonerParticipant()) ) {
 					if (heading != null) {
 						write(heading);

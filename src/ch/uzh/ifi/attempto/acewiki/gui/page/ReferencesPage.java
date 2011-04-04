@@ -27,6 +27,7 @@ import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.Article;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Sentence;
 import ch.uzh.ifi.attempto.acewiki.gui.IndexBar;
@@ -97,7 +98,7 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 		Collections.sort(ontologyElements);
 		for (OntologyElement oe : ontologyElements) {
 			if (oe == page.getOntologyElement()) continue;
-			for (Sentence s : oe.getSentences()) {
+			for (Sentence s : oe.getArticle().getSentences()) {
 				if (s.contains(page.getOntologyElement())) {
 					sentences.add(s);
 				}
@@ -128,20 +129,20 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 		int max = sentences.size();
 		if (max > (chosenPage + 1) * pageSize) max = (chosenPage + 1) * pageSize;
 		
-		OntologyElement oe = null;
+		Article a = null;
 		for (int i = chosenPage * pageSize; i < max; i++) {
 			Sentence s = sentences.get(i);
-			if (oe != s.getOwner()) {
-				oe = s.getOwner();
+			if (a != s.getArticle()) {
+				a = s.getArticle();
 				Row r = new Row();
 				Column c = new Column();
-				c.add(new WikiLink(oe, getWiki()));
+				c.add(new WikiLink(a.getOntologyElement(), getWiki()));
 				Row line = new Row();
 				line.setBackground(Color.DARKGRAY);
 				line.setInsets(new Insets(0, 1, 0, 0));
 				c.add(line);
 				r.add(c);
-				if (i > 0 && sentences.get(i-1).getOwner() == oe) {
+				if (i > 0 && sentences.get(i-1).getArticle() == a) {
 					r.add(new HSpace());
 					r.add(new SolidLabel("(continued)", Font.ITALIC, 10));
 				}

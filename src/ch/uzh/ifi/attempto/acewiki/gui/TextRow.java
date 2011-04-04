@@ -164,7 +164,8 @@ public class TextRow extends Column implements ActionListener {
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
 			} else {
-				ArticlePage page = ArticlePage.create(sentence.getOwner(), wiki);
+				OntologyElement el = sentence.getArticle().getOntologyElement();
+				ArticlePage page = ArticlePage.create(el, wiki);
 				wiki.showPage(page);
 				wiki.showWindow(SentenceEditorHandler.generateEditWindow(sentence, page));
 			}
@@ -251,7 +252,7 @@ public class TextRow extends Column implements ActionListener {
 				"The sentence is being removed from the knowledge base...",
 				new Task() {
 					public void run() {
-						sentence.getOwner().remove(sentence);
+						sentence.getArticle().remove(sentence);
 					}
 					public void updateGUI() {
 						wiki.update();

@@ -22,6 +22,7 @@ import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.Article;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Comment;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.DummyOntologyElement;
@@ -108,10 +109,14 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 	 */
 	public abstract OntologyElement getOntologyElement();
 	
+	public Article getArticle() {
+		return getOntologyElement().getArticle();
+	}
+	
 	protected void doUpdate() {
 		textColumn.removeAll();
 		
-		for (Statement s : getOntologyElement().getStatements()) {
+		for (Statement s : getArticle().getStatements()) {
 			if (s instanceof Sentence) {
 				textColumn.add(new TextRow((Sentence) s, this));
 			} else if (s instanceof Comment) {
@@ -119,7 +124,7 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 			}
 		}
 		
-		if (getOntologyElement().getStatements().size() == 0) {
+		if (getArticle().getStatements().size() == 0) {
 			textColumn.add(new SolidLabel("(article is empty)", Font.ITALIC, 10));
 		}
 		

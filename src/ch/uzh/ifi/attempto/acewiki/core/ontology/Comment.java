@@ -27,10 +27,10 @@ public class Comment extends Statement {
 	 * Creates a new comment.
 	 * 
 	 * @param text The comment text.
-	 * @param owner The owner ontology element.
+	 * @param article The article.
 	 */
-	protected Comment(String text, OntologyElement owner) {
-		super(owner);
+	protected Comment(String text, Article article) {
+		super(article);
 		this.text = text;
 	}
 	

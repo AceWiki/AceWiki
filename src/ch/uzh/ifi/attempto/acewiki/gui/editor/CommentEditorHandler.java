@@ -16,8 +16,8 @@ package ch.uzh.ifi.attempto.acewiki.gui.editor;
 
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.Article;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Comment;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Statement;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.StatementFactory;
 import ch.uzh.ifi.attempto.acewiki.gui.page.ArticlePage;
@@ -92,15 +92,14 @@ public class CommentEditorHandler implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("OK")) {
+			Article article = page.getArticle();
+			Comment comment = StatementFactory.createComment(textAreaWindow.getText(), article);
 			if (edit) {
-				OntologyElement owner = page.getOntologyElement();
-				owner.edit(statement, StatementFactory.createComment(textAreaWindow.getText(), owner));
-				page.update();
+				article.edit(statement, comment);
 			} else {
-				OntologyElement owner = page.getOntologyElement();
-				owner.add(statement, StatementFactory.createComment(textAreaWindow.getText(), owner));
-				page.update();
+				article.add(statement, comment);
 			}
+			page.update();
 			page.getWiki().removeWindow(textAreaWindow);
 		} else if (e.getActionCommand().equals("Cancel")) {
 			page.getWiki().removeWindow(textAreaWindow);

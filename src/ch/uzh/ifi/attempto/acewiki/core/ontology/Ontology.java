@@ -21,12 +21,9 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
 import ch.uzh.ifi.attempto.echocomp.Logger;
@@ -182,7 +179,7 @@ public class Ontology {
 		for (OntologyElement oe : elements) {
 			pb2.addOne();
 			ontology.getReasoner().loadElement(oe);
-			for (Sentence s : oe.getSentences()) {
+			for (Sentence s : oe.getArticle().getSentences()) {
 				if (s.isReasonerParticipant() && s.isIntegrated()) {
 					ontology.getReasoner().loadSentence(s);
 				}
@@ -275,7 +272,7 @@ public class Ontology {
 			wordIndex.remove(word);
 		}
 		idIndex.remove(element.getId());
-		for (Sentence s : element.getSentences()) {
+		for (Sentence s : element.getArticle().getSentences()) {
 			retractSentence(s);
 		}
 		save(element);
@@ -319,7 +316,7 @@ public class Ontology {
 	public synchronized List<Sentence> getReferences(OntologyElement element, int wordNumber) {
 		List<Sentence> list = new ArrayList<Sentence>();
 		for (OntologyElement el : idIndex.values()) {
-			for (Sentence s : el.getSentences()) {
+			for (Sentence s : el.getArticle().getSentences()) {
 				if (wordNumber == -1 && s.contains(element)) {
 					list.add(s);
 				} else if (wordNumber > -1 && s.contains(element, wordNumber)) {

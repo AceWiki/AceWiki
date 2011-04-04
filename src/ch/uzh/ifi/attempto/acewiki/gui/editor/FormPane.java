@@ -222,7 +222,7 @@ public abstract class FormPane extends WordEditorForm {
 	private void prepareDelete() {
 		OntologyElement oe = getOntologyElement();
 		List<Sentence> references = wiki.getOntology().getReferences(oe);
-		for (Sentence s : oe.getSentences()) {
+		for (Sentence s : oe.getArticle().getSentences()) {
 			references.remove(s);
 		}
 		if (!references.isEmpty()) {

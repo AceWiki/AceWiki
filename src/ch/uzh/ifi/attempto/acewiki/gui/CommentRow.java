@@ -161,7 +161,7 @@ public class CommentRow extends Column implements ActionListener {
 			}
 		} else if (e.getSource() instanceof MessageWindow && e.getActionCommand().equals("Yes")) {
 			wiki.log("page", "dropdown: delete confirmed: " + comment.getText());
-			comment.getOwner().remove(comment);
+			comment.getArticle().remove(comment);
 			wiki.update();
 			wiki.refresh();
 		}

@@ -21,7 +21,7 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.Article;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.Statement;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.StatementFactory;
@@ -119,7 +119,7 @@ public class SentenceEditorHandler implements ActionListener {
 			if (l.isEmpty() || l.get(l.size() - 1).getText().matches("[.?]")) {
 				newSentences = StatementFactory.createSentences(
 						textContainer,
-						page.getOntologyElement()
+						page.getArticle()
 					);
 				checkSentence();
 			} else if (c.equals("OK")) {
@@ -141,7 +141,7 @@ public class SentenceEditorHandler implements ActionListener {
 			String text = newSentences.get(checked).getText();
 			text = text.replaceFirst("^(A|a)n? ", "Every ");
 			newSentences.remove(checked);
-			newSentences.add(checked, StatementFactory.createSentence(text, page.getOntologyElement()));
+			newSentences.add(checked, StatementFactory.createSentence(text, page.getArticle()));
 			checked++;
 			checkSentence();
 		} else if (src == messageWindow && c.equals("Close")) {
@@ -179,7 +179,7 @@ public class SentenceEditorHandler implements ActionListener {
 	
 	private void assertSentences() {
 		final TextContainer textContainer = editorWindow.getTextContainer();
-		final OntologyElement el = page.getOntologyElement();
+		final Article a = page.getArticle();
 		
 		Task task = new Task() {
 			
@@ -188,10 +188,10 @@ public class SentenceEditorHandler implements ActionListener {
 			public void run() {
 				if (edit) {
 					wiki.log("edit", "sentence updated: " + textContainer.getText());
-					success = el.edit(statement, new ArrayList<Statement>(newSentences));
+					success = a.edit(statement, new ArrayList<Statement>(newSentences));
 				} else {
 					wiki.log("edit", "sentence created: " + textContainer.getText());
-					success = el.add(statement, new ArrayList<Statement>(newSentences));
+					success = a.add(statement, new ArrayList<Statement>(newSentences));
 				}
 			}
 			

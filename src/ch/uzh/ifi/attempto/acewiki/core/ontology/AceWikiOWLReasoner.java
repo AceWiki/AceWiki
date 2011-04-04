@@ -34,7 +34,6 @@ import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import org.semanticweb.owlapi.util.Version;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
-import uk.ac.manchester.cs.owl.owlapi.OWLObjectComplementOfImpl;
 
 
 public class AceWikiOWLReasoner implements AceWikiReasoner {
@@ -154,7 +153,7 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 			if (owlDecl != null) {
 				axioms.add(owlDecl);
 			}
-			for (Sentence s : el.getSentences()) {
+			for (Sentence s : el.getArticle().getSentences()) {
 				if (s instanceof Question || !s.isOWL()) continue;
 				if (consistent && (!s.isReasonerParticipant() || !s.isIntegrated())) continue;
 				axioms.addAll(s.getOWLAxioms());
