@@ -69,36 +69,6 @@ public class StatementFactory {
 		s.init(ontology, article);
 		return s;
 	}
-	
-	/**
-	 * Loads a statement from a serialized form.
-	 * 
-	 * @param serializedStatement The serialized statement as a string.
-	 * @param article The article of the statement.
-	 * @return The new statement object.
-	 */
-	public Statement loadStatement(String serializedStatement, Article article) {
-		if (serializedStatement.length() < 2) return null;
-		String s = serializedStatement.substring(2);
-
-		if (serializedStatement.startsWith("| ")) {
-			Sentence sentence = createSentence(s);
-			sentence.init(ontology, article);
-			sentence.setIntegrated(true);
-			return sentence;
-		} else if (serializedStatement.startsWith("# ")) {
-			Sentence sentence = createSentence(s);
-			sentence.init(ontology, article);
-			sentence.setIntegrated(false);
-			return sentence;
-		} else if (serializedStatement.startsWith("c ")) {
-			Comment comment = new Comment(s.replaceAll("~n", "\n").replaceAll("~t", "~"));
-			comment.init(ontology, article);
-			return comment;
-		}
-		
-		return null;
-	}
 
 	/**
 	 * Generates sentence objects out of a text container.

@@ -315,7 +315,7 @@ public abstract class Sentence extends Statement {
 	 */
 	public int reassert() {
 		int success = getOntology().commitSentence(this);
-		getOntology().save(getArticle().getOntologyElement());
+		getOntology().getStorage().save(getArticle().getOntologyElement());
 		return success;
 	}
 	
@@ -325,7 +325,7 @@ public abstract class Sentence extends Statement {
 	 */
 	public void retract() {
 		getOntology().retractSentence(this);
-		getOntology().save(getArticle().getOntologyElement());
+		getOntology().getStorage().save(getArticle().getOntologyElement());
 	}
 	
 	/**

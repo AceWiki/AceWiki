@@ -1,12 +1,24 @@
-package ch.uzh.ifi.attempto.acewiki.core.user;
+// This file is part of AceWiki.
+// Copyright 2008-2011, Tobias Kuhn.
+// 
+// AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
+// Lesser General Public License as published by the Free Software Foundation, either version 3 of
+// the License, or (at your option) any later version.
+// 
+// AceWiki is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+// even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
+// not, see http://www.gnu.org/licenses/.
 
-import java.io.File;
+package ch.uzh.ifi.attempto.acewiki.core.ontology;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import ch.uzh.ifi.attempto.acewiki.core.ontology.Ontology;
 
 /**
  * This class stands for the set of registered users for a particular AceWiki instance.
@@ -15,46 +27,20 @@ import ch.uzh.ifi.attempto.acewiki.core.ontology.Ontology;
  */
 public class UserBase {
 	
-	private static Map<String, UserBase> userBaseMap = new HashMap<String, UserBase>();
-	
 	private Ontology ontology;
+	private AceWikiStorage storage;
 	private long idCount = 0;
 	private Map<String, User> userNameMap = new HashMap<String, User>();
 	private Map<Long, User> userIdMap = new HashMap<Long, User>();
-	
-	/**
-	 * Returns the user base for the given ontology.
-	 * 
-	 * @param ontology The ontology.
-	 * @return The user base.
-	 */
-	public static UserBase getUserBase(Ontology ontology) {
-		UserBase userBase = userBaseMap.get(ontology.getName());
-		if (userBase != null) return userBase;
-		return new UserBase(ontology);
-	}
 	
 	/**
 	 * Creates a new user base for the given ontology.
 	 * 
 	 * @param ontology The ontology.
 	 */
-	private UserBase(Ontology ontology) {
+	UserBase(Ontology ontology, AceWikiStorage storage) {
 		this.ontology = ontology;
-		String dataDirPath = "data/";
-		String userDirPath = dataDirPath + ontology.getName() + ".users";
-		File dataDir = new File(dataDirPath);
-		File userDir = new File(userDirPath);
-		if (!dataDir.exists()) dataDir.mkdir();
-		if (userDir.exists()) {
-			for (File file : userDir.listFiles()) {
-				User user = User.loadUser(file);
-				if (user.getId() > idCount) idCount = user.getId();
-				addUser(user);
-			}
-		} else {
-			userDir.mkdir();
-		}
+		this.storage = storage;
 	}
 	
 	/**
@@ -62,8 +48,9 @@ public class UserBase {
 	 * 
 	 * @param user The user to be added.
 	 */
-	private void addUser(User user) {
+	void addUser(User user) {
 		if (user == null) return;
+		if (user.getId() > idCount) idCount = user.getId();
 		userNameMap.put(user.getName(), user);
 		userIdMap.put(user.getId(), user);
 	}
@@ -134,15 +121,17 @@ public class UserBase {
 		userdata.put("lastlogin", now);
 		userdata.put("logincount", "1");
 		long id = ++idCount;
-		User user = User.createUser(
-				id,
-				name,
-				password,
-				userdata,
-				new File("data/" + ontology.getName() + ".users" + "/" + id)
-			);
+		User user = User.createUser(id, name, password, userdata, this);
 		addUser(user);
 		return user;
+	}
+	
+	public Ontology getOntology() {
+		return ontology;
+	}
+	
+	public AceWikiStorage getStorage() {
+		return storage;
 	}
 	
 	private String getTimeNow() {

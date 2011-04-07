@@ -46,6 +46,8 @@ import ch.uzh.ifi.attempto.acewiki.core.AceWikiGrammar;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.ACELexiconExporter;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.ACETextExporter;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.AceWikiDataExporter;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.AceWikiStorage;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.FileBasedStorage;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.LexiconManager;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.LexiconTableExporter;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OWLXMLExporter;
@@ -54,8 +56,8 @@ import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyExportManager;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyTextElement;
 import ch.uzh.ifi.attempto.acewiki.core.ontology.StatementTableExporter;
-import ch.uzh.ifi.attempto.acewiki.core.user.User;
-import ch.uzh.ifi.attempto.acewiki.core.user.UserBase;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.User;
+import ch.uzh.ifi.attempto.acewiki.core.ontology.UserBase;
 import ch.uzh.ifi.attempto.acewiki.gui.ExportWindow;
 import ch.uzh.ifi.attempto.acewiki.gui.IconButton;
 import ch.uzh.ifi.attempto.acewiki.gui.ListItem;
@@ -105,6 +107,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private final Ontology ontology;
 	private User user;
 	private OntologyExportManager ontologyExportManager;
+	private static AceWikiStorage storage = new FileBasedStorage("data");
 	
 	private WikiPage currentPage;
 	private Column pageCol;
@@ -163,7 +166,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	Wiki(Map<String, String> parameters, int sessionID) {
 		this.parameters = parameters;
 		
-		ontology = Ontology.getOntology(getParameter("ontology"), parameters);
+		ontology = storage.getOntology(getParameter("ontology"), parameters);
 		lexicon = new LexiconManager(ontology);
 		logger = new Logger(ontology.getName(), "anon", sessionID);
 		application = (AceWikiApp) ApplicationInstance.getActive();
@@ -636,7 +639,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * @return The user base.
 	 */
 	public UserBase getUserBase() {
-		return UserBase.getUserBase(ontology);
+		return storage.getUserBase(ontology);
 	}
 	
 	/**

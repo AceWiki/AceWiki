@@ -15,7 +15,6 @@
 package ch.uzh.ifi.attempto.acewiki.core.ontology;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -57,41 +56,12 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 	protected OntologyElement() {
 	}
 	
-	/**
-	 * Loads an ontology element from its serialized form.
-	 * 
-	 * @param serializedElement The serialized ontology element.
-	 * @param id The id of the ontology element.
-	 * @param ontology The ontology at which the ontology element should be registered.
-	 */
-	static void loadOntologyElement(String serializedElement, long id, Ontology ontology) {
-		List<String> lines = new ArrayList<String>(Arrays.asList(serializedElement.split("\n")));
-		if (lines.size() == 0 || !lines.get(0).startsWith("type:")) {
-			System.err.println("Cannot read ontology element (missing 'type')");
-			return;
-		}
-		String type = lines.remove(0).substring("type:".length());
-		OntologyElement oe = ontology.getLanguageFactory().createOntologyElement(type);
-		if (oe != null) {
-			if (!lines.get(0).startsWith("words:")) {
-				System.err.println("Cannot read ontology element (missing 'words')");
-				return;
-			}
-			String[] words = lines.remove(0).substring("words:".length()).split(";");
-			oe.setWords(words);
-		}
-		
-		// Dummy ontology element for the main page article:
-		if (type.equals("mainpage")) {
-			id = 0;
-			oe = new DummyOntologyElement("mainpage", "Main Page");
-		}
-		
-		oe.setId(id);
-		oe.ontology = ontology;
-		oe.article = Article.loadArticle(lines, oe);
-		ontology.register(oe);
-		return;
+	void initOntology(Ontology ontology) {
+		this.ontology = ontology;
+	}
+	
+	void initArticle(Article article) {
+		this.article = article;
 	}
 	
 	/**
@@ -232,6 +202,9 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 	}
 	
 	public Article getArticle() {
+		if (article == null) {
+			article = new Article(this);
+		}
 		return article;
 	}
 	
@@ -251,7 +224,7 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 		this.ontology = ontology;
 		synchronized (ontology) {
 			ontology.register(this);
-			ontology.save(this);
+			ontology.getStorage().save(this);
 		}
 	}
 	
@@ -314,30 +287,6 @@ public abstract class OntologyElement implements Comparable<OntologyElement> {
 		if (ontology != null) {
 			ontology.log(text);
 		}
-	}
-	
-	/**
-	 * Serializes this ontology element as a string.
-	 * 
-	 * @param encodeWords defines whether words should be encoded (for the internal "database") or
-	 *   not (for export in the AceWiki data format.
-	 * @return The serialized ontology element.
-	 */
-	String serialize(boolean encodeWords) {
-		String s = "type:" + getInternalType() + "\n";
-		if (getWords().length > 0) {
-			s += "words:";
-			for (String word : getWords()) {
-				if (word == null) {
-					s += ";";
-				} else {
-					s += word + ";";
-				}
-			}
-			s += "\n";
-		}
-		s += article.serialize(encodeWords);
-		return s;
 	}
 	
 	/**

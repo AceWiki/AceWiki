@@ -6,7 +6,7 @@ import java.util.Vector;
 
 public class Article {
 	
-	private final Vector<Statement> statements = new Vector<Statement>();
+	private Vector<Statement> statements = new Vector<Statement>();
 	private final OntologyElement element;
 	private final Ontology ontology;
 	
@@ -15,19 +15,8 @@ public class Article {
 		this.ontology = element.getOntology();
 	}
 	
-	static Article loadArticle(List<String> lines, OntologyElement element) {
-		Article a = new Article(element);
-		Ontology ontology = element.getOntology();
-		while (!lines.isEmpty()) {
-			String l = lines.remove(0);
-			Statement statement = ontology.getStatementFactory().loadStatement(l, a);
-			if (statement == null) {
-				System.err.println("Cannot read statement: " + l);
-			} else {
-				a.statements.add(statement);
-			}
-		}
-		return a;
+	void initStatements(List<Statement> statements) {
+		this.statements = new Vector<Statement>(statements);
 	}
 	
 	public OntologyElement getOntologyElement() {
@@ -109,7 +98,7 @@ public class Article {
 						if (successThis > success) success = successThis;
 					}
 				}
-				ontology.save(element);
+				ontology.getStorage().save(element);
 			}
 			return success;
 		}
@@ -162,7 +151,7 @@ public class Article {
 						if (successThis > success) success = successThis;
 					}
 				}
-				ontology.save(element);
+				ontology.getStorage().save(element);
 			}
 			return success;
 		}
@@ -191,7 +180,7 @@ public class Article {
 				if (statement instanceof Sentence) {
 					ontology.retractSentence((Sentence) statement);
 				}
-				ontology.save(element);
+				ontology.getStorage().save(element);
 			}
 		}
 	}

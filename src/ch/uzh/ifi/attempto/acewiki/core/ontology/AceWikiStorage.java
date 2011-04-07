@@ -14,46 +14,23 @@
 
 package ch.uzh.ifi.attempto.acewiki.core.ontology;
 
-import java.io.IOException;
+import java.util.Map;
 
-/**
- * This exporter generates a file that contains the complete wiki data in a special AceWiki data
- * format.
- * 
- * @author Tobias Kuhn
- */
-public class AceWikiDataExporter extends OntologyExporter {
+
+public interface AceWikiStorage {
 	
+	public Ontology getOntology(String name, Map<String, String> parameters);
+	
+	public void save(OntologyElement oe);
+
 	/**
-	 * Creates a new AceWiki data exporter.
+	 * This method should return the user base for the given ontology.
 	 * 
 	 * @param ontology The ontology.
+	 * @return The user base.
 	 */
-	public AceWikiDataExporter(Ontology ontology) {
-		super(ontology);
-	}
+	public UserBase getUserBase(Ontology ontology);
 	
-	protected void writeContent() throws IOException {
-		for (OntologyElement oe : getOntologyElements()) {
-			write(FileBasedStorage.serialize(oe, false));
-			write("\n");
-		}
-	}
-	
-	public boolean isApplicable() {
-		return true;
-	}
-	
-	public String getText() {
-		return "AceWiki data file";
-	}
-	
-	public String getFileSuffix() {
-		return ".acewikidata";
-	}
-	
-	public String getContentType() {
-		return "text/plain";
-	}
+	public void save(User user);
 
 }

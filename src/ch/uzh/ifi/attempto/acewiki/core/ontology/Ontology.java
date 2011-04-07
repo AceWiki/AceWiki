@@ -14,14 +14,7 @@
 
 package ch.uzh.ifi.attempto.acewiki.core.ontology;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -40,11 +33,10 @@ import ch.uzh.ifi.attempto.preditor.TextOperator;
  */
 public class Ontology {
 	
-	private static final HashMap<String, Ontology> ontologies = new HashMap<String, Ontology>();
-	
 	private AceWikiReasoner reasoner;
 	private StatementFactory statementFactory;
 	private LanguageFactory languageFactory;
+	private AceWikiStorage storage;
 	
 	private Map<String, OntologyElement> wordIndex = new TreeMap<String, OntologyElement>();
 	private Map<Long, OntologyElement> idIndex = new TreeMap<Long, OntologyElement>();
@@ -64,9 +56,10 @@ public class Ontology {
 	 * @param name The name of the ontology.
 	 * @param parameters The parameters.
 	 */
-	private Ontology(String name, Map<String, String> parameters) {
+	Ontology(String name, Map<String, String> parameters, AceWikiStorage storage) {
 		this.name = name.toString();  // null value throws an exception
 		this.parameters = parameters;
+		this.storage = storage;
 		
 		// TODO: make this general
 		reasoner = new AceWikiOWLReasoner(this);
@@ -87,123 +80,6 @@ public class Ontology {
 		textOperator = new AceWikiTextOperator(this);
 	}
 	
-	/**
-	 * Returns the ontology with the given name (or creates an empty ontology if the ontology
-	 * cannot be found). A parameter map is used for ontology parameters. When the ontology with
-	 * the respective name has already been loaded, this ontology is returned and the parameters
-	 * are ignored. The following parameters are supported:
-	 * "baseuri": The base URI that is used to identify the ontology elements. The complete URI of
-	 *     the ontology is baseURI + name. The default is an empty string.
-	 * "global_restrictions_policy": A string representing the policy how to enforce the global
-	 *     restrictions on axioms in OWL 2. At the moment, the options "no_chains" and "unchecked"
-	 *     are available.
-	 * "reasoner": Defines the reasoner or reasoner interface to be used. Currently supported are
-	 *     the HermiT reasoner ("HermiT", default), the Pellet reasoner ("Pellet"), the OWLlink
-	 *     interface ("OWLlink"), or none ("none").
-	 * "owl_profile": Sets an OWL profile that defines which statements are used for reasoning.
-	 *     Possible values are "OWL2Full" (default), "OWL2EL", "OWL2QL", and "OWL2RL". Note that
-	 *     the global restrictions of the EL profile are not checked.
-	 * 
-	 * @param name The name of the ontology.
-	 * @param parameters The parameters.
-	 * @return The loaded ontology.
-	 */
-	public static Ontology getOntology(String name, Map<String, String> parameters) {
-		if (ontologies.get(name) != null) {
-			return ontologies.get(name);
-		}
-		return loadOntology(name, parameters);
-	}
-	
-	private synchronized static Ontology loadOntology(String name, Map<String, String> parameters) {
-		if (ontologies.get(name) != null) {
-			return ontologies.get(name);
-		}
-		Ontology ontology = new Ontology(name, parameters);
-		ontologies.put(name, ontology);
-		ontology.log("loading ontology");
-		System.err.println("Loading '" + name + "'");
-		File dataDir = new File("data/" + name);
-		File dataFile = new File("data/" + name + ".acewikidata");
-		if (dataDir.exists()) {
-			System.err.print("Entities:   ");
-			ConsoleProgressBar pb1 = new ConsoleProgressBar(dataDir.listFiles().length);
-			for (File file : dataDir.listFiles()) {
-				pb1.addOne();
-				try {
-					long id = new Long(file.getName());
-					FileInputStream in = new FileInputStream(file);
-					byte[] bytes = new byte[in.available()];
-					in.read(bytes);
-					in.close();
-					String s = new String(bytes, "UTF-8");
-					OntologyElement.loadOntologyElement(s, id, ontology);
-				} catch (NumberFormatException ex) {
-					ontology.log("ignoring file: " + file.getName());
-				} catch (IOException ex) {
-					ontology.log("cannot read file: " + file.getName());
-				}
-			}
-			pb1.complete();
-		} else if (dataFile.exists()) {
-			System.err.print("Entities:   ");
-			ConsoleProgressBar pb1 = null;
-			try {
-				BufferedReader in = new BufferedReader(new FileReader(dataFile));
-				pb1 = new ConsoleProgressBar(dataFile.length());
-				String s = "";
-				String line = in.readLine();
-				while (line != null) {
-					pb1.add(line.length() + 1);
-					if (line.matches("\\s*")) {
-						// empty line
-						if (s.length() > 0) {
-							OntologyElement.loadOntologyElement(s, -1, ontology);
-							s = "";
-						}
-					} else if (line.startsWith("%")) {
-						// comment
-					} else {
-						s += line + "\n";
-					}
-					line = in.readLine();
-				}
-				in.close();
-			} catch (IOException ex) {
-				ontology.log("cannot read file: " + dataFile.getName());
-			}
-			if (pb1 != null) pb1.complete();
-		} else {
-			ontology.log("no data found; blank ontology is created");
-		}
-
-		ontology.log("loading statements");
-		System.err.print("Statements: ");
-		List<OntologyElement> elements = ontology.getOntologyElements();
-		ConsoleProgressBar pb2 = new ConsoleProgressBar(elements.size());
-		for (OntologyElement oe : elements) {
-			pb2.addOne();
-			ontology.getReasoner().loadElement(oe);
-			for (Sentence s : oe.getArticle().getSentences()) {
-				if (s.isReasonerParticipant() && s.isIntegrated()) {
-					ontology.getReasoner().loadSentence(s);
-				}
-			}
-			ontology.save(oe);
-		}
-		pb2.complete();
-		
-		if (ontology.get(0) == null) {
-			OntologyElement mainPage = new DummyOntologyElement("mainpage", "Main Page");
-			mainPage.setId(0);
-			mainPage.registerAt(ontology);
-		}
-		
-		ontology.getReasoner().load();
-		
-		return ontology;
-	}
-	
 	public AceWikiReasoner getReasoner() {
 		return reasoner;
 	}
@@ -216,22 +92,8 @@ public class Ontology {
 		return languageFactory;
 	}
 	
-	synchronized void save(OntologyElement oe) {
-		if (!(new File("data")).exists()) (new File("data")).mkdir();
-		if (!(new File("data/" + name)).exists()) (new File("data/" + name)).mkdir();
-		
-		if (!contains(oe)) {
-			(new File("data/" + name + "/" + oe.getId())).delete();
-			return;
-		}
-		
-		try {
-			FileOutputStream out = new FileOutputStream("data/" + name + "/" + oe.getId());
-			out.write(oe.serialize(true).getBytes("UTF-8"));
-			out.close();
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
+	public AceWikiStorage getStorage() {
+		return storage;
 	}
 	
 	synchronized void register(OntologyElement element) {
@@ -288,7 +150,7 @@ public class Ontology {
 		for (Sentence s : element.getArticle().getSentences()) {
 			retractSentence(s);
 		}
-		save(element);
+		storage.save(element);
 		
 		getReasoner().unloadElement(element);
 		getReasoner().flushReasoner();
@@ -424,7 +286,7 @@ public class Ontology {
 				s.parse();
 			}
 		}
-		save(element);
+		storage.save(element);
 	}
 	
 	/**
