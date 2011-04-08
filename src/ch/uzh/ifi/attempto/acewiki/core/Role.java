@@ -22,7 +22,7 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
  * 
  * @author Tobias Kuhn
  */
-public abstract class Role extends OntologyElement {
+public abstract class Role extends AbstractOntologyElement {
 	
 	/**
 	 * Initializes the role.

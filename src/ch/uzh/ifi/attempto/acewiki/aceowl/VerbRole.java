@@ -50,7 +50,7 @@ public class VerbRole extends Role {
 		return new String[] {thirdSg, inf, passive};
 	}
 	
-	protected void changeWords(String... words) {
+	public void changeWords(String... words) {
 		thirdSg = words[0];
 		inf = words[1];
 		if (words.length < 3 || words[2] == null) {

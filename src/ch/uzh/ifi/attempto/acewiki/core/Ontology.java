@@ -109,7 +109,7 @@ public class Ontology {
 		stateID++;
 		
 		if (element.getId() == -1) {
-			element.setId(nextId());
+			element.initId(nextId());
 		}
 		idIndex.put(element.getId(), element);
 		if (element.getId() > idCount) idCount = element.getId();

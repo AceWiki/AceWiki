@@ -47,7 +47,7 @@ public class OfRole extends Role {
 		return new String[] {word};
 	}
 
-	protected void changeWords(String... words) {
+	public void changeWords(String... words) {
 		if (words[0] == null || words[0].equals("")) {
 			word = null;
 		} else if (words[0].endsWith(" of")) {

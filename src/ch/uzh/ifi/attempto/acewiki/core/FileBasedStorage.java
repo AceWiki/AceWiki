@@ -146,7 +146,7 @@ public class FileBasedStorage implements AceWikiStorage {
 		
 		if (ontology.get(0) == null) {
 			OntologyElement mainPage = new DummyOntologyElement("mainpage", "Main Page");
-			mainPage.setId(0);
+			mainPage.initId(0);
 			mainPage.registerAt(ontology);
 		}
 		
@@ -187,7 +187,7 @@ public class FileBasedStorage implements AceWikiStorage {
 		
 		oe.initOntology(ontology);
 		oe.initArticle(loadArticle(lines, oe));
-		oe.setId(id);
+		oe.initId(id);
 		ontology.register(oe);
 		return;
 	}

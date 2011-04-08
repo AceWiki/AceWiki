@@ -25,7 +25,7 @@ import org.semanticweb.owlapi.model.OWLClass;
  * 
  * @author Tobias Kuhn
  */
-public abstract class Concept extends OntologyElement {
+public abstract class Concept extends AbstractOntologyElement {
 	
 	private List<Individual> individualsCache;
 	private long individualsCacheStateID = -1;

@@ -112,7 +112,7 @@ public class ProperNameIndividual extends Individual {
 		return new String[] {getHeadword(), getPrettyWord(3)};
 	}
 	
-	protected void changeWords(String... words) {
+	public void changeWords(String... words) {
 		if (words.length == 1) {
 			word = words[0];
 			wordDefArt = false;

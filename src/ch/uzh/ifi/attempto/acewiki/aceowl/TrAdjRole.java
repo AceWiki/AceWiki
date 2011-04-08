@@ -49,7 +49,7 @@ public class TrAdjRole extends Role {
 		return new String[] {word};
 	}
 
-	protected void changeWords(String... words) {
+	public void changeWords(String... words) {
 		word = words[0];
 	}
 	

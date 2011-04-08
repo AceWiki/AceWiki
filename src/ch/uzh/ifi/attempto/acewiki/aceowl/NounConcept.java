@@ -52,7 +52,7 @@ public class NounConcept extends Concept {
 		return new String[] {singular, plural};
 	}
 	
-	protected void changeWords(String... words) {
+	public void changeWords(String... words) {
 		singular = words[0];
 		plural = words[1];
 	}

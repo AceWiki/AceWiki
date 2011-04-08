@@ -22,7 +22,7 @@ import java.util.List;
  * 
  * @author Tobias Kuhn
  */
-public abstract class Individual extends OntologyElement {
+public abstract class Individual extends AbstractOntologyElement {
 	
 	private List<Concept> conceptsCache;
 	private long conceptsCacheStateID = -1;

@@ -27,7 +27,7 @@ import ch.uzh.ifi.attempto.chartparser.LexicalRule;
  * 
  * @author Tobias Kuhn
  */
-public class DummyOntologyElement extends OntologyElement {
+public class DummyOntologyElement extends AbstractOntologyElement {
 	
 	String type;
 	String text;
@@ -59,7 +59,7 @@ public class DummyOntologyElement extends OntologyElement {
 		return new String[] {};
 	}
 	
-	protected void changeWords(String... words) {
+	public void changeWords(String... words) {
 	}
 	
 	public String getType() {
