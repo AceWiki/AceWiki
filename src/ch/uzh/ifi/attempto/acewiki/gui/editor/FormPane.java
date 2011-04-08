@@ -27,15 +27,15 @@ import nextapp.echo.app.WindowPane;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.Concept;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.Individual;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.NounConcept;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.OfRole;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyTextElement;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.Sentence;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.TrAdjRole;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.VerbRole;
+import ch.uzh.ifi.attempto.acewiki.aceowl.NounConcept;
+import ch.uzh.ifi.attempto.acewiki.aceowl.OfRole;
+import ch.uzh.ifi.attempto.acewiki.aceowl.ProperNameIndividual;
+import ch.uzh.ifi.attempto.acewiki.aceowl.TrAdjRole;
+import ch.uzh.ifi.attempto.acewiki.aceowl.VerbRole;
+import ch.uzh.ifi.attempto.acewiki.core.Concept;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
+import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.preditor.WordEditorForm;
@@ -92,8 +92,8 @@ public abstract class FormPane extends WordEditorForm {
 	public static WordEditorWindow createEditorWindow(OntologyElement element, Wiki wiki) {
 		if (element instanceof Concept) {
 			return NounForm.createEditorWindow((NounConcept) element, wiki);
-		} else if (element instanceof Individual) {
-			return ProperNameForm.createEditorWindow((Individual) element, wiki);
+		} else if (element instanceof ProperNameIndividual) {
+			return ProperNameForm.createEditorWindow((ProperNameIndividual) element, wiki);
 		} else if (element instanceof OfRole) {
 			return NounOfForm.createEditorWindow((OfRole) element, wiki);
 		} else if (element instanceof VerbRole) {

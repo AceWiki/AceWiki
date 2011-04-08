@@ -21,11 +21,12 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.Individual;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyTextElement;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.Question;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.Sentence;
+import ch.uzh.ifi.attempto.acewiki.aceowl.ProperNameIndividual;
+import ch.uzh.ifi.attempto.acewiki.core.Individual;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
+import ch.uzh.ifi.attempto.acewiki.core.Question;
+import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.gui.editor.CommentEditorHandler;
 import ch.uzh.ifi.attempto.acewiki.gui.editor.SentenceEditorHandler;
 import ch.uzh.ifi.attempto.acewiki.gui.page.ArticlePage;
@@ -115,13 +116,12 @@ public class TextRow extends Column implements ActionListener {
 			if (e instanceof OntologyTextElement) {
 				OntologyTextElement ote = (OntologyTextElement) e;
 				OntologyElement oe = ote.getOntologyElement();
-				if (oe instanceof Individual) {
+				if (oe instanceof ProperNameIndividual) {
 					// Proper names with definite articles are handled differently: The "the" is
 					// not a part of the link.
-					// TODO: Probably, this should be done at a different place...
-					Individual ind = (Individual) oe;
+					// TODO: This should be done at a different place!
+					ProperNameIndividual ind = (ProperNameIndividual) oe;
 					int wn = ote.getWordNumber();
-					
 					if (ind.hasDefiniteArticle(wn)) {
 						SolidLabel l = new SolidLabel(e.getText().substring(0, 3));
 						l.setForeground(color);

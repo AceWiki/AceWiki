@@ -18,8 +18,9 @@ import nextapp.echo.app.ResourceImageReference;
 import nextapp.echo.app.WindowPane;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.Individual;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.aceowl.ProperNameIndividual;
+import ch.uzh.ifi.attempto.acewiki.core.Individual;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.ape.FunctionWords;
 import ch.uzh.ifi.attempto.echocomp.CheckBox;
 import ch.uzh.ifi.attempto.echocomp.TextField;
@@ -49,10 +50,10 @@ public class ProperNameForm extends FormPane {
 	 * @param wiki The wiki instance.
 	 * @param actionListener The actionlistener.
 	 */
-	public ProperNameForm(Individual ind, WindowPane window, Wiki wiki, ActionListener actionListener) {
+	public ProperNameForm(ProperNameIndividual ind, WindowPane window, Wiki wiki, ActionListener actionListener) {
 		super("Proper Name", ind != null, window, wiki, actionListener);
 		if (ind == null) {
-			ind = new Individual();
+			ind = new ProperNameIndividual();
 		}
 		this.ind = ind;
 		
@@ -99,7 +100,7 @@ public class ProperNameForm extends FormPane {
 	 * @param wiki The wiki instance.
 	 * @return The new editor window.
 	 */
-	public static WordEditorWindow createEditorWindow(Individual ind, Wiki wiki) {
+	public static WordEditorWindow createEditorWindow(ProperNameIndividual ind, Wiki wiki) {
 		WordEditorWindow editorWindow = new WordEditorWindow("Word Editor");
 		editorWindow.addTab(new ProperNameForm(ind, editorWindow, wiki, wiki));
 		return editorWindow;

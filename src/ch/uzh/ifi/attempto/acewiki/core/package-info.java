@@ -13,18 +13,9 @@
 // not, see http://www.gnu.org/licenses/.
 
 /**
- * This package contains the grammar that is used by AceWiki. This grammar covers a subset of ACE
- * and is available in different formats:
- * <ul>
- * <li>Codeco: <a href="acewiki_grammar.pl" target="_top">acewiki_grammar.pl</a></li>
- * <li>Prolog DCG: <a href="acewiki_grammar_dcg.pl" target="_top">acewiki_grammar_dcg.pl</a></li>
- * <li>HTML: <a href="acewiki_grammar.html" target="_top">acewiki_grammar.html</a></li>
- * <li>PDF: <a href="acewiki_grammar.pdf" target="_top">acewiki_grammar.pdf</a></li>
- * <li>LaTeX: <a href="acewiki_grammar.tex" target="_top">acewiki_grammar.tex</a></li>
- * </ul>
- * Furthermore, the {@link ch.uzh.ifi.attempto.chartparser.Grammar}-class
- * {@link ch.uzh.ifi.attempto.acewiki.core.AceWikiGrammar} is automatically generated from the Codeco
- * grammar.
+ * This package contains the ontology classes that are used by AceWiki. For the ontological elements,
+ * we use the terminology of Description Logics: constants are called "individuals", unary relations 
+ * are called "concepts", and binary relations are called "roles".
  * 
  * @author Tobias Kuhn
  */

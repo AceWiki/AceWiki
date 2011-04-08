@@ -42,22 +42,22 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.layout.ColumnLayoutData;
 import nextapp.echo.webcontainer.ContainerContext;
-import ch.uzh.ifi.attempto.acewiki.core.AceWikiGrammar;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.ACELexiconExporter;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.ACETextExporter;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.AceWikiDataExporter;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.AceWikiStorage;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.FileBasedStorage;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.LexiconManager;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.LexiconTableExporter;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.OWLXMLExporter;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.Ontology;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyExportManager;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyTextElement;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.StatementTableExporter;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.User;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.UserBase;
+import ch.uzh.ifi.attempto.acewiki.aceowl.ACEGrammar;
+import ch.uzh.ifi.attempto.acewiki.aceowl.ACELexiconExporter;
+import ch.uzh.ifi.attempto.acewiki.aceowl.ACETextExporter;
+import ch.uzh.ifi.attempto.acewiki.aceowl.LexiconManager;
+import ch.uzh.ifi.attempto.acewiki.aceowl.OWLXMLExporter;
+import ch.uzh.ifi.attempto.acewiki.core.AceWikiDataExporter;
+import ch.uzh.ifi.attempto.acewiki.core.AceWikiStorage;
+import ch.uzh.ifi.attempto.acewiki.core.FileBasedStorage;
+import ch.uzh.ifi.attempto.acewiki.core.LexiconTableExporter;
+import ch.uzh.ifi.attempto.acewiki.core.Ontology;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyExportManager;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
+import ch.uzh.ifi.attempto.acewiki.core.StatementTableExporter;
+import ch.uzh.ifi.attempto.acewiki.core.User;
+import ch.uzh.ifi.attempto.acewiki.core.UserBase;
 import ch.uzh.ifi.attempto.acewiki.gui.ExportWindow;
 import ch.uzh.ifi.attempto.acewiki.gui.IconButton;
 import ch.uzh.ifi.attempto.acewiki.gui.ListItem;
@@ -914,7 +914,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * @return The grammar.
 	 */
 	public Grammar getGrammar() {
-		return AceWikiGrammar.grammar;
+		return ACEGrammar.grammar;
 	}
 	
 	/**

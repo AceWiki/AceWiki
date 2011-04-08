@@ -18,9 +18,9 @@ import nextapp.echo.app.Color;
 import nextapp.echo.app.event.ActionEvent;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.Concept;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.NounConcept;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.aceowl.NounConcept;
+import ch.uzh.ifi.attempto.acewiki.core.Concept;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 
 /**
  * This class stands for an article page showing the article of a concept. At the

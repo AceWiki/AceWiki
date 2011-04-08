@@ -16,8 +16,8 @@ package ch.uzh.ifi.attempto.acewiki.gui.page;
 
 import nextapp.echo.app.event.ActionEvent;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.Individual;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.Individual;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 
 /**
  * This class stands for an article page showing the article of an individual. Individuals

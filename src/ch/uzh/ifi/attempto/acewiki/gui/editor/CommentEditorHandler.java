@@ -16,9 +16,9 @@ package ch.uzh.ifi.attempto.acewiki.gui.editor;
 
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.Article;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.Comment;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.Statement;
+import ch.uzh.ifi.attempto.acewiki.core.Article;
+import ch.uzh.ifi.attempto.acewiki.core.Comment;
+import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.gui.page.ArticlePage;
 import ch.uzh.ifi.attempto.echocomp.TextAreaWindow;
 

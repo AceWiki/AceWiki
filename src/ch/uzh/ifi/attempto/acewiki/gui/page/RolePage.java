@@ -16,8 +16,8 @@ package ch.uzh.ifi.attempto.acewiki.gui.page;
 
 import nextapp.echo.app.event.ActionEvent;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.OntologyElement;
-import ch.uzh.ifi.attempto.acewiki.core.ontology.Role;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.Role;
 
 /**
  * This class stands for an article page showing the article of a role. Roles are represented by
