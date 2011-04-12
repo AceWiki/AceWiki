@@ -21,6 +21,7 @@ import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.aceowl.NounConcept;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.ReasonerManager;
 
 /**
  * This class stands for an article page showing the article of a concept. At the
@@ -74,7 +75,8 @@ public class ConceptPage extends ArticlePage {
 						private boolean satisfiable;
 						
 						public void run() {
-							satisfiable = concept.getOntology().isSatisfiable(concept);
+							ReasonerManager rm = concept.getOntology().getReasonerManager();
+							satisfiable = rm.isSatisfiable(concept);
 						}
 						
 						public void updateGUI() {

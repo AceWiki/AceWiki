@@ -28,10 +28,10 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.aceowl.NounConcept;
-import ch.uzh.ifi.attempto.acewiki.aceowl.OfRole;
+import ch.uzh.ifi.attempto.acewiki.aceowl.OfRelation;
 import ch.uzh.ifi.attempto.acewiki.aceowl.ProperNameIndividual;
-import ch.uzh.ifi.attempto.acewiki.aceowl.TrAdjRole;
-import ch.uzh.ifi.attempto.acewiki.aceowl.VerbRole;
+import ch.uzh.ifi.attempto.acewiki.aceowl.TrAdjRelation;
+import ch.uzh.ifi.attempto.acewiki.aceowl.VerbRelation;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
@@ -94,12 +94,12 @@ public abstract class FormPane extends WordEditorForm {
 			return NounForm.createEditorWindow((NounConcept) element, wiki);
 		} else if (element instanceof ProperNameIndividual) {
 			return ProperNameForm.createEditorWindow((ProperNameIndividual) element, wiki);
-		} else if (element instanceof OfRole) {
-			return NounOfForm.createEditorWindow((OfRole) element, wiki);
-		} else if (element instanceof VerbRole) {
-			return VerbForm.createEditorWindow((VerbRole) element, wiki);
-		} else if (element instanceof TrAdjRole) {
-			return TrAdjForm.createEditorWindow((TrAdjRole) element, wiki);
+		} else if (element instanceof OfRelation) {
+			return NounOfForm.createEditorWindow((OfRelation) element, wiki);
+		} else if (element instanceof VerbRelation) {
+			return VerbForm.createEditorWindow((VerbRelation) element, wiki);
+		} else if (element instanceof TrAdjRelation) {
+			return TrAdjForm.createEditorWindow((TrAdjRelation) element, wiki);
 		}
 		return null;
 	}

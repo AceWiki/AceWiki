@@ -3,11 +3,6 @@ package ch.uzh.ifi.attempto.acewiki.core;
 import java.util.Collection;
 import java.util.List;
 
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLDataFactory;
-import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
-import org.semanticweb.owlapi.model.OWLLogicalEntity;
-
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
 import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 
@@ -126,69 +121,6 @@ public interface OntologyElement extends Comparable<OntologyElement> {
 	public Ontology getOntology();
 	
 	public Article getArticle();
-	
-	/**
-	 * Returns the lexicon entries (one for each word form).
-	 * 
-	 * @return The lexicon entries.
-	 */
-	// TODO: move!
-	public List<LexiconEntry> getLexiconEntries();
-	
-	/**
-	 * Returns the IRI of the ontology element. This IRI is a concatenation of the
-	 * ontology IRI and the IRI suffix of the ontology element.
-	 * 
-	 * @return The IRI.
-	 * @see #getIRISuffix()
-	 */
-	// TODO: move!
-	public IRI getIRI();
-	
-	/**
-	 * Returns the IRI suffix of this ontology element. For example "country".
-	 * 
-	 * @return The IRI suffix.
-	 * @see #getIRI()
-	 */
-	// TODO: move!
-	public String getIRISuffix();
-	
-	/**
-	 * Returns an OWL data factory. Subclasses use this factory to create their OWL
-	 * representations.
-	 * 
-	 * @return OWL data factory.
-	 */
-	// TODO: move!
-	public OWLDataFactory getOWLDataFactory();
-	
-	/**
-	 * This method returns an OWL object for the given ontology element.
-	 * 
-	 * @return An OWL object.
-	 */
-	// TODO: move!
-	public OWLLogicalEntity getOWLRepresentation();
-	
-	/**
-	 * This method returns an OWL axiom that declares the given ontology element.
-	 * 
-	 * @return An OWL declaration axiom.
-	 */
-	// TODO: move!
-	public OWLDeclarationAxiom getOWLDeclaration();
-	
-	/**
-	 * This method should collect the lexical rules of this ontology element for the given category
-	 * name.
-	 * 
-	 * @param catName The category name.
-	 * @param lexRules The lexical rules should be added to this collection.
-	 */
-	// TODO: Improve this.
-	// TODO: move!
-	public void collectLexicalRules(String catName, Collection<LexicalRule> lexRules);
 	
 	/**
 	 * Registers this ontology element at the given ontology. An ontology element can be

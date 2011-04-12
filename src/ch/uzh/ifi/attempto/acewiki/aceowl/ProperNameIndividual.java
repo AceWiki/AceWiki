@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
-import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.ape.Gender;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
 import ch.uzh.ifi.attempto.chartparser.LexicalRule;
@@ -52,7 +51,7 @@ import ch.uzh.ifi.attempto.chartparser.LexicalRule;
  * 
  * @author Tobias Kuhn
  */
-public class ProperNameIndividual extends Individual {
+public class ProperNameIndividual extends ACEOWLIndividual {
 	
 	private String word, abbrev;
 	private boolean wordDefArt, abbrevDefArt;

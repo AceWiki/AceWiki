@@ -19,6 +19,7 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
+import ch.uzh.ifi.attempto.acewiki.core.ReasonerManager;
 import ch.uzh.ifi.attempto.acewiki.gui.NameValueTable;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
@@ -92,10 +93,11 @@ public class AboutPage extends WikiPage implements ActionListener {
 		table2.addEntry("number of ontology elements", o.getOntologyElements().size() + "");
 		table2.addEntry("ontology URI", o.getURI());
 		
-		table3.addEntry("reasoner type", o.getReasoner().getReasonerType());
-		table3.addEntry("reasoner name", o.getReasoner().getReasonerName());
-		table3.addEntry("reasoner version", o.getReasoner().getReasonerVersion());
-		for (String s : o.getReasoner().getInfo()) {
+		ReasonerManager rm = o.getReasonerManager();
+		table3.addEntry("reasoner type", rm.getReasonerType());
+		table3.addEntry("reasoner name", rm.getReasonerName());
+		table3.addEntry("reasoner version", rm.getReasonerVersion());
+		for (String s : rm.getInfo()) {
 			int i = s.indexOf(": ");
 			if (i < 0) {
 				table3.addEntry("", s);

@@ -14,53 +14,11 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * This class represents an individual (in logic called "constant").
+ * This interface represents an individual (in logic called "constant").
  * 
  * @author Tobias Kuhn
  */
-public abstract class Individual extends AbstractOntologyElement {
+public interface Individual extends OntologyElement {
 	
-	private List<Concept> conceptsCache;
-	private long conceptsCacheStateID = -1;
-	
-	/**
-	 * Calculates all concepts this individual belongs to.
-	 * 
-	 * @return A list of all concepts of this individual.
-	 * @see Ontology#getConcepts(Individual)
-	 */
-	public synchronized List<Concept> getConcepts() {
-		Ontology o = getOntology();
-		if (conceptsCacheStateID != o.getStateID()) {
-			conceptsCache = o.getConcepts(this);
-			conceptsCacheStateID = o.getStateID();
-		}
-		return new ArrayList<Concept>(conceptsCache);
-	}
-	
-	/**
-	 * Returns the cached concepts or null if there are no cached concepts. The returned
-	 * concepts might not be up-to-date.
-	 * 
-	 * @return A list of the cached concepts of this individual.
-	 */
-	public List<Concept> getCachedConcepts() {
-		if (conceptsCache == null) return null;
-		return new ArrayList<Concept>(conceptsCache);
-	}
-
-	/**
-	 * Returns true if the concepts of this individual are cached and up-to-date and thus
-	 * do not have to be recalculated.
-	 * 
-	 * @return true if the concepts are cached.
-	 */
-	public boolean areConceptsCached() {
-		return conceptsCacheStateID == getOntology().getStateID();
-	}
-
 }

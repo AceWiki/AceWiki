@@ -14,12 +14,6 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
-import java.util.Collection;
-
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
-
-import ch.uzh.ifi.attempto.chartparser.LexicalRule;
-
 /**
  * This class represents a "dummy" ontology element, which cannot be part of ontological statements
  * but represents an article. This class is at the moment only used for the main page, which does
@@ -68,18 +62,6 @@ public class DummyOntologyElement extends AbstractOntologyElement {
 	
 	public String getInternalType() {
 		return type;
-	}
-	
-	public String getIRISuffix() {
-		return "";
-	}
-	
-	public OWLNamedIndividual getOWLRepresentation() {
-		return null;
-	}
-
-	// TODO: move an make package visible
-	public void collectLexicalRules(String catName, Collection<LexicalRule> lexRules) {
 	}
 
 }

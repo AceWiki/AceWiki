@@ -12,11 +12,16 @@
 // You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
 // not, see http://www.gnu.org/licenses/.
 
-/**
- * This package contains the ontology classes that are used by AceWiki. For the ontological elements,
- * we use the terminology of Description Logics: constants are called "individuals", unary relations 
- * are called "concepts", and binary relations are called "relations".
- * 
- * @author Tobias Kuhn
- */
-package ch.uzh.ifi.attempto.acewiki.core;
+package ch.uzh.ifi.attempto.acewiki.aceowl;
+
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+
+import ch.uzh.ifi.attempto.acewiki.core.Relation;
+
+public abstract class ACEOWLRelation extends AbstractACEOWLOntoElement implements Relation {
+	
+	public OWLObjectProperty getOWLRepresentation() {
+		return getOWLDataFactory().getOWLObjectProperty(getIRI());
+	}
+
+}

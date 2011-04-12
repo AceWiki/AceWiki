@@ -28,6 +28,7 @@ import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.ReasonerManager;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.gui.IndexBar;
 import ch.uzh.ifi.attempto.acewiki.gui.RecalcIcon;
@@ -96,8 +97,9 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 		downHierarchyColumn.removeAll();
 		
 		Concept c = (Concept) page.getOntologyElement();
+		ReasonerManager rm = getWiki().getOntology().getReasonerManager();
 		
-		if (c.areSuperConceptsCached()) {
+		if (rm.areCachedSuperConceptsUpToDate(c)) {
 			upHierarchyColumn.add(new HierarchyComponent(true, true));
 		} else {
 			upRecalcIcon.setVisible(true);
@@ -118,8 +120,8 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 				
 			});
 		}
-		
-		if (c.areSubConceptsCached()) {
+
+		if (rm.areCachedSuperConceptsUpToDate(c)) {
 			downHierarchyColumn.add(new HierarchyComponent(false, true));
 		} else {
 			downRecalcIcon.setVisible(true);
@@ -191,19 +193,20 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 			add(column);
 			
 			Concept concept = (Concept) page.getOntologyElement();
+			ReasonerManager rm = getWiki().getOntology().getReasonerManager();
 			List<Concept> concepts;
 			
 			if (up) {
 				if (cached) {
-					concepts = concept.getCachedSuperConcepts();
+					concepts = rm.getCachedSuperConcepts(concept);
 				} else {
-					concepts = concept.getSuperConcepts();
+					concepts = rm.getSuperConcepts(concept);
 				}
 			} else {
 				if (cached) {
-					concepts = concept.getCachedSubConcepts();
+					concepts = rm.getCachedSubConcepts(concept);
 				} else {
-					concepts = concept.getSubConcepts();
+					concepts = rm.getSubConcepts(concept);
 				}
 			}
 			if (concepts != null) {

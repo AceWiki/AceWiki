@@ -18,13 +18,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import ch.uzh.ifi.attempto.acewiki.core.Role;
 import ch.uzh.ifi.attempto.ape.Gender;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
 import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 
 /**
- * This class stands for roles that are represented by of-constructs. Of-constructs
+ * This class stands for relations that are represented by of-constructs. Of-constructs
  * consist of a noun plus the word "of". They have only one word form.
  *<p>
  * 0: word form consisting of a noun plus the word "of".
@@ -33,14 +32,14 @@ import ch.uzh.ifi.attempto.chartparser.LexicalRule;
  * 
  * @author Tobias Kuhn
  */
-public class OfRole extends Role {
+public class OfRelation extends ACEOWLRelation {
 	
 	private String word;
 	
 	/**
-	 * Creates a new role that is represented by an of-construct.
+	 * Creates a new relation that is represented by an of-construct.
 	 */
-	public OfRole() {
+	public OfRelation() {
 	}
 	
 	public String[] getWords() {

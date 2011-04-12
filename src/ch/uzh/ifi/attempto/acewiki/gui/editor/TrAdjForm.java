@@ -18,7 +18,7 @@ import nextapp.echo.app.ResourceImageReference;
 import nextapp.echo.app.WindowPane;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
-import ch.uzh.ifi.attempto.acewiki.aceowl.TrAdjRole;
+import ch.uzh.ifi.attempto.acewiki.aceowl.TrAdjRelation;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.ape.FunctionWords;
 import ch.uzh.ifi.attempto.echocomp.TextField;
@@ -35,25 +35,25 @@ public class TrAdjForm extends FormPane {
 
 	private TextField trAdjField = new TextField(this);
 	
-	private TrAdjRole role;
+	private TrAdjRelation relation;
 	
 	/**
 	 * Creates a new form for transitive adjectives.
 	 * 
-	 * @param role The role that is represented by the transitive adjective.
+	 * @param relation The relation that is represented by the transitive adjective.
 	 * @param window The host window of the form.
 	 * @param wiki The wiki instance.
 	 * @param actionListener The actionlistener.
 	 */
-	public TrAdjForm(TrAdjRole role, WindowPane window, Wiki wiki, ActionListener actionListener) {
-		super("Transitive Adjective", role != null, window, wiki, actionListener);
-		if (role == null) {
-			role = new TrAdjRole();
+	public TrAdjForm(TrAdjRelation relation, WindowPane window, Wiki wiki, ActionListener actionListener) {
+		super("Transitive Adjective", relation != null, window, wiki, actionListener);
+		if (relation == null) {
+			relation = new TrAdjRelation();
 		}
-		this.role = role;
+		this.relation = relation;
 
 		setExplanationComponent(
-				new ResourceImageReference("ch/uzh/ifi/attempto/acewiki/gui/img/role.png"),
+				new ResourceImageReference("ch/uzh/ifi/attempto/acewiki/gui/img/relation.png"),
 				"Every transitive adjective represents a certain relation between things. " +
 					"For example, the transitive adjective \"located in\" relates things to " +
 					"their location. Transitive adjectives consist of an adjective that " +
@@ -61,7 +61,7 @@ public class TrAdjForm extends FormPane {
 			);
 		addRow("tr. adjective", trAdjField, "examples: located in, matched with, fond of", true);
 		
-		trAdjField.setText(role.getPrettyWord(0));
+		trAdjField.setText(relation.getPrettyWord(0));
 	}
 	
 	/**
@@ -80,18 +80,18 @@ public class TrAdjForm extends FormPane {
 	/**
 	 * Creates a new editor window for transitive adjectives.
 	 * 
-	 * @param role The role that is represented by the transitive adjective that should be edited.
+	 * @param relation The relation that is represented by the transitive adjective that should be edited.
 	 * @param wiki The wiki instance.
 	 * @return The new editor window.
 	 */
-	public static WordEditorWindow createEditorWindow(TrAdjRole role, Wiki wiki) {
+	public static WordEditorWindow createEditorWindow(TrAdjRelation relation, Wiki wiki) {
 		WordEditorWindow editorWindow = new WordEditorWindow("Word Editor");
-		editorWindow.addTab(new TrAdjForm(role, editorWindow, wiki, wiki));
+		editorWindow.addTab(new TrAdjForm(relation, editorWindow, wiki, wiki));
 		return editorWindow;
 	}
 
 	public OntologyElement getOntologyElement() {
-		return role;
+		return relation;
 	}
 
 	protected void save() {
@@ -116,17 +116,17 @@ public class TrAdjForm extends FormPane {
 			return;
 		}
 		OntologyElement oe = wiki.getOntology().getElement(name);
-		if (oe != null && oe != role) {
+		if (oe != null && oe != relation) {
 			wiki.log("edit", "error: word is already used");
 			showErrorMessage("The word '" + nameP + "' is already used. Please use a different one.");
 			return;
 		}
-		role.setWords(name);
+		relation.setWords(name);
 		wiki.log("edit", "transitive adjective: " + name);
-		if (role.getOntology() == null) {
-			role.registerAt(getWiki().getOntology());
+		if (relation.getOntology() == null) {
+			relation.registerAt(getWiki().getOntology());
 		}
-		finished(role);
+		finished(relation);
 	}
 
 }

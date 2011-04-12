@@ -29,6 +29,7 @@ import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.ReasonerManager;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.gui.IndexBar;
 import ch.uzh.ifi.attempto.acewiki.gui.RecalcIcon;
@@ -84,7 +85,9 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 		waitComp.setInsets(new Insets(10, 0, 0, 0));
 		waitComp.add(new RecalcIcon("This list is being updated."));
 		
-		if (((Individual) page.getOntologyElement()).areConceptsCached()) {
+		ReasonerManager rm = getWiki().getOntology().getReasonerManager();
+		
+		if (rm.areCachedConceptsUpToDate((Individual) page.getOntologyElement())) {
 			assignmentsColumn.add(new AssignmentsComponent(true));
 		} else {
 			assignmentsColumn.add(waitComp);
@@ -149,13 +152,14 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 			sentencesColumn.setInsets(new Insets(10, 2, 5, 20));
 			sentencesColumn.setCellSpacing(new Extent(2));
 			add(sentencesColumn);
-			
+
+			ReasonerManager rm = getWiki().getOntology().getReasonerManager();
 			Individual ind = (Individual) page.getOntologyElement();
 			List<Concept> concepts;
 			if (cached) {
-				concepts = ind.getCachedConcepts();
+				concepts = rm.getCachedConcepts(ind);
 			} else {
-				concepts = ind.getConcepts();
+				concepts = rm.getConcepts(ind);
 			}
 			if (concepts != null) {
 				sentences = new ArrayList<Sentence>();

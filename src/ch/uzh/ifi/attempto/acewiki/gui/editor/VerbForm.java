@@ -18,7 +18,7 @@ import nextapp.echo.app.ResourceImageReference;
 import nextapp.echo.app.WindowPane;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
-import ch.uzh.ifi.attempto.acewiki.aceowl.VerbRole;
+import ch.uzh.ifi.attempto.acewiki.aceowl.VerbRelation;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.ape.FunctionWords;
@@ -38,30 +38,30 @@ public class VerbForm extends FormPane {
 	private TextField infField = new TextField(this);
 	private TextField pastPartField = new TextField(this);
 	
-	private VerbRole verbRole;
+	private VerbRelation relation;
 	private int wordNumber;
 	
 	/**
 	 * Creates a new verb form.
 	 * 
-	 * @param verbRole The role that is represented by the verb.
+	 * @param relation The relation that is represented by the verb.
 	 * @param wordNumber The word form id (only used if called from the sentence editor).
 	 * @param window The host window of the form.
 	 * @param wiki The wiki instance.
 	 * @param actionListener The actionlistener.
 	 */
-	public VerbForm(VerbRole verbRole, int wordNumber, WindowPane window, Wiki wiki,
+	public VerbForm(VerbRelation relation, int wordNumber, WindowPane window, Wiki wiki,
 			ActionListener actionListener) {
-		super("Verb", verbRole != null, window, wiki, actionListener);
-		if (verbRole == null) {
-			verbRole = new VerbRole();
+		super("Verb", relation != null, window, wiki, actionListener);
+		if (relation == null) {
+			relation = new VerbRelation();
 		}
-		this.verbRole = verbRole;
+		this.relation = relation;
 		
 		this.wordNumber = wordNumber;
 
 		setExplanationComponent(
-				new ResourceImageReference("ch/uzh/ifi/attempto/acewiki/gui/img/role.png"),
+				new ResourceImageReference("ch/uzh/ifi/attempto/acewiki/gui/img/relation.png"),
 				"Every verb represents a certain relation between things. " +
 					"For example, the verb \"owns\" relates persons to their possessions."
 			);
@@ -69,9 +69,9 @@ public class VerbForm extends FormPane {
 		addRow("bare infinitive", infField, "examples: own, apply to, touch", true);
 		addRow("past participle", pastPartField, "examples: owned, applied to, touched", false);
 		
-		thirdSgField.setText(verbRole.getPrettyWord(0));
-		infField.setText(verbRole.getPrettyWord(1));
-		pastPartField.setText(verbRole.getPrettyPastPart());
+		thirdSgField.setText(relation.getPrettyWord(0));
+		infField.setText(relation.getPrettyWord(1));
+		pastPartField.setText(relation.getPrettyPastPart());
 	}
 	
 	/**
@@ -98,18 +98,18 @@ public class VerbForm extends FormPane {
 	/**
 	 * Creates a new editor window for verbs.
 	 * 
-	 * @param role The role that is represented by the verb that should be edited.
+	 * @param relation The relation that is represented by the verb that should be edited.
 	 * @param wiki The wiki instance.
 	 * @return The new editor window.
 	 */
-	public static WordEditorWindow createEditorWindow(VerbRole role, Wiki wiki) {
+	public static WordEditorWindow createEditorWindow(VerbRelation relation, Wiki wiki) {
 		WordEditorWindow editorWindow = new WordEditorWindow("Word Editor");
-		editorWindow.addTab(new VerbForm(role, 0, editorWindow, wiki, wiki));
+		editorWindow.addTab(new VerbForm(relation, 0, editorWindow, wiki, wiki));
 		return editorWindow;
 	}
 
 	public OntologyElement getOntologyElement() {
-		return verbRole;
+		return relation;
 	}
 
 	protected void save() {
@@ -142,7 +142,7 @@ public class VerbForm extends FormPane {
 			showErrorMessage("No past participle defined: Please define the past participle form.");
 			return;
 		}
-		if (pastPart.equals("") && !ontology.getReferences(verbRole, 2).isEmpty()) {
+		if (pastPart.equals("") && !ontology.getReferences(relation, 2).isEmpty()) {
 			wiki.log("edit", "error: cannot remove past participle");
 			showErrorMessage("The past participle form cannot be removed because there are " +
 					"sentences that are using it.");
@@ -183,32 +183,32 @@ public class VerbForm extends FormPane {
 		
 		// check whether a word is already defined
 		OntologyElement oe1 = ontology.getElement(thirdSg);
-		if (oe1 != null && oe1 != verbRole) {
+		if (oe1 != null && oe1 != relation) {
 			wiki.log("edit", "error: word is already used");
 			showErrorMessage("The word '" + thirdSgP + "' is already used. Please use a different one.");
 			return;
 		}
 		OntologyElement oe2 = ontology.getElement(inf);
-		if (oe2 != null && oe2 != verbRole) {
+		if (oe2 != null && oe2 != relation) {
 			wiki.log("edit", "error: word is already used");
 			showErrorMessage("The word '" + infP + "' is already used. Please use a different one.");
 			return;
 		}
 		OntologyElement oe3 = ontology.getElement(pastPart);
-		if (oe3 != null && oe3 != verbRole) {
+		if (oe3 != null && oe3 != relation) {
 			wiki.log("edit", "error: word is already used");
 			showErrorMessage("The word '" + pastPartP + "' is already used. Please use a different one.");
 			return;
 		}
 		
 		if (pastPart.equals("")) pastPart = null;
-		verbRole.setWords(thirdSg, inf, pastPart);
+		relation.setWords(thirdSg, inf, pastPart);
 		
 		wiki.log("edit", "verb: " + thirdSg + " / " + inf + " / " + pastPart);
-		if (verbRole.getOntology() == null) {
-			verbRole.registerAt(getWiki().getOntology());
+		if (relation.getOntology() == null) {
+			relation.registerAt(getWiki().getOntology());
 		}
-		finished(verbRole, wordNumber);
+		finished(relation, wordNumber);
 	}
 
 }

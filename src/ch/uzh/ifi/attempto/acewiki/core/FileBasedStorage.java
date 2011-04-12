@@ -134,10 +134,10 @@ public class FileBasedStorage implements AceWikiStorage {
 		ConsoleProgressBar pb2 = new ConsoleProgressBar(elements.size());
 		for (OntologyElement oe : elements) {
 			pb2.addOne();
-			ontology.getReasoner().loadElement(oe);
+			ontology.getReasonerManager().loadElement(oe);
 			for (Sentence s : oe.getArticle().getSentences()) {
 				if (s.isReasonerParticipant() && s.isIntegrated()) {
-					ontology.getReasoner().loadSentence(s);
+					ontology.getReasonerManager().loadSentence(s);
 				}
 			}
 			save(oe);
@@ -150,7 +150,7 @@ public class FileBasedStorage implements AceWikiStorage {
 			mainPage.registerAt(ontology);
 		}
 		
-		ontology.getReasoner().load();
+		ontology.getReasonerManager().load();
 		
 		return ontology;
 	}

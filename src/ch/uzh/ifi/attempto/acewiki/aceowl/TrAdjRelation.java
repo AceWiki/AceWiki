@@ -18,12 +18,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import ch.uzh.ifi.attempto.acewiki.core.Role;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
 import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 
 /**
- * This class stands for roles that are represented by transitive adjectives. Transitive
+ * This class stands for relations that are represented by transitive adjectives. Transitive
  * adjectives consist of an adjective plus a preposition that is connected to the adjective
  * by a hyphen "-" or an underscore "_". Underscores are replaced by
  * blanks in the case of pretty-printing. Transitive adjectives have just one word form.
@@ -34,14 +33,14 @@ import ch.uzh.ifi.attempto.chartparser.LexicalRule;
  * 
  * @author Tobias Kuhn
  */
-public class TrAdjRole extends Role {
+public class TrAdjRelation extends ACEOWLRelation {
 	
 	private String word;
 	
 	/**
-	 * Creates a new role that is represented by a transitive adjective.
+	 * Creates a new relation that is represented by a transitive adjective.
 	 */
-	public TrAdjRole() {
+	public TrAdjRelation() {
 		word = "";
 	}
 	

@@ -35,6 +35,7 @@ import org.semanticweb.owlapi.profiles.OWLProfile;
 import org.semanticweb.owlapi.profiles.OWLProfileReport;
 import org.semanticweb.owlapi.profiles.OWLProfileViolation;
 
+import ch.uzh.ifi.attempto.acewiki.aceowl.ACEOWLOntoElement;
 import ch.uzh.ifi.attempto.acewiki.aceowl.AceWikiOWLReasoner;
 import ch.uzh.ifi.attempto.acewiki.aceowl.OWLXMLTransformer;
 import ch.uzh.ifi.attempto.ape.ACEParserResult;
@@ -218,7 +219,9 @@ public abstract class Sentence extends Statement {
 	 */
 	void parse() {
 		// TODO: only works with OWL, needs generalization
-		AceWikiOWLReasoner reasoner = (AceWikiOWLReasoner) getOntology().getReasoner();
+		// TODO: refactor and clean-up!
+		AceWikiOWLReasoner reasoner = (AceWikiOWLReasoner) getOntology()
+				.getReasonerManager().getReasoner();
 		
 		synchronized (APELocal.class) {
 			APELocal.getInstance().setURI(getOntology().getURI());
@@ -227,8 +230,10 @@ public abstract class Sentence extends Statement {
 			for (TextElement te : getTextElements()) {
 				if (te instanceof OntologyTextElement) {
 					OntologyElement oe = ((OntologyTextElement) te).getOntologyElement();
-					for (LexiconEntry le : oe.getLexiconEntries()) {
-						lexicon.addEntry(le);
+					if (oe instanceof ACEOWLOntoElement) {
+						for (LexiconEntry le : ((ACEOWLOntoElement) oe).getLexiconEntries()) {
+							lexicon.addEntry(le);
+						}
 					}
 				}
 			}

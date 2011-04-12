@@ -12,26 +12,10 @@
 // You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
 // not, see http://www.gnu.org/licenses/.
 
-package ch.uzh.ifi.attempto.acewiki.core;
+package ch.uzh.ifi.attempto.acewiki.aceowl;
 
-import org.semanticweb.owlapi.model.OWLObjectProperty;
+import ch.uzh.ifi.attempto.acewiki.core.Individual;
 
-/**
- * This abstract class represents a role (other terminologies call it "binary relation" or
- * "property").
- * 
- * @author Tobias Kuhn
- */
-public abstract class Role extends AbstractOntologyElement {
-	
-	/**
-	 * Initializes the role.
-	 */
-	protected Role() {
-	}
-	
-	public OWLObjectProperty getOWLRepresentation() {
-		return getOWLDataFactory().getOWLObjectProperty(getIRI());
-	}
+public abstract class ACEOWLIndividual extends AbstractACEOWLOntoElement implements Individual {
 
 }

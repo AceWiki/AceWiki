@@ -44,9 +44,11 @@ public class ACELexiconExporter extends OntologyExporter {
 	protected void writeContent() throws IOException {
 		List<String> lexiconEntries = new ArrayList<String>();
 		for (OntologyElement oe : getOntologyElements()) {
-			for (LexiconEntry le : oe.getLexiconEntries()) {
-				if (!lexiconEntries.contains(le.toString())) {
-					lexiconEntries.add(le.toString());
+			if (oe instanceof ACEOWLOntoElement) {
+				for (LexiconEntry le : ((ACEOWLOntoElement) oe).getLexiconEntries()) {
+					if (!lexiconEntries.contains(le.toString())) {
+						lexiconEntries.add(le.toString());
+					}
 				}
 			}
 		}

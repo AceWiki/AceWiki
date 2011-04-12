@@ -17,33 +17,33 @@ package ch.uzh.ifi.attempto.acewiki.gui.page;
 import nextapp.echo.app.event.ActionEvent;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
-import ch.uzh.ifi.attempto.acewiki.core.Role;
+import ch.uzh.ifi.attempto.acewiki.core.Relation;
 
 /**
- * This class stands for an article page showing the article of a role. Roles are represented by
- * verbs, of-constructs, or transitive adjectives.
+ * This class stands for an article page showing the article of a relation. Relations are
+ * represented by verbs, of-constructs, or transitive adjectives.
  * 
  * @author Tobias Kuhn
  */
-public class RolePage extends ArticlePage {
+public class RelationPage extends ArticlePage {
 	
 	private static final long serialVersionUID = -7034483028750537141L;
 	
-	private Role role;
+	private Relation relation;
 	
 	/**
-	 * Creates a new article page for a role.
+	 * Creates a new article page for a relation.
 	 * 
-	 * @param role The role.
+	 * @param relation The relation.
 	 * @param wiki The wiki instance.
 	 */
-	public RolePage(Role role, Wiki wiki) {
-		super(wiki, role);
-		this.role = role;
+	public RelationPage(Relation relation, Wiki wiki) {
+		super(wiki, relation);
+		this.relation = relation;
 	}
 	
 	public OntologyElement getOntologyElement() {
-		return role;
+		return relation;
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -53,7 +53,7 @@ public class RolePage extends ArticlePage {
 	protected void doUpdate() {
 		super.doUpdate();
 		
-		getTitle().setText(role.getHeadword());
+		getTitle().setText(relation.getHeadword());
 	}
 
 }

@@ -29,11 +29,11 @@ public class ACELanguageFactory implements LanguageFactory {
 		} else if (type.equals("noun")) {
 			return new NounConcept();
 		} else if (type.equals("nounof")) {
-			return new OfRole();
+			return new OfRelation();
 		} else if (type.equals("trverb")) {
-			return new VerbRole();
+			return new VerbRelation();
 		} else if (type.equals("tradj")) {
-			return new TrAdjRole();
+			return new TrAdjRelation();
 		}
 		return null;
 	}

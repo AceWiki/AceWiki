@@ -18,12 +18,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import ch.uzh.ifi.attempto.acewiki.core.Role;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
 import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 
 /**
- * This class stands for roles that are represented by a transitive verb. Transitive
+ * This class stands for relations that are represented by a transitive verb. Transitive
  * verbs have three word forms: a third singular form, a bare infinitive form ,
  * and a passive form. The bare infinitive form is used in the case of negation and plural.
  * The passive form always ends with the word "by".
@@ -36,14 +35,14 @@ import ch.uzh.ifi.attempto.chartparser.LexicalRule;
  * 
  * @author Tobias Kuhn
  */
-public class VerbRole extends Role {
+public class VerbRelation extends ACEOWLRelation {
 	
 	private String thirdSg, inf, passive;
 	
 	/**
-	 * Creates a new verb role.
+	 * Creates a new verb relation.
 	 */
-	public VerbRole() {
+	public VerbRelation() {
 	}
 	
 	public String[] getWords() {

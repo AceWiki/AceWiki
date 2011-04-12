@@ -19,7 +19,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  * This class stands for the set of registered users for a particular AceWiki instance.
  * 

@@ -54,7 +54,9 @@ public class LexiconManager implements DynamicLexicon {
 			}
 		} else {
 			for (OntologyElement el : ontology.getOntologyElements()) {
-				el.collectLexicalRules(catName, lexRules);
+				if (el instanceof ACEOWLOntoElement) {
+					((ACEOWLOntoElement) el).collectLexicalRules(catName, lexRules);
+				}
 			}
 		}
 		for (LexicalRule r : lexRules) {
@@ -75,8 +77,8 @@ public class LexiconManager implements DynamicLexicon {
 			if (word.startsWith("the ")) {
 				oe = ontology.getElement(word.substring(4));
 			}
-			if (oe != null) {
-				oe.collectLexicalRules(null, lexRules);
+			if (oe != null && oe instanceof ACEOWLOntoElement) {
+				((ACEOWLOntoElement) oe).collectLexicalRules(null, lexRules);
 			}
 		}
 		for (LexicalRule r : lexRules) {

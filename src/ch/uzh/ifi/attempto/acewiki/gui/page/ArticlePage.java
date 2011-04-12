@@ -28,7 +28,7 @@ import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.DummyOntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
-import ch.uzh.ifi.attempto.acewiki.core.Role;
+import ch.uzh.ifi.attempto.acewiki.core.Relation;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.gui.CommentRow;
@@ -94,8 +94,8 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 			return new IndividualPage((Individual) oe, wiki);
 		} else if (oe instanceof Concept) {
 			return new ConceptPage((Concept) oe, wiki);
-		} else if (oe instanceof Role) {
-			return new RolePage((Role) oe, wiki);
+		} else if (oe instanceof Relation) {
+			return new RelationPage((Relation) oe, wiki);
 		} else if (oe instanceof DummyOntologyElement) {
 			return new StartPage(wiki);
 		}

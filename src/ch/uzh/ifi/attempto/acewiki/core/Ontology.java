@@ -36,7 +36,7 @@ import ch.uzh.ifi.attempto.preditor.TextOperator;
  */
 public class Ontology {
 	
-	private AceWikiReasoner reasoner;
+	private ReasonerManager reasonerManager;
 	private StatementFactory statementFactory;
 	private LanguageFactory languageFactory;
 	private AceWikiStorage storage;
@@ -65,7 +65,7 @@ public class Ontology {
 		this.storage = storage;
 		
 		// TODO: make this general
-		reasoner = new AceWikiOWLReasoner(this);
+		reasonerManager = new ReasonerManager(new AceWikiOWLReasoner(this));
 		statementFactory = new StatementFactory(this);
 		languageFactory = new ACELanguageFactory();
 		
@@ -83,8 +83,8 @@ public class Ontology {
 		textOperator = new ACETextOperator(this);
 	}
 	
-	public AceWikiReasoner getReasoner() {
-		return reasoner;
+	public ReasonerManager getReasonerManager() {
+		return reasonerManager;
 	}
 	
 	public StatementFactory getStatementFactory() {
@@ -127,8 +127,8 @@ public class Ontology {
 			}
 		}
 		
-		getReasoner().loadElement(element);
-		getReasoner().flushReasoner();
+		getReasonerManager().loadElement(element);
+		getReasonerManager().flushReasoner();
 	}
 	
 	/**
@@ -155,8 +155,8 @@ public class Ontology {
 		}
 		storage.save(element);
 		
-		getReasoner().unloadElement(element);
-		getReasoner().flushReasoner();
+		getReasonerManager().unloadElement(element);
+		getReasonerManager().flushReasoner();
 	}
 	
 	synchronized void removeFromWordIndex(OntologyElement oe) {
@@ -165,7 +165,7 @@ public class Ontology {
 				wordIndex.remove(word);
 			}
 		}
-		getReasoner().unloadElement(oe);
+		getReasonerManager().unloadElement(oe);
 	}
 	
 	synchronized void addToWordIndex(OntologyElement oe) {
@@ -180,7 +180,7 @@ public class Ontology {
 				}
 			}
 		}
-		getReasoner().loadElement(oe);
+		getReasonerManager().loadElement(oe);
 	}
 	
 	/**
@@ -318,11 +318,11 @@ public class Ontology {
 		boolean errorEncountered = false;
 		
 		try {
-			getReasoner().loadSentence(sentence);
+			getReasonerManager().loadSentence(sentence);
 		} catch (OutOfMemoryError err) {
 			log("error: out of memory");
 			System.gc();
-			getReasoner().load();
+			getReasonerManager().load();
 			return 2;
 		} catch (InconsistencyException ex) {
 			inconsistencyEncountered = true;
@@ -334,12 +334,12 @@ public class Ontology {
 		log("check for consistency");
 		if (errorEncountered) {
 			log("error encountered!");
-			getReasoner().unloadSentence(sentence);
+			getReasonerManager().unloadSentence(sentence);
 			// TODO return a different value here:
 			return 1;
-		} else if (inconsistencyEncountered || !isConsistent()) {
+		} else if (inconsistencyEncountered || !getReasonerManager().isConsistent()) {
 			log("not consistent!");
-			getReasoner().unloadSentence(sentence);
+			getReasonerManager().unloadSentence(sentence);
 			return 1;
 		} else {
 			log("consistent!");
@@ -363,92 +363,12 @@ public class Ontology {
 		
 		log("retract sentence");
 		stateID++;
-		getReasoner().unloadSentence(sentence);
+		getReasonerManager().unloadSentence(sentence);
 		sentence.setIntegrated(false);
 	}
 	
 	public void log(String text) {
 		Logger.log(name, "onto", 0, "onto", text);
-	}
-	
-	/**
-	 * Returns all concepts the given individual belongs to. The reasoner is used for this.
-	 * 
-	 * @param ind The individual.
-	 * @return A list of all concepts of the individual.
-	 * @see Individual#getConcepts()
-	 */
-	public List<Concept> getConcepts(Individual ind) {
-		return getReasoner().getConcepts(ind);
-	}
-	
-	/**
-	 * Returns all individuals that belong to the given concept. The reasoner is used for this.
-	 * 
-	 * @param concept The concept.
-	 * @return A list of all individuals of the concept.
-	 * @see Concept#getIndividuals()
-	 */
-	public List<Individual> getIndividuals(Concept concept) {
-		return getReasoner().getIndividuals(concept);
-	}
-	
-	/**
-	 * Returns all super-concepts of the given concept. The reasoner is used for this.
-	 * 
-	 * @param concept The concept for which all super-concepts should be returned.
-	 * @return A list of all super-concepts.
-	 * @see Concept#getSuperConcepts()
-	 */
-	public List<Concept> getSuperConcepts(Concept concept) {
-		return getReasoner().getSuperConcepts(concept);
-	}
-	
-	/**
-	 * Returns all the sub-concepts of the given concept. The reasoner is used for this.
-	 * 
-	 * @param concept The concept for which all sub-concepts should be returned.
-	 * @return A list of all sub-concepts.
-	 * @see Concept#getSubConcepts()
-	 */
-	public List<Concept> getSubConcepts(Concept concept) {
-		return getReasoner().getSubConcepts(concept);
-	}
-	
-	/**
-	 * Returns a list of ontology elements that answer the given question. The reasoner is used
-	 * for this. In the case the sentence has the form "what is (Individual)?" then the answer
-	 * contains all concepts the individual belongs to. Otherwise, the question is
-	 * processed as a "DL Query" that describes a concept. In this case, the answer consists
-	 * of all individuals that belong to the concept. The null value is returned if the
-	 * sentence is not a question.
-	 * 
-	 * @param question The question to be answered.
-	 * @return A list of ontology elements that are the answer for the question.
-	 * @see Question#getAnswer()
-	 */
-	public List<OntologyElement> getAnswer(Question question) {
-		return getReasoner().getAnswer(question);
-	}
-	
-	/**
-	 * Returns true if the ontology is consistent. If nothing goes wrong, this should always return
-	 * true. The reasoner is used for this.
-	 * 
-	 * @return true if the ontology is consistent.
-	 */
-	public boolean isConsistent() {
-		return getReasoner().isConsistent();
-	}
-	
-	/**
-	 * Checks if the given concept is satisfiable. The reasoner is used for this.
-	 * 
-	 * @param concept The concept.
-	 * @return true if the concept is satisfiable.
-	 */
-	public synchronized boolean isSatisfiable(Concept concept) {
-		return getReasoner().isSatisfiable(concept);
 	}
 	
 	private long nextId() {

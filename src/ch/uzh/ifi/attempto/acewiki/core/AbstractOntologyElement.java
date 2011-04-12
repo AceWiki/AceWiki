@@ -14,25 +14,11 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLAnnotation;
-import org.semanticweb.owlapi.model.OWLDataFactory;
-import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
-import org.semanticweb.owlapi.model.OWLLogicalEntity;
-
-import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
-import uk.ac.manchester.cs.owl.owlapi.OWLDeclarationAxiomImpl;
-import ch.uzh.ifi.attempto.ape.LexiconEntry;
-import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 
 /**
  * This class represents an ontology element which can be an individual ("constant"), a concept
- * ("unary relation", "class", "type"), or a role ("binary relation", "property"). See the
- * respective sub-classes.
+ * ("unary relation", "class", "type"), or a relation ("binary relation", "role", "property"). See
+ * the respective sub-classes.
  *<p>
  * In AceWiki, each ontology element corresponds to a word which has one or more word forms.
  * Word forms are identified by a number (the word form id).
@@ -42,8 +28,6 @@ import ch.uzh.ifi.attempto.chartparser.LexicalRule;
  * @author Tobias Kuhn
  */
 public abstract class AbstractOntologyElement implements OntologyElement {
-	
-	private static OWLDataFactory dataFactory = new OWLDataFactoryImpl();
 	
 	private Ontology ontology;
 	private Article article;
@@ -150,25 +134,6 @@ public abstract class AbstractOntologyElement implements OntologyElement {
 			ontology.getStorage().save(this);
 		}
 	}
-
-	// TODO: move!
-	public List<LexiconEntry> getLexiconEntries() {
-		return null;
-	}
-
-	// TODO: move!
-	public final IRI getIRI() {
-		String baseIRI = "";
-		if (ontology != null) {
-			baseIRI = ontology.getURI();
-		}
-		return IRI.create(baseIRI + "#" + getIRISuffix());
-	}
-
-	// TODO: move!
-	public OWLDataFactory getOWLDataFactory() {
-		return dataFactory;
-	}
 	
 	/**
 	 * Writes the text to the log file.
@@ -178,20 +143,6 @@ public abstract class AbstractOntologyElement implements OntologyElement {
 	protected void log(String text) {
 		if (ontology != null) {
 			ontology.log(text);
-		}
-	}
-
-	// TODO: move!
-	public OWLDeclarationAxiom getOWLDeclaration() {
-		OWLLogicalEntity owl = getOWLRepresentation();
-		if (owl == null) {
-			return null;
-		} else {
-			return new OWLDeclarationAxiomImpl(
-					dataFactory,
-					getOWLRepresentation(),
-					new ArrayList<OWLAnnotation>()
-				);
 		}
 	}
 
