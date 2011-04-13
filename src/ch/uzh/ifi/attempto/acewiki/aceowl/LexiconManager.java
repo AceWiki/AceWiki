@@ -17,10 +17,10 @@ package ch.uzh.ifi.attempto.acewiki.aceowl;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import ch.uzh.ifi.attempto.acewiki.core.AceWikiLexicon;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.chartparser.AbstractOption;
-import ch.uzh.ifi.attempto.chartparser.DynamicLexicon;
 import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 
 /**
@@ -28,16 +28,17 @@ import ch.uzh.ifi.attempto.chartparser.LexicalRule;
  * 
  * @author Tobias Kuhn
  */
-public class LexiconManager implements DynamicLexicon {
+public class LexiconManager implements AceWikiLexicon {
 	
 	private Ontology ontology;
 	
 	/**
-	 * Creates a new lexicon manager for the given ontology.
-	 * 
-	 * @param ontology The ontology.
+	 * Creates a new lexicon manager.
 	 */
-	public LexiconManager(Ontology ontology) {
+	public LexiconManager() {
+	}
+	
+	public void init(Ontology ontology) {
 		this.ontology = ontology;
 	}
 

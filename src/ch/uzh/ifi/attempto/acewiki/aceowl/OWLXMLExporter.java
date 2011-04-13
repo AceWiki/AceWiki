@@ -20,7 +20,6 @@ import org.coode.owlapi.owlxml.renderer.OWLXMLRenderer;
 import org.semanticweb.owlapi.io.OWLRendererException;
 import org.semanticweb.owlapi.model.OWLOntology;
 
-import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyExporter;
 
 /**
@@ -35,11 +34,9 @@ public class OWLXMLExporter extends OntologyExporter {
 	/**
 	 * Creates a new OWL/XML exporter.
 	 * 
-	 * @param ontology The ontology.
 	 * @param consistent Defines if only the consistent part of the ontology should be considered.
 	 */
-	public OWLXMLExporter(Ontology ontology, boolean consistent) {
-		super(ontology);
+	public OWLXMLExporter(boolean consistent) {
 		this.consistent = consistent;
 	}
 	

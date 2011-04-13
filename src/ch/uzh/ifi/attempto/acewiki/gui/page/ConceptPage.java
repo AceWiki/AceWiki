@@ -18,7 +18,6 @@ import nextapp.echo.app.Color;
 import nextapp.echo.app.event.ActionEvent;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
-import ch.uzh.ifi.attempto.acewiki.aceowl.NounConcept;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.ReasonerManager;
@@ -33,7 +32,7 @@ public class ConceptPage extends ArticlePage {
 	
 	private static final long serialVersionUID = -505381176379658743L;
 
-	private NounConcept concept;
+	private Concept concept;
 	
 	/**
 	 * Creates a new article page for a concept.
@@ -43,7 +42,7 @@ public class ConceptPage extends ArticlePage {
 	 */
 	protected ConceptPage(Concept concept, Wiki wiki) {
 		super(wiki, concept);
-		this.concept = (NounConcept) concept;
+		this.concept = concept;
 		
 		addTab("Individuals", this);
 		addTab("Hierarchy", this);

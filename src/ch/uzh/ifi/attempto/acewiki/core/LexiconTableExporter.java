@@ -25,15 +25,6 @@ import java.util.List;
  */
 public class LexiconTableExporter extends OntologyExporter {
 	
-	/**
-	 * Creates a new lexicon table exporter.
-	 * 
-	 * @param ontology The ontology.
-	 */
-	public LexiconTableExporter(Ontology ontology) {
-		super(ontology);
-	}
-	
 	protected void writeContent() throws IOException {
 		write("TYPE,WORD_FORM_1,WORD_FORM_2,WORD_FORM_3\n");
 		List<OntologyElement> elements = getOntologyElements();

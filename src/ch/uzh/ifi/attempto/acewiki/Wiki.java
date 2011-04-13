@@ -42,18 +42,16 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.layout.ColumnLayoutData;
 import nextapp.echo.webcontainer.ContainerContext;
-import ch.uzh.ifi.attempto.acewiki.aceowl.ACEGrammar;
-import ch.uzh.ifi.attempto.acewiki.aceowl.ACELexiconExporter;
-import ch.uzh.ifi.attempto.acewiki.aceowl.ACETextExporter;
-import ch.uzh.ifi.attempto.acewiki.aceowl.LexiconManager;
-import ch.uzh.ifi.attempto.acewiki.aceowl.OWLXMLExporter;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiDataExporter;
+import ch.uzh.ifi.attempto.acewiki.core.AceWikiLexicon;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiStorage;
 import ch.uzh.ifi.attempto.acewiki.core.FileBasedStorage;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageEngine;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconTableExporter;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyExportManager;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyExporter;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.acewiki.core.StatementTableExporter;
 import ch.uzh.ifi.attempto.acewiki.core.User;
@@ -105,6 +103,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private Map<String, String> parameters;
 
 	private final Ontology ontology;
+	private final LanguageEngine languageEngine;
 	private User user;
 	private OntologyExportManager ontologyExportManager;
 	private static AceWikiStorage storage = new FileBasedStorage("data");
@@ -139,8 +138,6 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private Stack<WikiPage> history = new Stack<WikiPage>();
 	private Stack<WikiPage> forward = new Stack<WikiPage>();
 	
-	private LexiconManager lexicon;
-	
 	private TaskQueueHandle taskQueue;
 	private MessageWindow waitWindow;
 	private List<Task> strongTasks = new ArrayList<Task>();
@@ -167,20 +164,18 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		this.parameters = parameters;
 		
 		ontology = storage.getOntology(getParameter("ontology"), parameters);
-		lexicon = new LexiconManager(ontology);
+		languageEngine = ontology.getLanguageEngine();
 		logger = new Logger(ontology.getName(), "anon", sessionID);
 		application = (AceWikiApp) ApplicationInstance.getActive();
 		taskQueue = application.createTaskQueue();
 		
-		ontologyExportManager = new OntologyExportManager();
-		ontologyExportManager.addExporter(new OWLXMLExporter(ontology, true));
-		ontologyExportManager.addExporter(new OWLXMLExporter(ontology, false));
-		ontologyExportManager.addExporter(new ACETextExporter(ontology, true));
-		ontologyExportManager.addExporter(new ACETextExporter(ontology, false));
-		ontologyExportManager.addExporter(new ACELexiconExporter(ontology));
-		ontologyExportManager.addExporter(new LexiconTableExporter(ontology));
-		ontologyExportManager.addExporter(new StatementTableExporter(ontology));
-		ontologyExportManager.addExporter(new AceWikiDataExporter(ontology));
+		ontologyExportManager = new OntologyExportManager(ontology);
+		for (OntologyExporter o : languageEngine.getExporters()) {
+			ontologyExportManager.addExporter(o);
+		}
+		ontologyExportManager.addExporter(new LexiconTableExporter());
+		ontologyExportManager.addExporter(new StatementTableExporter());
+		ontologyExportManager.addExporter(new AceWikiDataExporter());
 		
 		SplitPane splitPane1 = new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM);
 		splitPane1.setSeparatorPosition(new Extent(50));
@@ -914,7 +909,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * @return The grammar.
 	 */
 	public Grammar getGrammar() {
-		return ACEGrammar.grammar;
+		return languageEngine.getGrammar();
 	}
 	
 	/**
@@ -922,8 +917,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * 
 	 * @return The lexicon manager.
 	 */
-	public LexiconManager getLexicon() {
-		return lexicon;
+	public AceWikiLexicon getLexicon() {
+		return languageEngine.getLexicon();
 	}
 	
 	/**

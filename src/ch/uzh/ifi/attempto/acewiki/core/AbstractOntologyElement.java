@@ -14,7 +14,6 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
-
 /**
  * This class represents an ontology element which can be an individual ("constant"), a concept
  * ("unary relation", "class", "type"), or a relation ("binary relation", "role", "property"). See

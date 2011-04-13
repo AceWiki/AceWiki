@@ -19,9 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import ch.uzh.ifi.attempto.acewiki.aceowl.ACELanguageFactory;
-import ch.uzh.ifi.attempto.acewiki.aceowl.ACETextOperator;
-import ch.uzh.ifi.attempto.acewiki.aceowl.AceWikiOWLReasoner;
 import ch.uzh.ifi.attempto.echocomp.Logger;
 import ch.uzh.ifi.attempto.preditor.TextOperator;
 
@@ -36,9 +33,9 @@ import ch.uzh.ifi.attempto.preditor.TextOperator;
  */
 public class Ontology {
 	
+	private LanguageEngine languageEngine;
 	private ReasonerManager reasonerManager;
 	private StatementFactory statementFactory;
-	private LanguageFactory languageFactory;
 	private AceWikiStorage storage;
 	
 	private Map<String, OntologyElement> wordIndex = new TreeMap<String, OntologyElement>();
@@ -48,8 +45,6 @@ public class Ontology {
 	private final String baseURI;
 	private long idCount = 0;
 	private long stateID = 0;
-	
-	private ACETextOperator textOperator;
 	
 	private Map<String, String> parameters;
 	
@@ -64,10 +59,9 @@ public class Ontology {
 		this.parameters = parameters;
 		this.storage = storage;
 		
-		// TODO: make this general
-		reasonerManager = new ReasonerManager(new AceWikiOWLReasoner(this));
+		languageEngine = AbstractLanguageEngine.createLanguageEngine(this);
+		reasonerManager = new ReasonerManager(languageEngine.getReasoner());
 		statementFactory = new StatementFactory(this);
-		languageFactory = new ACELanguageFactory();
 		
 		String b = getParameter("baseuri");
 		if (b == null || b.equals("")) {
@@ -79,8 +73,10 @@ public class Ontology {
 				baseURI = b + "/";
 			}
 		}
-		
-		textOperator = new ACETextOperator(this);
+	}
+	
+	public LanguageEngine getLanguageEngine() {
+		return languageEngine;
 	}
 	
 	public ReasonerManager getReasonerManager() {
@@ -92,7 +88,7 @@ public class Ontology {
 	}
 	
 	public LanguageFactory getLanguageFactory() {
-		return languageFactory;
+		return languageEngine.getLanguageFactory();
 	}
 	
 	public AceWikiStorage getStorage() {
@@ -392,7 +388,7 @@ public class Ontology {
 	 * @return The text operator.
 	 */
 	public TextOperator getTextOperator() {
-		return textOperator;
+		return getLanguageFactory().getTextOperator();
 	}
 	
 	public String getParameter(String name) {

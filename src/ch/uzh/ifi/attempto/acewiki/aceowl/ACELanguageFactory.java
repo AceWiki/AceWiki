@@ -15,13 +15,27 @@
 package ch.uzh.ifi.attempto.acewiki.aceowl;
 
 import ch.uzh.ifi.attempto.acewiki.core.Declaration;
-import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageFactory;
+import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
+import ch.uzh.ifi.attempto.preditor.TextOperator;
 
 public class ACELanguageFactory implements LanguageFactory {
+	
+	private TextOperator textOperator;
+	
+	public ACELanguageFactory() {
+	}
+	
+	public void init(Ontology ontology) {
+		textOperator = new ACETextOperator(ontology);
+	}
+	
+	public TextOperator getTextOperator() {
+		return textOperator;
+	}
 
 	public OntologyElement createOntologyElement(String type) {
 		if (type.equals("propername")) {

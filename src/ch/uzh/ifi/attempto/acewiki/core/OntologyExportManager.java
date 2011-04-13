@@ -6,11 +6,14 @@ import java.util.List;
 public class OntologyExportManager {
 	
 	private List<OntologyExporter> exporters = new ArrayList<OntologyExporter>();
+	private Ontology ontology;
 	
-	public OntologyExportManager() {
+	public OntologyExportManager(Ontology ontology) {
+		this.ontology = ontology;
 	}
 	
 	public void addExporter(OntologyExporter exporter) {
+		exporter.init(ontology);
 		if (exporter.isApplicable()) {
 			exporters.add(exporter);
 		} else {

@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyExporter;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
@@ -35,11 +34,9 @@ public class ACETextExporter extends OntologyExporter {
 	/**
 	 * Creates a new ACE text exporter.
 	 * 
-	 * @param ontology The ontology.
 	 * @param consistent Defines if only the consistent part of the ontology should be considered.
 	 */
-	public ACETextExporter(Ontology ontology, boolean consistent) {
-		super(ontology);
+	public ACETextExporter(boolean consistent) {
 		this.consistent = consistent;
 	}
 	

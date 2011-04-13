@@ -3,6 +3,8 @@ package ch.uzh.ifi.attempto.acewiki.core;
 import java.util.List;
 
 public interface AceWikiReasoner {
+	
+	public void init(Ontology ontology);
 
 	/**
 	 * Should return the name of the reasoner.

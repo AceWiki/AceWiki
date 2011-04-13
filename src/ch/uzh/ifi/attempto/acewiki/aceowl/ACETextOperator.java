@@ -14,7 +14,6 @@
 
 package ch.uzh.ifi.attempto.acewiki.aceowl;
 
-import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
@@ -26,7 +25,6 @@ import ch.uzh.ifi.attempto.preditor.TextElement;
  * 
  * @author Tobias Kuhn
  */
-//TODO make package visible
 public class ACETextOperator extends DefaultTextOperator {
 	
 	private Ontology ontology;

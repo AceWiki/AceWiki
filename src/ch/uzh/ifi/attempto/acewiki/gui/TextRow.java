@@ -22,7 +22,6 @@ import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.aceowl.ProperNameIndividual;
-import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.acewiki.core.Question;

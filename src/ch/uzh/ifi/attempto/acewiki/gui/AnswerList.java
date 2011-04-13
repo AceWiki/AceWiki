@@ -24,7 +24,6 @@ import nextapp.echo.app.Row;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.aceowl.NounConcept;
-import ch.uzh.ifi.attempto.acewiki.core.AceWikiReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
 import ch.uzh.ifi.attempto.acewiki.core.ReasonerManager;
@@ -113,6 +112,7 @@ class AnswerList extends Column {
 			Collections.sort(answer);
 			for (OntologyElement oe : answer) {
 				Row answerRow = new Row();
+				// TODO: move this! (ACE specific)
 				if (oe instanceof NounConcept) {
 					// Nouns as answer are preceded by the article "a" or "an"
 					boolean an = ACEUtils.useIndefiniteArticleAn(oe.getWord());

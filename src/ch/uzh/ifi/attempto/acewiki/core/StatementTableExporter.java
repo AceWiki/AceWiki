@@ -24,15 +24,6 @@ import java.util.List;
  * @author Tobias Kuhn
  */
 public class StatementTableExporter extends OntologyExporter {
-
-	/**
-	 * Creates a new statement table exporter.
-	 * 
-	 * @param ontology The ontology.
-	 */
-	public StatementTableExporter(Ontology ontology) {
-		super(ontology);
-	}
 	
 	protected void writeContent() throws IOException {
 		write("PAGE,TYPE,TEXT\n");

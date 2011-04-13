@@ -1,3 +1,17 @@
+// This file is part of AceWiki.
+// Copyright 2008-2011, Tobias Kuhn.
+// 
+// AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
+// Lesser General Public License as published by the Free Software Foundation, either version 3 of
+// the License, or (at your option) any later version.
+// 
+// AceWiki is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+// even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
+// not, see http://www.gnu.org/licenses/.
+
 package ch.uzh.ifi.attempto.acewiki.aceowl;
 
 import java.util.ArrayList;
@@ -43,7 +57,6 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 
-
 public class AceWikiOWLReasoner implements AceWikiReasoner {
 	
 	private static OWLDataFactory dataFactory = new OWLDataFactoryImpl();
@@ -61,11 +74,21 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 	private Object reasonerSyncToken = new Object();
 	private OWLDifferentIndividualsAxiom diffIndsAxiom;
 	private boolean diffIndsAxiomOutdated = true;
-	private final OWLProfile owlProfile;
-	private final String globalRestrPolicy;
+	private OWLProfile owlProfile;
+	private String globalRestrPolicy;
 	
-	public AceWikiOWLReasoner(Ontology ontology) {
+	public AceWikiOWLReasoner() {
+		manager = OWLManager.createOWLOntologyManager();
+		try {
+			owlOntology = manager.createOntology();
+		} catch (OWLOntologyCreationException ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	public void init(Ontology ontology) {
 		this.ontology = ontology;
+		
 		String p = (getParameter("owl_profile") + "").toLowerCase();
 		if (p.equals("owl2el")) {
 			owlProfile = new OWL2ELProfile();
@@ -75,13 +98,6 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 			owlProfile = new OWL2RLProfile();
 		} else {
 			owlProfile = null;
-		}
-		
-		manager = OWLManager.createOWLOntologyManager();
-		try {
-			owlOntology = manager.createOntology();
-		} catch (OWLOntologyCreationException ex) {
-			ex.printStackTrace();
 		}
 		
 		String grp = (getParameter("global_restrictions_policy") + "").toLowerCase();
@@ -96,8 +112,8 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 		return ontology;
 	}
 	
-	private List<ACEOWLOntoElement> getOntologyElements() {
-		return (List) ontology.getOntologyElements();
+	private List<OntologyElement> getOntologyElements() {
+		return ontology.getOntologyElements();
 	}
 	
 	private OntologyElement getOntologyElement(String name) {
@@ -158,8 +174,11 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 	 */
 	public OWLOntology exportOWLOntology(boolean consistent) {
 		Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
-		for (ACEOWLOntoElement el : getOntologyElements()) {
-			OWLDeclarationAxiom owlDecl = el.getOWLDeclaration();
+		for (OntologyElement el : getOntologyElements()) {
+			OWLDeclarationAxiom owlDecl = null;
+			if (el instanceof ACEOWLOntoElement) {
+				owlDecl = ((ACEOWLOntoElement) el).getOWLDeclaration();
+			}
 			if (owlDecl != null) {
 				axioms.add(owlDecl);
 			}

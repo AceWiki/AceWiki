@@ -28,16 +28,17 @@ import java.util.List;
  */
 public abstract class OntologyExporter {
 	
-	private final Ontology ontology;
+	private Ontology ontology;
 	private OutputStream outputStream;
 	private Writer writer;
 	
 	/**
-	 * Initializes a new exporter for the given ontology.
-	 * 
-	 * @param ontology The ontology.
+	 * Creates a new exporter.
 	 */
-	protected OntologyExporter(Ontology ontology) {
+	protected OntologyExporter() {
+	}
+	
+	void init(Ontology ontology) {
 		this.ontology = ontology;
 	}
 	

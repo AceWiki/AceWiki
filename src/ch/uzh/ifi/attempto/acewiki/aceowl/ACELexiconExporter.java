@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyExporter;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
@@ -31,15 +30,6 @@ import ch.uzh.ifi.attempto.ape.LexiconEntry;
  * @author Tobias Kuhn
  */
 public class ACELexiconExporter extends OntologyExporter {
-
-	/**
-	 * Creates a new ACE Lexicon exporter.
-	 * 
-	 * @param ontology The ontology.
-	 */
-	public ACELexiconExporter(Ontology ontology) {
-		super(ontology);
-	}
 	
 	protected void writeContent() throws IOException {
 		List<String> lexiconEntries = new ArrayList<String>();

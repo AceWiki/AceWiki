@@ -14,37 +14,22 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
-import java.io.IOException;
+import java.util.List;
 
-/**
- * This exporter generates a file that contains the complete wiki data in a special AceWiki data
- * format.
- * 
- * @author Tobias Kuhn
- */
-public class AceWikiDataExporter extends OntologyExporter {
+import ch.uzh.ifi.attempto.chartparser.Grammar;
+
+public interface LanguageEngine {
 	
-	protected void writeContent() throws IOException {
-		for (OntologyElement oe : getOntologyElements()) {
-			write(FileBasedStorage.serialize(oe, false));
-			write("\n");
-		}
-	}
+	public void init(Ontology ontology);
 	
-	public boolean isApplicable() {
-		return true;
-	}
+	public Grammar getGrammar();
 	
-	public String getText() {
-		return "AceWiki data file";
-	}
+	public AceWikiLexicon getLexicon();
 	
-	public String getFileSuffix() {
-		return ".acewikidata";
-	}
+	public LanguageFactory getLanguageFactory();
 	
-	public String getContentType() {
-		return "text/plain";
-	}
+	public AceWikiReasoner getReasoner();
+	
+	public List<OntologyExporter> getExporters();
 
 }
