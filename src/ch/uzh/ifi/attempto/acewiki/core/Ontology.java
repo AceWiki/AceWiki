@@ -346,6 +346,18 @@ public class Ontology {
 	}
 	
 	/**
+	 * This method tries to reassert a sentence that is not yet integrated.
+	 * 
+	 * @return An integer value denoting the success/failure of the operation.
+	 * @see commitSentence(Sentence)
+	 */
+	public int reassert(Sentence sentence) {
+		int success = commitSentence(sentence);
+		getStorage().save(sentence.getArticle().getOntologyElement());
+		return success;
+	}
+	
+	/**
 	 * Retracts the sentence. This means that the sentence is removed from the reasoner.
 	 * 
 	 * @param sentence The sentence to be retracted.
@@ -361,6 +373,15 @@ public class Ontology {
 		stateID++;
 		getReasonerManager().unloadSentence(sentence);
 		sentence.setIntegrated(false);
+	}
+	
+	/**
+	 * This method retracts an integrated sentence so that it is still part of the wiki
+	 * article but does not participate in reasoning anymore.
+	 */
+	public void retract(Sentence sentence) {
+		retractSentence(sentence);
+		getStorage().save(sentence.getArticle().getOntologyElement());
 	}
 	
 	public void log(String text) {

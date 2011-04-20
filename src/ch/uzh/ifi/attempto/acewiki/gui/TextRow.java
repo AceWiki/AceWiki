@@ -207,7 +207,7 @@ public class TextRow extends Column implements ActionListener {
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
 			} else {
-				int success = sentence.reassert();
+				int success = wiki.getOntology().reassert(sentence);
 				if (success == 1) {
 					wiki.showWindow(new MessageWindow(
 							"Conflict",
@@ -233,7 +233,7 @@ public class TextRow extends Column implements ActionListener {
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
 			} else {
-				sentence.retract();
+				wiki.getOntology().retract(sentence);
 				update();
 				hostPage.update();
 			}

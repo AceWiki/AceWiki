@@ -311,31 +311,6 @@ public abstract class Sentence extends Statement {
 	}
 	
 	/**
-	 * This method tries to reassert a sentence that is not yet integrated. This is
-	 * used for sentences that have an OWL representation but the integration failed
-	 * because it introduced an inconsistency. Later, when the ontology has changed,
-	 * the integration might succeed. It can also be used for sentences that have been
-	 * manually retracted.
-	 * 
-	 * @return An integer value denoting the success/failure of the operation.
-	 * @see Ontology#commitSentence(Sentence)
-	 */
-	public int reassert() {
-		int success = getOntology().commitSentence(this);
-		getOntology().getStorage().save(getArticle().getOntologyElement());
-		return success;
-	}
-	
-	/**
-	 * This method retracts an integrated sentence so that it is still part of the wiki
-	 * article but does not participate in reasoning anymore.
-	 */
-	public void retract() {
-		getOntology().retractSentence(this);
-		getOntology().getStorage().save(getArticle().getOntologyElement());
-	}
-	
-	/**
 	 * Returns true if the sentence is integrated into the ontology.
 	 * 
 	 * @return true if the sentence is integrated into the ontology.
