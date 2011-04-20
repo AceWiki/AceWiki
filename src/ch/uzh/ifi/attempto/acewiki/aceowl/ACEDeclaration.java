@@ -12,20 +12,19 @@
 // You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
 // not, see http://www.gnu.org/licenses/.
 
-package ch.uzh.ifi.attempto.acewiki.core;
+package ch.uzh.ifi.attempto.acewiki.aceowl;
 
-import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLIndividual;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import org.semanticweb.owlapi.model.OWLObjectOneOf;
-import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import ch.uzh.ifi.attempto.acewiki.core.Declaration;
 
-/**
- * This class represents ACE questions.
- * 
- * @author Tobias Kuhn
- */
-public interface Question extends Sentence {
+public class ACEDeclaration extends ACESentence implements Declaration {
+	
+	/**
+	 * Creates a new declarative ACE sentence.
+	 * 
+	 * @param text The sentence text.
+	 */
+	public ACEDeclaration(String text) {
+		super(text);
+	}
 
 }

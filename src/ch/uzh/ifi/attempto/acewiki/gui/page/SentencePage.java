@@ -16,15 +16,21 @@ package ch.uzh.ifi.attempto.acewiki.gui.page;
 
 import static ch.uzh.ifi.attempto.ape.OutputType.PARAPHRASE1;
 import static ch.uzh.ifi.attempto.ape.OutputType.SYNTAXPP;
+
+import java.util.List;
+
 import nextapp.echo.app.Column;
+import nextapp.echo.app.Font;
 import nextapp.echo.app.Insets;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
+import ch.uzh.ifi.attempto.acewiki.core.SentenceInfo;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.ape.SyntaxBoxes;
 import ch.uzh.ifi.attempto.echocomp.Label;
+import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
 import echopoint.DirectHtml;
 
@@ -56,28 +62,19 @@ public class SentencePage extends WikiPage implements ActionListener {
 		addHorizontalLine();
 		add(new VSpace(15));
 		
-		addHeadline("Paraphrase");
+		List<SentenceInfo> l = sentence.getDetailInfo();
 		
-		Column paraphraseColumn = new Column();
-		paraphraseColumn.setInsets(new Insets(10, 5, 5, 15));
-		paraphraseColumn.add(new Label(sentence.getParserResult().get(PARAPHRASE1)));
-		add(paraphraseColumn);
+		if (l.isEmpty()) {
+			add(new SolidLabel("(no detail information available)", Font.ITALIC, 10));
+		}
 		
-		addHeadline("Syntax Boxes");
-		
-		Column boxesColumn = new Column();
-		boxesColumn.setInsets(new Insets(10, 5, 5, 15));
-		boxesColumn.add(new DirectHtml(SyntaxBoxes.getBoxesHtml(sentence.getParserResult())));
-		add(boxesColumn);
-		
-		addHeadline("Syntax Tree");
-		
-		Column syntaxColumn = new Column();
-		syntaxColumn.setInsets(new Insets(10, 0, 5, 15));
-		syntaxColumn.add(new DirectHtml(
-				"<pre>" + sentence.getParserResult().get(SYNTAXPP) + "</pre>"
-			));
-		add(syntaxColumn);
+		for (SentenceInfo si : l) {
+			addHeadline(si.getName());
+			Column infoColumn = new Column();
+			infoColumn.setInsets(new Insets(10, 5, 5, 15));
+			infoColumn.add(new DirectHtml(si.getRichText()));
+			add(infoColumn);
+		}
 	}
 
 	public void actionPerformed(ActionEvent e) {

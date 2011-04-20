@@ -63,7 +63,7 @@ public abstract class AbstractLanguageEngine implements LanguageEngine {
 	}
 	
 	public List<OntologyExporter> getExporters() {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 }

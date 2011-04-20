@@ -14,18 +14,22 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
-import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLIndividual;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import org.semanticweb.owlapi.model.OWLObjectOneOf;
-import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
-
-/**
- * This class represents ACE questions.
- * 
- * @author Tobias Kuhn
- */
-public interface Question extends Sentence {
+public class SentenceInfo {
+	
+	private final String name;
+	private final String richText;
+	
+	public SentenceInfo(String name, String richText) {
+		this.name = name;
+		this.richText = richText;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public String getRichText() {
+		return richText;
+	}
 
 }

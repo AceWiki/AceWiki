@@ -56,9 +56,9 @@ public class ACELanguageFactory implements LanguageFactory {
 		// remove leading and trailing blank spaces.
 		text = text.replaceFirst("^\\s+", "").replaceFirst("\\s+$", "");
 		if (text.substring(text.length()-1).equals("?")) {
-			return new Question(text);
+			return new ACEQuestion(text);
 		} else {
-			return new Declaration(text);
+			return new ACEDeclaration(text);
 		}
 	}
 

@@ -12,13 +12,15 @@
 // You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
 // not, see http://www.gnu.org/licenses/.
 
-package ch.uzh.ifi.attempto.acewiki.core;
+package ch.uzh.ifi.attempto.acewiki.aceowl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import ch.uzh.ifi.attempto.acewiki.aceowl.ProperNameIndividual;
+import ch.uzh.ifi.attempto.acewiki.core.Ontology;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.preditor.TextContainer;
 import ch.uzh.ifi.attempto.preditor.TextElement;
 

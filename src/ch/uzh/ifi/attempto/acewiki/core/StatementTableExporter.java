@@ -33,7 +33,7 @@ public class StatementTableExporter extends OntologyExporter {
 			for (Statement s : oe.getArticle().getStatements()) {
 				// Replace quotes " by two quotes "" and reduce blank spaces
 				String t = s.getText().replaceAll("\"", "\"\"").replaceAll("\\s+", " ");
-				write(oe.getWord() + "," + s.getType() + ",\"" + t + "\"\n");
+				write(oe.getWord() + "," + getStatementType(s) + ",\"" + t + "\"\n");
 			}
 		}
 	}
@@ -52,6 +52,25 @@ public class StatementTableExporter extends OntologyExporter {
 	
 	public String getContentType() {
 		return "text/plain";
+	}
+	
+	private static String getStatementType(Statement statement) {
+		if (statement instanceof Comment) {
+			return "comment";
+		} else if (statement instanceof Question) {
+			return "question";
+		} else if (statement instanceof Declaration) {
+			Declaration declaration = (Declaration) statement;
+			if (declaration.getArticle() == null) {
+				return "inferred";
+			} else if (declaration.isIntegrated()) {
+				return "asserted";
+			} else {
+				return "unasserted";
+			}
+		} else {
+			throw new RuntimeException("Unknown statement class");
+		}
 	}
 
 }

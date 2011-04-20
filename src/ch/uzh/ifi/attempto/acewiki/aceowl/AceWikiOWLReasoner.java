@@ -183,9 +183,10 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 				axioms.add(owlDecl);
 			}
 			for (Sentence s : el.getArticle().getSentences()) {
-				if (s instanceof Question || !s.isOWL()) continue;
-				if (consistent && (!s.isReasonerParticipant() || !s.isIntegrated())) continue;
-				axioms.addAll(s.getOWLAxioms());
+				ACESentence as = (ACESentence) s;
+				if (as instanceof Question || !as.isOWL()) continue;
+				if (consistent && (!as.isReasonerParticipant() || !as.isIntegrated())) continue;
+				axioms.addAll(as.getOWLAxioms());
 			}
 		}
 		axioms.add(diffIndsAxiom);
@@ -444,8 +445,10 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 		}
 	}
 	
-	public synchronized List<OntologyElement> getAnswer(Question question) {
+	public synchronized List<OntologyElement> getAnswer(Question q) {
 		if (owlReasoner == null) return null;
+		
+		ACEQuestion question = (ACEQuestion) q;
 		
 		List<OntologyElement> answer = new ArrayList<OntologyElement>();
 		
@@ -501,7 +504,8 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 		}
 	}
 	
-	public void loadSentence(Sentence sentence) {
+	public void loadSentence(Sentence s) {
+		ACESentence sentence = (ACESentence) s;
 		try {
 			for (OWLAxiom ax : sentence.getOWLAxioms()) {
 				loadAxiom(ax);
@@ -522,7 +526,8 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 		}
 	}
 	
-	public void unloadSentence(Sentence sentence) {
+	public void unloadSentence(Sentence s) {
+		ACESentence sentence = (ACESentence) s;
 		for (OWLAxiom ax : sentence.getOWLAxioms()) {
 			unloadAxiom(ax);
 		}

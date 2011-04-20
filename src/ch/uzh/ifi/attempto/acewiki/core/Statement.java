@@ -14,60 +14,30 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
-/**
- * This class represents a statement that can be either an ACE sentence or a comment. A
- * statement can either be part of an article or it can be an independent statement that has no
- * article.
- * 
- * @author Tobias Kuhn
- */
-public abstract class Statement {
+public interface Statement {
 	
-	private Ontology ontology;
-	private Article article;
-	
-	/**
-	 * Initializes a new independent statement.
-	 */
-	protected Statement() {
-	}
-	
-	void init(Ontology ontology, Article article) {
-		this.ontology = ontology;
-		this.article = article;
-	}
-	
+	public void init(Ontology ontology, Article article);
+
 	/**
 	 * This method returns the ontology this statement belongs to.
 	 * 
 	 * @return The ontology.
 	 */
-	public Ontology getOntology() {
-		return ontology;
-	}
-	
+	public Ontology getOntology();
+
 	/**
 	 * This method returns the owner ontology element of this statement.
 	 * 
 	 * @return The owner ontology element.
 	 */
-	public Article getArticle() {
-		return article;
-	}
+	public Article getArticle();
 	
 	/**
 	 * This method returns the text of this statement.
 	 * 
 	 * @return The text.
 	 */
-	public abstract String getText();
-	
-	/**
-	 * This method returns a string that denotes the type of this statement.
-	 * 
-	 * @return The type of this statement.
-	 */
-	public abstract String getType();
+	public String getText();
 	
 	/**
 	 * This method returns a serialization of the statement.
@@ -77,10 +47,6 @@ public abstract class Statement {
 	 * @return The serialized representation of the statement.
 	 */
 	// TODO: move? and make package visible
-	public abstract String serialize(boolean encodeWords);
-	
-	public String toString() {
-		return getText();
-	}
+	public String serialize(boolean encodeWords);
 
 }

@@ -15,13 +15,19 @@
 package ch.uzh.ifi.attempto.acewiki.gui.page;
 
 import static ch.uzh.ifi.attempto.ape.OutputType.DRSPP;
+
+import java.util.List;
+
 import nextapp.echo.app.Column;
+import nextapp.echo.app.Font;
 import nextapp.echo.app.Insets;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
+import ch.uzh.ifi.attempto.acewiki.core.SentenceInfo;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
+import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
 import echopoint.DirectHtml;
 import echopoint.util.HtmlKit;
@@ -54,23 +60,18 @@ public class LogicPage extends WikiPage implements ActionListener {
 		addHorizontalLine();
 		add(new VSpace(15));
 		
-		addHeadline("Logical representation");
+		List<SentenceInfo> l = sentence.getLogicInfo();
 		
-		Column drsColumn = new Column();
-		drsColumn.setInsets(new Insets(10, 0, 5, 15));
-		drsColumn.add(new DirectHtml(
-				"<i><pre>" + sentence.getParserResult().get(DRSPP) + "</pre></i>"
-			));
-		add(drsColumn);
+		if (l.isEmpty()) {
+			add(new SolidLabel("(no logic information available)", Font.ITALIC, 10));
+		}
 		
-		if (sentence.isOWLSWRL()) {
-			addHeadline("OWL");
-			Column owlrdfColumn = new Column();
-			owlrdfColumn.setInsets(new Insets(10, 0, 5, 25));
-			owlrdfColumn.add(new DirectHtml(
-					"<i><pre>" + HtmlKit.encode(sentence.getPrettyOWL()) + "</pre></i>"
-				));
-			add(owlrdfColumn);
+		for (SentenceInfo si : l) {
+			addHeadline(si.getName());
+			Column infoColumn = new Column();
+			infoColumn.setInsets(new Insets(10, 5, 5, 15));
+			infoColumn.add(new DirectHtml(si.getRichText()));
+			add(infoColumn);
 		}
 	}
 

@@ -14,18 +14,39 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
-import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLIndividual;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import org.semanticweb.owlapi.model.OWLObjectOneOf;
-import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
-
 /**
- * This class represents ACE questions.
+ * This class represents a statement that can be either an ACE sentence or a comment. A
+ * statement can either be part of an article or it can be an independent statement that has no
+ * article.
  * 
  * @author Tobias Kuhn
  */
-public interface Question extends Sentence {
+public abstract class AbstractStatement implements Statement {
+	
+	private Ontology ontology;
+	private Article article;
+	
+	/**
+	 * Initializes a new independent statement.
+	 */
+	protected AbstractStatement() {
+	}
+	
+	public void init(Ontology ontology, Article article) {
+		this.ontology = ontology;
+		this.article = article;
+	}
+	
+	public Ontology getOntology() {
+		return ontology;
+	}
+	
+	public Article getArticle() {
+		return article;
+	}
+	
+	public String toString() {
+		return getText();
+	}
 
 }

@@ -19,7 +19,7 @@ package ch.uzh.ifi.attempto.acewiki.core;
  * This class represents a comment that is a part of an article. A comment must have
  * an ontology element as owner.
  */
-public class Comment extends Statement {
+public class Comment extends AbstractStatement {
 	
 	private final String text;
 	
@@ -34,10 +34,6 @@ public class Comment extends Statement {
 	
 	public String getText() {
 		return text;
-	}
-	
-	public String getType() {
-		return "comment";
 	}
 	
 	// TODO: move? and make package visible

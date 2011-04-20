@@ -83,7 +83,7 @@ public class StatementFactory {
 		for (TextElement e : tc.getTextElements()) {
 			c.addElement(e);
 			if (e.getText().matches("[.?]")) {
-				l.add(createSentence(Sentence.getUnderscoredText(c), article));
+				l.add(createSentence(AbstractSentence.getUnderscoredText(c), article));
 				c = new TextContainer(tc.getTextOperator());
 			}
 		}

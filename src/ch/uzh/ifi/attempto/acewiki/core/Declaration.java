@@ -21,34 +21,6 @@ package ch.uzh.ifi.attempto.acewiki.core;
  * 
  * @author Tobias Kuhn
  */
-public class Declaration extends Sentence {
-	
-	/**
-	 * Creates a new sentence.
-	 * 
-	 * @param text The sentence text.
-	 */
-	public Declaration(String text) {
-		super(text);
-	}
-	
-	/**
-	 * Checks if the sentence is read-only or not. Only inferred sentences are read-only.
-	 * 
-	 * @return true if the sentence is read-only.
-	 */
-	public boolean isReadOnly() {
-		return getArticle() == null;
-	}
-	
-	public String getType() {
-		if (getArticle() == null) {
-			return "inferred";
-		} else if (isIntegrated()) {
-			return "asserted";
-		} else {
-			return "unasserted";
-		}
-	}
+public interface Declaration extends Sentence {
 
 }
