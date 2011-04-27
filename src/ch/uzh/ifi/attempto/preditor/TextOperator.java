@@ -50,5 +50,7 @@ public interface TextOperator {
 	 * @return The text element.
 	 */
 	public TextElement createTextElement(String text);
+	
+	public String getGlue(TextElement left, TextElement right);
 
 }

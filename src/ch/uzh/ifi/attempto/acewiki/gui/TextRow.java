@@ -33,10 +33,17 @@ public class TextRow extends Row {
 		if (isRed) {
 			color = new Color(180, 0, 0);
 		}
+		TextElement prev = null;
 		for (TextElement e : text) {
-			if (!e.getText().matches("[.?]") && getComponentCount() > 0) {
-				add(new HSpace());
+			if (prev != null) {
+				String glue = wiki.getOntology().getTextOperator().getGlue(prev, e);
+				if (glue.matches("\\s+")) {
+					add(new HSpace(5 * glue.length()));
+				} else if (glue.length() > 0) {
+					add(new SolidLabel(glue));
+				}
 			}
+			prev = e;
 			if (e instanceof OntologyTextElement) {
 				OntologyTextElement ote = (OntologyTextElement) e;
 				OntologyElement oe = ote.getOntologyElement();

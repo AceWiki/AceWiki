@@ -64,5 +64,12 @@ public class DefaultTextOperator implements TextOperator {
 		while (tokens.contains("")) tokens.remove("");
 		return tokens;
 	}
+	
+	public String getGlue(TextElement left, TextElement right) {
+		if (right.getText().matches("[.?!,;:]")) {
+			return "";
+		}
+		return " ";
+	}
 
 }

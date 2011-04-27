@@ -139,15 +139,14 @@ public class TextContainer {
 	 */
 	public String getText() {
 		String text = "";
+		TextElement prev = null;
 		for (TextElement e : elements) {
-			if (e.getText().matches("[.?!]")) {
-				text += e.getText();
+			if (prev != null) {
+				text += textOperator.getGlue(prev, e) + e.getText();
 			} else {
-				text += " " + e.getText();
+				text += e.getText();
 			}
-		}
-		if (text.startsWith(" ")) {
-			text = text.substring(1);
+			prev = e;
 		}
 		return text;
 	}

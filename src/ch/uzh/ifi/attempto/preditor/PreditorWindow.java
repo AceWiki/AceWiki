@@ -351,15 +351,19 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 			}
 		}
 		String t = "";
+		TextElement prev = null;
 		for (int i = 0; i < getTokenCount() ; i++) {
 			TextElement te = textContainer.getTextElement(i);
-			if (te.getText().matches("[.?!]")) {
-				t += te.getText();
-			} else if (r[i]) {
-				t += " <u>" + te.getText() + "</u>";
-			} else {
-				t += " " + te.getText();
+			String glue = "";
+			if (prev != null) {
+				glue = textOperator.getGlue(prev, te);
 			}
+			if (r[i]) {
+				t += glue + "<u>" + te.getText() + "</u>";
+			} else {
+				t += glue + te.getText();
+			}
+			prev = te;
 		}
 		if (t.startsWith(" ")) t = t.substring(1);
 		textArea.setText("<div style=\"font-family: Verdana,Arial,Helvetica,Sans-Serif; font-size: 12px\">" +
