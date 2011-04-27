@@ -19,7 +19,6 @@ import java.util.List;
 import nextapp.echo.app.Color;
 import nextapp.echo.app.Row;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
-import ch.uzh.ifi.attempto.acewiki.aceowl.ProperNameIndividual;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
@@ -47,24 +46,7 @@ public class TextRow extends Row {
 			if (e instanceof OntologyTextElement) {
 				OntologyTextElement ote = (OntologyTextElement) e;
 				OntologyElement oe = ote.getOntologyElement();
-				if (oe instanceof ProperNameIndividual) {
-					// Proper names with definite articles are handled differently: The "the" is
-					// not a part of the link.
-					// TODO: This should be done at a different place!
-					ProperNameIndividual ind = (ProperNameIndividual) oe;
-					int wn = ote.getWordNumber();
-					if (ind.hasDefiniteArticle(wn)) {
-						SolidLabel l = new SolidLabel(e.getText().substring(0, 3));
-						l.setForeground(color);
-						add(l);
-						add(new HSpace());
-						add(new WikiLink(oe, oe.getPrettyWord(wn + 1), wiki, isRed));
-					} else {
-						add(new WikiLink(((OntologyTextElement) e), wiki, isRed));
-					}
-				} else {
-					add(new WikiLink(((OntologyTextElement) e), wiki, isRed));
-				}
+				add(new WikiLink(((OntologyTextElement) e), wiki, isRed));
 			} else {
 				SolidLabel l = new SolidLabel(e.getText());
 				l.setForeground(color);

@@ -50,7 +50,6 @@ import ch.uzh.ifi.attempto.ape.MessageContainer;
 import ch.uzh.ifi.attempto.ape.SyntaxBoxes;
 import ch.uzh.ifi.attempto.preditor.TextContainer;
 import ch.uzh.ifi.attempto.preditor.TextElement;
-import echopoint.util.HtmlKit;
 
 public abstract class ACESentence extends AbstractSentence {
 	
@@ -76,10 +75,38 @@ public abstract class ACESentence extends AbstractSentence {
 	}
 	
 	public List<TextElement> getTextElements() {
+		List<TextElement> list = new ArrayList<TextElement>();
+		// TODO: this should be done in a different way
+		for (TextElement e : getTextContainer().getTextElements()) {
+			if (e instanceof OntologyTextElement) {
+				OntologyTextElement ote = (OntologyTextElement) e;
+				OntologyElement oe = ote.getOntologyElement();
+				if (oe instanceof ProperNameIndividual) {
+					// Proper names with definite articles are handled differently: The "the" is
+					// not a part of the link.
+					ProperNameIndividual ind = (ProperNameIndividual) oe;
+					int wn = ote.getWordNumber();
+					if (ind.hasDefiniteArticle(wn)) {
+						list.add(new TextElement(e.getText().substring(0, 3)));
+						list.add(new OntologyTextElement(ind, wn+1));
+					} else {
+						list.add(e);
+					}
+				} else {
+					list.add(e);
+				}
+			} else {
+				list.add(e);
+			}
+		}
+		return list;
+	}
+	
+	private TextContainer getTextContainer() {
 		if (textContainer == null) {
 			tokenize();
 		}
-		return textContainer.getTextElements();
+		return textContainer;
 	}
 	
 	public String getText() {
@@ -174,7 +201,6 @@ public abstract class ACESentence extends AbstractSentence {
 	 * (that occurs in the sentence) has changed.
 	 */
 	public void parse() {
-		// TODO: only works with OWL, needs generalization
 		// TODO: refactor and clean-up!
 		AceWikiOWLReasoner reasoner = (AceWikiOWLReasoner) getOntology()
 				.getReasonerManager().getReasoner();
@@ -183,7 +209,7 @@ public abstract class ACESentence extends AbstractSentence {
 			APELocal.getInstance().setURI(getOntology().getURI());
 			APELocal.getInstance().setClexEnabled(false);
 			Lexicon lexicon = new Lexicon();
-			for (TextElement te : getTextElements()) {
+			for (TextElement te : getTextContainer().getTextElements()) {
 				if (te instanceof OntologyTextElement) {
 					OntologyElement oe = ((OntologyTextElement) te).getOntologyElement();
 					if (oe instanceof ACEOWLOntoElement) {
