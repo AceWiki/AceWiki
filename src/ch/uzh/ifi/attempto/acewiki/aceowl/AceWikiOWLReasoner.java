@@ -54,8 +54,12 @@ import ch.uzh.ifi.attempto.acewiki.core.InconsistencyException;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
+import ch.uzh.ifi.attempto.ape.ACEUtils;
+import ch.uzh.ifi.attempto.preditor.TextContainer;
+import ch.uzh.ifi.attempto.preditor.TextElement;
 
 public class AceWikiOWLReasoner implements AceWikiReasoner {
 	
@@ -445,35 +449,47 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 		}
 	}
 	
-	public synchronized List<OntologyElement> getAnswer(Question q) {
+	public synchronized List<TextContainer> getAnswer(Question q) {
 		if (owlReasoner == null) return null;
 		
 		ACEQuestion question = (ACEQuestion) q;
 		
-		List<OntologyElement> answer = new ArrayList<OntologyElement>();
+		List<TextContainer> answer = new ArrayList<TextContainer>();
 		
 		OWLNamedIndividual quInd = question.getQuestionOWLIndividual();
 		OWLClassExpression quClass = question.getQuestionOWLClass();
+		List<OntologyElement> list = new ArrayList<OntologyElement>();
 		
 		if (quInd != null) {
-			Set<OWLClass> owlClasses = getConcepts(quInd);
-			for (OWLClass oc : owlClasses) {
+			for (OWLClass oc : getConcepts(quInd)) {
 				OntologyElement oe = get(oc);
 				if (oe instanceof Concept) {
-					answer.add(oe);
+					list.add(oe);
 				}
+			}
+			Collections.sort(list);
+			for (OntologyElement oe : list) {
+				boolean an = ACEUtils.useIndefiniteArticleAn(oe.getWord());
+				answer.add(new TextContainer(
+						new TextElement(an ? "an" : "a"),
+						new OntologyTextElement(oe, 0)
+					));
 			}
 		} else if (quClass != null) {
 			Set<OWLNamedIndividual> owlInds = getIndividuals(quClass);
 			for (OWLNamedIndividual oi : owlInds) {
 				OntologyElement oe = get(oi);
 				if (oe instanceof Individual) {
-					answer.add(oe);
+					list.add(oe);
 				}
+			}
+			Collections.sort(list);
+			for (OntologyElement oe : list) {
+				answer.add(new TextContainer(new OntologyTextElement(oe, 1)));
 			}
 		}
 		
-		return new ArrayList<OntologyElement>(answer);
+		return new ArrayList<TextContainer>(answer);
 	}
 	
 	public synchronized boolean isConsistent() {

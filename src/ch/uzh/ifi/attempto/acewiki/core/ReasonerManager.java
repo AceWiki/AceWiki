@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ch.uzh.ifi.attempto.preditor.TextContainer;
+
 // TODO synchronization?
 public class ReasonerManager {
 	
@@ -38,19 +40,19 @@ public class ReasonerManager {
 		}
 	}
 	
-	public List<OntologyElement> getCachedAnswer(Question question) {
+	public List<TextContainer> getCachedAnswer(Question question) {
 		CachedAnswer a = answerCache.get(question.serialize(true));
 		if (a != null) {
-			return new ArrayList<OntologyElement>(a.list);
+			return new ArrayList<TextContainer>(a.list);
 		} else {
 			return null;
 		}
 	}
 	
-	public List<OntologyElement> getAnswer(Question question) {
+	public List<TextContainer> getAnswer(Question question) {
 		CachedAnswer a = answerCache.get(question.serialize(true));
 		if (a != null && a.state == getState()) {
-			return new ArrayList<OntologyElement>(a.list);
+			return new ArrayList<TextContainer>(a.list);
 		} else {
 			a = new CachedAnswer();
 			a.list = reasoner.getAnswer(question);
@@ -321,7 +323,7 @@ public class ReasonerManager {
 	
 	private static class CachedAnswer {
 		long state = -1;
-		List<OntologyElement> list;
+		List<TextContainer> list;
 	}
 	
 	private static class CachedIndividuals {

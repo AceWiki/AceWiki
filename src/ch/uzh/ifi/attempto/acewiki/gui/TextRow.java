@@ -72,5 +72,9 @@ public class TextRow extends Row {
 			}
 		}
 	}
+	
+	public TextRow(List<TextElement> text, Wiki wiki) {
+		this(text, wiki, false);
+	}
 
 }

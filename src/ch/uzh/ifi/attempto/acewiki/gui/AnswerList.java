@@ -14,23 +14,18 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui;
 
-import java.util.Collections;
 import java.util.List;
 
 import nextapp.echo.app.Column;
 import nextapp.echo.app.Font;
 import nextapp.echo.app.Insets;
-import nextapp.echo.app.Row;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
-import ch.uzh.ifi.attempto.acewiki.aceowl.NounConcept;
-import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
 import ch.uzh.ifi.attempto.acewiki.core.ReasonerManager;
-import ch.uzh.ifi.attempto.ape.ACEUtils;
-import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
+import ch.uzh.ifi.attempto.preditor.TextContainer;
 
 /**
  * This class shows a list of ontology elements as the answer for a given question. If the answer
@@ -71,7 +66,7 @@ class AnswerList extends Column {
 		
 		final ReasonerManager rm = wiki.getOntology().getReasonerManager();
 		Column cachedAnswerCol = new Column();
-		List<OntologyElement> cachedAnswer = rm.getCachedAnswer(question);
+		List<TextContainer> cachedAnswer = rm.getCachedAnswer(question);
 		addAnswerToColumn(cachedAnswer, cachedAnswerCol);
 		add(cachedAnswerCol);
 		
@@ -103,29 +98,14 @@ class AnswerList extends Column {
 	 * @param answer The answer as a list of ontology elements.
 	 * @param column The column to which the answer should be added.
 	 */
-	private void addAnswerToColumn(List<OntologyElement> answer, Column column) {
+	private void addAnswerToColumn(List<TextContainer> answer, Column column) {
 		if (answer == null) {
 			// The answer is still being calculated, or an error occurred
 			column.add(new SolidLabel("...", Font.ITALIC, 10));
 		} else if (answer.size() > 0) {
 			// Non-empty answer
-			Collections.sort(answer);
-			for (OntologyElement oe : answer) {
-				Row answerRow = new Row();
-				// TODO: move this! (ACE specific)
-				if (oe instanceof NounConcept) {
-					// Nouns as answer are preceded by the article "a" or "an"
-					boolean an = ACEUtils.useIndefiniteArticleAn(oe.getWord());
-					answerRow.add(new ListItem(
-							new SolidLabel(an ? "an" : "a"),
-							new HSpace(),
-							new WikiLink(oe, wiki)
-						));
-				} else {
-					// Proper names as answer
-					answerRow.add(new ListItem(new WikiLink(oe, wiki)));
-				}
-				column.add(answerRow);
+			for (TextContainer tc : answer) {
+				column.add(new ListItem(new TextRow(tc.getTextElements(), wiki)));
 			}
 		} else {
 			// Empty answer
