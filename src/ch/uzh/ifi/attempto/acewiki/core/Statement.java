@@ -46,7 +46,6 @@ public interface Statement {
 	 *   not (for export in the AceWiki data format.
 	 * @return The serialized representation of the statement.
 	 */
-	// TODO: move? and make package visible
 	public String serialize(boolean encodeWords);
 
 }

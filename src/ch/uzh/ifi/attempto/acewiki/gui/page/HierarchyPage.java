@@ -32,7 +32,7 @@ import ch.uzh.ifi.attempto.acewiki.core.ReasonerManager;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.gui.IndexBar;
 import ch.uzh.ifi.attempto.acewiki.gui.RecalcIcon;
-import ch.uzh.ifi.attempto.acewiki.gui.TextRow;
+import ch.uzh.ifi.attempto.acewiki.gui.SentenceComponent;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.acewiki.gui.editor.FormPane;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
@@ -261,7 +261,7 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 				if (max > (chosenPage + 1) * pageSize) max = (chosenPage + 1) * pageSize;
 				for (int i = chosenPage * pageSize; i < max; i++) {
 					Row r = new Row();
-					r.add(new TextRow(sentences.get(i), HierarchyPage.this));
+					r.add(new SentenceComponent(sentences.get(i), HierarchyPage.this));
 					column.add(r);
 				}
 			}

@@ -31,9 +31,9 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Relation;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
-import ch.uzh.ifi.attempto.acewiki.gui.CommentRow;
+import ch.uzh.ifi.attempto.acewiki.gui.CommentComponent;
 import ch.uzh.ifi.attempto.acewiki.gui.StatementMenu;
-import ch.uzh.ifi.attempto.acewiki.gui.TextRow;
+import ch.uzh.ifi.attempto.acewiki.gui.SentenceComponent;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.acewiki.gui.editor.CommentEditorHandler;
 import ch.uzh.ifi.attempto.acewiki.gui.editor.FormPane;
@@ -118,9 +118,9 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 		
 		for (Statement s : getArticle().getStatements()) {
 			if (s instanceof Sentence) {
-				textColumn.add(new TextRow((Sentence) s, this));
+				textColumn.add(new SentenceComponent((Sentence) s, this));
 			} else if (s instanceof Comment) {
-				textColumn.add(new CommentRow((Comment) s, this));
+				textColumn.add(new CommentComponent((Comment) s, this));
 			}
 		}
 		

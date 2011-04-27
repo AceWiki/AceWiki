@@ -42,11 +42,11 @@ import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
 
 /**
- * This class represents a comment row that consists of a drop down menu and a comment text.
+ * This class represents a comment component consisting of a drop down menu and a comment text.
  * 
  * @author Tobias Kuhn
  */
-public class CommentRow extends Column implements ActionListener {
+public class CommentComponent extends Column implements ActionListener {
 
 	private static final long serialVersionUID = -540135972060005725L;
 	
@@ -69,7 +69,7 @@ public class CommentRow extends Column implements ActionListener {
 	 * @param comment The comment to be shown.
 	 * @param hostPage The host page of the comment row.
 	 */
-	public CommentRow(Comment comment, WikiPage hostPage) {
+	public CommentComponent(Comment comment, WikiPage hostPage) {
 		this.comment = comment;
 		this.hostPage = hostPage;
 		this.wiki = hostPage.getWiki();

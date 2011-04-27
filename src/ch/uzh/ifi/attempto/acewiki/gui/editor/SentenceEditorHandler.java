@@ -154,6 +154,7 @@ public class SentenceEditorHandler implements ActionListener {
 	}
 	
 	private void checkSentence() {
+		// TODO: make this general!
 		if (checked >= newSentences.size()) {
 			assertSentences();
 		} else {

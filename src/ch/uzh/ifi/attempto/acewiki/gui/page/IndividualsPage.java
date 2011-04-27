@@ -34,7 +34,7 @@ import ch.uzh.ifi.attempto.acewiki.core.ReasonerManager;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.gui.IndexBar;
 import ch.uzh.ifi.attempto.acewiki.gui.RecalcIcon;
-import ch.uzh.ifi.attempto.acewiki.gui.TextRow;
+import ch.uzh.ifi.attempto.acewiki.gui.SentenceComponent;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.acewiki.gui.editor.FormPane;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
@@ -209,7 +209,7 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 			
 			for (int i = chosenPage * pageSize; i < max; i++) {
 				Row r = new Row();
-				r.add(new TextRow(sentences.get(i), IndividualsPage.this));
+				r.add(new SentenceComponent(sentences.get(i), IndividualsPage.this));
 				sentencesColumn.add(r);
 			}
 		}

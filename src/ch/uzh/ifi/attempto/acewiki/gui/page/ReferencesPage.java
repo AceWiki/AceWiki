@@ -31,7 +31,7 @@ import ch.uzh.ifi.attempto.acewiki.core.Article;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.gui.IndexBar;
-import ch.uzh.ifi.attempto.acewiki.gui.TextRow;
+import ch.uzh.ifi.attempto.acewiki.gui.SentenceComponent;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.acewiki.gui.WikiLink;
 import ch.uzh.ifi.attempto.acewiki.gui.editor.FormPane;
@@ -150,7 +150,7 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 				referenceColumn.add(r);
 			}
 			Row r = new Row();
-			r.add(new TextRow(s, this));
+			r.add(new SentenceComponent(s, this));
 			referenceColumn.add(r);
 		}
 	}
