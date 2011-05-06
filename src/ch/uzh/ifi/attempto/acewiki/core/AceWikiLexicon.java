@@ -14,6 +14,8 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
+import java.util.List;
+
 import ch.uzh.ifi.attempto.chartparser.DynamicLexicon;
 
 public interface AceWikiLexicon extends DynamicLexicon {

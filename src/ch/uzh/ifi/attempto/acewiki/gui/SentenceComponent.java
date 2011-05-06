@@ -23,8 +23,6 @@ import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
-import ch.uzh.ifi.attempto.acewiki.gui.editor.CommentEditorHandler;
-import ch.uzh.ifi.attempto.acewiki.gui.editor.SentenceEditorHandler;
 import ch.uzh.ifi.attempto.acewiki.gui.page.ArticlePage;
 import ch.uzh.ifi.attempto.acewiki.gui.page.LogicPage;
 import ch.uzh.ifi.attempto.acewiki.gui.page.SentencePage;

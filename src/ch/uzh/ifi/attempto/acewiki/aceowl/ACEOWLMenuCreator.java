@@ -12,7 +12,7 @@
 // You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
 // not, see http://www.gnu.org/licenses/.
 
-package ch.uzh.ifi.attempto.acewiki.gui.editor;
+package ch.uzh.ifi.attempto.acewiki.aceowl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,6 +24,7 @@ import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
+import ch.uzh.ifi.attempto.acewiki.gui.FormPane;
 import ch.uzh.ifi.attempto.chartparser.ConcreteOption;
 import ch.uzh.ifi.attempto.chartparser.NextTokenOptions;
 import ch.uzh.ifi.attempto.preditor.DefaultMenuCreator;
@@ -37,7 +38,7 @@ import ch.uzh.ifi.attempto.preditor.TextOperator;
  * 
  * @author Tobias Kuhn
  */
-class AceWikiMenuCreator extends DefaultMenuCreator implements ActionListener {
+public class ACEOWLMenuCreator extends DefaultMenuCreator implements ActionListener {
 	
 	private static final long serialVersionUID = -6442603864805781298L;
 	
@@ -81,7 +82,7 @@ class AceWikiMenuCreator extends DefaultMenuCreator implements ActionListener {
 	 *     (because it is the current element).
 	 * @param actionListener The action-listener.
 	 */
-	public AceWikiMenuCreator(Wiki wiki, OntologyElement highlightedElement,
+	public ACEOWLMenuCreator(Wiki wiki, OntologyElement highlightedElement,
 			ActionListener actionListener) {
 		this.wiki = wiki;
 		this.highlightedElement = highlightedElement;
@@ -115,6 +116,7 @@ class AceWikiMenuCreator extends DefaultMenuCreator implements ActionListener {
 			return new MenuEntry(option, "function word");
 		} else if (cats.containsKey(n)) {
 			try {
+				// TODO: do this at a different place!
 				TextOperator to = wiki.getOntology().getTextOperator();
 				OntologyTextElement ote = (OntologyTextElement) to.createTextElement(w);
 				MenuEntry me = new MenuEntry(ote, cats.get(n));
@@ -128,50 +130,37 @@ class AceWikiMenuCreator extends DefaultMenuCreator implements ActionListener {
 	public List<SpecialMenuItem> createSpecialMenuItems(NextTokenOptions options) {
 		List<SpecialMenuItem> menuItems = new ArrayList<SpecialMenuItem>();
 		if (options.containsPreterminal("propername")) {
-			menuItems.add(new SpecialMenuItem("new...", "proper name", "new propername", this));
+			menuItems.add(new SpecialMenuItem("new...", "proper name", "propername/0", this));
 		}
 		if (options.containsPreterminal("noun")) {
-			menuItems.add(new SpecialMenuItem("new...", "noun", "new noun", this));
+			menuItems.add(new SpecialMenuItem("new...", "noun", "noun/0", this));
 		}
 		if (options.containsPreterminal("nounpl")) {
-			menuItems.add(new SpecialMenuItem("new...", "plural noun", "new nounpl", this));
+			menuItems.add(new SpecialMenuItem("new...", "plural noun", "noun/1", this));
 		}
 		if (options.containsPreterminal("nounof")) {
-			menuItems.add(new SpecialMenuItem("new...", "of-construct", "new nounof", this));
+			menuItems.add(new SpecialMenuItem("new...", "of-construct", "nounof/0", this));
 		}
 		if (options.containsPreterminal("verbsg")) {
-			menuItems.add(new SpecialMenuItem("new...", "verb", "new verb", this));
+			menuItems.add(new SpecialMenuItem("new...", "verb", "trverb/0", this));
 		}
 		if (options.containsPreterminal("verbinf")) {
-			menuItems.add(new SpecialMenuItem("new...", "verb", "new verbinf", this));
+			menuItems.add(new SpecialMenuItem("new...", "verb", "trverb/1", this));
 		}
 		if (options.containsPreterminal("pverb")) {
-			menuItems.add(new SpecialMenuItem("new...", "passive verb", "new pverb", this));
+			menuItems.add(new SpecialMenuItem("new...", "passive verb", "trverb/2", this));
 		}
 		if (options.containsPreterminal("tradj")) {
-			menuItems.add(new SpecialMenuItem("new...", "transitive adjective", "new tradj", this));
+			menuItems.add(new SpecialMenuItem("new...", "transitive adjective", "tradj/0", this));
 		}
 		return menuItems;
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("new propername")) {
-			wiki.showWindow(ProperNameForm.createCreatorWindow(wiki, actionListener));
-		} else if (e.getActionCommand().equals("new noun")) {
-			wiki.showWindow(NounForm.createCreatorWindow(0, wiki, actionListener));
-		} else if (e.getActionCommand().equals("new nounpl")) {
-			wiki.showWindow(NounForm.createCreatorWindow(1, wiki, actionListener));
-		} else if (e.getActionCommand().equals("new nounof")) {
-			wiki.showWindow(NounOfForm.createCreatorWindow(wiki, actionListener));
-		} else if (e.getActionCommand().equals("new verb")) {
-			wiki.showWindow(VerbForm.createCreatorWindow(0, wiki, actionListener));
-		} else if (e.getActionCommand().equals("new verbinf")) {
-			wiki.showWindow(VerbForm.createCreatorWindow(1, wiki, actionListener));
-		} else if (e.getActionCommand().equals("new pverb")) {
-			wiki.showWindow(VerbForm.createCreatorWindow(2, wiki, actionListener));
-		} else if (e.getActionCommand().equals("new tradj")) {
-			wiki.showWindow(TrAdjForm.createCreatorWindow(wiki, actionListener));
-		}
+		String[] s = e.getActionCommand().split("/");
+		String type = s[0];
+		int wordNumber = new Integer(s[1]);
+		wiki.showWindow(FormPane.createCreatorWindow(type, wordNumber, wiki, actionListener));
 	}
 
 }

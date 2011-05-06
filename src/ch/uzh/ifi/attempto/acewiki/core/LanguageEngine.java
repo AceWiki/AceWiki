@@ -28,6 +28,10 @@ public interface LanguageEngine {
 	
 	public LanguageFactory getLanguageFactory();
 	
+	public String[] getLexicalTypes();
+	
+	public LexiconChanger getLexiconChanger(String type);
+	
 	public AceWikiReasoner getReasoner();
 	
 	public List<OntologyExporter> getExporters();

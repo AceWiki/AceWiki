@@ -12,7 +12,7 @@
 // You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
 // not, see http://www.gnu.org/licenses/.
 
-package ch.uzh.ifi.attempto.acewiki.gui.editor;
+package ch.uzh.ifi.attempto.acewiki.gui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +21,7 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
+import ch.uzh.ifi.attempto.acewiki.aceowl.ACEOWLMenuCreator;
 import ch.uzh.ifi.attempto.acewiki.core.Article;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
@@ -54,7 +55,7 @@ public class SentenceEditorHandler implements ActionListener {
 		this.wiki = page.getWiki();
 		this.edit = edit;
 		this.statement = statement;
-		AceWikiMenuCreator menuCreator = new AceWikiMenuCreator(
+		ACEOWLMenuCreator menuCreator = new ACEOWLMenuCreator(
 				wiki,
 				page.getOntologyElement(),
 				this

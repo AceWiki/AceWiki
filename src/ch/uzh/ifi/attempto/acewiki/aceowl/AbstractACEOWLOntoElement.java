@@ -32,13 +32,11 @@ public abstract class AbstractACEOWLOntoElement extends AbstractOntologyElement
 		implements ACEOWLOntoElement {
 	
 	private static OWLDataFactory dataFactory = new OWLDataFactoryImpl();
-
-	// TODO: move!
+	
 	public List<LexiconEntry> getLexiconEntries() {
 		return null;
 	}
-
-	// TODO: move!
+	
 	public final IRI getIRI() {
 		String baseIRI = "";
 		if (getOntology() != null) {
@@ -48,13 +46,11 @@ public abstract class AbstractACEOWLOntoElement extends AbstractOntologyElement
 	}
 	
 	public abstract String getIRISuffix();
-
-	// TODO: move!
+	
 	public OWLDataFactory getOWLDataFactory() {
 		return dataFactory;
 	}
-
-	// TODO: move!
+	
 	public OWLDeclarationAxiom getOWLDeclaration() {
 		OWLLogicalEntity owl = getOWLRepresentation();
 		if (owl == null) {

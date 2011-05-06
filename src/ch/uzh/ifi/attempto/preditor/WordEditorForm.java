@@ -51,7 +51,7 @@ public class WordEditorForm extends ContentPane implements ActionListener {
 	private ActionListener actionListener;
 	private WindowPane parentWindow;
 	private Row buttonBar;
-	private String title;
+	private String title = "";
 	private Column column;
 	private Row explanationRow;
 	private List<Component> formElements = new ArrayList<Component>();
@@ -60,12 +60,10 @@ public class WordEditorForm extends ContentPane implements ActionListener {
 	/**
 	 * Creates a new word editor form.
 	 * 
-	 * @param title The title of the word editor form.
 	 * @param parentWindow The parent window.
 	 * @param actionListener The action-listener.
 	 */
-	public WordEditorForm(String title, WindowPane parentWindow, ActionListener actionListener) {
-		this.title = title;
+	public WordEditorForm(WindowPane parentWindow, ActionListener actionListener) {
 		this.parentWindow = parentWindow;
 		this.actionListener = actionListener;
 		
@@ -103,6 +101,22 @@ public class WordEditorForm extends ContentPane implements ActionListener {
 		
 		borderCol.add(grid);
 		add(borderCol);
+	}
+	
+	/**
+	 * Creates a new word editor form.
+	 * 
+	 * @param title The title of the word editor form.
+	 * @param parentWindow The parent window.
+	 * @param actionListener The action-listener.
+	 */
+	public WordEditorForm(String title, WindowPane parentWindow, ActionListener actionListener) {
+		this(parentWindow, actionListener);
+		setTitle(title);
+	}
+	
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	
 	/**

@@ -12,10 +12,28 @@
 // You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
 // not, see http://www.gnu.org/licenses/.
 
-/**
- * This package contains classes for the predictive editor (that is used to create and modify
- * sentences) and the word editor (that is used to create and modify words).
- * 
- * @author Tobias Kuhn
- */
-package ch.uzh.ifi.attempto.acewiki.gui.editor;
+package ch.uzh.ifi.attempto.acewiki.core;
+
+import java.util.List;
+
+
+public interface LexiconChanger {
+
+	public static final int NO_IMAGE = 0;
+	public static final int INDIVIDUAL_IMAGE = 1;
+	public static final int CONCEPT_IMAGE = 2;
+	public static final int RELATION_IMAGE = 3;
+	
+	public String getTitle();
+	
+	public int getImage();
+	
+	public String getDescription();
+	
+	public List<LexiconDetail> getDetails(OntologyElement el);
+	
+	// TODO: remove Ontology argument
+	public void save(OntologyElement el, int wordNumber, List<Object> newValues, Ontology ontology)
+			throws InvalidWordException;
+
+}

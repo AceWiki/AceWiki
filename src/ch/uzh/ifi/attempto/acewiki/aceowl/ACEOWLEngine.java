@@ -15,12 +15,15 @@
 package ch.uzh.ifi.attempto.acewiki.aceowl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ch.uzh.ifi.attempto.acewiki.core.AbstractLanguageEngine;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiLexicon;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageFactory;
+import ch.uzh.ifi.attempto.acewiki.core.LexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyExporter;
 import ch.uzh.ifi.attempto.chartparser.Grammar;
 
@@ -30,6 +33,7 @@ public class ACEOWLEngine extends AbstractLanguageEngine {
 	private LexiconManager lexicon = new LexiconManager();
 	private AceWikiOWLReasoner reasoner = new AceWikiOWLReasoner();
 	private List<OntologyExporter> exporters = new ArrayList<OntologyExporter>();
+	private Map<String, LexiconChanger> lexiconChangers = new HashMap<String, LexiconChanger>();
 	
 	public ACEOWLEngine() {
 		exporters.add(new OWLXMLExporter(true));
@@ -37,18 +41,32 @@ public class ACEOWLEngine extends AbstractLanguageEngine {
 		exporters.add(new ACETextExporter(true));
 		exporters.add(new ACETextExporter(false));
 		exporters.add(new ACELexiconExporter());
+		
+		lexiconChangers.put("propername", new ProperNameChanger());
+		lexiconChangers.put("noun", new NounChanger());
+		lexiconChangers.put("nounof", new NounOfChanger());
+		lexiconChangers.put("trverb", new VerbChanger());
+		lexiconChangers.put("tradj", new TrAdjChanger());
 	}
 
 	public Grammar getGrammar() {
 		return ACEGrammar.grammar;
 	}
 
+	public AceWikiLexicon getLexicon() {
+		return lexicon;
+	}
+
 	public LanguageFactory getLanguageFactory() {
 		return languageFactory;
 	}
 
-	public AceWikiLexicon getLexicon() {
-		return lexicon;
+	public String[] getLexicalTypes() {
+		return new String[] {"propername", "noun", "nounof", "trverb", "tradj"};
+	}
+
+	public LexiconChanger getLexiconChanger(String type) {
+		return lexiconChangers.get(type);
 	}
 
 	public AceWikiReasoner getReasoner() {

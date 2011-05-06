@@ -32,12 +32,12 @@ import ch.uzh.ifi.attempto.acewiki.core.Relation;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.gui.CommentComponent;
+import ch.uzh.ifi.attempto.acewiki.gui.CommentEditorHandler;
+import ch.uzh.ifi.attempto.acewiki.gui.FormPane;
+import ch.uzh.ifi.attempto.acewiki.gui.SentenceEditorHandler;
 import ch.uzh.ifi.attempto.acewiki.gui.StatementMenu;
 import ch.uzh.ifi.attempto.acewiki.gui.SentenceComponent;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
-import ch.uzh.ifi.attempto.acewiki.gui.editor.CommentEditorHandler;
-import ch.uzh.ifi.attempto.acewiki.gui.editor.FormPane;
-import ch.uzh.ifi.attempto.acewiki.gui.editor.SentenceEditorHandler;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 
 /**

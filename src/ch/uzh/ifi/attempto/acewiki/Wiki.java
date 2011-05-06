@@ -57,16 +57,12 @@ import ch.uzh.ifi.attempto.acewiki.core.StatementTableExporter;
 import ch.uzh.ifi.attempto.acewiki.core.User;
 import ch.uzh.ifi.attempto.acewiki.core.UserBase;
 import ch.uzh.ifi.attempto.acewiki.gui.ExportWindow;
+import ch.uzh.ifi.attempto.acewiki.gui.FormPane;
 import ch.uzh.ifi.attempto.acewiki.gui.IconButton;
 import ch.uzh.ifi.attempto.acewiki.gui.ListItem;
 import ch.uzh.ifi.attempto.acewiki.gui.LoginWindow;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.acewiki.gui.UserWindow;
-import ch.uzh.ifi.attempto.acewiki.gui.editor.NounForm;
-import ch.uzh.ifi.attempto.acewiki.gui.editor.NounOfForm;
-import ch.uzh.ifi.attempto.acewiki.gui.editor.ProperNameForm;
-import ch.uzh.ifi.attempto.acewiki.gui.editor.TrAdjForm;
-import ch.uzh.ifi.attempto.acewiki.gui.editor.VerbForm;
 import ch.uzh.ifi.attempto.acewiki.gui.page.AboutPage;
 import ch.uzh.ifi.attempto.acewiki.gui.page.ArticlePage;
 import ch.uzh.ifi.attempto.acewiki.gui.page.IndexPage;
@@ -739,11 +735,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 				showLoginWindow();
 			} else {
 				WordEditorWindow w = new WordEditorWindow("Word Creator");
-				w.addTab(new ProperNameForm(null, w, this, this));
-				w.addTab(new NounForm(null, 0, w, this, this));
-				w.addTab(new NounOfForm(null, w, this, this));
-				w.addTab(new VerbForm(null, 0, w, this, this));
-				w.addTab(new TrAdjForm(null, w, this, this));
+				for (String t : getLanguageEngine().getLexicalTypes()) {
+					w.addTab(new FormPane(t, w, this));
+				}
 				showWindow(w);
 			}
 		} else if (src == searchButton || src == searchTextField || src == searchButton2) {
@@ -901,6 +895,10 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		return (ContainerContext) application.getContextProperty(
 			ContainerContext.CONTEXT_PROPERTY_NAME
 		);
+	}
+	
+	public LanguageEngine getLanguageEngine() {
+		return languageEngine;
 	}
 	
 	/**
