@@ -108,7 +108,7 @@ public class NounForm extends FormPane {
 		return concept;
 	}
 
-	protected void save() {
+	protected void save() throws InvalidWordException {
 		Wiki wiki = getWiki();
 		String singular = normalize(singularField.getText());
 		String plural = normalize(pluralField.getText());
@@ -116,53 +116,41 @@ public class NounForm extends FormPane {
 		String pluralP = plural.replace("_", " ");
 		
 		if (singular.equals(plural)) {
-			wiki.log("edit", "error: singular and plural form have to be distinct.");
-			showErrorMessage("Singular and plural form have to be distinct.");
-			return;
+			throw new InvalidWordException("Singular and plural form have to be distinct.");
 		}
 		if (singular.equals("")) {
-			wiki.log("edit", "error: no word defined");
-			showErrorMessage("No singular form defined: Please specify the singular form.");
-			return;
+			throw new InvalidWordException("No singular form defined: Please specify the " +
+				"singular form.");
 		}
 		if (!isValidWordOrEmpty(singular)) {
-			wiki.log("edit", "error: word contains invalid character");
-			showErrorMessage("Invalid character: Only a-z, A-Z, 0-9, -, and spaces are allowed, " +
-				"and the first character must be one of a-z A-Z.");
-			return;
+			throw new InvalidWordException("Invalid character: Only a-z, A-Z, 0-9, -, and " +
+				"spaces are allowed, and the first character must be one of a-z A-Z.");
 		}
 		if (FunctionWords.isFunctionWord(singular)) {
-			wiki.log("edit", "error: word is predefined");
-			showErrorMessage("'" + singularP + "' is a predefined word and cannot be used here.");
-			return;
+			throw new InvalidWordException("'" + singularP + "' is a predefined word and cannot " +
+				"be used here.");
 		}
 		OntologyElement oe = wiki.getOntology().getElement(singular);
 		if (oe != null && oe != concept) {
-			wiki.log("edit", "error: word is already used");
-			showErrorMessage("The word '" + singularP + "' is already used. Please use a different one.");
-			return;
+			throw new InvalidWordException("The word '" + singularP + "' is already used. " +
+				"Please use a different one.");
 		}
 		if (plural.equals("")) {
-			wiki.log("edit", "error: no word defined");
-			showErrorMessage("No plural form defined: Please specify the plural form.");
-			return;
+			throw new InvalidWordException("No plural form defined: Please specify the plural " +
+				"form.");
 		}
 		if (!isValidWordOrEmpty(plural)) {
-			wiki.log("edit", "error: word contains invalid character");
-			showErrorMessage("Invalid character: Only a-z, A-Z, 0-9, -, and spaces are allowed, " +
-				"and the first character must be one of a-z A-Z.");
-			return;
+			throw new InvalidWordException("Invalid character: Only a-z, A-Z, 0-9, -, and " +
+				"spaces are allowed, and the first character must be one of a-z A-Z.");
 		}
 		if (FunctionWords.isFunctionWord(plural)) {
-			wiki.log("edit", "error: word is predefined");
-			showErrorMessage("'" + pluralP + "' is a predefined word and cannot be used here.");
-			return;
+			throw new InvalidWordException("'" + pluralP + "' is a predefined word and cannot " +
+				"be used here.");
 		}
 		oe = wiki.getOntology().getElement(plural);
 		if (oe != null && oe != concept) {
-			wiki.log("edit", "error: word is already used");
-			showErrorMessage("The word '" + pluralP + "' is already used. Please use a different one.");
-			return;
+			throw new InvalidWordException("The word '" + pluralP + "' is already used. Please " +
+				"use a different one.");
 		}
 		concept.setWords(singular, plural);
 		wiki.log("edit", "noun: " + singular + " / " + plural);

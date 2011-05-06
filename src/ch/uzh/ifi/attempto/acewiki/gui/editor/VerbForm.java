@@ -112,7 +112,7 @@ public class VerbForm extends FormPane {
 		return relation;
 	}
 
-	protected void save() {
+	protected void save() throws InvalidWordException {
 		Wiki wiki = getWiki();
 		String thirdSg = normalize(thirdSgField.getText());
 		String inf = normalize(infField.getText());
@@ -128,77 +128,62 @@ public class VerbForm extends FormPane {
 		
 		// check whether all necessary fields are filled-in
 		if (thirdSg.equals("")) {
-			wiki.log("edit", "error: no third singular defined");
-			showErrorMessage("No third singular defined: Please define the third singular form.");
-			return;
+			throw new InvalidWordException("No third singular defined: Please define the third " +
+				"singular form.");
 		}
 		if (inf.equals("")) {
-			wiki.log("edit", "error: no infinitive defined");
-			showErrorMessage("No bare infinitive defined: Please define the bare infinitive form.");
-			return;
+			throw new InvalidWordException("No bare infinitive defined: Please define the bare " +
+				"infinitive form.");
 		}
 		if (pastPart.equals("") && wordNumber == 2) {
-			wiki.log("edit", "error: no past participle defined");
-			showErrorMessage("No past participle defined: Please define the past participle form.");
-			return;
+			throw new InvalidWordException("No past participle defined: Please define the past " +
+				"participle form.");
 		}
 		if (pastPart.equals("") && !ontology.getReferences(relation, 2).isEmpty()) {
-			wiki.log("edit", "error: cannot remove past participle");
-			showErrorMessage("The past participle form cannot be removed because there are " +
-					"sentences that are using it.");
-			return;
+			throw new InvalidWordException("The past participle form cannot be removed because " +
+				"there are sentences that are using it.");
 		}
 		
 		// check whether the words contain only valid characters
 		if (!isValidWordOrEmpty(thirdSg) || !isValidWordOrEmpty(inf) || !isValidWordOrEmpty(pastPart)) {
-			wiki.log("edit", "error: word contains invalid character");
-			showErrorMessage("Invalid character used: Only a-z, A-Z, 0-9, -, and spaces are " +
-				"allowed, and the first character must be one of a-z A-Z.");
-			return;
+			throw new InvalidWordException("Invalid character used: Only a-z, A-Z, 0-9, -, and " +
+				"spaces are allowed, and the first character must be one of a-z A-Z.");
 		}
 		
 		// check whether a word is a predefined function word
 		if (FunctionWords.isFunctionWord(thirdSg)) {
-			wiki.log("edit", "error: word is predefined");
-			showErrorMessage("'" + thirdSgP + "' is a predefined word and cannot be used here.");
-			return;
+			throw new InvalidWordException("'" + thirdSgP + "' is a predefined word and cannot " +
+				"be used here.");
 		}
 		if (FunctionWords.isFunctionWord(inf)) {
-			wiki.log("edit", "error: word is predefined");
-			showErrorMessage("'" + infP + "' is a predefined word and cannot be used here.");
-			return;
+			throw new InvalidWordException("'" + infP + "' is a predefined word and cannot be " +
+				"used here.");
 		}
 		if (FunctionWords.isFunctionWord(pastPart)) {
-			wiki.log("edit", "error: word is predefined");
-			showErrorMessage("'" + pastPartP + "' is a predefined word and cannot be used here.");
-			return;
+			throw new InvalidWordException("'" + pastPartP + "' is a predefined word and cannot " +
+				"be used here.");
 		}
 		
 		// check whether all word forms are distinct
 		if (thirdSg.equals(inf)) {
-			wiki.log("edit", "error: the singular and plural forms have to be distinct.");
-			showErrorMessage("The singular and plural forms have to be distinct.");
-			return;
+			throw new InvalidWordException("The singular and plural forms have to be distinct.");
 		}
 		
 		// check whether a word is already defined
 		OntologyElement oe1 = ontology.getElement(thirdSg);
 		if (oe1 != null && oe1 != relation) {
-			wiki.log("edit", "error: word is already used");
-			showErrorMessage("The word '" + thirdSgP + "' is already used. Please use a different one.");
-			return;
+			throw new InvalidWordException("The word '" + thirdSgP + "' is already used. Please " +
+				"use a different one.");
 		}
 		OntologyElement oe2 = ontology.getElement(inf);
 		if (oe2 != null && oe2 != relation) {
-			wiki.log("edit", "error: word is already used");
-			showErrorMessage("The word '" + infP + "' is already used. Please use a different one.");
-			return;
+			throw new InvalidWordException("The word '" + infP + "' is already used. Please use " +
+				"a different one.");
 		}
 		OntologyElement oe3 = ontology.getElement(pastPart);
 		if (oe3 != null && oe3 != relation) {
-			wiki.log("edit", "error: word is already used");
-			showErrorMessage("The word '" + pastPartP + "' is already used. Please use a different one.");
-			return;
+			throw new InvalidWordException("The word '" + pastPartP + "' is already used. " +
+				"Please use a different one.");
 		}
 		
 		if (pastPart.equals("")) pastPart = null;

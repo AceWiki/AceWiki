@@ -19,7 +19,6 @@ import java.util.List;
 import nextapp.echo.app.Color;
 import nextapp.echo.app.Row;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
-import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
@@ -44,8 +43,6 @@ public class TextRow extends Row {
 			}
 			prev = e;
 			if (e instanceof OntologyTextElement) {
-				OntologyTextElement ote = (OntologyTextElement) e;
-				OntologyElement oe = ote.getOntologyElement();
 				add(new WikiLink(((OntologyTextElement) e), wiki, isRed));
 			} else {
 				SolidLabel l = new SolidLabel(e.getText());

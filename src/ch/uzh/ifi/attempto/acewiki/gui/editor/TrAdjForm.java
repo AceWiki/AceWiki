@@ -94,32 +94,27 @@ public class TrAdjForm extends FormPane {
 		return relation;
 	}
 
-	protected void save() {
+	protected void save() throws InvalidWordException {
 		Wiki wiki = getWiki();
 		String name = normalize(trAdjField.getText());
 		String nameP = name.replace("_", " ");
 		
 		if (name.equals("")) {
-			wiki.log("edit", "error: no word defined");
-			showErrorMessage("No word defined: Please specify the transitive adjective.");
-			return;
+			throw new InvalidWordException("No word defined: Please specify the transitive " +
+				"adjective.");
 		}
 		if (!isValidWordOrEmpty(name)) {
-			wiki.log("edit", "error: word contains invalid character");
-			showErrorMessage("Invalid character: Only a-z, A-Z, 0-9, -, and spaces are allowed, " +
-				"and the first character must be one of a-z A-Z.");
-			return;
+			throw new InvalidWordException("Invalid character: Only a-z, A-Z, 0-9, -, and " +
+				"spaces are allowed, and the first character must be one of a-z A-Z.");
 		}
 		if (FunctionWords.isFunctionWord(name)) {
-			wiki.log("edit", "error: word is predefined");
-			showErrorMessage("'" + nameP + "' is a predefined word and cannot be used here.");
-			return;
+			throw new InvalidWordException("'" + nameP + "' is a predefined word and cannot be " +
+				"used here.");
 		}
 		OntologyElement oe = wiki.getOntology().getElement(name);
 		if (oe != null && oe != relation) {
-			wiki.log("edit", "error: word is already used");
-			showErrorMessage("The word '" + nameP + "' is already used. Please use a different one.");
-			return;
+			throw new InvalidWordException("The word '" + nameP + "' is already used. Please " +
+				"use a different one.");
 		}
 		relation.setWords(name);
 		wiki.log("edit", "transitive adjective: " + name);

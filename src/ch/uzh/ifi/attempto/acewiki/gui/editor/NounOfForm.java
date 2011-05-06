@@ -95,7 +95,7 @@ public class NounOfForm extends FormPane {
 		return relation;
 	}
 
-	protected void save() {
+	protected void save() throws InvalidWordException {
 		Wiki wiki = getWiki();
 		String name = normalize(nounField.getText());
 		if (name.toLowerCase().endsWith("_of")) {
@@ -104,26 +104,21 @@ public class NounOfForm extends FormPane {
 		String nameP = name.replace("_", " ");
 		
 		if (name.equals("")) {
-			wiki.log("edit", "error: no word defined");
-			showErrorMessage("No noun defined: Please specify the singular form of a noun.");
-			return;
+			throw new InvalidWordException("No noun defined: Please specify the singular form " +
+				"of a noun.");
 		}
 		if (!isValidWordOrEmpty(name)) {
-			wiki.log("edit", "error: word contains invalid character");
-			showErrorMessage("Invalid character: Only a-z, A-Z, 0-9, -, and spaces are allowed, " +
-				"and the first character must be one of a-z A-Z.");
-			return;
+			throw new InvalidWordException("Invalid character: Only a-z, A-Z, 0-9, -, and " +
+				"spaces are allowed, and the first character must be one of a-z A-Z.");
 		}
 		if (FunctionWords.isFunctionWord(name)) {
-			wiki.log("edit", "error: word is predefined");
-			showErrorMessage("'" + nameP + "' is a predefined word and cannot be used here.");
-			return;
+			throw new InvalidWordException("'" + nameP + "' is a predefined word and cannot be " +
+				"used here.");
 		}
 		OntologyElement oe = wiki.getOntology().getElement(name + " of");
 		if (oe != null && oe != relation) {
-			wiki.log("edit", "error: word is already used");
-			showErrorMessage("The word '" + nameP + "' is already used. Please use a different one.");
-			return;
+			throw new InvalidWordException("The word '" + nameP + "' is already used. Please " +
+				"use a different one.");
 		}
 		relation.setWords(name);
 		wiki.log("edit", "of-construct: " + name);

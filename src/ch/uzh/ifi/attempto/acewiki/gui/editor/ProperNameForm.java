@@ -110,7 +110,7 @@ public class ProperNameForm extends FormPane {
 		return ind;
 	}
 
-	protected void save() {
+	protected void save() throws InvalidWordException {
 		Wiki wiki = getWiki();
 		String name = normalize(nameField.getText());
 		String abbrev = normalize(abbrevField.getText());
@@ -129,42 +129,33 @@ public class ProperNameForm extends FormPane {
 		String abbrevP = abbrev.replace("_", " ");
 		
 		if (name.equals("")) {
-			wiki.log("edit", "error: no word defined");
-			showErrorMessage("No proper name defined: Please specify a name.");
-			return;
+			throw new InvalidWordException("No proper name defined: Please specify a name.");
 		}
 		if (!isValidWordOrEmpty(name) || !isValidWordOrEmpty(abbrev)) {
-			wiki.log("edit", "error: word contains invalid character");
-			showErrorMessage("Invalid character: Only a-z, A-Z, 0-9, -, and spaces are allowed, " +
-				"and the first character must be one of a-z A-Z.");
-			return;
+			throw new InvalidWordException("Invalid character: Only a-z, A-Z, 0-9, -, and " +
+				"spaces are allowed, and the first character must be one of a-z A-Z.");
 		}
 		if (FunctionWords.isFunctionWord(name)) {
-			wiki.log("edit", "error: word is predefined");
-			showErrorMessage("'" + nameP + "' is a predefined word and cannot be used here.");
-			return;
+			throw new InvalidWordException("'" + nameP + "' is a predefined word and cannot be " +
+				"used here.");
 		}
 		if (FunctionWords.isFunctionWord(abbrev)) {
-			wiki.log("edit", "error: word is predefined");
-			showErrorMessage("'" + abbrevP + "' is a predefined word and cannot be used here.");
-			return;
+			throw new InvalidWordException("'" + abbrevP + "' is a predefined word and cannot " +
+				"be used here.");
 		}
 		if (abbrev.length() >= name.length()) {
-			wiki.log("edit", "error: abbreviation is not shorter than the full proper name");
-			showErrorMessage("The abbreviation has to be shorter than the full proper name.");
-			return;
+			throw new InvalidWordException("The abbreviation has to be shorter than the full " +
+				"proper name.");
 		}
 		OntologyElement oe = wiki.getOntology().getElement(name);
 		if (oe != null && oe != ind) {
-			wiki.log("edit", "error: word is already used");
-			showErrorMessage("The word '" + nameP + "' is already used. Please use a different one.");
-			return;
+			throw new InvalidWordException("The word '" + nameP + "' is already used. Please " +
+				"use a different one.");
 		}
 		oe = wiki.getOntology().getElement(abbrev);
 		if (oe != null && oe != ind) {
-			wiki.log("edit", "error: word is already used");
-			showErrorMessage("The word '" + abbrevP + "' is already used. Please use a different one.");
-			return;
+			throw new InvalidWordException("The word '" + abbrevP + "' is already used. Please " +
+				"use a different one.");
 		}
 		String word = name;
 		if (nameDefArt) {

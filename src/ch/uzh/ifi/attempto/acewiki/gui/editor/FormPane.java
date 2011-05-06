@@ -128,7 +128,7 @@ public abstract class FormPane extends WordEditorForm {
 	 * @see #finished(OntologyElement)
 	 * @see #finished(OntologyElement, int)
 	 */
-	protected abstract void save();
+	protected abstract void save() throws InvalidWordException;
 	
 	/**
 	 * This method should be called when the saving process is finished successfully.
@@ -151,15 +151,6 @@ public abstract class FormPane extends WordEditorForm {
 		// a text element is used to store the ontology element and the word number in one object:
 		OntologyTextElement te = new OntologyTextElement(el, wordNumber);
 		getActionListener().actionPerformed(new ActionEvent(te, ""));
-	}
-	
-	/**
-	 * Shows an error message.
-	 * 
-	 * @param text The error text.
-	 */
-	protected void showErrorMessage(String text) {
-		wiki.showWindow(new MessageWindow("Error", text, getParentWindow(), "OK"));
 	}
 	
 	/**
@@ -270,7 +261,7 @@ public abstract class FormPane extends WordEditorForm {
 		} else if ("Cancel".equals(c) || "Close".equals(c)) {
 			wiki.removeWindow(getParentWindow());
 		} else if ("OK".equals(c)) {
-			save();
+			saveOrShowError();
 		} else if ("Unlock".equals(c)) {
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
@@ -278,9 +269,18 @@ public abstract class FormPane extends WordEditorForm {
 				unlock();
 			}
 		} else if ("Change".equals(c)) {
-			save();
+			saveOrShowError();
 		} else if ("Delete".equals(c)) {
 			prepareDelete();
+		}
+	}
+	
+	private void saveOrShowError() {
+		try {
+			save();
+		} catch (InvalidWordException ex) {
+			wiki.log("edit", "invalid word: " + ex.getMessage());
+			wiki.showWindow(new MessageWindow("Error", ex.getMessage(), getParentWindow(), "OK"));
 		}
 	}
 
