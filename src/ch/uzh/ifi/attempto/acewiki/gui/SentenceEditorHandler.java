@@ -21,7 +21,6 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
-import ch.uzh.ifi.attempto.acewiki.aceowl.ACEOWLMenuCreator;
 import ch.uzh.ifi.attempto.acewiki.core.Article;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
@@ -55,7 +54,7 @@ public class SentenceEditorHandler implements ActionListener {
 		this.wiki = page.getWiki();
 		this.edit = edit;
 		this.statement = statement;
-		ACEOWLMenuCreator menuCreator = new ACEOWLMenuCreator(
+		AceWikiMenuCreator menuCreator = new AceWikiMenuCreator(
 				wiki,
 				page.getOntologyElement(),
 				this

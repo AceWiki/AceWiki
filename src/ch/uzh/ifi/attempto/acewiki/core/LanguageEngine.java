@@ -30,6 +30,8 @@ public interface LanguageEngine {
 	
 	public String[] getLexicalTypes();
 	
+	public MenuEngine getMenuEngine();
+	
 	public LexiconChanger getLexiconChanger(String type);
 	
 	public AceWikiReasoner getReasoner();

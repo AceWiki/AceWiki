@@ -24,6 +24,7 @@ import ch.uzh.ifi.attempto.acewiki.core.AceWikiLexicon;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageFactory;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconChanger;
+import ch.uzh.ifi.attempto.acewiki.core.MenuEngine;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyExporter;
 import ch.uzh.ifi.attempto.chartparser.Grammar;
 
@@ -34,6 +35,7 @@ public class ACEOWLEngine extends AbstractLanguageEngine {
 	private AceWikiOWLReasoner reasoner = new AceWikiOWLReasoner();
 	private List<OntologyExporter> exporters = new ArrayList<OntologyExporter>();
 	private Map<String, LexiconChanger> lexiconChangers = new HashMap<String, LexiconChanger>();
+	private ACEOWLMenuEngine menuEngine = new ACEOWLMenuEngine();
 	
 	public ACEOWLEngine() {
 		exporters.add(new OWLXMLExporter(true));
@@ -63,6 +65,10 @@ public class ACEOWLEngine extends AbstractLanguageEngine {
 
 	public String[] getLexicalTypes() {
 		return new String[] {"propername", "noun", "nounof", "trverb", "tradj"};
+	}
+	
+	public MenuEngine getMenuEngine() {
+		return menuEngine;
 	}
 
 	public LexiconChanger getLexiconChanger(String type) {
