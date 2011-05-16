@@ -22,7 +22,9 @@ import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Article;
+import ch.uzh.ifi.attempto.acewiki.core.MenuEngine;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
+import ch.uzh.ifi.attempto.acewiki.core.SentenceSuggestion;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.gui.page.ArticlePage;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
@@ -48,6 +50,7 @@ public class SentenceEditorHandler implements ActionListener {
 	private Statement statement;
 	private List<Sentence> newSentences = new ArrayList<Sentence>();
 	private int checked = 0;
+	private SentenceSuggestion suggestion;
 	
 	private SentenceEditorHandler(Statement statement, ArticlePage page, boolean edit) {
 		this.page = page;
@@ -133,17 +136,12 @@ public class SentenceEditorHandler implements ActionListener {
 			}
 		} else if (src == editorWindow && c.matches("Cancel|Close|Escape")) {
 			wiki.removeWindow(editorWindow);
-		} else if (src == messageWindow && c.equals("a ...")) {
-			checked++;
-			checkSentence();
-		} else if (src == messageWindow && c.equals("every ...")) {
-			String text = newSentences.get(checked).getText();
-			text = text.replaceFirst("^(A|a)n? ", "Every ");
-			newSentences.remove(checked);
-			newSentences.add(checked, wiki.getOntology().getStatementFactory().createSentence(
-					text,
-					page.getArticle()
-				));
+		} else if (src == messageWindow && suggestion != null) {
+			Sentence s = suggestion.getSentence(c);
+			if (s != newSentences.get(checked)) {
+				newSentences.remove(checked);
+				newSentences.add(checked, s);
+			}
 			checked++;
 			checkSentence();
 		} else if (src == messageWindow && c.equals("Close")) {
@@ -154,23 +152,18 @@ public class SentenceEditorHandler implements ActionListener {
 	}
 	
 	private void checkSentence() {
-		// TODO: make this general!
 		if (checked >= newSentences.size()) {
 			assertSentences();
 		} else {
-			List<TextElement> t = newSentences.get(checked).getTextElements();
-			String t0 = t.get(0).getText();
-			String t1 = t.get(1).getText();
-			String l = t.get(t.size()-1).getText();
-			if (t0.matches("(A|a)n?") && !t1.matches(".* of") && l.equals(".")) {
-				String s = t.get(1).getText();
+			MenuEngine me = wiki.getLanguageEngine().getMenuEngine();
+			suggestion = me.getSuggestion(newSentences.get(checked));
+			if (suggestion != null) {
 				messageWindow = new MessageWindow(
-						"Warning",
-						"Your sentence \"a " + s + " ...\" is interpreted as \"there is a " + s +
-							" that ...\". " + "Do you want to say \"every " + s + " ...\"?",
+						"Suggestion",
+						suggestion.getMessage(),
 						editorWindow,
 						this,
-						"a ...", "every ..."
+						suggestion.getOptions()
 					);
 				wiki.showWindow(messageWindow);
 			} else {

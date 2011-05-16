@@ -14,22 +14,12 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
-import java.util.List;
-
-public interface MenuEngine {
+public interface SentenceSuggestion {
 	
-	public List<String> getMenuGroups();
+	public String getMessage();
 	
-	public int getColorShift(String menuGroup);
+	public String[] getOptions();
 	
-	public String getMenuGroup(String category);
-	
-	public List<String> getExtensibleCategories();
-	
-	public String getWordType(String extensibleCategory);
-	
-	public int getWordNumber(String extensibleCategory);
-	
-	public SentenceSuggestion getSuggestion(Sentence sentence);
+	public Sentence getSentence(String option);
 
 }

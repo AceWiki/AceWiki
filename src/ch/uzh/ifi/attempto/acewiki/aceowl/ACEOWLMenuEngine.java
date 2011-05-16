@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.uzh.ifi.attempto.acewiki.core.MenuEngine;
+import ch.uzh.ifi.attempto.acewiki.core.Sentence;
+import ch.uzh.ifi.attempto.acewiki.core.SentenceSuggestion;
+import ch.uzh.ifi.attempto.preditor.TextElement;
 
 public class ACEOWLMenuEngine implements MenuEngine {
 	
@@ -88,6 +91,17 @@ public class ACEOWLMenuEngine implements MenuEngine {
 		if (c.equals("verbinf")) return 1;
 		if (c.equals("pverb")) return 2;
 		return 0;
+	}
+	
+	public SentenceSuggestion getSuggestion(Sentence sentence) {
+		List<TextElement> t = sentence.getTextElements();
+		String t0 = t.get(0).getText();
+		String t1 = t.get(1).getText();
+		String l = t.get(t.size()-1).getText();
+		if (t0.matches("(A|a)n?") && !t1.matches(".* of") && l.equals(".")) {
+			return new AToEverySuggestion(sentence);
+		}
+		return null;
 	}
 
 }
