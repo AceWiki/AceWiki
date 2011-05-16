@@ -95,11 +95,12 @@ public class Ontology {
 		return storage;
 	}
 	
-	synchronized void register(OntologyElement element) {
+	public synchronized void register(OntologyElement element) {
 		if (contains(element)) {
 			log("error: element already registered");
 			throw new RuntimeException("Registration failed: Element is already registered.");
 		}
+		element.initOntology(this);
 		
 		log("register: " + element);
 		stateID++;
@@ -125,6 +126,8 @@ public class Ontology {
 		
 		getReasonerManager().loadElement(element);
 		getReasonerManager().flushReasoner();
+		
+		getStorage().save(element);
 	}
 	
 	/**

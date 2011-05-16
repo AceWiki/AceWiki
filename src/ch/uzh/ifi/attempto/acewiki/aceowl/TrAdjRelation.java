@@ -55,8 +55,7 @@ public class TrAdjRelation extends ACEOWLRelation {
 	public String getIRISuffix() {
 		return getWord(0);
 	}
-
-	// TODO: move and make package visible
+	
 	public List<LexiconEntry> getLexiconEntries() {
 		List<LexiconEntry> entries = new ArrayList<LexiconEntry>();
 		entries.add(LexiconEntry.createTrAdjEntry(word, word, ""));
@@ -71,7 +70,6 @@ public class TrAdjRelation extends ACEOWLRelation {
 		return "tradj";
 	}
 	
-	// TODO: move an make package visible
 	public void collectLexicalRules(String catName, Collection<LexicalRule> lexRules) {
 		if (catName == null || catName.equals("tradj")) {
 			lexRules.add(new LexicalRule("tradj", getWord(0)));

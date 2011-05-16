@@ -91,8 +91,7 @@ public class OfRelation extends ACEOWLRelation {
 	public String getIRISuffix() {
 		return getNoun();
 	}
-
-	// TODO: move and make package visible
+	
 	public List<LexiconEntry> getLexiconEntries() {
 		List<LexiconEntry> entries = new ArrayList<LexiconEntry>();
 		if (word != null) {
@@ -109,7 +108,6 @@ public class OfRelation extends ACEOWLRelation {
 		return "nounof";
 	}
 	
-	// TODO: move an make package visible
 	public void collectLexicalRules(String catName, Collection<LexicalRule> lexRules) {
 		if (catName == null || catName.equals("nounof")) {
 			lexRules.add(new LexicalRule("nounof", getWord(0)));

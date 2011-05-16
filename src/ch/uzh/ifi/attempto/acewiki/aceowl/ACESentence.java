@@ -292,7 +292,6 @@ public abstract class ACESentence extends AbstractSentence {
 		//}
 	}
 	
-	// TODO: cleanup/clarify!
 	public void setIntegrated(boolean integrated) {
 		if (integrated && reasonerParticipant != null && !reasonerParticipant) {
 			super.setIntegrated(false);

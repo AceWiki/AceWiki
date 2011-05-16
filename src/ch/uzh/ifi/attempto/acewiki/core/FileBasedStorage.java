@@ -33,6 +33,7 @@ public class FileBasedStorage implements AceWikiStorage {
 	private final HashMap<String, Ontology> ontologies = new HashMap<String, Ontology>();
 	private final Map<String, UserBase> userBases = new HashMap<String, UserBase>();
 	private String dir;
+	private final List<Ontology> incompleteOntologies = new ArrayList<Ontology>();
 	
 	public FileBasedStorage(String dir) {
 		this.dir = dir.replaceFirst("/*$", "");
@@ -71,6 +72,7 @@ public class FileBasedStorage implements AceWikiStorage {
 			return ontologies.get(name);
 		}
 		Ontology ontology = new Ontology(name, parameters, this);
+		incompleteOntologies.add(ontology);
 		ontologies.put(name, ontology);
 		ontology.log("loading ontology");
 		System.err.println("Loading '" + name + "'");
@@ -147,9 +149,10 @@ public class FileBasedStorage implements AceWikiStorage {
 		if (ontology.get(0) == null) {
 			OntologyElement mainPage = new DummyOntologyElement("mainpage", "Main Page");
 			mainPage.initId(0);
-			mainPage.registerAt(ontology);
+			ontology.register(mainPage);
 		}
-		
+
+		incompleteOntologies.remove(ontology);
 		ontology.getReasonerManager().load();
 		
 		return ontology;
@@ -240,6 +243,10 @@ public class FileBasedStorage implements AceWikiStorage {
 	public synchronized void save(OntologyElement oe) {
 		Ontology o = oe.getOntology();
 		String name = o.getName();
+		
+		// Ontology elements of incomplete ontologies are not saved at this point:
+		if (incompleteOntologies.contains(o)) return;
+		
 		if (!(new File(dir)).exists()) (new File(dir)).mkdir();
 		if (!(new File(dir + "/" + name)).exists()) (new File(dir + "/" + name)).mkdir();
 		

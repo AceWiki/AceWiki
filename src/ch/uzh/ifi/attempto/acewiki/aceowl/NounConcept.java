@@ -59,8 +59,7 @@ public class NounConcept extends ACEOWLConcept {
 	public String getIRISuffix() {
 		return getWord(0);
 	}
-
-	// TODO: move and make package visible
+	
 	public List<LexiconEntry> getLexiconEntries() {
 		List<LexiconEntry> entries = new ArrayList<LexiconEntry>();
 		entries.add(LexiconEntry.createNounSgEntry(getWord(0), getWord(0), Gender.UNDEF));
@@ -75,8 +74,7 @@ public class NounConcept extends ACEOWLConcept {
 	public String getInternalType() {
 		return "noun";
 	}
-
-	// TODO: move an make package visible
+	
 	public void collectLexicalRules(String catName, Collection<LexicalRule> lexRules) {
 		if (catName == null || catName.equals("noun")) {
 			lexRules.add(new LexicalRule("noun", getWord(0)));

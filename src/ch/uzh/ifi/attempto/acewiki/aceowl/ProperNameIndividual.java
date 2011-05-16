@@ -134,8 +134,7 @@ public class ProperNameIndividual extends ACEOWLIndividual {
 			abbrevDefArt = words[2].startsWith("the ");
 		}
 	}
-
-	// TODO: move and make package visible
+	
 	public List<LexiconEntry> getLexiconEntries() {
 		List<LexiconEntry> entries = new ArrayList<LexiconEntry>();
 		if (wordDefArt) {
@@ -205,8 +204,7 @@ public class ProperNameIndividual extends ACEOWLIndividual {
 	public OWLNamedIndividual getOWLRepresentation() {
 		return getOWLDataFactory().getOWLNamedIndividual(getIRI());
 	}
-
-	// TODO: move an make package visible
+	
 	public void collectLexicalRules(String catName, Collection<LexicalRule> lexRules) {
 		if (catName == null || catName.equals("propername")) {
 			lexRules.add(new LexicalRule("propername", getWord(0)));

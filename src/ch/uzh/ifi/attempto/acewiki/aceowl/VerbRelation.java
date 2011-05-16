@@ -99,8 +99,7 @@ public class VerbRelation extends ACEOWLRelation {
 	public String getIRISuffix() {
 		return getWord(1);
 	}
-
-	// TODO: move and make package visible
+	
 	public List<LexiconEntry> getLexiconEntries() {
 		List<LexiconEntry> entries = new ArrayList<LexiconEntry>();
 		entries.add(LexiconEntry.createTrVerbThirdEntry(thirdSg, inf));
@@ -119,7 +118,6 @@ public class VerbRelation extends ACEOWLRelation {
 		return "trverb";
 	}
 	
-	// TODO: move an make package visible
 	public void collectLexicalRules(String catName, Collection<LexicalRule> lexRules) {
 		if (catName == null || catName.equals("verbsg")) {
 			lexRules.add(new LexicalRule("verbsg", getWord(0)));

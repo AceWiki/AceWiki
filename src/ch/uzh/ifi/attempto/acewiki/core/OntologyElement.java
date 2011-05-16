@@ -121,14 +121,5 @@ public interface OntologyElement extends Comparable<OntologyElement> {
 	public Ontology getOntology();
 	
 	public Article getArticle();
-	
-	/**
-	 * Registers this ontology element at the given ontology. An ontology element can be
-	 * registered only once.
-	 * 
-	 * @param ontology
-	 */
-	// TODO: move to Ontology class!
-	public void registerAt(Ontology ontology);
 
 }

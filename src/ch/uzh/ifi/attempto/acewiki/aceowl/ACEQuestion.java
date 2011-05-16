@@ -94,7 +94,6 @@ public class ACEQuestion extends ACESentence implements Question {
 		super.parse();
 	}
 	
-	// TODO: Improve this!
 	public boolean isReasonerParticipant() {
 		return false;
 	}

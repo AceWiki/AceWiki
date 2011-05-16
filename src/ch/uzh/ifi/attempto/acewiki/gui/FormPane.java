@@ -237,7 +237,7 @@ public class FormPane extends WordEditorForm {
 			lexiconChanger.save(element, wordNumber, newValues, wiki.getOntology());
 			wiki.log("edit", element.toString());
 			if (element.getOntology() == null) {
-				element.registerAt(wiki.getOntology());
+				wiki.getOntology().register(element);
 			}
 			wiki.removeWindow(getParentWindow());
 			

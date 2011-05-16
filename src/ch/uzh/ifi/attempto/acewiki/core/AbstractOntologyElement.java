@@ -44,6 +44,9 @@ public abstract class AbstractOntologyElement implements OntologyElement {
 	}
 	
 	public void initOntology(Ontology ontology) {
+		if (this.ontology != null && this.ontology != ontology) {
+			throw new RuntimeException("Cannot change the ontology for element " + toString());
+		}
 		this.ontology = ontology;
 	}
 	
@@ -117,21 +120,6 @@ public abstract class AbstractOntologyElement implements OntologyElement {
 			article = new Article(this);
 		}
 		return article;
-	}
-
-	// TODO: move to Ontology class!
-	public void registerAt(Ontology ontology) {
-		if (this.ontology != null) {
-			throw new RuntimeException("Cannot change the ontology for element " + toString());
-		}
-		if (ontology == null) {
-			return;
-		}
-		this.ontology = ontology;
-		synchronized (ontology) {
-			ontology.register(this);
-			ontology.getStorage().save(this);
-		}
 	}
 	
 	/**

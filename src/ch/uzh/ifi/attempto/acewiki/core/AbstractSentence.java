@@ -37,7 +37,6 @@ public abstract class AbstractSentence extends AbstractStatement implements Sent
 		return integrated;
 	}
 	
-	// TODO: cleanup/clarify!
 	public void setIntegrated(boolean integrated) {
 		this.integrated = integrated;
 	}

@@ -20,8 +20,7 @@ package ch.uzh.ifi.attempto.acewiki.aceowl;
  * 
  * @author Tobias Kuhn
  */
-// TODO make package visible
-public class OWLXMLTransformer {
+class OWLXMLTransformer {
 	
 	// no instances allowed
 	private OWLXMLTransformer() {}
