@@ -59,7 +59,7 @@ public class CommentComponent extends Column implements ActionListener {
 	private WikiPage hostPage;
 	
 	private Row commentRow = new Row();
-	private StatementMenu dropDown;
+	private StatementMenu statementMenu;
 	
 	/**
 	 * Creates a new comment row.
@@ -75,21 +75,17 @@ public class CommentComponent extends Column implements ActionListener {
 	}
 	
 	private void update() {
-		dropDown = new StatementMenu(StatementMenu.COMMENT_TYPE, wiki, this);
+		statementMenu = new StatementMenu(StatementMenu.COMMENT_TYPE, wiki, this);
 		if (!wiki.isReadOnly()) {
-			dropDown.addMenuEntry("Edit...", "Edit this comment");
-			dropDown.addMenuEntry("Delete", "Delete this comment from the article");
-			dropDown.addMenuSeparator();
-			dropDown.addMenuEntry("Add Sentence...", "Add a new sentence here");
-			dropDown.addMenuEntry("Add Comment...", "Add a new comment here");
-		} else {
-			// TODO: Check whether this is still needed
-//			dropDown.setPopUp(null);
-//			dropDown.setPopUpBorder(new Border(0, Color.BLACK, Border.STYLE_SOLID));
+			statementMenu.addMenuEntry("Edit...", "Edit this comment");
+			statementMenu.addMenuEntry("Delete", "Delete this comment from the article");
+			statementMenu.addMenuSeparator();
+			statementMenu.addMenuEntry("Add Sentence...", "Add a new sentence here");
+			statementMenu.addMenuEntry("Add Comment...", "Add a new comment here");
 		}
 		RowLayoutData layout = new RowLayoutData();
 		layout.setAlignment(new Alignment(Alignment.CENTER, Alignment.TOP));
-		dropDown.setLayoutData(layout);
+		statementMenu.setLayoutData(layout);
 		Column c = new Column();
 		for (String s : (comment.getText() + " ").split("\\n")) {
 			int indent = s.replaceFirst("^(\\s*).*$", "$1").length() * 5;
@@ -106,7 +102,7 @@ public class CommentComponent extends Column implements ActionListener {
 		
 		removeAll();
 		commentRow.removeAll();
-		commentRow.add(dropDown);
+		commentRow.add(statementMenu);
 		commentRow.add(new HSpace(5));
 		commentRow.add(c);
 		commentRow.add(new HSpace(10));

@@ -778,9 +778,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	
 	public void externalEvent(ExternalEvent e) {
 		OntologyElement oe = ontology.getElement(e.getParameter("page"));
-		if (oe != null) {
-			showPage(ontology.getElement(e.getParameter("page")));
-		}
+		if (oe != null) showPage(oe);
 	}
 	
 	/**

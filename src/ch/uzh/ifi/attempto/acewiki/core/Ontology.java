@@ -303,6 +303,7 @@ public class Ontology {
 	 * @param sentence The sentence to be commited.
 	 * @return An integer value denoting the success/failure of the operation.
 	 */
+	// TODO Improve this method!
 	protected synchronized int commitSentence(Sentence sentence) {
 		if (sentence == null || sentence.isIntegrated()) return 0;
 		

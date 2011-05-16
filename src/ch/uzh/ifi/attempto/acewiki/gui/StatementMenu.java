@@ -178,6 +178,7 @@ public class StatementMenu extends Row implements ActionListener {
 	public void setExpanded(boolean expanded) {
 		if (expanded) {
 			if (isExpanded()) return;
+			if (menuColumn.getComponentCount() == 0) return;
 			wiki.lock(this);
 			toggle.setIcon(getActiveIcon());
 			if (popup == null) {

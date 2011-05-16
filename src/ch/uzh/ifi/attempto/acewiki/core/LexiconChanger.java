@@ -32,7 +32,6 @@ public interface LexiconChanger {
 	
 	public List<LexiconDetail> getDetails(OntologyElement el);
 	
-	// TODO: remove Ontology argument
 	public void save(OntologyElement el, int wordNumber, List<Object> newValues, Ontology ontology)
 			throws InvalidWordException;
 
