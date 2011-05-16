@@ -20,6 +20,7 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
+import ch.uzh.ifi.attempto.acewiki.core.InconsistencyException;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
@@ -164,19 +165,13 @@ public class SentenceComponent extends Column implements ActionListener {
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
 			} else {
-				int success = wiki.getOntology().reassert(sentence);
-				if (success == 1) {
+				try {
+					wiki.getOntology().reassert(sentence);
+				} catch (InconsistencyException ex) {
 					wiki.showWindow(new MessageWindow(
 							"Conflict",
-							"A sentence is in conflict with the current knowledge. For that reason, " +
-								"it cannot be added to the knowledge base.",
-							"OK"
-						));
-				} else if (success == 2) {
-					wiki.showWindow(new MessageWindow(
-							"Error",
-							"A sentence could not be added to the knowledge base because the " +
-								"knowledge base got too complex.",
+							"The sentence is in conflict with the current knowledge. For that " +
+								"reason, it cannot be added to the knowledge base.",
 							"OK"
 						));
 				}

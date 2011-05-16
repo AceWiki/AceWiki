@@ -22,6 +22,7 @@ import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Article;
+import ch.uzh.ifi.attempto.acewiki.core.InconsistencyException;
 import ch.uzh.ifi.attempto.acewiki.core.MenuEngine;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceSuggestion;
@@ -179,35 +180,30 @@ public class SentenceEditorHandler implements ActionListener {
 		
 		Task task = new Task() {
 			
-			int success;
+			boolean inconsistent = false;
 			
 			public void run() {
-				if (edit) {
-					wiki.log("edit", "sentence updated: " + textContainer.getText());
-					success = a.edit(statement, new ArrayList<Statement>(newSentences));
-				} else {
-					wiki.log("edit", "sentence created: " + textContainer.getText());
-					success = a.add(statement, new ArrayList<Statement>(newSentences));
+				try {
+					if (edit) {
+						wiki.log("edit", "sentence updated: " + textContainer.getText());
+						a.edit(statement, new ArrayList<Statement>(newSentences));
+					} else {
+						wiki.log("edit", "sentence created: " + textContainer.getText());
+						a.add(statement, new ArrayList<Statement>(newSentences));
+					}
+				} catch (InconsistencyException ex) {
+					inconsistent = true;
 				}
 			}
 			
 			public void updateGUI() {
 				page.update();
-				if (success == 1) {
+				if (inconsistent) {
 					wiki.showWindow(
 						new MessageWindow(
 							"Conflict",
-							"A sentence is in conflict with the current knowledge. For that " +
+							"The sentence is in conflict with the current knowledge. For that " +
 								"reason, it cannot be added to the knowledge base.",
-							"OK"
-						)
-					);
-				} else if (success == 2) {
-					wiki.showWindow(
-						new MessageWindow(
-							"Error",
-							"A sentence could not be added to the knowledge base because the " +
-								"knowledge base got too complex.",
 							"OK"
 						)
 					);

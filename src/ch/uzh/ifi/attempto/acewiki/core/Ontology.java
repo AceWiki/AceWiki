@@ -292,73 +292,51 @@ public class Ontology {
 	}
 	
 	/**
-	 * Commits the sentence. This means that it is added to the reasoner. An integer value is
-	 * returned that denotes the success or failure of the operation:
-	 * 0 is returned if the operation succeeds.
-	 * 1 is returned if it fails because the sentence introduces inconsistency into the knowledge
-	 *   base.
-	 * 2 is returned if the reasoner runs out of memory (this can occur sometimes with large
-	 *   ontologies).
+	 * Commits the sentence. This means that it is added to the reasoner.
 	 * 
 	 * @param sentence The sentence to be commited.
-	 * @return An integer value denoting the success/failure of the operation.
 	 */
-	// TODO Improve this method!
-	protected synchronized int commitSentence(Sentence sentence) {
-		if (sentence == null || sentence.isIntegrated()) return 0;
+	protected synchronized void commitSentence(Sentence sentence) throws InconsistencyException {
+		if (sentence == null || sentence.isIntegrated()) return;
 		
 		if (!sentence.isReasonerParticipant()) {
 			sentence.setIntegrated(true);
-			return 0;
+			return;
 		}
 		
 		log("commit sentence");
 		
-		boolean inconsistencyEncountered = false;
-		boolean errorEncountered = false;
-		
 		try {
 			getReasonerManager().loadSentence(sentence);
-		} catch (OutOfMemoryError err) {
-			log("error: out of memory");
-			System.gc();
-			getReasonerManager().load();
-			return 2;
 		} catch (InconsistencyException ex) {
-			inconsistencyEncountered = true;
-		} catch (Exception ex) {
-			errorEncountered = true;
-			ex.printStackTrace();
-		}
-		
-		log("check for consistency");
-		if (errorEncountered) {
-			log("error encountered!");
-			getReasonerManager().unloadSentence(sentence);
-			// TODO return a different value here:
-			return 1;
-		} else if (inconsistencyEncountered || !getReasonerManager().isConsistent()) {
 			log("not consistent!");
 			getReasonerManager().unloadSentence(sentence);
-			return 1;
-		} else {
-			log("consistent!");
-			sentence.setIntegrated(true);
-			stateID++;
-			return 0;
+			throw ex;
+		} catch (Throwable t) {
+			log("error encountered!");
+			t.printStackTrace();
+			System.gc();
+			getReasonerManager().unloadSentence(sentence);
+			return;
 		}
+		
+		if (!getReasonerManager().isConsistent()) {
+			log("not consistent!");
+			getReasonerManager().unloadSentence(sentence);
+			throw new InconsistencyException();
+		}
+		
+		log("consistent!");
+		sentence.setIntegrated(true);
+		stateID++;
 	}
 	
 	/**
 	 * This method tries to reassert a sentence that is not yet integrated.
-	 * 
-	 * @return An integer value denoting the success/failure of the operation.
-	 * @see commitSentence(Sentence)
 	 */
-	public int reassert(Sentence sentence) {
-		int success = commitSentence(sentence);
+	public void reassert(Sentence sentence) throws InconsistencyException {
+		commitSentence(sentence);
 		getStorage().save(sentence.getArticle().getOntologyElement());
-		return success;
 	}
 	
 	/**

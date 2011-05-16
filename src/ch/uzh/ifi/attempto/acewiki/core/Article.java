@@ -56,14 +56,11 @@ public class Article {
 	 * 
 	 * @param oldStatement The statement that should be edited.
 	 * @param newStatement The new statement.
-	 * @return An integer value denoting the success/failure of the operation.
-	 * @see Ontology#commitSentence(Sentence)
 	 */
-	public int edit(Statement oldStatement, Statement newStatement) {
+	public void edit(Statement oldStatement, Statement newStatement) {
 		List<Statement> newStatements = new ArrayList<Statement>();
 		newStatements.add(newStatement);
-		int success = edit(oldStatement, newStatements);
-		return success;
+		edit(oldStatement, newStatements);
 	}
 	
 	/**
@@ -71,10 +68,8 @@ public class Article {
 	 * 
 	 * @param oldStatement The statement that should be edited.
 	 * @param newStatements The new statements.
-	 * @return An integer value denoting the success/failure of the operation.
-	 * @see Ontology#commitSentence(Sentence)
 	 */
-	public int edit(Statement oldStatement, List<Statement> newStatements) {
+	public void edit(Statement oldStatement, List<Statement> newStatements) {
 		log("edit statement of " + element.getWord() + ": " + oldStatement.getText() +
 				" > " + getStatementsString(newStatements));
 		
@@ -87,20 +82,17 @@ public class Article {
 				log("error: statement is not around anymore");
 				statements.addAll(0, newStatements);
 			}
-			int success = 0;
 			if (ontology != null) {
 				if (oldStatement instanceof Sentence) {
 					ontology.retractSentence((Sentence) oldStatement);
 				}
 				for (Statement s : newStatements) {
 					if (s instanceof Sentence) {
-						int successThis = ontology.commitSentence((Sentence) s);
-						if (successThis > success) success = successThis;
+						ontology.commitSentence((Sentence) s);
 					}
 				}
 				ontology.getStorage().save(element);
 			}
-			return success;
 		}
 	}
 	
@@ -111,14 +103,11 @@ public class Article {
 	 * @param followingStatement The statement in front of which the new statement should be added,
 	 *     or null if the statement should be added to the end of the article.
 	 * @param newStatement The new statement to be added.
-	 * @return An integer value denoting the success/failure of the operation.
-	 * @see Ontology#commitSentence(Sentence)
 	 */
-	public int add(Statement followingStatement, Statement newStatement) {
+	public void add(Statement followingStatement, Statement newStatement) {
 		List<Statement> newStatements = new ArrayList<Statement>();
 		newStatements.add(newStatement);
-		int success = add(followingStatement, newStatements);
-		return success;
+		add(followingStatement, newStatements);
 	}
 	
 	/**
@@ -128,10 +117,8 @@ public class Article {
 	 * @param followingStatement The statement in front of which the new statements should be
 	 *     added, or null if the statements should be added to the end of the article.
 	 * @param newStatements The new statements to be added.
-	 * @return An integer value denoting the success/failure of the operation.
-	 * @see Ontology#commitSentence(Sentence)
 	 */
-	public int add(Statement followingStatement, List<Statement> newStatements) {
+	public void add(Statement followingStatement, List<Statement> newStatements) {
 		log("add statements of " + element.getWord() + ": " + getStatementsString(newStatements));
 
 		synchronized (ontology) {
@@ -143,17 +130,14 @@ public class Article {
 				}
 				statements.addAll(newStatements);
 			}
-			int success = 0;
 			if (ontology != null) {
 				for (Statement s : newStatements) {
 					if (s instanceof Sentence) {
-						int successThis = ontology.commitSentence((Sentence) s);
-						if (successThis > success) success = successThis;
+						ontology.commitSentence((Sentence) s);
 					}
 				}
 				ontology.getStorage().save(element);
 			}
-			return success;
 		}
 	}
 	
