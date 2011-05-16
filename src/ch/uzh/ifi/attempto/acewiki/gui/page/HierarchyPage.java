@@ -30,7 +30,6 @@ import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.ReasonerManager;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
-import ch.uzh.ifi.attempto.acewiki.gui.FormPane;
 import ch.uzh.ifi.attempto.acewiki.gui.IndexBar;
 import ch.uzh.ifi.attempto.acewiki.gui.RecalcIcon;
 import ch.uzh.ifi.attempto.acewiki.gui.SentenceComponent;
@@ -155,7 +154,7 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 			log("page", "pressed: individuals");
 			getWiki().showPage(new IndividualsPage(page));
 		} else if (e.getSource() == title) {
-			getWiki().showWindow(FormPane.createEditorWindow(page.getOntologyElement(), getWiki()));
+			getWiki().showEditorWindow(page.getOntologyElement());
 		}
 	}
 

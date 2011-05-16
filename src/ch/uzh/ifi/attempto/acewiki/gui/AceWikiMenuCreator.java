@@ -98,7 +98,7 @@ public class AceWikiMenuCreator extends DefaultMenuCreator implements ActionList
 		String p = e.getActionCommand();
 		String type = getMenuEngine().getWordType(p);
 		int wordNumber = getMenuEngine().getWordNumber(p);
-		wiki.showWindow(FormPane.createCreatorWindow(type, wordNumber, wiki, actionListener));
+		wiki.showCreatorWindow(type, wordNumber, actionListener);
 	}
 
 }

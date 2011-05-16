@@ -494,6 +494,28 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	}
 	
 	/**
+	 * Shows a word editor window.
+	 * 
+	 * @param element The ontology element to be edited.
+	 */
+	public void showEditorWindow(OntologyElement element) {
+		WordEditorWindow editorWindow = new WordEditorWindow("Word Editor");
+		editorWindow.addTab(new FormPane(element, editorWindow, this));
+		showWindow(editorWindow);
+	}
+	
+	/**
+	 * Shows a word creator window.
+	 * 
+	 * @param actionListener The actionlistener.
+	 */
+	public void showCreatorWindow(String type, int wordNumber, ActionListener actionListener) {
+		WordEditorWindow creatorWindow = new WordEditorWindow("Word Creator");
+		creatorWindow.addTab(new FormPane(type, wordNumber, creatorWindow, this, actionListener));
+		showWindow(creatorWindow);
+	}
+	
+	/**
 	 * Removes the window.
 	 * 
 	 * @param window The window to be removed.

@@ -30,7 +30,6 @@ import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Article;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
-import ch.uzh.ifi.attempto.acewiki.gui.FormPane;
 import ch.uzh.ifi.attempto.acewiki.gui.IndexBar;
 import ch.uzh.ifi.attempto.acewiki.gui.SentenceComponent;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
@@ -174,7 +173,7 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 			log("page", "pressed: page " + (chosenPage+1));
 			updatePage();
 		} else if (e.getSource() == title) {
-			wiki.showWindow(FormPane.createEditorWindow(page.getOntologyElement(), wiki));
+			wiki.showEditorWindow(page.getOntologyElement());
 		}
 	}
 

@@ -33,10 +33,9 @@ import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.gui.CommentComponent;
 import ch.uzh.ifi.attempto.acewiki.gui.CommentEditorHandler;
-import ch.uzh.ifi.attempto.acewiki.gui.FormPane;
+import ch.uzh.ifi.attempto.acewiki.gui.SentenceComponent;
 import ch.uzh.ifi.attempto.acewiki.gui.SentenceEditorHandler;
 import ch.uzh.ifi.attempto.acewiki.gui.StatementMenu;
-import ch.uzh.ifi.attempto.acewiki.gui.SentenceComponent;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 
@@ -178,7 +177,7 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 			log("page", "pressed: references");
 			getWiki().showPage(new ReferencesPage(this));
 		} else if (e.getSource() == title) {
-			getWiki().showWindow(FormPane.createEditorWindow(getOntologyElement(), getWiki()));
+			getWiki().showEditorWindow(getOntologyElement());
 		}
 	}
 

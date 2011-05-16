@@ -118,35 +118,6 @@ public class FormPane extends WordEditorForm {
 		}
 	}
 	
-	/**
-	 * Creates a new editor window.
-	 * 
-	 * @param element The ontology element to be edited.
-	 * @param wiki The wiki instance.
-	 * @return The new editor window.
-	 */
-	// TODO: move!
-	public static WordEditorWindow createEditorWindow(OntologyElement element, Wiki wiki) {
-		WordEditorWindow editorWindow = new WordEditorWindow("Word Editor");
-		editorWindow.addTab(new FormPane(element, editorWindow, wiki));
-		return editorWindow;
-	}
-	
-	/**
-	 * Creates a new creator window.
-	 * 
-	 * @param wiki The wiki instance.
-	 * @param actionListener The actionlistener.
-	 * @return The new creator window.
-	 */
-	// TODO: move!
-	public static WordEditorWindow createCreatorWindow(String type, int wordNumber, Wiki wiki,
-			ActionListener actionListener) {
-		WordEditorWindow creatorWindow = new WordEditorWindow("Word Creator");
-		creatorWindow.addTab(new FormPane(type, wordNumber, creatorWindow, wiki, actionListener));
-		return creatorWindow;
-	}
-	
 	private void setExplanationComponent(int image, String text) {
 		ImageReference imageRef = null;
 		String imagePath = "ch/uzh/ifi/attempto/acewiki/gui/img/";

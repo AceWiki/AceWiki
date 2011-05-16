@@ -31,7 +31,6 @@ import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.ReasonerManager;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
-import ch.uzh.ifi.attempto.acewiki.gui.FormPane;
 import ch.uzh.ifi.attempto.acewiki.gui.IndexBar;
 import ch.uzh.ifi.attempto.acewiki.gui.RecalcIcon;
 import ch.uzh.ifi.attempto.acewiki.gui.SentenceComponent;
@@ -117,7 +116,7 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 			log("page", "pressed: references");
 			getWiki().showPage(new ReferencesPage(page));
 		} else if (e.getSource() == title) {
-			getWiki().showWindow(FormPane.createEditorWindow(page.getOntologyElement(), getWiki()));
+			getWiki().showEditorWindow(page.getOntologyElement());
 		}
 	}
 
