@@ -4,10 +4,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLLogicalEntity;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
 
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
@@ -27,7 +25,6 @@ public interface ACEOWLOntoElement extends OntologyElement {
 	 * ontology IRI and the IRI suffix of the ontology element.
 	 * 
 	 * @return The IRI.
-	 * @see #getIRISuffix()
 	 */
 	public IRI getIRI();
 	

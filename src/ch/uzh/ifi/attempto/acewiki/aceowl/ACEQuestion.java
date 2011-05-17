@@ -94,7 +94,7 @@ public class ACEQuestion extends ACESentence implements Question {
 		super.parse();
 	}
 	
-	public boolean isReasonerParticipant() {
+	public boolean isReasonable() {
 		return false;
 	}
 

@@ -84,7 +84,6 @@ class Tokenizer {
 					// identical):
 					int wordId = Arrays.asList(oe.getWords()).indexOf(s);
 					if (oe instanceof ProperNameIndividual) {
-						// TODO: this should be done at a different place!
 						ProperNameIndividual ind = (ProperNameIndividual) oe;
 						if (ind.hasDefiniteArticle(wordId-1) && textContainer.getTextElementsCount() > 0) {
 							String precedingText = textContainer.

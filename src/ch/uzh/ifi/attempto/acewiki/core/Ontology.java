@@ -299,7 +299,7 @@ public class Ontology {
 	protected synchronized void commitSentence(Sentence sentence) throws InconsistencyException {
 		if (sentence == null || sentence.isIntegrated()) return;
 		
-		if (!sentence.isReasonerParticipant()) {
+		if (!sentence.isReasonable()) {
 			sentence.setIntegrated(true);
 			return;
 		}
@@ -348,7 +348,7 @@ public class Ontology {
 		if (
 			sentence == null ||
 			!sentence.isIntegrated() ||
-			!sentence.isReasonerParticipant()
+			!sentence.isReasonable()
 		) return;
 		
 		log("retract sentence");

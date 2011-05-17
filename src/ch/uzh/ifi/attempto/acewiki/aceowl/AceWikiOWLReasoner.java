@@ -189,7 +189,7 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 			for (Sentence s : el.getArticle().getSentences()) {
 				ACESentence as = (ACESentence) s;
 				if (as instanceof Question || !as.isOWL()) continue;
-				if (consistent && (!as.isReasonerParticipant() || !as.isIntegrated())) continue;
+				if (consistent && (!as.isReasonable() || !as.isIntegrated())) continue;
 				axioms.addAll(as.getOWLAxioms());
 			}
 		}

@@ -138,7 +138,7 @@ public class FileBasedStorage implements AceWikiStorage {
 			pb2.addOne();
 			ontology.getReasonerManager().loadElement(oe);
 			for (Sentence s : oe.getArticle().getSentences()) {
-				if (s.isReasonerParticipant() && s.isIntegrated()) {
+				if (s.isReasonable() && s.isIntegrated()) {
 					ontology.getReasonerManager().loadSentence(s);
 				}
 			}

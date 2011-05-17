@@ -148,7 +148,7 @@ public abstract class ACESentence extends AbstractSentence {
 		return parserResult.get(OWLFSSPP);
 	}
 	
-	public boolean isReasonerParticipant() {
+	public boolean isReasonable() {
 		if (reasonerParticipant == null) {
 			parse();
 		}

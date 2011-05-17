@@ -68,7 +68,7 @@ public class SentenceComponent extends Column implements ActionListener {
 			dropDown = new StatementMenu(StatementMenu.INFERRED_TYPE, wiki, this);
 		} else if (sentence instanceof Question) {
 			dropDown = new StatementMenu(StatementMenu.QUESTION_TYPE, wiki, this);
-		} else if (sentence.isReasonerParticipant()) {
+		} else if (sentence.isReasonable()) {
 			dropDown = new StatementMenu(StatementMenu.REASONING_TYPE, wiki, this);
 		} else {
 			dropDown = new StatementMenu(StatementMenu.NOREASONING_TYPE, wiki, this);
@@ -76,7 +76,7 @@ public class SentenceComponent extends Column implements ActionListener {
 		
 		if (!wiki.isReadOnly() && !sentence.isReadOnly()) {
 			dropDown.addMenuEntry("Edit...", "Edit this sentence");
-			if (sentence.isReasonerParticipant()) {
+			if (sentence.isReasonable()) {
 				if (sentence.isIntegrated()) {
 					dropDown.addMenuEntry("Retract", "Retract this sentence from the knowledge base");
 				} else {

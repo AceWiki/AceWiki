@@ -44,13 +44,14 @@ public interface Sentence extends Statement {
 	 */
 	public String getPrettyText();
 	
-	// TODO rename this, because "reasoner participant" is confusing
+	// TODO move isReasonable/isIntegrated/setIntegrated to ontology or reasoner class?
+	
 	/**
 	 * Returns true if this sentence can participate in reasoning.
 	 * 
 	 * @return true if this sentence can participate in reasoning.
 	 */
-	public boolean isReasonerParticipant();
+	public boolean isReasonable();
 	
 	/**
 	 * Returns true if the sentence is integrated into the ontology.
@@ -59,7 +60,7 @@ public interface Sentence extends Statement {
 	 */
 	public boolean isIntegrated();
 	
-	// TODO: cleanup/clarify!
+	// TODO cleanup/clarify!
 	public void setIntegrated(boolean integrated);
 	
 	/**
