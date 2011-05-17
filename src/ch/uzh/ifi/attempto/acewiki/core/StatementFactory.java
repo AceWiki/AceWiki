@@ -48,16 +48,6 @@ public class StatementFactory {
 	}
 
 	/**
-	 * Creates a new independent sentence object.
-	 * 
-	 * @param text The sentence text.
-	 * @return The new sentence object.
-	 */
-	public Sentence createSentence(String text) {
-		return createSentence(text, null);
-	}
-
-	/**
 	 * Creates a new sentence object with the given article.
 	 * 
 	 * @param text The sentence text.
@@ -88,6 +78,18 @@ public class StatementFactory {
 			}
 		}
 		return l;
+	}
+	
+	public Sentence createAssignmentSentence(Individual ind, Concept conc) {
+		Sentence s = ontology.getLanguageFactory().createAssignmentSentence(ind, conc);
+		s.init(ontology, null);
+		return s;
+	}
+	
+	public Sentence createHierarchySentence(Concept subConc, Concept superConc) {
+		Sentence s = ontology.getLanguageFactory().createHierarchySentence(subConc, superConc);
+		s.init(ontology, null);
+		return s;
 	}
 
 }

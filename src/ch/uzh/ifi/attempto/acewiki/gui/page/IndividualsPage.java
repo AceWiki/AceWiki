@@ -32,6 +32,7 @@ import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.ReasonerManager;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
+import ch.uzh.ifi.attempto.acewiki.core.StatementFactory;
 import ch.uzh.ifi.attempto.acewiki.gui.IndexBar;
 import ch.uzh.ifi.attempto.acewiki.gui.RecalcIcon;
 import ch.uzh.ifi.attempto.acewiki.gui.SentenceComponent;
@@ -178,9 +179,8 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 				
 				Collections.sort(individuals, comparator);
 				for (Individual ind : individuals) {
-					sentences.add(getWiki().getOntology().getStatementFactory().createSentence(
-							ind.getWord(2) + " is a " + concept.getWord() + "."
-						));
+					StatementFactory sf = getWiki().getOntology().getStatementFactory();
+					sentences.add(sf.createAssignmentSentence(ind, concept));
 				}
 				if (sentences.size() == 0) {
 					indexBar.setVisible(false);

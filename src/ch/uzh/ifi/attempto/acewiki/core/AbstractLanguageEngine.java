@@ -14,8 +14,10 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class AbstractLanguageEngine implements LanguageEngine {
 	
@@ -55,6 +57,10 @@ public abstract class AbstractLanguageEngine implements LanguageEngine {
 		languageEngine.init(ontology);
 		return languageEngine;
 	}
+	
+	private Map<String, LexiconChanger> lexiconChangers = new HashMap<String, LexiconChanger>();
+	private List<OntologyExporter> exporters = new ArrayList<OntologyExporter>();
+	private String[] lexicalTypes = new String[] {};
 
 	public void init(Ontology ontology) {
 		getLexicon().init(ontology);
@@ -62,8 +68,28 @@ public abstract class AbstractLanguageEngine implements LanguageEngine {
 		getReasoner().init(ontology);
 	}
 	
+	public void setLexiconChanger(String type, LexiconChanger lexiconChanger) {
+		lexiconChangers.put(type, lexiconChanger);
+	}
+	
+	public LexiconChanger getLexiconChanger(String type) {
+		return lexiconChangers.get(type);
+	}
+	
+	public void addExporter(OntologyExporter exporter) {
+		exporters.add(exporter);
+	}
+	
 	public List<OntologyExporter> getExporters() {
-		return Collections.emptyList();
+		return exporters;
+	}
+	
+	public void setLexicalTypes(String... lexicalTypes) {
+		this.lexicalTypes = lexicalTypes;
+	}
+	
+	public String[] getLexicalTypes() {
+		return lexicalTypes;
 	}
 
 }

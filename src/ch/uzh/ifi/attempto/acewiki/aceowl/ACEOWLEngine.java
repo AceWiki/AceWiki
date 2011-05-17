@@ -33,22 +33,22 @@ public class ACEOWLEngine extends AbstractLanguageEngine {
 	private ACELanguageFactory languageFactory = new ACELanguageFactory();
 	private LexiconManager lexicon = new LexiconManager();
 	private AceWikiOWLReasoner reasoner = new AceWikiOWLReasoner();
-	private List<OntologyExporter> exporters = new ArrayList<OntologyExporter>();
-	private Map<String, LexiconChanger> lexiconChangers = new HashMap<String, LexiconChanger>();
 	private ACEOWLMenuEngine menuEngine = new ACEOWLMenuEngine();
 	
 	public ACEOWLEngine() {
-		exporters.add(new OWLXMLExporter(true));
-		exporters.add(new OWLXMLExporter(false));
-		exporters.add(new ACETextExporter(true));
-		exporters.add(new ACETextExporter(false));
-		exporters.add(new ACELexiconExporter());
+		addExporter(new OWLXMLExporter(true));
+		addExporter(new OWLXMLExporter(false));
+		addExporter(new ACETextExporter(true));
+		addExporter(new ACETextExporter(false));
+		addExporter(new ACELexiconExporter());
 		
-		lexiconChangers.put("propername", new ProperNameChanger());
-		lexiconChangers.put("noun", new NounChanger());
-		lexiconChangers.put("nounof", new NounOfChanger());
-		lexiconChangers.put("trverb", new VerbChanger());
-		lexiconChangers.put("tradj", new TrAdjChanger());
+		setLexicalTypes("propername", "noun", "nounof", "trverb", "tradj");
+		
+		setLexiconChanger("propername", new ProperNameChanger());
+		setLexiconChanger("noun", new NounChanger());
+		setLexiconChanger("nounof", new NounOfChanger());
+		setLexiconChanger("trverb", new VerbChanger());
+		setLexiconChanger("tradj", new TrAdjChanger());
 	}
 
 	public Grammar getGrammar() {
@@ -62,25 +62,13 @@ public class ACEOWLEngine extends AbstractLanguageEngine {
 	public LanguageFactory getLanguageFactory() {
 		return languageFactory;
 	}
-
-	public String[] getLexicalTypes() {
-		return new String[] {"propername", "noun", "nounof", "trverb", "tradj"};
-	}
 	
 	public MenuEngine getMenuEngine() {
 		return menuEngine;
 	}
 
-	public LexiconChanger getLexiconChanger(String type) {
-		return lexiconChangers.get(type);
-	}
-
 	public AceWikiReasoner getReasoner() {
 		return reasoner;
-	}
-	
-	public List<OntologyExporter> getExporters() {
-		return exporters;
 	}
 
 }

@@ -14,11 +14,11 @@
 
 package ch.uzh.ifi.attempto.acewiki.aceowl;
 
-import ch.uzh.ifi.attempto.acewiki.core.Declaration;
+import ch.uzh.ifi.attempto.acewiki.core.Concept;
+import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageFactory;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
-import ch.uzh.ifi.attempto.acewiki.core.Question;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.preditor.TextOperator;
 
@@ -60,6 +60,15 @@ public class ACELanguageFactory implements LanguageFactory {
 		} else {
 			return new ACEDeclaration(text);
 		}
+	}
+	
+	public Sentence createAssignmentSentence(Individual ind, Concept concept) {
+		return createSentence(ind.getWord(2) + " is a " + concept.getWord() + ".");
+	}
+	
+	public Sentence createHierarchySentence(Concept subConcept, Concept superConcept) {
+		return createSentence("Every " + subConcept.getWord() + " is a " +
+				superConcept.getWord() + ".");
 	}
 
 }
