@@ -137,6 +137,8 @@ public class SentenceEditorHandler implements ActionListener {
 			}
 		} else if (src == editorWindow && c.matches("Cancel|Close|Escape")) {
 			wiki.removeWindow(editorWindow);
+		} else if (src == messageWindow && c.equals("Close")) {
+			checked = 0;
 		} else if (src == messageWindow && suggestion != null) {
 			Sentence s = suggestion.getSentence(c);
 			if (s != newSentences.get(checked)) {
@@ -145,8 +147,6 @@ public class SentenceEditorHandler implements ActionListener {
 			}
 			checked++;
 			checkSentence();
-		} else if (src == messageWindow && c.equals("Close")) {
-			checked = 0;
 		} else if (src instanceof TextElement) {
 			editorWindow.addTextElement((TextElement) src);
 		}
