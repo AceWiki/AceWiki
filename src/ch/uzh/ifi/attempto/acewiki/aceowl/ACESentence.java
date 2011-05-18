@@ -60,7 +60,7 @@ public abstract class ACESentence extends AbstractSentence {
 	// These fields are evaluated lazily:
 	private TextContainer textContainer;
 	private ACEParserResult parserResult;
-	private Boolean reasonerParticipant;
+	private Boolean reasonable;
 	private Boolean isOWL;
 	private Boolean isOWLSWRL;
 	private Set<OWLAxiom> owlAxioms;
@@ -149,10 +149,10 @@ public abstract class ACESentence extends AbstractSentence {
 	}
 	
 	public boolean isReasonable() {
-		if (reasonerParticipant == null) {
+		if (reasonable == null) {
 			parse();
 		}
-		return reasonerParticipant;
+		return reasonable;
 	}
 	
 	/**
@@ -232,9 +232,6 @@ public abstract class ACESentence extends AbstractSentence {
 		}
 		MessageContainer mc = parserResult.getMessageContainer();
 		String owlxml = parserResult.get(OWLXML);
-		if (owlxml != null) {
-			owlxml = OWLXMLTransformer.transform(owlxml);
-		}
 		
 		isOWLSWRL =
 			(mc.getMessages("owl").size() == 0) &&
@@ -245,11 +242,11 @@ public abstract class ACESentence extends AbstractSentence {
 			(owlxml.indexOf("<DLSafeRule>") < 0);
 		
 		if (isOWL && reasoner.getGlobalRestrictionsPolicy().equals("no_chains")) {
-			reasonerParticipant =
+			reasonable =
 				(owlxml.indexOf("<TransitiveObjectProperty>") < 0) &&
 				(owlxml.indexOf("<ObjectPropertyChain>") < 0);
 		} else {
-			reasonerParticipant = isOWL;
+			reasonable = isOWL;
 		}
 		
 		owlAxioms = null;
@@ -260,7 +257,7 @@ public abstract class ACESentence extends AbstractSentence {
 						new StringDocumentSource(owlxml)
 					);
 				if (owlOntology.isEmpty()) {
-					reasonerParticipant = false;
+					reasonable = false;
 					isOWL = false;
 					isOWLSWRL = false;
 				} else {
@@ -271,11 +268,11 @@ public abstract class ACESentence extends AbstractSentence {
 			}
 		}
 		OWLProfile owlProfile = reasoner.getOWLProfile();
-		if (reasonerParticipant && owlOntology != null && owlProfile != null && this instanceof Declaration) {
+		if (reasonable && owlOntology != null && owlProfile != null && this instanceof Declaration) {
 			OWLProfileReport r = owlProfile.checkOntology(owlOntology);
 			for (OWLProfileViolation v : r.getViolations()) {
 				if (!v.toString().startsWith("Use of undeclared")) {
-					reasonerParticipant = false;
+					reasonable = false;
 					break;
 				}
 			}
@@ -283,7 +280,7 @@ public abstract class ACESentence extends AbstractSentence {
 		if (owlOntology != null) {
 			ontologyManager.removeOntology(owlOntology);
 		}
-		if (!reasonerParticipant && isIntegrated()) {
+		if (!reasonable && isIntegrated()) {
 			super.setIntegrated(false);
 		}
 		//String messages = mc.toString();
@@ -293,7 +290,7 @@ public abstract class ACESentence extends AbstractSentence {
 	}
 	
 	public void setIntegrated(boolean integrated) {
-		if (integrated && reasonerParticipant != null && !reasonerParticipant) {
+		if (integrated && reasonable != null && !reasonable) {
 			super.setIntegrated(false);
 		} else {
 			super.setIntegrated(integrated);
