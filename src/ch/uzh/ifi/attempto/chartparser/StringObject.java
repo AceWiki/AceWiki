@@ -15,6 +15,7 @@
 package ch.uzh.ifi.attempto.chartparser;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -29,7 +30,13 @@ class StringObject {
 	
 	private String string;
 	private final int id;
+	
+	// This should be a set, but a list is used for perfomance reasons and duplicates are removed
+	// from time to time:
 	private List<StringRef> stringRefs = new ArrayList<StringRef>(3);
+	
+	// This field counts the number of new string references since the last duplicates removal.
+	private int newStringRefs = 0;
 	
 	public StringObject(String string) {
 		this.string = string;
@@ -42,6 +49,7 @@ class StringObject {
 	
 	void addReference(StringRef r) {
 		stringRefs.add(r);
+		newStringRefs++;
 		r.setStringObject(this);
 	}
 	
@@ -52,8 +60,16 @@ class StringObject {
 			throw new UnificationFailedException();
 		}
 		stringRefs.addAll(e.stringRefs);
+		newStringRefs += e.stringRefs.size();
 		for (StringRef r : e.stringRefs) {
 			r.setStringObject(this);
+		}
+		if (newStringRefs > 100) {
+			// Time to remove duplicates from the list of string references.
+			HashSet<StringRef> set = new HashSet<StringRef>(stringRefs);
+			stringRefs.clear();
+			stringRefs.addAll(set);
+			newStringRefs = 0;
 		}
 	}
 	

@@ -356,7 +356,7 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 			TextElement te = textContainer.getTextElement(i);
 			String glue = "";
 			if (prev != null) {
-				glue = textOperator.getGlue(prev, te);
+				glue = getTextOperator().getGlue(prev, te);
 			}
 			if (r[i]) {
 				t += glue + "<u>" + te.getText() + "</u>";
