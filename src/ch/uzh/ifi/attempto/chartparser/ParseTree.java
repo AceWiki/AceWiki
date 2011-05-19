@@ -41,6 +41,19 @@ public class ParseTree {
 		this.topNode = new ParseTreeNode(edge.deepCopy(true));
 	}
 	
+	private ParseTree(ParseTreeNode topNode) {
+		this.topNode = topNode;
+	}
+	
+	private ParseTree createParseTree(ParseTreeNode topNode) {
+		ParseTree newParseTree = new ParseTree(topNode);
+		newParseTree.lamFunctor = lamFunctor;
+		newParseTree.appFunctor = appFunctor;
+		newParseTree.concatFunctor = concatFunctor;
+		newParseTree.semLabel = semLabel;
+		return newParseTree;
+	}
+	
 	/**
 	 * Sets the name of the annotation item that contains the semantics information. The default is
 	 * "sem".
@@ -213,6 +226,25 @@ public class ParseTree {
 	 */
 	public String getAsciiLambdaSemTree() {
 		return structureToAsciiTree(getLambdaSemTree(), 0);
+	}
+	
+	public List<ParseTree> getSubTrees(String categoryName) {
+		List<ParseTreeNode> topNodeList = new ArrayList<ParseTreeNode>();
+		topNodeList.add(topNode);
+		List<ParseTree> subTrees = new ArrayList<ParseTree>();
+		collectSubTrees(categoryName, topNodeList, subTrees);
+		return subTrees;
+	}
+	
+	private void collectSubTrees(String categoryName, List<ParseTreeNode> nodes,
+			List<ParseTree> subTrees) {
+		for (ParseTreeNode n : nodes) {
+			if (n.getCategory().getName().equals(categoryName)) {
+				subTrees.add(createParseTree(n));
+			} else {
+				collectSubTrees(categoryName, n.getChildren(), subTrees);
+			}
+		}
 	}
 	
 	private Object applyBetaReduction(Object obj, Map<Integer, Object> replace) {

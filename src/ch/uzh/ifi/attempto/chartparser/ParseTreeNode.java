@@ -20,13 +20,16 @@ import java.util.List;
 /**
  * This class represents a node of the parse tree. Each node has a category and an annotation
  * object that are carried over from the edge in the chart parser and originate from the respective
- * grammar rule.
+ * grammar rule. Additionally, each parse node has start and end positions denoting the covered
+ * part of the input text.
  * 
  * @author Tobias Kuhn
  */
 public class ParseTreeNode {
 	
 	private final Category category;
+	private final int startPos;
+	private final int endPos;
 	private final Annotation annotation;
 	private final List<ParseTreeNode> children = new ArrayList<ParseTreeNode>();
 	
@@ -37,7 +40,10 @@ public class ParseTreeNode {
 	 */
 	ParseTreeNode(Edge edge) {
 		this.category = edge.getHead();
+		this.startPos = edge.getStartPos();
+		this.endPos = edge.getEndPos();
 		this.annotation = edge.getAnnotation();
+		int pos = edge.getStartPos();
 		for (int i = 0 ; i < edge.getBody().length ; i++) {
 			Edge e = edge.getLinks().get(i);
 			if (e != null) {
@@ -47,8 +53,9 @@ public class ParseTreeNode {
 				} catch (UnificationFailedException ex) {
 					throw new RuntimeException("Unexpected unification error", ex);
 				}
+				pos = e.getEndPos();
 			} else {
-				children.add(new ParseTreeNode(edge.getBody()[i]));
+				children.add(new ParseTreeNode(edge.getBody()[i], pos));
 			}
 		}
 	}
@@ -58,8 +65,10 @@ public class ParseTreeNode {
 	 * 
 	 * @param category The category.
 	 */
-	ParseTreeNode(Category category) {
+	private ParseTreeNode(Category category, int pos) {
 		this.category = category;
+		this.startPos = pos;
+		this.endPos = pos;
 		this.annotation = new Annotation();
 	}
 	
@@ -70,6 +79,26 @@ public class ParseTreeNode {
 	 */
 	public Category getCategory() {
 		return category;
+	}
+	
+	/**
+	 * Returns the start position. 0 is the position before the first token, 1 the position after
+	 * the first token, 2 the position after the second token, and so on.
+	 * 
+	 * @return The start position.
+	 */
+	public int getStartPos() {
+		return startPos;
+	}
+	
+	/**
+	 * Returns the end position. 0 is the position before the first token, 1 the position after
+	 * the first token, 2 the position after the second token, and so on.
+	 * 
+	 * @return The end position.
+	 */
+	public int getEndPos() {
+		return endPos;
 	}
 	
 	/**
