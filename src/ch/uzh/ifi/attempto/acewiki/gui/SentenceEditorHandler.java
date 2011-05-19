@@ -63,6 +63,7 @@ public class SentenceEditorHandler implements ActionListener {
 				page.getOntologyElement(),
 				this
 			);
+		// TODO make start category configurable
 		editorWindow = new PreditorWindow("Sentence Editor", wiki.getGrammar(), "text");
 		editorWindow.setDynamicLexicon(wiki.getLexicon());
 		editorWindow.setMenuCreator(menuCreator);
@@ -110,7 +111,8 @@ public class SentenceEditorHandler implements ActionListener {
 		String c = e.getActionCommand();
 		if (src == editorWindow && c.matches("OK|Enter")) {
 			TextContainer textContainer = editorWindow.getTextContainer();
-			
+
+			// TODO make general
 			if (editorWindow.isPossibleNextToken(".")) {
 				textContainer.addElement(new TextElement("."));
 			}
@@ -119,6 +121,7 @@ public class SentenceEditorHandler implements ActionListener {
 			}
 			
 			List<TextElement> l = textContainer.getTextElements();
+			// TODO make general
 			if (l.isEmpty() || l.get(l.size() - 1).getText().matches("[.?]")) {
 				newSentences = wiki.getOntology().getStatementFactory().createSentences(
 						textContainer,

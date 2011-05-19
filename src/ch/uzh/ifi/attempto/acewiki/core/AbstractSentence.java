@@ -16,6 +16,7 @@ package ch.uzh.ifi.attempto.acewiki.core;
 
 import ch.uzh.ifi.attempto.preditor.TextContainer;
 import ch.uzh.ifi.attempto.preditor.TextElement;
+import ch.uzh.ifi.attempto.preditor.TextOperator;
 
 /**
  * This class represents an ACE sentence, which can be either a declaration (declarative sentence)
@@ -41,29 +42,35 @@ public abstract class AbstractSentence extends AbstractStatement implements Sent
 		this.integrated = integrated;
 	}
 	
-	public static String getUnderscoredText(TextContainer textContainer) {
-		String t = "";
-		for (TextElement te : textContainer.getTextElements()) {
-			if (te instanceof OntologyTextElement) {
-				t += " " + ((OntologyTextElement) te).getUnderscoredText();
-			} else if (te.getText().matches("[.?]")) {
-				t += te.getText();
-			} else {
-				t += " " + te.getText();
-			}
-		}
-		if (t.length() > 0) {
-			t = t.substring(1);
-		}
-		return t;
-	}
-	
 	public boolean isReadOnly() {
 		return getArticle() == null;
 	}
 	
 	public String toString() {
 		return getText();
+	}
+	
+	public String getUnderscoredText(TextContainer textContainer) {
+		return getUnderscoredText(textContainer, getOntology().getTextOperator());
+	}
+	
+	public static String getUnderscoredText(TextContainer textContainer,
+			TextOperator textOperator) {
+		String t = "";
+		TextElement prev = null;
+		for (TextElement te : textContainer.getTextElements()) {
+			String glue = "";
+			if (prev != null) {
+				glue = textOperator.getGlue(prev, te);
+			}
+			if (te instanceof OntologyTextElement) {
+				t += glue + ((OntologyTextElement) te).getUnderscoredText();
+			} else {
+				t += glue + te.getText();
+			}
+			prev = te;
+		}
+		return t;
 	}
 
 }

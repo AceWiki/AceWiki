@@ -448,9 +448,9 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 			}
 		}
 		if (textElement != null) {
-			if ((rest.isEmpty() && force) || (!rest.isEmpty() && menuBlockManager.getMenuEntryCount() == 0)) {
-				textContainer.addElement(textElement);
-				parser.addToken(textElement.getOriginalText());
+			if ((rest.isEmpty() && force) || (!rest.isEmpty() &&
+					menuBlockManager.getMenuEntryCount() == 0)) {
+				textElementSelected(textElement);
 				updateMenuBlockContents();
 				handleTokenInput(rest, force, caseSensitive);
 				return;

@@ -216,6 +216,7 @@ public class ParseTree {
 	}
 	
 	private Object applyBetaReduction(Object obj, Map<Integer, Object> replace) {
+		// TODO improve this (just one run, see Blackburn & Bos)
 		if (obj == null) {
 			return null;
 		} else if (obj instanceof String) {

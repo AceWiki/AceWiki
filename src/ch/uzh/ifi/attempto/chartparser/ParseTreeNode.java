@@ -26,9 +26,9 @@ import java.util.List;
  */
 public class ParseTreeNode {
 	
-	private Category category;
-	private Annotation annotation;
-	private List<ParseTreeNode> children = new ArrayList<ParseTreeNode>();
+	private final Category category;
+	private final Annotation annotation;
+	private final List<ParseTreeNode> children = new ArrayList<ParseTreeNode>();
 	
 	/**
 	 * Creates a new parse tree node out of the given edge.
@@ -61,15 +61,6 @@ public class ParseTreeNode {
 	ParseTreeNode(Category category) {
 		this.category = category;
 		this.annotation = new Annotation();
-	}
-	
-	/**
-	 * Adds a child to this node.
-	 * 
-	 * @param child The child node to be added.
-	 */
-	void addChild(ParseTreeNode child) {
-		children.add(child);
 	}
 	
 	/**

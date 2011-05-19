@@ -72,8 +72,10 @@ public class StatementFactory {
 		TextContainer c = new TextContainer(tc.getTextOperator());
 		for (TextElement e : tc.getTextElements()) {
 			c.addElement(e);
+			// TODO make general
 			if (e.getText().matches("[.?]")) {
-				l.add(createSentence(AbstractSentence.getUnderscoredText(c), article));
+				String t = AbstractSentence.getUnderscoredText(c, ontology.getTextOperator());
+				l.add(createSentence(t, article));
 				c = new TextContainer(tc.getTextOperator());
 			}
 		}
