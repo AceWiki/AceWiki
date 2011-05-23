@@ -14,8 +14,11 @@
 
 package ch.uzh.ifi.attempto.echocomp;
 
+import java.util.HashMap;
+
 import nextapp.echo.app.Color;
 import nextapp.echo.app.Font;
+import nextapp.echo.app.ResourceImageReference;
 import nextapp.echo.app.StyleSheet;
 import nextapp.echo.app.serial.SerialException;
 import nextapp.echo.app.serial.StyleSheetLoader;
@@ -28,6 +31,9 @@ import nextapp.echo.app.serial.StyleSheetLoader;
 public class Style {
     
 	private Style() {}  // no instances allowed
+	
+	private static final HashMap<String, ResourceImageReference> images =
+		new HashMap<String, ResourceImageReference>();
     
     static {
         try {
@@ -122,6 +128,17 @@ public class Style {
 				(int) (s * c.getGreen() + (1-s) * c.getBlue())
 			);
 		return color;
+	}
+	
+	public static ResourceImageReference getImage(String fileName) {
+		ResourceImageReference i = images.get(fileName);
+		if (i != null) {
+			return i;
+		} else {
+			i = new ResourceImageReference(fileName);
+			images.put(fileName, i);
+			return i;
+		}
 	}
 
 }

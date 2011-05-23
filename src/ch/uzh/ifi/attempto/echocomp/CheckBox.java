@@ -38,8 +38,8 @@ public class CheckBox extends nextapp.echo.app.CheckBox {
 	 */
 	public CheckBox(String text, ImageReference icon) {
 		super(text, icon);
-		setStateIcon(new ResourceImageReference(iconPath + "notchecked.png"));
-		setSelectedStateIcon(new ResourceImageReference(iconPath + "checked.png"));
+		setStateIcon(Style.getImage(iconPath + "notchecked.png"));
+		setSelectedStateIcon(Style.getImage(iconPath + "checked.png"));
 		setFont(new Font(Style.fontTypeface, Font.PLAIN, new Extent(13)));
 	}
 	

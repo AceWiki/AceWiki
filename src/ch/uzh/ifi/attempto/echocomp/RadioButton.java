@@ -39,8 +39,8 @@ public class RadioButton extends nextapp.echo.app.RadioButton {
 	public RadioButton(String text, ImageReference icon, ButtonGroup group) {
 		super(text, icon);
 		if (group != null) setGroup(group);
-		setStateIcon(new ResourceImageReference("ch/uzh/ifi/attempto/echocomp/style/radiooff.png"));
-		setSelectedStateIcon(new ResourceImageReference("ch/uzh/ifi/attempto/echocomp/style/radioon.png"));
+		setStateIcon(Style.getImage("ch/uzh/ifi/attempto/echocomp/style/radiooff.png"));
+		setSelectedStateIcon(Style.getImage("ch/uzh/ifi/attempto/echocomp/style/radioon.png"));
 		setFont(new Font(Style.fontTypeface, Font.PLAIN, new Extent(13)));
 	}
 	

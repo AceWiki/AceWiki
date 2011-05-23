@@ -14,7 +14,7 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui;
 
-import nextapp.echo.app.ResourceImageReference;
+import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.echocomp.Label;
 
 /**
@@ -32,7 +32,7 @@ public class RecalcIcon extends Label {
 	 * @param toolTipText The tool tip text.
 	 */
 	public RecalcIcon(String toolTipText) {
-		super(new ResourceImageReference("ch/uzh/ifi/attempto/acewiki/gui/img/recalc.png"));
+		super(Wiki.getImage("recalc.png"));
 		if (toolTipText != null) {
 			setToolTipText(toolTipText);
 		}

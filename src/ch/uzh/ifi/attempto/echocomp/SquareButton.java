@@ -48,7 +48,7 @@ public class SquareButton extends Button {
 	 * @param iconName The new icon name.
 	 */
 	public void setIconName(String iconName) {
-		setIcon(new ResourceImageReference(imgpath + iconName + ".png"));
+		setIcon(Style.getImage(imgpath + iconName + ".png"));
 	}
 
 }

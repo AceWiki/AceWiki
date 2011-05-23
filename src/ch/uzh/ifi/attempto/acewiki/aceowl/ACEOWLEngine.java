@@ -14,18 +14,11 @@
 
 package ch.uzh.ifi.attempto.acewiki.aceowl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import ch.uzh.ifi.attempto.acewiki.core.AbstractLanguageEngine;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiLexicon;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageFactory;
-import ch.uzh.ifi.attempto.acewiki.core.LexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.MenuEngine;
-import ch.uzh.ifi.attempto.acewiki.core.OntologyExporter;
 import ch.uzh.ifi.attempto.chartparser.Grammar;
 
 public class ACEOWLEngine extends AbstractLanguageEngine {

@@ -16,6 +16,7 @@ package ch.uzh.ifi.attempto.acewiki;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -543,9 +544,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			loginBackground = new Row();
 			loginBackground.setInsets(new Insets(10, 10));
 			loginBackground.setCellSpacing(new Extent(30));
-			Label loginBgLogo = new Label(new ResourceImageReference(
-					"ch/uzh/ifi/attempto/acewiki/gui/img/AceWikiLogoSmall.png"
-				));
+			Label loginBgLogo = new Label(getImage("AceWikiLogoSmall.png"));
 			loginBackground.add(loginBgLogo);
 			loginBackground.add(new Title(getParameter("title"), true));
 			getContentPane().add(loginBackground);
@@ -1037,6 +1036,10 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 */
 	public void unlock() {
 		locked = false;
+	}
+	
+	public static ResourceImageReference getImage(String fileName) {
+		return Style.getImage("ch/uzh/ifi/attempto/acewiki/gui/img/" + fileName);
 	}
 
 }

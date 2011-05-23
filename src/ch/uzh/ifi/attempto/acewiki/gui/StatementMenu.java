@@ -223,15 +223,11 @@ public class StatementMenu extends Row implements ActionListener {
 	}
 	
 	private ResourceImageReference getNormalIcon() {
-		return new ResourceImageReference(
-				"ch/uzh/ifi/attempto/acewiki/gui/img/tri" + getIconType() + ".png"
-			);
+		return Wiki.getImage("tri" + getIconType() + ".png");
 	}
 	
 	private ResourceImageReference getActiveIcon() {
-		return new ResourceImageReference(
-				"ch/uzh/ifi/attempto/acewiki/gui/img/tri" + getIconType() + "l.png"
-			);
+		return Wiki.getImage("tri" + getIconType() + "l.png");
 	}
 	
 	private String getIconType() {

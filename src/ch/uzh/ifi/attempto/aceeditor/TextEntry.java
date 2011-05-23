@@ -26,7 +26,6 @@ import nextapp.echo.app.Column;
 import nextapp.echo.app.Extent;
 import nextapp.echo.app.Font;
 import nextapp.echo.app.Insets;
-import nextapp.echo.app.ResourceImageReference;
 import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
@@ -298,10 +297,10 @@ class TextEntry extends Column implements ActionListener {
 		}
 		this.expanded = expanded;
 		if (expanded) {
-			expandButton.setIcon(new ResourceImageReference(imgpath + "down.png"));
+			expandButton.setIcon(Style.getImage(imgpath + "down.png"));
 			add(resultsColumn);
 		} else {
-			expandButton.setIcon(new ResourceImageReference(imgpath + "right.png"));
+			expandButton.setIcon(Style.getImage(imgpath + "right.png"));
 			remove(resultsColumn);
 		}
 		owner.entryChanged(this);

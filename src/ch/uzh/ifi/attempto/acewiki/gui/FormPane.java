@@ -24,7 +24,6 @@ import nextapp.echo.app.Font;
 import nextapp.echo.app.Grid;
 import nextapp.echo.app.ImageReference;
 import nextapp.echo.app.Insets;
-import nextapp.echo.app.ResourceImageReference;
 import nextapp.echo.app.WindowPane;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
@@ -40,7 +39,6 @@ import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.echocomp.TextField;
 import ch.uzh.ifi.attempto.preditor.WordEditorForm;
-import ch.uzh.ifi.attempto.preditor.WordEditorWindow;
 
 /**
  * This abstract class contains the basic structure for forms to create and modify words
@@ -120,13 +118,12 @@ public class FormPane extends WordEditorForm {
 	
 	private void setExplanationComponent(int image, String text) {
 		ImageReference imageRef = null;
-		String imagePath = "ch/uzh/ifi/attempto/acewiki/gui/img/";
 		if (image == LexiconChanger.INDIVIDUAL_IMAGE) {
-			imageRef = new ResourceImageReference(imagePath + "individual.png");
+			imageRef = Wiki.getImage("individual.png");
 		} else if (image == LexiconChanger.CONCEPT_IMAGE) {
-			imageRef = new ResourceImageReference(imagePath + "concept.png");
+			imageRef = Wiki.getImage("concept.png");
 		} else if (image == LexiconChanger.RELATION_IMAGE) {
-			imageRef = new ResourceImageReference(imagePath + "relation.png");
+			imageRef = Wiki.getImage("relation.png");
 		}
 		Grid explanationComp = new Grid(2);
 		explanationComp.setRowHeight(0, new Extent(110));
