@@ -29,6 +29,9 @@ public class ACEOWLEngine extends AbstractLanguageEngine {
 	private ACEOWLMenuEngine menuEngine = new ACEOWLMenuEngine();
 	
 	public ACEOWLEngine() {
+		setTextCategory("text");
+		setSentenceCategory("complete_sentence");
+		
 		addExporter(new OWLXMLExporter(true));
 		addExporter(new OWLXMLExporter(false));
 		addExporter(new ACETextExporter(true));

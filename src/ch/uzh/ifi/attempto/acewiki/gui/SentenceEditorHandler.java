@@ -24,10 +24,12 @@ import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Article;
 import ch.uzh.ifi.attempto.acewiki.core.InconsistencyException;
 import ch.uzh.ifi.attempto.acewiki.core.MenuEngine;
+import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceSuggestion;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.gui.page.ArticlePage;
+import ch.uzh.ifi.attempto.chartparser.ParseTree;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.preditor.PreditorWindow;
 import ch.uzh.ifi.attempto.preditor.TextContainer;
@@ -63,8 +65,11 @@ public class SentenceEditorHandler implements ActionListener {
 				page.getOntologyElement(),
 				this
 			);
-		// TODO make start category configurable
-		editorWindow = new PreditorWindow("Sentence Editor", wiki.getGrammar(), "text");
+		editorWindow = new PreditorWindow(
+				"Sentence Editor",
+				wiki.getGrammar(),
+				wiki.getLanguageEngine().getTextCategory()
+			);
 		editorWindow.setDynamicLexicon(wiki.getLexicon());
 		editorWindow.setMenuCreator(menuCreator);
 		editorWindow.setLogger(wiki.getLogger());
@@ -110,21 +115,22 @@ public class SentenceEditorHandler implements ActionListener {
 		Object src = e.getSource();
 		String c = e.getActionCommand();
 		if (src == editorWindow && c.matches("OK|Enter")) {
-			TextContainer textContainer = editorWindow.getTextContainer();
-
-			// TODO make general
-			if (editorWindow.isPossibleNextToken(".")) {
-				textContainer.addElement(new TextElement("."));
-			}
-			if (editorWindow.isPossibleNextToken("?")) {
-				textContainer.addElement(new TextElement("?"));
+			Ontology o = wiki.getOntology();
+			
+			for (String t : o.getLanguageEngine().getMenuEngine().getAutocompleteTokens()) {
+				if (editorWindow.isPossibleNextToken(t)) {
+					editorWindow.addTextElement(o.getTextOperator().createTextElement(t));
+					break;
+				}
 			}
 			
+			TextContainer textContainer = editorWindow.getTextContainer();
+			ParseTree parseTree = editorWindow.getParseTree();
 			List<TextElement> l = textContainer.getTextElements();
-			// TODO make general
 			if (l.isEmpty() || l.get(l.size() - 1).getText().matches("[.?]")) {
-				newSentences = wiki.getOntology().getStatementFactory().createSentences(
+				newSentences =o.getStatementFactory().createSentences(
 						textContainer,
+						parseTree,
 						page.getArticle()
 					);
 				checkSentence();

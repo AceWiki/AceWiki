@@ -24,6 +24,10 @@ public interface LanguageEngine {
 	
 	public Grammar getGrammar();
 	
+	public String getTextCategory();
+	
+	public String getSentenceCategory();
+	
 	public AceWikiLexicon getLexicon();
 	
 	public LanguageFactory getLanguageFactory();

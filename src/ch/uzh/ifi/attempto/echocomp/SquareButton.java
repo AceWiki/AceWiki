@@ -1,7 +1,6 @@
 package ch.uzh.ifi.attempto.echocomp;
 
 import nextapp.echo.app.Button;
-import nextapp.echo.app.ResourceImageReference;
 import nextapp.echo.app.event.ActionListener;
 
 /**
@@ -32,6 +31,7 @@ public class SquareButton extends Button {
 		addActionListener(actionListener);
 		setIconName(iconName);
 	}
+	
 	/**
 	 * Creates a new square button.
 	 * 

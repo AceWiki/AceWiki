@@ -17,7 +17,6 @@ package ch.uzh.ifi.attempto.echocomp;
 import nextapp.echo.app.Extent;
 import nextapp.echo.app.Font;
 import nextapp.echo.app.ImageReference;
-import nextapp.echo.app.ResourceImageReference;
 import nextapp.echo.app.button.ButtonGroup;
 
 /**

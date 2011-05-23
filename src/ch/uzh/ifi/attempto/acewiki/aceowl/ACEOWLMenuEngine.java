@@ -92,6 +92,10 @@ public class ACEOWLMenuEngine implements MenuEngine {
 		if (c.equals("pverb")) return 2;
 		return 0;
 	}
+
+	public String[] getAutocompleteTokens() {
+		return new String[] {".", "?"};
+	}
 	
 	public SentenceSuggestion getSuggestion(Sentence sentence) {
 		List<TextElement> t = sentence.getTextElements();

@@ -178,7 +178,8 @@ public class TextContainer {
 	 * @return The index of the text element.
 	 */
 	public int getIndexOf(TextElement textElement) {
-		// indexOf(...) does not work, because it uses the equals-method, but we need to check for identity:
+		// indexOf(...) does not work, because it uses the equals-method, but we need to check for
+		// identity:
 		int index = -1;
 		for (int i = 0 ; i < elements.size() ; i++) {
 			if (elements.get(i) == textElement) {
@@ -204,6 +205,14 @@ public class TextContainer {
 			}
 			return textOperator.getTextInContext(te, preceding, following);
 		}
+	}
+	
+	public TextContainer getSubTextContainer(int startPos, int endPos) {
+		TextContainer subtc = new TextContainer(textOperator);
+		for (int i = startPos; i < endPos; i++) {
+			subtc.addElement(elements.get(i));
+		}
+		return subtc;
 	}
 	
 	public TextContainer clone() {

@@ -54,6 +54,14 @@ public class ParseTree {
 		return newParseTree;
 	}
 	
+	public int getStartPos() {
+		return topNode.getStartPos();
+	}
+	
+	public int getEndPos() {
+		return topNode.getEndPos();
+	}
+	
 	/**
 	 * Sets the name of the annotation item that contains the semantics information. The default is
 	 * "sem".

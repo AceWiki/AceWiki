@@ -30,6 +30,8 @@ public interface MenuEngine {
 	
 	public int getWordNumber(String extensibleCategory);
 	
+	public String[] getAutocompleteTokens();
+	
 	public SentenceSuggestion getSuggestion(Sentence sentence);
 
 }

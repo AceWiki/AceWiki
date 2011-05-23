@@ -61,11 +61,29 @@ public abstract class AbstractLanguageEngine implements LanguageEngine {
 	private Map<String, LexiconChanger> lexiconChangers = new HashMap<String, LexiconChanger>();
 	private List<OntologyExporter> exporters = new ArrayList<OntologyExporter>();
 	private String[] lexicalTypes = new String[] {};
+	private String textCategory = "text";
+	private String sentenceCategory = "sentence";
 
 	public void init(Ontology ontology) {
 		getLexicon().init(ontology);
 		getLanguageFactory().init(ontology);
 		getReasoner().init(ontology);
+	}
+	
+	public String getTextCategory() {
+		return textCategory;
+	}
+	
+	public void setTextCategory(String textCategory) {
+		this.textCategory = textCategory;
+	}
+	
+	public String getSentenceCategory() {
+		return sentenceCategory;
+	}
+	
+	public void setSentenceCategory(String sentenceCategory) {
+		this.sentenceCategory = sentenceCategory;
 	}
 	
 	public void setLexiconChanger(String type, LexiconChanger lexiconChanger) {

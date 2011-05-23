@@ -17,6 +17,7 @@ package ch.uzh.ifi.attempto.acewiki.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.uzh.ifi.attempto.chartparser.ParseTree;
 import ch.uzh.ifi.attempto.preditor.TextContainer;
 import ch.uzh.ifi.attempto.preditor.TextElement;
 
@@ -67,17 +68,14 @@ public class StatementFactory {
 	 * @param article The article of the sentences.
 	 * @return A list of sentences.
 	 */
-	public List<Sentence> createSentences(TextContainer tc, Article article) {
+	public List<Sentence> createSentences(TextContainer tc, ParseTree parseTree, Article article) {
+		String s = ontology.getLanguageEngine().getSentenceCategory();
+		List<ParseTree> subTrees = parseTree.getSubTrees(s);
 		List<Sentence> l = new ArrayList<Sentence>();
-		TextContainer c = new TextContainer(tc.getTextOperator());
-		for (TextElement e : tc.getTextElements()) {
-			c.addElement(e);
-			// TODO make general
-			if (e.getText().matches("[.?]")) {
-				String t = AbstractSentence.getUnderscoredText(c, ontology.getTextOperator());
-				l.add(createSentence(t, article));
-				c = new TextContainer(tc.getTextOperator());
-			}
+		for (ParseTree pt : subTrees) {
+			TextContainer c = tc.getSubTextContainer(pt.getStartPos(), pt.getEndPos());
+			String t = AbstractSentence.getUnderscoredText(c, ontology.getTextOperator());
+			l.add(createSentence(t, article));
 		}
 		return l;
 	}
