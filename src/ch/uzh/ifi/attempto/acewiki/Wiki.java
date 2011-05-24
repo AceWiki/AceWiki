@@ -16,7 +16,6 @@ package ch.uzh.ifi.attempto.acewiki;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -315,18 +314,18 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		
 		// auto login
 		if (isLoginEnabled()) {
-			User user = getUserBase().getUser(getCookie("lastusername"));
+			String userName = getCookie("lastusername");
 			boolean stayLoggedIn = getCookie("stayloggedin").equals("true");
-			if (user != null && stayLoggedIn) {
+			if (getUserBase().existsUser(userName) && stayLoggedIn) {
 				String clientToken = getCookie("stayloggedintoken");
-				String serverToken = user.getUserData("stayloggedintoken");
 				if (clientToken.length() > 0) {
 					log("syst", "try auto login...");
-					if (clientToken.equals(serverToken)) {
+					user = getUserBase().autoLogin(userName, clientToken);
+					if (user != null) {
 						log("syst", "auto login successful: " + user.getName());
 						setUser(user);
 					} else {
-						log("syst", "auto login failed: " + user.getName());
+						log("syst", "auto login failed: " + userName);
 						clearCookie("stayloggedintoken");
 					}
 				}

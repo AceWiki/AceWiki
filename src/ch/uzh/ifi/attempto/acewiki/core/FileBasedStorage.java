@@ -292,6 +292,7 @@ public class FileBasedStorage implements AceWikiStorage {
 		UserBase userBase = userBases.get(ontology.getName());
 		if (userBase == null) {
 			userBase = new UserBase(ontology, this);
+			userBases.put(ontology.getName(), userBase);
 			File userDir = new File(dir + "/" + ontology.getName() + ".users");
 			if (userDir.exists()) {
 				for (File file : userDir.listFiles()) {

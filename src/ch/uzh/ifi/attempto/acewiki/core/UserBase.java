@@ -64,6 +64,10 @@ public class UserBase {
 		return userNameMap.get(name);
 	}
 	
+	public boolean existsUser(String name) {
+		return userNameMap.containsKey(name);
+	}
+	
 	/**
 	 * Returns the user with the given id, or null if no user with this id exists.
 	 * 
@@ -95,6 +99,18 @@ public class UserBase {
 		User user = getUser(name);
 		if (user == null) return null;
 		if (user.isCorrectPassword(password)) {
+			user.setUserData("lastlogin", getTimeNow());
+			user.addToUserDataCounter("logincount", 1);
+			return user;
+		}
+		return null;
+	}
+	
+	public User autoLogin(String name, String clientToken) {
+		User user = getUser(name);
+		if (user == null) return null;
+		String serverToken = user.getUserData("stayloggedintoken");
+		if (clientToken.equals(serverToken)) {
 			user.setUserData("lastlogin", getTimeNow());
 			user.addToUserDataCounter("logincount", 1);
 			return user;

@@ -96,7 +96,7 @@ public class UserWindow extends WindowPane implements ActionListener {
 		formGrid.add(new SolidLabel(user.getName(), Font.ITALIC));
 		formGrid.add(new SolidLabel("registration:", Font.ITALIC));
 		formGrid.add(new SolidLabel(user.getUserData("registerdate"), Font.ITALIC));
-		formGrid.add(new SolidLabel("number of logins:", Font.ITALIC));
+		formGrid.add(new SolidLabel("number of sessions:", Font.ITALIC));
 		formGrid.add(new SolidLabel(user.getUserData("logincount"), Font.ITALIC));
 		formGrid.add(new SolidLabel("email:", Font.ITALIC));
 		emailField.setText(user.getUserData("email"));
