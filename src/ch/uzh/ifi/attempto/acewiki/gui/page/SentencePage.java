@@ -14,22 +14,15 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui.page;
 
-import static ch.uzh.ifi.attempto.ape.OutputType.PARAPHRASE1;
-import static ch.uzh.ifi.attempto.ape.OutputType.SYNTAXPP;
-
 import java.util.List;
 
 import nextapp.echo.app.Column;
 import nextapp.echo.app.Font;
 import nextapp.echo.app.Insets;
-import nextapp.echo.app.event.ActionEvent;
-import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
-import ch.uzh.ifi.attempto.acewiki.core.SentenceInfo;
+import ch.uzh.ifi.attempto.acewiki.core.SentenceDetail;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
-import ch.uzh.ifi.attempto.ape.SyntaxBoxes;
-import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
 import echopoint.DirectHtml;
@@ -39,7 +32,7 @@ import echopoint.DirectHtml;
  * 
  * @author Tobias Kuhn
  */
-public class SentencePage extends WikiPage implements ActionListener {
+public class SentencePage extends WikiPage {
 
 	private static final long serialVersionUID = -1550505465878272821L;
 
@@ -56,30 +49,23 @@ public class SentencePage extends WikiPage implements ActionListener {
 		this.sentence = sentence;
 		
 		addSelectedTab("Sentence");
-		addTab("Logic", this);
 		
 		add(new Title(sentence.getPrettyText(), false));
 		addHorizontalLine();
 		add(new VSpace(15));
 		
-		List<SentenceInfo> l = sentence.getDetailInfo();
+		List<SentenceDetail> l = sentence.getDetails();
 		
 		if (l.isEmpty()) {
 			add(new SolidLabel("(no detail information available)", Font.ITALIC, 10));
 		}
 		
-		for (SentenceInfo si : l) {
+		for (SentenceDetail si : l) {
 			addHeadline(si.getName());
 			Column infoColumn = new Column();
 			infoColumn.setInsets(new Insets(10, 5, 5, 15));
 			infoColumn.add(new DirectHtml(si.getRichText()));
 			add(infoColumn);
-		}
-	}
-
-	public void actionPerformed(ActionEvent e) {
-		if ("Logic".equals(e.getActionCommand())) {
-			getWiki().showPage(new LogicPage(getWiki(), sentence));
 		}
 	}
 

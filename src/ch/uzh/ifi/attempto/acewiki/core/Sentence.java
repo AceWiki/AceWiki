@@ -86,8 +86,6 @@ public interface Sentence extends Statement {
 	
 	public boolean isReadOnly();
 	
-	public List<SentenceInfo> getDetailInfo();
-	
-	public List<SentenceInfo> getLogicInfo();
+	public List<SentenceDetail> getDetails();
 
 }

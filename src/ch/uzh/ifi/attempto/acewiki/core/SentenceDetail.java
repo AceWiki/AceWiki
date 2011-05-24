@@ -14,12 +14,12 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
-public class SentenceInfo {
+public class SentenceDetail {
 	
 	private final String name;
 	private final String richText;
 	
-	public SentenceInfo(String name, String richText) {
+	public SentenceDetail(String name, String richText) {
 		this.name = name;
 		this.richText = richText;
 	}

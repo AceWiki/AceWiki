@@ -25,7 +25,6 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.gui.page.ArticlePage;
-import ch.uzh.ifi.attempto.acewiki.gui.page.LogicPage;
 import ch.uzh.ifi.attempto.acewiki.gui.page.SentencePage;
 import ch.uzh.ifi.attempto.acewiki.gui.page.WikiPage;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
@@ -84,17 +83,16 @@ public class SentenceComponent extends Column implements ActionListener {
 				}
 			}
 			dropDown.addMenuEntry("Delete", "Delete this sentence from the article");
-			dropDown.addMenuSeparator();
 		}
+		
+		dropDown.addMenuEntry("Show Details", "Show the details of this sentence");
 		
 		if (!wiki.isReadOnly() && hostPage instanceof ArticlePage) {
+			dropDown.addMenuSeparator();
 			dropDown.addMenuEntry("Add Sentence...", "Add a new sentence here");
 			dropDown.addMenuEntry("Add Comment...", "Add a new comment here");
-			dropDown.addMenuSeparator();
 		}
 		
-		dropDown.addMenuEntry("Details", "Show the details of this sentence");
-		dropDown.addMenuEntry("Logic", "Show the logic of this sentence");
 		
 		boolean isRed = !sentence.isIntegrated() && !sentence.isReadOnly() && !(sentence instanceof Question);
 		
@@ -189,12 +187,9 @@ public class SentenceComponent extends Column implements ActionListener {
 				update();
 				hostPage.update();
 			}
-		} else if (e.getActionCommand().equals("Details")) {
+		} else if (e.getActionCommand().equals("Show Details")) {
 			wiki.log("page", "dropdown: details sentence: " + sentence.getText());
 			wiki.showPage(new SentencePage(wiki, sentence));
-		} else if (e.getActionCommand().equals("Logic")) {
-			wiki.log("page", "dropdown: logic sentence: " + sentence.getText());
-			wiki.showPage(new LogicPage(wiki, sentence));
 		} else if (e.getSource() instanceof MessageWindow && e.getActionCommand().equals("Yes")) {
 			wiki.log("page", "dropdown: delete confirmed: " + sentence.getText());
 			

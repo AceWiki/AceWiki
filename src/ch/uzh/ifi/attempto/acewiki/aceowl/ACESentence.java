@@ -41,7 +41,7 @@ import ch.uzh.ifi.attempto.acewiki.core.AbstractSentence;
 import ch.uzh.ifi.attempto.acewiki.core.Declaration;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
-import ch.uzh.ifi.attempto.acewiki.core.SentenceInfo;
+import ch.uzh.ifi.attempto.acewiki.core.SentenceDetail;
 import ch.uzh.ifi.attempto.ape.ACEParserResult;
 import ch.uzh.ifi.attempto.ape.APELocal;
 import ch.uzh.ifi.attempto.ape.Lexicon;
@@ -340,31 +340,26 @@ public abstract class ACESentence extends AbstractSentence {
 		return s + "\n";
 	}
 
-	public List<SentenceInfo> getDetailInfo() {
-		List<SentenceInfo> l = new ArrayList<SentenceInfo>();
-		l.add(new SentenceInfo(
+	public List<SentenceDetail> getDetails() {
+		List<SentenceDetail> l = new ArrayList<SentenceDetail>();
+		l.add(new SentenceDetail(
 				"Paraphrase",
 				StringEscapeUtils.escapeHtml(getParserResult().get(PARAPHRASE1))
 			));
-		l.add(new SentenceInfo(
+		l.add(new SentenceDetail(
 				"Syntax Boxes",
 				SyntaxBoxes.getBoxesHtml(getParserResult())
 			));
-		l.add(new SentenceInfo(
+		l.add(new SentenceDetail(
 				"Syntax Tree",
 				"<pre>" + getParserResult().get(SYNTAXPP) + "</pre>"
 			));
-		return l;
-	}
-
-	public List<SentenceInfo> getLogicInfo() {
-		List<SentenceInfo> l = new ArrayList<SentenceInfo>();
-		l.add(new SentenceInfo(
+		l.add(new SentenceDetail(
 				"Logical representation",
 				"<i><pre>" + StringEscapeUtils.escapeHtml(getParserResult().get(DRSPP)) + "</pre></i>"
 			));
 		if (isOWLSWRL()) {
-			l.add(new SentenceInfo(
+			l.add(new SentenceDetail(
 					"OWL",
 					"<i><pre>" + StringEscapeUtils.escapeHtml(getPrettyOWL()) + "</pre></i>"
 				));
