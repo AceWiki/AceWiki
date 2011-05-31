@@ -17,8 +17,8 @@ package ch.uzh.ifi.attempto.acewiki.aceowl;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.uzh.ifi.attempto.acewiki.core.AbstractLexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.InvalidWordException;
-import ch.uzh.ifi.attempto.acewiki.core.LexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconDetail;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
@@ -29,19 +29,13 @@ import ch.uzh.ifi.attempto.ape.FunctionWords;
  * 
  * @author Tobias Kuhn
  */
-public class NounChanger implements LexiconChanger {
+public class NounChanger extends AbstractLexiconChanger {
 	
-	public String getTitle() {
-		return "Noun";
-	}
-	
-	public int getImage() {
-		return CONCEPT_IMAGE;
-	}
-	
-	public String getDescription() {
-		return "Every noun represents a certain type of things. " +
-			"For example, the noun \"city\" stands for all things that are cities.";
+	public NounChanger() {
+		setTitle("Noun");
+		setImage(CONCEPT_IMAGE);
+		setDescription("Every noun represents a certain type of things. " +
+			"For example, the noun \"city\" stands for all things that are cities.");
 	}
 	
 	public List<LexiconDetail> getDetails(OntologyElement el) {

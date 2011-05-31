@@ -17,8 +17,8 @@ package ch.uzh.ifi.attempto.acewiki.aceowl;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.uzh.ifi.attempto.acewiki.core.AbstractLexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.InvalidWordException;
-import ch.uzh.ifi.attempto.acewiki.core.LexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconDetail;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
@@ -29,19 +29,13 @@ import ch.uzh.ifi.attempto.ape.FunctionWords;
  * 
  * @author Tobias Kuhn
  */
-public class VerbChanger implements LexiconChanger {
+public class VerbChanger extends AbstractLexiconChanger {
 	
-	public String getTitle() {
-		return "Verb";
-	}
-	
-	public int getImage() {
-		return RELATION_IMAGE;
-	}
-	
-	public String getDescription() {
-		return "Every verb represents a certain relation between things. " +
-			"For example, the verb \"owns\" relates persons to their possessions.";
+	public VerbChanger() {
+		setTitle("Verb");
+		setImage(RELATION_IMAGE);
+		setDescription("Every verb represents a certain relation between things. " +
+			"For example, the verb \"owns\" relates persons to their possessions.");
 	}
 	
 	public List<LexiconDetail> getDetails(OntologyElement el) {

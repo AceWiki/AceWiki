@@ -17,8 +17,8 @@ package ch.uzh.ifi.attempto.acewiki.aceowl;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.uzh.ifi.attempto.acewiki.core.AbstractLexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.InvalidWordException;
-import ch.uzh.ifi.attempto.acewiki.core.LexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconDetail;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
@@ -29,21 +29,15 @@ import ch.uzh.ifi.attempto.ape.FunctionWords;
  * 
  * @author Tobias Kuhn
  */
-public class NounOfChanger implements LexiconChanger {
+public class NounOfChanger extends AbstractLexiconChanger {
 	
-	public String getTitle() {
-		return "Of-Construct";
-	}
-	
-	public int getImage() {
-		return RELATION_IMAGE;
-	}
-	
-	public String getDescription() {
-		return "Every of-construct represents a certain relation between things. " +
+	public NounOfChanger() {
+		setTitle("Of-Construct");
+		setImage(RELATION_IMAGE);
+		setDescription("Every of-construct represents a certain relation between things. " +
 			"For example, the of-construct \"child of\" relates persons to their " +
 			"parents. Every of-construct consists of a noun plus the preposition " +
-			"\"of\".";
+			"\"of\".");
 	}
 	
 	public List<LexiconDetail> getDetails(OntologyElement el) {

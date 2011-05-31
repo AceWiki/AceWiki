@@ -14,24 +14,34 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
-import java.util.List;
+public abstract class AbstractLexiconChanger implements LexiconChanger {
+	
+	private String title = "";
+	private int image = NO_IMAGE;
+	private String description = "";
 
-public interface LexiconChanger {
+	public String getTitle() {
+		return title;
+	}
+	
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-	public static final int NO_IMAGE = 0;
-	public static final int INDIVIDUAL_IMAGE = 1;
-	public static final int CONCEPT_IMAGE = 2;
-	public static final int RELATION_IMAGE = 3;
+	public int getImage() {
+		return image;
+	}
 	
-	public String getTitle();
+	public void setImage(int image) {
+		this.image = image;
+	}
+
+	public String getDescription() {
+		return description;
+	}
 	
-	public int getImage();
-	
-	public String getDescription();
-	
-	public List<LexiconDetail> getDetails(OntologyElement el);
-	
-	public void save(OntologyElement el, int wordNumber, List<Object> newValues, Ontology ontology)
-			throws InvalidWordException;
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 }

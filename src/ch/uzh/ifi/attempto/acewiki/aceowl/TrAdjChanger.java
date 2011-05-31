@@ -17,28 +17,22 @@ package ch.uzh.ifi.attempto.acewiki.aceowl;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.uzh.ifi.attempto.acewiki.core.AbstractLexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.InvalidWordException;
-import ch.uzh.ifi.attempto.acewiki.core.LexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconDetail;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.ape.FunctionWords;
 
-public class TrAdjChanger implements LexiconChanger {
+public class TrAdjChanger extends AbstractLexiconChanger {
 	
-	public String getTitle() {
-		return "Transitive Adjective";
-	}
-	
-	public int getImage() {
-		return RELATION_IMAGE;
-	}
-	
-	public String getDescription() {
-		return "Every transitive adjective represents a certain relation between things. " +
+	public TrAdjChanger() {
+		setTitle("Transitive Adjective");
+		setImage(RELATION_IMAGE);
+		setDescription("Every transitive adjective represents a certain relation between things. " +
 			"For example, the transitive adjective \"located in\" relates things to " +
 			"their location. Transitive adjectives consist of an adjective that " +
-			"is followed by a preposition.";
+			"is followed by a preposition.");
 	}
 	
 	public List<LexiconDetail> getDetails(OntologyElement el) {

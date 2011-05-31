@@ -17,8 +17,8 @@ package ch.uzh.ifi.attempto.acewiki.aceowl;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.uzh.ifi.attempto.acewiki.core.AbstractLexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.InvalidWordException;
-import ch.uzh.ifi.attempto.acewiki.core.LexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconDetail;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
@@ -29,21 +29,15 @@ import ch.uzh.ifi.attempto.ape.FunctionWords;
  * 
  * @author Tobias Kuhn
  */
-public class ProperNameChanger implements LexiconChanger {
+public class ProperNameChanger extends AbstractLexiconChanger {
 	
-	public String getTitle() {
-		return "Proper Name";
-	}
-	
-	public int getImage() {
-		return INDIVIDUAL_IMAGE;
-	}
-	
-	public String getDescription() {
-		return "Every proper name represents a certain individual. " +
+	public ProperNameChanger() {
+		setTitle("Proper Name");
+		setImage(INDIVIDUAL_IMAGE);
+		setDescription("Every proper name represents a certain individual. " +
 			"The country \"Switzerland\" and the person \"Bob Dylan\" are typical " +
 			"examples. Proper names can have an abbreviation that has the same meaning " +
-			"as the longer proper name.";
+			"as the longer proper name.");
 	}
 	
 	public List<LexiconDetail> getDetails(OntologyElement el) {
