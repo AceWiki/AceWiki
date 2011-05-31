@@ -23,7 +23,6 @@ import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Article;
 import ch.uzh.ifi.attempto.acewiki.core.InconsistencyException;
-import ch.uzh.ifi.attempto.acewiki.core.MenuEngine;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceSuggestion;
@@ -117,7 +116,7 @@ public class SentenceEditorHandler implements ActionListener {
 		if (src == editorWindow && c.matches("OK|Enter")) {
 			Ontology o = wiki.getOntology();
 			
-			for (String t : o.getLanguageEngine().getMenuEngine().getAutocompleteTokens()) {
+			for (String t : o.getLanguageEngine().getEditorController().getAutocompleteTokens()) {
 				if (editorWindow.isPossibleNextToken(t)) {
 					editorWindow.addTextElement(o.getTextOperator().createTextElement(t));
 					break;
@@ -165,8 +164,7 @@ public class SentenceEditorHandler implements ActionListener {
 		if (checked >= newSentences.size()) {
 			assertSentences();
 		} else {
-			MenuEngine me = wiki.getLanguageEngine().getMenuEngine();
-			suggestion = me.getSuggestion(newSentences.get(checked));
+			suggestion = wiki.getLanguageEngine().getSuggestion(newSentences.get(checked));
 			if (suggestion != null) {
 				messageWindow = new MessageWindow(
 						"Suggestion",

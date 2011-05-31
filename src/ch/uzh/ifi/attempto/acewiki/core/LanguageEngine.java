@@ -34,12 +34,14 @@ public interface LanguageEngine {
 	
 	public String[] getLexicalTypes();
 	
-	public MenuEngine getMenuEngine();
+	public EditorController getEditorController();
 	
 	public LexiconChanger getLexiconChanger(String type);
 	
 	public AceWikiReasoner getReasoner();
 	
 	public List<OntologyExporter> getExporters();
+	
+	public SentenceSuggestion getSuggestion(Sentence sentence);
 
 }

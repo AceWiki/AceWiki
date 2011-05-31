@@ -15,18 +15,22 @@
 package ch.uzh.ifi.attempto.acewiki.gui;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
-import ch.uzh.ifi.attempto.acewiki.core.MenuEngine;
+import ch.uzh.ifi.attempto.acewiki.core.EditorController;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.chartparser.ConcreteOption;
 import ch.uzh.ifi.attempto.chartparser.NextTokenOptions;
 import ch.uzh.ifi.attempto.preditor.DefaultMenuCreator;
+import ch.uzh.ifi.attempto.preditor.DefaultMenuItemComparator;
+import ch.uzh.ifi.attempto.preditor.MenuCreator;
 import ch.uzh.ifi.attempto.preditor.MenuEntry;
+import ch.uzh.ifi.attempto.preditor.MenuItem;
 import ch.uzh.ifi.attempto.preditor.SpecialMenuItem;
 import ch.uzh.ifi.attempto.preditor.TextElement;
 import ch.uzh.ifi.attempto.preditor.TextOperator;
@@ -37,13 +41,14 @@ import ch.uzh.ifi.attempto.preditor.TextOperator;
  * 
  * @author Tobias Kuhn
  */
-public class AceWikiMenuCreator extends DefaultMenuCreator implements ActionListener {
+public class AceWikiMenuCreator implements MenuCreator, ActionListener {
 	
 	private static final long serialVersionUID = -6442603864805781298L;
 	
 	private Wiki wiki;
 	private OntologyElement highlightedElement;
 	private ActionListener actionListener;
+	private DefaultMenuItemComparator comparator = new DefaultMenuItemComparator();
 	
 	/**
 	 * Creates a new AceWiki-specific menu creator object.
@@ -58,22 +63,18 @@ public class AceWikiMenuCreator extends DefaultMenuCreator implements ActionList
 		this.wiki = wiki;
 		this.highlightedElement = highlightedElement;
 		this.actionListener = actionListener;
-		
-		for (String s : getMenuEngine().getMenuGroups()) {
-			setColorShift(s, getMenuEngine().getColorShift(s));
-		}
 	}
 	
-	private MenuEngine getMenuEngine() {
-		return wiki.getLanguageEngine().getMenuEngine();
+	private EditorController getEditorController() {
+		return wiki.getLanguageEngine().getEditorController();
 	}
 	
 	public List<String> getMenuGroupOrdering() {
-		return getMenuEngine().getMenuGroups();
+		return getEditorController().getMenuGroups();
 	}
 
 	public MenuEntry createMenuEntry(ConcreteOption option) {
-		String menuGroup = getMenuEngine().getMenuGroup(option.getCategoryName());
+		String menuGroup = getEditorController().getMenuGroup(option.getCategoryName());
 		String w = option.getWord();
 		TextOperator to = wiki.getOntology().getTextOperator();
 		TextElement te = to.createTextElement(option.getWord());
@@ -87,18 +88,27 @@ public class AceWikiMenuCreator extends DefaultMenuCreator implements ActionList
 
 	public List<SpecialMenuItem> createSpecialMenuItems(NextTokenOptions options) {
 		List<SpecialMenuItem> menuItems = new ArrayList<SpecialMenuItem>();
-		for (String p : getMenuEngine().getExtensibleCategories()) {
+		for (String p : getEditorController().getExtensibleCategories()) {
 			if (!options.containsPreterminal(p)) continue;
-			menuItems.add(new SpecialMenuItem("new...", getMenuEngine().getMenuGroup(p), p, this));
+			String g = getEditorController().getMenuGroup(p);
+			menuItems.add(new SpecialMenuItem("new...", g, p, this));
 		}
 		return menuItems;
 	}
 	
 	public void actionPerformed(ActionEvent e) {
 		String p = e.getActionCommand();
-		String type = getMenuEngine().getWordType(p);
-		int wordNumber = getMenuEngine().getWordNumber(p);
+		String type = getEditorController().getWordType(p);
+		int wordNumber = getEditorController().getWordNumber(p);
 		wiki.showCreatorWindow(type, wordNumber, actionListener);
+	}
+
+	public int getColorShift(String menuBlockName) {
+		return getEditorController().getColorShift(menuBlockName);
+	}
+
+	public Comparator<MenuItem> getMenuItemComparator() {
+		return comparator;
 	}
 
 }

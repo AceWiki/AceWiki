@@ -109,5 +109,9 @@ public abstract class AbstractLanguageEngine implements LanguageEngine {
 	public String[] getLexicalTypes() {
 		return lexicalTypes;
 	}
+	
+	public SentenceSuggestion getSuggestion(Sentence sentence) {
+		return null;
+	}
 
 }

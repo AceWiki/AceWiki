@@ -14,19 +14,24 @@
 
 package ch.uzh.ifi.attempto.acewiki.aceowl;
 
+import java.util.List;
+
 import ch.uzh.ifi.attempto.acewiki.core.AbstractLanguageEngine;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiLexicon;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiReasoner;
+import ch.uzh.ifi.attempto.acewiki.core.EditorController;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageFactory;
-import ch.uzh.ifi.attempto.acewiki.core.MenuEngine;
+import ch.uzh.ifi.attempto.acewiki.core.Sentence;
+import ch.uzh.ifi.attempto.acewiki.core.SentenceSuggestion;
 import ch.uzh.ifi.attempto.chartparser.Grammar;
+import ch.uzh.ifi.attempto.preditor.TextElement;
 
 public class ACEOWLEngine extends AbstractLanguageEngine {
 	
 	private ACELanguageFactory languageFactory = new ACELanguageFactory();
 	private LexiconManager lexicon = new LexiconManager();
 	private AceWikiOWLReasoner reasoner = new AceWikiOWLReasoner();
-	private ACEOWLMenuEngine menuEngine = new ACEOWLMenuEngine();
+	private EditorController editContr = new EditorController();
 	
 	public ACEOWLEngine() {
 		setTextCategory("text");
@@ -45,6 +50,37 @@ public class ACEOWLEngine extends AbstractLanguageEngine {
 		setLexiconChanger("nounof", new NounOfChanger());
 		setLexiconChanger("trverb", new VerbChanger());
 		setLexiconChanger("tradj", new TrAdjChanger());
+
+		editContr.setDefaultMenuGroup("function word");
+		
+		//                     menu group      color shift
+		editContr.addMenuGroup("function word",          0);
+		editContr.addMenuGroup("proper name",           60);
+		editContr.addMenuGroup("noun",                 100);
+		editContr.addMenuGroup("plural noun",          120);
+		editContr.addMenuGroup("of-construct",         140);
+		editContr.addMenuGroup("transitive adjective", 180);
+		editContr.addMenuGroup("verb",                 210);
+		editContr.addMenuGroup("passive verb",         210);
+		editContr.addMenuGroup("new variable",         320);
+		editContr.addMenuGroup("reference",            320);
+		
+		//                              category      menu group              word type / number
+		editContr.addExtensibleCategory("propername", "proper name",          "propername", 0);
+		editContr.addExtensibleCategory("noun",       "noun",                 "noun",       0);
+		editContr.addExtensibleCategory("nounpl",     "plural noun",          "noun",       1);
+		editContr.addExtensibleCategory("nounof",     "of-construct",         "nounof",     0);
+		editContr.addExtensibleCategory("verbsg",     "verb",                 "trverb",     0);
+		editContr.addExtensibleCategory("verbinf",    "verb",                 "trverb",     1);
+		editContr.addExtensibleCategory("pverb",      "passive verb",         "trverb",     2);
+		editContr.addExtensibleCategory("tradj",      "transitive adjective", "tradj",      0);
+		
+		//                         category     menu group
+		editContr.addPlainCategory("defnoun",   "reference");
+		editContr.addPlainCategory("variable",  "new variable");
+		editContr.addPlainCategory("reference", "reference");
+		
+		editContr.setAutocompleteTokens(".", "?");
 	}
 
 	public Grammar getGrammar() {
@@ -59,12 +95,23 @@ public class ACEOWLEngine extends AbstractLanguageEngine {
 		return languageFactory;
 	}
 	
-	public MenuEngine getMenuEngine() {
-		return menuEngine;
+	public EditorController getEditorController() {
+		return editContr;
 	}
 
 	public AceWikiReasoner getReasoner() {
 		return reasoner;
+	}
+	
+	public SentenceSuggestion getSuggestion(Sentence sentence) {
+		List<TextElement> t = sentence.getTextElements();
+		String t0 = t.get(0).getText();
+		String t1 = t.get(1).getText();
+		String l = t.get(t.size()-1).getText();
+		if (t0.matches("(A|a)n?") && !t1.matches(".* of") && l.equals(".")) {
+			return new AToEverySuggestion(sentence);
+		}
+		return null;
 	}
 
 }
