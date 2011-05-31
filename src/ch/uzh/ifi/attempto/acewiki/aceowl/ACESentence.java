@@ -205,9 +205,10 @@ public abstract class ACESentence extends AbstractSentence {
 		AceWikiOWLReasoner reasoner = (AceWikiOWLReasoner) getOntology()
 				.getReasonerManager().getReasoner();
 		
-		synchronized (APELocal.class) {
-			APELocal.getInstance().setURI(getOntology().getURI());
-			APELocal.getInstance().setClexEnabled(false);
+		APELocal ape = APELocal.getInstance();
+		synchronized (ape) {
+			ape.setURI(getOntology().getURI());
+			ape.setClexEnabled(false);
 			Lexicon lexicon = new Lexicon();
 			for (TextElement te : getTextContainer().getTextElements()) {
 				if (te instanceof OntologyTextElement) {
@@ -219,7 +220,7 @@ public abstract class ACESentence extends AbstractSentence {
 					}
 				}
 			}
-			parserResult = APELocal.getInstance().getMultiOutput(
+			parserResult = ape.getMultiOutput(
 					getText(),
 					lexicon,
 					PARAPHRASE1,

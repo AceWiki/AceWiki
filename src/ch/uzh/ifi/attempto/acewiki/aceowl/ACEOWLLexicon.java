@@ -28,14 +28,14 @@ import ch.uzh.ifi.attempto.chartparser.LexicalRule;
  * 
  * @author Tobias Kuhn
  */
-public class LexiconManager implements AceWikiLexicon {
+public class ACEOWLLexicon implements AceWikiLexicon {
 	
 	private Ontology ontology;
 	
 	/**
 	 * Creates a new lexicon manager.
 	 */
-	public LexiconManager() {
+	public ACEOWLLexicon() {
 	}
 	
 	public void init(Ontology ontology) {

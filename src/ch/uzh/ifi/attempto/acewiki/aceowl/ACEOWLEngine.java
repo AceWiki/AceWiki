@@ -29,7 +29,7 @@ import ch.uzh.ifi.attempto.preditor.TextElement;
 public class ACEOWLEngine extends AbstractLanguageEngine {
 	
 	private ACELanguageFactory languageFactory = new ACELanguageFactory();
-	private LexiconManager lexicon = new LexiconManager();
+	private ACEOWLLexicon lexicon = new ACEOWLLexicon();
 	private AceWikiOWLReasoner reasoner = new AceWikiOWLReasoner();
 	private EditorController editContr = new EditorController();
 	
