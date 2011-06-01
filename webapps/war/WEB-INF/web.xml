@@ -146,6 +146,16 @@
     </init-param>
     
     <!--
+      The parameter 'reasoner_url' defines the URL over which the reasoner should be accessed. This
+      parameter is only used when 'reasoner' is set to 'OWLlink'. The value shown below is also the
+      default.
+    -->
+    <init-param>
+      <param-name>reasoner_url</param-name>
+      <param-value>http://localhost:8080</param-value>
+    </init-param>
+    
+    <!--
       The parameter 'global_restrictions_policy' defines how the global restrictions on the axioms
       in OWL 2 should be ensured. See the following chapter of the OWL 2 documentation:
       http://www.w3.org/TR/2009/REC-owl2-syntax-20091027/#Global_Restrictions_on_Axioms_in_OWL_2_DL

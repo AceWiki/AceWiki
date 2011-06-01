@@ -14,6 +14,8 @@
 
 package ch.uzh.ifi.attempto.acewiki.aceowl;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -38,6 +40,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.owllink.OWLlinkHTTPXMLReasonerFactory;
+import org.semanticweb.owlapi.owllink.OWLlinkReasonerConfiguration;
 import org.semanticweb.owlapi.owllink.builtin.response.OWLlinkErrorResponseException;
 import org.semanticweb.owlapi.profiles.OWL2ELProfile;
 import org.semanticweb.owlapi.profiles.OWL2QLProfile;
@@ -247,6 +250,13 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 		type = type.toLowerCase();
 		reasonerType = type;
 		
+		String s = getParameter("reasoner_url");
+		if (s == null || s.length() == 0) s = "http://localhost:8080";
+		URL url = null;
+		try {
+			url = new URL(s);
+		} catch (MalformedURLException ex) { ex.printStackTrace(); }
+		
 		if (owlReasoner != null) owlReasoner.dispose();
 		
 		if (type.equals("none")) {
@@ -277,14 +287,15 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 			if (owllinkReasonerFactory == null) {
 				owllinkReasonerFactory = new OWLlinkHTTPXMLReasonerFactory();
 			}
-			owlReasoner = owllinkReasonerFactory.createReasoner(owlOntology);
+			OWLlinkReasonerConfiguration config = new OWLlinkReasonerConfiguration(url);
+			owlReasoner = owllinkReasonerFactory.createReasoner(owlOntology, config);
 			// reasoner calls over OWLlink have to be synchronized:
 			reasonerSyncToken = owllinkReasonerSyncToken;
 		//} else if (type.equals("dig")) {
             //try {
 			//	reasoner = new DIGReasoner(OWLManager.createOWLOntologyManager());
-	        //	((DIGReasoner) reasoner).getReasoner().setReasonerURL(new URL("http://localhost:8081"));
-			//} catch (Exception e) { e.printStackTrace(); }
+	        //	((DIGReasoner) reasoner).getReasoner().setReasonerURL(url);
+			//} catch (Exception ex) { ex.printStackTrace(); }
 		} else if (type.equals("")) {
 			log("no reasoner type specified: loading HermiT as default");
 			reasonerType = "HermiT";
