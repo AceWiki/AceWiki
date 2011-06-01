@@ -93,7 +93,7 @@ public class FormPane extends WordEditorForm {
 		this.element = element;
 		
 		lexiconChanger = wiki.getLanguageEngine().getLexiconChanger(type);
-		setTitle(lexiconChanger.getTitle());
+		setTitle(element.getType());
 		setExplanationComponent(lexiconChanger.getDescription());
 		
 		for (LexiconDetail d : lexiconChanger.getDetails(element)) {

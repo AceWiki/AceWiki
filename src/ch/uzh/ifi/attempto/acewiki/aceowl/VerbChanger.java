@@ -17,24 +17,23 @@ package ch.uzh.ifi.attempto.acewiki.aceowl;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.uzh.ifi.attempto.acewiki.core.AbstractLexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.InvalidWordException;
+import ch.uzh.ifi.attempto.acewiki.core.LexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconDetail;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.ape.FunctionWords;
 
 /**
- * This class represents a form to create or modify verbs.
+ * This class is used to modify or create verbs.
  * 
  * @author Tobias Kuhn
  */
-public class VerbChanger extends AbstractLexiconChanger {
+public class VerbChanger implements LexiconChanger {
 	
-	public VerbChanger() {
-		setTitle("Verb");
-		setDescription("Every verb represents a certain relation between things. " +
-			"For example, the verb \"owns\" relates persons to their possessions.");
+	public String getDescription() {
+		return "Every verb represents a certain relation between things. " +
+			"For example, the verb \"owns\" relates persons to their possessions.";
 	}
 	
 	public List<LexiconDetail> getDetails(OntologyElement el) {

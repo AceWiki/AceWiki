@@ -17,24 +17,23 @@ package ch.uzh.ifi.attempto.acewiki.aceowl;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.uzh.ifi.attempto.acewiki.core.AbstractLexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.InvalidWordException;
+import ch.uzh.ifi.attempto.acewiki.core.LexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconDetail;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.ape.FunctionWords;
 
 /**
- * This class represents a form to create or modify nouns.
+ * This class is used to modify or create nouns.
  * 
  * @author Tobias Kuhn
  */
-public class NounChanger extends AbstractLexiconChanger {
+public class NounChanger implements LexiconChanger {
 	
-	public NounChanger() {
-		setTitle("Noun");
-		setDescription("Every noun represents a certain type of things. " +
-			"For example, the noun \"city\" stands for all things that are cities.");
+	public String getDescription() {
+		return "Every noun represents a certain type of things. " +
+			"For example, the noun \"city\" stands for all things that are cities.";
 	}
 	
 	public List<LexiconDetail> getDetails(OntologyElement el) {
