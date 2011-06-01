@@ -14,7 +14,6 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
-
 /**
  * This class represents a comment that is a part of an article. A comment must have
  * an ontology element as owner.

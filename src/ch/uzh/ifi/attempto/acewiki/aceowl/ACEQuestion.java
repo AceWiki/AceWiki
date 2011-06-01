@@ -23,6 +23,11 @@ import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
 import ch.uzh.ifi.attempto.acewiki.core.Question;
 
+/**
+ * This class represents ACE questions.
+ * 
+ * @author Tobias Kuhn
+ */
 public class ACEQuestion extends ACESentence implements Question {
 	
 	private OWLClassExpression questionOWLClass;
@@ -89,9 +94,9 @@ public class ACEQuestion extends ACESentence implements Question {
 		recalculateOWLEntities = false;
 	}
 	
-	public void parse() {
+	public void update() {
 		recalculateOWLEntities = true;
-		super.parse();
+		super.update();
 	}
 	
 	public boolean isReasonable() {

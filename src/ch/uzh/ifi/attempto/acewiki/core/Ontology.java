@@ -282,10 +282,10 @@ public class Ontology {
 		for (Sentence s : getReferences(element)) {
 			if (s.isIntegrated()) {
 				retractSentence(s);
-				s.parse();
+				s.update();
 				commitSentence(s);
 			} else {
-				s.parse();
+				s.update();
 			}
 		}
 		storage.save(element);

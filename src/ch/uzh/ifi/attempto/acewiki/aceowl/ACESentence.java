@@ -51,6 +51,11 @@ import ch.uzh.ifi.attempto.ape.SyntaxBoxes;
 import ch.uzh.ifi.attempto.preditor.TextContainer;
 import ch.uzh.ifi.attempto.preditor.TextElement;
 
+/**
+ * This class represents an ACE sentence, which can be either a declarative sentence or a question.
+ * 
+ * @author Tobias Kuhn
+ */
 public abstract class ACESentence extends AbstractSentence {
 	
 	private static OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
@@ -102,26 +107,15 @@ public abstract class ACESentence extends AbstractSentence {
 		return list;
 	}
 	
-	private TextContainer getTextContainer() {
+	protected TextContainer getTextContainer() {
 		if (textContainer == null) {
 			tokenize();
 		}
 		return textContainer;
 	}
 	
-	public String getText() {
-		if (textContainer == null) {
-			tokenize();
-		}
-		return getUnderscoredText(textContainer);
-	}
-	
 	private void tokenize() {
 		textContainer = Tokenizer.tokenize(text, getOntology());
-	}
-	
-	public String getPrettyText() {
-		return textContainer.getText();
 	}
 	
 	/**
@@ -131,7 +125,7 @@ public abstract class ACESentence extends AbstractSentence {
 	 */
 	public ACEParserResult getParserResult() {
 		if (parserResult == null) {
-			parse();
+			update();
 		}
 		return parserResult;
 	}
@@ -143,14 +137,14 @@ public abstract class ACESentence extends AbstractSentence {
 	 */
 	public String getPrettyOWL() {
 		if (parserResult == null) {
-			parse();
+			update();
 		}
 		return parserResult.get(OWLFSSPP);
 	}
 	
 	public boolean isReasonable() {
 		if (reasonable == null) {
-			parse();
+			update();
 		}
 		return reasonable;
 	}
@@ -162,7 +156,7 @@ public abstract class ACESentence extends AbstractSentence {
 	 */
 	public boolean isOWL() {
 		if (isOWL == null) {
-			parse();
+			update();
 		}
 		return isOWL;
 	}
@@ -174,7 +168,7 @@ public abstract class ACESentence extends AbstractSentence {
 	 */
 	public boolean isOWLSWRL() {
 		if (isOWLSWRL == null) {
-			parse();
+			update();
 		}
 		return isOWLSWRL;
 	}
@@ -186,7 +180,7 @@ public abstract class ACESentence extends AbstractSentence {
 	 */
 	public Set<OWLAxiom> getOWLAxioms() {
 		if (parserResult == null) {
-			parse();
+			update();
 		}
 		if (owlAxioms == null) {
 			owlAxioms = new HashSet<OWLAxiom>();
@@ -194,13 +188,7 @@ public abstract class ACESentence extends AbstractSentence {
 		return owlAxioms;
 	}
 	
-	/**
-	 * Parses the sentence text. The OWL and SWRL representations are calculated if possible.
-	 * This method is called automatically the first time a parsing result is needed.
-	 * Furthermore, it needs to be called each time a word form of an ontology element
-	 * (that occurs in the sentence) has changed.
-	 */
-	public void parse() {
+	public void update() {
 		// TODO: refactor and clean-up!
 		AceWikiOWLReasoner reasoner = (AceWikiOWLReasoner) getOntology()
 				.getReasonerManager().getReasoner();

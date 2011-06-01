@@ -63,7 +63,7 @@ public class SentenceComponent extends Column implements ActionListener {
 	}
 	
 	private void update() {
-		if (sentence.isReadOnly()) {
+		if (sentence.isImmutable()) {
 			dropDown = new StatementMenu(StatementMenu.INFERRED_TYPE, wiki, this);
 		} else if (sentence instanceof Question) {
 			dropDown = new StatementMenu(StatementMenu.QUESTION_TYPE, wiki, this);
@@ -73,7 +73,7 @@ public class SentenceComponent extends Column implements ActionListener {
 			dropDown = new StatementMenu(StatementMenu.NOREASONING_TYPE, wiki, this);
 		}
 		
-		if (!wiki.isReadOnly() && !sentence.isReadOnly()) {
+		if (!wiki.isReadOnly() && !sentence.isImmutable()) {
 			dropDown.addMenuEntry("Edit...", "Edit this sentence");
 			if (sentence.isReasonable()) {
 				if (sentence.isIntegrated()) {
@@ -94,7 +94,7 @@ public class SentenceComponent extends Column implements ActionListener {
 		}
 		
 		
-		boolean isRed = !sentence.isIntegrated() && !sentence.isReadOnly() && !(sentence instanceof Question);
+		boolean isRed = !sentence.isIntegrated() && !sentence.isImmutable() && !(sentence instanceof Question);
 		
 		removeAll();
 		sentenceRow.removeAll();

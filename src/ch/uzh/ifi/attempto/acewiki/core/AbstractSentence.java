@@ -19,14 +19,7 @@ import ch.uzh.ifi.attempto.preditor.TextElement;
 import ch.uzh.ifi.attempto.preditor.TextOperator;
 
 /**
- * This class represents an ACE sentence, which can be either a declaration (declarative sentence)
- * or a question.
- *<p>
- * ACE sentences can either be part of an article (in the case of asserted sentences or
- * questions) or can be independent statements with no article (in the case of inferred sentences).
- *<p>
- * Parsing of the sentence is done lazily, i.e. at the first time when a parsing result is
- * required. Parsing fails silently. No exceptions are thrown if a sentence is not ACE compliant.
+ * This class is a partial implementation of a sentence.
  * 
  * @author Tobias Kuhn
  */
@@ -42,7 +35,7 @@ public abstract class AbstractSentence extends AbstractStatement implements Sent
 		this.integrated = integrated;
 	}
 	
-	public boolean isReadOnly() {
+	public boolean isImmutable() {
 		return getArticle() == null;
 	}
 	
@@ -50,10 +43,29 @@ public abstract class AbstractSentence extends AbstractStatement implements Sent
 		return getText();
 	}
 	
-	public String getUnderscoredText(TextContainer textContainer) {
-		return getUnderscoredText(textContainer, getOntology().getTextOperator());
+	/**
+	 * Returns a text container with the text of this sentence.
+	 * 
+	 * @return The text container.
+	 */
+	protected abstract TextContainer getTextContainer();
+	
+	public String getText() {
+		return getUnderscoredText(getTextContainer(), getOntology().getTextOperator());
 	}
 	
+	public String getPrettyText() {
+		return getTextContainer().getText();
+	}
+	
+	/**
+	 * Returns a string representation of the given text container with multi-word ontology
+	 * elements concatenated by underscores.
+	 * 
+	 * @param textContainer The text container.
+	 * @param textOperator The text operator used for glueing the words.
+	 * @return The string representation.
+	 */
 	public static String getUnderscoredText(TextContainer textContainer,
 			TextOperator textOperator) {
 		String t = "";

@@ -13,9 +13,8 @@
 // not, see http://www.gnu.org/licenses/.
 
 /**
- * This package contains the ontology classes that are used by AceWiki. For the ontological elements,
- * we use the terminology of Description Logics: constants are called "individuals", unary relations 
- * are called "concepts", and binary relations are called "relations".
+ * This package contains the core of AceWiki. This part is neutral with respect to the controlled
+ * natural language used and also with respect to the underlying logic formalism.
  * 
  * @author Tobias Kuhn
  */

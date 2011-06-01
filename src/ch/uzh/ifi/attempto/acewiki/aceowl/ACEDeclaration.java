@@ -16,6 +16,11 @@ package ch.uzh.ifi.attempto.acewiki.aceowl;
 
 import ch.uzh.ifi.attempto.acewiki.core.Declaration;
 
+/**
+ * This class represents declarative ACE sentences (asserted or inferred).
+ * 
+ * @author Tobias Kuhn
+ */
 public class ACEDeclaration extends ACESentence implements Declaration {
 	
 	/**

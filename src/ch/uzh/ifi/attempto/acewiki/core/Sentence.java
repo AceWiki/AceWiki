@@ -18,6 +18,12 @@ import java.util.List;
 
 import ch.uzh.ifi.attempto.preditor.TextElement;
 
+/**
+ * This interface represents a sentence in the given controlled natural language. It includes
+ * declarative sentences as well as questions.
+ * 
+ * @author Tobias Kuhn
+ */
 public interface Sentence extends Statement {
 	
 	/**
@@ -59,6 +65,12 @@ public interface Sentence extends Statement {
 	 */
 	public boolean isIntegrated();
 	
+	/**
+	 * Informs the sentence object whether it is integrated into the ontology or not. This
+	 * method should only be called from the ontology or an ontology loader.
+	 * 
+	 * @param integrated true if the sentence is integrated into the ontology.
+	 */
 	public void setIntegrated(boolean integrated);
 	
 	/**
@@ -69,7 +81,7 @@ public interface Sentence extends Statement {
 	 * @param wordNumber The word number.
 	 * @return true if the word form occurs in this sentence.
 	 */
-	public abstract boolean contains(OntologyElement e, int wordNumber);
+	public boolean contains(OntologyElement e, int wordNumber);
 
 	/**
 	 * Checks whether the sentence contains the given ontology element (no matter which
@@ -78,12 +90,25 @@ public interface Sentence extends Statement {
 	 * @param e The ontology element.
 	 * @return true if the ontology element occurs in this sentence.
 	 */
-	public abstract boolean contains(OntologyElement e);
+	public boolean contains(OntologyElement e);
 	
-	public void parse();
+	/**
+	 * This method is called whenever some words of the sentence are modified.
+	 */
+	public void update();
 	
-	public boolean isReadOnly();
+	/**
+	 * Returns whether the sentence can be changed or is immutable.
+	 * 
+	 * @return true if the sentence cannot be changed.
+	 */
+	public boolean isImmutable();
 	
+	/**
+	 * Returns a list of sentence details to be shown to the user.
+	 * 
+	 * @return A list of sentence details.
+	 */
 	public List<SentenceDetail> getDetails();
 
 }
