@@ -33,7 +33,6 @@ public class NounOfChanger extends AbstractLexiconChanger {
 	
 	public NounOfChanger() {
 		setTitle("Of-Construct");
-		setImage(RELATION_IMAGE);
 		setDescription("Every of-construct represents a certain relation between things. " +
 			"For example, the of-construct \"child of\" relates persons to their " +
 			"parents. Every of-construct consists of a noun plus the preposition " +

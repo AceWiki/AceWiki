@@ -33,7 +33,6 @@ public class ProperNameChanger extends AbstractLexiconChanger {
 	
 	public ProperNameChanger() {
 		setTitle("Proper Name");
-		setImage(INDIVIDUAL_IMAGE);
 		setDescription("Every proper name represents a certain individual. " +
 			"The country \"Switzerland\" and the person \"Bob Dylan\" are typical " +
 			"examples. Proper names can have an abbreviation that has the same meaning " +

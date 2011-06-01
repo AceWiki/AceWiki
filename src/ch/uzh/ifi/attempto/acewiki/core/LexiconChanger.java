@@ -17,15 +17,8 @@ package ch.uzh.ifi.attempto.acewiki.core;
 import java.util.List;
 
 public interface LexiconChanger {
-
-	public static final int NO_IMAGE = 0;
-	public static final int INDIVIDUAL_IMAGE = 1;
-	public static final int CONCEPT_IMAGE = 2;
-	public static final int RELATION_IMAGE = 3;
 	
 	public String getTitle();
-	
-	public int getImage();
 	
 	public String getDescription();
 	

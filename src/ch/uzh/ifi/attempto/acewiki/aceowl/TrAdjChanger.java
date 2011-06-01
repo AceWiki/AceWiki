@@ -28,7 +28,6 @@ public class TrAdjChanger extends AbstractLexiconChanger {
 	
 	public TrAdjChanger() {
 		setTitle("Transitive Adjective");
-		setImage(RELATION_IMAGE);
 		setDescription("Every transitive adjective represents a certain relation between things. " +
 			"For example, the transitive adjective \"located in\" relates things to " +
 			"their location. Transitive adjectives consist of an adjective that " +

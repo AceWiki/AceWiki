@@ -17,7 +17,6 @@ package ch.uzh.ifi.attempto.acewiki.core;
 public abstract class AbstractLexiconChanger implements LexiconChanger {
 	
 	private String title = "";
-	private int image = NO_IMAGE;
 	private String description = "";
 
 	public String getTitle() {
@@ -26,14 +25,6 @@ public abstract class AbstractLexiconChanger implements LexiconChanger {
 	
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public int getImage() {
-		return image;
-	}
-	
-	public void setImage(int image) {
-		this.image = image;
 	}
 
 	public String getDescription() {

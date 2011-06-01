@@ -33,7 +33,6 @@ public class VerbChanger extends AbstractLexiconChanger {
 	
 	public VerbChanger() {
 		setTitle("Verb");
-		setImage(RELATION_IMAGE);
 		setDescription("Every verb represents a certain relation between things. " +
 			"For example, the verb \"owns\" relates persons to their possessions.");
 	}

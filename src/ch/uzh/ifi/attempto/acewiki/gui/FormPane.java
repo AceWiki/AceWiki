@@ -28,11 +28,14 @@ import nextapp.echo.app.WindowPane;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
+import ch.uzh.ifi.attempto.acewiki.core.Concept;
+import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.InvalidWordException;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconDetail;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
+import ch.uzh.ifi.attempto.acewiki.core.Relation;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.echocomp.CheckBox;
 import ch.uzh.ifi.attempto.echocomp.Label;
@@ -50,7 +53,6 @@ public class FormPane extends WordEditorForm {
 
 	private static final long serialVersionUID = 1433983400709841847L;
 	
-	private String type;
 	private OntologyElement element;
 	private int wordNumber;
 	private Wiki wiki;
@@ -74,7 +76,6 @@ public class FormPane extends WordEditorForm {
 	private FormPane(String type, OntologyElement element, int wordNumber, WindowPane window,
 			Wiki wiki, ActionListener actionListener) {
 		super(window, actionListener);
-		this.type = type;
 		this.wordNumber = wordNumber;
 		this.wiki = wiki;
 		if (element != null) {
@@ -93,7 +94,7 @@ public class FormPane extends WordEditorForm {
 		
 		lexiconChanger = wiki.getLanguageEngine().getLexiconChanger(type);
 		setTitle(lexiconChanger.getTitle());
-		setExplanationComponent(lexiconChanger.getImage(), lexiconChanger.getDescription());
+		setExplanationComponent(lexiconChanger.getDescription());
 		
 		for (LexiconDetail d : lexiconChanger.getDetails(element)) {
 			Component formElement = null;
@@ -116,13 +117,13 @@ public class FormPane extends WordEditorForm {
 		}
 	}
 	
-	private void setExplanationComponent(int image, String text) {
+	private void setExplanationComponent(String text) {
 		ImageReference imageRef = null;
-		if (image == LexiconChanger.INDIVIDUAL_IMAGE) {
+		if (element instanceof Individual) {
 			imageRef = Wiki.getImage("individual.png");
-		} else if (image == LexiconChanger.CONCEPT_IMAGE) {
+		} else if (element instanceof Concept) {
 			imageRef = Wiki.getImage("concept.png");
-		} else if (image == LexiconChanger.RELATION_IMAGE) {
+		} else if (element instanceof Relation) {
 			imageRef = Wiki.getImage("relation.png");
 		}
 		Grid explanationComp = new Grid(2);

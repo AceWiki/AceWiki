@@ -33,7 +33,6 @@ public class NounChanger extends AbstractLexiconChanger {
 	
 	public NounChanger() {
 		setTitle("Noun");
-		setImage(CONCEPT_IMAGE);
 		setDescription("Every noun represents a certain type of things. " +
 			"For example, the noun \"city\" stands for all things that are cities.");
 	}
