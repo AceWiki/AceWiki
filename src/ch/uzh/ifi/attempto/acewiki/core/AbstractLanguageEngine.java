@@ -19,11 +19,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This is a partial implementation of a language engine.
+ * 
+ * @author Tobias Kuhn
+ */
 public abstract class AbstractLanguageEngine implements LanguageEngine {
 	
 	private static final String defaultEngineClassName
 			= "ch.uzh.ifi.attempto.acewiki.aceowl.ACEOWLEngine";
 	
+	/**
+	 * Creates the language engine for the given ontology.
+	 * 
+	 * @param ontology The ontology.
+	 * @return The language engine.
+	 */
 	static LanguageEngine createLanguageEngine(Ontology ontology) {
 		String n = ontology.getParameter("engine_class");
 		Object loadedObj = null;
@@ -63,7 +74,7 @@ public abstract class AbstractLanguageEngine implements LanguageEngine {
 	private String[] lexicalTypes = new String[] {};
 	private String textCategory = "text";
 	private String sentenceCategory = "sentence";
-
+	
 	public void init(Ontology ontology) {
 		getLexicon().init(ontology);
 		getLanguageFactory().init(ontology);
@@ -74,6 +85,11 @@ public abstract class AbstractLanguageEngine implements LanguageEngine {
 		return textCategory;
 	}
 	
+	/**
+	 * Sets the name of the grammatical category used to write texts in the predictive editor.
+	 * 
+	 * @param textCategory The name of the grammatical category of a text.
+	 */
 	public void setTextCategory(String textCategory) {
 		this.textCategory = textCategory;
 	}
@@ -81,29 +97,51 @@ public abstract class AbstractLanguageEngine implements LanguageEngine {
 	public String getSentenceCategory() {
 		return sentenceCategory;
 	}
-	
+
+	/**
+	 * Sets the name of the grammatical category used for a single sentence. This is used to
+	 * split a text into sentences.
+	 * 
+	 * @param sentenceCategory The name of the grammatical category of a sentence.
+	 */
 	public void setSentenceCategory(String sentenceCategory) {
 		this.sentenceCategory = sentenceCategory;
 	}
-	
+
+	/**
+	 * Sets a lexicon changer for the given lexical type.
+	 * 
+	 * @param type The lexical type.
+	 * @param lexiconChanger The lexicon changer.
+	 */
 	public void setLexiconChanger(String type, LexiconChanger lexiconChanger) {
 		lexiconChangers.put(type, lexiconChanger);
+	}
+
+	/**
+	 * Sets the lexical types, as defined by the respective ontology element types.
+	 * 
+	 * @param lexicalTypes The lexical types.
+	 */
+	public void setLexicalTypes(String... lexicalTypes) {
+		this.lexicalTypes = lexicalTypes;
 	}
 	
 	public LexiconChanger getLexiconChanger(String type) {
 		return lexiconChangers.get(type);
 	}
-	
+
+	/**
+	 * Adds an exporter to export the wiki content in a certain format.
+	 * 
+	 * @param exporter An ontology exporter.
+	 */
 	public void addExporter(OntologyExporter exporter) {
 		exporters.add(exporter);
 	}
 	
 	public List<OntologyExporter> getExporters() {
 		return exporters;
-	}
-	
-	public void setLexicalTypes(String... lexicalTypes) {
-		this.lexicalTypes = lexicalTypes;
 	}
 	
 	public String[] getLexicalTypes() {

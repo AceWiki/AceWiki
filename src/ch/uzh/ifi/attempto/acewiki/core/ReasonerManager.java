@@ -21,7 +21,8 @@ import java.util.Map;
 
 import ch.uzh.ifi.attempto.preditor.TextContainer;
 
-// TODO synchronization?
+// TODO check synchronization
+
 public class ReasonerManager {
 	
 	private AceWikiReasoner reasoner;

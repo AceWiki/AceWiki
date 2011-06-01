@@ -22,7 +22,7 @@ import java.util.TreeMap;
 import ch.uzh.ifi.attempto.echocomp.Logger;
 import ch.uzh.ifi.attempto.preditor.TextOperator;
 
-// TODO Synchronization is not 100% secure.
+// TODO check synchronization
 
 /**
  * This class represents an AceWiki ontology which consists of ontology element definitions and
