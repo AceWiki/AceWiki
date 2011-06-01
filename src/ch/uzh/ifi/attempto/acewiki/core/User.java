@@ -80,6 +80,11 @@ public class User {
 		return name;
 	}
 	
+	/**
+	 * Returns the hashed password.
+	 * 
+	 * @return The hashed password.
+	 */
 	public String getHashedPassword() {
 		return hashedPw;
 	}
@@ -173,10 +178,20 @@ public class User {
 		}
 	}
 	
+	/**
+	 * Returns the user base to which this user belongs.
+	 * 
+	 * @return The user base.
+	 */
 	public UserBase getUserBase() {
 		return userBase;
 	}
 	
+	/**
+	 * Returns all key of this user's properties in the form of key/value pairs.
+	 * 
+	 * @return All user data keys.
+	 */
 	public List<String> getUserDataKeys() {
 		return new ArrayList<String>(userdata.keySet());
 	}

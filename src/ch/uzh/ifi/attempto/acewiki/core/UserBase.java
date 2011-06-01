@@ -55,16 +55,12 @@ public class UserBase {
 	}
 	
 	/**
-	 * Returns the user with the respective name, or null if no such user exists.
+	 * Checks whether a user with the respective name exists.
 	 * 
-	 * @param name The name of the user.
-	 * @return The user object.
+	 * @param name The user name.
+	 * @return true if the user exists.
 	 */
-	public User getUser(String name) {
-		return userNameMap.get(name);
-	}
-	
-	public boolean existsUser(String name) {
+	public boolean containsUser(String name) {
 		return userNameMap.containsKey(name);
 	}
 	
@@ -96,7 +92,7 @@ public class UserBase {
 	 * @return The user object.
 	 */
 	public User login(String name, String password) {
-		User user = getUser(name);
+		User user = userNameMap.get(name);
 		if (user == null) return null;
 		if (user.isCorrectPassword(password)) {
 			user.setUserData("lastlogin", getTimeNow());
@@ -106,8 +102,16 @@ public class UserBase {
 		return null;
 	}
 	
+	/**
+	 * Tries to do an auto-login. The user object is returned if the login was successful. Null is
+	 * returned otherwise.
+	 * 
+	 * @param name The name of the user.
+	 * @param clientToken The auto-login-token from the client browser.
+	 * @return The user object.
+	 */
 	public User autoLogin(String name, String clientToken) {
-		User user = getUser(name);
+		User user = userNameMap.get(name);
 		if (user == null) return null;
 		String serverToken = user.getUserData("stayloggedintoken");
 		if (clientToken.equals(serverToken)) {
@@ -128,7 +132,7 @@ public class UserBase {
 	 * @return The new user object.
 	 */
 	public User register(String name, String email, String password) {
-		if (getUser(name) != null) return null;
+		if (userNameMap.get(name) != null) return null;
 		Map<String,String> userdata = new HashMap<String, String>();
 		userdata.put("email", email);
 		String now = getTimeNow();
@@ -141,10 +145,20 @@ public class UserBase {
 		return user;
 	}
 	
+	/**
+	 * Returns the ontology object.
+	 * 
+	 * @return The ontology.
+	 */
 	public Ontology getOntology() {
 		return ontology;
 	}
 	
+	/**
+	 * Returns the storage object.
+	 * 
+	 * @return The storage.
+	 */
 	public AceWikiStorage getStorage() {
 		return storage;
 	}

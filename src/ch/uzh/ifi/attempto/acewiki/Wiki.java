@@ -316,7 +316,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		if (isLoginEnabled()) {
 			String userName = getCookie("lastusername");
 			boolean stayLoggedIn = getCookie("stayloggedin").equals("true");
-			if (getUserBase().existsUser(userName) && stayLoggedIn) {
+			if (getUserBase().containsUser(userName) && stayLoggedIn) {
 				String clientToken = getCookie("stayloggedintoken");
 				if (clientToken.length() > 0) {
 					log("syst", "try auto login...");
