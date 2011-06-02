@@ -130,13 +130,20 @@ public class Style {
 		return color;
 	}
 	
-	public static ResourceImageReference getImage(String fileName) {
-		ResourceImageReference i = images.get(fileName);
+	/**
+	 * Returns an image reference for the given file. The same reference is returned when
+	 * this method is called twice for the same file.
+	 * 
+	 * @param file Path and file name of an image file.
+	 * @return An image reference for the given file.
+	 */
+	public static ResourceImageReference getImage(String file) {
+		ResourceImageReference i = images.get(file);
 		if (i != null) {
 			return i;
 		} else {
-			i = new ResourceImageReference(fileName);
-			images.put(fileName, i);
+			i = new ResourceImageReference(file);
+			images.put(file, i);
 			return i;
 		}
 	}

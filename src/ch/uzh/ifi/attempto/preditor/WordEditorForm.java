@@ -115,6 +115,11 @@ public class WordEditorForm extends ContentPane implements ActionListener {
 		setTitle(title);
 	}
 	
+	/**
+	 * Sets the title of this form.
+	 * 
+	 * @param title The title.
+	 */
 	public void setTitle(String title) {
 		this.title = title;
 	}

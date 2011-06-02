@@ -207,6 +207,14 @@ public class TextContainer {
 		}
 	}
 	
+	/**
+	 * Returns a new text container containing a subsequence of the elements of this text
+	 * container.
+	 * 
+	 * @param startPos The position of the first element.
+	 * @param endPos The position after the last element.
+	 * @return The new text container.
+	 */
 	public TextContainer getSubTextContainer(int startPos, int endPos) {
 		TextContainer subtc = new TextContainer(textOperator);
 		for (int i = startPos; i < endPos; i++) {

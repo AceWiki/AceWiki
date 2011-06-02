@@ -51,6 +51,14 @@ public interface TextOperator {
 	 */
 	public TextElement createTextElement(String text);
 	
+	/**
+	 * This method should return the "glue" to connect two text elements. Mostly, this should be a
+	 * single blank space or the empty string.
+	 * 
+	 * @param left The left-hand side text element.
+	 * @param right The right-hand side text element.
+	 * @return The glue string.
+	 */
 	public String getGlue(TextElement left, TextElement right);
 
 }

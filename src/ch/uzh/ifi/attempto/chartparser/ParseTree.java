@@ -54,10 +54,20 @@ public class ParseTree {
 		return newParseTree;
 	}
 	
+	/**
+	 * Returns the start position of this tree. This can be relevant for subtrees.
+	 * 
+	 * @return The start position.
+	 */
 	public int getStartPos() {
 		return topNode.getStartPos();
 	}
 	
+	/**
+	 * Returns the end position of this tree. This can be relevant for subtrees.
+	 * 
+	 * @return The end position.
+	 */
 	public int getEndPos() {
 		return topNode.getEndPos();
 	}
@@ -236,6 +246,14 @@ public class ParseTree {
 		return structureToAsciiTree(getLambdaSemTree(), 0);
 	}
 	
+	/**
+	 * Returns all subtrees that have the given category name as their top node. In the case of
+	 * nested nodes with the given category, only the top-most subtree (containing all other
+	 * potential subtrees) is returned.
+	 * 
+	 * @param categoryName The category name.
+	 * @return A list of all matching subtrees.
+	 */
 	public List<ParseTree> getSubTrees(String categoryName) {
 		List<ParseTreeNode> topNodeList = new ArrayList<ParseTreeNode>();
 		topNodeList.add(topNode);

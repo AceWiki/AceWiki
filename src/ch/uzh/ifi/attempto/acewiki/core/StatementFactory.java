@@ -19,7 +19,6 @@ import java.util.List;
 
 import ch.uzh.ifi.attempto.chartparser.ParseTree;
 import ch.uzh.ifi.attempto.preditor.TextContainer;
-import ch.uzh.ifi.attempto.preditor.TextElement;
 
 /**
  * This factory class is used to generate different kind of statements (declarations, questions and
