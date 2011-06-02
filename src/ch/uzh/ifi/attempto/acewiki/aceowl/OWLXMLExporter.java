@@ -52,7 +52,7 @@ public class OWLXMLExporter extends OntologyExporter {
         }
 	}
 	
-	public String getText() {
+	public String getName() {
 		return "OWL Ontology, " + (consistent ? "consistent" : "full");
 	}
 	

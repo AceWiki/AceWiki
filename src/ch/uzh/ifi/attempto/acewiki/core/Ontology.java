@@ -22,8 +22,6 @@ import java.util.TreeMap;
 import ch.uzh.ifi.attempto.echocomp.Logger;
 import ch.uzh.ifi.attempto.preditor.TextOperator;
 
-// TODO check synchronization
-
 /**
  * This class represents an AceWiki ontology which consists of ontology element definitions and
  * of ontological statements. Each ontology element has its own article that consists of
@@ -76,26 +74,65 @@ public class Ontology {
 		}
 	}
 	
+	/**
+	 * Returns the languge engine.
+	 * 
+	 * @return The language engine.
+	 */
 	public LanguageEngine getLanguageEngine() {
 		return languageEngine;
 	}
 	
+	/**
+	 * Returns the reasoner object in the form of a caching reasoner.
+	 * 
+	 * @return The reasoner.
+	 */
 	public CachingReasoner getReasoner() {
 		return reasoner;
 	}
 	
+	/**
+	 * Returns the statement factory.
+	 * 
+	 * @return The statement factory.
+	 */
 	public StatementFactory getStatementFactory() {
 		return statementFactory;
 	}
 	
+	/**
+	 * Returns the language factory.
+	 * 
+	 * @return The language factory.
+	 */
 	public LanguageFactory getLanguageFactory() {
 		return languageEngine.getLanguageFactory();
 	}
 	
+	/**
+	 * Returns the text operator.
+	 * 
+	 * @return The text operator.
+	 */
+	public TextOperator getTextOperator() {
+		return getLanguageFactory().getTextOperator();
+	}
+	
+	/**
+	 * Returns the storage object.
+	 * 
+	 * @return The storage object.
+	 */
 	public AceWikiStorage getStorage() {
 		return storage;
 	}
 	
+	/**
+	 * Registers the given ontology element.
+	 * 
+	 * @param element The ontology element to register.
+	 */
 	public synchronized void register(OntologyElement element) {
 		if (contains(element)) {
 			log("error: element already registered");
@@ -222,7 +259,7 @@ public class Ontology {
 	 * @param name The name of the ontology element.
 	 * @return The ontology element.
 	 */
-	public OntologyElement getElement(String name) {
+	public synchronized OntologyElement getElement(String name) {
 		return wordIndex.get(name);
 	}
 	
@@ -232,7 +269,7 @@ public class Ontology {
 	 * @param id The id of the ontology element.
 	 * @return The ontology element.
 	 */
-	public OntologyElement get(long id) {
+	public synchronized OntologyElement get(long id) {
 		return idIndex.get(id);
 	}
 	
@@ -241,7 +278,7 @@ public class Ontology {
 	 * 
 	 * @return A list of all ontology elements.
 	 */
-	public List<OntologyElement> getOntologyElements() {
+	public synchronized List<OntologyElement> getOntologyElements() {
 		return new ArrayList<OntologyElement>(idIndex.values());
 	}
 	
@@ -251,7 +288,7 @@ public class Ontology {
 	 * @param ontologyElement The ontology element.
 	 * @return true if the ontology element is contained by the ontology.
 	 */
-	public boolean contains(OntologyElement ontologyElement) {
+	public synchronized boolean contains(OntologyElement ontologyElement) {
 		return idIndex.containsValue(ontologyElement);
 	}
 	
@@ -296,6 +333,7 @@ public class Ontology {
 	 * Commits the sentence. This means that it is added to the reasoner.
 	 * 
 	 * @param sentence The sentence to be commited.
+	 * @throws InconsistencyException if the sentence is inconsistent with the existing sentences.
 	 */
 	protected synchronized void commitSentence(Sentence sentence) throws InconsistencyException {
 		if (sentence == null || sentence.isIntegrated()) return;
@@ -334,8 +372,11 @@ public class Ontology {
 	
 	/**
 	 * This method tries to reassert a sentence that is not yet integrated.
+	 * 
+	 * @param sentence The sentence to be reasserted.
+	 * @throws InconsistencyException if the sentence is inconsistent with the existing sentences.
 	 */
-	public void reassert(Sentence sentence) throws InconsistencyException {
+	public synchronized void reassert(Sentence sentence) throws InconsistencyException {
 		commitSentence(sentence);
 		getStorage().save(sentence.getArticle().getOntologyElement());
 	}
@@ -361,12 +402,19 @@ public class Ontology {
 	/**
 	 * This method retracts an integrated sentence so that it is still part of the wiki
 	 * article but does not participate in reasoning anymore.
+	 * 
+	 * @param sentence The sentence to be retracted.
 	 */
-	public void retract(Sentence sentence) {
+	public synchronized void retract(Sentence sentence) {
 		retractSentence(sentence);
 		getStorage().save(sentence.getArticle().getOntologyElement());
 	}
 	
+	/**
+	 * Writes a log entry.
+	 * 
+	 * @param text Log text.
+	 */
 	public void log(String text) {
 		Logger.log(name, "onto", 0, "onto", text);
 	}
@@ -387,14 +435,11 @@ public class Ontology {
 	}
 	
 	/**
-	 * Returns the text operator.
+	 * Returns a parameter value.
 	 * 
-	 * @return The text operator.
+	 * @param name The parameter name.
+	 * @return The parameter value.
 	 */
-	public TextOperator getTextOperator() {
-		return getLanguageFactory().getTextOperator();
-	}
-	
 	public String getParameter(String name) {
 		return parameters.get(name);
 	}

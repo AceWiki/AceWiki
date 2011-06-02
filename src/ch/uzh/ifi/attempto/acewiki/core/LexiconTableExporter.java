@@ -46,7 +46,7 @@ public class LexiconTableExporter extends OntologyExporter {
 		return true;
 	}
 	
-	public String getText() {
+	public String getName() {
 		return "Lexicon Table";
 	}
 	

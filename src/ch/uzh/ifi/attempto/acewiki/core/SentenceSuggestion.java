@@ -14,12 +14,36 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
+/**
+ * This interface represents a change suggestion for a newly created sentence. The user can decide
+ * whether to follow this suggestion or not. If the suggestion is followed, the sentence is
+ * automatically changed.
+ * 
+ * @author Tobias Kuhn
+ */
 public interface SentenceSuggestion {
 	
+	/**
+	 * Returns the message to be presented to the user. This message should explain the suggested
+	 * change.
+	 * 
+	 * @return The message text.
+	 */
 	public String getMessage();
 	
+	/**
+	 * Returns the options given to the user to change or not change the sentence.
+	 * 
+	 * @return The options.
+	 */
 	public String[] getOptions();
 	
+	/**
+	 * Returns the possibly changed sentence accoring to the option chosen by the user.
+	 * 
+	 * @param option The chosen option.
+	 * @return The sentence, possibly changed.
+	 */
 	public Sentence getSentence(String option);
 
 }

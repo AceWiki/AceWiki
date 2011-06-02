@@ -14,6 +14,13 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
+/**
+ * This exception is thrown when an inconsistency in the ontology occurs.
+ * 
+ * @author Tobias Kuhn
+ */
 public class InconsistencyException extends RuntimeException {
+
+	private static final long serialVersionUID = -2512981546578272610L;
 
 }

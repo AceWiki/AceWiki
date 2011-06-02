@@ -27,7 +27,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * This class implements persistent storage features for AceWiki data on the basis of a simple file
+ * and folder based system.
+ * 
+ * @author Tobias Kuhn
+ */
 public class FileBasedStorage implements AceWikiStorage {
 	
 	private final HashMap<String, Ontology> ontologies = new HashMap<String, Ontology>();
@@ -35,6 +40,11 @@ public class FileBasedStorage implements AceWikiStorage {
 	private String dir;
 	private final List<Ontology> incompleteOntologies = new ArrayList<Ontology>();
 	
+	/**
+	 * Creates a new storage object.
+	 * 
+	 * @param dir The path at which ontologies should be stored.
+	 */
 	public FileBasedStorage(String dir) {
 		this.dir = dir.replaceFirst("/*$", "");
 	}
@@ -265,8 +275,9 @@ public class FileBasedStorage implements AceWikiStorage {
 	}
 	
 	/**
-	 * Serializes this ontology element as a string.
+	 * Serializes the given ontology element as a string.
 	 * 
+	 * @param element The ontology element.
 	 * @param encodeWords defines whether words should be encoded (for the internal "database") or
 	 *   not (for export in the AceWiki data format).
 	 * @return The serialized ontology element.

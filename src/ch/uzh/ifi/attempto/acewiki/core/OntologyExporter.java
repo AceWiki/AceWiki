@@ -60,9 +60,19 @@ public abstract class OntologyExporter {
 		}
 	}
 	
+	/**
+	 * Returns whether this ontology exporter is applicable in the current context.
+	 * 
+	 * @return true if this ontology exporter is applicable.
+	 */
 	public abstract boolean isApplicable();
 	
-	public abstract String getText();
+	/**
+	 * Returns the name of this exporter as shown to the user.
+	 * 
+	 * @return The name of this exporter.
+	 */
+	public abstract String getName();
 	
 	/**
 	 * This internal method should write the export content.

@@ -57,7 +57,7 @@ public class ACETextExporter extends OntologyExporter {
 		}
 	}
 	
-	public String getText() {
+	public String getName() {
 		return "ACE Text, " + (consistent ? "consistent" : "full");
 	}
 	

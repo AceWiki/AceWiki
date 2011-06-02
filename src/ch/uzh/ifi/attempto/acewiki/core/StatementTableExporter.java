@@ -42,7 +42,7 @@ public class StatementTableExporter extends OntologyExporter {
 		return true;
 	}
 	
-	public String getText() {
+	public String getName() {
 		return "Statement Table";
 	}
 	

@@ -505,8 +505,10 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	}
 	
 	/**
-	 * Shows a word creator window.
+	 * Shows a word creator window for the given word type and number.
 	 * 
+	 * @param type The word type.
+	 * @param wordNumber The word number.
 	 * @param actionListener The actionlistener.
 	 */
 	public void showCreatorWindow(String type, int wordNumber, ActionListener actionListener) {
@@ -640,6 +642,11 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		return ontology;
 	}
 	
+	/**
+	 * Returns the ontology export manager.
+	 * 
+	 * @return The ontology export manager.
+	 */
 	public OntologyExportManager getOntologyExportManager() {
 		return ontologyExportManager;
 	}
@@ -915,6 +922,11 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		);
 	}
 	
+	/**
+	 * Returns the language engine.
+	 * 
+	 * @return The language engine.
+	 */
 	public LanguageEngine getLanguageEngine() {
 		return languageEngine;
 	}
@@ -1037,6 +1049,13 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		locked = false;
 	}
 	
+	/**
+	 * Returns an image reference for a file in the AceWiki image directory with the given file
+	 * name.
+	 * 
+	 * @param fileName The name of the image file.
+	 * @return The image reference.
+	 */
 	public static ResourceImageReference getImage(String fileName) {
 		return Style.getImage("ch/uzh/ifi/attempto/acewiki/gui/img/" + fileName);
 	}

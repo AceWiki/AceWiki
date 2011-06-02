@@ -18,12 +18,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+/**
+ * This class represents a wiki article.
+ * 
+ * @author Tobias Kuhn
+ */
 public class Article {
 	
 	private Vector<Statement> statements = new Vector<Statement>();
 	private final OntologyElement element;
 	private final Ontology ontology;
 	
+	/**
+	 * Creates a new article for the given ontology element.
+	 * 
+	 * @param element The ontology element.
+	 */
 	protected Article(OntologyElement element) {
 		this.element = element;
 		this.ontology = element.getOntology();
@@ -33,10 +43,20 @@ public class Article {
 		this.statements = new Vector<Statement>(statements);
 	}
 	
+	/**
+	 * Returns the ontology element of this article.
+	 * 
+	 * @return The ontology element.
+	 */
 	public OntologyElement getOntologyElement() {
 		return element;
 	}
 	
+	/**
+	 * Returns the ontology object.
+	 * 
+	 * @return The ontoloy.
+	 */
 	public Ontology getOntology() {
 		return ontology;
 	}

@@ -16,8 +16,20 @@ package ch.uzh.ifi.attempto.acewiki.core;
 
 import java.lang.Exception;
 
+/**
+ * This exception is thrown when the user tries to create or modify a word in an illegal way.
+ * 
+ * @author Tobias Kuhn
+ */
 public class InvalidWordException extends Exception {
 	
+	private static final long serialVersionUID = 74414500416995528L;
+
+	/**
+	 * Creates a new exception object.
+	 * 
+	 * @param text The exception text.
+	 */
 	public InvalidWordException(String text) {
 		super(text);
 	}

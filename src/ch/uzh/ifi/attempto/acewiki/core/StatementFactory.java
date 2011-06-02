@@ -61,9 +61,10 @@ public class StatementFactory {
 	}
 
 	/**
-	 * Generates sentence objects out of a text container.
+	 * Generates sentence objects out of a text container and a parse tree.
 	 * 
 	 * @param tc The text container.
+	 * @param parseTree The parse tree.
 	 * @param article The article of the sentences.
 	 * @return A list of sentences.
 	 */
@@ -79,12 +80,26 @@ public class StatementFactory {
 		return l;
 	}
 	
+	/**
+	 * Creates an assignement sentence.
+	 * 
+	 * @param ind The individual.
+	 * @param conc The concept.
+	 * @return A new assignement sentence.
+	 */
 	public Sentence createAssignmentSentence(Individual ind, Concept conc) {
 		Sentence s = ontology.getLanguageFactory().createAssignmentSentence(ind, conc);
 		s.init(ontology, null);
 		return s;
 	}
 	
+	/**
+	 * Creates a hierarchy sentence.
+	 * 
+	 * @param subConc The sub-concept.
+	 * @param superConc The super-concept.
+	 * @return A new hierarchy sentence.
+	 */
 	public Sentence createHierarchySentence(Concept subConc, Concept superConc) {
 		Sentence s = ontology.getLanguageFactory().createHierarchySentence(subConc, superConc);
 		s.init(ontology, null);

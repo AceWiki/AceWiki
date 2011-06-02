@@ -35,7 +35,7 @@ public class AceWikiDataExporter extends OntologyExporter {
 		return true;
 	}
 	
-	public String getText() {
+	public String getName() {
 		return "AceWiki data file";
 	}
 	

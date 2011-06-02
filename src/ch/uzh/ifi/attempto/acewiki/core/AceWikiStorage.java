@@ -16,21 +16,43 @@ package ch.uzh.ifi.attempto.acewiki.core;
 
 import java.util.Map;
 
-
+/**
+ * This interface describes a storage object that can store ontologies and user bases in a
+ * persistent manner.
+ * 
+ * @author Tobias Kuhn
+ */
 public interface AceWikiStorage {
 	
+	/**
+	 * Returns the ontology with the respective name.
+	 * 
+	 * @param name The name of the ontology.
+	 * @param parameters Parameters in case the ontology object has to be created.
+	 * @return The ontology object.
+	 */
 	public Ontology getOntology(String name, Map<String, String> parameters);
 	
+	/**
+	 * Saves the given ontology element.
+	 * 
+	 * @param oe The ontology element to be saved.
+	 */
 	public void save(OntologyElement oe);
 
 	/**
-	 * This method should return the user base for the given ontology.
+	 * Returns the user base for the given ontology.
 	 * 
 	 * @param ontology The ontology.
 	 * @return The user base.
 	 */
 	public UserBase getUserBase(Ontology ontology);
 	
+	/**
+	 * Saves the given user.
+	 * 
+	 * @param user The user to be saved.
+	 */
 	public void save(User user);
 
 }

@@ -48,7 +48,7 @@ public class ACELexiconExporter extends OntologyExporter {
 		}
 	}
 	
-	public String getText() {
+	public String getName() {
 		return "ACE Lexicon";
 	}
 	

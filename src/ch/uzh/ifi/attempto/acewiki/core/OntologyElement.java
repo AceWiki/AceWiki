@@ -14,13 +14,55 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
+/**
+ * This class represents an ontology element. Such ontology elements include individuals, concepts
+ * and relations.
+ * 
+ * @author Tobias Kuhn
+ */
 public interface OntologyElement extends Comparable<OntologyElement> {
 	
+	/**
+	 * Initializes the id of this ontology element.
+	 * 
+	 * @param id The id.
+	 */
 	public void initId(long id);
 	
+	/**
+	 * Initializes the ontology of this ontology element.
+	 * 
+	 * @param ontology The ontology.
+	 */
 	public void initOntology(Ontology ontology);
 	
+	/**
+	 * Initializes the aricle of this ontology element.
+	 * 
+	 * @param article The article.
+	 */
 	public void initArticle(Article article);
+	
+	/**
+	 * Returns the numerical id of this ontology element.
+	 * 
+	 * @return The id.
+	 */
+	public long getId();
+	
+	/**
+	 * Returns the ontology of this ontology element.
+	 * 
+	 * @return The ontology.
+	 */
+	public Ontology getOntology();
+	
+	/**
+	 * Returns the article of this ontology element.
+	 * 
+	 * @return The article.
+	 */
+	public Article getArticle();
 	
 	/**
 	 * Returns the word forms. The position in the array corresponds to the word form id.
@@ -118,16 +160,5 @@ public interface OntologyElement extends Comparable<OntologyElement> {
 	 * @return The internal word type.
 	 */
 	public String getInternalType();
-	
-	public long getId();
-	
-	/**
-	 * Returns the ontology this ontology element is registered at.
-	 * 
-	 * @return The ontology.
-	 */
-	public Ontology getOntology();
-	
-	public Article getArticle();
 
 }

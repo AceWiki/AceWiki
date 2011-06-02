@@ -106,7 +106,7 @@ public class ExportWindow extends WindowPane implements ActionListener {
 		String[] options = new String[exporters.size()];
 		for (int i = 0 ; i < exporters.size() ; i++) {
 			OntologyExporter e = exporters.get(i);
-			options[i] = e.getText() + " (" + e.getFileSuffix() + ")";
+			options[i] = e.getName() + " (" + e.getFileSuffix() + ")";
 		}
 		
 		listBox = new ListBox(options);
