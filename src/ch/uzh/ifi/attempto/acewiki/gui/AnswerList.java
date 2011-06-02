@@ -22,7 +22,7 @@ import nextapp.echo.app.Insets;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
-import ch.uzh.ifi.attempto.acewiki.core.ReasonerManager;
+import ch.uzh.ifi.attempto.acewiki.core.CachingReasoner;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
 import ch.uzh.ifi.attempto.preditor.TextContainer;
@@ -64,13 +64,13 @@ class AnswerList extends Column {
 	public void updateAnswers() {
 		removeAll();
 		
-		final ReasonerManager rm = wiki.getOntology().getReasonerManager();
+		final CachingReasoner cr = wiki.getOntology().getReasoner();
 		Column cachedAnswerCol = new Column();
-		List<TextContainer> cachedAnswer = rm.getCachedAnswer(question);
+		List<TextContainer> cachedAnswer = cr.getCachedAnswer(question);
 		addAnswerToColumn(cachedAnswer, cachedAnswerCol);
 		add(cachedAnswerCol);
 		
-		if (cachedAnswer == null || !rm.isCachedAnswerUpToDate(question)) {
+		if (cachedAnswer == null || !cr.isCachedAnswerUpToDate(question)) {
 			// Answer is not cached or not up-to-date: recalculation
 			recalcIcon.setVisible(true);
 			wiki.enqueueWeakAsyncTask(new Task() {
@@ -79,7 +79,7 @@ class AnswerList extends Column {
 				
 				public void run() {
 					column = new Column();
-					addAnswerToColumn(rm.getAnswer(question), column);
+					addAnswerToColumn(cr.getAnswer(question), column);
 				}
 				
 				public void updateGUI() {

@@ -28,7 +28,7 @@ import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
-import ch.uzh.ifi.attempto.acewiki.core.ReasonerManager;
+import ch.uzh.ifi.attempto.acewiki.core.CachingReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.StatementFactory;
 import ch.uzh.ifi.attempto.acewiki.gui.IndexBar;
@@ -97,9 +97,9 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 		downHierarchyColumn.removeAll();
 		
 		Concept c = (Concept) page.getOntologyElement();
-		ReasonerManager rm = getWiki().getOntology().getReasonerManager();
+		CachingReasoner cr = getWiki().getOntology().getReasoner();
 		
-		if (rm.areCachedSuperConceptsUpToDate(c)) {
+		if (cr.areCachedSuperConceptsUpToDate(c)) {
 			upHierarchyColumn.add(new HierarchyComponent(true, true));
 		} else {
 			upRecalcIcon.setVisible(true);
@@ -121,7 +121,7 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 			});
 		}
 
-		if (rm.areCachedSuperConceptsUpToDate(c)) {
+		if (cr.areCachedSuperConceptsUpToDate(c)) {
 			downHierarchyColumn.add(new HierarchyComponent(false, true));
 		} else {
 			downRecalcIcon.setVisible(true);
@@ -193,20 +193,20 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 			add(column);
 			
 			Concept concept = (Concept) page.getOntologyElement();
-			ReasonerManager rm = getWiki().getOntology().getReasonerManager();
+			CachingReasoner cr = getWiki().getOntology().getReasoner();
 			List<Concept> concepts;
 			
 			if (up) {
 				if (cached) {
-					concepts = rm.getCachedSuperConcepts(concept);
+					concepts = cr.getCachedSuperConcepts(concept);
 				} else {
-					concepts = rm.getSuperConcepts(concept);
+					concepts = cr.getSuperConcepts(concept);
 				}
 			} else {
 				if (cached) {
-					concepts = rm.getCachedSubConcepts(concept);
+					concepts = cr.getCachedSubConcepts(concept);
 				} else {
-					concepts = rm.getSubConcepts(concept);
+					concepts = cr.getSubConcepts(concept);
 				}
 			}
 			if (concepts != null) {

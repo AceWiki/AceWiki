@@ -191,7 +191,7 @@ public abstract class ACESentence extends AbstractSentence {
 	public void update() {
 		// TODO: refactor and clean-up!
 		AceWikiOWLReasoner reasoner = (AceWikiOWLReasoner) getOntology()
-				.getReasonerManager().getReasoner();
+				.getReasoner().getWrappedReasoner();
 		
 		APELocal ape = APELocal.getInstance();
 		synchronized (ape) {

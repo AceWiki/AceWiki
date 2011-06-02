@@ -30,7 +30,7 @@ import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
-import ch.uzh.ifi.attempto.acewiki.core.ReasonerManager;
+import ch.uzh.ifi.attempto.acewiki.core.CachingReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.StatementFactory;
 import ch.uzh.ifi.attempto.acewiki.gui.IndexBar;
@@ -87,9 +87,9 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 		waitComp.setInsets(new Insets(10, 0, 0, 0));
 		waitComp.add(new RecalcIcon("This list is being updated."));
 
-		ReasonerManager rm = getWiki().getOntology().getReasonerManager();
+		CachingReasoner cr = getWiki().getOntology().getReasoner();
 		
-		if (rm.areCachedIndividualsUpToDate((Concept) page.getOntologyElement())) {
+		if (cr.areCachedIndividualsUpToDate((Concept) page.getOntologyElement())) {
 			individualsColumn.add(new IndividualsComponent(true));
 		} else {
 			individualsColumn.add(waitComp);
@@ -160,13 +160,13 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 			add(sentencesColumn);
 			
 			Concept concept = (Concept) page.getOntologyElement();
-			ReasonerManager rm = getWiki().getOntology().getReasonerManager();
+			CachingReasoner cr = getWiki().getOntology().getReasoner();
 			List<Individual> individuals;
 			
 			if (cached) {
-				individuals = rm.getCachedIndividuals(concept);
+				individuals = cr.getCachedIndividuals(concept);
 			} else {
-				individuals = rm.getIndividuals(concept);
+				individuals = cr.getIndividuals(concept);
 			}
 			if (individuals != null) {
 				sentences = new ArrayList<Sentence>();

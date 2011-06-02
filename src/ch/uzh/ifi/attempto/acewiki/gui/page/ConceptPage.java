@@ -18,9 +18,9 @@ import nextapp.echo.app.Color;
 import nextapp.echo.app.event.ActionEvent;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
+import ch.uzh.ifi.attempto.acewiki.core.AceWikiReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
-import ch.uzh.ifi.attempto.acewiki.core.ReasonerManager;
 
 /**
  * This class stands for an article page showing the article of a concept. At the
@@ -74,8 +74,8 @@ public class ConceptPage extends ArticlePage {
 						private boolean satisfiable;
 						
 						public void run() {
-							ReasonerManager rm = concept.getOntology().getReasonerManager();
-							satisfiable = rm.isSatisfiable(concept);
+							AceWikiReasoner r = concept.getOntology().getReasoner();
+							satisfiable = r.isSatisfiable(concept);
 						}
 						
 						public void updateGUI() {

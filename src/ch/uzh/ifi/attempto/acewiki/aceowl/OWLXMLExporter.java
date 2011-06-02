@@ -42,7 +42,7 @@ public class OWLXMLExporter extends OntologyExporter {
 	
 	protected void writeContent() throws IOException {
 		AceWikiOWLReasoner owlReasoner = (AceWikiOWLReasoner) getOntology()
-				.getReasonerManager().getReasoner();
+				.getReasoner().getWrappedReasoner();
 		OWLOntology owlOntology = owlReasoner.exportOWLOntology(consistent);
         try {
             OWLXMLRenderer renderer = new OWLXMLRenderer(owlReasoner.getOWLOntologyManager());
@@ -57,7 +57,7 @@ public class OWLXMLExporter extends OntologyExporter {
 	}
 	
 	public boolean isApplicable() {
-		return getOntology().getReasonerManager().getReasoner() instanceof AceWikiOWLReasoner;
+		return getOntology().getReasoner().getWrappedReasoner() instanceof AceWikiOWLReasoner;
 	}
 	
 	public String getFileSuffix() {

@@ -14,12 +14,14 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui.page;
 
+import java.util.Map;
+
 import nextapp.echo.app.Insets;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
+import ch.uzh.ifi.attempto.acewiki.core.AceWikiReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
-import ch.uzh.ifi.attempto.acewiki.core.ReasonerManager;
 import ch.uzh.ifi.attempto.acewiki.gui.NameValueTable;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
@@ -93,19 +95,17 @@ public class AboutPage extends WikiPage implements ActionListener {
 		table2.addEntry("number of ontology elements", o.getOntologyElements().size() + "");
 		table2.addEntry("ontology URI", o.getURI());
 		
-		ReasonerManager rm = o.getReasonerManager();
-		table3.addEntry("reasoner type", rm.getReasonerType());
-		table3.addEntry("reasoner name", rm.getReasonerName());
-		table3.addEntry("reasoner version", rm.getReasonerVersion());
-		for (String s : rm.getInfo()) {
-			int i = s.indexOf(": ");
-			if (i < 0) {
-				table3.addEntry("", s);
-			} else {
-				table3.addEntry(s.substring(0, i), s.substring(i+2));
+		AceWikiReasoner r = o.getReasoner();
+		table3.addEntry("reasoner type", r.getReasonerType());
+		table3.addEntry("reasoner name", r.getReasonerName());
+		table3.addEntry("reasoner version", r.getReasonerVersion());
+		Map<String, String> info = r.getInfo();
+		if (info != null) {
+			for (String s : info.keySet()) {
+				table3.addEntry(s, info.get(s));
 			}
 		}
-
+		
 		table4.addEntry("number of registered users", w.getUserBase().getUserCount() + "");
 		table4.addEntry("login enabled", (w.isLoginEnabled() ? "yes" : "no"));
 		table4.addEntry("login required for viewing", (w.isLoginRequiredForViewing() ? "yes" : "no"));

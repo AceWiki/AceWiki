@@ -16,8 +16,18 @@ package ch.uzh.ifi.attempto.acewiki.core;
 
 import ch.uzh.ifi.attempto.chartparser.DynamicLexicon;
 
+/**
+ * This interface represents a dynamic lexicon for AceWiki.
+ * 
+ * @author Tobias Kuhn
+ */
 public interface AceWikiLexicon extends DynamicLexicon {
-	
+
+	/**
+	 * This is the first method to be called and provides the ontology object.
+	 * 
+	 * @param ontology The ontology object.
+	 */
 	public void init(Ontology ontology);
 
 }

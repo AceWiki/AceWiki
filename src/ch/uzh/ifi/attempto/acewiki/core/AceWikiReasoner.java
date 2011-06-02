@@ -15,6 +15,7 @@
 package ch.uzh.ifi.attempto.acewiki.core;
 
 import java.util.List;
+import java.util.Map;
 
 import ch.uzh.ifi.attempto.preditor.TextContainer;
 
@@ -24,8 +25,18 @@ import ch.uzh.ifi.attempto.preditor.TextContainer;
 // - HierarchyReasoner
 // - ConceptSatisfiabilityReasoner
 // - QuestionReasoner
+/**
+ * This is the reasoner interface for AceWiki.
+ * 
+ * @author Tobias Kuhn
+ */
 public interface AceWikiReasoner {
-	
+
+	/**
+	 * This is the first method to be called and provides the ontology object.
+	 * 
+	 * @param ontology The ontology object.
+	 */
 	public void init(Ontology ontology);
 
 	/**
@@ -49,16 +60,41 @@ public interface AceWikiReasoner {
 	 */
 	public String getReasonerType();
 	
-	public String[] getInfo();
+	/**
+	 * This method can return a map of name/value pairs with information about the reasoner.
+	 * To retain the insertion order, a map implementation like LinkedHashMap should be used.
+	 * It is allowed to return null for no information.
+	 * 
+	 * @return A map of name/value pairs with reasoner information.
+	 */
+	public Map<String, String> getInfo();
 
 	/**
 	 * Loads the reasoner or reasoner interface.
 	 */
 	public void load();
 	
+	/**
+	 * Loads the given ontology element. The method flushElements is called after each
+	 * sequence of one or more loadElement-calls.
+	 * 
+	 * @param element The ontology element.
+	 */
 	public void loadElement(OntologyElement element);
 	
+	/**
+	 * Unloads the given ontology element. The method flushElements is called after each
+	 * sequence of one or more unloadElement-calls.
+	 * 
+	 * @param element The ontology element.
+	 */
 	public void unloadElement(OntologyElement element);
+	
+	/**
+	 * This method can finalize the loading or unloading of elements. It is always called
+	 * after a sequence of one or more loadElement- or unloadElement-calls.
+	 */
+	public void flushElements();
 
 	/**
 	 * Should return all concepts the given individual belongs to.
@@ -115,12 +151,18 @@ public interface AceWikiReasoner {
 	 */
 	public boolean isSatisfiable(Concept concept);
 	
+	/**
+	 * Loads the given sentence.
+	 * 
+	 * @param sentence The sentence.
+	 */
 	public void loadSentence(Sentence sentence);
 	
+	/**
+	 * Unloads the given sentence.
+	 * 
+	 * @param sentence The sentence.
+	 */
 	public void unloadSentence(Sentence sentence);
-	
-	public void flushReasoner();
-	
-	public Ontology getOntology();
 
 }

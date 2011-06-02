@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -64,6 +65,13 @@ import ch.uzh.ifi.attempto.ape.ACEUtils;
 import ch.uzh.ifi.attempto.preditor.TextContainer;
 import ch.uzh.ifi.attempto.preditor.TextElement;
 
+/**
+ * This is a reasoner implementation that connects to an OWL reasoner. At the moment, it can
+ * directly connect to HermiT and Pellet. Additionally, reasoners like FaCT++ can be accessed via
+ * the OWLlink interface.
+ * 
+ * @author Tobias Kuhn
+ */
 public class AceWikiOWLReasoner implements AceWikiReasoner {
 	
 	private static OWLDataFactory dataFactory = new OWLDataFactoryImpl();
@@ -83,7 +91,11 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 	private boolean diffIndsAxiomOutdated = true;
 	private OWLProfile owlProfile;
 	private String globalRestrPolicy;
+	private Map<String, String> infoMap = new LinkedHashMap<String, String>();
 	
+	/**
+	 * Creates a new reasoner object.
+	 */
 	public AceWikiOWLReasoner() {
 		manager = OWLManager.createOWLOntologyManager();
 		try {
@@ -113,10 +125,9 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 		} else {
 			globalRestrPolicy = "no_chains";
 		}
-	}
-	
-	public Ontology getOntology() {
-		return ontology;
+		
+		infoMap.put("global restrictions policy", globalRestrPolicy);
+		infoMap.put("OWL profile", getOWLProfileName());
 	}
 	
 	private List<OntologyElement> getOntologyElements() {
@@ -127,15 +138,12 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 		return ontology.getElement(name);
 	}
 	
-	public String getParameter(String name) {
+	private String getParameter(String name) {
 		return ontology.getParameter(name);
 	}
 	
-	public String[] getInfo() {
-		return new String[] {
-			"global restrictions policy: " + getGlobalRestrictionsPolicy(),
-			"OWL profile: " + getOWLProfileName()
-		};
+	public Map<String, String> getInfo() {
+		return infoMap;
 	}
 	
 	/**
@@ -306,7 +314,7 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 			owlReasoner = null;
 		}
 		updateDifferentIndividualsAxiom();
-		flushReasoner();
+		flush();
 		
 		log("reasoner loaded");
 	}
@@ -335,7 +343,11 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 		diffIndsAxiomOutdated = false;
 	}
 	
-	public void flushReasoner() {
+	public void flushElements() {
+		flush();
+	}
+	
+	private void flush() {
 		if (owlReasoner != null) {
 			synchronized (reasonerSyncToken) {
 				owlReasoner.flush();
@@ -350,7 +362,7 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 		}
 		if (owlDecl != null) {
 			manager.addAxiom(owlOntology, owlDecl);
-			flushReasoner();
+			flush();
 		}
 		if (element instanceof ACEOWLIndividual) {
 			diffIndsAxiomOutdated = true;
@@ -364,7 +376,7 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 		}
 		if (owlDecl != null) {
 			manager.removeAxiom(owlOntology, owlDecl);
-			flushReasoner();
+			flush();
 		}
 		if (element instanceof ACEOWLIndividual) {
 			diffIndsAxiomOutdated = true;
@@ -537,7 +549,7 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 			for (OWLAxiom ax : sentence.getOWLAxioms()) {
 				loadAxiom(ax);
 			}
-			flushReasoner();
+			flush();
 		} catch (OWLlinkErrorResponseException ex) {
 			// FaCT++ throws an exception here when inconsistency is encountered
 			// TODO Is this always the case?
@@ -558,7 +570,7 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 		for (OWLAxiom ax : sentence.getOWLAxioms()) {
 			unloadAxiom(ax);
 		}
-		flushReasoner();
+		flush();
 	}
 	
 	private void loadAxiom(OWLAxiom ax) {

@@ -34,7 +34,7 @@ import ch.uzh.ifi.attempto.preditor.TextOperator;
 public class Ontology {
 	
 	private LanguageEngine languageEngine;
-	private ReasonerManager reasonerManager;
+	private CachingReasoner reasoner;
 	private StatementFactory statementFactory;
 	private AceWikiStorage storage;
 	
@@ -60,7 +60,8 @@ public class Ontology {
 		this.storage = storage;
 		
 		languageEngine = AbstractLanguageEngine.createLanguageEngine(this);
-		reasonerManager = new ReasonerManager(languageEngine.getReasoner());
+		reasoner = new CachingReasoner(languageEngine.getReasoner());
+		reasoner.init(this);
 		statementFactory = new StatementFactory(this);
 		
 		String b = getParameter("baseuri");
@@ -79,8 +80,8 @@ public class Ontology {
 		return languageEngine;
 	}
 	
-	public ReasonerManager getReasonerManager() {
-		return reasonerManager;
+	public CachingReasoner getReasoner() {
+		return reasoner;
 	}
 	
 	public StatementFactory getStatementFactory() {
@@ -124,8 +125,8 @@ public class Ontology {
 			}
 		}
 		
-		getReasonerManager().loadElement(element);
-		getReasonerManager().flushReasoner();
+		getReasoner().loadElement(element);
+		getReasoner().flushElements();
 		
 		getStorage().save(element);
 	}
@@ -154,8 +155,8 @@ public class Ontology {
 		}
 		storage.save(element);
 		
-		getReasonerManager().unloadElement(element);
-		getReasonerManager().flushReasoner();
+		getReasoner().unloadElement(element);
+		getReasoner().flushElements();
 	}
 	
 	synchronized void removeFromWordIndex(OntologyElement oe) {
@@ -164,7 +165,7 @@ public class Ontology {
 				wordIndex.remove(word);
 			}
 		}
-		getReasonerManager().unloadElement(oe);
+		getReasoner().unloadElement(oe);
 	}
 	
 	synchronized void addToWordIndex(OntologyElement oe) {
@@ -179,7 +180,7 @@ public class Ontology {
 				}
 			}
 		}
-		getReasonerManager().loadElement(oe);
+		getReasoner().loadElement(oe);
 	}
 	
 	/**
@@ -307,22 +308,22 @@ public class Ontology {
 		log("commit sentence");
 		
 		try {
-			getReasonerManager().loadSentence(sentence);
+			getReasoner().loadSentence(sentence);
 		} catch (InconsistencyException ex) {
 			log("not consistent!");
-			getReasonerManager().unloadSentence(sentence);
+			getReasoner().unloadSentence(sentence);
 			throw ex;
 		} catch (Throwable t) {
 			log("error encountered!");
 			t.printStackTrace();
 			System.gc();
-			getReasonerManager().unloadSentence(sentence);
+			getReasoner().unloadSentence(sentence);
 			return;
 		}
 		
-		if (!getReasonerManager().isConsistent()) {
+		if (!getReasoner().isConsistent()) {
 			log("not consistent!");
-			getReasonerManager().unloadSentence(sentence);
+			getReasoner().unloadSentence(sentence);
 			throw new InconsistencyException();
 		}
 		
@@ -353,7 +354,7 @@ public class Ontology {
 		
 		log("retract sentence");
 		stateID++;
-		getReasonerManager().unloadSentence(sentence);
+		getReasoner().unloadSentence(sentence);
 		sentence.setIntegrated(false);
 	}
 	
