@@ -22,12 +22,14 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.preditor.TextOperator;
 
+/**
+ * This is a language factory implementation for ACE.
+ * 
+ * @author Tobias Kuhn
+ */
 public class ACELanguageFactory implements LanguageFactory {
 	
 	private TextOperator textOperator;
-	
-	public ACELanguageFactory() {
-	}
 	
 	public void init(Ontology ontology) {
 		textOperator = new ACETextOperator(ontology);

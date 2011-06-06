@@ -21,7 +21,7 @@ import ch.uzh.ifi.attempto.preditor.DefaultTextOperator;
 import ch.uzh.ifi.attempto.preditor.TextElement;
 
 /**
- * This is the text operator used for AceWiki.
+ * This is the text operator used for the ACE/OWL language engine for AceWiki.
  * 
  * @author Tobias Kuhn
  */
@@ -29,6 +29,11 @@ public class ACETextOperator extends DefaultTextOperator {
 	
 	private Ontology ontology;
 	
+	/**
+	 * Creates a new text operator.
+	 * 
+	 * @param ontology The ontology object.
+	 */
 	public ACETextOperator(Ontology ontology) {
 		this.ontology = ontology;
 	}

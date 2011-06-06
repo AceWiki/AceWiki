@@ -24,8 +24,7 @@ import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 import ch.uzh.ifi.attempto.chartparser.Preterminal;
 
 /**
- * This class stands for concepts that are represented by nouns. This is the only way how
- * concepts can be represented at the moment, but it is planned to support also adjectives.
+ * This class stands for concepts that are represented by ACE nouns and OWL concepts.
  * Noun concepts have two word forms.
  *<p>
  * 0: singular form.

@@ -25,6 +25,7 @@ import ch.uzh.ifi.attempto.ape.LexiconEntry;
 import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 
 /**
+ * This class stands for individuals that are represented by ACE proper names and OWL individuals.
  * Proper names can be used either with a definite article (e.g. "the United Nations") or without
  * (e.g. "Switzerland"). Furthermore, proper names can have an abbreviation that is a shorter
  * name with exactly the same meaning. This abbreviation can aswell be used either with a definite

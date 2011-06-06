@@ -28,6 +28,12 @@ import uk.ac.manchester.cs.owl.owlapi.OWLDeclarationAxiomImpl;
 import ch.uzh.ifi.attempto.acewiki.core.AbstractOntologyElement;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
 
+/**
+ * This is a partial implementation of an ontology element that maps to a lexical entry for ACE and
+ * to an OWL representation.
+ * 
+ * @author Tobias Kuhn
+ */
 public abstract class AbstractACEOWLOntoElement extends AbstractOntologyElement
 		implements ACEOWLOntoElement {
 	
@@ -45,8 +51,19 @@ public abstract class AbstractACEOWLOntoElement extends AbstractOntologyElement
 		return IRI.create(baseIRI + "#" + getIRISuffix());
 	}
 	
+	/**
+	 * Returns the suffix of the OWL identifier of this ontology element. Such identifiers are IRIs
+	 * and the suffix is the part after the hash sign.
+	 * 
+	 * @return The IRI suffix.
+	 */
 	public abstract String getIRISuffix();
 	
+	/**
+	 * Returns the OWL data factory object.
+	 * 
+	 * @return The OWL data factory.
+	 */
 	public OWLDataFactory getOWLDataFactory() {
 		return dataFactory;
 	}

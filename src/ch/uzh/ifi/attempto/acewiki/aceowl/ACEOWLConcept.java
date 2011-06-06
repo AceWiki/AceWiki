@@ -18,6 +18,11 @@ import org.semanticweb.owlapi.model.OWLClass;
 
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 
+/**
+ * This class stands for concept ontology elements with representations in ACE and OWL.
+ * 
+ * @author Tobias Kuhn
+ */
 public abstract class ACEOWLConcept extends AbstractACEOWLOntoElement implements Concept {
 	
 	public OWLClass getOWLRepresentation() {

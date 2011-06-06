@@ -16,6 +16,11 @@ package ch.uzh.ifi.attempto.acewiki.aceowl;
 
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
 
+/**
+ * This class stands for individual ontology elements with representations in ACE and OWL.
+ * 
+ * @author Tobias Kuhn
+ */
 public abstract class ACEOWLIndividual extends AbstractACEOWLOntoElement implements Individual {
 
 }

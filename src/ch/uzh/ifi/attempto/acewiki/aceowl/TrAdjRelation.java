@@ -22,9 +22,9 @@ import ch.uzh.ifi.attempto.ape.LexiconEntry;
 import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 
 /**
- * This class stands for relations that are represented by transitive adjectives. Transitive
- * adjectives consist of an adjective plus a preposition that is connected to the adjective
- * by a hyphen "-" or an underscore "_". Underscores are replaced by
+ * This class stands for relations that are represented by transitive adjectives in ACE and object
+ * properties in OWL. Transitive adjectives consist of an adjective plus a preposition that is
+ * connected to the adjective by a hyphen "-" or an underscore "_". Underscores are replaced by
  * blanks in the case of pretty-printing. Transitive adjectives have just one word form.
  *<p>
  * 0: word form consisting of an adjective plus a preposition.

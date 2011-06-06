@@ -11,6 +11,12 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
 import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 
+/**
+ * This interface represents an ontology element that maps to a lexical entry for ACE and
+ * to an OWL representation.
+ * 
+ * @author Tobias Kuhn
+ */
 public interface ACEOWLOntoElement extends OntologyElement {
 	
 	/**

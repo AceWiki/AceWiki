@@ -17,6 +17,13 @@ package ch.uzh.ifi.attempto.acewiki.aceowl;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceSuggestion;
 
+/**
+ * This class implements a change suggestions for ACE sentences starting with "a". Such sentences
+ * are usually meant to invoke universal quantification. In such cases the initial "a" should be
+ * replaced by "every".
+ * 
+ * @author Tobias Kuhn
+ */
 public class AToEverySuggestion implements SentenceSuggestion {
 	
 	private Sentence sentence;

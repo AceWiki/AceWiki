@@ -23,8 +23,9 @@ import ch.uzh.ifi.attempto.ape.LexiconEntry;
 import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 
 /**
- * This class stands for relations that are represented by of-constructs. Of-constructs
- * consist of a noun plus the word "of". They have only one word form.
+ * This class stands for relations that are represented by of-constructs in ACE and object
+ * properties in OWL. Of-constructs consist of a noun plus the word "of". They have only one word
+ * form.
  *<p>
  * 0: word form consisting of a noun plus the word "of".
  *<p>

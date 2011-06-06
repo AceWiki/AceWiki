@@ -18,6 +18,11 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 
 import ch.uzh.ifi.attempto.acewiki.core.Relation;
 
+/**
+ * This class stands for relation ontology elements with representations in ACE and OWL.
+ * 
+ * @author Tobias Kuhn
+ */
 public abstract class ACEOWLRelation extends AbstractACEOWLOntoElement implements Relation {
 	
 	public OWLObjectProperty getOWLRepresentation() {

@@ -26,6 +26,12 @@ import ch.uzh.ifi.attempto.acewiki.core.SentenceSuggestion;
 import ch.uzh.ifi.attempto.chartparser.Grammar;
 import ch.uzh.ifi.attempto.preditor.TextElement;
 
+/**
+ * This is the AceWiki language engine for ACE/OWL. It delivers the grammar, the lexicon, the
+ * language factory, the reasoner, and more.
+ * 
+ * @author Tobias Kuhn
+ */
 public class ACEOWLEngine extends AbstractLanguageEngine {
 	
 	private ACELanguageFactory languageFactory = new ACELanguageFactory();
@@ -33,6 +39,9 @@ public class ACEOWLEngine extends AbstractLanguageEngine {
 	private AceWikiOWLReasoner reasoner = new AceWikiOWLReasoner();
 	private EditorController editContr = new EditorController();
 	
+	/**
+	 * Creates a new language engine for ACE/OWL.
+	 */
 	public ACEOWLEngine() {
 		setTextCategory("text");
 		setSentenceCategory("complete_sentence");

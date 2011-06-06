@@ -13,9 +13,11 @@
 // not, see http://www.gnu.org/licenses/.
 
 /**
- * TODO
+ * This package implements an AceWiki language engine with the controlled natural language ACE as
+ * the front-end language and the semantic web language OWL as the logical language in the
+ * background. Different OWL reasoners can be used.
  * 
- * Grammar for a subset of ACE:
+ * This package includes a Codeco grammar describing a subset of ACE:
  * <ul>
  * <li>Codeco: <a href="acewiki_grammar.pl" target="_top">acewiki_grammar.pl</a></li>
  * <li>Prolog DCG: <a href="acewiki_grammar_dcg.pl" target="_top">acewiki_grammar_dcg.pl</a></li>

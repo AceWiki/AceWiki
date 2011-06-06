@@ -22,10 +22,10 @@ import ch.uzh.ifi.attempto.ape.LexiconEntry;
 import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 
 /**
- * This class stands for relations that are represented by a transitive verb. Transitive
- * verbs have three word forms: a third singular form, a bare infinitive form ,
- * and a passive form. The bare infinitive form is used in the case of negation and plural.
- * The passive form always ends with the word "by".
+ * This class stands for relations that are represented by transitive verbs in ACE and object
+ * properties in OWL. Transitive verbs have three word forms: a third singular form, a bare
+ * infinitive form, and a passive form. The bare infinitive form is used in the case of negation
+ * and plural. The passive form always ends with the word "by".
  *<p>
  * 0: third singular form.
  * 1: bare infinitive form.
