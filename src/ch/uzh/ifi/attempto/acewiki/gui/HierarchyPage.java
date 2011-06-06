@@ -12,7 +12,7 @@
 // You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
 // not, see http://www.gnu.org/licenses/.
 
-package ch.uzh.ifi.attempto.acewiki.gui.page;
+package ch.uzh.ifi.attempto.acewiki.gui;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,10 +31,6 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.CachingReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.StatementFactory;
-import ch.uzh.ifi.attempto.acewiki.gui.IndexBar;
-import ch.uzh.ifi.attempto.acewiki.gui.RecalcIcon;
-import ch.uzh.ifi.attempto.acewiki.gui.SentenceComponent;
-import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
 

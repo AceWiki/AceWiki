@@ -44,8 +44,8 @@ import ch.uzh.ifi.attempto.echocomp.TextField;
 import ch.uzh.ifi.attempto.preditor.WordEditorForm;
 
 /**
- * This abstract class contains the basic structure for forms to create and modify words
- * (represented by ontology elements).
+ * This class describes the basic structure for forms to create and modify words (represented by
+ * ontology elements).
  * 
  * @author Tobias Kuhn
  */
@@ -60,15 +60,38 @@ public class FormPane extends WordEditorForm {
 	private boolean locked;
 	private MessageWindow delConfirmWindow;
 	
+	/**
+	 * Creates a form pane for creating a new word.
+	 * 
+	 * @param type The type of the new word.
+	 * @param wordNumber The word number that should be used once the word is created.
+	 * @param window The parent window.
+	 * @param wiki The wiki object.
+	 * @param actionListener The action-listener.
+	 */
 	public FormPane(String type, int wordNumber, WindowPane window, Wiki wiki,
 			ActionListener actionListener) {
 		this(type, null, wordNumber, window, wiki, actionListener);
 	}
 	
+	/**
+	 * Creates a form pane for creating a new word.
+	 * 
+	 * @param type The type of the new word.
+	 * @param window The parent window.
+	 * @param wiki The wiki object.
+	 */
 	public FormPane(String type, WindowPane window, Wiki wiki) {
 		this(type, null, 0, window, wiki, wiki);
 	}
 	
+	/**
+	 * Creates a form pane for modifying an existing word.
+	 * 
+	 * @param element The ontology element that represents the word to be modified.
+	 * @param window The parent window.
+	 * @param wiki The wiki object.
+	 */
 	public FormPane(OntologyElement element, WindowPane window, Wiki wiki) {
 		this(element.getInternalType(), element, 0, window, wiki, wiki);
 	}

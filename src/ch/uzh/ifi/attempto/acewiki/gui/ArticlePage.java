@@ -12,7 +12,7 @@
 // You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
 // not, see http://www.gnu.org/licenses/.
 
-package ch.uzh.ifi.attempto.acewiki.gui.page;
+package ch.uzh.ifi.attempto.acewiki.gui;
 
 import nextapp.echo.app.Column;
 import nextapp.echo.app.Extent;
@@ -31,12 +31,6 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Relation;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
-import ch.uzh.ifi.attempto.acewiki.gui.CommentComponent;
-import ch.uzh.ifi.attempto.acewiki.gui.CommentEditorHandler;
-import ch.uzh.ifi.attempto.acewiki.gui.SentenceComponent;
-import ch.uzh.ifi.attempto.acewiki.gui.SentenceEditorHandler;
-import ch.uzh.ifi.attempto.acewiki.gui.StatementMenu;
-import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 
 /**
@@ -108,6 +102,11 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 	 */
 	public abstract OntologyElement getOntologyElement();
 	
+	/**
+	 * Returns the article object.
+	 * 
+	 * @return The article.
+	 */
 	public Article getArticle() {
 		return getOntologyElement().getArticle();
 	}

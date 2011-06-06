@@ -24,9 +24,6 @@ import ch.uzh.ifi.attempto.acewiki.core.InconsistencyException;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
-import ch.uzh.ifi.attempto.acewiki.gui.page.ArticlePage;
-import ch.uzh.ifi.attempto.acewiki.gui.page.SentencePage;
-import ch.uzh.ifi.attempto.acewiki.gui.page.WikiPage;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 
@@ -48,8 +45,8 @@ public class SentenceComponent extends Column implements ActionListener {
 	private RecalcIcon recalcIcon;
 	
 	/**
-	 * Creates a new text row. The host page is the page that contains the text row (which is
-	 * not necessarily the owner page of the sentence).
+	 * Creates a new sentence component. The host page is the page that contains the text row
+	 * (which is not necessarily the owner page of the sentence).
 	 * 
 	 * @param sentence The sentence to be shown.
 	 * @param hostPage The host page of the text row.

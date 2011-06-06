@@ -12,10 +12,11 @@
 // You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
 // not, see http://www.gnu.org/licenses/.
 
-package ch.uzh.ifi.attempto.acewiki.gui.page;
+package ch.uzh.ifi.attempto.acewiki.gui;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import nextapp.echo.app.Column;
@@ -32,77 +33,74 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.CachingReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.StatementFactory;
-import ch.uzh.ifi.attempto.acewiki.gui.IndexBar;
-import ch.uzh.ifi.attempto.acewiki.gui.RecalcIcon;
-import ch.uzh.ifi.attempto.acewiki.gui.SentenceComponent;
-import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
 
 /**
- * This class represents a page that shows to which concepts a certain individual belongs.
- * Such concept memberships are called "assignments" in AceWiki.
+ * This class represents a page that shows all individuals that belong to a certain concept.
  * 
  * @author Tobias Kuhn
  */
-public class AssignmentsPage extends WikiPage implements ActionListener {
+public class IndividualsPage extends WikiPage implements ActionListener {
 
-	private static final long serialVersionUID = -6955789540998283993L;
+	private static final long serialVersionUID = 4273564259160715684L;
 
 	private static final int pageSize = 50;
 	
-	private IndividualPage page;
-	private Column assignmentsColumn = new Column();
+	private ConceptPage page;
+	private Column individualsColumn = new Column();
 	private int chosenPage = 0;
 	private Title title;
 	
 	/**
-	 * Creates a new assignments page.
+	 * Creates a new individuals page.
 	 * 
 	 * @param page The main page that contains the article.
 	 */
-	public AssignmentsPage(IndividualPage page) {
+	public IndividualsPage(ConceptPage page) {
 		super(page.getWiki());
 		this.page = page;
 		
 		addTab("Article", this);
 		addTab("References", this);
-		addSelectedTab("Assignments");
+		addSelectedTab("Individuals");
+		addTab("Hierarchy", this);
 		
 		OntologyElement oe = page.getOntologyElement();
-		title = new Title(oe.getHeadword(), "- Assignments", oe.getType(), this);
+		title = new Title(oe.getHeadword(), "- Individuals", oe.getType(), this);
 		add(title);
 		addHorizontalLine();
 		add(new VSpace(18));
-		add(assignmentsColumn);
+		
+		add(individualsColumn);
 	}
 	
 	protected void doUpdate() {
 		title.setText(page.getOntologyElement().getHeadword());
-		assignmentsColumn.removeAll();
+		individualsColumn.removeAll();
 		
 		final Column waitComp = new Column();
 		waitComp.setInsets(new Insets(10, 0, 0, 0));
 		waitComp.add(new RecalcIcon("This list is being updated."));
-		
+
 		CachingReasoner cr = getWiki().getOntology().getReasoner();
 		
-		if (cr.areCachedConceptsUpToDate((Individual) page.getOntologyElement())) {
-			assignmentsColumn.add(new AssignmentsComponent(true));
+		if (cr.areCachedIndividualsUpToDate((Concept) page.getOntologyElement())) {
+			individualsColumn.add(new IndividualsComponent(true));
 		} else {
-			assignmentsColumn.add(waitComp);
-			assignmentsColumn.add(new AssignmentsComponent(true));
+			individualsColumn.add(waitComp);
+			individualsColumn.add(new IndividualsComponent(true));
 			page.getWiki().enqueueWeakAsyncTask(new Task() {
 				
-				private AssignmentsComponent delayedComp;
+				private IndividualsComponent delayedComp;
 				
 				public void run() {
-					delayedComp = new AssignmentsComponent(false);
+					delayedComp = new IndividualsComponent(false);
 				}
 				
 				public void updateGUI() {
-					assignmentsColumn.removeAll();
-					assignmentsColumn.add(delayedComp);
+					individualsColumn.removeAll();
+					individualsColumn.add(delayedComp);
 				}
 				
 			});
@@ -116,14 +114,17 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 		} else if ("References".equals(e.getActionCommand())) {
 			log("page", "pressed: references");
 			getWiki().showPage(new ReferencesPage(page));
+		} else if ("Hierarchy".equals(e.getActionCommand())) {
+			log("page", "pressed: hierarchy");
+			getWiki().showPage(new HierarchyPage(page));
 		} else if (e.getSource() == title) {
 			getWiki().showEditorWindow(page.getOntologyElement());
 		}
 	}
 
 	public boolean equals(Object obj) {
-		if (obj instanceof AssignmentsPage) {
-			return page.equals(((AssignmentsPage) obj).page);
+		if (obj instanceof IndividualsPage) {
+			return page.equals(((IndividualsPage) obj).page);
 		}
 		return false;
 	}
@@ -133,44 +134,53 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 	}
 	
 	public String toString() {
-		return "-ASS- " + page.getOntologyElement().getWord();
+		return "-IND- " + page.getOntologyElement().getWord();
 	}
 	
 	
-	private class AssignmentsComponent extends Column implements ActionListener {
+	private class IndividualsComponent extends Column implements ActionListener {
 		
-		private static final long serialVersionUID = -441448088305771435L;
+		private static final long serialVersionUID = -2897618204616741456L;
 		
 		private Column sentencesColumn = new Column();
 		private IndexBar indexBar;
 		private List<Sentence> sentences;
 		
-		public AssignmentsComponent(boolean cached) {
+		
+		public IndividualsComponent(boolean cached) {
 			indexBar = new IndexBar("Page:", 0, this);
 			add(indexBar);
 			
 			sentencesColumn.setInsets(new Insets(10, 2, 5, 20));
 			sentencesColumn.setCellSpacing(new Extent(2));
 			add(sentencesColumn);
-
+			
+			Concept concept = (Concept) page.getOntologyElement();
 			CachingReasoner cr = getWiki().getOntology().getReasoner();
-			Individual ind = (Individual) page.getOntologyElement();
-			List<Concept> concepts;
+			List<Individual> individuals;
+			
 			if (cached) {
-				concepts = cr.getCachedConcepts(ind);
+				individuals = cr.getCachedIndividuals(concept);
 			} else {
-				concepts = cr.getConcepts(ind);
+				individuals = cr.getIndividuals(concept);
 			}
-			if (concepts != null) {
+			if (individuals != null) {
 				sentences = new ArrayList<Sentence>();
-				Collections.sort(concepts);
-				for (Concept c : concepts) {
+				
+				Comparator<Individual> comparator = new Comparator<Individual>() {
+					public int compare(Individual o1, Individual o2) {
+						return o1.getWord(3).compareToIgnoreCase(o2.getWord(3));
+					}
+				};
+				
+				Collections.sort(individuals, comparator);
+				for (Individual ind : individuals) {
 					StatementFactory sf = getWiki().getOntology().getStatementFactory();
-					sentences.add(sf.createAssignmentSentence(ind, c));
+					sentences.add(sf.createAssignmentSentence(ind, concept));
 				}
 				if (sentences.size() == 0) {
 					indexBar.setVisible(false);
-					sentencesColumn.add(new SolidLabel("(no assignment found)", Font.ITALIC, 10));
+					sentencesColumn.add(new SolidLabel("(no individual found)", Font.ITALIC, 10));
 				} else {
 					int i = ((sentences.size()-1) / pageSize) + 1;
 					if (chosenPage > i) chosenPage = 0;
@@ -194,7 +204,7 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 			
 			for (int i = chosenPage * pageSize; i < max; i++) {
 				Row r = new Row();
-				r.add(new SentenceComponent(sentences.get(i), AssignmentsPage.this));
+				r.add(new SentenceComponent(sentences.get(i), IndividualsPage.this));
 				sentencesColumn.add(r);
 			}
 		}

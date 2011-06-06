@@ -24,8 +24,22 @@ import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.preditor.TextElement;
 
+/**
+ * This component renders a CNL text into GUI elements.
+ * 
+ * @author Tobias Kuhn
+ */
 public class TextRow extends Row {
 	
+	private static final long serialVersionUID = -3410891086679856030L;
+	
+	/**
+	 * Creates a new text row with the given text.
+	 * 
+	 * @param text The text as a list of text elements.
+	 * @param wiki The wiki object.
+	 * @param isRed true if the text color should be red.
+	 */
 	public TextRow(List<TextElement> text, Wiki wiki, boolean isRed) {
 		Color color = Color.BLACK;
 		if (isRed) {
@@ -51,7 +65,13 @@ public class TextRow extends Row {
 			}
 		}
 	}
-	
+
+	/**
+	 * Creates a new text row with the given text.
+	 * 
+	 * @param text The text as a list of text elements.
+	 * @param wiki The wiki object.
+	 */
 	public TextRow(List<TextElement> text, Wiki wiki) {
 		this(text, wiki, false);
 	}

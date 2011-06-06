@@ -26,7 +26,6 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.chartparser.ConcreteOption;
 import ch.uzh.ifi.attempto.chartparser.NextTokenOptions;
-import ch.uzh.ifi.attempto.preditor.DefaultMenuCreator;
 import ch.uzh.ifi.attempto.preditor.DefaultMenuItemComparator;
 import ch.uzh.ifi.attempto.preditor.MenuCreator;
 import ch.uzh.ifi.attempto.preditor.MenuEntry;
@@ -75,7 +74,6 @@ public class AceWikiMenuCreator implements MenuCreator, ActionListener {
 
 	public MenuEntry createMenuEntry(ConcreteOption option) {
 		String menuGroup = getEditorController().getMenuGroup(option.getCategoryName());
-		String w = option.getWord();
 		TextOperator to = wiki.getOntology().getTextOperator();
 		TextElement te = to.createTextElement(option.getWord());
 		MenuEntry me = new MenuEntry(te, menuGroup);
