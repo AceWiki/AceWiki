@@ -110,8 +110,8 @@
             	includes="aceeditor_grammar*"
             />
         </copy>
-        <copy todir="docs/ch/uzh/ifi/attempto/acewiki/core">
-            <fileset dir="src/ch/uzh/ifi/attempto/acewiki/core"
+        <copy todir="docs/ch/uzh/ifi/attempto/acewiki/aceowl">
+            <fileset dir="src/ch/uzh/ifi/attempto/acewiki/aceowl"
             	includes="acewiki_grammar*"
             />
         </copy>
