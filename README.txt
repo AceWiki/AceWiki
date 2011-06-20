@@ -25,8 +25,8 @@ The code for AceWiki and the ACE Editor is divided into four jar-files:
 
 - attempto-echo.jar contains basic GUI components and a predictive editor.
 - attempto-chartparser.jar contains a chart parser (concretely an Earley parser).
-- attempto-acewiki-xxx.jar contains the AceWiki application.
-- attempto-aceeditor-xxx.jar contains the ACE Editor application.
+- attempto-acewiki.jar contains the AceWiki application.
+- attempto-aceeditor.jar contains the ACE Editor application.
 
 See docs/index.html for the detailed documentation of the packages and classes.
 
@@ -93,12 +93,12 @@ Ant command:
 
   ant createwebapps
 
-Executing this command will create the web application file "webapps.war" and generate some files
+Executing this command will create the web application file "acewiki.war" and generate some files
 in the folder "webapps", which contains the uncompressed content of the archive. You should have a
 look at the following two files and change them if required:
 
-  webapps/war/WEB-INF/web.xml
-  webapps/war/index.html
+  war/WEB-INF/web.xml
+  war/index.html
 
 After changing the files you should again run the "createwebapps"-command to update the war-file.
 
@@ -113,7 +113,7 @@ Runner can be downloaded from this repository:
 
 Using Jetty Runner, the web applications can be started with
 
-  java -Djava.library.path=LIBJPLPATH -jar jetty-runner.jar webapps.war
+  java -Djava.library.path=LIBJPLPATH -jar jetty-runner.jar acewiki.war
 
 where LIBJPLPATH is the path of the SWI Prolog JPL library, or you can use the Unix shell script
 "run-webapps-with-jettyrunner.sh".
@@ -122,13 +122,13 @@ where LIBJPLPATH is the path of the SWI Prolog JPL library, or you can use the U
 5. AceWiki Data
 ---------------
 
-The AceWiki data is stored on the server in a directory called "data". Each AceWiki instance gets
-its own subdirectory therein. In order to import an AceWiki data file "*.acewikidata", this file
-needs to have the name of the ontology into which it should be imported (as defined by the web.xml
-file) and needs to be located in the "data" directory. Furthermore, the AceWiki data file is only
-loaded if no subdirectory with the respective ontology name exists. Thus, if there already exists
-data, the respective directory has to be removed or renamed before an AceWiki data file can be
-imported.
+The AceWiki data is stored on the server in a directory called "data" (unless specified otherwise
+in th web.xml file). Each AceWiki instance gets its own subdirectory therein. In order to import an
+AceWiki data file "*.acewikidata", this file needs to have the name of the ontology into which it
+should be imported (as defined by the web.xml file) and needs to be located in the "data"
+directory. Furthermore, the AceWiki data file is only loaded if no subdirectory with the respective
+ontology name exists. Thus, if there already exists data, the respective directory has to be
+removed or renamed before an AceWiki data file can be imported.
 
 
 6. Help

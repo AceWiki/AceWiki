@@ -1,11 +1,11 @@
 #==============================================================================
 # This Unix shell script starts the AceWiki web applications with Jetty Runner.
 # It assumes:
-# - The webapps.war file has been built from the AceWiki package.
+# - The acewiki.war file has been built from the AceWiki package.
 # - A recent version of SWI Prolog is installed.
 # - APE has been compiled (giving "ape.exe").
 # - Jetty Runner has been downloaded (and renamed to "jetty-runner.jar").
-# - The files "webapps.war", "ape.exe" and "jetty-runner.jar" are in the
+# - The files "acewiki.war", "ape.exe" and "jetty-runner.jar" are in the
 #   same directory.
 # - The process has write permissions to the subdirectories "data" and "logs",
 #   or has the permission to create them.
@@ -33,5 +33,5 @@ eval `swipl -dump-runtime-variables`
 # The following command starts the AceWiki web application. It might be
 # necessary to change port number, heap size, or stack size.
 
-java -Djava.library.path=$PLBASE/lib/$PLARCH -Xmx400m -Xss4m -jar jetty-runner.jar --port 9077 webapps.war
+java -Djava.library.path=$PLBASE/lib/$PLARCH -Xmx400m -Xss4m -jar jetty-runner.jar --port 9077 acewiki.war
 

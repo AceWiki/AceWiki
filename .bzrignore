@@ -1,9 +1,9 @@
 local
 ./classes
 ./docs
-./webapps.war
+./*.war
 ./*.zip
 ./*.jar
-./webapps/war/WEB-INF/lib
+./war/WEB-INF/lib
 ./lib/pellet-*.jar
 ./.settings

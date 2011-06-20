@@ -35,7 +35,7 @@
             <fileset dir="src/ch/uzh/ifi/attempto/echocomp" includes="*.js"/>
         </copy>
         <copy
-            file="webapps/war/META-INF/nextapp/echo/SynchronizePeerBindings.properties"
+            file="war/META-INF/nextapp/echo/SynchronizePeerBindings.properties"
             tofile="classes/META-INF/nextapp/echo/SynchronizePeerBindings.properties"
         />
     	<tstamp>
@@ -67,12 +67,12 @@
             includes="ch/uzh/ifi/attempto/echocomp/** META-INF/** ch/uzh/ifi/attempto/preditor/**"
         />
         <jar
-            destfile="attempto-acewiki-${acewiki-version}.jar"
+            destfile="attempto-acewiki.jar"
             basedir="classes/"
             includes="ch/uzh/ifi/attempto/acewiki/**"
         />
         <jar
-            destfile="attempto-aceeditor-${aceeditor-version}.jar"
+            destfile="attempto-aceeditor.jar"
             basedir="classes/"
             includes="ch/uzh/ifi/attempto/aceeditor/**"
         />
@@ -97,7 +97,7 @@
             tofile="docs/README.txt"
         />
         <copy
-            file="webapps/war/WEB-INF/web.xml"
+            file="war/WEB-INF/web.xml"
             tofile="docs/web.xml"
         />
         <copy todir="docs/ch/uzh/ifi/attempto/codeco">
@@ -120,15 +120,15 @@
     <target name="createwebapps"
             description="Compiles everything and builds the WAR file that is used to run the web applications"
             depends="createjars">
-        <mkdir dir="webapps/war/WEB-INF/lib"/>
-        <copy todir="webapps/war/WEB-INF/lib">
+        <mkdir dir="war/WEB-INF/lib"/>
+        <copy todir="war/WEB-INF/lib">
             <fileset dir="lib/" includes="*.jar"/>
             <fileset dir="." includes="*.jar"/>
         </copy>
-        <delete file="webapps.war"/>
+        <delete file="acewiki.war"/>
         <jar
-            destfile="webapps.war"
-            basedir="webapps/war"
+            destfile="acewiki.war"
+            basedir="war"
             includes="**"
         />
     </target>
@@ -137,18 +137,14 @@
             description="Clean up">
         <delete file="attempto-chartparser.jar"/>
         <delete file="attempto-echo.jar"/>
-        <delete>
-            <fileset dir="." includes="attempto-acewiki-*.jar"/>
-        </delete>
-        <delete>
-            <fileset dir="." includes="attempto-aceeditor-*.jar"/>
-        </delete>
+        <delete file="attempto-acewiki.jar"/>
+        <delete file="attempto-aceeditor.jar"/>
         <delete>
             <fileset dir="." includes="acewiki-*.zip"/>
         </delete>
         <delete dir="classes/ch/"/>
         <delete dir="docs/"/>
-        <delete dir="webapps/war/WEB-INF/lib/"/>
+        <delete dir="war/WEB-INF/lib/"/>
     </target>
     
     <target name="buildeverything"
@@ -162,7 +158,7 @@
             destfile="acewiki-${version}.zip"
             basedir="."
             includes="**"
-            excludes="*.zip *.war .* .bzr/** classes/** webapps/war/WEB-INF/lib/** **/local/**"
+            excludes="*.zip *.war .* .bzr/** classes/** war/WEB-INF/lib/** **/local/**"
         />
     </target>
 
