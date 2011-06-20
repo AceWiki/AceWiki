@@ -102,7 +102,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private final LanguageEngine languageEngine;
 	private User user;
 	private OntologyExportManager ontologyExportManager;
-	private static AceWikiStorage storage = new FileBasedStorage("data");
+	private static AceWikiStorage storage;
 	
 	private WikiPage currentPage;
 	private Column pageCol;
@@ -159,9 +159,13 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	Wiki(Map<String, String> parameters, int sessionID) {
 		this.parameters = parameters;
 		
+		if (storage == null) {
+			storage = new FileBasedStorage(getParameter("context:datadir"));
+		}
+		
 		ontology = storage.getOntology(getParameter("ontology"), parameters);
 		languageEngine = ontology.getLanguageEngine();
-		logger = new Logger(ontology.getName(), "anon", sessionID);
+		logger = new Logger(getParameter("context:logdir") + "/" + ontology.getName(), "anon", sessionID);
 		application = (AceWikiApp) ApplicationInstance.getActive();
 		taskQueue = application.createTaskQueue();
 		

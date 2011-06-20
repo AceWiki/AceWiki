@@ -35,6 +35,7 @@ public class Ontology {
 	private CachingReasoner reasoner;
 	private StatementFactory statementFactory;
 	private AceWikiStorage storage;
+	private Logger logger;
 	
 	private Map<String, OntologyElement> wordIndex = new TreeMap<String, OntologyElement>();
 	private Map<Long, OntologyElement> idIndex = new TreeMap<Long, OntologyElement>();
@@ -56,6 +57,8 @@ public class Ontology {
 		this.name = name.toString();  // null value throws an exception
 		this.parameters = parameters;
 		this.storage = storage;
+		
+		logger = new Logger(parameters.get("context:logdir") + "/" + name, "onto", 0);
 		
 		languageEngine = AbstractLanguageEngine.createLanguageEngine(this);
 		reasoner = new CachingReasoner(languageEngine.getReasoner());
@@ -416,7 +419,7 @@ public class Ontology {
 	 * @param text Log text.
 	 */
 	public void log(String text) {
-		Logger.log(name, "onto", 0, "onto", text);
+		logger.log("onto", text);
 	}
 	
 	private long nextId() {

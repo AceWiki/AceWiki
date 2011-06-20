@@ -30,6 +30,23 @@
     <param-value>ape.exe</param-value>
   </context-param>
   
+  <!--
+    This parameter sets the directory for the log files. The value shown below is also the default.
+  -->
+  <context-param>
+    <param-name>logdir</param-name>
+    <param-value>logs</param-value>
+  </context-param>
+  
+  <!--
+    This parameter sets the directory for the AceWiki data. The value shown below is also the
+    default.
+  -->
+  <context-param>
+    <param-name>datadir</param-name>
+    <param-value>data</param-value>
+  </context-param>
+  
   
   <!-- Servlets -->
   

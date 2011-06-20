@@ -46,6 +46,8 @@ import ch.uzh.ifi.attempto.echocomp.Logger;
 public class AceWikiServlet extends WebContainerServlet {
 
 	private static final long serialVersionUID = -7342857942059126499L;
+	
+	private Logger logger;
 
 	/**
 	 * Creates a new AceWiki servlet object.
@@ -54,17 +56,33 @@ public class AceWikiServlet extends WebContainerServlet {
 	}
 
 	public ApplicationInstance newApplicationInstance() {
+		Map<String, String> parameters = getInitParameters();
+		
+		if (parameters.get("context:apecommand") == null) {
+			parameters.put("context:apecommand", "ape.exe");
+		}
+		
+		if (parameters.get("context:logdir") == null) {
+			parameters.put("context:logdir", "logs");
+		}
+		
+		if (parameters.get("context:datadir") == null) {
+			parameters.put("context:datadir", "data");
+		}
 
 		if (!APELocal.isInitialized()) {
-			String apeCommand = getServletContext().getInitParameter("apecommand");
+			String apeCommand = parameters.get("context:apecommand");
 			if (apeCommand == null) apeCommand = "ape.exe";
 			APELocal.init(apeCommand);
 		}
 		
-		String onto = getInitParameter("ontology");
-		Logger.log("syst", "syst", 0, "appl", "new application instance: " + onto);
+		if (logger == null) {
+			logger = new Logger(parameters.get("context:logdir") + "/syst", "syst", 0);
+		}
 		
-		return new AceWikiApp(getInitParameters());
+		logger.log("appl", "new application instance: " + parameters.get("ontology"));
+		
+		return new AceWikiApp(parameters);
 	}
 
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws
@@ -91,15 +109,15 @@ public class AceWikiServlet extends WebContainerServlet {
 		try {
 			super.process(request, response);
 		} catch (RuntimeException ex) {
-			Logger.log("syst", "syst", 0, "fail", "fatal error: " + ex);
+			logger.log("fail", "fatal error: " + ex);
 			ex.printStackTrace();
 			throw ex;
 		} catch (IOException ex) {
-			Logger.log("syst", "syst", 0, "fail", "fatal error: " + ex);
+			logger.log("fail", "fatal error: " + ex);
 			ex.printStackTrace();
 			throw ex;
 		} catch (ServletException ex) {
-			Logger.log("syst", "syst", 0, "fail", "fatal error: " + ex);
+			logger.log("fail", "fatal error: " + ex);
 			ex.printStackTrace();
 			throw ex;
 		}
@@ -110,8 +128,13 @@ public class AceWikiServlet extends WebContainerServlet {
 		Map<String, String> initParameters = new HashMap<String, String>();
 		Enumeration paramEnum = getInitParameterNames();
 		while (paramEnum.hasMoreElements()) {
-			String paramName = paramEnum.nextElement().toString();
-			initParameters.put(paramName, getInitParameter(paramName));
+			String n = paramEnum.nextElement().toString();
+			initParameters.put(n, getInitParameter(n));
+		}
+		Enumeration contextParamEnum = getServletContext().getInitParameterNames();
+		while (contextParamEnum.hasMoreElements()) {
+			String n = contextParamEnum.nextElement().toString();
+			initParameters.put("context:" + n, getServletContext().getInitParameter(n));
 		}
 		return initParameters;
 	}

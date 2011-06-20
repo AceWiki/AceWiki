@@ -47,6 +47,8 @@ public class FileBasedStorage implements AceWikiStorage {
 	 */
 	public FileBasedStorage(String dir) {
 		this.dir = dir.replaceFirst("/*$", "");
+		File d = new File(dir);
+		if (!d.exists()) d.mkdir();
 	}
 	
 	/**
@@ -357,6 +359,8 @@ public class FileBasedStorage implements AceWikiStorage {
 	public void save(User user) {
 		try {
 			String n = user.getUserBase().getOntology().getName();
+			File d = new File(dir + "/" + n + ".users");
+			if (!d.exists()) d.mkdir();
 			FileOutputStream out = new FileOutputStream(
 					new File(dir + "/" + n + ".users" + "/" + user.getId())
 				);

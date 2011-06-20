@@ -70,19 +70,6 @@ public class Logger {
 	 * @param text The text of the log entry.
 	 */
 	public void log(String type, String text) {
-		log(fileName, username, sessionID, type, text);
-	}
-	
-	/**
-	 * Writes a log entry into the specified log file.
-	 * 
-	 * @param fileName The name of the log file.
-	 * @param userName The user name.
-	 * @param sessionID The session id.
-	 * @param type The type of the log entry.
-	 * @param text The text of the log entry.
-	 */
-	public static void log(String fileName, String userName, int sessionID, String type, String text) {
 		Calendar c = Calendar.getInstance();
 		long timestamp = System.currentTimeMillis();
 		c.setTimeInMillis(timestamp);
@@ -95,15 +82,22 @@ public class Logger {
 		String millis = makeString(c.get(Calendar.MILLISECOND), 3);
 		String dateTime = year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec + "." + millis;
 		String session = makeString(sessionID, 4);
-		if (userName == null || userName.equals("")) {
-			userName = "";
+		String un;
+		if (username == null || username.equals("")) {
+			un = "";
 		} else {
-			userName = " '" + userName + "'";
+			un = " '" + username + "'";
+		}
+		String dir = "logs";
+		String fn = fileName;
+		if (fileName.indexOf("/") > -1) {
+			dir = fileName.replaceFirst("(.*)/[^/]*", "$1");
+			fn = fileName.replaceFirst(".*/([^/]*)", "$1");
 		}
 		try {
-			if (!(new File("logs")).exists()) (new File("logs")).mkdir();
-			DataOutputStream out = new DataOutputStream(new FileOutputStream("logs/" + fileName + ".log", true));
-			out.writeBytes(timestamp + " (" + dateTime + ") [" + session + "]" + userName + " [" + type + "] " + text.replaceAll("\\n", "~n") + "\n");
+			if (!(new File(dir)).exists()) (new File(dir)).mkdir();
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(dir + "/" + fn + ".log", true));
+			out.writeBytes(timestamp + " (" + dateTime + ") [" + session + "]" + un + " [" + type + "] " + text.replaceAll("\\n", "~n") + "\n");
 			out.flush();
 			out.close();
 		} catch (IOException ex) {
