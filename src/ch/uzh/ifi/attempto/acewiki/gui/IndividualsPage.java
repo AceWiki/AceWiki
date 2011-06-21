@@ -70,7 +70,6 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 		title = new Title(oe.getHeadword(), "- Individuals", oe.getType(), this);
 		add(title);
 		addHorizontalLine();
-		add(new VSpace(18));
 		
 		add(individualsColumn);
 	}
@@ -86,8 +85,10 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 		CachingReasoner cr = getWiki().getOntology().getReasoner();
 		
 		if (cr.areCachedIndividualsUpToDate((Concept) page.getOntologyElement())) {
+			individualsColumn.add(new VSpace(18));
 			individualsColumn.add(new IndividualsComponent(true));
 		} else {
+			individualsColumn.add(new VSpace(4));
 			individualsColumn.add(waitComp);
 			individualsColumn.add(new IndividualsComponent(true));
 			page.getWiki().enqueueWeakAsyncTask(new Task() {
@@ -100,6 +101,7 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 				
 				public void updateGUI() {
 					individualsColumn.removeAll();
+					individualsColumn.add(new VSpace(18));
 					individualsColumn.add(delayedComp);
 				}
 				

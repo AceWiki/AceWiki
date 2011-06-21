@@ -69,7 +69,6 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 		title = new Title(oe.getHeadword(), "- Assignments", oe.getType(), this);
 		add(title);
 		addHorizontalLine();
-		add(new VSpace(18));
 		add(assignmentsColumn);
 	}
 	
@@ -84,8 +83,10 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 		CachingReasoner cr = getWiki().getOntology().getReasoner();
 		
 		if (cr.areCachedConceptsUpToDate((Individual) page.getOntologyElement())) {
+			assignmentsColumn.add(new VSpace(18));
 			assignmentsColumn.add(new AssignmentsComponent(true));
 		} else {
+			assignmentsColumn.add(new VSpace(4));
 			assignmentsColumn.add(waitComp);
 			assignmentsColumn.add(new AssignmentsComponent(true));
 			page.getWiki().enqueueWeakAsyncTask(new Task() {
@@ -98,6 +99,7 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 				
 				public void updateGUI() {
 					assignmentsColumn.removeAll();
+					assignmentsColumn.add(new VSpace(18));
 					assignmentsColumn.add(delayedComp);
 				}
 				
