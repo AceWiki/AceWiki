@@ -4,6 +4,28 @@ AceWiki Change Log
 This file lists the changes between the different AceWiki versions. See the Bazaar log for more
 details.
 
+Version 0.5.1
+
+- Stay-logged-in feature: users have the option to stay logged in without the need to provide the
+  password again the next time, if AceWiki is accessed from the same browser instance.
+- Internal refactoring: the code for ACE and OWL is now separated from the core package and placed
+  in a new package called "aceowl". In this way, AceWiki can be extended in the future to support
+  other controlled natural languages and other logic formalisms.
+- Logic page and details page for AceWiki sentences have been merged.
+- web.xml file has new configuration parameters:
+  - logdir: defines the server directory for the log files.
+  - datadir: defines the server directory for the AceWiki data.
+  - reasoner_url: defines the URL and port number of the reasoner (at the moment, this applies only
+    to the OWLlink reasoner interface).
+- New library versions: OWLlink API 1.2.0 and OWL API 3.2.3
+- Some files have been renamed:
+  - The names for the packages acewiki.jar and aceeditor.jar no longer contain version numbers.
+  - The web archive file webapps.war has been renamed to acewiki.war.
+- Problem with image files solved: the same image is no longer downloaded multiple times.
+- There are several minor GUI adjustments.
+- Several bugs have been fixed.
+
+
 Version 0.5.0
 
 - Moved from version 2 to version 3 of the Echo Web Framework. This makes AceWiki more stable and
