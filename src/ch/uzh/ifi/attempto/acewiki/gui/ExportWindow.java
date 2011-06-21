@@ -114,6 +114,7 @@ public class ExportWindow extends WindowPane implements ActionListener {
 		listBox.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(11)));
 		listBox.setBackground(Style.lightBackground);
 		listBox.setHeight(new Extent(70));
+		listBox.setWidth(new Extent(375));
 		listBox.setSelectedIndex(0);
 		messageColumn.add(listBox);
 		
