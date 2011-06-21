@@ -199,18 +199,6 @@
     </init-param>
     
     <!--
-      With the parameter 'possible_answers', an experimental feature can be enabled to show
-      possible instead of necessary answers to questions. By default, only the individuals that can
-      be proven to be an answer to the given question are shown. With this feature, questions have
-      an additional menu item "possible answers" to show all individuals that cannot be proven not
-      to be an answer.
-    -->
-    <init-param>
-      <param-name>possible_answers</param-name>
-      <param-value>off</param-value>
-    </init-param>
-    
-    <!--
       The parameter 'readonly' can be used to lock the wiki data so that no changes can be made.
       The default is 'off'.
     -->
