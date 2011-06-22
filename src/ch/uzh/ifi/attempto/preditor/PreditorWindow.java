@@ -175,7 +175,7 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 		
 		Row buttonBar = new Row();
 		buttonBar.setAlignment(new Alignment(Alignment.RIGHT, Alignment.TOP));
-		buttonBar.setInsets(new Insets(10, 12, 10, 0));
+		buttonBar.setInsets(new Insets(10, 10, 10, 0));
 		buttonBar.setCellSpacing(new Extent(5));
 		buttonBar.add(okButton);
 		buttonBar.add(cancelButton);
