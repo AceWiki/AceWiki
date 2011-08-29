@@ -123,7 +123,7 @@ where LIBJPLPATH is the path of the SWI Prolog JPL library, or you can use the U
 ---------------
 
 The AceWiki data is stored on the server in a directory called "data" (unless specified otherwise
-in th web.xml file). Each AceWiki instance gets its own subdirectory therein. In order to import an
+in the web.xml file). Each AceWiki instance gets its own subdirectory therein. In order to import an
 AceWiki data file "*.acewikidata", this file needs to have the name of the ontology into which it
 should be imported (as defined by the web.xml file) and needs to be located in the "data"
 directory. Furthermore, the AceWiki data file is only loaded if no subdirectory with the respective

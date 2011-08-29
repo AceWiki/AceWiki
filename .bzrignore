@@ -1,9 +1,0 @@
-local
-./classes
-./docs
-./*.war
-./*.zip
-./*.jar
-./war/WEB-INF/lib
-./lib/pellet-*.jar
-./.settings
