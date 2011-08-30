@@ -4,7 +4,7 @@ AceWiki
 Copyright 2008-2011, Tobias Kuhn.
 
 Website: http://attempto.ifi.uzh.ch/acewiki/
-Repository and Bug tracking: https://launchpad.net/acewiki
+Repository and bug tracking: https://github.com/AceWiki/AceWiki
 
 AceWiki is a semantic wiki making use of the controlled natural language ACE. AceWiki is free
 software licensed under the GNU Lesser General Public Licence (see licenses/gpl-3.txt and
@@ -134,11 +134,7 @@ removed or renamed before an AceWiki data file can be imported.
 6. Help
 -------
 
-If you encounter problems, you can get help from the community. Bugs and questions can be submitted
-to the AceWiki site on Launchpad:
+If you encounter problems, you can get help from the community. Bugs and problems should be
+reported to the AceWiki site on GitHub:
 
-  https://launchpad.net/acewiki
-
-Alternatively, you can write to the Attempto Mailing List:
-
-  http://attempto.ifi.uzh.ch/site/mailinglist/
+  https://github.com/AceWiki/AceWiki
