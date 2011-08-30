@@ -9,15 +9,14 @@ Website: <http://attempto.ifi.uzh.ch/acewiki/>
 
 Repository and bug tracking: <https://github.com/AceWiki/AceWiki>
 
-AceWiki is free
-software licensed under the GNU Lesser General Public Licence (see licenses/gpl-3.txt and
-<http://www.gnu.org/licenses/lgpl.html>).
+AceWiki is free software licensed under the GNU Lesser General Public Licence (see
+licenses/gpl-3.txt and <http://www.gnu.org/licenses/lgpl.html>).
 
 See lib/README.txt for information about the used third-party libraries.
 
 
-1. Content
-----------
+Content
+-------
 
 This package contains the semantic wiki AceWiki and the ACE Editor, which is a general-purpose
 editor with support for predictive text editing. Both tools rely on the language ACE, which is a
@@ -34,8 +33,8 @@ The code for AceWiki and the ACE Editor is divided into four jar-files:
 See docs/index.html for the detailed documentation of the packages and classes.
 
 
-2. Compilation
---------------
+Compilation
+-----------
 
 This package is pre-compiled. Thus, compilation is needed only if the source code is changed. Only
 the web application archive is not pre-built (see section 4). The compilation can be run manually
@@ -46,12 +45,12 @@ available:
 - `ant createjars` creates the jar-files.
 - `ant createjavadoc` creates the Javadoc documentation pages.
 - `ant clean` deletes all automatically generated files like the compiled Java classes, the
-jar-files, and the Javadoc files.
+  jar-files, and the Javadoc files.
 - `ant buildeverything` builds everything from scratch.
 
 
-3. APE
-------
+APE
+---
 
 AceWiki and the ACE Editor make use of APE, a parser that translates ACE into logic. In order to
 run APE, a recent version of SWI Prolog has to be installed and the file "ape.exe" has to be
@@ -65,10 +64,17 @@ Linux) is located. For example:
     -Djava.library.path="/usr/lib/pl-5.8.3/lib/i386-linux"
 
 Under Linux, the environment variable `LD_PRELOAD` has to be set additionally to refer to the SWI
-Prolog library file. Under some circumstances, also `LD_LIBRARY_PATH` has to be set. This can be done,
-for example, as follows:
+Prolog library file:
 
     export LD_PRELOAD=/usr/lib/pl-5.8.3/lib/i386-linux/libjpl.so
+
+
+Java
+----
+
+Under some circumstances, the environment variable `LD_LIBRARY_PATH` has to be set. This can be
+done as follows:
+
     export LD_LIBRARY_PATH=/usr/lib/jvm/java-6-openjdk/jre/lib/i386:$LD_LIBRARY_PATH
     export LD_LIBRARY_PATH=/usr/lib/jvm/java-6-openjdk/jre/lib/i386/server:$LD_LIBRARY_PATH
 
@@ -83,8 +89,8 @@ following Java option:
 This prevents Java from trying to use graphical libraries that might not be available.
 
 
-4. Web Applications
--------------------
+Web Applications
+----------------
 
 AceWiki and the ACE Editor are web applications that have to be run as Java servlets. In order to
 do so, a web application archive (WAR) file has to be built. This can be done with the following
@@ -118,8 +124,8 @@ where LIBJPLPATH is the path of the SWI Prolog JPL library, or you can use the U
 "run-webapps-with-jettyrunner.sh".
 
 
-5. AceWiki Data
----------------
+AceWiki Data
+------------
 
 The AceWiki data is stored on the server in a directory called "data" (unless specified otherwise
 in the web.xml file). Each AceWiki instance gets its own subdirectory therein. In order to import an
@@ -130,8 +136,8 @@ ontology name exists. Thus, if there already exists data, the respective directo
 removed or renamed before an AceWiki data file can be imported.
 
 
-6. Help
--------
+Help
+----
 
 If you encounter problems, you can get help from the community. Bugs and problems should be
 reported to the AceWiki site on GitHub: <https://github.com/AceWiki/AceWiki>
