@@ -5,16 +5,14 @@ AceWiki is a semantic wiki making use of the controlled natural language ACE.
 
 Copyright 2008-2011, Tobias Kuhn.
 
-Website: http://attempto.ifi.uzh.ch/acewiki/
+Website: <http://attempto.ifi.uzh.ch/acewiki/>
 
-Repository and bug tracking: https://github.com/AceWiki/AceWiki
-
-Old repository and bug tracking: https://launchpad.net/acewiki
+Repository and bug tracking: <https://github.com/AceWiki/AceWiki>
 
 AceWiki is free software licensed under the GNU Lesser General Public Licence (see
-licenses/gpl-3.txt and http://www.gnu.org/licenses/lgpl.html).
+licenses/gpl-3.txt and <http://www.gnu.org/licenses/lgpl.html>).
 
-See <lib/README.txt> for information about the used third-party libraries.
+See lib/README.txt for information about the used third-party libraries.
 
 
 Content
@@ -23,7 +21,7 @@ Content
 This package contains the semantic wiki AceWiki and the ACE Editor, which is a general-purpose
 editor with support for predictive text editing. Both tools rely on the language ACE, which is a
 controlled natural language, concretely a subset of natural English. See
-http://attempto.ifi.uzh.ch/site/ for more information about ACE.
+<http://attempto.ifi.uzh.ch/site/> for more information about ACE.
 
 The code for AceWiki and the ACE Editor is divided into four jar-files:
 
@@ -32,7 +30,7 @@ The code for AceWiki and the ACE Editor is divided into four jar-files:
 - attempto-acewiki.jar contains the AceWiki application.
 - attempto-aceeditor.jar contains the ACE Editor application.
 
-See <docs/index.html> for the detailed documentation of the packages and classes.
+See docs/index.html for the detailed documentation of the packages and classes.
 
 
 Compilation
@@ -57,7 +55,7 @@ APE
 AceWiki and the ACE Editor make use of APE, a parser that translates ACE into logic. In order to
 run APE, a recent version of SWI Prolog has to be installed and the file "ape.exe" has to be
 available. The file "ape.exe" can be complied from the APE package that can be obtained on the
-Attempto download page: http://attempto.ifi.uzh.ch/site/downloads/
+Attempto download page: <http://attempto.ifi.uzh.ch/site/downloads/>
 
 Furthermore, you have to use the following Java VM argument that points to the location where the
 SWI Prolog library libjpl.jnilib (under Mac OS X), jpl.dll (under Windows), or libjpl.so (under
@@ -65,7 +63,7 @@ Linux) is located. For example:
 
     -Djava.library.path="/usr/lib/pl-5.8.3/lib/i386-linux"
 
-Under Linux, the environment variable LD_PRELOAD has to be set additionally to refer to the SWI
+Under Linux, the environment variable `LD_PRELOAD` has to be set additionally to refer to the SWI
 Prolog library file:
 
     export LD_PRELOAD=/usr/lib/pl-5.8.3/lib/i386-linux/libjpl.so
@@ -74,7 +72,7 @@ Prolog library file:
 Java
 ----
 
-Under some circumstances, the environment variable LD_LIBRARY_PATH has to be set. This can be
+Under some circumstances, the environment variable `LD_LIBRARY_PATH` has to be set. This can be
 done as follows:
 
     export LD_LIBRARY_PATH=/usr/lib/jvm/java-6-openjdk/jre/lib/i386:$LD_LIBRARY_PATH
@@ -116,7 +114,7 @@ SWI Prolog JPL library, as explained above in section 3.
 Probably the easiest way to run the war-file is using Jetty Runner. The jar-file containing Jetty
 Runner can be downloaded from this repository:
 
->   http://mirrors.ibiblio.org/pub/mirrors/maven2/org/mortbay/jetty/jetty-runner/
+>   <http://mirrors.ibiblio.org/pub/mirrors/maven2/org/mortbay/jetty/jetty-runner/>
 
 Using Jetty Runner, the web applications can be started with
 
@@ -142,4 +140,4 @@ Help
 ----
 
 If you encounter problems, you can get help from the community. Bugs and problems should be
-reported to the AceWiki site on GitHub: https://github.com/AceWiki/AceWiki
+reported to the AceWiki site on GitHub: <https://github.com/AceWiki/AceWiki>
