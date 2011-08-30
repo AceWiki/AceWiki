@@ -1,20 +1,31 @@
 AceWiki
 =======
 
-AceWiki is a semantic wiki making use of the controlled natural language ACE.
-
 Copyright 2008-2011, Tobias Kuhn.
+
+AceWiki is a semantic wiki making use of the controlled natural language ACE.
 
 Website: http://attempto.ifi.uzh.ch/acewiki/
 
-Repository and bug tracking: https://github.com/AceWiki/AceWiki
 
-Old repository and bug tracking: https://launchpad.net/acewiki
+Repository
+----------
+
+The repository and bug tracking of AceWiki is on GitHub: https://github.com/AceWiki/AceWiki
+
+The downloads can be found here: https://github.com/AceWiki/AceWiki/downloads
+
+Previously, Launchpad has been used instead of GitHub. Old packages and old bug reports can still
+be found there: https://launchpad.net/acewiki
+
+
+License
+-------
 
 AceWiki is free software licensed under the GNU Lesser General Public Licence (see
 licenses/gpl-3.txt and http://www.gnu.org/licenses/lgpl.html).
 
-See </lib/README.txt> for information about the used third-party libraries.
+See lib/README.txt for information about the used third-party libraries.
 
 
 Content
@@ -32,16 +43,17 @@ The code for AceWiki and the ACE Editor is divided into four jar-files:
 - attempto-acewiki.jar contains the AceWiki application.
 - attempto-aceeditor.jar contains the ACE Editor application.
 
-See </docs/index.html> for the detailed documentation of the packages and classes.
+See docs/index.html for the detailed documentation of the packages and classes.
 
 
 Compilation
 -----------
 
-This package is pre-compiled. Thus, compilation is needed only if the source code is changed. Only
-the web application archive is not pre-built (see section 4). The compilation can be run manually
-using Ant. Make sure that a recent version of Apache Ant is installed. The following commands are
-available:
+You do not have to perform the steps described here if you are using a pre-compiled package (unless
+you change the source code).
+
+Ant is required to manually run the compilation. Make sure that a recent version of Apache Ant is
+installed. The following commands are available:
 
 - `ant compile` compiles the Java source code.
 - `ant createjars` creates the jar-files.
@@ -111,7 +123,7 @@ After changing the files you should again run the "createwebapps"-command to upd
 
 In order to run the war-file, a servlet container like Jetty or Apache Tomcat is needed. You have
 to make sure that the Java VM parameter "java.library.path" is set and points to the path of the
-SWI Prolog JPL library, as explained above in section 3.
+SWI Prolog JPL library, as explained above.
 
 Probably the easiest way to run the war-file is using Jetty Runner. The jar-file containing Jetty
 Runner can be downloaded from this repository:
