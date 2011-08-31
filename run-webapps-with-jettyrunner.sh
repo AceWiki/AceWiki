@@ -1,8 +1,8 @@
 #==============================================================================
 # This Unix shell script starts the AceWiki web applications with Jetty Runner.
 # It assumes:
-# - The WAR file for AceWiki has been built from the AceWiki package and is
-#   renamed to "acewiki.war".
+# - The WAR file for AceWiki has been built from the AceWiki package, or
+#   downloaded and renamed to "acewiki.war".
 # - A recent version of SWI Prolog is installed.
 # - APE has been compiled (giving "ape.exe").
 # - Jetty Runner has been downloaded and is renamed to "jetty-runner.jar".
@@ -34,4 +34,4 @@ export LD_LIBRARY_PATH=$PLBASE/lib/$PLARCH:$LD_LIBRARY_PATH
 
 ## The following command starts the AceWiki web application. It might be
 ## necessary to change port number, heap size, or stack size.
-java -Djava.library.path=$PLBASE/lib/$PLARCH -Xmx400m -Xss4m -jar jetty-runner.jar --port 9077 acewiki.war
+java -Djava.library.path=$PLBASE/lib/$PLARCH -Djava.awt.headless=true -Xmx400m -Xss4m -jar jetty-runner.jar --port 9077 acewiki.war

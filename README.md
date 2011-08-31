@@ -11,12 +11,12 @@ Website: http://attempto.ifi.uzh.ch/acewiki/
 Repository
 ----------
 
-The repository and bug tracking of AceWiki is on GitHub: https://github.com/AceWiki/AceWiki
+AceWiki is hosted on GitHub (repository and bug tracking): https://github.com/AceWiki/AceWiki
 
 The downloads can be found here: https://github.com/AceWiki/AceWiki/downloads
 
-Previously, Launchpad has been used instead of GitHub. Old packages and old bug reports can still
-be found there: https://launchpad.net/acewiki
+Previously, Launchpad was used instead of GitHub. Old packages and old bug reports can still be
+found there: https://launchpad.net/acewiki
 
 
 License
@@ -107,8 +107,7 @@ Web Applications
 ----------------
 
 AceWiki and the ACE Editor are web applications that have to be run as Java servlets. In order to
-do so, a web application archive (WAR) file has to be built. This can be done with the following
-Ant command:
+build the war-file from the AceWiki sources, you have to run the following Ant command:
 
     ant createwebapps
 
