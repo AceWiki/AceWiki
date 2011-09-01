@@ -23,6 +23,7 @@ import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Article;
 import ch.uzh.ifi.attempto.acewiki.core.InconsistencyException;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageEngine;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceSuggestion;
@@ -63,12 +64,13 @@ public class SentenceEditorHandler implements ActionListener {
 				page.getOntologyElement(),
 				this
 			);
+		LanguageEngine le = wiki.getLanguageEngine();
 		editorWindow = new PreditorWindow(
 				"Sentence Editor",
-				wiki.getGrammar(),
-				wiki.getLanguageEngine().getTextCategory()
+				le.getGrammar(),
+				le.getTextCategory()
 			);
-		editorWindow.setDynamicLexicon(wiki.getLexicon());
+		editorWindow.setDynamicLexicon(le.getLexicon());
 		editorWindow.setMenuCreator(menuCreator);
 		editorWindow.setLogger(wiki.getLogger());
 		editorWindow.addActionListener(this);

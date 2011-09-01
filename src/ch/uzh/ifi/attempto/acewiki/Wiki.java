@@ -43,7 +43,6 @@ import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.layout.ColumnLayoutData;
 import nextapp.echo.webcontainer.ContainerContext;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiDataExporter;
-import ch.uzh.ifi.attempto.acewiki.core.AceWikiLexicon;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiStorage;
 import ch.uzh.ifi.attempto.acewiki.core.FileBasedStorage;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageEngine;
@@ -69,7 +68,6 @@ import ch.uzh.ifi.attempto.acewiki.gui.StartPage;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.acewiki.gui.UserWindow;
 import ch.uzh.ifi.attempto.acewiki.gui.WikiPage;
-import ch.uzh.ifi.attempto.chartparser.Grammar;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.Logger;
@@ -933,24 +931,6 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 */
 	public LanguageEngine getLanguageEngine() {
 		return languageEngine;
-	}
-	
-	/**
-	 * Returns the grammar to be used for this wiki.
-	 * 
-	 * @return The grammar.
-	 */
-	public Grammar getGrammar() {
-		return languageEngine.getGrammar();
-	}
-	
-	/**
-	 * Returns the lexicon manager.
-	 * 
-	 * @return The lexicon manager.
-	 */
-	public AceWikiLexicon getLexicon() {
-		return languageEngine.getLexicon();
 	}
 	
 	/**

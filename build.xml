@@ -93,7 +93,7 @@
             <bottom><![CDATA[<em>Copyright 2008-2011, Tobias Kuhn</em>]]></bottom>
         </javadoc>
         <copy
-            file="README.txt"
+            file="README.md"
             tofile="docs/README.txt"
         />
         <copy

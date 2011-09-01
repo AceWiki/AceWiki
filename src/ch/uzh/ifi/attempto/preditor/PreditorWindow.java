@@ -605,7 +605,7 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 	
 	/**
 	 * Returns the parse tree of the text for the given category if a complete parse tree exists.
-	 * Null is returned for uncomplete texts.
+	 * Null is returned for incomplete texts.
 	 * 
 	 * @param categoryName The category name.
 	 * @return The parse tree.
@@ -616,7 +616,7 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 	
 	/**
 	 * Returns the parse tree of the text for the start category if a complete parse tree exists.
-	 * Null is returned for uncomplete texts.
+	 * Null is returned for incomplete texts.
 	 * 
 	 * @return The parse tree.
 	 */
