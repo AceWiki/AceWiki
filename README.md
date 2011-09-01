@@ -43,7 +43,22 @@ The code for AceWiki and the ACE Editor is divided into four jar-files:
 - attempto-acewiki.jar contains the AceWiki application.
 - attempto-aceeditor.jar contains the ACE Editor application.
 
-See docs/index.html for the detailed documentation of the packages and classes.
+See the Javadoc for the detailed documentation of the packages and classes.
+
+The following picture shows the dependencies of the different Java packages (packages import only
+from lower packages):
+
+      _______________________
+     |        acewiki        |
+     |   _____    ________   |
+     |  |_gui_|  |_aceowl_|  |
+     |   _________________   |
+     |  |______core_______|  |   ___________
+     |_______________________|  |_aceeditor_|
+      ______________________________________
+     |______________preditor________________|
+      _________________    _________________
+     |___chartparser___|  |____echocomp_____|
 
 
 Compilation
