@@ -14,8 +14,8 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
+import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.chartparser.Terminal;
-import ch.uzh.ifi.attempto.preditor.TextElement;
 
 /**
  * This class represents a text element that links to an ontology element. The text of

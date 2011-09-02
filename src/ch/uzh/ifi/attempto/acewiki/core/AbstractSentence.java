@@ -14,9 +14,9 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
-import ch.uzh.ifi.attempto.preditor.TextContainer;
-import ch.uzh.ifi.attempto.preditor.TextElement;
-import ch.uzh.ifi.attempto.preditor.TextOperator;
+import ch.uzh.ifi.attempto.base.TextContainer;
+import ch.uzh.ifi.attempto.base.TextElement;
+import ch.uzh.ifi.attempto.base.TextOperator;
 
 /**
  * This class is a partial implementation of a sentence.

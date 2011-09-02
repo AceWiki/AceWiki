@@ -17,7 +17,7 @@ package ch.uzh.ifi.attempto.acewiki.core;
 import java.util.List;
 import java.util.Map;
 
-import ch.uzh.ifi.attempto.preditor.TextContainer;
+import ch.uzh.ifi.attempto.base.TextContainer;
 
 // TODO split this interface into several interfaces:
 // - AceWikiReasoner

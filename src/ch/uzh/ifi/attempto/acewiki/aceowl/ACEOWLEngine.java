@@ -23,8 +23,8 @@ import ch.uzh.ifi.attempto.acewiki.core.EditorController;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageFactory;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceSuggestion;
+import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.chartparser.Grammar;
-import ch.uzh.ifi.attempto.preditor.TextElement;
 
 /**
  * This is the AceWiki language engine for ACE/OWL. It delivers the grammar, the lexicon, the

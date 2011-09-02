@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.webcontainer.WebContainerServlet;
 import ch.uzh.ifi.attempto.ape.APELocal;
-import ch.uzh.ifi.attempto.echocomp.Logger;
+import ch.uzh.ifi.attempto.base.Logger;
 
 /**
  * This servlet class is used by the web server to start AceWiki.

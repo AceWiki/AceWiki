@@ -24,6 +24,8 @@ import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.EditorController;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
+import ch.uzh.ifi.attempto.base.TextElement;
+import ch.uzh.ifi.attempto.base.TextOperator;
 import ch.uzh.ifi.attempto.chartparser.ConcreteOption;
 import ch.uzh.ifi.attempto.chartparser.NextTokenOptions;
 import ch.uzh.ifi.attempto.preditor.DefaultMenuItemComparator;
@@ -31,8 +33,6 @@ import ch.uzh.ifi.attempto.preditor.MenuCreator;
 import ch.uzh.ifi.attempto.preditor.MenuEntry;
 import ch.uzh.ifi.attempto.preditor.MenuItem;
 import ch.uzh.ifi.attempto.preditor.SpecialMenuItem;
-import ch.uzh.ifi.attempto.preditor.TextElement;
-import ch.uzh.ifi.attempto.preditor.TextOperator;
 
 /**
  * This is the menu creator class that generates the menu entries for the predictive editor

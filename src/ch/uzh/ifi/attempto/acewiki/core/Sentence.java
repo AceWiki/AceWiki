@@ -16,7 +16,7 @@ package ch.uzh.ifi.attempto.acewiki.core;
 
 import java.util.List;
 
-import ch.uzh.ifi.attempto.preditor.TextElement;
+import ch.uzh.ifi.attempto.base.TextElement;
 
 /**
  * This interface represents a sentence in the given controlled natural language. It includes

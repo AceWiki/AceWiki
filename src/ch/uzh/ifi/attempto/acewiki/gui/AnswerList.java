@@ -23,9 +23,9 @@ import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
 import ch.uzh.ifi.attempto.acewiki.core.CachingReasoner;
+import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
-import ch.uzh.ifi.attempto.preditor.TextContainer;
 
 /**
  * This class shows a list of ontology elements as the answer for a given question. If the answer

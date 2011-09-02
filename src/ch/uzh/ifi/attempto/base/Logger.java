@@ -12,7 +12,7 @@
 // You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
 // not, see http://www.gnu.org/licenses/.
 
-package ch.uzh.ifi.attempto.echocomp;
+package ch.uzh.ifi.attempto.base;
 
 import java.io.DataOutputStream;
 import java.io.File;
@@ -25,6 +25,7 @@ import java.util.Calendar;
  * 
  * @author Tobias Kuhn
  */
+// TODO: Use java.util.logging.Logger
 public class Logger {
 	
 	private final String fileName;

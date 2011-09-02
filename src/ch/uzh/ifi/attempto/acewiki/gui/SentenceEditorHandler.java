@@ -28,11 +28,11 @@ import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceSuggestion;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
+import ch.uzh.ifi.attempto.base.TextContainer;
+import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.chartparser.ParseTree;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.preditor.PreditorWindow;
-import ch.uzh.ifi.attempto.preditor.TextContainer;
-import ch.uzh.ifi.attempto.preditor.TextElement;
 
 /**
  * This class manages the predictive editor. It creates the editor window and handles its

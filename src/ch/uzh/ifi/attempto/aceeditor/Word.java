@@ -14,10 +14,10 @@
 
 package ch.uzh.ifi.attempto.aceeditor;
 
+import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 import ch.uzh.ifi.attempto.chartparser.Preterminal;
 import ch.uzh.ifi.attempto.preditor.MenuEntry;
-import ch.uzh.ifi.attempto.preditor.TextElement;
 
 /**
  * This class manages words for the lexicon of the ACE Editor.

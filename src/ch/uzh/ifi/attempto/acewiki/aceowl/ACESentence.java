@@ -48,8 +48,8 @@ import ch.uzh.ifi.attempto.ape.Lexicon;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
 import ch.uzh.ifi.attempto.ape.MessageContainer;
 import ch.uzh.ifi.attempto.ape.SyntaxBoxes;
-import ch.uzh.ifi.attempto.preditor.TextContainer;
-import ch.uzh.ifi.attempto.preditor.TextElement;
+import ch.uzh.ifi.attempto.base.TextContainer;
+import ch.uzh.ifi.attempto.base.TextElement;
 
 /**
  * This class represents an ACE sentence, which can be either a declarative sentence or a question.

@@ -62,8 +62,8 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.ape.ACEUtils;
-import ch.uzh.ifi.attempto.preditor.TextContainer;
-import ch.uzh.ifi.attempto.preditor.TextElement;
+import ch.uzh.ifi.attempto.base.TextContainer;
+import ch.uzh.ifi.attempto.base.TextElement;
 
 /**
  * This is a reasoner implementation that connects to an OWL reasoner. At the moment, it can

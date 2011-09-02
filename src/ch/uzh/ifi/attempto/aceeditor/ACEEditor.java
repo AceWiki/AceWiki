@@ -34,12 +34,12 @@ import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.filetransfer.app.AbstractDownloadProvider;
 import nextapp.echo.filetransfer.app.DownloadCommand;
 import nextapp.echo.webcontainer.command.BrowserRedirectCommand;
+import ch.uzh.ifi.attempto.base.TextContainer;
+import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.echocomp.TextAreaWindow;
 import ch.uzh.ifi.attempto.echocomp.UploadWindow;
 import ch.uzh.ifi.attempto.preditor.PreditorWindow;
-import ch.uzh.ifi.attempto.preditor.TextContainer;
-import ch.uzh.ifi.attempto.preditor.TextElement;
 
 /**
  * This is the main class of the ACE Editor web application. The ACE Editor allows users to write

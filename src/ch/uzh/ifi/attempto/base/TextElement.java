@@ -12,9 +12,8 @@
 // You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
 // not, see http://www.gnu.org/licenses/.
 
-package ch.uzh.ifi.attempto.preditor;
+package ch.uzh.ifi.attempto.base;
 
-import ch.uzh.ifi.attempto.chartparser.Terminal;
 
 /**
  * This class describes a text element (a word or a phrase) to be used by the predictive editor.
@@ -41,15 +40,6 @@ public class TextElement {
 	 * Creates a new text element without initializing the fields of the object.
 	 */
 	protected TextElement() {
-	}
-	
-	/**
-	 * Returns a terminal category with the text of this text element.
-	 * 
-	 * @return A terminal category.
-	 */
-	public Terminal getTerminal() {
-		return new Terminal(text);
 	}
 	
 	/**

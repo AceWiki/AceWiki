@@ -20,7 +20,7 @@ import ch.uzh.ifi.attempto.acewiki.core.LanguageFactory;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
-import ch.uzh.ifi.attempto.preditor.TextOperator;
+import ch.uzh.ifi.attempto.base.TextOperator;
 
 /**
  * This is a language factory implementation for ACE.

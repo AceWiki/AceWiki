@@ -17,8 +17,8 @@ package ch.uzh.ifi.attempto.acewiki.aceowl;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
-import ch.uzh.ifi.attempto.preditor.DefaultTextOperator;
-import ch.uzh.ifi.attempto.preditor.TextElement;
+import ch.uzh.ifi.attempto.base.DefaultTextOperator;
+import ch.uzh.ifi.attempto.base.TextElement;
 
 /**
  * This is the text operator used for the ACE/OWL language engine for AceWiki.

@@ -17,8 +17,8 @@ package ch.uzh.ifi.attempto.acewiki.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.chartparser.ParseTree;
-import ch.uzh.ifi.attempto.preditor.TextContainer;
 
 /**
  * This factory class is used to generate different kind of statements (declarations, questions and

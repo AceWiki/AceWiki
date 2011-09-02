@@ -20,9 +20,9 @@ import nextapp.echo.app.Color;
 import nextapp.echo.app.Row;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
+import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
-import ch.uzh.ifi.attempto.preditor.TextElement;
 
 /**
  * This component renders a CNL text into GUI elements.

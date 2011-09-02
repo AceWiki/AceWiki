@@ -14,7 +14,7 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
-import ch.uzh.ifi.attempto.preditor.TextOperator;
+import ch.uzh.ifi.attempto.base.TextOperator;
 
 // TODO split this interface into several interfaces:
 // - LanguageFactory

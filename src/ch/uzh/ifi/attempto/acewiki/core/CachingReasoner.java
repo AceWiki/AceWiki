@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.uzh.ifi.attempto.preditor.TextContainer;
+import ch.uzh.ifi.attempto.base.TextContainer;
 
 /**
  * This reasoner class wraps another reasoner and adds caching functionality.
