@@ -50,23 +50,6 @@
   
   <!-- Servlets -->
   
-  <!--
-    The following is a servlet definition for the preditor example servlet.
-  -->
-  <servlet>
-  
-    <!--
-      The name of the servlet is used as an identifier for the mappings (see below).
-    -->
-    <servlet-name>Preditor</servlet-name>
-    
-    <!--
-      This argument points to the servlet class.
-    -->
-    <servlet-class>ch.uzh.ifi.attempto.preditor.ExampleServlet</servlet-class>
-    
-  </servlet>
-  
   
   <!--
     The following is an exemplary servlet definition for an AceWiki instance.
