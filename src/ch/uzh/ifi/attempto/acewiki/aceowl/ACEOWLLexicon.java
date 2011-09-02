@@ -20,7 +20,7 @@ import java.util.Collection;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiLexicon;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
-import ch.uzh.ifi.attempto.chartparser.AbstractOption;
+import ch.uzh.ifi.attempto.base.AbstractOption;
 import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 
 /**

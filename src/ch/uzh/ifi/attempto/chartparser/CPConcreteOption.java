@@ -17,37 +17,31 @@ package ch.uzh.ifi.attempto.chartparser;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.uzh.ifi.attempto.base.ConcreteOption;
+
 /**
- * This class represents an option (in a concrete way) how a partial sentence can be continued
- * according to given grammar. Such a concrete option consists of a word in the form of a
- * terminal category standing for a possible next token, and optionally of a pre-terminal category
- * from which the terminal category was derived.
+ * This class represents a concrete option for the chart parser. Such a concrete option consists of
+ * a word in the form of a terminal category standing for a possible next token, and optionally of
+ * a pre-terminal category from which the terminal category was derived.
  * 
- * @see AbstractOption
- * @see NextTokenOptions
  * @author Tobias Kuhn
  */
-public class ConcreteOption {
+class CPConcreteOption implements ConcreteOption {
 	
 	private final Terminal terminal;
 	private final Preterminal category;
 	private final String identifier;
 	
-	ConcreteOption(Grammar grammar, Terminal word, Preterminal category) {
+	CPConcreteOption(Grammar grammar, Terminal word, Preterminal category) {
 		this.terminal = word;
 		this.category = category;
 		identifier = calculateIdentifier(grammar.getFeatureNamesArray());
 	}
 	
-	ConcreteOption(Grammar grammar, LexicalRule lexRule) {
+	CPConcreteOption(Grammar grammar, LexicalRule lexRule) {
 		this(grammar, lexRule.getWord(), lexRule.getCategory());
 	}
 	
-	/**
-	 * Returns the word of this concrete option.
-	 * 
-	 * @return The word.
-	 */
 	public String getWord() {
 		return terminal.getName();
 	}
@@ -62,12 +56,6 @@ public class ConcreteOption {
 		return category;
 	}
 	
-	/**
-	 * Returns the name of the pre-terminal category of this concrete option, or null if there is
-	 * no pre-terminal category.
-	 * 
-	 * @return The name of the pre-terminal category.
-	 */
 	public String getCategoryName() {
 		if (category == null) {
 			return null;
@@ -91,8 +79,8 @@ public class ConcreteOption {
 	}
 	
 	public boolean equals(Object obj) {
-		if (!(obj instanceof ConcreteOption)) return false;
-		ConcreteOption other = (ConcreteOption) obj;
+		if (!(obj instanceof CPConcreteOption)) return false;
+		CPConcreteOption other = (CPConcreteOption) obj;
 		return this.identifier.equals(other.identifier);
 	}
 	

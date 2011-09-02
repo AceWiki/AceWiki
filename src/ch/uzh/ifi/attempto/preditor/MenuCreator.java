@@ -17,13 +17,12 @@ package ch.uzh.ifi.attempto.preditor;
 import java.util.Comparator;
 import java.util.List;
 
-import ch.uzh.ifi.attempto.chartparser.ConcreteOption;
-import ch.uzh.ifi.attempto.chartparser.NextTokenOptions;
+import ch.uzh.ifi.attempto.base.ConcreteOption;
+import ch.uzh.ifi.attempto.base.NextTokenOptions;
 
 /**
  * This interface represents an object that can create the menus for the predictive editor.
- * {@link DefaultMenuCreator} is the menu creator used by default. {@link ExampleMenuCreator} is an
- * example of a more sophisticated (but still very simple) implementation.
+ * {@link DefaultMenuCreator} is the menu creator used by default.
  * 
  * @author Tobias Kuhn
  */

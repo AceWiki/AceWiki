@@ -59,7 +59,7 @@
         <jar
             destfile="attempto-chartparser.jar"
             basedir="classes/"
-            includes="ch/uzh/ifi/attempto/chartparser/**"
+            includes="ch/uzh/ifi/attempto/chartparser/** ch/uzh/ifi/attempto/base/**"
         />
         <jar
             destfile="attempto-echo.jar"

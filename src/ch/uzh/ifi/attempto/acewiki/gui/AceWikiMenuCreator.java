@@ -24,10 +24,10 @@ import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.EditorController;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
+import ch.uzh.ifi.attempto.base.ConcreteOption;
+import ch.uzh.ifi.attempto.base.NextTokenOptions;
 import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.base.TextOperator;
-import ch.uzh.ifi.attempto.chartparser.ConcreteOption;
-import ch.uzh.ifi.attempto.chartparser.NextTokenOptions;
 import ch.uzh.ifi.attempto.preditor.DefaultMenuItemComparator;
 import ch.uzh.ifi.attempto.preditor.MenuCreator;
 import ch.uzh.ifi.attempto.preditor.MenuEntry;
@@ -87,7 +87,7 @@ public class AceWikiMenuCreator implements MenuCreator, ActionListener {
 	public List<SpecialMenuItem> createSpecialMenuItems(NextTokenOptions options) {
 		List<SpecialMenuItem> menuItems = new ArrayList<SpecialMenuItem>();
 		for (String p : getEditorController().getExtensibleCategories()) {
-			if (!options.containsPreterminal(p)) continue;
+			if (!options.containsCategory(p)) continue;
 			String g = getEditorController().getMenuGroup(p);
 			menuItems.add(new SpecialMenuItem("new...", g, p, this));
 		}

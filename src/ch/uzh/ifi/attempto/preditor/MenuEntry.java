@@ -16,8 +16,8 @@ package ch.uzh.ifi.attempto.preditor;
 
 import nextapp.echo.app.Extent;
 import nextapp.echo.app.Font;
+import ch.uzh.ifi.attempto.base.ConcreteOption;
 import ch.uzh.ifi.attempto.base.TextElement;
-import ch.uzh.ifi.attempto.chartparser.ConcreteOption;
 import ch.uzh.ifi.attempto.echocomp.Style;
 
 /**

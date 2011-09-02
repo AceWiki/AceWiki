@@ -15,7 +15,6 @@
 package ch.uzh.ifi.attempto.acewiki.core;
 
 import ch.uzh.ifi.attempto.base.TextElement;
-import ch.uzh.ifi.attempto.chartparser.Terminal;
 
 /**
  * This class represents a text element that links to an ontology element. The text of
@@ -90,10 +89,6 @@ public class OntologyTextElement extends TextElement {
 	 */
 	public int getWordNumber() {
 		return wordNumber;
-	}
-	
-	public Terminal getTerminal() {
-		return new Terminal(getOriginalText());
 	}
 	
 	/**

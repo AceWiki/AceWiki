@@ -17,23 +17,22 @@ package ch.uzh.ifi.attempto.chartparser;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.uzh.ifi.attempto.base.AbstractOption;
+
 /**
- * This class represents an option (in an abstract way) how a partial sentence can be continued
- * according to given grammar. Such an abstract option consists of a category that represents
- * possible next tokens and of a set of zero or more exceptions, also in the form of categories.
- * The categories can be terminal or pre-terminal, but not non-terminal.
+ * This class represents an abstract option for the chart parser. Such an abstract option consists
+ * of a category that represents possible next tokens and of a set of zero or more exceptions, also
+ * in the form of categories. The categories can be terminal or pre-terminal, but not non-terminal.
  * 
- * @see NextTokenOptions
- * @see ConcreteOption
  * @author Tobias Kuhn
  */
-public class AbstractOption {
+class CPAbstractOption implements AbstractOption {
 	
 	private final Category category;
 	private final Category[] exceptions;
 	private final String identifier;
 	
-	AbstractOption(Grammar grammar, Category category, Category[] exceptions) {
+	CPAbstractOption(Grammar grammar, Category category, Category[] exceptions) {
 		this.category = category;
 		if (exceptions != null) {
 			this.exceptions = exceptions;
@@ -43,11 +42,11 @@ public class AbstractOption {
 		identifier = calculateIdentifier(grammar.getFeatureNamesArray());
 	}
 	
-	AbstractOption(Grammar grammar, Category category, List<Category> exceptions) {
+	CPAbstractOption(Grammar grammar, Category category, List<Category> exceptions) {
 		this(grammar, category, exceptions.toArray(new Category[] {}));
 	}
 	
-	AbstractOption(Grammar grammar, Category category) {
+	CPAbstractOption(Grammar grammar, Category category) {
 		this(grammar, category, (Category[]) null);
 	}
 	
@@ -59,13 +58,7 @@ public class AbstractOption {
 	public Category getCategory() {
 		return category;
 	}
-
-	/**
-	 * Returns the name of the terminal or pre-terminal category that represents possible next
-	 * tokens.
-	 * 
-	 * @return The name of the terminal or pre-terminal category.
-	 */
+	
 	public String getCategoryName() {
 		return category.getName();
 	}
@@ -116,8 +109,8 @@ public class AbstractOption {
 	}
 	
 	public boolean equals(Object obj) {
-		if (!(obj instanceof AbstractOption)) return false;
-		AbstractOption other = (AbstractOption) obj;
+		if (!(obj instanceof CPAbstractOption)) return false;
+		CPAbstractOption other = (CPAbstractOption) obj;
 		return this.identifier.equals(other.identifier);
 	}
 	

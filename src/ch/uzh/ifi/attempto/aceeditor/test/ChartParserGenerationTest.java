@@ -20,8 +20,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.uzh.ifi.attempto.base.ConcreteOption;
 import ch.uzh.ifi.attempto.chartparser.ChartParser;
-import ch.uzh.ifi.attempto.chartparser.ConcreteOption;
 
 /**
  * Language generation test of the ACE Editor grammar.

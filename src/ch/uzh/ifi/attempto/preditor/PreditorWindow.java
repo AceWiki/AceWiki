@@ -35,19 +35,14 @@ import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.event.WindowPaneEvent;
 import nextapp.echo.app.event.WindowPaneListener;
 import nextapp.echo.app.layout.GridLayoutData;
+import ch.uzh.ifi.attempto.base.ConcreteOption;
 import ch.uzh.ifi.attempto.base.DefaultTextOperator;
 import ch.uzh.ifi.attempto.base.Logger;
+import ch.uzh.ifi.attempto.base.NextTokenOptions;
+import ch.uzh.ifi.attempto.base.PredictiveParser;
 import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.base.TextOperator;
-import ch.uzh.ifi.attempto.chartparser.ChartParser;
-import ch.uzh.ifi.attempto.chartparser.ConcreteOption;
-import ch.uzh.ifi.attempto.chartparser.DynamicLexicon;
-import ch.uzh.ifi.attempto.chartparser.FeatureMap;
-import ch.uzh.ifi.attempto.chartparser.Grammar;
-import ch.uzh.ifi.attempto.chartparser.NextTokenOptions;
-import ch.uzh.ifi.attempto.chartparser.Nonterminal;
-import ch.uzh.ifi.attempto.chartparser.ParseTree;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.Style;
@@ -72,7 +67,7 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 	private final TextContainer textContainer = new TextContainer();
 	private MenuCreator menuCreator;
 	private TextOperator textOperator;
-	private ChartParser parser;
+	private PredictiveParser parser;
 	private List<ActionListener> actionListeners = new ArrayList<ActionListener>();
 	private Logger logger;
 	
@@ -94,17 +89,14 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 	private boolean isInitialized = false;
 	
 	/**
-	 * Creates a new predictive editor window for the given grammar.
+	 * Creates a new predictive editor window using the given predictive parser.
 	 * 
 	 * @param title The title of the window.
-	 * @param grammar The grammar to be used.
-	 * @param startCategoryName The name of the start category.
-	 * @param context A list of forward references and scope openers that define the context.
+	 * @param parser The predictive parser to be used. Do not modify this object while the
+	 *     preditor window is active!
 	 */
-	public PreditorWindow(String title, Grammar grammar, String startCategoryName,
-			List<Nonterminal> context) {
-		this.parser = new ChartParser(grammar, startCategoryName, context);
-		
+	public PreditorWindow(String title, PredictiveParser parser) {
+		this.parser = parser;
 		this.menuBlockManager = new MenuBlockManager(this);
 		
 		addWindowPaneListener(this);
@@ -190,17 +182,6 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 	}
 	
 	/**
-	 * Creates a new predictive editor window for the given grammar.
-	 * 
-	 * @param title The title of the window.
-	 * @param grammar The grammar to be used.
-	 * @param startCategoryName The name of the start category.
-	 */
-	public PreditorWindow(String title, Grammar grammar, String startCategoryName) {
-		this(title, grammar, startCategoryName, null);
-	}
-	
-	/**
 	 * Sets the menu creator. {@link DefaultMenuCreator} is used by default.
 	 * 
 	 * @param menuCreator The menu creator.
@@ -242,16 +223,6 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 			setTextOperator(new DefaultTextOperator());
 		}
 		return textOperator;
-	}
-	
-	/**
-	 * Sets the dynamic lexicon.
-	 * 
-	 * @param dynLexicon The dynamic lexicon.
-	 */
-	public void setDynamicLexicon(DynamicLexicon dynLexicon) {
-		parser.setDynamicLexicon(dynLexicon);
-		update();
 	}
 	
 	/**
@@ -343,17 +314,7 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 	}
 	
 	private void updateMenuBlockContents() {
-		boolean[] r = new boolean[getTokenCount()];
-		for (FeatureMap f : parser.getBackwardReferences()) {
-			String s = f.getFeature("*pos").getString();
-			if (s != null) {
-				int i = new Integer(s) - 1;
-				if (i > -1) {
-					r[i] = true;
-					r[getTokenCount()-1] = true;
-				}
-			}
-		}
+		int ref = parser.getReference();
 		String t = "";
 		TextElement prev = null;
 		for (int i = 0; i < getTokenCount() ; i++) {
@@ -362,7 +323,7 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 			if (prev != null) {
 				glue = getTextOperator().getGlue(prev, te);
 			}
-			if (r[i]) {
+			if (ref > -1 && (ref == i || i == getTokenCount()-1)) {
 				t += glue + "<u>" + te.getText() + "</u>";
 			} else {
 				t += glue + te.getText();
@@ -469,7 +430,7 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 	
 	private String proposeToken(String text) {
 		text = text.toLowerCase().replaceAll("\\s+", "_");
-		for (ConcreteOption o : parser.getConcreteOptions()) {
+		for (ConcreteOption o : parser.getNextTokenOptions().getConcreteOptions()) {
 			String t = o.getWord().toLowerCase().replaceAll("\\s+", "_");
 			if (t.equals(text)) {
 				return o.getWord();
@@ -608,24 +569,13 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 	}
 	
 	/**
-	 * Returns the parse tree of the text for the given category if a complete parse tree exists.
-	 * Null is returned for incomplete texts.
+	 * Returns the predictive parser. Do not modify this object while the preditor window is
+	 * active!
 	 * 
-	 * @param categoryName The category name.
-	 * @return The parse tree.
+	 * @return The predictive parser.
 	 */
-	public ParseTree getParseTree(String categoryName) {
-		return parser.getParseTree(categoryName);
-	}
-	
-	/**
-	 * Returns the parse tree of the text for the start category if a complete parse tree exists.
-	 * Null is returned for incomplete texts.
-	 * 
-	 * @return The parse tree.
-	 */
-	public ParseTree getParseTree() {
-		return parser.getParseTree();
+	public PredictiveParser getPredictiveParser() {
+		return parser;
 	}
 	
 	public void windowPaneClosing(WindowPaneEvent e) {

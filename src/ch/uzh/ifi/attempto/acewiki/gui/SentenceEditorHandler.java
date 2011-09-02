@@ -30,6 +30,7 @@ import ch.uzh.ifi.attempto.acewiki.core.SentenceSuggestion;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.base.TextElement;
+import ch.uzh.ifi.attempto.chartparser.ChartParser;
 import ch.uzh.ifi.attempto.chartparser.ParseTree;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.preditor.PreditorWindow;
@@ -65,12 +66,9 @@ public class SentenceEditorHandler implements ActionListener {
 				this
 			);
 		LanguageEngine le = wiki.getLanguageEngine();
-		editorWindow = new PreditorWindow(
-				"Sentence Editor",
-				le.getGrammar(),
-				le.getTextCategory()
-			);
-		editorWindow.setDynamicLexicon(le.getLexicon());
+		ChartParser cp = new ChartParser(le.getGrammar(), le.getTextCategory());
+		cp.setDynamicLexicon(le.getLexicon());
+		editorWindow = new PreditorWindow("Sentence Editor", cp);
 		editorWindow.setMenuCreator(menuCreator);
 		editorWindow.setLogger(wiki.getLogger());
 		editorWindow.addActionListener(this);
@@ -125,10 +123,11 @@ public class SentenceEditorHandler implements ActionListener {
 			}
 			
 			TextContainer textContainer = editorWindow.getTextContainer();
-			ParseTree parseTree = editorWindow.getParseTree();
+			ChartParser cp = (ChartParser) editorWindow.getPredictiveParser();
+			ParseTree parseTree = cp.getParseTree();
 			List<TextElement> l = textContainer.getTextElements();
 			if (l.isEmpty() || l.get(l.size() - 1).getText().matches("[.?]")) {
-				newSentences =o.getStatementFactory().createSentences(
+				newSentences = o.getStatementFactory().createSentences(
 						textContainer,
 						parseTree,
 						page.getArticle()

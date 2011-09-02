@@ -16,6 +16,8 @@ package ch.uzh.ifi.attempto.chartparser;
 
 import java.util.Collection;
 
+import ch.uzh.ifi.attempto.base.AbstractOption;
+
 /**
  * This interface represents a dynamic lexicon that can be used by the chart parser.
  * 

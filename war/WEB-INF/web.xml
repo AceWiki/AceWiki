@@ -278,14 +278,6 @@
   -->
   
   <!--
-    This is the mapping for the predictive editor servlet.
-  -->
-  <servlet-mapping>
-    <servlet-name>Preditor</servlet-name>
-    <url-pattern>/preditor/</url-pattern>
-  </servlet-mapping>
-  
-  <!--
     This is the mapping for the first AceWiki instance.
   -->
   <servlet-mapping>

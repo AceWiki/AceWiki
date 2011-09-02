@@ -36,6 +36,7 @@ import nextapp.echo.filetransfer.app.DownloadCommand;
 import nextapp.echo.webcontainer.command.BrowserRedirectCommand;
 import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.base.TextElement;
+import ch.uzh.ifi.attempto.chartparser.ChartParser;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.echocomp.TextAreaWindow;
 import ch.uzh.ifi.attempto.echocomp.UploadWindow;
@@ -491,12 +492,9 @@ public class ACEEditor extends Window implements ActionListener {
 		if (edit && selectedEntry.isEmpty()) return;
 		
 		ACEEditorMenuCreator menuCreator = new ACEEditorMenuCreator(this, lexiconHandler);
-		PreditorWindow preditor = new PreditorWindow(
-				"ACE Text Editor",
-				ACEEditorGrammar.grammar,
-				"text"
-			);
-		preditor.setDynamicLexicon(lexiconHandler);
+		ChartParser cp = new ChartParser(ACEEditorGrammar.grammar, "text");
+		cp.setDynamicLexicon(lexiconHandler);
+		PreditorWindow preditor = new PreditorWindow("ACE Text Editor", cp);
 		preditor.setMenuCreator(menuCreator);
 		menuCreator.setPreditorWindow(preditor);
 		preditor.addActionListener(this);

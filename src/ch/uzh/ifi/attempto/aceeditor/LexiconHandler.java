@@ -24,7 +24,7 @@ import java.util.Map;
 
 import ch.uzh.ifi.attempto.ape.Lexicon;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
-import ch.uzh.ifi.attempto.chartparser.AbstractOption;
+import ch.uzh.ifi.attempto.base.AbstractOption;
 import ch.uzh.ifi.attempto.chartparser.DynamicLexicon;
 import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 import ch.uzh.ifi.attempto.chartparser.Preterminal;

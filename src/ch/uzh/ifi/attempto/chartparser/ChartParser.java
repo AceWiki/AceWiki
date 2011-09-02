@@ -21,13 +21,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ch.uzh.ifi.attempto.base.PredictiveParser;
+
+
 /**
- * This is a chart parser (concretely an Earley parser) fully implemented in Java.
+ * This is a chart parser (concretely an Earley parser) that implements the predictive parser
+ * interface.
  * 
  * @see Grammar
  * @author Tobias Kuhn
  */
-public class ChartParser {
+public class ChartParser implements PredictiveParser {
 	
 	private final Grammar grammar;
 	private final String startCategoryName;
@@ -35,7 +39,7 @@ public class ChartParser {
 	private DynamicLexicon dynLexicon;
 	private final Chart chart;
 	private final List<String> tokens = new ArrayList<String>();
-	private final List<NextTokenOptions> options = new ArrayList<NextTokenOptions>();
+	private final List<CPNextTokenOptions> options = new ArrayList<CPNextTokenOptions>();
 	private final List<List<FeatureMap>> backwardReferences = new ArrayList<List<FeatureMap>>();
 	private ParseTree parseTree;
 	private Map<String, Integer> progressTable;
@@ -105,11 +109,6 @@ public class ChartParser {
 		this.positionIdentifierPrefix = prefix.toString();
 	}
 	
-	/**
-	 * Adds the token to the end of the token sequence and runs the parsing algorithm on it.
-	 * 
-	 * @param token The new token to be added.
-	 */
 	public void addToken(String token) {
 		chart.addEdge(new Edge(tokens.size(), new Terminal(token)));
 		
@@ -148,20 +147,12 @@ public class ChartParser {
 		recalculateParseTree = true;
 	}
 	
-	/**
-	 * Adds the tokens to the token list.
-	 * 
-	 * @param tokens The tokens to be added.
-	 */
 	public void addTokens(List<String> tokens) {
 		for (String t : tokens) {
 			addToken(t);
 		}
 	}
 	
-	/**
-	 * Removes the last token and reverts the last parsing step.
-	 */
 	public void removeToken() {
 		chart.removeEdgesWithEndPos(tokens.size());
 		backwardReferences.remove(tokens.size()-1);
@@ -177,9 +168,6 @@ public class ChartParser {
 		}
 	}
 	
-	/**
-	 * Removes all tokens in the current token sequence and resets the chart.
-	 */
 	public void removeAllTokens() {
 		if (debug) log("REMOVE ALL TOKENS.\n");
 		tokens.clear();
@@ -193,32 +181,42 @@ public class ChartParser {
 		recalculateParseTree = true;
 	}
 	
-	/**
-	 * Sets the given tokens. Existing tokens are removed and the chart is reset.
-	 * 
-	 * @param tokens The tokens.
-	 */
 	public void setTokens(List<String> tokens) {
 		removeAllTokens();
 		addTokens(tokens);
 	}
 	
-	/**
-	 * Returns the current token sequence.
-	 * 
-	 * @return The current token sequence.
-	 */
 	public List<String> getTokens() {
 		return new ArrayList<String>(tokens);
 	}
 	
-	/**
-	 * Returns the number of tokens of the current (partial) text.
-	 * 
-	 * @return The number of tokens.
-	 */
 	public int getTokenCount() {
 		return tokens.size();
+	}
+
+	/**
+	 * This method returns the token number to which the token at the given position refers, if it
+	 * is a reference. -1 is returned if the given token is not a reference.
+	 * 
+	 * @param pos The position of the token for which the reference should be returned.
+	 * @return The token number to which the token at the given position refers, or -1.
+	 */
+	public int getReference(int pos) {
+		int ref = -1;
+		for (FeatureMap f : getBackwardReferences(pos)) {
+			String s = f.getFeature("*pos").getString();
+			if (s != null) {
+				int i = new Integer(s) - 1;
+				if (i > -1) {
+					ref = i;
+				}
+			}
+		}
+		return ref;
+	}
+	
+	public int getReference() {
+		return getReference(tokens.size()-1);
 	}
 	
 	/**
@@ -246,12 +244,6 @@ public class ChartParser {
 		return getBackwardReferences(tokens.size()-1);
 	}
 	
-	/**
-	 * Returns true if the current token sequence is a complete statement according to the given
-	 * grammar and start category.
-	 * 
-	 * @return true if the current token sequence is a complete statement.
-	 */
 	public boolean isComplete() {
 		for (Edge e : chart.getEdgesByEndPos(tokens.size())) {
 			if (e.getStartPos() != 0) continue;
@@ -300,18 +292,12 @@ public class ChartParser {
 	 * @param position The position at which the possible next tokens should be found.
 	 * @return The options describing the possible next tokens.
 	 */
-	public NextTokenOptions getNextTokenOptions(int position) {
+	public CPNextTokenOptions getNextTokenOptions(int position) {
 		createOptions(position);
 		return options.get(position);
 	}
 	
-	/**
-	 * This method returns the possible next tokens that could be used to continue the text at the
-	 * end position.
-	 * 
-	 * @return The options describing the possible next tokens.
-	 */
-	public NextTokenOptions getNextTokenOptions() {
+	public CPNextTokenOptions getNextTokenOptions() {
 		return getNextTokenOptions(tokens.size());
 	}
 	
@@ -322,7 +308,7 @@ public class ChartParser {
 	 * @param position The position at which the possible next tokens should be found.
 	 * @return The set of abstract options describing the possible next tokens.
 	 */
-	public Set<AbstractOption> getAbstractOptions(int position) {
+	public Set<CPAbstractOption> getAbstractOptions(int position) {
 		createOptions(position);
 		return options.get(position).getAbstractOptions();
 	}
@@ -333,7 +319,7 @@ public class ChartParser {
 	 * 
 	 * @return The set of abstract options describing the possible next tokens.
 	 */
-	public Set<AbstractOption> getAbstractOptions() {
+	public Set<CPAbstractOption> getAbstractOptions() {
 		return getAbstractOptions(tokens.size());
 	}
 
@@ -344,7 +330,7 @@ public class ChartParser {
 	 * @param position The position at which the possible next tokens should be found.
 	 * @return The set of concrete options describing the possible next tokens.
 	 */
-	public Set<ConcreteOption> getConcreteOptions(int position) {
+	public Set<CPConcreteOption> getConcreteOptions(int position) {
 		createOptions(position);
 		return options.get(position).getConcreteOptions();
 	}
@@ -355,21 +341,15 @@ public class ChartParser {
 	 * 
 	 * @return The set of concrete options describing the possible next tokens.
 	 */
-	public Set<ConcreteOption> getConcreteOptions() {
+	public Set<CPConcreteOption> getConcreteOptions() {
 		return getConcreteOptions(tokens.size());
 	}
 	
-	/**
-	 * Returns whether the given token is a possible next token.
-	 * 
-	 * @param token The token.
-	 * @return true if the token is a possible next token.
-	 */
 	public boolean isPossibleNextToken(String token) {
-		if (getNextTokenOptions().containsTerminal(token)) return true;
+		if (getNextTokenOptions().containsToken(token)) return true;
 		for (LexicalRule lr : dynLexicon.getLexRules(token)) {
 			if (!lr.getWord().getName().equals(token)) continue;
-			if (getNextTokenOptions().allowsForCategory(lr.getCategory())) return true;
+			if (getNextTokenOptions().containsCategory(lr.getCategory())) return true;
 		}
 		return false;
 	}
@@ -381,9 +361,9 @@ public class ChartParser {
 	 */
 	private void createOptions(int position) {
 		if (options.get(position) == null) {
-			Set<AbstractOption> aOptions = createAbstractOptions(position);
-			Set<ConcreteOption> cOptions = createConcreteOptions(position, aOptions);
-			options.set(position, new NextTokenOptions(aOptions, cOptions));
+			Set<CPAbstractOption> aOptions = createAbstractOptions(position);
+			Set<CPConcreteOption> cOptions = createConcreteOptions(position, aOptions);
+			options.set(position, new CPNextTokenOptions(aOptions, cOptions));
 		}
 	}
 	
@@ -391,9 +371,9 @@ public class ChartParser {
 		if (options.get(position) == null) {
 			createOptions(position);
 		} else {
-			Set<AbstractOption> aOptions = options.get(position).getAbstractOptions();
-			Set<ConcreteOption> cOptions = createConcreteOptions(position, aOptions);
-			options.set(position, new NextTokenOptions(aOptions, cOptions));
+			Set<CPAbstractOption> aOptions = options.get(position).getAbstractOptions();
+			Set<CPConcreteOption> cOptions = createConcreteOptions(position, aOptions);
+			options.set(position, new CPNextTokenOptions(aOptions, cOptions));
 		}
 	}
 	
@@ -403,8 +383,8 @@ public class ChartParser {
 	 * @param position The position for which the abstract options should be calculated.
 	 * @return The set of abstract options.
 	 */
-	private Set<AbstractOption> createAbstractOptions(int position) {
-		Set<AbstractOption> aOptions = new HashSet<AbstractOption>();
+	private Set<CPAbstractOption> createAbstractOptions(int position) {
+		Set<CPAbstractOption> aOptions = new HashSet<CPAbstractOption>();
 		for (Edge e : chart.getEdgesByEndPos(position)) {
 			if (!e.isActive()) continue;
 			if (e.getNextActive() instanceof Nonterminal) continue;
@@ -463,13 +443,13 @@ public class ChartParser {
 								((BackrefCategory) eC.getBody()[refpos]).getPosFeatureMaps().get(j);
 							eC.getCombinedAnteList()[i].getFeatureMap().unify(backrefFm);
 							if (exceptions != null) {
-								aOptions.add(new AbstractOption(
+								aOptions.add(new CPAbstractOption(
 										grammar,
 										eC.getNextActive(),
 										copyExceptionsList(exceptions)
 									));
 							} else {
-								aOptions.add(new AbstractOption(grammar, eC.getNextActive()));
+								aOptions.add(new CPAbstractOption(grammar, eC.getNextActive()));
 							}
 						} catch (UnificationFailedException ex) {}
 					}
@@ -492,14 +472,14 @@ public class ChartParser {
 					} catch (UnificationFailedException ex) {}
 				}
 				if (makeRestriction) {
-					aOptions.add(new AbstractOption(grammar, e.getNextActive().deepCopy(), exceptions));
+					aOptions.add(new CPAbstractOption(grammar, e.getNextActive().deepCopy(), exceptions));
 				}
 			} else {
-				aOptions.add(new AbstractOption(grammar, e.getNextActive().deepCopy()));
+				aOptions.add(new CPAbstractOption(grammar, e.getNextActive().deepCopy()));
 			}
 		}
 		if (debug) {
-			for (AbstractOption o : aOptions) {
+			for (CPAbstractOption o : aOptions) {
 				log("LOOKING FORWARD: " + o + "\n");
 			}
 		}
@@ -515,10 +495,10 @@ public class ChartParser {
 	 * @param aOptions The set of abstract options.
 	 * @return The set of concrete options.
 	 */
-	private Set<ConcreteOption> createConcreteOptions(int position, Set<AbstractOption> aOptions) {
-		Set<ConcreteOption> cOptions = new HashSet<ConcreteOption>();
+	private Set<CPConcreteOption> createConcreteOptions(int position, Set<CPAbstractOption> aOptions) {
+		Set<CPConcreteOption> cOptions = new HashSet<CPConcreteOption>();
 		
-		for (AbstractOption ao : aOptions) {
+		for (CPAbstractOption ao : aOptions) {
 			if (ao.getCategory() instanceof Preterminal) {
 
 				List<LexicalRule> lexRules;
@@ -532,11 +512,11 @@ public class ChartParser {
 				
 				for (LexicalRule lexRule : lexRules) {
 					if (ao.isFulfilledBy(lexRule.getCategory())) {
-						cOptions.add(new ConcreteOption(grammar, lexRule.deepCopy()));
+						cOptions.add(new CPConcreteOption(grammar, lexRule.deepCopy()));
 					}
 				}
 			} else if (ao.getCategory() instanceof Terminal) {
-				cOptions.add(new ConcreteOption(grammar, (Terminal) ao.getCategory(), null));
+				cOptions.add(new CPConcreteOption(grammar, (Terminal) ao.getCategory(), null));
 			}
 		}
 		

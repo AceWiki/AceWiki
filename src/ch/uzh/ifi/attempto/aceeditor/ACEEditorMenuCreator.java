@@ -23,8 +23,8 @@ import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.ape.FunctionWords;
-import ch.uzh.ifi.attempto.chartparser.ConcreteOption;
-import ch.uzh.ifi.attempto.chartparser.NextTokenOptions;
+import ch.uzh.ifi.attempto.base.ConcreteOption;
+import ch.uzh.ifi.attempto.base.NextTokenOptions;
 import ch.uzh.ifi.attempto.echocomp.CheckBox;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.echocomp.TextField;
@@ -135,7 +135,7 @@ class ACEEditorMenuCreator extends DefaultMenuCreator implements ActionListener 
 		List<SpecialMenuItem> items = new ArrayList<SpecialMenuItem>();
 		Map<String, String> m = new HashMap<String, String>();
 		for (String s : extCats) {
-			if (options.containsPreterminal(s)) {
+			if (options.containsCategory(s)) {
 				String menuGroup = cats.get(s);
 				if (m.containsKey(menuGroup)) {
 					m.put(menuGroup, m.get(menuGroup) + s + ":");
