@@ -192,7 +192,7 @@ public class FormPane extends WordEditorForm {
 			wiki.showWindow(new MessageWindow(
 					"Error",
 					"This word cannot be deleted, because other articles refer to it.",
-					null,
+					getParentWindow(),
 					(ActionListener) null,
 					"OK"
 				));
@@ -201,7 +201,7 @@ public class FormPane extends WordEditorForm {
 			delConfirmWindow = new MessageWindow(
 					"Delete",
 					"Do you really want to delete this word and all the content of its article?",
-					null,
+					getParentWindow(),
 					this,
 					"Yes",
 					"No"

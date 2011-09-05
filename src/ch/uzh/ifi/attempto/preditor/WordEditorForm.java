@@ -180,14 +180,17 @@ public class WordEditorForm extends ContentPane implements ActionListener {
 	 * @param explanation An explanation text shown under the component.
 	 * @param required Defines whether the component should be marked as required.
 	 */
-	public void addRow(String labelText, Component formElement, String explanation, boolean required) {
+	public void addRow(String labelText, Component formElement, String explanation,
+			boolean required) {
 		Grid grid = new Grid(3);
 		grid.setInsets(new Insets(0, 0, 5, 0));
 		grid.setColumnWidth(0, new Extent(140));
 		grid.add(new SolidLabel(labelText, Font.ITALIC));
 		formElements.add(formElement);
 		if (formElement instanceof TextField) {
-			((TextField) formElement).setWidth(new Extent(parentWindow.getWidth().getValue()-223));
+			TextField tf = (TextField) formElement;
+			tf.setWidth(new Extent(parentWindow.getWidth().getValue()-223));
+			tf.setActionCommand("OK");
 		}
 		grid.add(formElement);
 		if (required) {
