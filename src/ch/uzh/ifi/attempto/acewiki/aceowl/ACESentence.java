@@ -42,6 +42,8 @@ import ch.uzh.ifi.attempto.acewiki.core.Declaration;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceDetail;
+import ch.uzh.ifi.attempto.acewiki.owl.AceWikiOWLReasoner;
+import ch.uzh.ifi.attempto.acewiki.owl.OWLSentence;
 import ch.uzh.ifi.attempto.ape.ACEParserResult;
 import ch.uzh.ifi.attempto.ape.APELocal;
 import ch.uzh.ifi.attempto.ape.Lexicon;
@@ -56,7 +58,7 @@ import ch.uzh.ifi.attempto.base.TextElement;
  * 
  * @author Tobias Kuhn
  */
-public abstract class ACESentence extends AbstractSentence {
+public abstract class ACESentence extends AbstractSentence implements OWLSentence {
 	
 	private static OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
 
@@ -130,11 +132,6 @@ public abstract class ACESentence extends AbstractSentence {
 		return parserResult;
 	}
 	
-	/**
-	 * Returns a pretty-printed OWL representation of this sentence.
-	 * 
-	 * @return The pretty-printed OWL representation.
-	 */
 	public String getPrettyOWL() {
 		if (parserResult == null) {
 			update();
@@ -149,11 +146,6 @@ public abstract class ACESentence extends AbstractSentence {
 		return reasonable;
 	}
 	
-	/**
-	 * Returns true if this sentence has an OWL representation.
-	 * 
-	 * @return true if this sentence has an OWL representation.
-	 */
 	public boolean isOWL() {
 		if (isOWL == null) {
 			update();
@@ -161,11 +153,6 @@ public abstract class ACESentence extends AbstractSentence {
 		return isOWL;
 	}
 	
-	/**
-	 * Returns true if this sentence has an OWL or SWRL representation.
-	 * 
-	 * @return true if this sentence has an OWL or SWRL representation.
-	 */
 	public boolean isOWLSWRL() {
 		if (isOWLSWRL == null) {
 			update();
@@ -173,11 +160,6 @@ public abstract class ACESentence extends AbstractSentence {
 		return isOWLSWRL;
 	}
 	
-	/**
-	 * Returns a set of OWL axioms that represent this sentence.
-	 * 
-	 * @return The OWL axioms.
-	 */
 	public Set<OWLAxiom> getOWLAxioms() {
 		if (parserResult == null) {
 			update();

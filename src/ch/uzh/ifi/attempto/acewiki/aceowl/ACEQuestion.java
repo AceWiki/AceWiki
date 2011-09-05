@@ -21,14 +21,14 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectOneOf;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
-import ch.uzh.ifi.attempto.acewiki.core.Question;
+import ch.uzh.ifi.attempto.acewiki.owl.OWLQuestion;
 
 /**
  * This class represents ACE questions.
  * 
  * @author Tobias Kuhn
  */
-public class ACEQuestion extends ACESentence implements Question {
+public class ACEQuestion extends ACESentence implements OWLQuestion {
 	
 	private OWLClassExpression questionOWLClass;
 	private OWLNamedIndividual questionOWLIndividual;
@@ -43,23 +43,11 @@ public class ACEQuestion extends ACESentence implements Question {
 		super(text);
 	}
 	
-	/**
-	 * Returns the OWL class expression for this question. All individuals that belong to this
-	 * class expression can be considered answers to the question.
-	 * 
-	 * @return The OWL class expression.
-	 */
 	public OWLClassExpression getQuestionOWLClass() {
 		calculateQuestionOWLEntities();
 		return questionOWLClass;
 	}
-
-	/**
-	 * Returns the OWL individual for this question. For questions like "What is Switzerland?", the
-	 * respective individual ("Switzerland") is returned. In all other cases, null is returned.
-	 * 
-	 * @return The OWL individual.
-	 */
+	
 	public OWLNamedIndividual getQuestionOWLIndividual() {
 		calculateQuestionOWLEntities();
 		return questionOWLIndividual;

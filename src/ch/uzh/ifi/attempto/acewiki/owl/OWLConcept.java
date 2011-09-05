@@ -12,18 +12,18 @@
 // You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
 // not, see http://www.gnu.org/licenses/.
 
-package ch.uzh.ifi.attempto.acewiki.aceowl;
+package ch.uzh.ifi.attempto.acewiki.owl;
 
 import org.semanticweb.owlapi.model.OWLClass;
 
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 
 /**
- * This class stands for concept ontology elements with representations in ACE and OWL.
+ * This class stands for concept ontology elements with representations in OWL.
  * 
  * @author Tobias Kuhn
  */
-public abstract class ACEOWLConcept extends AbstractACEOWLOntoElement implements Concept {
+public abstract class OWLConcept extends AbstractOWLOntoElement implements Concept {
 	
 	public OWLClass getOWLRepresentation() {
 		return getOWLDataFactory().getOWLClass(getIRI());

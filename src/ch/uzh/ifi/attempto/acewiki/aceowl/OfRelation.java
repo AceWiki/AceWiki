@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import ch.uzh.ifi.attempto.acewiki.owl.OWLRelation;
 import ch.uzh.ifi.attempto.ape.Gender;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
 import ch.uzh.ifi.attempto.chartparser.LexicalRule;
@@ -33,7 +34,7 @@ import ch.uzh.ifi.attempto.chartparser.LexicalRule;
  * 
  * @author Tobias Kuhn
  */
-public class OfRelation extends ACEOWLRelation {
+public class OfRelation extends OWLRelation implements ACEOWLOntoElement {
 	
 	private String word;
 	

@@ -19,7 +19,11 @@ import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageFactory;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
+import ch.uzh.ifi.attempto.ape.ACEUtils;
+import ch.uzh.ifi.attempto.base.TextContainer;
+import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.base.TextOperator;
 
 /**
@@ -71,6 +75,17 @@ public class ACELanguageFactory implements LanguageFactory {
 	public Sentence createHierarchySentence(Concept subConcept, Concept superConcept) {
 		return createSentence("Every " + subConcept.getWord() + " is a " +
 				superConcept.getWord() + ".");
+	}
+	
+	public TextContainer createAnswerItem(OntologyElement el) {
+		if (el instanceof NounConcept) {
+			boolean an = ACEUtils.useIndefiniteArticleAn(el.getWord());
+			TextElement det = new TextElement(an ? "an" : "a");
+			return new TextContainer(det, new OntologyTextElement(el, 0));
+		} else if (el instanceof ProperNameIndividual) {
+			return new TextContainer(new OntologyTextElement(el, 1));
+		}
+		return new TextContainer();
 	}
 
 }

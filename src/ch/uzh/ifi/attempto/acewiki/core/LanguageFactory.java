@@ -14,6 +14,7 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
+import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.base.TextOperator;
 
 // TODO split this interface into several interfaces:
@@ -76,5 +77,13 @@ public interface LanguageFactory {
 	 * @return A new sentence representing the assignment.
 	 */
 	public Sentence createHierarchySentence(Concept subConcept, Concept superConcept);
+	
+	/**
+	 * Creates a text that represents the given ontology element as an answer to a question.
+	 * 
+	 * @param el The ontology element.
+	 * @return The text representing an answer.
+	 */
+	public TextContainer createAnswerItem(OntologyElement el);
 
 }

@@ -1,23 +1,35 @@
+// This file is part of AceWiki.
+// Copyright 2008-2011, Tobias Kuhn.
+// 
+// AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
+// Lesser General Public License as published by the Free Software Foundation, either version 3 of
+// the License, or (at your option) any later version.
+// 
+// AceWiki is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+// even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
+// not, see http://www.gnu.org/licenses/.
+
 package ch.uzh.ifi.attempto.acewiki.aceowl;
 
 import java.util.Collection;
 import java.util.List;
 
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
-import org.semanticweb.owlapi.model.OWLLogicalEntity;
 
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.owl.OWLOntoElement;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
 import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 
 /**
- * This interface represents an ontology element that maps to a lexical entry for ACE and
- * to an OWL representation.
+ * This interface represents an OWL ontology element with lexical entries that define its ACE
+ * representation.
  * 
  * @author Tobias Kuhn
  */
-public interface ACEOWLOntoElement extends OntologyElement {
+public interface ACEOWLOntoElement extends OntologyElement, OWLOntoElement {
 	
 	/**
 	 * Returns the lexicon entries (one for each word form).
@@ -25,28 +37,6 @@ public interface ACEOWLOntoElement extends OntologyElement {
 	 * @return The lexicon entries.
 	 */
 	public List<LexiconEntry> getLexiconEntries();
-	
-	/**
-	 * Returns the IRI of the ontology element. This IRI is a concatenation of the
-	 * ontology IRI and the IRI suffix of the ontology element.
-	 * 
-	 * @return The IRI.
-	 */
-	public IRI getIRI();
-	
-	/**
-	 * This method returns an OWL object for the given ontology element.
-	 * 
-	 * @return An OWL object.
-	 */
-	public OWLLogicalEntity getOWLRepresentation();
-	
-	/**
-	 * This method returns an OWL axiom that declares the given ontology element.
-	 * 
-	 * @return An OWL declaration axiom.
-	 */
-	public OWLDeclarationAxiom getOWLDeclaration();
 	
 	/**
 	 * This method should collect the lexical rules of this ontology element for the given category

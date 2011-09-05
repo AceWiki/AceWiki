@@ -18,8 +18,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
-
+import ch.uzh.ifi.attempto.acewiki.owl.OWLIndividual;
 import ch.uzh.ifi.attempto.ape.Gender;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
 import ch.uzh.ifi.attempto.chartparser.LexicalRule;
@@ -52,7 +51,7 @@ import ch.uzh.ifi.attempto.chartparser.LexicalRule;
  * 
  * @author Tobias Kuhn
  */
-public class ProperNameIndividual extends ACEOWLIndividual {
+public class ProperNameIndividual extends OWLIndividual implements ACEOWLOntoElement {
 	
 	private String word, abbrev;
 	private boolean wordDefArt, abbrevDefArt;
@@ -200,10 +199,6 @@ public class ProperNameIndividual extends ACEOWLIndividual {
 	
 	public String getIRISuffix() {
 		return word;
-	}
-	
-	public OWLNamedIndividual getOWLRepresentation() {
-		return getOWLDataFactory().getOWLNamedIndividual(getIRI());
 	}
 	
 	public void collectLexicalRules(String catName, Collection<LexicalRule> lexRules) {

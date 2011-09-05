@@ -12,21 +12,21 @@
 // You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
 // not, see http://www.gnu.org/licenses/.
 
-package ch.uzh.ifi.attempto.acewiki.aceowl;
+package ch.uzh.ifi.attempto.acewiki.owl;
 
-import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
-import ch.uzh.ifi.attempto.acewiki.core.Relation;
+import ch.uzh.ifi.attempto.acewiki.core.Individual;
 
 /**
- * This class stands for relation ontology elements with representations in ACE and OWL.
+ * This class stands for individual ontology elements with representations in OWL.
  * 
  * @author Tobias Kuhn
  */
-public abstract class ACEOWLRelation extends AbstractACEOWLOntoElement implements Relation {
+public abstract class OWLIndividual extends AbstractOWLOntoElement implements Individual {
 	
-	public OWLObjectProperty getOWLRepresentation() {
-		return getOWLDataFactory().getOWLObjectProperty(getIRI());
+	public OWLNamedIndividual getOWLRepresentation() {
+		return getOWLDataFactory().getOWLNamedIndividual(getIRI());
 	}
 
 }

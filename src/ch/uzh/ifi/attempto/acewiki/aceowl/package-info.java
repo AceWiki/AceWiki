@@ -15,7 +15,7 @@
 /**
  * This package implements an AceWiki language engine with the controlled natural language ACE as
  * the front-end language and the semantic web language OWL as the logical language in the
- * background. Different OWL reasoners can be used.
+ * background.
  * 
  * This package includes a Codeco grammar describing a subset of ACE:
  * <ul>

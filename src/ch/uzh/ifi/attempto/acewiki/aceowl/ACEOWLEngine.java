@@ -23,6 +23,8 @@ import ch.uzh.ifi.attempto.acewiki.core.EditorController;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageFactory;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceSuggestion;
+import ch.uzh.ifi.attempto.acewiki.owl.AceWikiOWLReasoner;
+import ch.uzh.ifi.attempto.acewiki.owl.OWLXMLExporter;
 import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.chartparser.Grammar;
 

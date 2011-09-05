@@ -17,8 +17,6 @@ package ch.uzh.ifi.attempto.acewiki.core;
 import java.util.List;
 import java.util.Map;
 
-import ch.uzh.ifi.attempto.base.TextContainer;
-
 // TODO split this interface into several interfaces:
 // - AceWikiReasoner
 // - AssignmentsReasoner
@@ -129,12 +127,12 @@ public interface AceWikiReasoner {
 	public List<Concept> getSubConcepts(Concept concept);
 
 	/**
-	 * Should return a list of texts that answer the given question.
+	 * Should return a list of ontology elements that answer the given question.
 	 * 
 	 * @param question The question to be answered.
-	 * @return A list of texts that are the answer for the question.
+	 * @return A list of ontology elements that are the answer to the question.
 	 */
-	public List<TextContainer> getAnswer(Question question);
+	public List<OntologyElement> getAnswer(Question question);
 
 	/**
 	 * Should return true if the ontology is consistent.

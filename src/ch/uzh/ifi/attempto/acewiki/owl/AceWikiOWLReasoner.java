@@ -12,7 +12,7 @@
 // You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
 // not, see http://www.gnu.org/licenses/.
 
-package ch.uzh.ifi.attempto.acewiki.aceowl;
+package ch.uzh.ifi.attempto.acewiki.owl;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -34,7 +34,6 @@ import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom;
-import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLLogicalEntity;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -58,12 +57,8 @@ import ch.uzh.ifi.attempto.acewiki.core.InconsistencyException;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
-import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
-import ch.uzh.ifi.attempto.ape.ACEUtils;
-import ch.uzh.ifi.attempto.base.TextContainer;
-import ch.uzh.ifi.attempto.base.TextElement;
 
 /**
  * This is a reasoner implementation that connects to an OWL reasoner. At the moment, it can
@@ -191,17 +186,17 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 		Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
 		for (OntologyElement el : getOntologyElements()) {
 			OWLDeclarationAxiom owlDecl = null;
-			if (el instanceof ACEOWLOntoElement) {
-				owlDecl = ((ACEOWLOntoElement) el).getOWLDeclaration();
+			if (el instanceof OWLOntoElement) {
+				owlDecl = ((OWLOntoElement) el).getOWLDeclaration();
 			}
 			if (owlDecl != null) {
 				axioms.add(owlDecl);
 			}
 			for (Sentence s : el.getArticle().getSentences()) {
-				ACESentence as = (ACESentence) s;
-				if (as instanceof Question || !as.isOWL()) continue;
-				if (consistent && (!as.isReasonable() || !as.isIntegrated())) continue;
-				axioms.addAll(as.getOWLAxioms());
+				OWLSentence os = (OWLSentence) s;
+				if (os instanceof Question || !os.isOWL()) continue;
+				if (consistent && (!os.isReasonable() || !os.isIntegrated())) continue;
+				axioms.addAll(os.getOWLAxioms());
 			}
 		}
 		axioms.add(diffIndsAxiom);
@@ -330,10 +325,10 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 			unloadAxiom(diffIndsAxiom);
 		}
 		
-		Set<OWLIndividual> inds = new HashSet<OWLIndividual>();
+		Set<OWLNamedIndividual> inds = new HashSet<OWLNamedIndividual>();
 		for (OntologyElement oe : getOntologyElements()) {
-			if (oe instanceof ProperNameIndividual) {
-				inds.add(((ProperNameIndividual) oe).getOWLRepresentation());
+			if (oe instanceof OWLIndividual) {
+				inds.add(((OWLIndividual) oe).getOWLRepresentation());
 			}
 		}
 		diffIndsAxiom = dataFactory.getOWLDifferentIndividualsAxiom(inds);
@@ -357,36 +352,36 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 	
 	public void loadElement(OntologyElement element) {
 		OWLDeclarationAxiom owlDecl = null;
-		if (element instanceof ACEOWLOntoElement) {
-			owlDecl = ((ACEOWLOntoElement) element).getOWLDeclaration();
+		if (element instanceof OWLOntoElement) {
+			owlDecl = ((OWLOntoElement) element).getOWLDeclaration();
 		}
 		if (owlDecl != null) {
 			manager.addAxiom(owlOntology, owlDecl);
 			flush();
 		}
-		if (element instanceof ACEOWLIndividual) {
+		if (element instanceof OWLIndividual) {
 			diffIndsAxiomOutdated = true;
 		}
 	}
 	
 	public void unloadElement(OntologyElement element) {
 		OWLDeclarationAxiom owlDecl = null;
-		if (element instanceof ACEOWLOntoElement) {
-			owlDecl = ((ACEOWLOntoElement) element).getOWLDeclaration();
+		if (element instanceof OWLOntoElement) {
+			owlDecl = ((OWLOntoElement) element).getOWLDeclaration();
 		}
 		if (owlDecl != null) {
 			manager.removeAxiom(owlOntology, owlDecl);
 			flush();
 		}
-		if (element instanceof ACEOWLIndividual) {
+		if (element instanceof OWLIndividual) {
 			diffIndsAxiomOutdated = true;
 		}
 	}
 	
 	public synchronized List<Concept> getConcepts(Individual ind) {
 		List<Concept> concepts = new ArrayList<Concept>();
-		ProperNameIndividual pnInd = (ProperNameIndividual) ind;
-		for (OWLClass oc : getConcepts(pnInd.getOWLRepresentation())) {
+		OWLIndividual owlInd = (OWLIndividual) ind;
+		for (OWLClass oc : getConcepts(owlInd.getOWLRepresentation())) {
 			if (oc.isOWLThing() || oc.isOWLNothing()) continue;
 			String conceptURI = oc.getIRI().toString();
 			if (conceptURI.startsWith("http://attempto.ifi.uzh.ch/ace#")) continue;
@@ -407,7 +402,7 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 	}
 	
 	public synchronized List<Individual> getIndividuals(Concept concept) {
-		ACEOWLConcept ac = (ACEOWLConcept) concept;
+		OWLConcept ac = (OWLConcept) concept;
 		List<Individual> inds = new ArrayList<Individual>();
 		for (OWLNamedIndividual oi : getIndividuals(ac.getOWLRepresentation())) {
 			OntologyElement oe = get(oi);
@@ -429,7 +424,7 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 	}
 	
 	public synchronized List<Concept> getSuperConcepts(Concept concept) {
-		ACEOWLConcept ac = (ACEOWLConcept) concept;
+		OWLConcept ac = (OWLConcept) concept;
 		List<Concept> concepts = new ArrayList<Concept>();
 		for (OWLClass oc : getSuperConcepts(ac.getOWLRepresentation())) {
 			OntologyElement oe = get(oc);
@@ -451,7 +446,7 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 	}
 	
 	public synchronized List<Concept> getSubConcepts(Concept concept) {
-		ACEOWLConcept ac = (ACEOWLConcept) concept;
+		OWLConcept ac = (OWLConcept) concept;
 		List<Concept> concepts = new ArrayList<Concept>();
 		for (OWLClass oc : getSubConcepts(ac.getOWLRepresentation())) {
 			OntologyElement oe = get(oc);
@@ -472,12 +467,10 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 		}
 	}
 	
-	public synchronized List<TextContainer> getAnswer(Question q) {
+	public synchronized List<OntologyElement> getAnswer(Question q) {
 		if (owlReasoner == null) return null;
 		
-		ACEQuestion question = (ACEQuestion) q;
-		
-		List<TextContainer> answer = new ArrayList<TextContainer>();
+		OWLQuestion question = (OWLQuestion) q;
 		
 		OWLNamedIndividual quInd = question.getQuestionOWLIndividual();
 		OWLClassExpression quClass = question.getQuestionOWLClass();
@@ -490,14 +483,6 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 					list.add(oe);
 				}
 			}
-			Collections.sort(list);
-			for (OntologyElement oe : list) {
-				boolean an = ACEUtils.useIndefiniteArticleAn(oe.getWord());
-				answer.add(new TextContainer(
-						new TextElement(an ? "an" : "a"),
-						new OntologyTextElement(oe, 0)
-					));
-			}
 		} else if (quClass != null) {
 			Set<OWLNamedIndividual> owlInds = getIndividuals(quClass);
 			for (OWLNamedIndividual oi : owlInds) {
@@ -506,13 +491,10 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 					list.add(oe);
 				}
 			}
-			Collections.sort(list);
-			for (OntologyElement oe : list) {
-				answer.add(new TextContainer(new OntologyTextElement(oe, 1)));
-			}
 		}
-		
-		return new ArrayList<TextContainer>(answer);
+
+		Collections.sort(list);
+		return list;
 	}
 	
 	public synchronized boolean isConsistent() {
@@ -532,10 +514,10 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 	
 	public synchronized boolean isSatisfiable(Concept concept) {
 		if (owlReasoner == null) return true;
-		if (!(concept instanceof ACEOWLConcept)) return false;
-		if (owlOntology.containsClassInSignature(((ACEOWLConcept) concept).getIRI())) {
+		if (!(concept instanceof OWLConcept)) return false;
+		if (owlOntology.containsClassInSignature(((OWLConcept) concept).getIRI())) {
 			synchronized (reasonerSyncToken) {
-				ACEOWLConcept ac = (ACEOWLConcept) concept;
+				OWLConcept ac = (OWLConcept) concept;
 				return owlReasoner.isSatisfiable(ac.getOWLRepresentation());
 			}
 		} else {
@@ -544,7 +526,7 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 	}
 	
 	public void loadSentence(Sentence s) {
-		ACESentence sentence = (ACESentence) s;
+		OWLSentence sentence = (OWLSentence) s;
 		try {
 			for (OWLAxiom ax : sentence.getOWLAxioms()) {
 				loadAxiom(ax);
@@ -566,7 +548,7 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 	}
 	
 	public void unloadSentence(Sentence s) {
-		ACESentence sentence = (ACESentence) s;
+		OWLSentence sentence = (OWLSentence) s;
 		for (OWLAxiom ax : sentence.getOWLAxioms()) {
 			unloadAxiom(ax);
 		}

@@ -21,6 +21,7 @@ import nextapp.echo.app.Font;
 import nextapp.echo.app.Insets;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
 import ch.uzh.ifi.attempto.acewiki.core.CachingReasoner;
 import ch.uzh.ifi.attempto.base.TextContainer;
@@ -66,7 +67,7 @@ class AnswerList extends Column {
 		
 		final CachingReasoner cr = wiki.getOntology().getReasoner();
 		Column cachedAnswerCol = new Column();
-		List<TextContainer> cachedAnswer = cr.getCachedAnswer(question);
+		List<OntologyElement> cachedAnswer = cr.getCachedAnswer(question);
 		addAnswerToColumn(cachedAnswer, cachedAnswerCol);
 		add(cachedAnswerCol);
 		
@@ -98,13 +99,15 @@ class AnswerList extends Column {
 	 * @param answer The answer as a list of ontology elements.
 	 * @param column The column to which the answer should be added.
 	 */
-	private void addAnswerToColumn(List<TextContainer> answer, Column column) {
+	private void addAnswerToColumn(List<OntologyElement> answer, Column column) {
 		if (answer == null) {
 			// The answer is still being calculated, or an error occurred
 			column.add(new SolidLabel("...", Font.ITALIC, 10));
 		} else if (answer.size() > 0) {
 			// Non-empty answer
-			for (TextContainer tc : answer) {
+			for (OntologyElement el : answer) {
+				TextContainer tc = wiki.getLanguageEngine().getLanguageFactory()
+						.createAnswerItem(el);
 				column.add(new ListItem(new TextRow(tc.getTextElements(), wiki)));
 			}
 		} else {

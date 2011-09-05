@@ -19,8 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.uzh.ifi.attempto.base.TextContainer;
-
 /**
  * This reasoner class wraps another reasoner and adds caching functionality.
  * 
@@ -85,10 +83,10 @@ public class CachingReasoner implements AceWikiReasoner {
 	 * @param question The question.
 	 * @return The cached answer.
 	 */
-	public synchronized List<TextContainer> getCachedAnswer(Question question) {
+	public synchronized List<OntologyElement> getCachedAnswer(Question question) {
 		CachedAnswer a = answerCache.get(question.serialize(true));
 		if (a != null) {
-			return new ArrayList<TextContainer>(a.list);
+			return new ArrayList<OntologyElement>(a.list);
 		} else {
 			return null;
 		}
@@ -97,10 +95,10 @@ public class CachingReasoner implements AceWikiReasoner {
 	/**
 	 * Returns the answer for the given question. The cache is used if it is up-to-date.
 	 */
-	public synchronized List<TextContainer> getAnswer(Question question) {
+	public synchronized List<OntologyElement> getAnswer(Question question) {
 		CachedAnswer a = answerCache.get(question.serialize(true));
 		if (a != null && a.state == getState()) {
-			return new ArrayList<TextContainer>(a.list);
+			return new ArrayList<OntologyElement>(a.list);
 		} else {
 			a = new CachedAnswer();
 			a.list = wrappedReasoner.getAnswer(question);
@@ -361,7 +359,7 @@ public class CachingReasoner implements AceWikiReasoner {
 	
 	private static class CachedAnswer {
 		long state = -1;
-		List<TextContainer> list;
+		List<OntologyElement> list;
 	}
 	
 	private static class CachedIndividuals {
