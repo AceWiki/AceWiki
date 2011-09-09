@@ -1,5 +1,7 @@
 #==============================================================================
 # This Unix shell script starts the AceWiki web applications with Jetty Runner.
+# You can then load the application with a browser from http://localhost:9077
+# (or some other port, depending on which port you specify here).
 # It assumes:
 # - The WAR file for AceWiki has been built from the AceWiki package, or
 #   downloaded and renamed to "acewiki.war".
@@ -27,11 +29,18 @@ eval `swipl -dump-runtime-variables`
 ## Prolog library. Under some circumstances, also LD_LIBRARY_PATH has to be set.
 ## You might have to change "i386" to map the architecture of your system.
 ## (Tested with Debian 6.0.1 and Ubuntu 11.04)
-export LD_PRELOAD=$PLBASE/lib/$PLARCH/libjpl.so:/usr/lib/libswipl.so
-export LD_LIBRARY_PATH=$JAVA_HOME/jre/lib/i386:$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=$JAVA_HOME/jre/lib/i386/server:$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=$PLBASE/lib/$PLARCH:$LD_LIBRARY_PATH
+# Commented the next four exports out because got an error message:
+# java: error while loading shared libraries: libjava.so: cannot open shared object file: No such file or directory
+#export LD_PRELOAD=$PLBASE/lib/$PLARCH/libjpl.so:/usr/lib/libswipl.so
+#export LD_LIBRARY_PATH=$JAVA_HOME/jre/lib/i386:$LD_LIBRARY_PATH
+#export LD_LIBRARY_PATH=$JAVA_HOME/jre/lib/i386/server:$LD_LIBRARY_PATH
+#export LD_LIBRARY_PATH=$PLBASE/lib/$PLARCH:$LD_LIBRARY_PATH
 
 ## The following command starts the AceWiki web application. It might be
 ## necessary to change port number, heap size, or stack size.
-java -Djava.library.path=$PLBASE/lib/$PLARCH -Djava.awt.headless=true -Xmx400m -Xss4m -jar jetty-runner.jar --port 9077 acewiki.war
+## Note that we specify the path to jpl.jar here because this jar
+## is not included in the war-file.
+java -Xmx400m -Xss4m \
+     -Djava.library.path=$PLBASE/lib/$PLARCH \
+     -Djava.awt.headless=true \
+     -jar jetty-runner.jar --port 9077 --jar $PLBASE/lib/jpl.jar acewiki.war
