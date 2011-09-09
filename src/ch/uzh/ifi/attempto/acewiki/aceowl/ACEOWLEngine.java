@@ -17,16 +17,17 @@ package ch.uzh.ifi.attempto.acewiki.aceowl;
 import java.util.List;
 
 import ch.uzh.ifi.attempto.acewiki.core.AbstractLanguageEngine;
-import ch.uzh.ifi.attempto.acewiki.core.AceWikiLexicon;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.EditorController;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageFactory;
+import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceSuggestion;
 import ch.uzh.ifi.attempto.acewiki.owl.AceWikiOWLReasoner;
 import ch.uzh.ifi.attempto.acewiki.owl.OWLXMLExporter;
+import ch.uzh.ifi.attempto.base.PredictiveParser;
 import ch.uzh.ifi.attempto.base.TextElement;
-import ch.uzh.ifi.attempto.chartparser.Grammar;
+import ch.uzh.ifi.attempto.chartparser.ChartParser;
 
 /**
  * This is the AceWiki language engine for ACE/OWL. It delivers the grammar, the lexicon, the
@@ -45,9 +46,6 @@ public class ACEOWLEngine extends AbstractLanguageEngine {
 	 * Creates a new language engine for ACE/OWL.
 	 */
 	public ACEOWLEngine() {
-		setTextCategory("text");
-		setSentenceCategory("complete_sentence");
-		
 		addExporter(new OWLXMLExporter(true));
 		addExporter(new OWLXMLExporter(false));
 		addExporter(new ACETextExporter(true));
@@ -93,13 +91,17 @@ public class ACEOWLEngine extends AbstractLanguageEngine {
 		
 		editContr.setAutocompleteTokens(".", "?");
 	}
-
-	public Grammar getGrammar() {
-		return ACEGrammar.grammar;
+	
+	public void init(Ontology ontology) {
+		lexicon.init(ontology);
+		super.init(ontology);
 	}
 
-	public AceWikiLexicon getLexicon() {
-		return lexicon;
+	public PredictiveParser getPredictiveParser() {
+		ChartParser cp = new ChartParser(ACEGrammar.grammar, "text");
+		cp.setDynamicLexicon(lexicon);
+		cp.setSentenceCategoryName("complete_sentence");
+		return cp;
 	}
 
 	public LanguageFactory getLanguageFactory() {

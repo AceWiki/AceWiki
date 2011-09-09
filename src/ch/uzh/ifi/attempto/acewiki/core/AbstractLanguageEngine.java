@@ -72,40 +72,10 @@ public abstract class AbstractLanguageEngine implements LanguageEngine {
 	private Map<String, LexiconChanger> lexiconChangers = new HashMap<String, LexiconChanger>();
 	private List<OntologyExporter> exporters = new ArrayList<OntologyExporter>();
 	private String[] lexicalTypes = new String[] {};
-	private String textCategory = "text";
-	private String sentenceCategory = "sentence";
 	
 	public void init(Ontology ontology) {
-		getLexicon().init(ontology);
 		getLanguageFactory().init(ontology);
 		getReasoner().init(ontology);
-	}
-	
-	public String getTextCategory() {
-		return textCategory;
-	}
-	
-	/**
-	 * Sets the name of the grammatical category used to write texts in the predictive editor.
-	 * 
-	 * @param textCategory The name of the grammatical category of a text.
-	 */
-	public void setTextCategory(String textCategory) {
-		this.textCategory = textCategory;
-	}
-	
-	public String getSentenceCategory() {
-		return sentenceCategory;
-	}
-
-	/**
-	 * Sets the name of the grammatical category used for a single sentence. This is used to
-	 * split a text into sentences.
-	 * 
-	 * @param sentenceCategory The name of the grammatical category of a sentence.
-	 */
-	public void setSentenceCategory(String sentenceCategory) {
-		this.sentenceCategory = sentenceCategory;
 	}
 
 	/**

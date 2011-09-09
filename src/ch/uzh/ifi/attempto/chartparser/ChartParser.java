@@ -35,6 +35,7 @@ public class ChartParser implements PredictiveParser {
 	
 	private final Grammar grammar;
 	private final String startCategoryName;
+	private String sentenceCategoryName;
 	private final Nonterminal[] context;
 	private DynamicLexicon dynLexicon;
 	private final Chart chart;
@@ -57,6 +58,7 @@ public class ChartParser implements PredictiveParser {
 	public ChartParser(Grammar grammar, String startCategoryName, List<Nonterminal> context) {
 		this.grammar = grammar;
 		this.startCategoryName = startCategoryName;
+		this.sentenceCategoryName = startCategoryName;
 		if (context == null) {
 			this.context = new Nonterminal[0];
 		} else {
@@ -86,6 +88,15 @@ public class ChartParser implements PredictiveParser {
 	 */
 	public void debug(boolean debug) {
 		this.debug = debug;
+	}
+	
+	/**
+	 * Sets the category name of a sentence. This defines how a text is split into sentences.
+	 * 
+	 * @param sentenceCategoryName The category name of a sentence.
+	 */
+	public void setSentenceCategoryName(String sentenceCategoryName) {
+		this.sentenceCategoryName = sentenceCategoryName;
 	}
 	
 	/**
@@ -352,6 +363,15 @@ public class ChartParser implements PredictiveParser {
 			if (getNextTokenOptions().containsCategory(lr.getCategory())) return true;
 		}
 		return false;
+	}
+	
+	public List<Integer> getSentenceEndPositions() {
+		List<Integer> endPosList = new ArrayList<Integer>();
+		List<ParseTree> subTrees = getParseTree().getSubTrees(sentenceCategoryName);
+		for (ParseTree pt : subTrees) {
+			endPosList.add(pt.getEndPos());
+		}
+		return endPosList;
 	}
 	
 	/**

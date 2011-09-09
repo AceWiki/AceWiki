@@ -16,7 +16,7 @@ package ch.uzh.ifi.attempto.acewiki.core;
 
 import java.util.List;
 
-import ch.uzh.ifi.attempto.chartparser.Grammar;
+import ch.uzh.ifi.attempto.base.PredictiveParser;
 
 /**
  * This is the main interface to define language-specific behavior.
@@ -33,33 +33,11 @@ public interface LanguageEngine {
 	public void init(Ontology ontology);
 	
 	/**
-	 * Returns the grammar that describes the language.
+	 * Returns the predictive parser to be used within the predictive editor.
 	 * 
-	 * @return The grammar.
+	 * @return The predictive parser.
 	 */
-	public Grammar getGrammar();
-	
-	/**
-	 * Returns the name of the grammatical category used to write texts in the predictive editor.
-	 * 
-	 * @return The name of the grammatical category of a text.
-	 */
-	public String getTextCategory();
-	
-	/**
-	 * Returns the name of the grammatical category used for a single sentence. This is used to
-	 * split a text into sentences.
-	 * 
-	 * @return The name of the grammatical category of a sentence.
-	 */
-	public String getSentenceCategory();
-	
-	/**
-	 * Returns the dynamic lexicon.
-	 * 
-	 * @return The dynamic lexicon.
-	 */
-	public AceWikiLexicon getLexicon();
+	public PredictiveParser getPredictiveParser();
 	
 	/**
 	 * Returns the language factory object.

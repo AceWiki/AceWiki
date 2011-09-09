@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.uzh.ifi.attempto.base.TextContainer;
-import ch.uzh.ifi.attempto.chartparser.ParseTree;
 
 /**
  * This factory class is used to generate different kind of statements (declarations, questions and
@@ -61,21 +60,29 @@ public class StatementFactory {
 	}
 
 	/**
-	 * Generates sentence objects out of a text container and a parse tree.
+	 * Generates sentence objects out of a text container.
 	 * 
 	 * @param tc The text container.
-	 * @param parseTree The parse tree.
+	 * @param endPosList A list containing the end positions of the sentences, or null.
 	 * @param article The article of the sentences.
 	 * @return A list of sentences.
 	 */
-	public List<Sentence> createSentences(TextContainer tc, ParseTree parseTree, Article article) {
-		String s = ontology.getLanguageEngine().getSentenceCategory();
-		List<ParseTree> subTrees = parseTree.getSubTrees(s);
+	public List<Sentence> createSentences(TextContainer tc, List<Integer> endPosList,
+			Article article) {
 		List<Sentence> l = new ArrayList<Sentence>();
-		for (ParseTree pt : subTrees) {
-			TextContainer c = tc.getSubTextContainer(pt.getStartPos(), pt.getEndPos());
-			String t = AbstractSentence.getUnderscoredText(c, ontology.getTextOperator());
+		int startPos = 0;
+		if (endPosList == null) {
+			String t = AbstractSentence.getUnderscoredText(tc, ontology.getTextOperator());
 			l.add(createSentence(t, article));
+		} else {
+			for (int endPos : endPosList) {
+				TextContainer c = tc.getSubTextContainer(startPos, endPos);
+				String t = AbstractSentence.getUnderscoredText(c, ontology.getTextOperator());
+				if (startPos < endPos && t.length() > 0) {
+					l.add(createSentence(t, article));
+				}
+				startPos = endPos;
+			}
 		}
 		return l;
 	}

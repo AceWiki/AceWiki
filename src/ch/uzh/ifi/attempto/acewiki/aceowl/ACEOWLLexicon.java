@@ -17,10 +17,10 @@ package ch.uzh.ifi.attempto.acewiki.aceowl;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import ch.uzh.ifi.attempto.acewiki.core.AceWikiLexicon;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.base.AbstractOption;
+import ch.uzh.ifi.attempto.chartparser.DynamicLexicon;
 import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 
 /**
@@ -28,7 +28,7 @@ import ch.uzh.ifi.attempto.chartparser.LexicalRule;
  * 
  * @author Tobias Kuhn
  */
-public class ACEOWLLexicon implements AceWikiLexicon {
+public class ACEOWLLexicon implements DynamicLexicon {
 	
 	private Ontology ontology;
 	
@@ -37,7 +37,12 @@ public class ACEOWLLexicon implements AceWikiLexicon {
 	 */
 	public ACEOWLLexicon() {
 	}
-	
+
+	/**
+	 * This is the first method to be called and provides the ontology object.
+	 * 
+	 * @param ontology The ontology object.
+	 */
 	public void init(Ontology ontology) {
 		this.ontology = ontology;
 	}

@@ -91,6 +91,14 @@ public interface PredictiveParser {
 	public boolean isComplete();
 	
 	/**
+	 * Returns a sorted list of the end positions of the sentences. This is used to split the text
+	 * into individual sentences. Null can be returned for not splitting the text.
+	 * 
+	 * @return A list of sentence end positions.
+	 */
+	public List<Integer> getSentenceEndPositions();
+	
+	/**
 	 * This method should return the token number to which the last token refers, if it is a
 	 * reference like "it". -1 should be returned if the last token is not a reference, or if
 	 * reference resolution is not implemented.
