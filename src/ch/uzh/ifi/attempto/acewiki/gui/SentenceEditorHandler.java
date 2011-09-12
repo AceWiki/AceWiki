@@ -28,6 +28,7 @@ import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceSuggestion;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
+import ch.uzh.ifi.attempto.base.PredictiveParser;
 import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
@@ -119,11 +120,13 @@ public class SentenceEditorHandler implements ActionListener {
 			}
 			
 			TextContainer textContainer = editorWindow.getTextContainer();
-			List<TextElement> l = textContainer.getTextElements();
-			if (l.isEmpty() || l.get(l.size() - 1).getText().matches("[.?]")) {
+			PredictiveParser parser = editorWindow.getPredictiveParser();
+			if (textContainer.getTextElements().isEmpty()) {
+				wiki.removeWindow(editorWindow);
+			} else if (parser.isComplete()) {
 				newSentences = o.getStatementFactory().createSentences(
 						textContainer,
-						editorWindow.getPredictiveParser().getSentenceEndPositions(),
+						parser.getSentenceEndPositions(),
 						page.getArticle()
 					);
 				checkSentence();
