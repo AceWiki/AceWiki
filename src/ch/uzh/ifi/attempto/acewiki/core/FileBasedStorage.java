@@ -297,7 +297,18 @@ public class FileBasedStorage implements AceWikiStorage {
 			}
 			s += "\n";
 		}
-		s += element.getArticle().serialize(encodeWords);
+		for (Statement st : element.getArticle().getStatements()) {
+			if (st instanceof Comment) {
+				s += "c ";
+			} else {
+				if (((Sentence) st).isIntegrated()) {
+					s += "| ";
+				} else {
+					s += "# ";
+				}
+			}
+			s += st.serialize(encodeWords) + "\n";
+		}
 		return s;
 	}
 	

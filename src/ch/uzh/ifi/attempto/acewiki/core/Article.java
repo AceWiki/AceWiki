@@ -203,14 +203,6 @@ public class Article {
 		}
 	}
 	
-	String serialize(boolean encodeWords) {
-		String s = "";
-		for (Statement statement : statements) {
-			s += statement.serialize(encodeWords);
-		}
-		return s;
-	}
-	
 	/**
 	 * Writes the text to the log file.
 	 * 

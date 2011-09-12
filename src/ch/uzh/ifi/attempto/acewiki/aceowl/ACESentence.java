@@ -290,25 +290,21 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 		if (textContainer == null) {
 			tokenize();
 		}
-		String s;
-		if (isIntegrated()) {
-			s = "|";
-		} else {
-			s = "#";
-		}
+		String s = "";
 		for (TextElement te : textContainer.getTextElements()) {
 			if (te instanceof OntologyTextElement) {
 				OntologyTextElement ot = (OntologyTextElement) te;
 				if (encodeWords) {
-					s += " <" + ot.getOntologyElement().getId() + "," + ot.getWordNumber() + ">";
+					s += "<" + ot.getOntologyElement().getId() + "," + ot.getWordNumber() + "> ";
 				} else {
-					s += " " + ot.getUnderscoredText();
+					s += ot.getUnderscoredText() + " ";
 				}
 			} else {
-				s += " " + te.getText();
+				s += te.getText() + " ";
 			}
 		}
-		return s + "\n";
+		s = s.replaceAll(" $", "");
+		return s;
 	}
 
 	public List<SentenceDetail> getDetails() {
