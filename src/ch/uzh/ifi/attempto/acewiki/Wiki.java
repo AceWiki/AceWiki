@@ -271,7 +271,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		SolidLabel label2 = new SolidLabel("Actions:", Font.ITALIC);
 		label2.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
 		sideCol.add(label2);
-		if (!isReadOnly()) {
+		if (!isReadOnly() && getLanguageEngine().getLexicalTypes().length > 0) {
 			sideCol.add(new ListItem(newButton));
 		}
 		sideCol.add(new ListItem(exportButton));
