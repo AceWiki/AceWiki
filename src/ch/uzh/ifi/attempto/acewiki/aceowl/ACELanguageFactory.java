@@ -17,7 +17,6 @@ package ch.uzh.ifi.attempto.acewiki.aceowl;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.uzh.ifi.attempto.acewiki.core.AbstractSentence;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageFactory;
@@ -81,9 +80,13 @@ public class ACELanguageFactory implements LanguageFactory {
 		List<ParseTree> subTrees = parser.getParseTree().getSubTrees("complete_sentence");
 		for (ParseTree pt : subTrees) {
 			TextContainer c = tc.getSubTextContainer(pt.getStartPos(), pt.getEndPos());
-			String t = AbstractSentence.getUnderscoredText(c, tc.getTextOperator());
-			if (t.length() > 0) {
-				l.add(createSentence(t));
+			int s = c.getTextElementsCount();
+			if (s > 0) {
+				if (c.getTextElement(s-1).getOriginalText().equals("?")) {
+					l.add(new ACEQuestion(c));
+				} else {
+					l.add(new ACEDeclaration(c));
+				}
 			}
 		}
 		return l;

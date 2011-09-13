@@ -29,6 +29,7 @@ import ch.uzh.ifi.attempto.base.TextOperator;
  * 
  * @author Tobias Kuhn
  */
+// TODO Different ontology elements should be allowed to have overlapping word forms.
 public class Ontology {
 	
 	private LanguageEngine languageEngine;

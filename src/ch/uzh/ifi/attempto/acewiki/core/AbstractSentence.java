@@ -51,26 +51,10 @@ public abstract class AbstractSentence extends AbstractStatement implements Sent
 	protected abstract TextContainer getTextContainer();
 	
 	public String getText() {
-		return getUnderscoredText(getTextContainer(), getOntology().getTextOperator());
-	}
-	
-	public String getPrettyText() {
-		return getTextContainer().getText();
-	}
-	
-	/**
-	 * Returns a string representation of the given text container with multi-word ontology
-	 * elements concatenated by underscores.
-	 * 
-	 * @param textContainer The text container.
-	 * @param textOperator The text operator used for glueing the words.
-	 * @return The string representation.
-	 */
-	public static String getUnderscoredText(TextContainer textContainer,
-			TextOperator textOperator) {
 		String t = "";
 		TextElement prev = null;
-		for (TextElement te : textContainer.getTextElements()) {
+		TextOperator textOperator = getOntology().getTextOperator();
+		for (TextElement te : getTextContainer().getTextElements()) {
 			String glue = "";
 			if (prev != null) {
 				glue = textOperator.getGlue(prev, te);
@@ -83,6 +67,10 @@ public abstract class AbstractSentence extends AbstractStatement implements Sent
 			prev = te;
 		}
 		return t;
+	}
+	
+	public String getPrettyText() {
+		return getTextContainer().getText();
 	}
 
 }
