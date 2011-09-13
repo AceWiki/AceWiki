@@ -138,5 +138,26 @@ public class ParseTreeNode {
 	public ParseTreeNode getChild(int i) {
 		return children.get(i);
 	}
+	
+	/**
+	 * Returns the list of terminals that are descendants of this node.
+	 * 
+	 * @return The list of terminals.
+	 */
+	public List<Terminal> getTerminals() {
+		List<Terminal> terminals = new ArrayList<Terminal>();
+		collectTerminals(terminals);
+		return terminals;
+	}
+	
+	private void collectTerminals(List<Terminal> terminals) {
+		if (category instanceof Terminal) {
+			terminals.add((Terminal) category);
+		} else {
+			for (ParseTreeNode n : getChildren()) {
+				n.collectTerminals(terminals);
+			}
+		}
+	}
 
 }

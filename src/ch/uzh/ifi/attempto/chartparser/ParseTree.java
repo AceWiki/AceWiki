@@ -273,6 +273,15 @@ public class ParseTree {
 		}
 	}
 	
+	/**
+	 * Returns the list of terminals of this tree.
+	 * 
+	 * @return The list of terminals.
+	 */
+	public List<Terminal> getTerminals() {
+		return topNode.getTerminals();
+	}
+	
 	private Object applyBetaReduction(Object obj, Map<Integer, Object> replace) {
 		// TODO improve this (just one run, see Blackburn & Bos)
 		if (obj == null) {
