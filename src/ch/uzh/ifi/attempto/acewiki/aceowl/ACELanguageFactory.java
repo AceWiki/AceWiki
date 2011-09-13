@@ -58,13 +58,13 @@ public class ACELanguageFactory implements LanguageFactory {
 		return null;
 	}
 	
-	public Sentence createSentence(String text) {
+	public Sentence createSentence(String serialized) {
 		// remove leading and trailing blank spaces.
-		text = text.replaceFirst("^\\s+", "").replaceFirst("\\s+$", "");
-		if (text.substring(text.length()-1).equals("?")) {
-			return new ACEQuestion(text);
+		String s = serialized.replaceFirst("^\\s+", "").replaceFirst("\\s+$", "");
+		if (s.substring(s.length()-1).equals("?")) {
+			return new ACEQuestion(s);
 		} else {
-			return new ACEDeclaration(text);
+			return new ACEDeclaration(s);
 		}
 	}
 	

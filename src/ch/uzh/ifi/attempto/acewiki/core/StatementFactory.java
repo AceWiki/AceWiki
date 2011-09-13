@@ -49,12 +49,12 @@ public class StatementFactory {
 	/**
 	 * Creates a new sentence object with the given article.
 	 * 
-	 * @param text The sentence text.
+	 * @param serialized The serialized representation of the sentence.
 	 * @param article The article.
-	 * @return The new sentence object.
+	 * @return A new sentence object.
 	 */
-	public Sentence createSentence(String text, Article article) {
-		Sentence s = ontology.getLanguageFactory().createSentence(text);
+	public Sentence createSentence(String serialized, Article article) {
+		Sentence s = ontology.getLanguageFactory().createSentence(serialized);
 		s.init(ontology, article);
 		return s;
 	}

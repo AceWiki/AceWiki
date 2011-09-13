@@ -44,12 +44,12 @@ public interface LanguageFactory {
 	public TextOperator getTextOperator();
 	
 	/**
-	 * Creates a new sentence based on the given sentence text.
+	 * Creates a new sentence object based on the given serialization.
 	 * 
-	 * @param text The sentence text.
+	 * @param serialized The serialized representation of the sentence.
 	 * @return A new sentence object.
 	 */
-	public Sentence createSentence(String text);
+	public Sentence createSentence(String serialized);
 	
 	/**
 	 * Creates a new ontology element for the given lexical type.
