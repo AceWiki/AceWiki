@@ -119,14 +119,13 @@ public class SentenceEditorHandler implements ActionListener {
 				}
 			}
 			
-			TextContainer textContainer = editorWindow.getTextContainer();
 			PredictiveParser parser = editorWindow.getPredictiveParser();
-			if (textContainer.getTextElements().isEmpty()) {
+			if (parser.getTokenCount() == 0) {
 				wiki.removeWindow(editorWindow);
 			} else if (parser.isComplete()) {
 				newSentences = o.getStatementFactory().createSentences(
-						textContainer,
-						parser.getSentenceEndPositions(),
+						editorWindow.getTextContainer(),
+						parser,
 						page.getArticle()
 					);
 				checkSentence();

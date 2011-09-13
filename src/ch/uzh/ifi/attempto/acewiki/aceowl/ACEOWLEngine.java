@@ -100,7 +100,6 @@ public class ACEOWLEngine extends AbstractLanguageEngine {
 	public PredictiveParser getPredictiveParser() {
 		ChartParser cp = new ChartParser(ACEGrammar.grammar, "text");
 		cp.setDynamicLexicon(lexicon);
-		cp.setSentenceCategoryName("complete_sentence");
 		return cp;
 	}
 

@@ -14,6 +14,10 @@
 
 package ch.uzh.ifi.attempto.acewiki.aceowl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ch.uzh.ifi.attempto.acewiki.core.AbstractSentence;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageFactory;
@@ -22,9 +26,12 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.ape.ACEUtils;
+import ch.uzh.ifi.attempto.base.PredictiveParser;
 import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.base.TextOperator;
+import ch.uzh.ifi.attempto.chartparser.ChartParser;
+import ch.uzh.ifi.attempto.chartparser.ParseTree;
 
 /**
  * This is a language factory implementation for ACE.
@@ -66,6 +73,20 @@ public class ACELanguageFactory implements LanguageFactory {
 		} else {
 			return new ACEDeclaration(s);
 		}
+	}
+
+	public List<Sentence> createSentences(TextContainer tc, PredictiveParser pp) {
+		List<Sentence> l = new ArrayList<Sentence>();
+		ChartParser parser = (ChartParser) pp;
+		List<ParseTree> subTrees = parser.getParseTree().getSubTrees("complete_sentence");
+		for (ParseTree pt : subTrees) {
+			TextContainer c = tc.getSubTextContainer(pt.getStartPos(), pt.getEndPos());
+			String t = AbstractSentence.getUnderscoredText(c, tc.getTextOperator());
+			if (t.length() > 0) {
+				l.add(createSentence(t));
+			}
+		}
+		return l;
 	}
 	
 	public Sentence createAssignmentSentence(Individual ind, Concept concept) {
