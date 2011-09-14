@@ -68,7 +68,7 @@ public class CachingReasoner implements AceWikiReasoner {
 	 * @return true if there is an up-to-date cached answer.
 	 */
 	public synchronized boolean isCachedAnswerUpToDate(Question question) {
-		CachedAnswer a = answerCache.get(question.serialize(true));
+		CachedAnswer a = answerCache.get(question.serialize());
 		if (a != null) {
 			return a.state == getState();
 		} else {
@@ -84,7 +84,7 @@ public class CachingReasoner implements AceWikiReasoner {
 	 * @return The cached answer.
 	 */
 	public synchronized List<OntologyElement> getCachedAnswer(Question question) {
-		CachedAnswer a = answerCache.get(question.serialize(true));
+		CachedAnswer a = answerCache.get(question.serialize());
 		if (a != null) {
 			return new ArrayList<OntologyElement>(a.list);
 		} else {
@@ -96,14 +96,14 @@ public class CachingReasoner implements AceWikiReasoner {
 	 * Returns the answer for the given question. The cache is used if it is up-to-date.
 	 */
 	public synchronized List<OntologyElement> getAnswer(Question question) {
-		CachedAnswer a = answerCache.get(question.serialize(true));
+		CachedAnswer a = answerCache.get(question.serialize());
 		if (a != null && a.state == getState()) {
 			return new ArrayList<OntologyElement>(a.list);
 		} else {
 			a = new CachedAnswer();
 			a.list = wrappedReasoner.getAnswer(question);
 			a.state = getState();
-			answerCache.put(question.serialize(true), a);
+			answerCache.put(question.serialize(), a);
 			return a.list;
 		}
 	}

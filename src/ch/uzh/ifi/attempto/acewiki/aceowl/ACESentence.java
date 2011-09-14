@@ -132,7 +132,25 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 	private void tokenize() {
 		textContainer = new TextContainer(getOntology().getTextOperator());
 		
-		List<String> tokens = Arrays.asList(serialized.split(" "));
+		// TODO Remove legacy code at some point
+		
+		// Replace for legacy code below:
+		//List<String> tokens = Arrays.asList(serialized.split(" "));
+		
+		// This is legacy code to support old acewikidata files:
+		String t = "&" + serialized + "&";
+		t = t.replaceAll(" ", "&");
+		t = t.replaceAll("\\.", "&.&");
+		t = t.replaceAll("\\?", "&?&");
+		t = t.replaceAll("&of&", " of&");
+		t = t.replaceAll("&by&", " by&");
+
+		List<String> tokens = new ArrayList<String>(Arrays.asList(t.split("&")));
+
+		while (tokens.contains("")) {
+			tokens.remove("");
+		}
+		// End of legacy code
 		
 		for (String s : tokens) {
 			if (s.startsWith("<")) {
@@ -151,7 +169,27 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 					throw new RuntimeException("Could not resolve link: " + s);
 				}
 			} else {
-				textContainer.addElement(new TextElement(s));
+				OntologyElement oe = getOntology().getElement(s);
+				if (oe == null || serialized.indexOf("<") > -1) {
+					textContainer.addElement(new TextElement(s));
+				} else {
+					// This is legacy code to support old acewikidata files:
+					int wordId = oe.getIndexOfWord(s);
+					if (oe instanceof ProperNameIndividual) {
+						ProperNameIndividual ind = (ProperNameIndividual) oe;
+						if (ind.hasDefiniteArticle(wordId-1) && textContainer.getTextElementsCount() > 0) {
+							String precedingText = textContainer.
+							getTextElement(textContainer.getTextElementsCount()-1).
+							getText();
+							if (precedingText.equals("the") || precedingText.equals("The")) {
+								textContainer.removeLastElement();
+								wordId--;
+							}
+						}
+					}
+					textContainer.addElement(new OntologyTextElement(oe, wordId));
+					// End of legacy code
+				}
 			}
 		}
 	}
@@ -319,16 +357,12 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 		return contains(e, -1);
 	}
 	
-	public String serialize(boolean encodeWords) {
+	public String serialize() {
 		String s = "";
 		for (TextElement te : getTextContainer().getTextElements()) {
 			if (te instanceof OntologyTextElement) {
 				OntologyTextElement ot = (OntologyTextElement) te;
-				if (encodeWords) {
-					s += "<" + ot.getOntologyElement().getId() + "," + ot.getWordNumber() + "> ";
-				} else {
-					s += ot.getUnderscoredText() + " ";
-				}
+				s += "<" + ot.getOntologyElement().getId() + "," + ot.getWordNumber() + "> ";
 			} else {
 				s += te.getText() + " ";
 			}

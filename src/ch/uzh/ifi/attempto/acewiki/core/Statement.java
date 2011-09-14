@@ -55,10 +55,8 @@ public interface Statement {
 	/**
 	 * Returns a serialization of the statement.
 	 * 
-	 * @param encodeWords defines whether words should be encoded (for the internal "database") or
-	 *   not (for export in the AceWiki data format).
 	 * @return The serialized representation of the statement.
 	 */
-	public String serialize(boolean encodeWords);
+	public String serialize();
 
 }

@@ -35,7 +35,7 @@ public class Comment extends AbstractStatement {
 		return text;
 	}
 	
-	public String serialize(boolean encodeWords) {
+	public String serialize() {
 		return text.replaceAll("~", "~t").replaceAll("\\n", "~n");
 	}
 
