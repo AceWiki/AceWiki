@@ -139,8 +139,7 @@ public interface OntologyElement extends Comparable<OntologyElement> {
 	public String getHeadword();
 	
 	/**
-	 * Returns a list of words that should be listed in the index to point to this ontology
-	 * element.
+	 * Returns a list of words that should be listed in the index of the AceWiki GUI.
 	 * 
 	 * @return The index words.
 	 */
