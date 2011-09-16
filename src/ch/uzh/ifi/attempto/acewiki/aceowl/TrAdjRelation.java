@@ -49,7 +49,7 @@ public class TrAdjRelation extends OWLRelation implements ACEOWLOntoElement {
 		return new String[] {word};
 	}
 
-	public void changeWords(String... words) {
+	public void setWords(String... words) {
 		word = words[0];
 	}
 	

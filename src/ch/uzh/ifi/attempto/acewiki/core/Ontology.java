@@ -185,14 +185,23 @@ public class Ontology {
 		getReasoner().flushElements();
 	}
 	
-	synchronized void removeFromWordIndex(OntologyElement element) {
-		languageEngine.getWordIndex().elementBeforeChange(element);
-		getReasoner().unloadElement(element);
-	}
-	
-	synchronized void addToWordIndex(OntologyElement element) {
-		languageEngine.getWordIndex().elementAfterChange(element);
-		getReasoner().loadElement(element);
+	/**
+	 * Changes the word forms of the given ontology element.
+	 * 
+	 * @param element The ontology element to be changed.
+	 * @param words The word forms.
+	 */
+	public synchronized void change(OntologyElement element, String... words) {
+		if (contains(element)) {
+			languageEngine.getWordIndex().elementBeforeChange(element);
+			getReasoner().unloadElement(element);
+			element.setWords(words);
+			languageEngine.getWordIndex().elementAfterChange(element);
+			getReasoner().loadElement(element);
+			refresh(element);
+		} else {
+			element.setWords(words);
+		}
 	}
 	
 	/**

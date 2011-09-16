@@ -126,7 +126,7 @@ public class ProperNameChanger implements LexiconChanger {
 				abbrevWord = "the " + abbrev;
 			}
 		}
-		ind.setWords(word, name, abbrevWord, abbrev);
+		ontology.change(ind, word, name, abbrevWord, abbrev);
 	}
 
 }

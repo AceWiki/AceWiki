@@ -134,7 +134,7 @@ public class VerbChanger implements LexiconChanger {
 		}
 		
 		if (pastPart.equals("")) pastPart = null;
-		relation.setWords(thirdSg, inf, pastPart);
+		ontology.change(relation, thirdSg, inf, pastPart);
 	}
 
 }

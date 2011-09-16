@@ -53,7 +53,7 @@ public class DummyOntologyElement extends AbstractOntologyElement {
 		return new String[] {};
 	}
 	
-	public void changeWords(String... words) {
+	public void setWords(String... words) {
 	}
 	
 	public String getType() {

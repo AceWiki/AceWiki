@@ -73,7 +73,7 @@ public class TrAdjChanger implements LexiconChanger {
 			throw new InvalidWordException("The word '" + nameP + "' is already used. Please " +
 				"use a different one.");
 		}
-		relation.setWords(name);
+		ontology.change(relation, name);
 	}
 
 }

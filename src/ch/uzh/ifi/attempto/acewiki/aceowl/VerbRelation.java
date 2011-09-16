@@ -50,7 +50,7 @@ public class VerbRelation extends OWLRelation implements ACEOWLOntoElement {
 		return new String[] {thirdSg, inf, passive};
 	}
 	
-	public void changeWords(String... words) {
+	public void setWords(String... words) {
 		thirdSg = words[0];
 		inf = words[1];
 		if (words.length < 3 || words[2] == null) {

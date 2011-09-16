@@ -51,7 +51,7 @@ public class NounConcept extends OWLConcept implements ACEOWLOntoElement {
 		return new String[] {singular, plural};
 	}
 	
-	public void changeWords(String... words) {
+	public void setWords(String... words) {
 		singular = words[0];
 		plural = words[1];
 	}

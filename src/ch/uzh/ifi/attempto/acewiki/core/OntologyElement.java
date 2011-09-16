@@ -112,22 +112,13 @@ public interface OntologyElement extends Comparable<OntologyElement> {
 	 * @return The word form.
 	 */
 	public String getPrettyWord(int n);
-
+	
 	/**
-	 * Sets the word forms. The order reflects the word form ids. The indexes of the
-	 * ontology are automatically updated.
+	 * Sets the word forms. The order reflects the word form ids.
 	 * 
 	 * @param words The word forms.
 	 */
 	public void setWords(String... words);
-	
-	/**
-	 * Changes the word forms without updating the ontology indexes. The order reflects
-	 * the word form ids.
-	 * 
-	 * @param words The word forms.
-	 */
-	public void changeWords(String... words);
 	
 	/**
 	 * Returns the headword that is used in the GUI to refer to this ontology element.

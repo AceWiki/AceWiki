@@ -48,7 +48,7 @@ public class OfRelation extends OWLRelation implements ACEOWLOntoElement {
 		return new String[] {word};
 	}
 
-	public void changeWords(String... words) {
+	public void setWords(String... words) {
 		if (words[0] == null || words[0].equals("")) {
 			word = null;
 		} else if (words[0].endsWith(" of")) {

@@ -111,7 +111,7 @@ public class ProperNameIndividual extends OWLIndividual implements ACEOWLOntoEle
 		return new String[] {getHeadword(), getPrettyWord(3)};
 	}
 	
-	public void changeWords(String... words) {
+	public void setWords(String... words) {
 		if (words.length == 1) {
 			word = words[0];
 			wordDefArt = false;

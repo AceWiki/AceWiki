@@ -197,7 +197,7 @@ public class FileBasedStorage implements AceWikiStorage {
 				return;
 			}
 			String[] words = lines.remove(0).substring("words:".length()).split(";");
-			oe.setWords(words);
+			ontology.change(oe, words);
 		}
 		
 		// Dummy ontology element for the main page article:

@@ -80,19 +80,6 @@ public abstract class AbstractOntologyElement implements OntologyElement {
 		return w.replace("_", " ");
 	}
 	
-	public final void setWords(String... words) {
-		if (ontology == null) {
-			changeWords(words);
-		} else {
-			synchronized (ontology) {
-				ontology.removeFromWordIndex(this);
-				changeWords(words);
-				ontology.addToWordIndex(this);
-				ontology.refresh(this);
-			}
-		}
-	}
-	
 	public String getHeadword() {
 		return getPrettyWord(0);
 	}
