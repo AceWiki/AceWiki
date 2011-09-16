@@ -29,7 +29,6 @@ import ch.uzh.ifi.attempto.base.TextOperator;
  * 
  * @author Tobias Kuhn
  */
-// TODO Different ontology elements should be allowed to have overlapping word forms.
 public class Ontology {
 	
 	private LanguageEngine languageEngine;
@@ -38,7 +37,6 @@ public class Ontology {
 	private AceWikiStorage storage;
 	private Logger logger;
 	
-	private Map<String, OntologyElement> wordIndex = new TreeMap<String, OntologyElement>();
 	private Map<Long, OntologyElement> idIndex = new TreeMap<Long, OntologyElement>();
 	
 	private final String name;
@@ -153,18 +151,7 @@ public class Ontology {
 		idIndex.put(element.getId(), element);
 		if (element.getId() > idCount) idCount = element.getId();
 		
-		for (String word : element.getWords()) {
-			if (word == null) continue;
-			
-			if (getElement(word) == null) {
-				wordIndex.put(word, element);
-			} else if (getElement(word) != element) {
-				log("error: word already used");
-				throw new RuntimeException(
-						"Registration failed: The word '" + word + "' is already used."
-					);
-			}
-		}
+		languageEngine.getWordIndex().elementAdded(element);
 		
 		getReasoner().loadElement(element);
 		getReasoner().flushElements();
@@ -186,10 +173,8 @@ public class Ontology {
 		log("remove: " + element.getWord());
 		stateID++;
 		
-		for (String word : element.getWords()) {
-			if (word == null) continue;
-			wordIndex.remove(word);
-		}
+		languageEngine.getWordIndex().elementRemoved(element);
+		
 		idIndex.remove(element.getId());
 		for (Sentence s : element.getArticle().getSentences()) {
 			retractSentence(s);
@@ -200,28 +185,14 @@ public class Ontology {
 		getReasoner().flushElements();
 	}
 	
-	synchronized void removeFromWordIndex(OntologyElement oe) {
-		for (String word : oe.getWords()) {
-			if (word != null) {
-				wordIndex.remove(word);
-			}
-		}
-		getReasoner().unloadElement(oe);
+	synchronized void removeFromWordIndex(OntologyElement element) {
+		languageEngine.getWordIndex().elementBeforeChange(element);
+		getReasoner().unloadElement(element);
 	}
 	
-	synchronized void addToWordIndex(OntologyElement oe) {
-		for (String word : oe.getWords()) {
-			if (word != null) {
-				if (getElement(word) == null) {
-					wordIndex.put(word, oe);
-				} else if (getElement(word) != oe) {
-					throw new RuntimeException(
-							"Word update failed: The word '" + word + "' is already used."
-						);
-				}
-			}
-		}
-		getReasoner().loadElement(oe);
+	synchronized void addToWordIndex(OntologyElement element) {
+		languageEngine.getWordIndex().elementAfterChange(element);
+		getReasoner().loadElement(element);
 	}
 	
 	/**
@@ -264,7 +235,7 @@ public class Ontology {
 	 * @return The ontology element.
 	 */
 	public synchronized OntologyElement getElement(String name) {
-		return wordIndex.get(name);
+		return languageEngine.getWordIndex().getElement(name);
 	}
 	
 	/**
