@@ -21,7 +21,6 @@ package ch.uzh.ifi.attempto.acewiki.core;
  * 
  * @author Tobias Kuhn
  */
-// TODO This might be hard to implement for languages where words have much more word forms.
 public interface OntologyElement extends Comparable<OntologyElement> {
 	
 	/**
