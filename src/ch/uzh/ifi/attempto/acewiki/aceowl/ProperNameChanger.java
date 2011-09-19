@@ -118,10 +118,15 @@ public class ProperNameChanger implements LexiconChanger {
 			word = "the " + name;
 		}
 		String abbrevWord = abbrev;
-		if (!abbrev.equals("") && abbrevDefArt) {
-			abbrevWord = "the " + abbrev;
+		if (abbrev.equals("")) {
+			abbrev = null;
+			abbrevWord = null;
+		} else {
+			if (abbrevDefArt) {
+				abbrevWord = "the " + abbrev;
+			}
 		}
-		ontology.change(ind, word + ";" + name + ";" + abbrevWord + ";" + abbrev);
+		ontology.change(ind, word, name, abbrevWord, abbrev);
 	}
 
 }

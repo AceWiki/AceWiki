@@ -50,9 +50,8 @@ public class NounConcept extends OWLConcept implements ACEOWLOntoElement {
 	public String[] getWords() {
 		return new String[] {singular, plural};
 	}
-
-	public void setWords(String serializedWords) {
-		String[] words = serializedWords.split(";");
+	
+	public void setWords(String... words) {
 		singular = words[0];
 		plural = words[1];
 	}

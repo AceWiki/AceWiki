@@ -16,8 +16,7 @@ package ch.uzh.ifi.attempto.acewiki.core;
 
 /**
  * This class represents an ontology element. Such ontology elements include individuals, concepts
- * and relations. Each ontology element corresponds to a word which has one or more word forms.
- * Word forms are identified by a number (the word form id).
+ * and relations.
  * 
  * @author Tobias Kuhn
  */
@@ -67,19 +66,27 @@ public interface OntologyElement extends Comparable<OntologyElement> {
 	public Article getArticle();
 	
 	/**
-	 * Returns an array of all word forms.
+	 * Returns the word forms. The position in the array corresponds to the word form id.
 	 * 
-	 * @return An array containing all word forms.
+	 * @return An array containing the word forms.
 	 */
 	public String[] getWords();
+	
+	/**
+	 * This method returns a list that contains the word forms for external representations,
+	 * for example for exports.
+	 * 
+	 * @return The word forms.
+	 */
+	public String[] getExternalWordList();
 
 	/**
 	 * Returns the word form for the given word form id.
 	 * 
-	 * @param wordFormID The word form id.
+	 * @param n The word form id.
 	 * @return The word form.
 	 */
-	public String getWord(int wordFormID);
+	public String getWord(int n);
 	
 	/**
 	 * Returns the word form with the id 0 (the default word form).
@@ -100,31 +107,17 @@ public interface OntologyElement extends Comparable<OntologyElement> {
 	/**
 	 * Returns the pretty-printed word form for the given word form id.
 	 * 
-	 * @param wordFormID The word form id.
+	 * @param n The word form id.
 	 * @return The word form.
 	 */
-	public String getPrettyWord(int wordFormID);
+	public String getPrettyWord(int n);
 	
 	/**
-	 * Returns the word type as it is used internally.
+	 * Sets the word forms. The order reflects the word form ids.
 	 * 
-	 * @return The internal word type.
+	 * @param words The word forms.
 	 */
-	public String getInternalType();
-	
-	/**
-	 * Sets the word forms.
-	 * 
-	 * @param serializedWords The serialized word forms to be set.
-	 */
-	public void setWords(String serializedWords);
-	
-	/**
-	 * Returns the word forms of this ontology element in a serialized form.
-	 * 
-	 * @return The serialized word forms.
-	 */
-	public String serializeWords();
+	public void setWords(String... words);
 	
 	/**
 	 * Returns the headword that is used in the GUI to refer to this ontology element.
@@ -148,11 +141,10 @@ public interface OntologyElement extends Comparable<OntologyElement> {
 	public String getType();
 	
 	/**
-	 * This method returns a list that contains the word forms for external representations,
-	 * for example for exports.
+	 * Returns the word type as it is used internally.
 	 * 
-	 * @return The word forms.
+	 * @return The internal word type.
 	 */
-	public String[] getExternalWordList();
+	public String getInternalType();
 
 }

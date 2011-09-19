@@ -133,7 +133,8 @@ public class VerbChanger implements LexiconChanger {
 				"Please use a different one.");
 		}
 		
-		ontology.change(relation, thirdSg + ";" + inf + ";" + pastPart);
+		if (pastPart.equals("")) pastPart = null;
+		ontology.change(relation, thirdSg, inf, pastPart);
 	}
 
 }
