@@ -49,8 +49,9 @@ public class VerbRelation extends OWLRelation implements ACEOWLOntoElement {
 	public String[] getWords() {
 		return new String[] {thirdSg, inf, passive};
 	}
-	
-	public void setWords(String... words) {
+
+	public void setWords(String serializedWords) {
+		String[] words = serializedWords.split(";");
 		thirdSg = words[0];
 		inf = words[1];
 		if (words.length < 3 || words[2] == null) {
@@ -59,6 +60,9 @@ public class VerbRelation extends OWLRelation implements ACEOWLOntoElement {
 			passive = words[2];
 		} else {
 			passive = words[2] + " by";
+		}
+		if (passive != null && passive.length() == 0) {
+			passive = null;
 		}
 	}
 	

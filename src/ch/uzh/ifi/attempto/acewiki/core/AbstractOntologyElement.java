@@ -15,14 +15,7 @@
 package ch.uzh.ifi.attempto.acewiki.core;
 
 /**
- * This class represents an ontology element which can be an individual ("constant"), a concept
- * ("unary relation", "class", "type"), or a relation ("binary relation", "role", "property"). See
- * the respective sub-classes.
- *<p>
- * In AceWiki, each ontology element corresponds to a word which has one or more word forms.
- * Word forms are identified by a number (the word form id).
- *<p>
- * Every ontology element has an article which consists of a list of statements.
+ * This is a partial implementation of an ontology element.
  * 
  * @author Tobias Kuhn
  */
@@ -66,6 +59,17 @@ public abstract class AbstractOntologyElement implements OntologyElement {
 		return getWord(0);
 	}
 	
+	public String serializeWords() {
+		String s = "";
+		for (String w : getWords()) {
+			s += ";" + w;
+		}
+		if (s.length() > 0) {
+			s = s.substring(1);
+		}
+		return s;
+	}
+	
 	public int getIndexOfWord(String word) {
 		String[] words = getWords();
 		for (int i = 0 ; i < words.length ; i++) {
@@ -84,12 +88,6 @@ public abstract class AbstractOntologyElement implements OntologyElement {
 		return getPrettyWord(0);
 	}
 	
-	/**
-	 * Returns a list of words that should be listed in the index to point to this ontology
-	 * element.
-	 * 
-	 * @return The index words.
-	 */
 	public String[] getIndexEntries() {
 		return new String[] {getHeadword()};
 	}

@@ -98,7 +98,7 @@ public class NounChanger implements LexiconChanger {
 			throw new InvalidWordException("The word '" + pluralP + "' is already used. Please " +
 				"use a different one.");
 		}
-		ontology.change(concept, singular, plural);
+		ontology.change(concept, singular + ";" + plural);
 	}
 
 }
