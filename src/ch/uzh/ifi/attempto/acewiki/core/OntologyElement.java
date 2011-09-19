@@ -38,7 +38,7 @@ public interface OntologyElement extends Comparable<OntologyElement> {
 	public void initOntology(Ontology ontology);
 	
 	/**
-	 * Initializes the aricle of this ontology element.
+	 * Initializes the article of this ontology element.
 	 * 
 	 * @param article The article.
 	 */
@@ -105,8 +105,7 @@ public interface OntologyElement extends Comparable<OntologyElement> {
 	public int getIndexOfWord(String word);
 	
 	/**
-	 * Returns the pretty-printed word form for the given word form id. The pretty-printing
-	 * transforms underscores into blanks.
+	 * Returns the pretty-printed word form for the given word form id.
 	 * 
 	 * @param n The word form id.
 	 * @return The word form.
@@ -122,8 +121,6 @@ public interface OntologyElement extends Comparable<OntologyElement> {
 	
 	/**
 	 * Returns the headword that is used in the GUI to refer to this ontology element.
-	 * For example, it is used for the title of the article. Unless overridden, it is
-	 * the same as the pretty-printed word form with the id 0. 
 	 * 
 	 * @return The headword.
 	 */
@@ -137,16 +134,14 @@ public interface OntologyElement extends Comparable<OntologyElement> {
 	public String[] getIndexEntries();
 	
 	/**
-	 * Returns the word type as it is shown to the user. Newer versions of AceWiki can
-	 * savely change this value.
+	 * Returns the word type as it is shown to the user.
 	 * 
 	 * @return The word type.
 	 */
 	public String getType();
 	
 	/**
-	 * Returns the word type as it is used internally. Changing this value in newer versions
-	 * of AceWiki breaks backwards compatibility for loading ontologies.
+	 * Returns the word type as it is used internally.
 	 * 
 	 * @return The internal word type.
 	 */

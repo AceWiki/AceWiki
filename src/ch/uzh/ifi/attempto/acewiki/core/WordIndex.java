@@ -51,7 +51,7 @@ public interface WordIndex {
 	
 	/**
 	 * This method should return the ontology element with the given word form, or null if there is
-	 * no such element
+	 * no such element.
 	 * 
 	 * @param word The word form.
 	 * @return The ontology element or null.
