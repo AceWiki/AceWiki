@@ -196,8 +196,8 @@ public class FileBasedStorage implements AceWikiStorage {
 				System.err.println("Cannot read ontology element (missing 'words')");
 				return;
 			}
-			String[] words = lines.remove(0).substring("words:".length()).split(";");
-			ontology.change(oe, words);
+			String serializedWords = lines.remove(0).substring("words:".length());
+			ontology.change(oe, serializedWords);
 		}
 		
 		// Dummy ontology element for the main page article:

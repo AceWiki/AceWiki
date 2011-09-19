@@ -26,21 +26,19 @@ public class OntologyTextElement extends TextElement {
 	
 	private OntologyElement ontologyElement;
 	private int wordNumber;
-	private String pre = "";
-	private String post = "";
 	
 	/**
 	 * Creates a new ontology text element.
 	 * 
-	 * @param oe The ontology element.
-	 * @param wn The word number.
+	 * @param element The ontology element.
+	 * @param wordNumber The word number.
 	 */
-	public OntologyTextElement(OntologyElement oe, int wn) {
-		if (oe.getWord(wn) == null) {
-			throw new RuntimeException(oe + " has no word number " + wn);
+	public OntologyTextElement(OntologyElement element, int wordNumber) {
+		if (element.getWord(wordNumber) == null) {
+			throw new RuntimeException(element + " has no word number " + wordNumber);
 		}
-		this.ontologyElement = oe;
-		this.wordNumber = wn;
+		this.ontologyElement = element;
+		this.wordNumber = wordNumber;
 	}
 
 	/**
@@ -60,25 +58,7 @@ public class OntologyTextElement extends TextElement {
 	}
 	
 	public String getOriginalText() {
-		return pre + ontologyElement.getWord(wordNumber) + post;
-	}
-	
-	/**
-	 * This method adds a text to the front of the word of the ontology element.
-	 * 
-	 * @param pre The text to be added to the front.
-	 */
-	public void setPreText(String pre) {
-		if (pre != null) this.pre = pre;
-	}
-	
-	/**
-	 * This method adds a text to the end of the word of the ontology element.
-	 * 
-	 * @param post The text to be added to the end.
-	 */
-	public void setPostText(String post) {
-		if (post != null) this.post = post;
+		return ontologyElement.getWord(wordNumber);
 	}
 
 	/**

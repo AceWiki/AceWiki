@@ -189,18 +189,18 @@ public class Ontology {
 	 * Changes the word forms of the given ontology element.
 	 * 
 	 * @param element The ontology element to be changed.
-	 * @param words The word forms.
+	 * @param serializedWords The serialized word forms.
 	 */
-	public synchronized void change(OntologyElement element, String... words) {
+	public synchronized void change(OntologyElement element, String serializedWords) {
 		if (contains(element)) {
 			languageEngine.getWordIndex().elementBeforeChange(element);
 			getReasoner().unloadElement(element);
-			element.setWords(words);
+			element.setWords(serializedWords);
 			languageEngine.getWordIndex().elementAfterChange(element);
 			getReasoner().loadElement(element);
 			refresh(element);
 		} else {
-			element.setWords(words);
+			element.setWords(serializedWords);
 		}
 	}
 	

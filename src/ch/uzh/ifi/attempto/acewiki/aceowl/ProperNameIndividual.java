@@ -111,7 +111,8 @@ public class ProperNameIndividual extends OWLIndividual implements ACEOWLOntoEle
 		return new String[] {getHeadword(), getPrettyWord(3)};
 	}
 	
-	public void setWords(String... words) {
+	public void setWords(String serializedWords) {
+		String[] words = serializedWords.split(";");
 		if (words.length == 1) {
 			word = words[0];
 			wordDefArt = false;
@@ -132,6 +133,9 @@ public class ProperNameIndividual extends OWLIndividual implements ACEOWLOntoEle
 			wordDefArt = words[0].startsWith("the ");
 			abbrev = words[3];
 			abbrevDefArt = words[2].startsWith("the ");
+		}
+		if (abbrev != null && abbrev.length() == 0) {
+			abbrev = null;
 		}
 	}
 	

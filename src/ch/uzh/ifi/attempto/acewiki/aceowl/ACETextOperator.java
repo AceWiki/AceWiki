@@ -50,9 +50,8 @@ public class ACETextOperator extends DefaultTextOperator {
 		ote = createOntologyTextElement(text);
 		if (ote != null) return ote;
 		if (text.toLowerCase().startsWith("the_")) {
-			ote = createOntologyTextElement(text.substring(4));
+			ote = createOntologyTextElement("the " + text.substring(4));
 			if (ote != null) {
-				ote.setPreText("the ");
 				return ote;
 			}
 		}
