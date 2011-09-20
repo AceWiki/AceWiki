@@ -14,6 +14,9 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -26,8 +29,13 @@ import java.util.TreeMap;
 public class DefaultWordIndex implements WordIndex {
 	
 	private Map<String, OntologyElement> wordIndex = new TreeMap<String, OntologyElement>();
+	private List<OntologyElement> elements = new ArrayList<OntologyElement>();
 	
 	public void elementAdded(OntologyElement element) {
+		if (elements.contains(element)) {
+			throw new RuntimeException("Registration failed: Already registered.");
+		}
+		elements.add(element);
 		for (String word : element.getWords()) {
 			if (word == null) continue;
 			
@@ -42,12 +50,12 @@ public class DefaultWordIndex implements WordIndex {
 	}
 	
 	public void elementRemoved(OntologyElement element) {
+		elements.remove(element);
 		for (String word : element.getWords()) {
 			if (word == null) continue;
 			wordIndex.remove(word);
 		}
 	}
-	
 	
 	public void elementBeforeChange(OntologyElement element) {
 		for (String word : element.getWords()) {
@@ -56,7 +64,6 @@ public class DefaultWordIndex implements WordIndex {
 			}
 		}
 	}
-	
 	
 	public void elementAfterChange(OntologyElement element) {
 		for (String word : element.getWords()) {
@@ -72,9 +79,24 @@ public class DefaultWordIndex implements WordIndex {
 		}
 	}
 	
-	
 	public OntologyElement getElement(String word) {
 		return wordIndex.get(word);
+	}
+
+	public List<OntologyElement> searchForElements(String searchText) {
+		List<OntologyElement> searchResult = new ArrayList<OntologyElement>();
+		String s = searchText.toLowerCase().replace('_', ' ');
+		for (OntologyElement e : elements) {
+			for (String w : e.getWords()) {
+				if (w == null) continue;
+				if (w.toLowerCase().replace('_', ' ').contains(s)) {
+					searchResult.add(e);
+					break;
+				}
+			}
+		}
+		Collections.sort(searchResult);
+		return searchResult;
 	}
 
 }

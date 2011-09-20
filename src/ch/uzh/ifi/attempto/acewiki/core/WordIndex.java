@@ -14,6 +14,8 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
+import java.util.List;
+
 /**
  * This interface represents an index for the word forms of ontology elements.
  * 
@@ -57,5 +59,13 @@ public interface WordIndex {
 	 * @return The ontology element or null.
 	 */
 	public OntologyElement getElement(String word);
+	
+	/**
+	 * This method should return a list of ontology elements that match the given search text.
+	 * 
+	 * @param searchText The text to search for.
+	 * @return The list of ontology elements.
+	 */
+	public List<OntologyElement> searchForElements(String searchText);
 
 }
