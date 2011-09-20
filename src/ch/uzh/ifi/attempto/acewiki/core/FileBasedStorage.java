@@ -290,16 +290,9 @@ public class FileBasedStorage implements AceWikiStorage {
 	 */
 	public static String serialize(OntologyElement element) {
 		String s = "type:" + element.getInternalType() + "\n";
-		if (element.getWords().length > 0) {
-			s += "words:";
-			for (String word : element.getWords()) {
-				if (word == null) {
-					s += ";";
-				} else {
-					s += word + ";";
-				}
-			}
-			s += "\n";
+		String w = element.serializeWords();
+		if (w.length() > 0) {
+			s += "words:" + w + "\n";
 		}
 		for (Statement st : element.getArticle().getStatements()) {
 			if (st instanceof Comment) {

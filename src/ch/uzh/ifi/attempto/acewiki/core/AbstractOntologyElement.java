@@ -62,10 +62,7 @@ public abstract class AbstractOntologyElement implements OntologyElement {
 	public String serializeWords() {
 		String s = "";
 		for (String w : getWords()) {
-			s += ";" + w;
-		}
-		if (s.length() > 0) {
-			s = s.substring(1);
+			s += w + ";";
 		}
 		return s;
 	}
