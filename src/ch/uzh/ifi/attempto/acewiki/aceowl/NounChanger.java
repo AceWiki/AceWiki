@@ -56,8 +56,8 @@ public class NounChanger implements LexiconChanger {
 			throws InvalidWordException {
 		NounConcept concept = (NounConcept) el;
 		
-		String singular = Ontology.normalize((String) newValues.get(0));
-		String plural = Ontology.normalize((String) newValues.get(1));
+		String singular = ACEOWLLexicon.normalize((String) newValues.get(0));
+		String plural = ACEOWLLexicon.normalize((String) newValues.get(1));
 		String singularP = singular.replace("_", " ");
 		String pluralP = plural.replace("_", " ");
 		
@@ -68,7 +68,7 @@ public class NounChanger implements LexiconChanger {
 			throw new InvalidWordException("No singular form defined: Please specify the " +
 				"singular form.");
 		}
-		if (!Ontology.isValidWordOrEmpty(singular)) {
+		if (!ACEOWLLexicon.isValidWordOrEmpty(singular)) {
 			throw new InvalidWordException("Invalid character: Only a-z, A-Z, 0-9, -, and " +
 				"spaces are allowed, and the first character must be one of a-z A-Z.");
 		}
@@ -85,7 +85,7 @@ public class NounChanger implements LexiconChanger {
 			throw new InvalidWordException("No plural form defined: Please specify the plural " +
 				"form.");
 		}
-		if (!Ontology.isValidWordOrEmpty(plural)) {
+		if (!ACEOWLLexicon.isValidWordOrEmpty(plural)) {
 			throw new InvalidWordException("Invalid character: Only a-z, A-Z, 0-9, -, and " +
 				"spaces are allowed, and the first character must be one of a-z A-Z.");
 		}

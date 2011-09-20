@@ -68,8 +68,8 @@ public class ProperNameChanger implements LexiconChanger {
 			throws InvalidWordException {
 		ProperNameIndividual ind = (ProperNameIndividual) el;
 		
-		String name = Ontology.normalize((String) newValues.get(0));
-		String abbrev = Ontology.normalize((String) newValues.get(2));
+		String name = ACEOWLLexicon.normalize((String) newValues.get(0));
+		String abbrev = ACEOWLLexicon.normalize((String) newValues.get(2));
 		boolean nameDefArt = (Boolean) newValues.get(1);
 		boolean abbrevDefArt = (Boolean) newValues.get(3);
 		
@@ -87,7 +87,7 @@ public class ProperNameChanger implements LexiconChanger {
 		if (name.equals("")) {
 			throw new InvalidWordException("No proper name defined: Please specify a name.");
 		}
-		if (!Ontology.isValidWordOrEmpty(name) || !Ontology.isValidWordOrEmpty(abbrev)) {
+		if (!ACEOWLLexicon.isValidWordOrEmpty(name) || !ACEOWLLexicon.isValidWordOrEmpty(abbrev)) {
 			throw new InvalidWordException("Invalid character: Only a-z, A-Z, 0-9, -, and " +
 				"spaces are allowed, and the first character must be one of a-z A-Z.");
 		}

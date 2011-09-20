@@ -62,9 +62,9 @@ public class VerbChanger implements LexiconChanger {
 			throws InvalidWordException {
 		VerbRelation relation = (VerbRelation) el;
 		
-		String thirdSg = Ontology.normalize((String) newValues.get(0));
-		String inf = Ontology.normalize((String) newValues.get(1));
-		String pastPart = Ontology.normalize((String) newValues.get(2));
+		String thirdSg = ACEOWLLexicon.normalize((String) newValues.get(0));
+		String inf = ACEOWLLexicon.normalize((String) newValues.get(1));
+		String pastPart = ACEOWLLexicon.normalize((String) newValues.get(2));
 		if (pastPart.toLowerCase().endsWith("_by")) {
 			pastPart = pastPart.substring(0, pastPart.length()-3);
 		}
@@ -91,8 +91,8 @@ public class VerbChanger implements LexiconChanger {
 		}
 		
 		// check whether the words contain only valid characters
-		if (!Ontology.isValidWordOrEmpty(thirdSg) || !Ontology.isValidWordOrEmpty(inf) ||
-				!Ontology.isValidWordOrEmpty(pastPart)) {
+		if (!ACEOWLLexicon.isValidWordOrEmpty(thirdSg) || !ACEOWLLexicon.isValidWordOrEmpty(inf) ||
+				!ACEOWLLexicon.isValidWordOrEmpty(pastPart)) {
 			throw new InvalidWordException("Invalid character used: Only a-z, A-Z, 0-9, -, and " +
 				"spaces are allowed, and the first character must be one of a-z A-Z.");
 		}

@@ -52,7 +52,7 @@ public class NounOfChanger implements LexiconChanger {
 	public void save(OntologyElement el, int wordNumber, List<Object> newValues, Ontology ontology)
 			throws InvalidWordException {
 		OfRelation relation = (OfRelation) el;
-		String name = Ontology.normalize((String) newValues.get(0));
+		String name = ACEOWLLexicon.normalize((String) newValues.get(0));
 		if (name.toLowerCase().endsWith("_of")) {
 			name = name.substring(0, name.length()-3);
 		}
@@ -62,7 +62,7 @@ public class NounOfChanger implements LexiconChanger {
 			throw new InvalidWordException("No noun defined: Please specify the singular form " +
 				"of a noun.");
 		}
-		if (!Ontology.isValidWordOrEmpty(name)) {
+		if (!ACEOWLLexicon.isValidWordOrEmpty(name)) {
 			throw new InvalidWordException("Invalid character: Only a-z, A-Z, 0-9, -, and " +
 				"spaces are allowed, and the first character must be one of a-z A-Z.");
 		}

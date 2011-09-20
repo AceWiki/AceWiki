@@ -53,14 +53,14 @@ public class TrAdjChanger implements LexiconChanger {
 			throws InvalidWordException {
 		TrAdjRelation relation = (TrAdjRelation) el;
 		
-		String name = Ontology.normalize((String) newValues.get(0));
+		String name = ACEOWLLexicon.normalize((String) newValues.get(0));
 		String nameP = name.replace("_", " ");
 		
 		if (name.equals("")) {
 			throw new InvalidWordException("No word defined: Please specify the transitive " +
 				"adjective.");
 		}
-		if (!Ontology.isValidWordOrEmpty(name)) {
+		if (!ACEOWLLexicon.isValidWordOrEmpty(name)) {
 			throw new InvalidWordException("Invalid character: Only a-z, A-Z, 0-9, -, and " +
 				"spaces are allowed, and the first character must be one of a-z A-Z.");
 		}
