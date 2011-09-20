@@ -68,11 +68,17 @@ public class ACETextOperator extends DefaultTextOperator {
 	
 	private OntologyTextElement createOntologyTextElement(String text) {
 		OntologyElement oe = ontology.getElement(text);
-		if (oe == null) {
-			return null;
-		} else {
-			return new OntologyTextElement(oe, oe.getIndexOfWord(text));
+		if (oe != null) {
+			int wn = -1;
+			String[] words = oe.getWords();
+			for (int i = 0 ; i < words.length ; i++) {
+				if (text.equals(words[i])) wn = i;
+			}
+			if (wn > -1) {
+				return new OntologyTextElement(oe, wn);
+			}
 		}
+		return null;
 	}
 	
 	public String getTextInContext(TextElement textElement, String preceding, String following) {

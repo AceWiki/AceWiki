@@ -32,6 +32,8 @@ import nextapp.echo.app.layout.RowLayoutData;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Comment;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
+import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
@@ -207,10 +209,12 @@ public class CommentComponent extends Column implements ActionListener {
 				text = s;
 			} else if (s.startsWith("[[") && s.endsWith("]]")) {
 				String name = s.substring(2, s.length()-2);
-				OntologyElement oe = hostPage.getWiki().getOntology().getElement(name);
-				if (oe != null) {
-					int wn = oe.getIndexOfWord(name);
-					comp = new WikiLink(oe, oe.getPrettyWord(wn), hostPage.getWiki(), false);
+				Wiki wiki = hostPage.getWiki();
+				TextElement te = wiki.getOntology().getTextOperator().createTextElement(name);
+				if (te instanceof OntologyTextElement) {
+					OntologyTextElement ote = (OntologyTextElement) te;
+					OntologyElement oe = ote.getOntologyElement();
+					comp = new WikiLink(oe, oe.getPrettyWord(ote.getWordNumber()), wiki, false);
 					text = name;
 				}
 			}

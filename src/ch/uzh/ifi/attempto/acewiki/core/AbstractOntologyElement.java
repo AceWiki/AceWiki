@@ -70,14 +70,6 @@ public abstract class AbstractOntologyElement implements OntologyElement {
 		return s;
 	}
 	
-	public int getIndexOfWord(String word) {
-		String[] words = getWords();
-		for (int i = 0 ; i < words.length ; i++) {
-			if (word.equals(words[i])) return i;
-		}
-		return -1;
-	}
-	
 	public String getPrettyWord(int n) {
 		String w = getWord(n);
 		if (w == null) return null;

@@ -169,12 +169,14 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 					throw new RuntimeException("Could not resolve link: " + s);
 				}
 			} else {
-				OntologyElement oe = getOntology().getElement(s);
-				if (oe == null || serialized.indexOf("<") > -1) {
-					textContainer.addElement(new TextElement(s));
+				TextElement te = getOntology().getTextOperator().createTextElement(s);
+				if (!(te instanceof OntologyTextElement) || serialized.indexOf("<") > -1) {
+					textContainer.addElement(te);
 				} else {
 					// This is legacy code to support old acewikidata files:
-					int wordId = oe.getIndexOfWord(s);
+					OntologyTextElement ote = (OntologyTextElement) te;
+					OntologyElement oe = ote.getOntologyElement();
+					int wordId = ote.getWordNumber();
 					if (oe instanceof ProperNameIndividual) {
 						ProperNameIndividual ind = (ProperNameIndividual) oe;
 						if (ind.hasDefiniteArticle(wordId-1) && textContainer.getTextElementsCount() > 0) {

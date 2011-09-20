@@ -88,15 +88,6 @@ public interface OntologyElement extends Comparable<OntologyElement> {
 	public String getWord();
 	
 	/**
-	 * Returns the index of the given word form or -1 if this ontology element has no such word
-	 * form.
-	 * 
-	 * @param word The word form.
-	 * @return The index.
-	 */
-	public int getIndexOfWord(String word);
-	
-	/**
 	 * Returns the pretty-printed word form for the given word form id.
 	 * 
 	 * @param wordFormID The word form id.
