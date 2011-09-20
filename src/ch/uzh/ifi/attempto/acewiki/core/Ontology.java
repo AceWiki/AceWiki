@@ -205,36 +205,21 @@ public class Ontology {
 	}
 	
 	/**
-	 * Returns all the sentences that use the given word form (by word number) of the given
-	 * ontology element.
-	 * 
-	 * @param element The ontology element.
-	 * @param wordNumber The word number.
-	 * @return A list of all sentence that contain the word.
-	 */
-	public synchronized List<Sentence> getReferences(OntologyElement element, int wordNumber) {
-		List<Sentence> list = new ArrayList<Sentence>();
-		for (OntologyElement el : idIndex.values()) {
-			for (Sentence s : el.getArticle().getSentences()) {
-				if (wordNumber == -1 && s.contains(element)) {
-					list.add(s);
-				} else if (wordNumber > -1 && s.contains(element, wordNumber)) {
-					list.add(s);
-				}
-			}
-		}
-		return list;
-	}
-
-	/**
-	 * Returns all the sentences that use the given ontology element (no matter which word form
-	 * is used).
+	 * Returns all the sentences that use the given ontology element.
 	 * 
 	 * @param element The ontology element.
 	 * @return A list of all sentence that contain the ontology element.
 	 */
 	public synchronized List<Sentence> getReferences(OntologyElement element) {
-		return getReferences(element, -1);
+		List<Sentence> list = new ArrayList<Sentence>();
+		for (OntologyElement el : idIndex.values()) {
+			for (Sentence s : el.getArticle().getSentences()) {
+				if (s.contains(element)) {
+					list.add(s);
+				}
+			}
+		}
+		return list;
 	}
 	
 	/**

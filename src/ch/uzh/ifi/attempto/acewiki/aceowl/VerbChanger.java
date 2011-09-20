@@ -22,6 +22,7 @@ import ch.uzh.ifi.attempto.acewiki.core.LexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconDetail;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.ape.FunctionWords;
 
 /**
@@ -85,7 +86,7 @@ public class VerbChanger implements LexiconChanger {
 			throw new InvalidWordException("No past participle defined: Please define the past " +
 				"participle form.");
 		}
-		if (pastPart.equals("") && !ontology.getReferences(relation, 2).isEmpty()) {
+		if (pastPart.equals("") && isPassiveUsed(ontology, relation)) {
 			throw new InvalidWordException("The past participle form cannot be removed because " +
 				"there are sentences that are using it.");
 		}
@@ -134,6 +135,13 @@ public class VerbChanger implements LexiconChanger {
 		}
 		
 		ontology.change(relation, thirdSg + ";" + inf + ";" + pastPart);
+	}
+	
+	private static boolean isPassiveUsed(Ontology o, VerbRelation vr) {
+		for (Sentence s : o.getReferences(vr)) {
+			if (s.contains(vr, 2)) return true;
+		}
+		return false;
 	}
 
 }
