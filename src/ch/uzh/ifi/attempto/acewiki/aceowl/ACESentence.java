@@ -101,6 +101,10 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 			if (e instanceof OntologyTextElement) {
 				OntologyTextElement ote = (OntologyTextElement) e;
 				OntologyElement oe = ote.getOntologyElement();
+				if (ote.getPreText().length() > 0) {
+					list.add(new TextElement(ote.getPreText()));
+					ote = new OntologyTextElement(oe, ote.getWordNumber());
+				}
 				if (oe instanceof ProperNameIndividual) {
 					// Proper names with definite articles are handled differently: The "the" is
 					// not a part of the link.
@@ -110,10 +114,10 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 						list.add(new TextElement(e.getText().substring(0, 3)));
 						list.add(new OntologyTextElement(ind, wn+1));
 					} else {
-						list.add(e);
+						list.add(ote);
 					}
 				} else {
-					list.add(e);
+					list.add(ote);
 				}
 			} else {
 				list.add(e);
@@ -364,7 +368,9 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 		for (TextElement te : getTextContainer().getTextElements()) {
 			if (te instanceof OntologyTextElement) {
 				OntologyTextElement ot = (OntologyTextElement) te;
+				s += ot.getPreText();
 				s += "<" + ot.getOntologyElement().getId() + "," + ot.getWordNumber() + "> ";
+				s += ot.getPostText();
 			} else {
 				s += te.getText() + " ";
 			}

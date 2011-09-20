@@ -22,10 +22,13 @@ import ch.uzh.ifi.attempto.base.TextElement;
  * 
  * @author Tobias Kuhn
  */
+// TODO Get rid of pre and post texts.
 public class OntologyTextElement extends TextElement {
 	
 	private OntologyElement ontologyElement;
 	private int wordNumber;
+	private String pre = "";
+	private String post = "";
 	
 	/**
 	 * Creates a new ontology text element.
@@ -58,7 +61,43 @@ public class OntologyTextElement extends TextElement {
 	}
 	
 	public String getOriginalText() {
-		return ontologyElement.getWord(wordNumber);
+		return pre + ontologyElement.getWord(wordNumber) + post;
+	}
+	
+	/**
+	 * This method adds a text to the front of the word of the ontology element.
+	 * 
+	 * @param pre The text to be added to the front.
+	 */
+	public void setPreText(String pre) {
+		if (pre != null) this.pre = pre;
+	}
+	
+	/**
+	 * Returns the text added to the front.
+	 * 
+	 * @return The text to be added to the front.
+	 */
+	public String getPreText() {
+		return pre;
+	}
+	
+	/**
+	 * This method adds a text to the end of the word of the ontology element.
+	 * 
+	 * @param post The text to be added to the end.
+	 */
+	public void setPostText(String post) {
+		if (post != null) this.post = post;
+	}
+	
+	/**
+	 * Returns the text added to the end.
+	 * 
+	 * @return The text to be added to the end.
+	 */
+	public String getPostText() {
+		return post;
 	}
 
 	/**
