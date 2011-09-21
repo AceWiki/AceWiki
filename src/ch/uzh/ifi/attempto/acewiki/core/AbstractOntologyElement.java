@@ -26,12 +26,6 @@ public abstract class AbstractOntologyElement implements OntologyElement {
 	
 	private long id = -1;
 	
-	/**
-	 * Initializes the ontology element.
-	 */
-	protected AbstractOntologyElement() {
-	}
-	
 	public void initId(long id) {
 		this.id = id;
 	}
@@ -45,10 +39,6 @@ public abstract class AbstractOntologyElement implements OntologyElement {
 	
 	public void initArticle(Article article) {
 		this.article = article;
-	}
-	
-	public String[] getExternalWordList() {
-		return getWords();
 	}
 	
 	public String getWord(int n) {

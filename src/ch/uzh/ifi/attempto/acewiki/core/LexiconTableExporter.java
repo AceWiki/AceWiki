@@ -26,18 +26,13 @@ import java.util.List;
 public class LexiconTableExporter extends OntologyExporter {
 	
 	protected void writeContent() throws IOException {
-		write("TYPE,WORD_FORM_1,WORD_FORM_2,WORD_FORM_3\n");
+		write("TYPE,HEADWORDS,SERIALIZED\n");
 		List<OntologyElement> elements = getOntologyElements();
 		Collections.sort(elements);
 		for (OntologyElement oe : elements) {
-			write(oe.getInternalType());
-			for (String word : oe.getExternalWordList()) {
-				if (word == null) {
-					write(",");
-				} else {
-					write("," + word);
-				}
-			}
+			write(oe.getInternalType() + ",");
+			write(LanguageUtils.getHeading(oe) + ",");
+			write("\"" + oe.serializeWords().replaceAll("\"", "\"\"") + "\"");
 			write("\n");
 		}
 	}

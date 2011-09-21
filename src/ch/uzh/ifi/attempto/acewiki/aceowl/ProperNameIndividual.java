@@ -90,15 +90,6 @@ public class ProperNameIndividual extends OWLIndividual implements ACEOWLOntoEle
 		}
 	}
 	
-	public String[] getExternalWordList() {
-		String[] words = getWords();
-		if (abbrev == null) {
-			return new String[] {words[0]};
-		} else {
-			return new String[] {words[0], words[2]};
-		}
-	}
-	
 	public String[] getHeadwords() {
 		if (abbrev == null) {
 			return new String[] {getWord(1)};

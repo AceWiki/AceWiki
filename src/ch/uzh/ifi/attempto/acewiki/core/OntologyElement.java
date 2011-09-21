@@ -122,13 +122,5 @@ public interface OntologyElement extends Comparable<OntologyElement> {
 	 * @return The word type.
 	 */
 	public String getType();
-	
-	/**
-	 * This method returns a list that contains the word forms for external representations,
-	 * for example for exports.
-	 * 
-	 * @return The word forms.
-	 */
-	public String[] getExternalWordList();
 
 }

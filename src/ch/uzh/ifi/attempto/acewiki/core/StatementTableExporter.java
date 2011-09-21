@@ -31,9 +31,10 @@ public class StatementTableExporter extends OntologyExporter {
 		Collections.sort(elements);
 		for (OntologyElement oe : elements) {
 			for (Statement s : oe.getArticle().getStatements()) {
-				// Replace quotes " by two quotes "" and reduce blank spaces
-				String t = s.getText().replaceAll("\"", "\"\"").replaceAll("\\s+", " ");
-				write(oe.getWord() + "," + getStatementType(s) + ",\"" + t + "\"\n");
+				write(LanguageUtils.getHeading(oe) + ",");
+				write(getStatementType(s) + ",");
+				write("\"" + s.getText().replaceAll("\"", "\"\"").replaceAll("\\s+", " ") + "\"");
+				write("\n");
 			}
 		}
 	}
