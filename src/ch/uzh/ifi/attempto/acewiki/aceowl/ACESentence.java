@@ -348,19 +348,13 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 		}
 	}
 	
-	public boolean contains(OntologyElement e, int wordNumber) {
+	public boolean contains(OntologyElement e) {
 		for (TextElement t : getTextContainer().getTextElements()) {
 			if (t instanceof OntologyTextElement) {
-				OntologyTextElement ot = (OntologyTextElement) t;
-				if (e == ot.getOntologyElement() && wordNumber == -1) return true;
-				if (e == ot.getOntologyElement() && wordNumber == ot.getWordNumber()) return true;
+				if (e == ((OntologyTextElement) t).getOntologyElement()) return true;
 			}
 		}
 		return false;
-	}
-	
-	public boolean contains(OntologyElement e) {
-		return contains(e, -1);
 	}
 	
 	public String serialize() {

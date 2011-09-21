@@ -68,9 +68,5 @@ public abstract class AbstractSentence extends AbstractStatement implements Sent
 		}
 		return t;
 	}
-	
-	public String getPrettyText() {
-		return getTextContainer().getText();
-	}
 
 }

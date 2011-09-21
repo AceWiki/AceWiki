@@ -24,6 +24,7 @@ import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Article;
 import ch.uzh.ifi.attempto.acewiki.core.InconsistencyException;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageEngine;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceSuggestion;
@@ -72,7 +73,7 @@ public class SentenceEditorHandler implements ActionListener {
 		editorWindow.setTextOperator(wiki.getOntology().getTextOperator());
 		
 		if (edit) {
-			editorWindow.addText(((Sentence) statement).getPrettyText() + " ");
+			editorWindow.addText(LanguageUtils.getPrettyPrinted(statement.getText()) + " ");
 		}
 	}
 	

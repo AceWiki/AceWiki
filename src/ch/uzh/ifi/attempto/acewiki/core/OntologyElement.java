@@ -88,6 +88,14 @@ public interface OntologyElement extends Comparable<OntologyElement> {
 	public String getWord();
 	
 	/**
+	 * Returns the headwords that are used in the GUI (title, index, etc) to refer to this ontology
+	 * element. At least one headword is required.
+	 * 
+	 * @return The headwords.
+	 */
+	public String[] getHeadwords();
+	
+	/**
 	 * Returns the word type as it is used internally.
 	 * 
 	 * @return The internal word type.
@@ -107,14 +115,6 @@ public interface OntologyElement extends Comparable<OntologyElement> {
 	 * @return The serialized word forms.
 	 */
 	public String serializeWords();
-	
-	/**
-	 * Returns the headwords that are used in the GUI (title, index, etc) to refer to this ontology
-	 * element. At least one headword is required.
-	 * 
-	 * @return The headwords.
-	 */
-	public String[] getHeadwords();
 	
 	/**
 	 * Returns the word type as it is shown to the user.

@@ -98,16 +98,7 @@ public abstract class AbstractOntologyElement implements OntologyElement {
 	}
 	
 	public String toString() {
-		String l = "";
-		for (String s : getWords()) {
-			if (s == null) {
-				l += ",";
-			} else {
-				l += s + ",";
-			}
-		}
-		if (l.length() > 0) l = l.substring(0, l.length()-1);
-		return getType() + "{" + l + "}";
+		return getInternalType() + ":" + serializeWords();
 	}
 
 }

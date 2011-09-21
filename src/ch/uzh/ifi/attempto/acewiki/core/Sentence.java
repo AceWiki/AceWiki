@@ -34,23 +34,6 @@ public interface Sentence extends Statement {
 	public List<TextElement> getTextElements();
 	
 	/**
-	 * Returns the sentence text as a string. Underscores are used for compound words,
-	 * e.g. "credit_card".
-	 * 
-	 * @return The sentence text as a string.
-	 */
-	public String getText();
-	
-	/**
-	 * Returns the sentence text as a string with underscores displayed as blanks. Compound
-	 * words containing underscores like "credit_cards" are pretty-printed with blank characters:
-	 * "credit card".
-	 * 
-	 * @return The sentence text as a pretty-printed string.
-	 */
-	public String getPrettyText();
-	
-	/**
 	 * Returns true if this sentence can participate in reasoning.
 	 * 
 	 * @return true if this sentence can participate in reasoning.
@@ -72,16 +55,6 @@ public interface Sentence extends Statement {
 	 * @param integrated true if the sentence is integrated into the ontology.
 	 */
 	public void setIntegrated(boolean integrated);
-	
-	/**
-	 * Checks whether the sentence contains the given word form (by word number) of the
-	 * given ontology element.
-	 * 
-	 * @param e The ontology element.
-	 * @param wordNumber The word number.
-	 * @return true if the word form occurs in this sentence.
-	 */
-	public boolean contains(OntologyElement e, int wordNumber);
 
 	/**
 	 * Checks whether the sentence contains the given ontology element (no matter which

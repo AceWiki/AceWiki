@@ -20,6 +20,7 @@ import nextapp.echo.app.Column;
 import nextapp.echo.app.Font;
 import nextapp.echo.app.Insets;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceDetail;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
@@ -49,7 +50,7 @@ public class SentencePage extends WikiPage {
 		
 		addSelectedTab("Sentence");
 		
-		add(new Title(sentence.getPrettyText(), false));
+		add(new Title(LanguageUtils.getPrettyPrinted(sentence.getText()), false));
 		addHorizontalLine();
 		add(new VSpace(15));
 		
