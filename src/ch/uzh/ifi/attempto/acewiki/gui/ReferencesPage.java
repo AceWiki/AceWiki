@@ -72,7 +72,7 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 		}
 		
 		OntologyElement oe = page.getOntologyElement();
-		title = new Title(oe.getHeadword(), "- References", oe.getType(), this);
+		title = new Title(getHeading(oe), "- References", oe.getType(), this);
 		add(title);
 		addHorizontalLine();
 		add(new VSpace(18));
@@ -86,7 +86,7 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 	}
 	
 	protected void doUpdate() {
-		title.setText(page.getOntologyElement().getHeadword());
+		title.setText(getHeading(page.getOntologyElement()));
 		referenceColumn.removeAll();
 		List<OntologyElement> ontologyElements = getWiki().getOntologyElements();
 		sentences = new ArrayList<Sentence>();
@@ -101,7 +101,7 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 		}
 		if (sentences.size() == 0) {
 			indexBar.setVisible(false);
-			String hw = page.getOntologyElement().getHeadword();
+			String hw = page.getOntologyElement().getHeadwords()[0];
 			referenceColumn.add(new SolidLabel(
 					"(no other article refers to '" + hw + "')",
 					Font.ITALIC,

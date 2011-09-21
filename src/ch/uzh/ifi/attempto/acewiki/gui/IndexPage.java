@@ -82,7 +82,7 @@ public class IndexPage extends WikiPage implements ActionListener {
 		
 		entries.clear();
 		for (OntologyElement e : getWiki().getOntologyElements()) {
-			for (String indexWord : e.getIndexEntries()) {
+			for (String indexWord : e.getHeadwords()) {
 				if (indexWord.toUpperCase().startsWith(chosenChar)) {
 					entries.put(indexWord, e);
 				}

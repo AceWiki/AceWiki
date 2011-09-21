@@ -81,7 +81,7 @@ public interface OntologyElement extends Comparable<OntologyElement> {
 	public String getWord(int wordFormID);
 	
 	/**
-	 * Returns the word form with the id 0 (the default word form).
+	 * Returns the main word form.
 	 * 
 	 * @return The word form.
 	 */
@@ -117,18 +117,12 @@ public interface OntologyElement extends Comparable<OntologyElement> {
 	public String serializeWords();
 	
 	/**
-	 * Returns the headword that is used in the GUI to refer to this ontology element.
+	 * Returns the headwords that are used in the GUI (title, index, etc) to refer to this ontology
+	 * element. At least one headword is required.
 	 * 
-	 * @return The headword.
+	 * @return The headwords.
 	 */
-	public String getHeadword();
-	
-	/**
-	 * Returns a list of words that should be listed in the index of the AceWiki GUI.
-	 * 
-	 * @return The index words.
-	 */
-	public String[] getIndexEntries();
+	public String[] getHeadwords();
 	
 	/**
 	 * Returns the word type as it is shown to the user.

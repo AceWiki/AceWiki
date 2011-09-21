@@ -67,7 +67,7 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 		addTab("Hierarchy", this);
 		
 		OntologyElement oe = page.getOntologyElement();
-		title = new Title(oe.getHeadword(), "- Individuals", oe.getType(), this);
+		title = new Title(getHeading(oe), "- Individuals", oe.getType(), this);
 		add(title);
 		addHorizontalLine();
 		
@@ -75,7 +75,7 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 	}
 	
 	protected void doUpdate() {
-		title.setText(page.getOntologyElement().getHeadword());
+		title.setText(getHeading(page.getOntologyElement()));
 		individualsColumn.removeAll();
 		
 		final Column waitComp = new Column();

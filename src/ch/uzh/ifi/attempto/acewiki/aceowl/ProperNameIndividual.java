@@ -99,16 +99,12 @@ public class ProperNameIndividual extends OWLIndividual implements ACEOWLOntoEle
 		}
 	}
 	
-	public String getHeadword() {
+	public String[] getHeadwords() {
 		if (abbrev == null) {
-			return getPrettyWord(1);
+			return new String[] {getPrettyWord(1)};
 		} else {
-			return getPrettyWord(1) + " (" + getPrettyWord(3) + ")";
+			return new String[] {getPrettyWord(1), getPrettyWord(3)};
 		}
-	}
-	
-	public String[] getIndexEntries() {
-		return new String[] {getHeadword(), getPrettyWord(3)};
 	}
 	
 	public void setWords(String serializedWords) {

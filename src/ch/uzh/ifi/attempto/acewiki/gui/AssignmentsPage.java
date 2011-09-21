@@ -66,14 +66,14 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 		addSelectedTab("Assignments");
 		
 		OntologyElement oe = page.getOntologyElement();
-		title = new Title(oe.getHeadword(), "- Assignments", oe.getType(), this);
+		title = new Title(getHeading(oe), "- Assignments", oe.getType(), this);
 		add(title);
 		addHorizontalLine();
 		add(assignmentsColumn);
 	}
 	
 	protected void doUpdate() {
-		title.setText(page.getOntologyElement().getHeadword());
+		title.setText(getHeading(page.getOntologyElement()));
 		assignmentsColumn.removeAll();
 		
 		final Column waitComp = new Column();

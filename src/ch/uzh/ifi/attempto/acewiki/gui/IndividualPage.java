@@ -58,7 +58,7 @@ public class IndividualPage extends ArticlePage {
 	protected void doUpdate() {
 		super.doUpdate();
 		
-		getTitle().setText(ind.getHeadword());
+		getTitle().setText(getHeading(ind));
 	}
 
 }
