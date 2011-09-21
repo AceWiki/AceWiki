@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.uzh.ifi.attempto.acewiki.core.InvalidWordException;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconDetail;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
@@ -44,7 +45,7 @@ public class NounOfChanger implements LexiconChanger {
 		l.add(new LexiconDetail(
 				"noun",
 				"examples: part, child, owner",
-				relation.getPrettyNoun()
+				relation.getNoun()
 			));
 		return l;
 	}
@@ -56,7 +57,7 @@ public class NounOfChanger implements LexiconChanger {
 		if (name.toLowerCase().endsWith("_of")) {
 			name = name.substring(0, name.length()-3);
 		}
-		String nameP = name.replace("_", " ");
+		String nameP = LanguageUtils.getPrettyPrinted(name);
 		
 		if (name.equals("")) {
 			throw new InvalidWordException("No noun defined: Please specify the singular form " +

@@ -31,6 +31,7 @@ import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.layout.RowLayoutData;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Comment;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.base.TextElement;
@@ -214,7 +215,8 @@ public class CommentComponent extends Column implements ActionListener {
 				if (te instanceof OntologyTextElement) {
 					OntologyTextElement ote = (OntologyTextElement) te;
 					OntologyElement oe = ote.getOntologyElement();
-					comp = new WikiLink(oe, oe.getPrettyWord(ote.getWordNumber()), wiki, false);
+					String t = LanguageUtils.getPrettyPrinted(oe.getWord(ote.getWordNumber()));
+					comp = new WikiLink(oe, t, wiki, false);
 					text = name;
 				}
 			}

@@ -88,14 +88,6 @@ public interface OntologyElement extends Comparable<OntologyElement> {
 	public String getWord();
 	
 	/**
-	 * Returns the pretty-printed word form for the given word form id.
-	 * 
-	 * @param wordFormID The word form id.
-	 * @return The word form.
-	 */
-	public String getPrettyWord(int wordFormID);
-	
-	/**
 	 * Returns the word type as it is used internally.
 	 * 
 	 * @return The internal word type.

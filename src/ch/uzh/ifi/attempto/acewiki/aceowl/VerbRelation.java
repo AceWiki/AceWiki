@@ -83,24 +83,6 @@ public class VerbRelation extends OWLRelation implements ACEOWLOntoElement {
 		}
 	}
 	
-	/**
-	 * Returns the pretty-printed past participle. The pretty printing replaces
-	 * underscores by blanks.
-	 * 
-	 * @return The pretty-printed past participle form.
-	 * @see #getPastPart()
-	 */
-	public String getPrettyPastPart() {
-		String s = getWord(2);
-		if (s == null) {
-			return null;
-		} else if (s.endsWith(" by")) {
-			return s.substring(0, s.length()-3);
-		} else {
-			throw new RuntimeException("Illegal passive word form: " + s);
-		}
-	}
-	
 	public String getIRISuffix() {
 		return getWord(1);
 	}

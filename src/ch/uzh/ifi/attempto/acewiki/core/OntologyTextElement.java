@@ -56,8 +56,8 @@ public class OntologyTextElement extends TextElement {
 	
 	public String getText() {
 		String t = super.getText();
-		if (t != null) t = t.replace("_", " ");
-		return t;
+		if (t == null) return null;
+		return LanguageUtils.getPrettyPrinted(t);
 	}
 	
 	public String getOriginalText() {

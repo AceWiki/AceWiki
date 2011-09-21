@@ -74,23 +74,6 @@ public class OfRelation extends OWLRelation implements ACEOWLOntoElement {
 		}
 	}
 	
-	/**
-	 * Returns the pretty-printed noun of the of-construct. Pretty-printing replaces
-	 * underscores by blanks.
-	 * 
-	 * @return The pretty-printed noun.
-	 */
-	public String getPrettyNoun() {
-		String n = getPrettyWord(0);
-		if (n == null) {
-			return null;
-		} else if (n.endsWith(" of")) {
-			return n.substring(0, n.length()-3);
-		} else {
-			throw new RuntimeException("Illegal of-construct: " + n);
-		}
-	}
-	
 	public String getIRISuffix() {
 		return getNoun();
 	}

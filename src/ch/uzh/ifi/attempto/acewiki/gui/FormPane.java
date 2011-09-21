@@ -31,6 +31,7 @@ import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.InvalidWordException;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconDetail;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
@@ -125,7 +126,7 @@ public class FormPane extends WordEditorForm {
 			boolean required = d.isRequired();
 			if (value instanceof String) {
 				TextField textField = new TextField(this);
-				textField.setText((String) value);
+				textField.setText(LanguageUtils.getPrettyPrinted((String) value));
 				formElement = textField;
 			} else if (value instanceof Boolean) {
 				CheckBox checkBox = new CheckBox();

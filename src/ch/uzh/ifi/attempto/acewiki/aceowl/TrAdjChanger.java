@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.uzh.ifi.attempto.acewiki.core.InvalidWordException;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconDetail;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
@@ -44,7 +45,7 @@ public class TrAdjChanger implements LexiconChanger {
 		l.add(new LexiconDetail(
 				"tr. adjective",
 				"examples: located in, matched with, fond of",
-				relation.getPrettyWord(0)
+				relation.getWord(0)
 			));
 		return l;
 	}
@@ -54,7 +55,7 @@ public class TrAdjChanger implements LexiconChanger {
 		TrAdjRelation relation = (TrAdjRelation) el;
 		
 		String name = ACEOWLLexicon.normalize((String) newValues.get(0));
-		String nameP = name.replace("_", " ");
+		String nameP = LanguageUtils.getPrettyPrinted(name);
 		
 		if (name.equals("")) {
 			throw new InvalidWordException("No word defined: Please specify the transitive " +

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.uzh.ifi.attempto.acewiki.core.InvalidWordException;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconDetail;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
@@ -43,17 +44,17 @@ public class VerbChanger implements LexiconChanger {
 		l.add(new LexiconDetail(
 				"third singular",
 				"examples: owns, applies to, touches",
-				relation.getPrettyWord(0)
+				relation.getWord(0)
 			));
 		l.add(new LexiconDetail(
 				"bare infinitive",
 				"examples: own, apply to, touch",
-				relation.getPrettyWord(1)
+				relation.getWord(1)
 			));
 		l.add(new LexiconDetail(
 				"past participle",
 				"examples: owned, applied to, touched",
-				relation.getPrettyPastPart(),
+				relation.getPastPart(),
 				false
 			));
 		return l;
@@ -69,9 +70,9 @@ public class VerbChanger implements LexiconChanger {
 		if (pastPart.toLowerCase().endsWith("_by")) {
 			pastPart = pastPart.substring(0, pastPart.length()-3);
 		}
-		String thirdSgP = thirdSg.replace("_", " ");
-		String infP = inf.replace("_", " ");
-		String pastPartP = pastPart.replace("_", " ");
+		String thirdSgP = LanguageUtils.getPrettyPrinted(thirdSg);
+		String infP = LanguageUtils.getPrettyPrinted(inf);
+		String pastPartP = LanguageUtils.getPrettyPrinted(pastPart);
 		
 		// check whether all necessary fields are filled-in
 		if (thirdSg.equals("")) {

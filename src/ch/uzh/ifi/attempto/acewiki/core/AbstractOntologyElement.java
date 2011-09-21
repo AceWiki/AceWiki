@@ -67,14 +67,8 @@ public abstract class AbstractOntologyElement implements OntologyElement {
 		return s;
 	}
 	
-	public String getPrettyWord(int n) {
-		String w = getWord(n);
-		if (w == null) return null;
-		return w.replace("_", " ");
-	}
-	
 	public String[] getHeadwords() {
-		return new String[] {getPrettyWord(0)};
+		return new String[] {getWord(0)};
 	}
 	
 	public long getId() {
@@ -124,29 +118,6 @@ public abstract class AbstractOntologyElement implements OntologyElement {
 		}
 		if (l.length() > 0) l = l.substring(0, l.length()-1);
 		return getType() + "{" + l + "}";
-	}
-	
-	/**
-	 * Returns a heading of the form "headword1 (headword2, ..., headwordn)" for the given ontology
-	 * element.
-	 * 
-	 * @param oe The ontology element.
-	 * @return The heading.
-	 */
-	public static String getHeading(OntologyElement oe) {
-		String[] h = oe.getHeadwords();
-		String heading = h[0];
-		if (h.length > 1) {
-			String aliases = "";
-			for (int i=1 ; i<h.length ; i++) {
-				aliases += ", " + h[i];
-			}
-			if (aliases.length() > 0) {
-				aliases = aliases.substring(2);
-			}
-			heading += " (" + aliases + ")";
-		}
-		return heading;
 	}
 
 }

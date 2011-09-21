@@ -101,9 +101,9 @@ public class ProperNameIndividual extends OWLIndividual implements ACEOWLOntoEle
 	
 	public String[] getHeadwords() {
 		if (abbrev == null) {
-			return new String[] {getPrettyWord(1)};
+			return new String[] {getWord(1)};
 		} else {
-			return new String[] {getPrettyWord(1), getPrettyWord(3)};
+			return new String[] {getWord(1), getWord(3)};
 		}
 	}
 	
@@ -194,7 +194,7 @@ public class ProperNameIndividual extends OWLIndividual implements ACEOWLOntoEle
 	 */
 	public String getAbbreviation() {
 		if (abbrev == null) return null;
-		return abbrev.replace("_", " ");
+		return abbrev;
 	}
 	
 	public String getIRISuffix() {

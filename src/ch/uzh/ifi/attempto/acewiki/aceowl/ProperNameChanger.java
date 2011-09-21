@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.uzh.ifi.attempto.acewiki.core.InvalidWordException;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconDetail;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
@@ -44,7 +45,7 @@ public class ProperNameChanger implements LexiconChanger {
 		l.add(new LexiconDetail(
 				"proper name",
 				"examples: Switzerland, Bob Dylan, Nile, United Nations",
-				ind.getPrettyWord(1)
+				ind.getWord(1)
 			));
 		l.add(new LexiconDetail(
 				"... used with \"the\"",
@@ -81,8 +82,8 @@ public class ProperNameChanger implements LexiconChanger {
 			abbrev = abbrev.substring(4);
 			abbrevDefArt = true;
 		}
-		String nameP = name.replace("_", " ");
-		String abbrevP = abbrev.replace("_", " ");
+		String nameP = LanguageUtils.getPrettyPrinted(name);
+		String abbrevP = LanguageUtils.getPrettyPrinted(abbrev);
 		
 		if (name.equals("")) {
 			throw new InvalidWordException("No proper name defined: Please specify a name.");

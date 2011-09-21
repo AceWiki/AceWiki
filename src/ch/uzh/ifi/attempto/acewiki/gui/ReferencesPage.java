@@ -28,6 +28,7 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Article;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
@@ -101,9 +102,9 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 		}
 		if (sentences.size() == 0) {
 			indexBar.setVisible(false);
-			String hw = page.getOntologyElement().getHeadwords()[0];
+			String h = LanguageUtils.getPrettyPrinted(page.getOntologyElement().getHeadwords()[0]);
 			referenceColumn.add(new SolidLabel(
-					"(no other article refers to '" + hw + "')",
+					"(no other article refers to '" + h + "')",
 					Font.ITALIC,
 					10
 				));

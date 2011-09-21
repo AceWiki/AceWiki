@@ -26,6 +26,7 @@ import nextapp.echo.app.Insets;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
@@ -119,6 +120,7 @@ public class IndexPage extends WikiPage implements ActionListener {
 		for (int i = chosenPage * pageSize; i < max; i++) {
 			String t = indexWords.get(i);
 			OntologyElement el = entries.get(t);
+			t = LanguageUtils.getPrettyPrinted(t);
 			indexColumn.add(new ListItem(new WikiLink(el, t, getWiki(), false)));
 		}
 	}

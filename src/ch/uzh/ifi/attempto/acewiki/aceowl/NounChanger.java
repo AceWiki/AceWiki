@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.uzh.ifi.attempto.acewiki.core.InvalidWordException;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconDetail;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
@@ -42,12 +43,12 @@ public class NounChanger implements LexiconChanger {
 		l.add(new LexiconDetail(
 				"singular",
 				"examples: woman, city, process",
-				concept.getPrettyWord(0)
+				concept.getWord(0)
 			));
 		l.add(new LexiconDetail(
 				"plural",
 				"examples: women, cities, processes",
-				concept.getPrettyWord(1)
+				concept.getWord(1)
 			));
 		return l;
 	}
@@ -58,8 +59,8 @@ public class NounChanger implements LexiconChanger {
 		
 		String singular = ACEOWLLexicon.normalize((String) newValues.get(0));
 		String plural = ACEOWLLexicon.normalize((String) newValues.get(1));
-		String singularP = singular.replace("_", " ");
-		String pluralP = plural.replace("_", " ");
+		String singularP = LanguageUtils.getPrettyPrinted(singular);
+		String pluralP = LanguageUtils.getPrettyPrinted(plural);
 		
 		if (singular.equals(plural)) {
 			throw new InvalidWordException("Singular and plural form have to be distinct.");
