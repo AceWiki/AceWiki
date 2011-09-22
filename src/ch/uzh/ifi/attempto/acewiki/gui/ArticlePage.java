@@ -59,7 +59,7 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 		if (!(ontologyElement instanceof DummyOntologyElement)) {
 			addSelectedTab("Article");
 			addTab("References", this);
-			title = new Title(ontologyElement.getHeadword(), ontologyElement.getType(), this);
+			title = new Title(getHeading(ontologyElement), ontologyElement.getType(), this);
 		} else {
 			title = new Title("", true, null, null);
 		}

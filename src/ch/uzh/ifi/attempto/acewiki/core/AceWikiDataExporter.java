@@ -25,10 +25,7 @@ import java.io.IOException;
 public class AceWikiDataExporter extends OntologyExporter {
 	
 	protected void writeContent() throws IOException {
-		for (OntologyElement oe : getOntologyElements()) {
-			write(FileBasedStorage.serialize(oe, false));
-			write("\n");
-		}
+		write(FileBasedStorage.serialize(getOntologyElements()));
 	}
 	
 	public boolean isApplicable() {

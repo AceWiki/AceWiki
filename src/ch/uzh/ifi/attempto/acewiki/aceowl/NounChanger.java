@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.uzh.ifi.attempto.acewiki.core.InvalidWordException;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconDetail;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
@@ -42,12 +43,12 @@ public class NounChanger implements LexiconChanger {
 		l.add(new LexiconDetail(
 				"singular",
 				"examples: woman, city, process",
-				concept.getPrettyWord(0)
+				concept.getWord(0)
 			));
 		l.add(new LexiconDetail(
 				"plural",
 				"examples: women, cities, processes",
-				concept.getPrettyWord(1)
+				concept.getWord(1)
 			));
 		return l;
 	}
@@ -56,10 +57,10 @@ public class NounChanger implements LexiconChanger {
 			throws InvalidWordException {
 		NounConcept concept = (NounConcept) el;
 		
-		String singular = Ontology.normalize((String) newValues.get(0));
-		String plural = Ontology.normalize((String) newValues.get(1));
-		String singularP = singular.replace("_", " ");
-		String pluralP = plural.replace("_", " ");
+		String singular = ACEOWLLexicon.normalize((String) newValues.get(0));
+		String plural = ACEOWLLexicon.normalize((String) newValues.get(1));
+		String singularP = LanguageUtils.getPrettyPrinted(singular);
+		String pluralP = LanguageUtils.getPrettyPrinted(plural);
 		
 		if (singular.equals(plural)) {
 			throw new InvalidWordException("Singular and plural form have to be distinct.");
@@ -68,7 +69,7 @@ public class NounChanger implements LexiconChanger {
 			throw new InvalidWordException("No singular form defined: Please specify the " +
 				"singular form.");
 		}
-		if (!Ontology.isValidWordOrEmpty(singular)) {
+		if (!ACEOWLLexicon.isValidWordOrEmpty(singular)) {
 			throw new InvalidWordException("Invalid character: Only a-z, A-Z, 0-9, -, and " +
 				"spaces are allowed, and the first character must be one of a-z A-Z.");
 		}
@@ -85,7 +86,7 @@ public class NounChanger implements LexiconChanger {
 			throw new InvalidWordException("No plural form defined: Please specify the plural " +
 				"form.");
 		}
-		if (!Ontology.isValidWordOrEmpty(plural)) {
+		if (!ACEOWLLexicon.isValidWordOrEmpty(plural)) {
 			throw new InvalidWordException("Invalid character: Only a-z, A-Z, 0-9, -, and " +
 				"spaces are allowed, and the first character must be one of a-z A-Z.");
 		}
@@ -98,7 +99,7 @@ public class NounChanger implements LexiconChanger {
 			throw new InvalidWordException("The word '" + pluralP + "' is already used. Please " +
 				"use a different one.");
 		}
-		concept.setWords(singular, plural);
+		ontology.change(concept, singular + ";" + plural);
 	}
 
 }

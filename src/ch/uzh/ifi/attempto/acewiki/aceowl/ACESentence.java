@@ -22,6 +22,7 @@ import static ch.uzh.ifi.attempto.ape.OutputType.SYNTAX;
 import static ch.uzh.ifi.attempto.ape.OutputType.SYNTAXPP;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -61,11 +62,14 @@ import ch.uzh.ifi.attempto.base.TextElement;
 public abstract class ACESentence extends AbstractSentence implements OWLSentence {
 	
 	private static OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
-
-	private String text;
+	
+	// This field is either initialized when the object is created, or otherwise unused:
+	private String serialized;
+	
+	// Unless initialized when the object is created, this field is evaluated lazily:
+	private TextContainer textContainer;
 	
 	// These fields are evaluated lazily:
-	private TextContainer textContainer;
 	private ACEParserResult parserResult;
 	private Boolean reasonable;
 	private Boolean isOWL;
@@ -73,12 +77,21 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 	private Set<OWLAxiom> owlAxioms;
 	
 	/**
-	 * Initializes a new sentence.
+	 * Initializes a new ACE sentence.
 	 * 
-	 * @param text The sentence text.
+	 * @param serialized The serialized representation of the sentence.
 	 */
-	protected ACESentence(String text) {
-		this.text = text;
+	protected ACESentence(String serialized) {
+		this.serialized = serialized;
+	}
+
+	/**
+	 * Initializes a new ACE sentence.
+	 * 
+	 * @param textContainer The text container with the sentence text.
+	 */
+	protected ACESentence(TextContainer textContainer) {
+		this.textContainer = textContainer;
 	}
 	
 	public List<TextElement> getTextElements() {
@@ -88,6 +101,10 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 			if (e instanceof OntologyTextElement) {
 				OntologyTextElement ote = (OntologyTextElement) e;
 				OntologyElement oe = ote.getOntologyElement();
+				if (ote.getPreText().length() > 0) {
+					list.add(new TextElement(ote.getPreText()));
+					ote = new OntologyTextElement(oe, ote.getWordNumber());
+				}
 				if (oe instanceof ProperNameIndividual) {
 					// Proper names with definite articles are handled differently: The "the" is
 					// not a part of the link.
@@ -97,10 +114,10 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 						list.add(new TextElement(e.getText().substring(0, 3)));
 						list.add(new OntologyTextElement(ind, wn+1));
 					} else {
-						list.add(e);
+						list.add(ote);
 					}
 				} else {
-					list.add(e);
+					list.add(ote);
 				}
 			} else {
 				list.add(e);
@@ -117,7 +134,70 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 	}
 	
 	private void tokenize() {
-		textContainer = Tokenizer.tokenize(text, getOntology());
+		textContainer = new TextContainer(getOntology().getTextOperator());
+		
+		// TODO Remove legacy code at some point
+		
+		// Replace for legacy code below:
+		//List<String> tokens = Arrays.asList(serialized.split(" "));
+		
+		// This is legacy code to support old acewikidata files:
+		String t = "&" + serialized + "&";
+		t = t.replaceAll(" ", "&");
+		t = t.replaceAll("\\.", "&.&");
+		t = t.replaceAll("\\?", "&?&");
+		t = t.replaceAll("&of&", " of&");
+		t = t.replaceAll("&by&", " by&");
+
+		List<String> tokens = new ArrayList<String>(Arrays.asList(t.split("&")));
+
+		while (tokens.contains("")) {
+			tokens.remove("");
+		}
+		// End of legacy code
+		
+		for (String s : tokens) {
+			if (s.startsWith("<")) {
+				OntologyTextElement te;
+				try {
+					long oeId = new Long(s.substring(1, s.indexOf(",")));
+					int wordNumber = new Integer(s.substring(s.indexOf(",")+1, s.indexOf(">")));
+					OntologyElement oe = getOntology().get(oeId);
+					te = new OntologyTextElement(oe, wordNumber);
+				} catch (Exception ex) {
+					throw new RuntimeException("Could not resolve link: " + s, ex);
+				}
+				if (te != null) {
+					textContainer.addElement(te);
+				} else {
+					throw new RuntimeException("Could not resolve link: " + s);
+				}
+			} else {
+				TextElement te = getOntology().getTextOperator().createTextElement(s);
+				if (!(te instanceof OntologyTextElement) || serialized.indexOf("<") > -1) {
+					textContainer.addElement(te);
+				} else {
+					// This is legacy code to support old acewikidata files:
+					OntologyTextElement ote = (OntologyTextElement) te;
+					OntologyElement oe = ote.getOntologyElement();
+					int wordId = ote.getWordNumber();
+					if (oe instanceof ProperNameIndividual) {
+						ProperNameIndividual ind = (ProperNameIndividual) oe;
+						if (ind.hasDefiniteArticle(wordId-1) && textContainer.getTextElementsCount() > 0) {
+							String precedingText = textContainer.
+							getTextElement(textContainer.getTextElementsCount()-1).
+							getText();
+							if (precedingText.equals("the") || precedingText.equals("The")) {
+								textContainer.removeLastElement();
+								wordId--;
+							}
+						}
+					}
+					textContainer.addElement(new OntologyTextElement(oe, wordId));
+					// End of legacy code
+				}
+			}
+		}
 	}
 	
 	/**
@@ -269,10 +349,7 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 	}
 	
 	public boolean contains(OntologyElement e, int wordNumber) {
-		if (textContainer == null) {
-			tokenize();
-		}
-		for (TextElement t : textContainer.getTextElements()) {
+		for (TextElement t : getTextContainer().getTextElements()) {
 			if (t instanceof OntologyTextElement) {
 				OntologyTextElement ot = (OntologyTextElement) t;
 				if (e == ot.getOntologyElement() && wordNumber == -1) return true;
@@ -286,29 +363,20 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 		return contains(e, -1);
 	}
 	
-	public String serialize(boolean encodeWords) {
-		if (textContainer == null) {
-			tokenize();
-		}
-		String s;
-		if (isIntegrated()) {
-			s = "|";
-		} else {
-			s = "#";
-		}
-		for (TextElement te : textContainer.getTextElements()) {
+	public String serialize() {
+		String s = "";
+		for (TextElement te : getTextContainer().getTextElements()) {
 			if (te instanceof OntologyTextElement) {
 				OntologyTextElement ot = (OntologyTextElement) te;
-				if (encodeWords) {
-					s += " <" + ot.getOntologyElement().getId() + "," + ot.getWordNumber() + ">";
-				} else {
-					s += " " + ot.getUnderscoredText();
-				}
+				s += ot.getPreText();
+				s += "<" + ot.getOntologyElement().getId() + "," + ot.getWordNumber() + "> ";
+				s += ot.getPostText();
 			} else {
-				s += " " + te.getText();
+				s += te.getText() + " ";
 			}
 		}
-		return s + "\n";
+		s = s.replaceAll(" $", "");
+		return s;
 	}
 
 	public List<SentenceDetail> getDetails() {

@@ -53,7 +53,7 @@ public class RelationPage extends ArticlePage {
 	protected void doUpdate() {
 		super.doUpdate();
 		
-		getTitle().setText(relation.getHeadword());
+		getTitle().setText(getHeading(relation));
 	}
 
 }

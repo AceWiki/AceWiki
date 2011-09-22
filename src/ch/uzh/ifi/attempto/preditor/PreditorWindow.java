@@ -166,7 +166,7 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 		
 		menuBlockArea = new Column();
 		menuBlockArea.setInsets(new Insets(10, 15, 0, 0));
-		grid.setRowHeight(2, new Extent(265));
+		grid.setRowHeight(2, new Extent(275));
 		grid.add(menuBlockArea);
 		
 		Row buttonBar = new Row();

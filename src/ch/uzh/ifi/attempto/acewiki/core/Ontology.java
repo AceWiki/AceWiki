@@ -37,7 +37,6 @@ public class Ontology {
 	private AceWikiStorage storage;
 	private Logger logger;
 	
-	private Map<String, OntologyElement> wordIndex = new TreeMap<String, OntologyElement>();
 	private Map<Long, OntologyElement> idIndex = new TreeMap<Long, OntologyElement>();
 	
 	private final String name;
@@ -152,18 +151,7 @@ public class Ontology {
 		idIndex.put(element.getId(), element);
 		if (element.getId() > idCount) idCount = element.getId();
 		
-		for (String word : element.getWords()) {
-			if (word == null) continue;
-			
-			if (getElement(word) == null) {
-				wordIndex.put(word, element);
-			} else if (getElement(word) != element) {
-				log("error: word already used");
-				throw new RuntimeException(
-						"Registration failed: The word '" + word + "' is already used."
-					);
-			}
-		}
+		languageEngine.getWordIndex().elementAdded(element);
 		
 		getReasoner().loadElement(element);
 		getReasoner().flushElements();
@@ -185,10 +173,8 @@ public class Ontology {
 		log("remove: " + element.getWord());
 		stateID++;
 		
-		for (String word : element.getWords()) {
-			if (word == null) continue;
-			wordIndex.remove(word);
-		}
+		languageEngine.getWordIndex().elementRemoved(element);
+		
 		idIndex.remove(element.getId());
 		for (Sentence s : element.getArticle().getSentences()) {
 			retractSentence(s);
@@ -199,61 +185,41 @@ public class Ontology {
 		getReasoner().flushElements();
 	}
 	
-	synchronized void removeFromWordIndex(OntologyElement oe) {
-		for (String word : oe.getWords()) {
-			if (word != null) {
-				wordIndex.remove(word);
-			}
-		}
-		getReasoner().unloadElement(oe);
-	}
-	
-	synchronized void addToWordIndex(OntologyElement oe) {
-		for (String word : oe.getWords()) {
-			if (word != null) {
-				if (getElement(word) == null) {
-					wordIndex.put(word, oe);
-				} else if (getElement(word) != oe) {
-					throw new RuntimeException(
-							"Word update failed: The word '" + word + "' is already used."
-						);
-				}
-			}
-		}
-		getReasoner().loadElement(oe);
-	}
-	
 	/**
-	 * Returns all the sentences that use the given word form (by word number) of the given
-	 * ontology element.
+	 * Changes the word forms of the given ontology element.
 	 * 
-	 * @param element The ontology element.
-	 * @param wordNumber The word number.
-	 * @return A list of all sentence that contain the word.
+	 * @param element The ontology element to be changed.
+	 * @param serializedWords The serialized word forms.
 	 */
-	public synchronized List<Sentence> getReferences(OntologyElement element, int wordNumber) {
-		List<Sentence> list = new ArrayList<Sentence>();
-		for (OntologyElement el : idIndex.values()) {
-			for (Sentence s : el.getArticle().getSentences()) {
-				if (wordNumber == -1 && s.contains(element)) {
-					list.add(s);
-				} else if (wordNumber > -1 && s.contains(element, wordNumber)) {
-					list.add(s);
-				}
-			}
+	public synchronized void change(OntologyElement element, String serializedWords) {
+		if (contains(element)) {
+			languageEngine.getWordIndex().elementBeforeChange(element);
+			getReasoner().unloadElement(element);
+			element.setWords(serializedWords);
+			languageEngine.getWordIndex().elementAfterChange(element);
+			getReasoner().loadElement(element);
+			refresh(element);
+		} else {
+			element.setWords(serializedWords);
 		}
-		return list;
 	}
-
+	
 	/**
-	 * Returns all the sentences that use the given ontology element (no matter which word form
-	 * is used).
+	 * Returns all the sentences that use the given ontology element.
 	 * 
 	 * @param element The ontology element.
 	 * @return A list of all sentence that contain the ontology element.
 	 */
 	public synchronized List<Sentence> getReferences(OntologyElement element) {
-		return getReferences(element, -1);
+		List<Sentence> list = new ArrayList<Sentence>();
+		for (OntologyElement el : idIndex.values()) {
+			for (Sentence s : el.getArticle().getSentences()) {
+				if (s.contains(element)) {
+					list.add(s);
+				}
+			}
+		}
+		return list;
 	}
 	
 	/**
@@ -263,7 +229,7 @@ public class Ontology {
 	 * @return The ontology element.
 	 */
 	public synchronized OntologyElement getElement(String name) {
-		return wordIndex.get(name);
+		return languageEngine.getWordIndex().getElement(name);
 	}
 	
 	/**
@@ -445,26 +411,6 @@ public class Ontology {
 	 */
 	public String getParameter(String name) {
 		return parameters.get(name);
-	}
-	
-	/**
-	 * Returns true if the string represents a valid word form.
-	 * 
-	 * @param s The string.
-	 * @return true if the string represents a valid word form.
-	 */
-	public static boolean isValidWordOrEmpty(String s) {
-		return s.matches("([a-zA-Z][a-zA-Z0-9_-]*)?");
-	}
-	
-	/**
-	 * Normalizes the string. White space characters are replaced by underscores.
-	 * 
-	 * @param s The input string.
-	 * @return The normalized string.
-	 */
-	public static String normalize(String s) {
-		return s.replaceAll("(\\s|_)+", "_").replaceAll("(^_|_$)", "");
 	}
 	
 }

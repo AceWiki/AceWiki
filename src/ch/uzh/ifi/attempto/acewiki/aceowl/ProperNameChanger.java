@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.uzh.ifi.attempto.acewiki.core.InvalidWordException;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconDetail;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
@@ -44,7 +45,7 @@ public class ProperNameChanger implements LexiconChanger {
 		l.add(new LexiconDetail(
 				"proper name",
 				"examples: Switzerland, Bob Dylan, Nile, United Nations",
-				ind.getPrettyWord(1)
+				ind.getWord(1)
 			));
 		l.add(new LexiconDetail(
 				"... used with \"the\"",
@@ -68,8 +69,8 @@ public class ProperNameChanger implements LexiconChanger {
 			throws InvalidWordException {
 		ProperNameIndividual ind = (ProperNameIndividual) el;
 		
-		String name = Ontology.normalize((String) newValues.get(0));
-		String abbrev = Ontology.normalize((String) newValues.get(2));
+		String name = ACEOWLLexicon.normalize((String) newValues.get(0));
+		String abbrev = ACEOWLLexicon.normalize((String) newValues.get(2));
 		boolean nameDefArt = (Boolean) newValues.get(1);
 		boolean abbrevDefArt = (Boolean) newValues.get(3);
 		
@@ -81,13 +82,13 @@ public class ProperNameChanger implements LexiconChanger {
 			abbrev = abbrev.substring(4);
 			abbrevDefArt = true;
 		}
-		String nameP = name.replace("_", " ");
-		String abbrevP = abbrev.replace("_", " ");
+		String nameP = LanguageUtils.getPrettyPrinted(name);
+		String abbrevP = LanguageUtils.getPrettyPrinted(abbrev);
 		
 		if (name.equals("")) {
 			throw new InvalidWordException("No proper name defined: Please specify a name.");
 		}
-		if (!Ontology.isValidWordOrEmpty(name) || !Ontology.isValidWordOrEmpty(abbrev)) {
+		if (!ACEOWLLexicon.isValidWordOrEmpty(name) || !ACEOWLLexicon.isValidWordOrEmpty(abbrev)) {
 			throw new InvalidWordException("Invalid character: Only a-z, A-Z, 0-9, -, and " +
 				"spaces are allowed, and the first character must be one of a-z A-Z.");
 		}
@@ -118,15 +119,10 @@ public class ProperNameChanger implements LexiconChanger {
 			word = "the " + name;
 		}
 		String abbrevWord = abbrev;
-		if (abbrev.equals("")) {
-			abbrev = null;
-			abbrevWord = null;
-		} else {
-			if (abbrevDefArt) {
-				abbrevWord = "the " + abbrev;
-			}
+		if (!abbrev.equals("") && abbrevDefArt) {
+			abbrevWord = "the " + abbrev;
 		}
-		ind.setWords(word, name, abbrevWord, abbrev);
+		ontology.change(ind, word + ";" + name + ";" + abbrevWord + ";" + abbrev);
 	}
 
 }

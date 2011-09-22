@@ -64,7 +64,7 @@ public class ConceptPage extends ArticlePage {
 	protected void doUpdate() {
 		super.doUpdate();
 		
-		getTitle().setText(concept.getHeadword());
+		getTitle().setText(getHeading(concept));
 		
 		Thread thread = new Thread() {
 			public void run() {

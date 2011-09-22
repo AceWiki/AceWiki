@@ -55,17 +55,21 @@ public class SentencePage extends WikiPage {
 		
 		List<SentenceDetail> l = sentence.getDetails();
 		
-		if (l.isEmpty()) {
-			add(new SolidLabel("(no detail information available)", Font.ITALIC, 10));
+		if (l == null || l.isEmpty()) {
+			Column col = new Column();
+			col.setInsets(new Insets(10, 5, 5, 15));
+			col.add(new SolidLabel("(no detail information available)", Font.ITALIC, 10));
+			add(col);
+		} else {
+			for (SentenceDetail si : l) {
+				addHeadline(si.getName());
+				Column infoColumn = new Column();
+				infoColumn.setInsets(new Insets(10, 5, 5, 15));
+				infoColumn.add(new DirectHtml(si.getRichText()));
+				add(infoColumn);
+			}
 		}
 		
-		for (SentenceDetail si : l) {
-			addHeadline(si.getName());
-			Column infoColumn = new Column();
-			infoColumn.setInsets(new Insets(10, 5, 5, 15));
-			infoColumn.add(new DirectHtml(si.getRichText()));
-			add(infoColumn);
-		}
 	}
 
 	public boolean equals(Object obj) {

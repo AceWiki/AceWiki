@@ -25,6 +25,8 @@ import nextapp.echo.app.Insets;
 import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.SmallButton;
@@ -179,6 +181,16 @@ public abstract class WikiPage extends Column {
 			headline.add(comp);
 		}
 		add(headline);
+	}
+	
+	/**
+	 * Returns the heading text for the given ontology element.
+	 * 
+	 * @param oe The ontology element.
+	 * @return The heading.
+	 */
+	protected String getHeading(OntologyElement oe) {
+		return LanguageUtils.getHeading(oe);
 	}
 
 	public abstract boolean equals(Object obj);

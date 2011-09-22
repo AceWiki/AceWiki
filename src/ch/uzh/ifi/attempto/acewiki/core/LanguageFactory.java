@@ -14,6 +14,9 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
+import java.util.List;
+
+import ch.uzh.ifi.attempto.base.PredictiveParser;
 import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.base.TextOperator;
 
@@ -44,12 +47,21 @@ public interface LanguageFactory {
 	public TextOperator getTextOperator();
 	
 	/**
-	 * Creates a new sentence based on the given sentence text.
+	 * Creates a new sentence object based on the given serialization.
 	 * 
-	 * @param text The sentence text.
+	 * @param serialized The serialized representation of the sentence.
 	 * @return A new sentence object.
 	 */
-	public Sentence createSentence(String text);
+	public Sentence createSentence(String serialized);
+	
+	/**
+	 * Creates a list of new sentences from a text container and/or a parser state.
+	 * 
+	 * @param tc The text container.
+	 * @param parser The parser object with the parsed text.
+	 * @return A list of new sentences.
+	 */
+	public List<Sentence> createSentences(TextContainer tc, PredictiveParser parser);
 	
 	/**
 	 * Creates a new ontology element for the given lexical type.

@@ -22,6 +22,7 @@ import ch.uzh.ifi.attempto.base.TextElement;
  * 
  * @author Tobias Kuhn
  */
+// TODO Get rid of pre and post texts.
 public class OntologyTextElement extends TextElement {
 	
 	private OntologyElement ontologyElement;
@@ -32,15 +33,15 @@ public class OntologyTextElement extends TextElement {
 	/**
 	 * Creates a new ontology text element.
 	 * 
-	 * @param oe The ontology element.
-	 * @param wn The word number.
+	 * @param element The ontology element.
+	 * @param wordNumber The word number.
 	 */
-	public OntologyTextElement(OntologyElement oe, int wn) {
-		if (oe.getWord(wn) == null) {
-			throw new RuntimeException(oe + " has no word number " + wn);
+	public OntologyTextElement(OntologyElement element, int wordNumber) {
+		if (element.getWord(wordNumber) == null) {
+			throw new RuntimeException(element + " has no word number " + wordNumber);
 		}
-		this.ontologyElement = oe;
-		this.wordNumber = wn;
+		this.ontologyElement = element;
+		this.wordNumber = wordNumber;
 	}
 
 	/**
@@ -55,8 +56,8 @@ public class OntologyTextElement extends TextElement {
 	
 	public String getText() {
 		String t = super.getText();
-		if (t != null) t = t.replace("_", " ");
-		return t;
+		if (t == null) return null;
+		return LanguageUtils.getPrettyPrinted(t);
 	}
 	
 	public String getOriginalText() {
@@ -73,12 +74,30 @@ public class OntologyTextElement extends TextElement {
 	}
 	
 	/**
+	 * Returns the text added to the front.
+	 * 
+	 * @return The text to be added to the front.
+	 */
+	public String getPreText() {
+		return pre;
+	}
+	
+	/**
 	 * This method adds a text to the end of the word of the ontology element.
 	 * 
 	 * @param post The text to be added to the end.
 	 */
 	public void setPostText(String post) {
 		if (post != null) this.post = post;
+	}
+	
+	/**
+	 * Returns the text added to the end.
+	 * 
+	 * @return The text to be added to the end.
+	 */
+	public String getPostText() {
+		return post;
 	}
 
 	/**

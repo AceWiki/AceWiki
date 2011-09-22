@@ -14,6 +14,9 @@
 
 package ch.uzh.ifi.attempto.acewiki.aceowl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageFactory;
@@ -22,9 +25,12 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.ape.ACEUtils;
+import ch.uzh.ifi.attempto.base.PredictiveParser;
 import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.base.TextOperator;
+import ch.uzh.ifi.attempto.chartparser.ChartParser;
+import ch.uzh.ifi.attempto.chartparser.ParseTree;
 
 /**
  * This is a language factory implementation for ACE.
@@ -58,14 +64,32 @@ public class ACELanguageFactory implements LanguageFactory {
 		return null;
 	}
 	
-	public Sentence createSentence(String text) {
+	public Sentence createSentence(String serialized) {
 		// remove leading and trailing blank spaces.
-		text = text.replaceFirst("^\\s+", "").replaceFirst("\\s+$", "");
-		if (text.substring(text.length()-1).equals("?")) {
-			return new ACEQuestion(text);
+		String s = serialized.replaceFirst("^\\s+", "").replaceFirst("\\s+$", "");
+		if (s.substring(s.length()-1).equals("?")) {
+			return new ACEQuestion(s);
 		} else {
-			return new ACEDeclaration(text);
+			return new ACEDeclaration(s);
 		}
+	}
+
+	public List<Sentence> createSentences(TextContainer tc, PredictiveParser pp) {
+		List<Sentence> l = new ArrayList<Sentence>();
+		ChartParser parser = (ChartParser) pp;
+		List<ParseTree> subTrees = parser.getParseTree().getSubTrees("complete_sentence");
+		for (ParseTree pt : subTrees) {
+			TextContainer c = tc.getSubTextContainer(pt.getStartPos(), pt.getEndPos());
+			int s = c.getTextElementsCount();
+			if (s > 0) {
+				if (c.getTextElement(s-1).getOriginalText().equals("?")) {
+					l.add(new ACEQuestion(c));
+				} else {
+					l.add(new ACEDeclaration(c));
+				}
+			}
+		}
+		return l;
 	}
 	
 	public Sentence createAssignmentSentence(Individual ind, Concept concept) {

@@ -45,15 +45,11 @@ public class DummyOntologyElement extends AbstractOntologyElement {
 		return null;
 	}
 	
-	public String getHeadword() {
-		return text;
+	public String[] getHeadwords() {
+		return new String[] {text};
 	}
 	
-	public String[] getIndexEntries() {
-		return new String[] {};
-	}
-	
-	public void changeWords(String... words) {
+	public void setWords(String serializedWords) {
 	}
 	
 	public String getType() {

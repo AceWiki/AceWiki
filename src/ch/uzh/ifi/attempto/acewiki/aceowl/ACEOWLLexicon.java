@@ -99,5 +99,25 @@ public class ACEOWLLexicon implements DynamicLexicon {
 			entries.add(new LexicalRule(cat, t));
 		}
 	}
+	
+	/**
+	 * Returns true if the string represents a valid word form.
+	 * 
+	 * @param s The string.
+	 * @return true if the string represents a valid word form.
+	 */
+	public static boolean isValidWordOrEmpty(String s) {
+		return s.matches("([a-zA-Z][a-zA-Z0-9_-]*)?");
+	}
+	
+	/**
+	 * Normalizes the string. White space characters are replaced by underscores.
+	 * 
+	 * @param s The input string.
+	 * @return The normalized string.
+	 */
+	public static String normalize(String s) {
+		return s.replaceAll("(\\s|_)+", "_").replaceAll("(^_|_$)", "");
+	}
 
 }

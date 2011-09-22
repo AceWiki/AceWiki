@@ -76,6 +76,13 @@ public interface LanguageEngine {
 	public AceWikiReasoner getReasoner();
 	
 	/**
+	 * Returns the word index.
+	 * 
+	 * @return The word index.
+	 */
+	public WordIndex getWordIndex();
+	
+	/**
 	 * Returns a list of exporters to export the wiki content in different formats.
 	 * 
 	 * @return A list of ontology exporters.

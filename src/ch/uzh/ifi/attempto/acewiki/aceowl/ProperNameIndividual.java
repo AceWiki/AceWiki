@@ -99,19 +99,16 @@ public class ProperNameIndividual extends OWLIndividual implements ACEOWLOntoEle
 		}
 	}
 	
-	public String getHeadword() {
+	public String[] getHeadwords() {
 		if (abbrev == null) {
-			return getPrettyWord(1);
+			return new String[] {getWord(1)};
 		} else {
-			return getPrettyWord(1) + " (" + getPrettyWord(3) + ")";
+			return new String[] {getWord(1), getWord(3)};
 		}
 	}
 	
-	public String[] getIndexEntries() {
-		return new String[] {getHeadword(), getPrettyWord(3)};
-	}
-	
-	public void changeWords(String... words) {
+	public void setWords(String serializedWords) {
+		String[] words = serializedWords.split(";");
 		if (words.length == 1) {
 			word = words[0];
 			wordDefArt = false;
@@ -132,6 +129,9 @@ public class ProperNameIndividual extends OWLIndividual implements ACEOWLOntoEle
 			wordDefArt = words[0].startsWith("the ");
 			abbrev = words[3];
 			abbrevDefArt = words[2].startsWith("the ");
+		}
+		if (abbrev != null && abbrev.length() == 0) {
+			abbrev = null;
 		}
 	}
 	
@@ -194,7 +194,7 @@ public class ProperNameIndividual extends OWLIndividual implements ACEOWLOntoEle
 	 */
 	public String getAbbreviation() {
 		if (abbrev == null) return null;
-		return abbrev.replace("_", " ");
+		return abbrev;
 	}
 	
 	public String getIRISuffix() {

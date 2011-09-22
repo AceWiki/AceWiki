@@ -71,7 +71,7 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 		addSelectedTab("Hierarchy");
 		
 		OntologyElement oe = page.getOntologyElement();
-		title = new Title(oe.getHeadword(), "- Hierarchy", oe.getType(), this);
+		title = new Title(getHeading(oe), "- Hierarchy", oe.getType(), this);
 		add(title);
 		addHorizontalLine();
 		add(new VSpace(12));
@@ -88,7 +88,7 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 	}
 	
 	protected void doUpdate() {
-		title.setText(page.getOntologyElement().getHeadword());
+		title.setText(getHeading(page.getOntologyElement()));
 		upHierarchyColumn.removeAll();
 		downHierarchyColumn.removeAll();
 		

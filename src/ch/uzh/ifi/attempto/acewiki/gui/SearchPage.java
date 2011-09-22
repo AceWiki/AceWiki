@@ -14,8 +14,6 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import nextapp.echo.app.Column;
@@ -27,6 +25,7 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.WordIndex;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.TextField;
@@ -106,20 +105,9 @@ public class SearchPage extends WikiPage implements ActionListener {
 			return;
 		}
 		
-		List<OntologyElement> elements = getWiki().getOntologyElements();
-		Collections.sort(elements);
+		WordIndex index = getWiki().getLanguageEngine().getWordIndex();
+		searchResult = index.searchForElements(textField.getText());
 		
-		searchResult = new ArrayList<OntologyElement>();
-		for (OntologyElement e : elements) {
-			for (String w : e.getWords()) {
-				if (w == null) continue;
-				String t = textField.getText().toLowerCase().replace("_", " ");
-				if (w.toLowerCase().replace("_", " ").contains(t)) {
-					searchResult.add(e);
-					break;
-				}
-			}
-		}
 		if (searchResult.size() == 0) {
 			indexBar.setVisible(false);
 			resultColumn.add(new SolidLabel("(nothing found)", Font.ITALIC, 10));

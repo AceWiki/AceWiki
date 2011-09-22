@@ -48,7 +48,8 @@ public class OfRelation extends OWLRelation implements ACEOWLOntoElement {
 		return new String[] {word};
 	}
 
-	public void changeWords(String... words) {
+	public void setWords(String serializedWords) {
+		String[] words = serializedWords.split(";");
 		if (words[0] == null || words[0].equals("")) {
 			word = null;
 		} else if (words[0].endsWith(" of")) {
@@ -70,23 +71,6 @@ public class OfRelation extends OWLRelation implements ACEOWLOntoElement {
 			return word.substring(0, word.length()-3);
 		} else {
 			throw new RuntimeException("Illegal of-construct: " + word);
-		}
-	}
-	
-	/**
-	 * Returns the pretty-printed noun of the of-construct. Pretty-printing replaces
-	 * underscores by blanks.
-	 * 
-	 * @return The pretty-printed noun.
-	 */
-	public String getPrettyNoun() {
-		String n = getPrettyWord(0);
-		if (n == null) {
-			return null;
-		} else if (n.endsWith(" of")) {
-			return n.substring(0, n.length()-3);
-		} else {
-			throw new RuntimeException("Illegal of-construct: " + n);
 		}
 	}
 	

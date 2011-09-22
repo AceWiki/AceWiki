@@ -118,14 +118,19 @@ public class FileBasedStorage implements AceWikiStorage {
 				pb1 = new ConsoleProgressBar(dataFile.length());
 				String s = "";
 				String line = in.readLine();
+				long id = -1;
 				while (line != null) {
 					pb1.add(line.length() + 1);
 					if (line.matches("\\s*")) {
 						// empty line
 						if (s.length() > 0) {
-							loadOntologyElement(s, -1, ontology);
+							loadOntologyElement(s, id, ontology);
 							s = "";
+							id = -1;
 						}
+					} else if (line.matches("[0-9]+") && s.length() == 0) {
+						// line with id
+						id = new Long(line);
 					} else if (line.startsWith("%")) {
 						// comment
 					} else {
@@ -141,6 +146,8 @@ public class FileBasedStorage implements AceWikiStorage {
 		} else {
 			ontology.log("no data found; blank ontology is created");
 		}
+
+		incompleteOntologies.remove(ontology);
 
 		ontology.log("loading statements");
 		System.err.print("Statements: ");
@@ -163,8 +170,7 @@ public class FileBasedStorage implements AceWikiStorage {
 			mainPage.initId(0);
 			ontology.register(mainPage);
 		}
-
-		incompleteOntologies.remove(ontology);
+		
 		ontology.getReasoner().load();
 		
 		return ontology;
@@ -190,8 +196,8 @@ public class FileBasedStorage implements AceWikiStorage {
 				System.err.println("Cannot read ontology element (missing 'words')");
 				return;
 			}
-			String[] words = lines.remove(0).substring("words:".length()).split(";");
-			oe.setWords(words);
+			String serializedWords = lines.remove(0).substring("words:".length());
+			ontology.change(oe, serializedWords);
 		}
 		
 		// Dummy ontology element for the main page article:
@@ -269,7 +275,7 @@ public class FileBasedStorage implements AceWikiStorage {
 		
 		try {
 			FileOutputStream out = new FileOutputStream(dir + "/" + name + "/" + oe.getId());
-			out.write(serialize(oe, true).getBytes("UTF-8"));
+			out.write(serialize(oe).getBytes("UTF-8"));
 			out.close();
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -280,24 +286,40 @@ public class FileBasedStorage implements AceWikiStorage {
 	 * Serializes the given ontology element as a string.
 	 * 
 	 * @param element The ontology element.
-	 * @param encodeWords defines whether words should be encoded (for the internal "database") or
-	 *   not (for export in the AceWiki data format).
-	 * @return The serialized ontology element.
+	 * @return The serialized representation of the ontology element.
 	 */
-	public static String serialize(OntologyElement element, boolean encodeWords) {
+	public static String serialize(OntologyElement element) {
 		String s = "type:" + element.getInternalType() + "\n";
-		if (element.getWords().length > 0) {
-			s += "words:";
-			for (String word : element.getWords()) {
-				if (word == null) {
-					s += ";";
+		String w = element.serializeWords();
+		if (w.length() > 0) {
+			s += "words:" + w + "\n";
+		}
+		for (Statement st : element.getArticle().getStatements()) {
+			if (st instanceof Comment) {
+				s += "c ";
+			} else {
+				if (((Sentence) st).isIntegrated()) {
+					s += "| ";
 				} else {
-					s += word + ";";
+					s += "# ";
 				}
 			}
-			s += "\n";
+			s += st.serialize() + "\n";
 		}
-		s += element.getArticle().serialize(encodeWords);
+		return s;
+	}
+	
+	/**
+	 * Serializes the given list of ontology elements according to the AceWiki data format.
+	 * 
+	 * @param elements The list of ontology elements.
+	 * @return The serialized representation of the ontology elements.
+	 */
+	public static String serialize(List<OntologyElement> elements) {
+		String s = "";
+		for (OntologyElement oe : elements) {
+			s += oe.getId() + "\n" + serialize(oe) + "\n";
+		}
 		return s;
 	}
 	

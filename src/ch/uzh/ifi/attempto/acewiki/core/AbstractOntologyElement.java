@@ -15,14 +15,7 @@
 package ch.uzh.ifi.attempto.acewiki.core;
 
 /**
- * This class represents an ontology element which can be an individual ("constant"), a concept
- * ("unary relation", "class", "type"), or a relation ("binary relation", "role", "property"). See
- * the respective sub-classes.
- *<p>
- * In AceWiki, each ontology element corresponds to a word which has one or more word forms.
- * Word forms are identified by a number (the word form id).
- *<p>
- * Every ontology element has an article which consists of a list of statements.
+ * This is a partial implementation of an ontology element.
  * 
  * @author Tobias Kuhn
  */
@@ -66,45 +59,16 @@ public abstract class AbstractOntologyElement implements OntologyElement {
 		return getWord(0);
 	}
 	
-	public int getIndexOfWord(String word) {
-		String[] words = getWords();
-		for (int i = 0 ; i < words.length ; i++) {
-			if (word.equals(words[i])) return i;
+	public String serializeWords() {
+		String s = "";
+		for (String w : getWords()) {
+			s += w + ";";
 		}
-		return -1;
+		return s;
 	}
 	
-	public String getPrettyWord(int n) {
-		String w = getWord(n);
-		if (w == null) return null;
-		return w.replace("_", " ");
-	}
-	
-	public final void setWords(String... words) {
-		if (ontology == null) {
-			changeWords(words);
-		} else {
-			synchronized (ontology) {
-				ontology.removeFromWordIndex(this);
-				changeWords(words);
-				ontology.addToWordIndex(this);
-				ontology.refresh(this);
-			}
-		}
-	}
-	
-	public String getHeadword() {
-		return getPrettyWord(0);
-	}
-	
-	/**
-	 * Returns a list of words that should be listed in the index to point to this ontology
-	 * element.
-	 * 
-	 * @return The index words.
-	 */
-	public String[] getIndexEntries() {
-		return new String[] {getHeadword()};
+	public String[] getHeadwords() {
+		return new String[] {getWord(0)};
 	}
 	
 	public long getId() {
@@ -139,7 +103,7 @@ public abstract class AbstractOntologyElement implements OntologyElement {
 		} else if (!(this instanceof DummyOntologyElement) && e instanceof DummyOntologyElement) {
 			return 1;
 		} else {
-			return getHeadword().compareToIgnoreCase(e.getHeadword());
+			return getHeadwords()[0].compareToIgnoreCase(e.getHeadwords()[0]);
 		}
 	}
 	

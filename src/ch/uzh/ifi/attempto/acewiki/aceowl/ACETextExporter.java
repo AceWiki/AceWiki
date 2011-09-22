@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyExporter;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
@@ -44,7 +45,7 @@ public class ACETextExporter extends OntologyExporter {
 		List<OntologyElement> elements = getOntologyElements();
 		Collections.sort(elements);
 		for (OntologyElement oe : elements) {
-			String heading = "\n# " + oe.getHeadword() + "\n\n";
+			String heading = "\n# " + LanguageUtils.getHeading(oe) + "\n\n";
 			for (Sentence s : oe.getArticle().getSentences()) {
 				if (!consistent || (s.isIntegrated() && s.isReasonable()) ) {
 					if (heading != null) {

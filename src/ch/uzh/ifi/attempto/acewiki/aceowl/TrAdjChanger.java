@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.uzh.ifi.attempto.acewiki.core.InvalidWordException;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconDetail;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
@@ -44,7 +45,7 @@ public class TrAdjChanger implements LexiconChanger {
 		l.add(new LexiconDetail(
 				"tr. adjective",
 				"examples: located in, matched with, fond of",
-				relation.getPrettyWord(0)
+				relation.getWord(0)
 			));
 		return l;
 	}
@@ -53,14 +54,14 @@ public class TrAdjChanger implements LexiconChanger {
 			throws InvalidWordException {
 		TrAdjRelation relation = (TrAdjRelation) el;
 		
-		String name = Ontology.normalize((String) newValues.get(0));
-		String nameP = name.replace("_", " ");
+		String name = ACEOWLLexicon.normalize((String) newValues.get(0));
+		String nameP = LanguageUtils.getPrettyPrinted(name);
 		
 		if (name.equals("")) {
 			throw new InvalidWordException("No word defined: Please specify the transitive " +
 				"adjective.");
 		}
-		if (!Ontology.isValidWordOrEmpty(name)) {
+		if (!ACEOWLLexicon.isValidWordOrEmpty(name)) {
 			throw new InvalidWordException("Invalid character: Only a-z, A-Z, 0-9, -, and " +
 				"spaces are allowed, and the first character must be one of a-z A-Z.");
 		}
@@ -73,7 +74,7 @@ public class TrAdjChanger implements LexiconChanger {
 			throw new InvalidWordException("The word '" + nameP + "' is already used. Please " +
 				"use a different one.");
 		}
-		relation.setWords(name);
+		ontology.change(relation, name);
 	}
 
 }

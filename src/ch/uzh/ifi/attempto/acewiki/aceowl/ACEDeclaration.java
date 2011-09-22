@@ -15,6 +15,7 @@
 package ch.uzh.ifi.attempto.acewiki.aceowl;
 
 import ch.uzh.ifi.attempto.acewiki.core.Declaration;
+import ch.uzh.ifi.attempto.base.TextContainer;
 
 /**
  * This class represents declarative ACE sentences (asserted or inferred).
@@ -26,10 +27,19 @@ public class ACEDeclaration extends ACESentence implements Declaration {
 	/**
 	 * Creates a new declarative ACE sentence.
 	 * 
-	 * @param text The sentence text.
+	 * @param serialized The serialized representation of the sentence.
 	 */
-	public ACEDeclaration(String text) {
-		super(text);
+	public ACEDeclaration(String serialized) {
+		super(serialized);
+	}
+	
+	/**
+	 * Creates a new declarative ACE sentence.
+	 * 
+	 * @param textContainer The text container with the sentence text.
+	 */
+	public ACEDeclaration(TextContainer textContainer) {
+		super(textContainer);
 	}
 
 }

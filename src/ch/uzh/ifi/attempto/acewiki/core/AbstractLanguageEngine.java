@@ -72,6 +72,7 @@ public abstract class AbstractLanguageEngine implements LanguageEngine {
 	private Map<String, LexiconChanger> lexiconChangers = new HashMap<String, LexiconChanger>();
 	private List<OntologyExporter> exporters = new ArrayList<OntologyExporter>();
 	private String[] lexicalTypes = new String[] {};
+	private WordIndex wordIndex;
 	
 	public void init(Ontology ontology) {
 		getLanguageFactory().init(ontology);
@@ -120,6 +121,13 @@ public abstract class AbstractLanguageEngine implements LanguageEngine {
 	
 	public SentenceSuggestion getSuggestion(Sentence sentence) {
 		return null;
+	}
+	
+	public WordIndex getWordIndex() {
+		if (wordIndex == null) {
+			wordIndex = new DefaultWordIndex();
+		}
+		return wordIndex;
 	}
 
 }

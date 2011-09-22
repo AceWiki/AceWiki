@@ -26,7 +26,7 @@ import java.util.List;
 public class TextContainer {
 	
 	private List<TextElement> elements = new ArrayList<TextElement>();
-	private TextOperator textOperator;
+	private TextOperator textOperator = new DefaultTextOperator();
 	
 	/**
 	 * Creates a new text container.

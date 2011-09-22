@@ -22,6 +22,7 @@ import org.semanticweb.owlapi.model.OWLObjectOneOf;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
 import ch.uzh.ifi.attempto.acewiki.owl.OWLQuestion;
+import ch.uzh.ifi.attempto.base.TextContainer;
 
 /**
  * This class represents ACE questions.
@@ -33,14 +34,23 @@ public class ACEQuestion extends ACESentence implements OWLQuestion {
 	private OWLClassExpression questionOWLClass;
 	private OWLNamedIndividual questionOWLIndividual;
 	private boolean recalculateOWLEntities = true;
-	
+
 	/**
-	 * Creates a new question.
+	 * Creates a new ACE question.
 	 * 
-	 * @param text The question text.
+	 * @param serialized The serialized representation of the question.
 	 */
-	public ACEQuestion(String text) {
-		super(text);
+	public ACEQuestion(String serialized) {
+		super(serialized);
+	}
+
+	/**
+	 * Creates a new ACE question
+	 * 
+	 * @param textContainer The text container with the question text.
+	 */
+	public ACEQuestion(TextContainer textContainer) {
+		super(textContainer);
 	}
 	
 	public OWLClassExpression getQuestionOWLClass() {

@@ -14,9 +14,9 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import ch.uzh.ifi.attempto.base.PredictiveParser;
 import ch.uzh.ifi.attempto.base.TextContainer;
 
 /**
@@ -49,40 +49,29 @@ public class StatementFactory {
 	/**
 	 * Creates a new sentence object with the given article.
 	 * 
-	 * @param text The sentence text.
+	 * @param serialized The serialized representation of the sentence.
 	 * @param article The article.
-	 * @return The new sentence object.
+	 * @return A new sentence object.
 	 */
-	public Sentence createSentence(String text, Article article) {
-		Sentence s = ontology.getLanguageFactory().createSentence(text);
+	public Sentence createSentence(String serialized, Article article) {
+		Sentence s = ontology.getLanguageFactory().createSentence(serialized);
 		s.init(ontology, article);
 		return s;
 	}
 
 	/**
-	 * Generates sentence objects out of a text container.
+	 * Generates sentence objects out of a text container and/or a parser state.
 	 * 
 	 * @param tc The text container.
-	 * @param endPosList A list containing the end positions of the sentences, or null.
+	 * @param parser The parser object with the parsed text.
 	 * @param article The article of the sentences.
 	 * @return A list of sentences.
 	 */
-	public List<Sentence> createSentences(TextContainer tc, List<Integer> endPosList,
+	public List<Sentence> createSentences(TextContainer tc, PredictiveParser parser,
 			Article article) {
-		List<Sentence> l = new ArrayList<Sentence>();
-		int startPos = 0;
-		if (endPosList == null) {
-			String t = AbstractSentence.getUnderscoredText(tc, ontology.getTextOperator());
-			l.add(createSentence(t, article));
-		} else {
-			for (int endPos : endPosList) {
-				TextContainer c = tc.getSubTextContainer(startPos, endPos);
-				String t = AbstractSentence.getUnderscoredText(c, ontology.getTextOperator());
-				if (startPos < endPos && t.length() > 0) {
-					l.add(createSentence(t, article));
-				}
-				startPos = endPos;
-			}
+		List<Sentence> l = ontology.getLanguageFactory().createSentences(tc, parser);
+		for (Sentence s : l) {
+			s.init(ontology, article);
 		}
 		return l;
 	}

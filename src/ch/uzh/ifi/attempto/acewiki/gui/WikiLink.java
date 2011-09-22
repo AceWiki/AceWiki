@@ -23,6 +23,7 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.DummyOntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.echocomp.Style;
@@ -47,7 +48,7 @@ public class WikiLink extends Button implements ActionListener {
 	 * @param wiki The wiki instance.
 	 */
 	public WikiLink(OntologyElement ontologyElement, Wiki wiki) {
-		super(ontologyElement.getHeadword());
+		super(LanguageUtils.getHeading(ontologyElement));
 		this.wiki = wiki;
 		this.ontologyElement = ontologyElement;
 		initButton(false);

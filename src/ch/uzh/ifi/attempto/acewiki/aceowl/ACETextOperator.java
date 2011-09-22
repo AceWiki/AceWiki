@@ -46,22 +46,26 @@ public class ACETextOperator extends DefaultTextOperator {
 		if (ACEGrammar.grammar.containsTerminalSymbol(text.toLowerCase())) {
 			return new TextElement(text.toLowerCase());
 		}
-		text = text.replaceAll("[ _]+", "_");
-		ote = createOntologyTextElement(text);
+		String t = text.replaceAll("[ _]+", "_");
+		ote = createOntologyTextElement(t);
 		if (ote != null) return ote;
-		if (text.toLowerCase().startsWith("the_")) {
-			ote = createOntologyTextElement(text.substring(4));
+		if (t.toLowerCase().startsWith("the_")) {
+			ote = createOntologyTextElement("the " + t.substring(4));
+			if (ote != null) {
+				return ote;
+			}
+			ote = createOntologyTextElement(t.substring(4));
 			if (ote != null) {
 				ote.setPreText("the ");
 				return ote;
 			}
 		}
-		if (text.toLowerCase().endsWith("_by")) {
-			ote = createOntologyTextElement(text.replaceFirst("_by$", " by"));
+		if (t.toLowerCase().endsWith("_by")) {
+			ote = createOntologyTextElement(t.replaceFirst("_by$", " by"));
 			if (ote != null) return ote;
 		}
-		if (text.toLowerCase().endsWith("_of")) {
-			ote = createOntologyTextElement(text.replaceFirst("_of$", " of"));
+		if (t.toLowerCase().endsWith("_of")) {
+			ote = createOntologyTextElement(t.replaceFirst("_of$", " of"));
 			if (ote != null) return ote;
 		}
 		return new TextElement(text);
@@ -69,11 +73,17 @@ public class ACETextOperator extends DefaultTextOperator {
 	
 	private OntologyTextElement createOntologyTextElement(String text) {
 		OntologyElement oe = ontology.getElement(text);
-		if (oe == null) {
-			return null;
-		} else {
-			return new OntologyTextElement(oe, oe.getIndexOfWord(text));
+		if (oe != null) {
+			int wn = -1;
+			String[] words = oe.getWords();
+			for (int i = 0 ; i < words.length ; i++) {
+				if (text.equals(words[i])) wn = i;
+			}
+			if (wn > -1) {
+				return new OntologyTextElement(oe, wn);
+			}
 		}
+		return null;
 	}
 	
 	public String getTextInContext(TextElement textElement, String preceding, String following) {

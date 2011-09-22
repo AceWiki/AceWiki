@@ -16,7 +16,8 @@ package ch.uzh.ifi.attempto.acewiki.core;
 
 /**
  * This class represents an ontology element. Such ontology elements include individuals, concepts
- * and relations.
+ * and relations. Each ontology element corresponds to a word which has one or more word forms.
+ * Word forms are identified by a number (the word form id).
  * 
  * @author Tobias Kuhn
  */
@@ -37,7 +38,7 @@ public interface OntologyElement extends Comparable<OntologyElement> {
 	public void initOntology(Ontology ontology);
 	
 	/**
-	 * Initializes the aricle of this ontology element.
+	 * Initializes the article of this ontology element.
 	 * 
 	 * @param article The article.
 	 */
@@ -65,11 +66,62 @@ public interface OntologyElement extends Comparable<OntologyElement> {
 	public Article getArticle();
 	
 	/**
-	 * Returns the word forms. The position in the array corresponds to the word form id.
+	 * Returns an array of all word forms.
 	 * 
-	 * @return An array containing the word forms.
+	 * @return An array containing all word forms.
 	 */
 	public String[] getWords();
+
+	/**
+	 * Returns the word form for the given word form id.
+	 * 
+	 * @param wordFormID The word form id.
+	 * @return The word form.
+	 */
+	public String getWord(int wordFormID);
+	
+	/**
+	 * Returns the main word form.
+	 * 
+	 * @return The word form.
+	 */
+	public String getWord();
+	
+	/**
+	 * Returns the word type as it is used internally.
+	 * 
+	 * @return The internal word type.
+	 */
+	public String getInternalType();
+	
+	/**
+	 * Sets the word forms.
+	 * 
+	 * @param serializedWords The serialized word forms to be set.
+	 */
+	public void setWords(String serializedWords);
+	
+	/**
+	 * Returns the word forms of this ontology element in a serialized form.
+	 * 
+	 * @return The serialized word forms.
+	 */
+	public String serializeWords();
+	
+	/**
+	 * Returns the headwords that are used in the GUI (title, index, etc) to refer to this ontology
+	 * element. At least one headword is required.
+	 * 
+	 * @return The headwords.
+	 */
+	public String[] getHeadwords();
+	
+	/**
+	 * Returns the word type as it is shown to the user.
+	 * 
+	 * @return The word type.
+	 */
+	public String getType();
 	
 	/**
 	 * This method returns a list that contains the word forms for external representations,
@@ -78,87 +130,5 @@ public interface OntologyElement extends Comparable<OntologyElement> {
 	 * @return The word forms.
 	 */
 	public String[] getExternalWordList();
-
-	/**
-	 * Returns the word form for the given word form id.
-	 * 
-	 * @param n The word form id.
-	 * @return The word form.
-	 */
-	public String getWord(int n);
-	
-	/**
-	 * Returns the word form with the id 0 (the default word form).
-	 * 
-	 * @return The word form.
-	 */
-	public String getWord();
-	
-	/**
-	 * Returns the index of the given word form or -1 if this ontology element has no such word
-	 * form.
-	 * 
-	 * @param word The word form.
-	 * @return The index.
-	 */
-	public int getIndexOfWord(String word);
-	
-	/**
-	 * Returns the pretty-printed word form for the given word form id. The pretty-printing
-	 * transforms underscores into blanks.
-	 * 
-	 * @param n The word form id.
-	 * @return The word form.
-	 */
-	public String getPrettyWord(int n);
-
-	/**
-	 * Sets the word forms. The order reflects the word form ids. The indexes of the
-	 * ontology are automatically updated.
-	 * 
-	 * @param words The word forms.
-	 */
-	public void setWords(String... words);
-	
-	/**
-	 * Changes the word forms without updating the ontology indexes. The order reflects
-	 * the word form ids.
-	 * 
-	 * @param words The word forms.
-	 */
-	public void changeWords(String... words);
-	
-	/**
-	 * Returns the headword that is used in the GUI to refer to this ontology element.
-	 * For example, it is used for the title of the article. Unless overridden, it is
-	 * the same as the pretty-printed word form with the id 0. 
-	 * 
-	 * @return The headword.
-	 */
-	public String getHeadword();
-	
-	/**
-	 * Returns a list of words that should be listed in the index to point to this ontology
-	 * element.
-	 * 
-	 * @return The index words.
-	 */
-	public String[] getIndexEntries();
-	
-	/**
-	 * Returns the word type as it is shown to the user. Newer versions of AceWiki can
-	 * savely change this value.
-	 * 
-	 * @return The word type.
-	 */
-	public String getType();
-	
-	/**
-	 * Returns the word type as it is used internally. Changing this value in newer versions
-	 * of AceWiki breaks backwards compatibility for loading ontologies.
-	 * 
-	 * @return The internal word type.
-	 */
-	public String getInternalType();
 
 }

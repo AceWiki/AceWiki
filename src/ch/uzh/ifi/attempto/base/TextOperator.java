@@ -49,6 +49,7 @@ public interface TextOperator {
 	 * @param text The text.
 	 * @return The text element.
 	 */
+	// TODO This method should be able to return multiple possibilities.
 	public TextElement createTextElement(String text);
 	
 	/**
