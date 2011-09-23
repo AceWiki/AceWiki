@@ -15,7 +15,6 @@
 package ch.uzh.ifi.attempto.acewiki.core;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,7 +27,7 @@ public class StatementTableExporter extends OntologyExporter {
 	protected void writeContent() throws IOException {
 		write("PAGE,TYPE,TEXT\n");
 		List<OntologyElement> elements = getOntologyElements();
-		Collections.sort(elements);
+		LanguageUtils.sortOntologyElements(elements);
 		for (OntologyElement oe : elements) {
 			for (Statement s : oe.getArticle().getStatements()) {
 				write(LanguageUtils.getHeading(oe) + ",");

@@ -56,6 +56,7 @@ import ch.uzh.ifi.attempto.acewiki.core.AnswerElement;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.InconsistencyException;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
@@ -494,7 +495,7 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 			}
 		}
 
-		Collections.sort(list);
+		LanguageUtils.sortOntologyElements(list);
 		return list;
 	}
 	

@@ -15,7 +15,6 @@
 package ch.uzh.ifi.attempto.acewiki.aceowl;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
@@ -43,7 +42,7 @@ public class ACETextExporter extends OntologyExporter {
 	
 	protected void writeContent() throws IOException {
 		List<OntologyElement> elements = getOntologyElements();
-		Collections.sort(elements);
+		LanguageUtils.sortOntologyElements(elements);
 		for (OntologyElement oe : elements) {
 			String heading = "\n# " + LanguageUtils.getHeading(oe) + "\n\n";
 			for (Sentence s : oe.getArticle().getSentences()) {

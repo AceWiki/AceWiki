@@ -15,7 +15,6 @@
 package ch.uzh.ifi.attempto.acewiki.gui;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import nextapp.echo.app.Column;
@@ -26,9 +25,10 @@ import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Task;
-import ch.uzh.ifi.attempto.acewiki.core.Concept;
-import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.CachingReasoner;
+import ch.uzh.ifi.attempto.acewiki.core.Concept;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.StatementFactory;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
@@ -207,7 +207,7 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 			}
 			if (concepts != null) {
 				sentences = new ArrayList<Sentence>();
-				Collections.sort(concepts);
+				LanguageUtils.sortOntologyElements(concepts);
 				for (Concept c : concepts) {
 					StatementFactory sf = getWiki().getOntology().getStatementFactory();
 					if (up) {

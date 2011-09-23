@@ -15,7 +15,6 @@
 package ch.uzh.ifi.attempto.acewiki.core;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,7 +27,7 @@ public class LexiconTableExporter extends OntologyExporter {
 	protected void writeContent() throws IOException {
 		write("TYPE,HEADWORDS,SERIALIZED\n");
 		List<OntologyElement> elements = getOntologyElements();
-		Collections.sort(elements);
+		LanguageUtils.sortOntologyElements(elements);
 		for (OntologyElement oe : elements) {
 			write(oe.getInternalType() + ",");
 			write(LanguageUtils.getHeading(oe) + ",");

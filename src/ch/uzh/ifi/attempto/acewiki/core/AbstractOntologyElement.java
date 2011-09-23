@@ -86,16 +86,6 @@ public abstract class AbstractOntologyElement implements OntologyElement {
 			ontology.log(text);
 		}
 	}
-
-	public int compareTo(OntologyElement e) {
-		if (this instanceof DummyOntologyElement && !(e instanceof DummyOntologyElement)) {
-			return -1;
-		} else if (!(this instanceof DummyOntologyElement) && e instanceof DummyOntologyElement) {
-			return 1;
-		} else {
-			return getHeadwords()[0].compareToIgnoreCase(e.getHeadwords()[0]);
-		}
-	}
 	
 	public String toString() {
 		return getInternalType() + ":" + serializeWords();

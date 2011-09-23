@@ -21,7 +21,7 @@ package ch.uzh.ifi.attempto.acewiki.core;
  * 
  * @author Tobias Kuhn
  */
-public interface OntologyElement extends Comparable<OntologyElement> {
+public interface OntologyElement {
 	
 	/**
 	 * Initializes the id of this ontology element.
