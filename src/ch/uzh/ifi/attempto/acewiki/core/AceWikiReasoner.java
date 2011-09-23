@@ -132,7 +132,7 @@ public interface AceWikiReasoner {
 	 * @param question The question to be answered.
 	 * @return A list of ontology elements that are the answer to the question.
 	 */
-	public List<OntologyElement> getAnswer(Question question);
+	public List<AnswerElement> getAnswer(Question question);
 
 	/**
 	 * Should return true if the ontology is consistent.

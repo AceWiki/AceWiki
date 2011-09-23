@@ -18,9 +18,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.acewiki.owl.OWLIndividual;
 import ch.uzh.ifi.attempto.ape.Gender;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
+import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 
 /**
@@ -199,6 +201,10 @@ public class ProperNameIndividual extends OWLIndividual implements ACEOWLOntoEle
 				lexRules.add(new LexicalRule("propername", getWord(2)));
 			}
 		}
+	}
+	
+	public TextContainer getAnswerText() {
+		return new TextContainer(new OntologyTextElement(this, 1));
 	}
 
 }

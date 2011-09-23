@@ -18,9 +18,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.acewiki.owl.OWLConcept;
+import ch.uzh.ifi.attempto.ape.ACEUtils;
 import ch.uzh.ifi.attempto.ape.Gender;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
+import ch.uzh.ifi.attempto.base.TextContainer;
+import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 import ch.uzh.ifi.attempto.chartparser.Preterminal;
 
@@ -88,6 +92,13 @@ public class NounConcept extends OWLConcept implements ACEOWLOntoElement {
 			cat.setFeature("noun", getWord(0));
 			lexRules.add(new LexicalRule(cat, "the " + getWord(0)));
 		}
+	}
+	
+	public TextContainer getAnswerText() {
+		boolean an = ACEUtils.useIndefiniteArticleAn(getWord());
+		TextElement det = new TextElement(an ? "an" : "a");
+		TextElement n = new OntologyTextElement(this, 0);
+		return new TextContainer(det, n);
 	}
 	
 }

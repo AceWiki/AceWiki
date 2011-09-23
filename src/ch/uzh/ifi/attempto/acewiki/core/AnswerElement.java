@@ -12,22 +12,23 @@
 // You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
 // not, see http://www.gnu.org/licenses/.
 
-package ch.uzh.ifi.attempto.acewiki.owl;
+package ch.uzh.ifi.attempto.acewiki.core;
 
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
-
-import ch.uzh.ifi.attempto.acewiki.core.AnswerElement;
-import ch.uzh.ifi.attempto.acewiki.core.Individual;
+import ch.uzh.ifi.attempto.base.TextContainer;
 
 /**
- * This class stands for individual ontology elements with representations in OWL.
+ * This interface describes a text element with a specific text representation when it appears as
+ * the answer to a question.
  * 
  * @author Tobias Kuhn
  */
-public abstract class OWLIndividual extends AbstractOWLOntoElement implements Individual, AnswerElement {
+public interface AnswerElement extends OntologyElement {
 	
-	public OWLNamedIndividual getOWLRepresentation() {
-		return getOWLDataFactory().getOWLNamedIndividual(getIRI());
-	}
+	/**
+	 * Returns the text to be shown when this ontology element is the answer to a question.
+	 * 
+	 * @return The answer text.
+	 */
+	public TextContainer getAnswerText();
 
 }

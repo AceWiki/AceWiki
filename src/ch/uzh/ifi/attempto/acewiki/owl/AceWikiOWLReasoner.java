@@ -52,6 +52,7 @@ import org.semanticweb.owlapi.util.Version;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiReasoner;
+import ch.uzh.ifi.attempto.acewiki.core.AnswerElement;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.InconsistencyException;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
@@ -467,28 +468,28 @@ public class AceWikiOWLReasoner implements AceWikiReasoner {
 		}
 	}
 	
-	public synchronized List<OntologyElement> getAnswer(Question q) {
+	public synchronized List<AnswerElement> getAnswer(Question q) {
 		if (owlReasoner == null) return null;
 		
 		OWLQuestion question = (OWLQuestion) q;
 		
 		OWLNamedIndividual quInd = question.getQuestionOWLIndividual();
 		OWLClassExpression quClass = question.getQuestionOWLClass();
-		List<OntologyElement> list = new ArrayList<OntologyElement>();
+		List<AnswerElement> list = new ArrayList<AnswerElement>();
 		
 		if (quInd != null) {
 			for (OWLClass oc : getConcepts(quInd)) {
 				OntologyElement oe = get(oc);
-				if (oe instanceof Concept) {
-					list.add(oe);
+				if (oe instanceof OWLConcept) {
+					list.add((OWLConcept) oe);
 				}
 			}
 		} else if (quClass != null) {
 			Set<OWLNamedIndividual> owlInds = getIndividuals(quClass);
 			for (OWLNamedIndividual oi : owlInds) {
 				OntologyElement oe = get(oi);
-				if (oe instanceof Individual) {
-					list.add(oe);
+				if (oe instanceof OWLIndividual) {
+					list.add((OWLIndividual) oe);
 				}
 			}
 		}

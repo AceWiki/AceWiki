@@ -16,6 +16,7 @@ package ch.uzh.ifi.attempto.acewiki.owl;
 
 import org.semanticweb.owlapi.model.OWLClass;
 
+import ch.uzh.ifi.attempto.acewiki.core.AnswerElement;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 
 /**
@@ -23,7 +24,7 @@ import ch.uzh.ifi.attempto.acewiki.core.Concept;
  * 
  * @author Tobias Kuhn
  */
-public abstract class OWLConcept extends AbstractOWLOntoElement implements Concept {
+public abstract class OWLConcept extends AbstractOWLOntoElement implements Concept, AnswerElement {
 	
 	public OWLClass getOWLRepresentation() {
 		return getOWLDataFactory().getOWLClass(getIRI());
