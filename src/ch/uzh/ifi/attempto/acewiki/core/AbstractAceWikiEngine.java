@@ -15,30 +15,28 @@
 package ch.uzh.ifi.attempto.acewiki.core;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
- * This is a partial implementation of a language engine.
+ * This is a partial implementation of an AceWiki engine.
  * 
  * @author Tobias Kuhn
  */
-public abstract class AbstractLanguageEngine implements LanguageEngine {
+public abstract class AbstractAceWikiEngine implements AceWikiEngine {
 	
 	private static final String defaultEngineClassName
 			= "ch.uzh.ifi.attempto.acewiki.aceowl.ACEOWLEngine";
 	
 	/**
-	 * Creates the language engine for the given ontology.
+	 * Creates the AceWiki engine for the given ontology.
 	 * 
 	 * @param ontology The ontology.
-	 * @return The language engine.
+	 * @return The AceWiki engine.
 	 */
-	static LanguageEngine createLanguageEngine(Ontology ontology) {
+	static AceWikiEngine createLanguageEngine(Ontology ontology) {
 		String n = ontology.getParameter("engine_class");
 		Object loadedObj = null;
-		ClassLoader classLoader = AbstractLanguageEngine.class.getClassLoader();
+		ClassLoader classLoader = AbstractAceWikiEngine.class.getClassLoader();
 		
 		if (n != null && !n.equals("")) {
 		    try {
@@ -60,33 +58,22 @@ public abstract class AbstractLanguageEngine implements LanguageEngine {
 		    }
 		}
 	    
-		if (!(loadedObj instanceof LanguageEngine)) {
+		if (!(loadedObj instanceof AceWikiEngine)) {
 			throw new RuntimeException("Engine object must be an instance of LanguageEngine");
 		}
 	    
-		LanguageEngine languageEngine = (LanguageEngine) loadedObj;
-		languageEngine.init(ontology);
-		return languageEngine;
+		AceWikiEngine engine = (AceWikiEngine) loadedObj;
+		engine.init(ontology);
+		return engine;
 	}
 	
-	private Map<String, LexiconChanger> lexiconChangers = new HashMap<String, LexiconChanger>();
 	private List<OntologyExporter> exporters = new ArrayList<OntologyExporter>();
 	private String[] lexicalTypes = new String[] {};
 	private WordIndex wordIndex;
 	
 	public void init(Ontology ontology) {
-		getLanguageFactory().init(ontology);
+		getLanguageHandler().init(ontology);
 		getReasoner().init(ontology);
-	}
-
-	/**
-	 * Sets a lexicon changer for the given lexical type.
-	 * 
-	 * @param type The lexical type.
-	 * @param lexiconChanger The lexicon changer.
-	 */
-	public void setLexiconChanger(String type, LexiconChanger lexiconChanger) {
-		lexiconChangers.put(type, lexiconChanger);
 	}
 
 	/**
@@ -96,10 +83,6 @@ public abstract class AbstractLanguageEngine implements LanguageEngine {
 	 */
 	public void setLexicalTypes(String... lexicalTypes) {
 		this.lexicalTypes = lexicalTypes;
-	}
-	
-	public LexiconChanger getLexiconChanger(String type) {
-		return lexiconChangers.get(type);
 	}
 
 	/**
@@ -117,10 +100,6 @@ public abstract class AbstractLanguageEngine implements LanguageEngine {
 	
 	public String[] getLexicalTypes() {
 		return lexicalTypes;
-	}
-	
-	public SentenceSuggestion getSuggestion(Sentence sentence) {
-		return null;
 	}
 	
 	public WordIndex getWordIndex() {

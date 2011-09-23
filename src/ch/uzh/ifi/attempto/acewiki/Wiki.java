@@ -43,9 +43,10 @@ import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.layout.ColumnLayoutData;
 import nextapp.echo.webcontainer.ContainerContext;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiDataExporter;
+import ch.uzh.ifi.attempto.acewiki.core.AceWikiEngine;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiStorage;
 import ch.uzh.ifi.attempto.acewiki.core.FileBasedStorage;
-import ch.uzh.ifi.attempto.acewiki.core.LanguageEngine;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageHandler;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconTableExporter;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
@@ -97,7 +98,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private Map<String, String> parameters;
 
 	private final Ontology ontology;
-	private final LanguageEngine languageEngine;
+	private final AceWikiEngine engine;
 	private User user;
 	private OntologyExportManager ontologyExportManager;
 	private static AceWikiStorage storage;
@@ -162,13 +163,13 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		}
 		
 		ontology = storage.getOntology(getParameter("ontology"), parameters);
-		languageEngine = ontology.getLanguageEngine();
+		engine = ontology.getEngine();
 		logger = new Logger(getParameter("context:logdir") + "/" + ontology.getName(), "anon", sessionID);
 		application = (AceWikiApp) ApplicationInstance.getActive();
 		taskQueue = application.createTaskQueue();
 		
 		ontologyExportManager = new OntologyExportManager(ontology);
-		for (OntologyExporter o : languageEngine.getExporters()) {
+		for (OntologyExporter o : engine.getExporters()) {
 			ontologyExportManager.addExporter(o);
 		}
 		ontologyExportManager.addExporter(new LexiconTableExporter());
@@ -271,7 +272,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		SolidLabel label2 = new SolidLabel("Actions:", Font.ITALIC);
 		label2.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
 		sideCol.add(label2);
-		if (!isReadOnly() && getLanguageEngine().getLexicalTypes().length > 0) {
+		if (!isReadOnly() && getEngine().getLexicalTypes().length > 0) {
 			sideCol.add(new ListItem(newButton));
 		}
 		sideCol.add(new ListItem(exportButton));
@@ -764,7 +765,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 				showLoginWindow();
 			} else {
 				WordEditorWindow w = new WordEditorWindow("Word Creator");
-				for (String t : getLanguageEngine().getLexicalTypes()) {
+				for (String t : getEngine().getLexicalTypes()) {
 					w.addTab(new FormPane(t, w, this));
 				}
 				showWindow(w);
@@ -925,12 +926,21 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	}
 	
 	/**
-	 * Returns the language engine.
+	 * Returns the AceWiki engine.
 	 * 
-	 * @return The language engine.
+	 * @return The AceWiki engine.
 	 */
-	public LanguageEngine getLanguageEngine() {
-		return languageEngine;
+	public AceWikiEngine getEngine() {
+		return engine;
+	}
+	
+	/**
+	 * Returns the language handler.
+	 * 
+	 * @return The language handler.
+	 */
+	public LanguageHandler getLanguageHandler() {
+		return engine.getLanguageHandler();
 	}
 	
 	/**

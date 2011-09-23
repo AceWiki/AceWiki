@@ -110,13 +110,13 @@ public class FormPane extends WordEditorForm {
 				setButtons("Unlock", "Close");
 			}
 		} else {
-			element = wiki.getOntology().getLanguageFactory().createOntologyElement(type);
+			element = wiki.getOntology().getEngine().createOntologyElement(type);
 			this.locked = false;
 			setButtons("OK", "Cancel");
 		}
 		this.element = element;
 		
-		lexiconChanger = wiki.getLanguageEngine().getLexiconChanger(type);
+		lexiconChanger = wiki.getLanguageHandler().getLexiconChanger(type);
 		setTitle(element.getType());
 		setExplanationComponent(lexiconChanger.getDescription());
 		

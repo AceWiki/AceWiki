@@ -190,7 +190,7 @@ public class FileBasedStorage implements AceWikiStorage {
 			return;
 		}
 		String type = lines.remove(0).substring("type:".length());
-		OntologyElement oe = ontology.getLanguageFactory().createOntologyElement(type);
+		OntologyElement oe = ontology.getEngine().createOntologyElement(type);
 		if (oe != null) {
 			if (!lines.get(0).startsWith("words:")) {
 				System.err.println("Cannot read ontology element (missing 'words')");

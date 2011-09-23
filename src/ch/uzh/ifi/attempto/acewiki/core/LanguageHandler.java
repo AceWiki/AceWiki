@@ -17,14 +17,16 @@ package ch.uzh.ifi.attempto.acewiki.core;
 import java.util.List;
 
 import ch.uzh.ifi.attempto.base.PredictiveParser;
+import ch.uzh.ifi.attempto.base.TextContainer;
+import ch.uzh.ifi.attempto.base.TextOperator;
 
 /**
- * This is the main interface to define language-specific behavior.
+ * This interface represents the language-specific parts of the AceWiki engine.
  * 
  * @author Tobias Kuhn
  */
-public interface LanguageEngine {
-	
+public interface LanguageHandler {
+
 	/**
 	 * This is the first method to be called and provides the ontology object.
 	 * 
@@ -33,25 +35,27 @@ public interface LanguageEngine {
 	public void init(Ontology ontology);
 	
 	/**
+	 * Returns the text operator.
+	 * 
+	 * @return The text operator.
+	 */
+	public TextOperator getTextOperator();
+	
+	/**
+	 * Extracts the sentences from a text container and/or a parser state.
+	 * 
+	 * @param tc The text container.
+	 * @param parser The parser object with the parsed text.
+	 * @return A list of sentences.
+	 */
+	public List<Sentence> extractSentences(TextContainer tc, PredictiveParser parser);
+	
+	/**
 	 * Returns the predictive parser to be used within the predictive editor.
 	 * 
 	 * @return The predictive parser.
 	 */
 	public PredictiveParser getPredictiveParser();
-	
-	/**
-	 * Returns the language factory object.
-	 * 
-	 * @return The language factory.
-	 */
-	public LanguageFactory getLanguageFactory();
-	
-	/**
-	 * Returns the lexical types, as defined by the respective ontology element types.
-	 * 
-	 * @return The lexical types.
-	 */
-	public String[] getLexicalTypes();
 	
 	/**
 	 * Returns the controller object for the predictive editor.
@@ -67,27 +71,6 @@ public interface LanguageEngine {
 	 * @return A lexicon changer object.
 	 */
 	public LexiconChanger getLexiconChanger(String type);
-	
-	/**
-	 * Returns the reasoner.
-	 * 
-	 * @return The reasoner.
-	 */
-	public AceWikiReasoner getReasoner();
-	
-	/**
-	 * Returns the word index.
-	 * 
-	 * @return The word index.
-	 */
-	public WordIndex getWordIndex();
-	
-	/**
-	 * Returns a list of exporters to export the wiki content in different formats.
-	 * 
-	 * @return A list of ontology exporters.
-	 */
-	public List<OntologyExporter> getExporters();
 	
 	/**
 	 * Returns a suggestion to change a newly created sentence, or null (no suggestion).

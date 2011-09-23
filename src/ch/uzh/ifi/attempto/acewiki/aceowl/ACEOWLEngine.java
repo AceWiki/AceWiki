@@ -14,20 +14,16 @@
 
 package ch.uzh.ifi.attempto.acewiki.aceowl;
 
-import java.util.List;
-
-import ch.uzh.ifi.attempto.acewiki.core.AbstractLanguageEngine;
+import ch.uzh.ifi.attempto.acewiki.core.AbstractAceWikiEngine;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiReasoner;
-import ch.uzh.ifi.attempto.acewiki.core.EditorController;
-import ch.uzh.ifi.attempto.acewiki.core.LanguageFactory;
+import ch.uzh.ifi.attempto.acewiki.core.Concept;
+import ch.uzh.ifi.attempto.acewiki.core.Individual;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageHandler;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
-import ch.uzh.ifi.attempto.acewiki.core.SentenceSuggestion;
 import ch.uzh.ifi.attempto.acewiki.owl.AceWikiOWLReasoner;
 import ch.uzh.ifi.attempto.acewiki.owl.OWLXMLExporter;
-import ch.uzh.ifi.attempto.base.PredictiveParser;
-import ch.uzh.ifi.attempto.base.TextElement;
-import ch.uzh.ifi.attempto.chartparser.ChartParser;
 
 /**
  * This is the AceWiki language engine for ACE/OWL. It delivers the grammar, the lexicon, the
@@ -35,12 +31,10 @@ import ch.uzh.ifi.attempto.chartparser.ChartParser;
  * 
  * @author Tobias Kuhn
  */
-public class ACEOWLEngine extends AbstractLanguageEngine {
+public class ACEOWLEngine extends AbstractAceWikiEngine {
 	
-	private ACELanguageFactory languageFactory = new ACELanguageFactory();
-	private ACEOWLLexicon lexicon = new ACEOWLLexicon();
+	private ACEHandler languageHandler = new ACEHandler();
 	private AceWikiOWLReasoner reasoner = new AceWikiOWLReasoner();
-	private EditorController editContr = new EditorController();
 	
 	/**
 	 * Creates a new language engine for ACE/OWL.
@@ -53,77 +47,52 @@ public class ACEOWLEngine extends AbstractLanguageEngine {
 		addExporter(new ACELexiconExporter());
 		
 		setLexicalTypes("propername", "noun", "nounof", "trverb", "tradj");
-		
-		setLexiconChanger("propername", new ProperNameChanger());
-		setLexiconChanger("noun", new NounChanger());
-		setLexiconChanger("nounof", new NounOfChanger());
-		setLexiconChanger("trverb", new VerbChanger());
-		setLexiconChanger("tradj", new TrAdjChanger());
-
-		editContr.setDefaultMenuGroup("function word");
-		
-		//                     menu group      color shift
-		editContr.addMenuGroup("function word",          0);
-		editContr.addMenuGroup("proper name",           60);
-		editContr.addMenuGroup("noun",                 100);
-		editContr.addMenuGroup("plural noun",          120);
-		editContr.addMenuGroup("of-construct",         140);
-		editContr.addMenuGroup("transitive adjective", 180);
-		editContr.addMenuGroup("verb",                 210);
-		editContr.addMenuGroup("passive verb",         210);
-		editContr.addMenuGroup("new variable",         320);
-		editContr.addMenuGroup("reference",            320);
-		
-		//                              category      menu group              word type / number
-		editContr.addExtensibleCategory("propername", "proper name",          "propername", 0);
-		editContr.addExtensibleCategory("noun",       "noun",                 "noun",       0);
-		editContr.addExtensibleCategory("nounpl",     "plural noun",          "noun",       1);
-		editContr.addExtensibleCategory("nounof",     "of-construct",         "nounof",     0);
-		editContr.addExtensibleCategory("verbsg",     "verb",                 "trverb",     0);
-		editContr.addExtensibleCategory("verbinf",    "verb",                 "trverb",     1);
-		editContr.addExtensibleCategory("pverb",      "passive verb",         "trverb",     2);
-		editContr.addExtensibleCategory("tradj",      "transitive adjective", "tradj",      0);
-		
-		//                         category     menu group
-		editContr.addPlainCategory("defnoun",   "reference");
-		editContr.addPlainCategory("variable",  "new variable");
-		editContr.addPlainCategory("reference", "reference");
-		
-		editContr.setAutocompleteTokens(".", "?");
 	}
 	
 	public void init(Ontology ontology) {
-		lexicon.init(ontology);
 		super.init(ontology);
 	}
 
-	public PredictiveParser getPredictiveParser() {
-		ChartParser cp = new ChartParser(ACEGrammar.grammar, "text");
-		cp.setDynamicLexicon(lexicon);
-		return cp;
-	}
-
-	public LanguageFactory getLanguageFactory() {
-		return languageFactory;
-	}
-	
-	public EditorController getEditorController() {
-		return editContr;
+	public LanguageHandler getLanguageHandler() {
+		return languageHandler;
 	}
 
 	public AceWikiReasoner getReasoner() {
 		return reasoner;
 	}
-	
-	public SentenceSuggestion getSuggestion(Sentence sentence) {
-		List<TextElement> t = sentence.getTextElements();
-		String t0 = t.get(0).getText();
-		String t1 = t.get(1).getText();
-		String l = t.get(t.size()-1).getText();
-		if (t0.matches("(A|a)n?") && !t1.matches(".* of") && l.equals(".")) {
-			return new AToEverySuggestion(sentence);
+
+	public OntologyElement createOntologyElement(String type) {
+		if (type.equals("propername")) {
+			return new ProperNameIndividual();
+		} else if (type.equals("noun")) {
+			return new NounConcept();
+		} else if (type.equals("nounof")) {
+			return new OfRelation();
+		} else if (type.equals("trverb")) {
+			return new VerbRelation();
+		} else if (type.equals("tradj")) {
+			return new TrAdjRelation();
 		}
 		return null;
+	}
+	
+	public Sentence createSentence(String serialized) {
+		// remove leading and trailing blank spaces.
+		String s = serialized.replaceFirst("^\\s+", "").replaceFirst("\\s+$", "");
+		if (s.substring(s.length()-1).equals("?")) {
+			return new ACEQuestion(s);
+		} else {
+			return new ACEDeclaration(s);
+		}
+	}
+	
+	public Sentence createAssignmentSentence(Individual ind, Concept concept) {
+		return createSentence(ind.getWord(2) + " is a " + concept.getWord() + ".");
+	}
+	
+	public Sentence createHierarchySentence(Concept subConcept, Concept superConcept) {
+		return createSentence("Every " + subConcept.getWord() + " is a " +
+				superConcept.getWord() + ".");
 	}
 
 }

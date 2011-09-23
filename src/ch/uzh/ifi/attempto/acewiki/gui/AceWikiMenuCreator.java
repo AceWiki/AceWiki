@@ -65,7 +65,7 @@ public class AceWikiMenuCreator implements MenuCreator, ActionListener {
 	}
 	
 	private EditorController getEditorController() {
-		return wiki.getLanguageEngine().getEditorController();
+		return wiki.getLanguageHandler().getEditorController();
 	}
 	
 	public List<String> getMenuGroupOrdering() {

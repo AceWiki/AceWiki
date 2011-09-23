@@ -105,7 +105,7 @@ public class SearchPage extends WikiPage implements ActionListener {
 			return;
 		}
 		
-		WordIndex index = getWiki().getLanguageEngine().getWordIndex();
+		WordIndex index = getWiki().getEngine().getWordIndex();
 		searchResult = index.searchForElements(textField.getText());
 		
 		if (searchResult.size() == 0) {
