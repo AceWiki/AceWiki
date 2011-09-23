@@ -66,6 +66,10 @@ public class VerbRelation extends OWLRelation implements ACEOWLOntoElement {
 		}
 	}
 	
+	public String serializeWords() {
+		return thirdSg + ";" + inf + ";" + (passive == null ? "" : passive) + ";";
+	}
+	
 	/**
 	 * Returns the past participle which is the passive form without the "by".
 	 * E.g. for the passive form "given by", the past participle is "given".

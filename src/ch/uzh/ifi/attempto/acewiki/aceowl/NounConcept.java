@@ -61,6 +61,10 @@ public class NounConcept extends OWLConcept implements ACEOWLOntoElement {
 		plural = words[1];
 	}
 	
+	public String serializeWords() {
+		return singular + ";" + plural + ";";
+	}
+	
 	public String getIRISuffix() {
 		return getWord(0);
 	}

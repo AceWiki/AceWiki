@@ -54,6 +54,10 @@ public class TrAdjRelation extends OWLRelation implements ACEOWLOntoElement {
 		word = words[0];
 	}
 	
+	public String serializeWords() {
+		return word + ";";
+	}
+	
 	public String getIRISuffix() {
 		return getWord(0);
 	}

@@ -128,6 +128,11 @@ public class ProperNameIndividual extends OWLIndividual implements ACEOWLOntoEle
 		}
 	}
 	
+	public String serializeWords() {
+		String[] w = getWords();
+		return w[0] + ";" + w[1] + ";" + w[2] + ";" + w[3] + ";";
+	}
+	
 	public List<LexiconEntry> getLexiconEntries() {
 		List<LexiconEntry> entries = new ArrayList<LexiconEntry>();
 		if (wordDefArt) {

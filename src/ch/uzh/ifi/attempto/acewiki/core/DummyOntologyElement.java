@@ -52,6 +52,10 @@ public class DummyOntologyElement extends AbstractOntologyElement {
 	public void setWords(String serializedWords) {
 	}
 	
+	public String serializeWords() {
+		return "";
+	}
+	
 	public String getType() {
 		return type;
 	}

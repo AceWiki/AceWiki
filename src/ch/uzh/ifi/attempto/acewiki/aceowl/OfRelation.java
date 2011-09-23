@@ -50,13 +50,14 @@ public class OfRelation extends OWLRelation implements ACEOWLOntoElement {
 
 	public void setWords(String serializedWords) {
 		String[] words = serializedWords.split(";");
-		if (words[0] == null || words[0].equals("")) {
-			word = null;
-		} else if (words[0].endsWith(" of")) {
-			word = words[0];
-		} else {
-			word = words[0] + " of";
+		word = words[0];
+		if (!words[0].endsWith(" of")) {
+			word = word + " of";
 		}
+	}
+	
+	public String serializeWords() {
+		return word + ";";
 	}
 	
 	/**
@@ -67,10 +68,8 @@ public class OfRelation extends OWLRelation implements ACEOWLOntoElement {
 	public String getNoun() {
 		if (word == null) {
 			return null;
-		} else if (word.endsWith(" of")) {
-			return word.substring(0, word.length()-3);
 		} else {
-			throw new RuntimeException("Illegal of-construct: " + word);
+			return word.substring(0, word.length()-3);
 		}
 	}
 	
