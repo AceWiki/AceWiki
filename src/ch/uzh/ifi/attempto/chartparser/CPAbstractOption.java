@@ -26,7 +26,7 @@ import ch.uzh.ifi.attempto.base.AbstractOption;
  * 
  * @author Tobias Kuhn
  */
-class CPAbstractOption implements AbstractOption {
+public class CPAbstractOption implements AbstractOption {
 	
 	private final Category category;
 	private final Category[] exceptions;

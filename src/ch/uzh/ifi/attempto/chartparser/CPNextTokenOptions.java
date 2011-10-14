@@ -27,7 +27,7 @@ import ch.uzh.ifi.attempto.base.NextTokenOptions;
  * 
  * @author Tobias Kuhn
  */
-class CPNextTokenOptions implements NextTokenOptions {
+public class CPNextTokenOptions implements NextTokenOptions {
 	
 	private Set<CPAbstractOption> aOptions;
 	private Set<CPConcreteOption> cOptions;

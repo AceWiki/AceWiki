@@ -26,7 +26,7 @@ import ch.uzh.ifi.attempto.base.ConcreteOption;
  * 
  * @author Tobias Kuhn
  */
-class CPConcreteOption implements ConcreteOption {
+public class CPConcreteOption implements ConcreteOption {
 	
 	private final Terminal terminal;
 	private final Preterminal category;
