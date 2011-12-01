@@ -167,11 +167,7 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 				} catch (Exception ex) {
 					throw new RuntimeException("Could not resolve link: " + s, ex);
 				}
-				if (te != null) {
-					textContainer.addElement(te);
-				} else {
-					throw new RuntimeException("Could not resolve link: " + s);
-				}
+				textContainer.addElement(te);
 			} else {
 				TextElement te = getOntology().getTextOperator().createTextElement(s);
 				if (!(te instanceof OntologyTextElement) || serialized.indexOf("<") > -1) {

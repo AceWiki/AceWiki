@@ -46,7 +46,7 @@ public class TabSensitiveTextFieldPeer extends TextFieldPeer {
 		serverMessage.addLibrary(REGISTRY_KEY);
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public Class getComponentClass() {
 		return TabSensitiveTextField.class;
 	}
