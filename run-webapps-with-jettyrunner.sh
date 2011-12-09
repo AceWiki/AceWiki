@@ -14,6 +14,7 @@
 #   or has the permission to create them.
 # 
 # (written by Tobias Kuhn with content from Jean-Marc Vanel)
+# (some updates by Kaarel Kaljurand)
 #==============================================================================
 
 
@@ -29,8 +30,15 @@ eval `swipl -dump-runtime-variables`
 ## Prolog library. Under some circumstances, also LD_LIBRARY_PATH has to be set.
 ## You might have to change "i386" to map the architecture of your system.
 ## (Tested with Debian 6.0.1 and Ubuntu 11.04)
-# Commented the next four exports out because got an error message:
-# java: error while loading shared libraries: libjava.so: cannot open shared object file: No such file or directory
+
+## Commented the next 4 exports out because they do not apply in
+## the general case, e.g. on some platforms you still get e.g.:
+## java: error while loading shared libraries:
+##     libjava.so: cannot open shared object file: No such file or directory
+## One should specify the required paths in his/her personal .bashrc, e.g.
+## export LD_LIBRARY_PATH="/usr/lib/jvm/java-6-openjdk/jre/lib/amd64/:
+## /usr/lib/jvm/java-6-openjdk/jre/lib/amd64/server/"
+
 #export LD_PRELOAD=$PLBASE/lib/$PLARCH/libjpl.so:/usr/lib/libswipl.so
 #export LD_LIBRARY_PATH=$JAVA_HOME/jre/lib/i386:$LD_LIBRARY_PATH
 #export LD_LIBRARY_PATH=$JAVA_HOME/jre/lib/i386/server:$LD_LIBRARY_PATH
