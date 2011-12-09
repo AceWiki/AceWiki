@@ -14,7 +14,7 @@ Developers
 These are the AceWiki developers:
 
 - Tobias Kuhn (since 2006)
-- Kaarel Kaljurand (since 2010)
+- Kaarel Kaljurand (since 2011)
 
 
 Institutions
