@@ -1,11 +1,33 @@
 AceWiki
 =======
 
-Copyright 2008-2011, Tobias Kuhn.
+Copyright 2008-2011, AceWiki developers.
 
-AceWiki is a semantic wiki making use of the controlled natural language ACE.
+AceWiki is a semantic wiki based on controlled natural language.
 
 Website: http://attempto.ifi.uzh.ch/acewiki/
+
+
+Developers
+----------
+
+These are the AceWiki developers:
+
+- Tobias Kuhn (since 2006)
+- Kaarel Kaljurand (since 2011)
+
+
+Institutions
+------------
+
+The following institutions are or were involved in the development of AceWiki:
+
+- Technical University Dresden, Germany (2006)
+- University of Zurich, Switzerland (since 2006)
+- University of Chile (2010)
+- University of Malta (2011)
+- University of Gothenburg, Sweden (since 2011)
+- University of Helsinki, Finland (since 2011)
 
 
 Repository

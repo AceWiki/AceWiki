@@ -1,5 +1,5 @@
 // This file is part of AceWiki.
-// Copyright 2008-2011, Tobias Kuhn.
+// Copyright 2008-2011, AceWiki developers.
 // 
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
@@ -54,22 +54,22 @@ public class StatementFactory {
 	 * @return A new sentence object.
 	 */
 	public Sentence createSentence(String serialized, Article article) {
-		Sentence s = ontology.getLanguageFactory().createSentence(serialized);
+		Sentence s = ontology.getEngine().createSentence(serialized);
 		s.init(ontology, article);
 		return s;
 	}
 
 	/**
-	 * Generates sentence objects out of a text container and/or a parser state.
+	 * Extracts sentence objects out of a text container and/or a parser state.
 	 * 
 	 * @param tc The text container.
 	 * @param parser The parser object with the parsed text.
 	 * @param article The article of the sentences.
 	 * @return A list of sentences.
 	 */
-	public List<Sentence> createSentences(TextContainer tc, PredictiveParser parser,
+	public List<Sentence> extractSentences(TextContainer tc, PredictiveParser parser,
 			Article article) {
-		List<Sentence> l = ontology.getLanguageFactory().createSentences(tc, parser);
+		List<Sentence> l = ontology.getLanguageHandler().extractSentences(tc, parser);
 		for (Sentence s : l) {
 			s.init(ontology, article);
 		}
@@ -84,7 +84,7 @@ public class StatementFactory {
 	 * @return A new assignement sentence.
 	 */
 	public Sentence createAssignmentSentence(Individual ind, Concept conc) {
-		Sentence s = ontology.getLanguageFactory().createAssignmentSentence(ind, conc);
+		Sentence s = ontology.getEngine().createAssignmentSentence(ind, conc);
 		s.init(ontology, null);
 		return s;
 	}
@@ -97,7 +97,7 @@ public class StatementFactory {
 	 * @return A new hierarchy sentence.
 	 */
 	public Sentence createHierarchySentence(Concept subConc, Concept superConc) {
-		Sentence s = ontology.getLanguageFactory().createHierarchySentence(subConc, superConc);
+		Sentence s = ontology.getEngine().createHierarchySentence(subConc, superConc);
 		s.init(ontology, null);
 		return s;
 	}

@@ -1,5 +1,5 @@
 // This file is part of AceWiki.
-// Copyright 2008-2011, Tobias Kuhn.
+// Copyright 2008-2011, AceWiki developers.
 // 
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
@@ -15,7 +15,6 @@
 package ch.uzh.ifi.attempto.acewiki.gui;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import nextapp.echo.app.Column;
@@ -26,10 +25,11 @@ import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Task;
+import ch.uzh.ifi.attempto.acewiki.core.CachingReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
-import ch.uzh.ifi.attempto.acewiki.core.CachingReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.StatementFactory;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
@@ -161,7 +161,7 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 			}
 			if (concepts != null) {
 				sentences = new ArrayList<Sentence>();
-				Collections.sort(concepts);
+				LanguageUtils.sortOntologyElements(concepts);
 				for (Concept c : concepts) {
 					StatementFactory sf = getWiki().getOntology().getStatementFactory();
 					sentences.add(sf.createAssignmentSentence(ind, c));

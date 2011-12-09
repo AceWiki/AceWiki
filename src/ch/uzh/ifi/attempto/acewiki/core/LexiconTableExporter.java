@@ -1,5 +1,5 @@
 // This file is part of AceWiki.
-// Copyright 2008-2011, Tobias Kuhn.
+// Copyright 2008-2011, AceWiki developers.
 // 
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
@@ -15,7 +15,6 @@
 package ch.uzh.ifi.attempto.acewiki.core;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -26,18 +25,13 @@ import java.util.List;
 public class LexiconTableExporter extends OntologyExporter {
 	
 	protected void writeContent() throws IOException {
-		write("TYPE,WORD_FORM_1,WORD_FORM_2,WORD_FORM_3\n");
+		write("TYPE,HEADWORDS,SERIALIZED\n");
 		List<OntologyElement> elements = getOntologyElements();
-		Collections.sort(elements);
+		LanguageUtils.sortOntologyElements(elements);
 		for (OntologyElement oe : elements) {
-			write(oe.getInternalType());
-			for (String word : oe.getExternalWordList()) {
-				if (word == null) {
-					write(",");
-				} else {
-					write("," + word);
-				}
-			}
+			write(oe.getInternalType() + ",");
+			write(LanguageUtils.getHeading(oe) + ",");
+			write("\"" + oe.serializeWords().replaceAll("\"", "\"\"") + "\"");
 			write("\n");
 		}
 	}

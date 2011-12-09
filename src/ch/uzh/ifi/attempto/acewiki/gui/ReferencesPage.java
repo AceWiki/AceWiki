@@ -1,5 +1,5 @@
 // This file is part of AceWiki.
-// Copyright 2008-2011, Tobias Kuhn.
+// Copyright 2008-2011, AceWiki developers.
 // 
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
@@ -15,7 +15,6 @@
 package ch.uzh.ifi.attempto.acewiki.gui;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import nextapp.echo.app.Color;
@@ -91,7 +90,7 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 		referenceColumn.removeAll();
 		List<OntologyElement> ontologyElements = getWiki().getOntologyElements();
 		sentences = new ArrayList<Sentence>();
-		Collections.sort(ontologyElements);
+		LanguageUtils.sortOntologyElements(ontologyElements);
 		for (OntologyElement oe : ontologyElements) {
 			if (oe == page.getOntologyElement()) continue;
 			for (Sentence s : oe.getArticle().getSentences()) {

@@ -1,5 +1,5 @@
 // This file is part of AceWiki.
-// Copyright 2008-2011, Tobias Kuhn.
+// Copyright 2008-2011, AceWiki developers.
 // 
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
@@ -83,10 +83,10 @@ public class CachingReasoner implements AceWikiReasoner {
 	 * @param question The question.
 	 * @return The cached answer.
 	 */
-	public synchronized List<OntologyElement> getCachedAnswer(Question question) {
+	public synchronized List<AnswerElement> getCachedAnswer(Question question) {
 		CachedAnswer a = answerCache.get(question.serialize());
 		if (a != null) {
-			return new ArrayList<OntologyElement>(a.list);
+			return new ArrayList<AnswerElement>(a.list);
 		} else {
 			return null;
 		}
@@ -95,10 +95,10 @@ public class CachingReasoner implements AceWikiReasoner {
 	/**
 	 * Returns the answer for the given question. The cache is used if it is up-to-date.
 	 */
-	public synchronized List<OntologyElement> getAnswer(Question question) {
+	public synchronized List<AnswerElement> getAnswer(Question question) {
 		CachedAnswer a = answerCache.get(question.serialize());
 		if (a != null && a.state == getState()) {
-			return new ArrayList<OntologyElement>(a.list);
+			return new ArrayList<AnswerElement>(a.list);
 		} else {
 			a = new CachedAnswer();
 			a.list = wrappedReasoner.getAnswer(question);
@@ -359,7 +359,7 @@ public class CachingReasoner implements AceWikiReasoner {
 	
 	private static class CachedAnswer {
 		long state = -1;
-		List<OntologyElement> list;
+		List<AnswerElement> list;
 	}
 	
 	private static class CachedIndividuals {

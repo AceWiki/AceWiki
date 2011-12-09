@@ -1,5 +1,5 @@
 // This file is part of AceWiki.
-// Copyright 2008-2011, Tobias Kuhn.
+// Copyright 2008-2011, AceWiki developers.
 // 
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
@@ -50,13 +50,14 @@ public class OfRelation extends OWLRelation implements ACEOWLOntoElement {
 
 	public void setWords(String serializedWords) {
 		String[] words = serializedWords.split(";");
-		if (words[0] == null || words[0].equals("")) {
-			word = null;
-		} else if (words[0].endsWith(" of")) {
-			word = words[0];
-		} else {
-			word = words[0] + " of";
+		word = words[0];
+		if (!words[0].endsWith(" of")) {
+			word = word + " of";
 		}
+	}
+	
+	public String serializeWords() {
+		return word + ";";
 	}
 	
 	/**
@@ -67,10 +68,8 @@ public class OfRelation extends OWLRelation implements ACEOWLOntoElement {
 	public String getNoun() {
 		if (word == null) {
 			return null;
-		} else if (word.endsWith(" of")) {
-			return word.substring(0, word.length()-3);
 		} else {
-			throw new RuntimeException("Illegal of-construct: " + word);
+			return word.substring(0, word.length()-3);
 		}
 	}
 	

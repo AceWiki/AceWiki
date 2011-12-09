@@ -1,5 +1,5 @@
 // This file is part of AceWiki.
-// Copyright 2008-2011, Tobias Kuhn.
+// Copyright 2008-2011, AceWiki developers.
 // 
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
@@ -110,13 +110,13 @@ public class FormPane extends WordEditorForm {
 				setButtons("Unlock", "Close");
 			}
 		} else {
-			element = wiki.getOntology().getLanguageFactory().createOntologyElement(type);
+			element = wiki.getOntology().getEngine().createOntologyElement(type);
 			this.locked = false;
 			setButtons("OK", "Cancel");
 		}
 		this.element = element;
 		
-		lexiconChanger = wiki.getLanguageEngine().getLexiconChanger(type);
+		lexiconChanger = wiki.getLanguageHandler().getLexiconChanger(type);
 		setTitle(element.getType());
 		setExplanationComponent(lexiconChanger.getDescription());
 		

@@ -1,5 +1,5 @@
 // This file is part of AceWiki.
-// Copyright 2008-2011, Tobias Kuhn.
+// Copyright 2008-2011, AceWiki developers.
 // 
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
@@ -15,7 +15,6 @@
 package ch.uzh.ifi.attempto.acewiki.core;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -95,7 +94,7 @@ public class DefaultWordIndex implements WordIndex {
 				}
 			}
 		}
-		Collections.sort(searchResult);
+		LanguageUtils.sortOntologyElements(searchResult);
 		return searchResult;
 	}
 

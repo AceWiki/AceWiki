@@ -1,5 +1,5 @@
 // This file is part of AceWiki.
-// Copyright 2008-2011, Tobias Kuhn.
+// Copyright 2008-2011, AceWiki developers.
 // 
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
@@ -16,22 +16,13 @@ package ch.uzh.ifi.attempto.acewiki.core;
 
 import java.util.List;
 
-import ch.uzh.ifi.attempto.base.PredictiveParser;
-import ch.uzh.ifi.attempto.base.TextContainer;
-import ch.uzh.ifi.attempto.base.TextOperator;
-
-// TODO split this interface into several interfaces:
-// - LanguageFactory
-// - AssignmentSentenceFactory
-// - HierarchySentenceFactory
 /**
- * This interface represents a factory to construct language elements such as sentences and
- * words (ontology elements).
+ * This is the main interface for the AceWiki behavior.
  * 
  * @author Tobias Kuhn
  */
-public interface LanguageFactory {
-
+public interface AceWikiEngine {
+	
 	/**
 	 * This is the first method to be called and provides the ontology object.
 	 * 
@@ -40,28 +31,39 @@ public interface LanguageFactory {
 	public void init(Ontology ontology);
 	
 	/**
-	 * Returns the text operator.
+	 * Returns the language handler.
 	 * 
-	 * @return The text operator.
+	 * @return The language handler.
 	 */
-	public TextOperator getTextOperator();
+	public LanguageHandler getLanguageHandler();
 	
 	/**
-	 * Creates a new sentence object based on the given serialization.
+	 * Returns the lexical types, as defined by the respective ontology element types.
 	 * 
-	 * @param serialized The serialized representation of the sentence.
-	 * @return A new sentence object.
+	 * @return The lexical types.
 	 */
-	public Sentence createSentence(String serialized);
+	public String[] getLexicalTypes();
 	
 	/**
-	 * Creates a list of new sentences from a text container and/or a parser state.
+	 * Returns the reasoner.
 	 * 
-	 * @param tc The text container.
-	 * @param parser The parser object with the parsed text.
-	 * @return A list of new sentences.
+	 * @return The reasoner.
 	 */
-	public List<Sentence> createSentences(TextContainer tc, PredictiveParser parser);
+	public AceWikiReasoner getReasoner();
+	
+	/**
+	 * Returns the word index.
+	 * 
+	 * @return The word index.
+	 */
+	public WordIndex getWordIndex();
+	
+	/**
+	 * Returns a list of exporters to export the wiki content in different formats.
+	 * 
+	 * @return A list of ontology exporters.
+	 */
+	public List<OntologyExporter> getExporters();
 	
 	/**
 	 * Creates a new ontology element for the given lexical type.
@@ -70,6 +72,14 @@ public interface LanguageFactory {
 	 * @return A new ontology element.
 	 */
 	public OntologyElement createOntologyElement(String type);
+	
+	/**
+	 * Creates a new sentence object based on the given serialization.
+	 * 
+	 * @param serialized The serialized representation of the sentence.
+	 * @return A new sentence object.
+	 */
+	public Sentence createSentence(String serialized);
 	
 	/**
 	 * Creates a new assignement sentence that assigns a given individual to a given concept.
@@ -89,13 +99,5 @@ public interface LanguageFactory {
 	 * @return A new sentence representing the assignment.
 	 */
 	public Sentence createHierarchySentence(Concept subConcept, Concept superConcept);
-	
-	/**
-	 * Creates a text that represents the given ontology element as an answer to a question.
-	 * 
-	 * @param el The ontology element.
-	 * @return The text representing an answer.
-	 */
-	public TextContainer createAnswerItem(OntologyElement el);
 
 }

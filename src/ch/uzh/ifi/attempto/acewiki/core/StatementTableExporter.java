@@ -1,5 +1,5 @@
 // This file is part of AceWiki.
-// Copyright 2008-2011, Tobias Kuhn.
+// Copyright 2008-2011, AceWiki developers.
 // 
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
@@ -15,7 +15,6 @@
 package ch.uzh.ifi.attempto.acewiki.core;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,12 +27,13 @@ public class StatementTableExporter extends OntologyExporter {
 	protected void writeContent() throws IOException {
 		write("PAGE,TYPE,TEXT\n");
 		List<OntologyElement> elements = getOntologyElements();
-		Collections.sort(elements);
+		LanguageUtils.sortOntologyElements(elements);
 		for (OntologyElement oe : elements) {
 			for (Statement s : oe.getArticle().getStatements()) {
-				// Replace quotes " by two quotes "" and reduce blank spaces
-				String t = s.getText().replaceAll("\"", "\"\"").replaceAll("\\s+", " ");
-				write(oe.getWord() + "," + getStatementType(s) + ",\"" + t + "\"\n");
+				write(LanguageUtils.getHeading(oe) + ",");
+				write(getStatementType(s) + ",");
+				write("\"" + s.getText().replaceAll("\"", "\"\"").replaceAll("\\s+", " ") + "\"");
+				write("\n");
 			}
 		}
 	}

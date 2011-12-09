@@ -1,5 +1,5 @@
 // This file is part of AceWiki.
-// Copyright 2008-2011, Tobias Kuhn.
+// Copyright 2008-2011, AceWiki developers.
 // 
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
@@ -167,11 +167,7 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 				} catch (Exception ex) {
 					throw new RuntimeException("Could not resolve link: " + s, ex);
 				}
-				if (te != null) {
-					textContainer.addElement(te);
-				} else {
-					throw new RuntimeException("Could not resolve link: " + s);
-				}
+				textContainer.addElement(te);
 			} else {
 				TextElement te = getOntology().getTextOperator().createTextElement(s);
 				if (!(te instanceof OntologyTextElement) || serialized.indexOf("<") > -1) {
@@ -348,19 +344,13 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 		}
 	}
 	
-	public boolean contains(OntologyElement e, int wordNumber) {
+	public boolean contains(OntologyElement e) {
 		for (TextElement t : getTextContainer().getTextElements()) {
 			if (t instanceof OntologyTextElement) {
-				OntologyTextElement ot = (OntologyTextElement) t;
-				if (e == ot.getOntologyElement() && wordNumber == -1) return true;
-				if (e == ot.getOntologyElement() && wordNumber == ot.getWordNumber()) return true;
+				if (e == ((OntologyTextElement) t).getOntologyElement()) return true;
 			}
 		}
 		return false;
-	}
-	
-	public boolean contains(OntologyElement e) {
-		return contains(e, -1);
 	}
 	
 	public String serialize() {

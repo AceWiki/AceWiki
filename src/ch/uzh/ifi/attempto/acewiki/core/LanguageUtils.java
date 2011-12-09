@@ -1,5 +1,5 @@
 // This file is part of AceWiki.
-// Copyright 2008-2011, Tobias Kuhn.
+// Copyright 2008-2011, AceWiki developers.
 // 
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
@@ -14,12 +14,18 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 /**
  * This utility class contains static methods for general tasks on the language level.
  * 
  * @author Tobias Kuhn
  */
 public class LanguageUtils {
+	
+	private static OntologyElementsComparator comparator = new OntologyElementsComparator();
 	
 	// no instances allowed:
 	private LanguageUtils() {}
@@ -56,6 +62,30 @@ public class LanguageUtils {
 			heading += " (" + aliases + ")";
 		}
 		return heading;
+	}
+	
+	/**
+	 * Sorts the list of ontology elements according to their main headword.
+	 * 
+	 * @param elements The list to be sorted.
+	 */
+	public static void sortOntologyElements(List<? extends OntologyElement> elements) {
+		Collections.sort(elements, comparator);
+	}
+	
+	
+	private static class OntologyElementsComparator implements Comparator<OntologyElement> {
+
+		public int compare(OntologyElement o1, OntologyElement o2) {
+			if (o1 instanceof DummyOntologyElement && !(o2 instanceof DummyOntologyElement)) {
+				return -1;
+			} else if (!(o1 instanceof DummyOntologyElement) && o2 instanceof DummyOntologyElement) {
+				return 1;
+			} else {
+				return o1.getHeadwords()[0].compareToIgnoreCase(o2.getHeadwords()[0]);
+			}
+		}
+		
 	}
 
 }

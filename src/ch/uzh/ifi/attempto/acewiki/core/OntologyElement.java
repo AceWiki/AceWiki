@@ -1,5 +1,5 @@
 // This file is part of AceWiki.
-// Copyright 2008-2011, Tobias Kuhn.
+// Copyright 2008-2011, AceWiki developers.
 // 
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
@@ -21,7 +21,7 @@ package ch.uzh.ifi.attempto.acewiki.core;
  * 
  * @author Tobias Kuhn
  */
-public interface OntologyElement extends Comparable<OntologyElement> {
+public interface OntologyElement {
 	
 	/**
 	 * Initializes the id of this ontology element.
@@ -88,6 +88,14 @@ public interface OntologyElement extends Comparable<OntologyElement> {
 	public String getWord();
 	
 	/**
+	 * Returns the headwords that are used in the GUI (title, index, etc) to refer to this ontology
+	 * element. At least one headword is required.
+	 * 
+	 * @return The headwords.
+	 */
+	public String[] getHeadwords();
+	
+	/**
 	 * Returns the word type as it is used internally.
 	 * 
 	 * @return The internal word type.
@@ -109,26 +117,10 @@ public interface OntologyElement extends Comparable<OntologyElement> {
 	public String serializeWords();
 	
 	/**
-	 * Returns the headwords that are used in the GUI (title, index, etc) to refer to this ontology
-	 * element. At least one headword is required.
-	 * 
-	 * @return The headwords.
-	 */
-	public String[] getHeadwords();
-	
-	/**
 	 * Returns the word type as it is shown to the user.
 	 * 
 	 * @return The word type.
 	 */
 	public String getType();
-	
-	/**
-	 * This method returns a list that contains the word forms for external representations,
-	 * for example for exports.
-	 * 
-	 * @return The word forms.
-	 */
-	public String[] getExternalWordList();
 
 }

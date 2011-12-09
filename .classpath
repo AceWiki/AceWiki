@@ -26,5 +26,6 @@
 	<classpathentry kind="lib" path="lib/Echo3_FileTransfer_Receiver.jar"/>
 	<classpathentry kind="lib" path="lib/Echo3_FileTransfer_WebContainer.jar"/>
 	<classpathentry kind="lib" path="lib/xstream-1.3.1.jar"/>
+	<classpathentry kind="lib" path="lib/JPGF.final.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

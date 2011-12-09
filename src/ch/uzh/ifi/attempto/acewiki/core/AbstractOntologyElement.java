@@ -1,5 +1,5 @@
 // This file is part of AceWiki.
-// Copyright 2008-2011, Tobias Kuhn.
+// Copyright 2008-2011, AceWiki developers.
 // 
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
@@ -26,12 +26,6 @@ public abstract class AbstractOntologyElement implements OntologyElement {
 	
 	private long id = -1;
 	
-	/**
-	 * Initializes the ontology element.
-	 */
-	protected AbstractOntologyElement() {
-	}
-	
 	public void initId(long id) {
 		this.id = id;
 	}
@@ -47,24 +41,12 @@ public abstract class AbstractOntologyElement implements OntologyElement {
 		this.article = article;
 	}
 	
-	public String[] getExternalWordList() {
-		return getWords();
-	}
-	
 	public String getWord(int n) {
 		return getWords()[n];
 	}
 	
 	public String getWord() {
 		return getWord(0);
-	}
-	
-	public String serializeWords() {
-		String s = "";
-		for (String w : getWords()) {
-			s += w + ";";
-		}
-		return s;
 	}
 	
 	public String[] getHeadwords() {
@@ -96,28 +78,9 @@ public abstract class AbstractOntologyElement implements OntologyElement {
 			ontology.log(text);
 		}
 	}
-
-	public int compareTo(OntologyElement e) {
-		if (this instanceof DummyOntologyElement && !(e instanceof DummyOntologyElement)) {
-			return -1;
-		} else if (!(this instanceof DummyOntologyElement) && e instanceof DummyOntologyElement) {
-			return 1;
-		} else {
-			return getHeadwords()[0].compareToIgnoreCase(e.getHeadwords()[0]);
-		}
-	}
 	
 	public String toString() {
-		String l = "";
-		for (String s : getWords()) {
-			if (s == null) {
-				l += ",";
-			} else {
-				l += s + ",";
-			}
-		}
-		if (l.length() > 0) l = l.substring(0, l.length()-1);
-		return getType() + "{" + l + "}";
+		return getInternalType() + ":" + serializeWords();
 	}
 
 }

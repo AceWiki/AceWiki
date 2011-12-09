@@ -1,5 +1,5 @@
 // This file is part of AceWiki.
-// Copyright 2008-2011, Tobias Kuhn.
+// Copyright 2008-2011, AceWiki developers.
 // 
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
@@ -18,9 +18,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.acewiki.owl.OWLIndividual;
 import ch.uzh.ifi.attempto.ape.Gender;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
+import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 
 /**
@@ -90,15 +92,6 @@ public class ProperNameIndividual extends OWLIndividual implements ACEOWLOntoEle
 		}
 	}
 	
-	public String[] getExternalWordList() {
-		String[] words = getWords();
-		if (abbrev == null) {
-			return new String[] {words[0]};
-		} else {
-			return new String[] {words[0], words[2]};
-		}
-	}
-	
 	public String[] getHeadwords() {
 		if (abbrev == null) {
 			return new String[] {getWord(1)};
@@ -133,6 +126,11 @@ public class ProperNameIndividual extends OWLIndividual implements ACEOWLOntoEle
 		if (abbrev != null && abbrev.length() == 0) {
 			abbrev = null;
 		}
+	}
+	
+	public String serializeWords() {
+		String[] w = getWords();
+		return w[0] + ";" + w[1] + ";" + w[2] + ";" + w[3] + ";";
 	}
 	
 	public List<LexiconEntry> getLexiconEntries() {
@@ -208,6 +206,10 @@ public class ProperNameIndividual extends OWLIndividual implements ACEOWLOntoEle
 				lexRules.add(new LexicalRule("propername", getWord(2)));
 			}
 		}
+	}
+	
+	public TextContainer getAnswerText() {
+		return new TextContainer(new OntologyTextElement(this, 1));
 	}
 
 }

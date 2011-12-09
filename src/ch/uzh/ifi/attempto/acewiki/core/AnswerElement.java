@@ -14,13 +14,21 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
+import ch.uzh.ifi.attempto.base.TextContainer;
+
 /**
- * This class represents ACE declarations (declarative sentences). Some declarative sentences can
- * be translated into OWL and can participate in reasoning. Others have no OWL representation and
- * do not participate in reasoning.
+ * This interface describes a text element with a specific text representation when it appears as
+ * the answer to a question.
  * 
  * @author Tobias Kuhn
  */
-public interface Declaration extends Sentence {
+public interface AnswerElement extends OntologyElement {
+	
+	/**
+	 * Returns the text to be shown when this ontology element is the answer to a question.
+	 * 
+	 * @return The answer text.
+	 */
+	public TextContainer getAnswerText();
 
 }

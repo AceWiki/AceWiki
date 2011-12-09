@@ -14,13 +14,34 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * This class represents ACE declarations (declarative sentences). Some declarative sentences can
- * be translated into OWL and can participate in reasoning. Others have no OWL representation and
- * do not participate in reasoning.
+ * This is a partial implementation of a language handler.
  * 
  * @author Tobias Kuhn
  */
-public interface Declaration extends Sentence {
+public abstract class AbstractLanguageHandler implements LanguageHandler {
+
+	private Map<String, LexiconChanger> lexiconChangers = new HashMap<String, LexiconChanger>();
+
+	/**
+	 * Sets a lexicon changer for the given lexical type.
+	 * 
+	 * @param type The lexical type.
+	 * @param lexiconChanger The lexicon changer.
+	 */
+	public void setLexiconChanger(String type, LexiconChanger lexiconChanger) {
+		lexiconChangers.put(type, lexiconChanger);
+	}
+	
+	public LexiconChanger getLexiconChanger(String type) {
+		return lexiconChangers.get(type);
+	}
+	
+	public SentenceSuggestion getSuggestion(Sentence sentence) {
+		return null;
+	}
 
 }

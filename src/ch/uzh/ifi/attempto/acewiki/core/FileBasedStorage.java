@@ -1,5 +1,5 @@
 // This file is part of AceWiki.
-// Copyright 2008-2011, Tobias Kuhn.
+// Copyright 2008-2011, AceWiki developers.
 // 
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
@@ -190,7 +190,7 @@ public class FileBasedStorage implements AceWikiStorage {
 			return;
 		}
 		String type = lines.remove(0).substring("type:".length());
-		OntologyElement oe = ontology.getLanguageFactory().createOntologyElement(type);
+		OntologyElement oe = ontology.getEngine().createOntologyElement(type);
 		if (oe != null) {
 			if (!lines.get(0).startsWith("words:")) {
 				System.err.println("Cannot read ontology element (missing 'words')");

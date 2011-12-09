@@ -1,5 +1,5 @@
 // This file is part of AceWiki.
-// Copyright 2008-2011, Tobias Kuhn.
+// Copyright 2008-2011, AceWiki developers.
 // 
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
@@ -16,6 +16,7 @@ package ch.uzh.ifi.attempto.acewiki.owl;
 
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
+import ch.uzh.ifi.attempto.acewiki.core.AnswerElement;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
 
 /**
@@ -23,7 +24,7 @@ import ch.uzh.ifi.attempto.acewiki.core.Individual;
  * 
  * @author Tobias Kuhn
  */
-public abstract class OWLIndividual extends AbstractOWLOntoElement implements Individual {
+public abstract class OWLIndividual extends AbstractOWLOntoElement implements Individual, AnswerElement {
 	
 	public OWLNamedIndividual getOWLRepresentation() {
 		return getOWLDataFactory().getOWLNamedIndividual(getIRI());

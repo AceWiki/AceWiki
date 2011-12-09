@@ -1,5 +1,5 @@
 // This file is part of AceWiki.
-// Copyright 2008-2011, Tobias Kuhn.
+// Copyright 2008-2011, AceWiki developers.
 // 
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
@@ -23,7 +23,8 @@ import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Article;
 import ch.uzh.ifi.attempto.acewiki.core.InconsistencyException;
-import ch.uzh.ifi.attempto.acewiki.core.LanguageEngine;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageHandler;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceSuggestion;
@@ -64,15 +65,15 @@ public class SentenceEditorHandler implements ActionListener {
 				page.getOntologyElement(),
 				this
 			);
-		LanguageEngine le = wiki.getLanguageEngine();
-		editorWindow = new PreditorWindow("Sentence Editor", le.getPredictiveParser());
+		LanguageHandler lh = wiki.getLanguageHandler();
+		editorWindow = new PreditorWindow("Sentence Editor", lh.getPredictiveParser());
 		editorWindow.setMenuCreator(menuCreator);
 		editorWindow.setLogger(wiki.getLogger());
 		editorWindow.addActionListener(this);
-		editorWindow.setTextOperator(wiki.getOntology().getTextOperator());
+		editorWindow.setTextOperator(lh.getTextOperator());
 		
 		if (edit) {
-			editorWindow.addText(((Sentence) statement).getPrettyText() + " ");
+			editorWindow.addText(LanguageUtils.getPrettyPrinted(statement.getText()) + " ");
 		}
 	}
 	
@@ -112,7 +113,7 @@ public class SentenceEditorHandler implements ActionListener {
 		if (src == editorWindow && c.matches("OK|Enter")) {
 			Ontology o = wiki.getOntology();
 			
-			for (String t : o.getLanguageEngine().getEditorController().getAutocompleteTokens()) {
+			for (String t : o.getLanguageHandler().getEditorController().getAutocompleteTokens()) {
 				if (editorWindow.isPossibleNextToken(t)) {
 					editorWindow.addTextElement(o.getTextOperator().createTextElement(t));
 					break;
@@ -123,7 +124,7 @@ public class SentenceEditorHandler implements ActionListener {
 			if (parser.getTokenCount() == 0) {
 				wiki.removeWindow(editorWindow);
 			} else if (parser.isComplete()) {
-				newSentences = o.getStatementFactory().createSentences(
+				newSentences = o.getStatementFactory().extractSentences(
 						editorWindow.getTextContainer(),
 						parser,
 						page.getArticle()
@@ -160,7 +161,7 @@ public class SentenceEditorHandler implements ActionListener {
 		if (checked >= newSentences.size()) {
 			assertSentences();
 		} else {
-			suggestion = wiki.getLanguageEngine().getSuggestion(newSentences.get(checked));
+			suggestion = wiki.getLanguageHandler().getSuggestion(newSentences.get(checked));
 			if (suggestion != null) {
 				messageWindow = new MessageWindow(
 						"Suggestion",

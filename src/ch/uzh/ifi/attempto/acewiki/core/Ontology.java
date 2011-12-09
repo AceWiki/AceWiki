@@ -1,5 +1,5 @@
 // This file is part of AceWiki.
-// Copyright 2008-2011, Tobias Kuhn.
+// Copyright 2008-2011, AceWiki developers.
 // 
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
@@ -31,7 +31,7 @@ import ch.uzh.ifi.attempto.base.TextOperator;
  */
 public class Ontology {
 	
-	private LanguageEngine languageEngine;
+	private AceWikiEngine engine;
 	private CachingReasoner reasoner;
 	private StatementFactory statementFactory;
 	private AceWikiStorage storage;
@@ -59,8 +59,8 @@ public class Ontology {
 		
 		logger = new Logger(parameters.get("context:logdir") + "/" + name, "onto", 0);
 		
-		languageEngine = AbstractLanguageEngine.createLanguageEngine(this);
-		reasoner = new CachingReasoner(languageEngine.getReasoner());
+		engine = AbstractAceWikiEngine.createLanguageEngine(this);
+		reasoner = new CachingReasoner(engine.getReasoner());
 		reasoner.init(this);
 		statementFactory = new StatementFactory(this);
 		
@@ -77,12 +77,12 @@ public class Ontology {
 	}
 	
 	/**
-	 * Returns the languge engine.
+	 * Returns the AceWiki engine.
 	 * 
-	 * @return The language engine.
+	 * @return The AceWiki engine.
 	 */
-	public LanguageEngine getLanguageEngine() {
-		return languageEngine;
+	public AceWikiEngine getEngine() {
+		return engine;
 	}
 	
 	/**
@@ -104,12 +104,12 @@ public class Ontology {
 	}
 	
 	/**
-	 * Returns the language factory.
+	 * Returns the language handler.
 	 * 
-	 * @return The language factory.
+	 * @return The language handler.
 	 */
-	public LanguageFactory getLanguageFactory() {
-		return languageEngine.getLanguageFactory();
+	public LanguageHandler getLanguageHandler() {
+		return engine.getLanguageHandler();
 	}
 	
 	/**
@@ -118,7 +118,7 @@ public class Ontology {
 	 * @return The text operator.
 	 */
 	public TextOperator getTextOperator() {
-		return getLanguageFactory().getTextOperator();
+		return getLanguageHandler().getTextOperator();
 	}
 	
 	/**
@@ -151,7 +151,7 @@ public class Ontology {
 		idIndex.put(element.getId(), element);
 		if (element.getId() > idCount) idCount = element.getId();
 		
-		languageEngine.getWordIndex().elementAdded(element);
+		engine.getWordIndex().elementAdded(element);
 		
 		getReasoner().loadElement(element);
 		getReasoner().flushElements();
@@ -173,7 +173,7 @@ public class Ontology {
 		log("remove: " + element.getWord());
 		stateID++;
 		
-		languageEngine.getWordIndex().elementRemoved(element);
+		engine.getWordIndex().elementRemoved(element);
 		
 		idIndex.remove(element.getId());
 		for (Sentence s : element.getArticle().getSentences()) {
@@ -193,10 +193,10 @@ public class Ontology {
 	 */
 	public synchronized void change(OntologyElement element, String serializedWords) {
 		if (contains(element)) {
-			languageEngine.getWordIndex().elementBeforeChange(element);
+			engine.getWordIndex().elementBeforeChange(element);
 			getReasoner().unloadElement(element);
 			element.setWords(serializedWords);
-			languageEngine.getWordIndex().elementAfterChange(element);
+			engine.getWordIndex().elementAfterChange(element);
 			getReasoner().loadElement(element);
 			refresh(element);
 		} else {
@@ -229,7 +229,7 @@ public class Ontology {
 	 * @return The ontology element.
 	 */
 	public synchronized OntologyElement getElement(String name) {
-		return languageEngine.getWordIndex().getElement(name);
+		return engine.getWordIndex().getElement(name);
 	}
 	
 	/**

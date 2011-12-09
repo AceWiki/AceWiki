@@ -1,5 +1,5 @@
 // This file is part of AceWiki.
-// Copyright 2008-2011, Tobias Kuhn.
+// Copyright 2008-2011, AceWiki developers.
 // 
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
@@ -18,9 +18,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.acewiki.owl.OWLConcept;
+import ch.uzh.ifi.attempto.ape.ACEUtils;
 import ch.uzh.ifi.attempto.ape.Gender;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
+import ch.uzh.ifi.attempto.base.TextContainer;
+import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.chartparser.LexicalRule;
 import ch.uzh.ifi.attempto.chartparser.Preterminal;
 
@@ -57,6 +61,10 @@ public class NounConcept extends OWLConcept implements ACEOWLOntoElement {
 		plural = words[1];
 	}
 	
+	public String serializeWords() {
+		return singular + ";" + plural + ";";
+	}
+	
 	public String getIRISuffix() {
 		return getWord(0);
 	}
@@ -88,6 +96,13 @@ public class NounConcept extends OWLConcept implements ACEOWLOntoElement {
 			cat.setFeature("noun", getWord(0));
 			lexRules.add(new LexicalRule(cat, "the " + getWord(0)));
 		}
+	}
+	
+	public TextContainer getAnswerText() {
+		boolean an = ACEUtils.useIndefiniteArticleAn(getWord());
+		TextElement det = new TextElement(an ? "an" : "a");
+		TextElement n = new OntologyTextElement(this, 0);
+		return new TextContainer(det, n);
 	}
 	
 }

@@ -1,5 +1,5 @@
 // This file is part of AceWiki.
-// Copyright 2008-2011, Tobias Kuhn.
+// Copyright 2008-2011, AceWiki developers.
 // 
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
@@ -23,8 +23,10 @@ import ch.uzh.ifi.attempto.acewiki.core.LexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconDetail;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.ape.FunctionWords;
+import ch.uzh.ifi.attempto.base.TextElement;
 
 /**
  * This class is used to modify or create verbs.
@@ -140,7 +142,12 @@ public class VerbChanger implements LexiconChanger {
 	
 	private static boolean isPassiveUsed(Ontology o, VerbRelation vr) {
 		for (Sentence s : o.getReferences(vr)) {
-			if (s.contains(vr, 2)) return true;
+			for (TextElement t : s.getTextElements()) {
+				if (t instanceof OntologyTextElement) {
+					OntologyTextElement ot = (OntologyTextElement) t;
+					if (vr == ot.getOntologyElement() && ot.getWordNumber() == 2) return true;
+				}
+			}
 		}
 		return false;
 	}
