@@ -1,14 +1,14 @@
 // This file is part of AceWiki.
 // Copyright 2008-2011, AceWiki developers.
-// 
+//
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
 // the License, or (at your option) any later version.
-// 
+//
 // AceWiki is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
 // even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 // Lesser General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
 // not, see http://www.gnu.org/licenses/.
 
@@ -32,31 +32,28 @@ import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.layout.RowLayoutData;
 import ch.uzh.ifi.attempto.ape.ACEParser;
 import ch.uzh.ifi.attempto.ape.ACEParserResult;
-import ch.uzh.ifi.attempto.ape.APELocal;
 import ch.uzh.ifi.attempto.ape.Lexicon;
 import ch.uzh.ifi.attempto.ape.Message;
 import ch.uzh.ifi.attempto.ape.OutputType;
 import ch.uzh.ifi.attempto.echocomp.SquareButton;
 import ch.uzh.ifi.attempto.echocomp.Style;
+import ch.uzh.ifi.attempto.base.APE;
 
 /**
  * This class represents a text entry of the ACE Editor. Such a text entry consists of an ACE text
  * or a comment. In the case it is an ACE text, the text entry also contains result items that show
  * the parsing results. These parsing results can be hidden (collapsed) or shown (expanded).
  * Comments start with "# ".
- * 
+ *
  * @author Tobias Kuhn
  */
 class TextEntry extends Column implements ActionListener {
 
 	private static final long serialVersionUID = -1976178070379593477L;
-	
+
 	private static final String imgpath = "ch/uzh/ifi/attempto/echocomp/style/";
 
-	// Use a local instance of APE:
-	private static ACEParser aceParser = APELocal.getInstance();
-	// The web service could be used instead:
-	//private static ACEParser aceParser = new APEWebservice("http://attempto.ifi.uzh.ch/ws/ape/apews.perl");
+    private ACEParser aceParser;
 
 	private Map<String,ResultItem> resultItems = new HashMap<String,ResultItem>();
 
@@ -73,7 +70,7 @@ class TextEntry extends Column implements ActionListener {
 
 	/**
 	 * Creates a new text entry with collapsed result items.
-	 * 
+	 *
 	 * @param text The ACE text or comment.
 	 * @param owner The ACE Editor object.
 	 */
@@ -83,7 +80,7 @@ class TextEntry extends Column implements ActionListener {
 
 	/**
 	 * Creates a new text entry.
-	 * 
+	 *
 	 * @param text The ACE text or comment.
 	 * @param owner The ACE Editor object.
 	 * @param expanded true if the result items should be expanded, false if they should be
@@ -95,7 +92,7 @@ class TextEntry extends Column implements ActionListener {
 
 	/**
 	 * Creates a new text entry with the results items according to the given template.
-	 * 
+	 *
 	 * @param text The ACE text or comment.
 	 * @param owner The ACE Editor object.
 	 * @param resultItemsTemplate The template according to which the result items are generated.
@@ -112,11 +109,13 @@ class TextEntry extends Column implements ActionListener {
 			this.text = text.replaceAll("\\s+", " ");
 		}
 
+        aceParser = APE.getParser();
+
 		Row sentenceRow = new Row();
 		sentenceRow.setInsets(new Insets(0, 0, 5, 0));
 		RowLayoutData layout = new RowLayoutData();
 		layout.setAlignment(new Alignment(Alignment.LEFT, Alignment.TOP));
-		
+
 		expandButton.setLayoutData(layout);
 		sentenceRow.add(expandButton);
 
@@ -164,7 +163,7 @@ class TextEntry extends Column implements ActionListener {
 
 	/**
 	 * Returns the ACE text or comment (starting with "# ") of this text entry.
-	 * 
+	 *
 	 * @return The ACE text or comment.
 	 */
 	public String getText() {
@@ -173,7 +172,7 @@ class TextEntry extends Column implements ActionListener {
 
 	/**
 	 * Sets the ACE text or comment (starting with "# ") of this text entry.
-	 * 
+	 *
 	 * @param text The new ACE text or comment.
 	 */
 	public void setText(String text) {
@@ -187,7 +186,7 @@ class TextEntry extends Column implements ActionListener {
 
 	/**
 	 * Sets the selection status of this text entry.
-	 * 
+	 *
 	 * @param selected true for marking this text entry as selected, false to mark it as
 	 *     unselected.
 	 */
@@ -229,7 +228,7 @@ class TextEntry extends Column implements ActionListener {
 
 	/**
 	 * Sets the visibility status of a certain result item of this text entry.
-	 * 
+	 *
 	 * @param resultItemType The type of the result item.
 	 * @param visible true if the result item should be visible, or false if it should be hidden.
 	 */
@@ -242,7 +241,7 @@ class TextEntry extends Column implements ActionListener {
 
 	/**
 	 * Returns true if the given result item is visible.
-	 * 
+	 *
 	 * @param resultItemType The type of the result item.
 	 * @return true if the given result item is visible.
 	 */
@@ -252,7 +251,7 @@ class TextEntry extends Column implements ActionListener {
 
 	/**
 	 * Returns true if this text entry contains an empty text.
-	 * 
+	 *
 	 * @return true if this text entry is empty.
 	 */
 	public boolean isEmpty() {
@@ -261,7 +260,7 @@ class TextEntry extends Column implements ActionListener {
 
 	/**
 	 * Returns true if the result items of this text entry are expanded.
-	 * 
+	 *
 	 * @return true if this text entry is expanded.
 	 */
 	public boolean isExpanded() {
@@ -270,7 +269,7 @@ class TextEntry extends Column implements ActionListener {
 
 	/**
 	 * Returns true if the text of this text entry cannot be parsed by the ACE parser.
-	 * 
+	 *
 	 * @return true if this text entry contains a malformed ACE text.
 	 */
 	public boolean hasError() {
@@ -279,7 +278,7 @@ class TextEntry extends Column implements ActionListener {
 
 	/**
 	 * Returns true if this text entry contains a comment and not an ACE text.
-	 * 
+	 *
 	 * @return true if this text entry contains a comment.
 	 */
 	public boolean isComment() {
@@ -288,7 +287,7 @@ class TextEntry extends Column implements ActionListener {
 
 	/**
 	 * Expands or collapses the result items of this text entry.
-	 * 
+	 *
 	 * @param expanded true to expand the text entry, or false to collapse it.
 	 */
 	public void setExpanded(boolean expanded) {
@@ -308,7 +307,7 @@ class TextEntry extends Column implements ActionListener {
 
 	/**
 	 * Copies this text entry.
-	 * 
+	 *
 	 * @return A copy of this text entry.
 	 */
 	public TextEntry copy() {
@@ -389,7 +388,7 @@ class TextEntry extends Column implements ActionListener {
 			for (ResultItem ri : resultItems.values()) {
 				ri.setContent(parserResult);
 			}
-			
+
 			for (Message m : parserResult.getMessageContainer().getErrorMessages()) {
 				if (!m.getType().equals("owl")) {
 					System.err.println(m.toString());
