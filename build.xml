@@ -11,6 +11,7 @@
     	<mkdir dir="classes"/>
         <javac
         	target="1.5"
+            encoding="utf-8"
         	includeantruntime="false"
             srcdir="src/"
         	excludes="**/test/**"
@@ -81,6 +82,7 @@
     <target name="createjavadoc"
             description="Create the Javadoc files">
          <javadoc
+             encoding="utf-8"
              sourcepath="src/"
              packagenames="*"
         	 excludepackagenames="**.test"
