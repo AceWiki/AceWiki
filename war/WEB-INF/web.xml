@@ -19,15 +19,54 @@
   <!-- Parameters -->
   
   <!--
-    AceWiki needs the program "ape.exe" that can be compiled from the APE package that is available
-    on the Attempto download page. This parameter defines the name (should always be "ape.exe") and
-    the path of the executable. The path can be omitted if the executable is located in the home
-    directory of the servlet container service. Note that putting the path of "ape.exe" into the
-    PATH environment variable is not sufficient.
+      AceWiki needs to access APE, either direct call "ape.exe" which can be
+      compiled from the APE package that is available on the Attempto download
+      page, or communicate to a APE server via socket or web service. This
+      parameter specify howto access APE, only "local", "socket" and
+      "webservice" are allowed.
+  -->
+  <context-param>
+    <param-name>apetype</param-name>
+    <param-value>local</param-value>
+  </context-param>
+  
+  <!--
+      This parameter defines the name (should always be "ape.exe") and the
+      path of the executable when apetype is "local". The path can be omitted
+      if the executable is located in the home directory of the servlet
+      container service. Note that putting the path of "ape.exe" into the PATH
+      environment variable is not sufficient.
   -->
   <context-param>
     <param-name>apecommand</param-name>
     <param-value>ape.exe</param-value>
+  </context-param>
+
+  <!--
+      This parameter defines the host of APE socket server, when apetype is
+      "socket".
+  -->
+  <context-param>
+    <param-name>apehost</param-name>
+    <param-value>localhost</param-value>
+  </context-param>
+
+  <!--
+      This parameter defines the port of APE socket server, when apetype is
+      "socket".
+  -->  
+  <context-param>
+    <param-name>apeport</param-name>
+    <param-value>2766</param-value>
+  </context-param>
+
+  <!--
+      This parameter defines the URL of APE web service, when apetype is
+      "webservice".
+  -->
+  <context-param>
+    <param-name>apewebservice</param-name>
+    <param-value>http://attempto.ifi.uzh.ch/ws/ape/apews.perl</param-value>
   </context-param>
   
   <!--

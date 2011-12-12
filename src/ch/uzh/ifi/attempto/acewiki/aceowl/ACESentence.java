@@ -1,14 +1,14 @@
 // This file is part of AceWiki.
 // Copyright 2008-2011, AceWiki developers.
-// 
+//
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
 // the License, or (at your option) any later version.
-// 
+//
 // AceWiki is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
 // even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 // Lesser General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
 // not, see http://www.gnu.org/licenses/.
 
@@ -46,39 +46,40 @@ import ch.uzh.ifi.attempto.acewiki.core.SentenceDetail;
 import ch.uzh.ifi.attempto.acewiki.owl.AceWikiOWLReasoner;
 import ch.uzh.ifi.attempto.acewiki.owl.OWLSentence;
 import ch.uzh.ifi.attempto.ape.ACEParserResult;
-import ch.uzh.ifi.attempto.ape.APELocal;
+import ch.uzh.ifi.attempto.ape.ACEParser;
 import ch.uzh.ifi.attempto.ape.Lexicon;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
 import ch.uzh.ifi.attempto.ape.MessageContainer;
 import ch.uzh.ifi.attempto.ape.SyntaxBoxes;
 import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.base.TextElement;
+import ch.uzh.ifi.attempto.base.APE;
 
 /**
  * This class represents an ACE sentence, which can be either a declarative sentence or a question.
- * 
+ *
  * @author Tobias Kuhn
  */
 public abstract class ACESentence extends AbstractSentence implements OWLSentence {
-	
+
 	private static OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
-	
+
 	// This field is either initialized when the object is created, or otherwise unused:
 	private String serialized;
-	
+
 	// Unless initialized when the object is created, this field is evaluated lazily:
 	private TextContainer textContainer;
-	
+
 	// These fields are evaluated lazily:
 	private ACEParserResult parserResult;
 	private Boolean reasonable;
 	private Boolean isOWL;
 	private Boolean isOWLSWRL;
 	private Set<OWLAxiom> owlAxioms;
-	
+
 	/**
 	 * Initializes a new ACE sentence.
-	 * 
+	 *
 	 * @param serialized The serialized representation of the sentence.
 	 */
 	protected ACESentence(String serialized) {
@@ -87,13 +88,13 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 
 	/**
 	 * Initializes a new ACE sentence.
-	 * 
+	 *
 	 * @param textContainer The text container with the sentence text.
 	 */
 	protected ACESentence(TextContainer textContainer) {
 		this.textContainer = textContainer;
 	}
-	
+
 	public List<TextElement> getTextElements() {
 		List<TextElement> list = new ArrayList<TextElement>();
 		// TODO: this should be done in a different way
@@ -125,22 +126,22 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 		}
 		return list;
 	}
-	
+
 	protected TextContainer getTextContainer() {
 		if (textContainer == null) {
 			tokenize();
 		}
 		return textContainer;
 	}
-	
+
 	private void tokenize() {
 		textContainer = new TextContainer(getOntology().getTextOperator());
-		
+
 		// TODO Remove legacy code at some point
-		
+
 		// Replace for legacy code below:
 		//List<String> tokens = Arrays.asList(serialized.split(" "));
-		
+
 		// This is legacy code to support old acewikidata files:
 		String t = "&" + serialized + "&";
 		t = t.replaceAll(" ", "&");
@@ -155,7 +156,7 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 			tokens.remove("");
 		}
 		// End of legacy code
-		
+
 		for (String s : tokens) {
 			if (s.startsWith("<")) {
 				OntologyTextElement te;
@@ -195,10 +196,10 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 			}
 		}
 	}
-	
+
 	/**
 	 * Returns the parser result object.
-	 * 
+	 *
 	 * @return The parser result object.
 	 */
 	public ACEParserResult getParserResult() {
@@ -207,35 +208,35 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 		}
 		return parserResult;
 	}
-	
+
 	public String getPrettyOWL() {
 		if (parserResult == null) {
 			update();
 		}
 		return parserResult.get(OWLFSSPP);
 	}
-	
+
 	public boolean isReasonable() {
 		if (reasonable == null) {
 			update();
 		}
 		return reasonable;
 	}
-	
+
 	public boolean isOWL() {
 		if (isOWL == null) {
 			update();
 		}
 		return isOWL;
 	}
-	
+
 	public boolean isOWLSWRL() {
 		if (isOWLSWRL == null) {
 			update();
 		}
 		return isOWLSWRL;
 	}
-	
+
 	public Set<OWLAxiom> getOWLAxioms() {
 		if (parserResult == null) {
 			update();
@@ -245,13 +246,13 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 		}
 		return owlAxioms;
 	}
-	
+
 	public void update() {
 		// TODO: refactor and clean-up!
 		AceWikiOWLReasoner reasoner = (AceWikiOWLReasoner) getOntology()
 				.getReasoner().getWrappedReasoner();
-		
-		APELocal ape = APELocal.getInstance();
+
+		ACEParser ape = APE.getParser();
 		synchronized (ape) {
 			ape.setURI(getOntology().getURI());
 			ape.setClexEnabled(false);
@@ -279,15 +280,15 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 		}
 		MessageContainer mc = parserResult.getMessageContainer();
 		String owlxml = parserResult.get(OWLXML);
-		
+
 		isOWLSWRL =
 			(mc.getMessages("owl").size() == 0) &&
 			(owlxml.length() > 0);
-		
+
 		isOWL = isOWLSWRL &&
 			(owlxml.indexOf("<swrl:Imp>") < 0) &&
 			(owlxml.indexOf("<DLSafeRule>") < 0);
-		
+
 		if (isOWL && reasoner.getGlobalRestrictionsPolicy().equals("no_chains")) {
 			reasonable =
 				(owlxml.indexOf("<TransitiveObjectProperty>") < 0) &&
@@ -295,7 +296,7 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 		} else {
 			reasonable = isOWL;
 		}
-		
+
 		owlAxioms = null;
 		OWLOntology owlOntology = null;
 		if (isOWL) {
@@ -335,7 +336,7 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 		//	System.err.println("Parser messages: " + messages);
 		//}
 	}
-	
+
 	public void setIntegrated(boolean integrated) {
 		if (integrated && reasonable != null && !reasonable) {
 			super.setIntegrated(false);
@@ -343,7 +344,7 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 			super.setIntegrated(integrated);
 		}
 	}
-	
+
 	public boolean contains(OntologyElement e) {
 		for (TextElement t : getTextContainer().getTextElements()) {
 			if (t instanceof OntologyTextElement) {
@@ -352,7 +353,7 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 		}
 		return false;
 	}
-	
+
 	public String serialize() {
 		String s = "";
 		for (TextElement te : getTextContainer().getTextElements()) {
