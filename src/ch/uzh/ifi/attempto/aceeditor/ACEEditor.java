@@ -283,10 +283,9 @@ public class ACEEditor extends Window implements ActionListener {
 			String v = getInfo("aceeditor-version");
 			String r = getInfo("aceeditor-release-stage");
 			String d = getInfo("aceeditor-build-date");
-			String a = getInfo("aceeditor-developer");
 			showWindow(new MessageWindow(
 					"ACE Editor",
-					"ACE Editor " + v + " (" + r + "), " + d + ", " + a,
+					"ACE Editor " + v + " (" + r + "), " + d,
 					"OK"
 				));
 		} else if (c.equals("Attempto Website")) {

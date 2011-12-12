@@ -86,7 +86,6 @@ public class AboutPage extends WikiPage implements ActionListener {
 		
 		table1.addEntry("AceWiki version", Wiki.getInfo("acewiki-version"));
 		table1.addEntry("AceWiki release stage", Wiki.getInfo("acewiki-release-stage"));
-		table1.addEntry("AceWiki developer", Wiki.getInfo("acewiki-developer"));
 		table1.addEntry("AceWiki build date", Wiki.getInfo("acewiki-build-date"));
 		
 		table2.addEntry("ontology name", o.getName());
