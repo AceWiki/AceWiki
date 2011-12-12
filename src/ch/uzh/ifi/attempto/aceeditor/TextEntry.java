@@ -381,7 +381,6 @@ class TextEntry extends Column implements ActionListener {
 					OutputType.FOL,
 					OutputType.PNF,
 					OutputType.OWLFSSPP,
-					OutputType.OWLRDF,
 					OutputType.OWLXML
 			);
 
