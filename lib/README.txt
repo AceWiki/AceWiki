@@ -108,3 +108,9 @@ XStream 1.3.1
   url:       http://xstream.codehaus.org
   copyright: 2003-2006, Joe Walnes; 2006-2007, XStream Committers
   licenses:  BSD license (see licenses/xstream.txt)
+
+JPGF (2011-12-12)
+  files:     JPGF.final.jar
+  url:       http://www.grammaticalframework.org/android/
+  copyright: ?
+  licenses:  ?

@@ -43,8 +43,10 @@ public abstract class AbstractAceWikiEngine implements AceWikiEngine {
 		    	loadedObj = classLoader.loadClass(n).newInstance();
 		    } catch (ClassNotFoundException ex) {
 		        ontology.log("Engine class not found: " + n);
+		        System.err.println("Engine class not found: " + n);
 		    } catch (Exception ex) {
 		        ontology.log("Failed to load engine object: " + n);
+		        System.err.println("Failed to load engine object: " + n);
 		    }
 		}
 		

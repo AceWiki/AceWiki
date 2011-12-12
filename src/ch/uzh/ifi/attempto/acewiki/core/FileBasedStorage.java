@@ -206,10 +206,14 @@ public class FileBasedStorage implements AceWikiStorage {
 			oe = new DummyOntologyElement("mainpage", "Main Page");
 		}
 		
-		oe.initOntology(ontology);
-		oe.initArticle(loadArticle(lines, oe));
-		oe.initId(id);
-		ontology.register(oe);
+		if (oe != null) {
+			oe.initOntology(ontology);
+			oe.initArticle(loadArticle(lines, oe));
+			oe.initId(id);
+			ontology.register(oe);
+		} else {
+			System.err.println("Failed to load ontology element with id " + id);
+		}
 		return;
 	}
 	
