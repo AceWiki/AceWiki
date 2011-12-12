@@ -8,3 +8,6 @@ local
 /lib/pellet-*.jar
 /.settings
 /lib/jpl.jar
+/data
+/logs
+/*.log

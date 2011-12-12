@@ -1,14 +1,14 @@
 // This file is part of AceWiki.
 // Copyright 2008-2011, AceWiki developers.
-// 
+//
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
 // the License, or (at your option) any later version.
-// 
+//
 // AceWiki is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
 // even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 // Lesser General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
 // not, see http://www.gnu.org/licenses/.
 
@@ -25,8 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.webcontainer.WebContainerServlet;
-import ch.uzh.ifi.attempto.ape.APELocal;
 import ch.uzh.ifi.attempto.base.Logger;
+import ch.uzh.ifi.attempto.base.APE;
 
 /**
  * This servlet class is used by the web server to start AceWiki.
@@ -34,19 +34,19 @@ import ch.uzh.ifi.attempto.base.Logger;
  * See the <a href="{@docRoot}/README.txt">README file</a> and the
  * <a href="{@docRoot}/web.xml">web.xml example file</a>.
  *<p>
- * SWI Prolog needs to be installed on the server and you need to have a compiled version of the
- * Attempto APE distribution. See the documentation of {@link APELocal} for more information.
+ * An APE should be accessibe for the server, either directly installed on local or using socket
+ * or web service. See the documentation of {@link APE} for more information.
  *<p>
  * For larger ontologies it might be necessary to adjust the stack and heap size, for example by
  * the following Java VM arguments:
  * <code>-Xmx400m -Xss4m</code>
- * 
+ *
  * @author Tobias Kuhn
  */
 public class AceWikiServlet extends WebContainerServlet {
 
 	private static final long serialVersionUID = -7342857942059126499L;
-	
+
 	private Logger logger;
 
 	/**
@@ -57,37 +57,33 @@ public class AceWikiServlet extends WebContainerServlet {
 
 	public ApplicationInstance newApplicationInstance() {
 		Map<String, String> parameters = getInitParameters();
-		
+
 		if (parameters.get("context:apecommand") == null) {
 			parameters.put("context:apecommand", "ape.exe");
 		}
-		
+
 		if (parameters.get("context:logdir") == null) {
 			parameters.put("context:logdir", "logs");
 		}
-		
+
 		if (parameters.get("context:datadir") == null) {
 			parameters.put("context:datadir", "data");
 		}
 
-		if (!APELocal.isInitialized()) {
-			String apeCommand = parameters.get("context:apecommand");
-			if (apeCommand == null) apeCommand = "ape.exe";
-			APELocal.init(apeCommand);
-		}
-		
+        APE.setParameters(parameters);
+
 		if (logger == null) {
 			logger = new Logger(parameters.get("context:logdir") + "/syst", "syst", 0);
 		}
-		
+
 		logger.log("appl", "new application instance: " + parameters.get("ontology"));
-		
+
 		return new AceWikiApp(parameters);
 	}
 
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws
 			IOException, ServletException {
-		
+
 		// URLs of the form "...?showpage=ArticleName" can be used to access an article directly.
 		// For the internal processing "...?page=ArticleName" is used.
 		String showpageParam = request.getParameter("showpage");
