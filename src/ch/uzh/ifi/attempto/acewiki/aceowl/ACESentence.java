@@ -135,7 +135,7 @@ public abstract class ACESentence extends MonolingualSentence implements OWLSent
 	}
 
 	private void tokenize() {
-		textContainer = new TextContainer(getOntology().getTextOperator("Default"));
+		textContainer = new TextContainer(getTextOperator());
 
 		// TODO Remove legacy code at some point
 
@@ -170,7 +170,7 @@ public abstract class ACESentence extends MonolingualSentence implements OWLSent
 				}
 				textContainer.addElement(te);
 			} else {
-				TextElement te = getOntology().getTextOperator("Default").createTextElement(s);
+				TextElement te = getTextOperator().createTextElement(s);
 				if (!(te instanceof OntologyTextElement) || serialized.indexOf("<") > -1) {
 					textContainer.addElement(te);
 				} else {

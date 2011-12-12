@@ -54,7 +54,7 @@ public abstract class AbstractSentence extends AbstractStatement implements Sent
 	public String getText(String language) {
 		String t = "";
 		TextElement prev = null;
-		TextOperator textOperator = getOntology().getTextOperator(language);
+		TextOperator textOperator = getTextOperator(language);
 		for (TextElement te : getTextContainer(language).getTextElements()) {
 			String glue = "";
 			if (prev != null) {
@@ -68,6 +68,16 @@ public abstract class AbstractSentence extends AbstractStatement implements Sent
 			prev = te;
 		}
 		return t;
+	}
+	
+	/**
+	 * Returns the text operator for the given language.
+	 * 
+	 * @param language The language.
+	 * @return The text operator.
+	 */
+	protected TextOperator getTextOperator(String language) {
+		return getOntology().getEngine().getLanguageHandler(language).getTextOperator();
 	}
 
 }

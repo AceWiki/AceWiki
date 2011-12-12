@@ -18,6 +18,7 @@ import java.util.List;
 
 import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.base.TextElement;
+import ch.uzh.ifi.attempto.base.TextOperator;
 
 /**
  * This class represents a sentence for a monolingual AceWiki engine.
@@ -72,6 +73,15 @@ public abstract class MonolingualSentence extends AbstractSentence {
 	
 	public final List<SentenceDetail> getDetails(String language) {
 		return getDetails();
+	}
+	
+	/**
+	 * Returns the text operator for the given language.
+	 * 
+	 * @return The text operator.
+	 */
+	protected TextOperator getTextOperator() {
+		return getTextOperator("Default");
 	}
 
 }
