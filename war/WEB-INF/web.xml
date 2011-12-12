@@ -53,7 +53,8 @@
 
   <!--
       This parameter defines the port of APE socket server, when apetype is
-      "socket".
+      "socket". You can set up a locally running APE socket server by:
+      ape.exe -server -port 2766
   -->  
   <context-param>
     <param-name>apeport</param-name>
@@ -62,11 +63,14 @@
 
   <!--
       This parameter defines the URL of APE web service, when apetype is
-      "webservice".
+      "webservice". There is a demo webservice running at:
+      http://attempto.ifi.uzh.ch/ws/ape/apews.perl
+      but it is recommended to set up your own webservice using e.g.
+      ape.exe -httpserver -port 8000
   -->
   <context-param>
     <param-name>apewebservice</param-name>
-    <param-value>http://attempto.ifi.uzh.ch/ws/ape/apews.perl</param-value>
+    <param-value>http://localhost:8000</param-value>
   </context-param>
   
   <!--

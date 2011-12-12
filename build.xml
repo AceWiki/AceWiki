@@ -137,8 +137,18 @@
         <jar
             destfile="acewiki.war"
             basedir="war"
-            includes="**"
-        />
+            includes="**">
+          <manifest>
+            <attribute name="Bundle-ManifestVersion" value="2"/>
+            <attribute name="Bundle-SymbolicName" value="ch.uzh.ifi.attempto.acewiki"/>
+            <attribute name="Bundle-Name" value="${ant.project.name}"/>
+            <attribute name="Bundle-Version" value="${version}"/>
+            <attribute name="DynamicImport-Package" value="*" />
+            <attribute name="Web-ContextPath" value="acewiki"/>
+            <attribute name="Import-Package" value="javax.servlet,javax.servlet.http,org.w3c.dom,org.xml.sax,javax.xml.transform,javax.xml.transform.stream,javax.xml.transform.dom,javax.xml.parsers"/>
+            <attribute name="Bundle-ClassPath" value=".,WEB-INF/classes,WEB-INF/lib/Echo3_App.jar,WEB-INF/lib/Echo3_Extras_App.jar,WEB-INF/lib/Echo3_Extras_WebContainer.jar,WEB-INF/lib/Echo3_FileTransfer_App.jar,WEB-INF/lib/Echo3_FileTransfer_Model.jar,WEB-INF/lib/Echo3_FileTransfer_Receiver.jar,WEB-INF/lib/Echo3_FileTransfer_WebContainer.jar,WEB-INF/lib/Echo3_WebContainer.jar,WEB-INF/lib/HermiT.jar,WEB-INF/lib/aterm-java-1.6.jar,WEB-INF/lib/attempto-aceeditor.jar,WEB-INF/lib/attempto-acewiki.jar,WEB-INF/lib/attempto-ape.jar,WEB-INF/lib/attempto-chartparser.jar,WEB-INF/lib/attempto-echo.jar,WEB-INF/lib/commons-codec-1.5.jar,WEB-INF/lib/commons-fileupload-1.2.1.jar,WEB-INF/lib/commons-httpclient-3.1.jar,WEB-INF/lib/commons-lang-2.2.jar,WEB-INF/lib/commons-logging-1.1.jar,WEB-INF/lib/echopoint-3.0.0b5.jar,WEB-INF/lib/jdom.jar,WEB-INF/lib/owlapi-bin.jar,WEB-INF/lib/owllink-bin.jar,WEB-INF/lib/relaxngDatatype.jar,WEB-INF/lib/servlet-api.jar,WEB-INF/lib/xsdlib.jar,WEB-INF/lib/xstream-1.3.1.jar"/>
+          </manifest>
+        </jar>
     </target>
 
     <target name="clean"
@@ -166,7 +176,7 @@
             destfile="acewiki-${version}.zip"
             basedir="."
             includes="**"
-            excludes="*.zip *.war .* .bzr/** classes/** war/WEB-INF/lib/** **/local/**"
+            excludes="*.zip *.war .* .git/** classes/** war/WEB-INF/lib/** **/local/**"
         />
     </target>
 
