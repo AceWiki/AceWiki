@@ -40,21 +40,22 @@ public abstract class AbstractSentence extends AbstractStatement implements Sent
 	}
 	
 	public String toString() {
-		return getText();
+		return getText("Default");
 	}
 	
 	/**
-	 * Returns a text container with the text of this sentence.
+	 * Returns a text container with the text of this sentence in the given language.
 	 * 
+	 * @param language The language.
 	 * @return The text container.
 	 */
-	protected abstract TextContainer getTextContainer();
+	protected abstract TextContainer getTextContainer(String language);
 	
-	public String getText() {
+	public String getText(String language) {
 		String t = "";
 		TextElement prev = null;
-		TextOperator textOperator = getOntology().getTextOperator();
-		for (TextElement te : getTextContainer().getTextElements()) {
+		TextOperator textOperator = getOntology().getTextOperator(language);
+		for (TextElement te : getTextContainer(language).getTextElements()) {
 			String glue = "";
 			if (prev != null) {
 				glue = textOperator.getGlue(prev, te);

@@ -15,38 +15,14 @@
 package ch.uzh.ifi.attempto.acewiki.core;
 
 /**
- * This class represents a comment that is a part of an article. A comment must have
- * an ontology element as owner.
+ * This is a partial implementation of a monolingual language handler.
+ * 
+ * @author Tobias Kuhn
  */
-public class Comment extends AbstractStatement {
+public abstract class MonolingualHandler extends AbstractLanguageHandler {
 	
-	private final String text;
-	
-	/**
-	 * Creates a new comment.
-	 * 
-	 * @param text The comment text.
-	 */
-	protected Comment(String text) {
-		this.text = text;
-	}
-	
-	public String getText(String language) {
-		// Comments are not multilingual at this point
-		return text;
-	}
-	
-	/**
-	 * Returns the (language-independent) text of this comment.
-	 * 
-	 * @return The comment text.
-	 */
-	public String getText() {
-		return getText("Default");
-	}
-	
-	public String serialize() {
-		return text.replaceAll("~", "~t").replaceAll("\\n", "~n");
+	public final String getLanguage() {
+		return "Default";
 	}
 
 }

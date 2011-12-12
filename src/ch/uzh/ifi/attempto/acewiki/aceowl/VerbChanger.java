@@ -141,7 +141,8 @@ public class VerbChanger implements LexiconChanger {
 	}
 	
 	private static boolean isPassiveUsed(Ontology o, VerbRelation vr) {
-		for (Sentence s : o.getReferences(vr)) {
+		for (Sentence sentence : o.getReferences(vr)) {
+			ACESentence s = (ACESentence) sentence;
 			for (TextElement t : s.getTextElements()) {
 				if (t instanceof OntologyTextElement) {
 					OntologyTextElement ot = (OntologyTextElement) t;

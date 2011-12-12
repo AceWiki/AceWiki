@@ -30,7 +30,7 @@ import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 //   <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
 //   <init-param>
 //     <param-name>engine_class</param-name>
-//     <param-value>ch.uzh.ifi.attempto.acewiki.gf.GFOWLEngine</param-value>
+//     <param-value>ch.uzh.ifi.attempto.acewiki.gf.GFEngine</param-value>
 //   </init-param>
 //   <init-param>
 //     <param-name>ontology</param-name>
@@ -54,11 +54,23 @@ import ch.uzh.ifi.attempto.acewiki.core.Sentence;
  */
 public class GFEngine extends AbstractAceWikiEngine {
 	
-	GFHandler languageHandler = new GFHandler();
-	AceWikiReasoner reasoner = new DummyReasoner();
+	private GFHandler languageHandler = new GFHandler("Eng");
+//	private Map<String, GFHandler> languageHandlers = new HashMap<String, GFHandler>();
+	private AceWikiReasoner reasoner = new DummyReasoner();
 	
-	public LanguageHandler getLanguageHandler() {
+	public LanguageHandler getLanguageHandler(String language) {
+//		GFHandler lh = languageHandlers.get(language);
+//		if (lh == null) {
+//			lh = new GFHandler(language);
+//			languageHandlers.put(language, lh);
+//		}
+//		return lh;
 		return languageHandler;
+	}
+
+	public String[] getLanguages() {
+		//return new String[] {"Eng", "Ger"};
+		return new String[] {"Eng"};
 	}
 	
 	public AceWikiReasoner getReasoner() {

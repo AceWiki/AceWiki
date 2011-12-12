@@ -43,11 +43,11 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 		}
 	}
 	
-	protected TextContainer getTextContainer() {
+	protected TextContainer getTextContainer(String language) {
 		return textContainer;
 	}
 	
-	public List<TextElement> getTextElements() {
+	public List<TextElement> getTextElements(String language) {
 		return textContainer.getTextElements();
 	}
 	
@@ -56,7 +56,7 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 		return false;
 	}
 	
-	public List<SentenceDetail> getDetails() {
+	public List<SentenceDetail> getDetails(String language) {
 		return null;
 	}
 	

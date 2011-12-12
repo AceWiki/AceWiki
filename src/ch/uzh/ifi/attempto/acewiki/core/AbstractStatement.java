@@ -46,7 +46,7 @@ public abstract class AbstractStatement implements Statement {
 	}
 	
 	public String toString() {
-		return getText();
+		return getText("Default");
 	}
 
 }

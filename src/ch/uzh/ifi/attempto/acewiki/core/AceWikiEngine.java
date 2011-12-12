@@ -31,11 +31,19 @@ public interface AceWikiEngine {
 	public void init(Ontology ontology);
 	
 	/**
-	 * Returns the language handler.
+	 * Returns the language handler for the given language.
 	 * 
-	 * @return The language handler.
+	 * @param language The name of the language.
+	 * @return The language handler for the given language.
 	 */
-	public LanguageHandler getLanguageHandler();
+	public LanguageHandler getLanguageHandler(String language);
+	
+	/**
+	 * Returns the available languages.
+	 * 
+	 * @return An array of language names.
+	 */
+	public String[] getLanguages();
 	
 	/**
 	 * Returns the lexical types, as defined by the respective ontology element types.

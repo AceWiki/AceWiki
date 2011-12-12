@@ -15,38 +15,27 @@
 package ch.uzh.ifi.attempto.acewiki.core;
 
 /**
- * This class represents a comment that is a part of an article. A comment must have
- * an ontology element as owner.
+ * This class represents a statement for a monolingual AceWiki engine.
+ * 
+ * @author Tobias Kuhn
  */
-public class Comment extends AbstractStatement {
-	
-	private final String text;
+public abstract class MonolingualStatement extends AbstractStatement {
 	
 	/**
-	 * Creates a new comment.
-	 * 
-	 * @param text The comment text.
+	 * Initializes a new statement.
 	 */
-	protected Comment(String text) {
-		this.text = text;
-	}
-	
-	public String getText(String language) {
-		// Comments are not multilingual at this point
-		return text;
+	protected MonolingualStatement() {
 	}
 	
 	/**
-	 * Returns the (language-independent) text of this comment.
+	 * Returns the text of this statement in the only available language.
 	 * 
-	 * @return The comment text.
+	 * @return The statement text.
 	 */
-	public String getText() {
-		return getText("Default");
-	}
+	public abstract String getText();
 	
-	public String serialize() {
-		return text.replaceAll("~", "~t").replaceAll("\\n", "~n");
+	public final String getText(String language) {
+		return getText();
 	}
 
 }

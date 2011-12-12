@@ -104,7 +104,7 @@ public class Article {
 	 * @param newStatements The new statements.
 	 */
 	public void edit(Statement oldStatement, List<Statement> newStatements) {
-		log("edit statement of " + element.getWord() + ": " + oldStatement.getText() +
+		log("edit statement of " + element.getWord() + ": " + oldStatement.getText("Default") +
 				" > " + getStatementsString(newStatements));
 		
 		synchronized (ontology) {
@@ -178,7 +178,7 @@ public class Article {
 	private String getStatementsString(List<Statement> statements) {
 		String result = "";
 		for (Statement s : statements) {
-			result += s.getText() + " ";
+			result += s.getText("Default") + " ";
 		}
 		return result;
 	}
@@ -191,7 +191,7 @@ public class Article {
 	public void remove(Statement statement) {
 		synchronized (ontology) {
 			if (statements.contains(statement)) {
-				log("remove statement: " + statement.getText());
+				log("remove statement: " + statement.getText("Default"));
 				statements.remove(statement);
 			}
 			if (ontology != null) {

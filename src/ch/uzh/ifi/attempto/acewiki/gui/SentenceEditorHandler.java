@@ -22,6 +22,7 @@ import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Article;
+import ch.uzh.ifi.attempto.acewiki.core.Comment;
 import ch.uzh.ifi.attempto.acewiki.core.InconsistencyException;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageHandler;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
@@ -73,7 +74,8 @@ public class SentenceEditorHandler implements ActionListener {
 		editorWindow.setTextOperator(lh.getTextOperator());
 		
 		if (edit) {
-			editorWindow.addText(LanguageUtils.getPrettyPrinted(statement.getText()) + " ");
+			Comment c = (Comment) statement;
+			editorWindow.addText(LanguageUtils.getPrettyPrinted(c.getText()) + " ");
 		}
 	}
 	
@@ -112,10 +114,11 @@ public class SentenceEditorHandler implements ActionListener {
 		String c = e.getActionCommand();
 		if (src == editorWindow && c.matches("OK|Enter")) {
 			Ontology o = wiki.getOntology();
+			LanguageHandler lh = wiki.getLanguageHandler();
 			
-			for (String t : o.getLanguageHandler().getEditorController().getAutocompleteTokens()) {
+			for (String t : lh.getEditorController().getAutocompleteTokens()) {
 				if (editorWindow.isPossibleNextToken(t)) {
-					editorWindow.addTextElement(o.getTextOperator().createTextElement(t));
+					editorWindow.addTextElement(lh.getTextOperator().createTextElement(t));
 					break;
 				}
 			}
@@ -125,6 +128,7 @@ public class SentenceEditorHandler implements ActionListener {
 				wiki.removeWindow(editorWindow);
 			} else if (parser.isComplete()) {
 				newSentences = o.getStatementFactory().extractSentences(
+						wiki.getLanguageHandler(),
 						editorWindow.getTextContainer(),
 						parser,
 						page.getArticle()

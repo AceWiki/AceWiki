@@ -104,21 +104,23 @@ public class Ontology {
 	}
 	
 	/**
-	 * Returns the language handler.
+	 * Returns the language handler for the given language.
 	 * 
+	 * @param language The language.
 	 * @return The language handler.
 	 */
-	public LanguageHandler getLanguageHandler() {
-		return engine.getLanguageHandler();
+	public LanguageHandler getLanguageHandler(String language) {
+		return engine.getLanguageHandler(language);
 	}
 	
 	/**
-	 * Returns the text operator.
+	 * Returns the text operator for the given language.
 	 * 
+	 * @param language The language.
 	 * @return The text operator.
 	 */
-	public TextOperator getTextOperator() {
-		return getLanguageHandler().getTextOperator();
+	public TextOperator getTextOperator(String language) {
+		return getLanguageHandler(language).getTextOperator();
 	}
 	
 	/**

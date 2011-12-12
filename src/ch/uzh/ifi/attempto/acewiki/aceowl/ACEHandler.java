@@ -17,8 +17,8 @@ package ch.uzh.ifi.attempto.acewiki.aceowl;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.uzh.ifi.attempto.acewiki.core.AbstractLanguageHandler;
 import ch.uzh.ifi.attempto.acewiki.core.EditorController;
+import ch.uzh.ifi.attempto.acewiki.core.MonolingualHandler;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceSuggestion;
@@ -34,7 +34,7 @@ import ch.uzh.ifi.attempto.chartparser.ParseTree;
  * 
  * @author Tobias Kuhn
  */
-public class ACEHandler extends AbstractLanguageHandler {
+public class ACEHandler extends MonolingualHandler {
 	
 	private TextOperator textOperator;
 	private EditorController editContr = new EditorController();
@@ -86,7 +86,7 @@ public class ACEHandler extends AbstractLanguageHandler {
 		lexicon.init(ontology);
 		textOperator = new ACETextOperator(ontology);
 	}
-	
+
 	public TextOperator getTextOperator() {
 		return textOperator;
 	}
@@ -120,12 +120,13 @@ public class ACEHandler extends AbstractLanguageHandler {
 	}
 	
 	public SentenceSuggestion getSuggestion(Sentence sentence) {
-		List<TextElement> t = sentence.getTextElements();
+		ACESentence s = (ACESentence) sentence;
+		List<TextElement> t = s.getTextElements();
 		String t0 = t.get(0).getText();
 		String t1 = t.get(1).getText();
 		String l = t.get(t.size()-1).getText();
 		if (t0.matches("(A|a)n?") && !t1.matches(".* of") && l.equals(".")) {
-			return new AToEverySuggestion(sentence);
+			return new AToEverySuggestion(s);
 		}
 		return null;
 	}

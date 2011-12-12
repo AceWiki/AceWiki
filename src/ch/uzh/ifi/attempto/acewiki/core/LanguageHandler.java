@@ -42,6 +42,13 @@ public interface LanguageHandler {
 	public TextOperator getTextOperator();
 	
 	/**
+	 * Returns the language of this language handler. Null can be returned for monolingual engines.
+	 * 
+	 * @return The name of the language or null.
+	 */
+	public String getLanguage();
+	
+	/**
 	 * Extracts the sentences from a text container and/or a parser state.
 	 * 
 	 * @param tc The text container.

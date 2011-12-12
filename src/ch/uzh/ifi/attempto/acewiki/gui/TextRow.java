@@ -48,7 +48,7 @@ public class TextRow extends Row {
 		TextElement prev = null;
 		for (TextElement e : text) {
 			if (prev != null) {
-				String glue = wiki.getOntology().getTextOperator().getGlue(prev, e);
+				String glue = wiki.getLanguageHandler().getTextOperator().getGlue(prev, e);
 				if (glue.matches("\\s+")) {
 					add(new HSpace(5 * glue.length()));
 				} else if (glue.length() > 0) {

@@ -97,7 +97,7 @@ public class SentenceComponent extends Column implements ActionListener {
 		sentenceRow.removeAll();
 		sentenceRow.add(dropDown);
 		sentenceRow.add(new HSpace(5));
-		sentenceRow.add(new TextRow(sentence.getTextElements(), wiki, isRed));
+		sentenceRow.add(new TextRow(sentence.getTextElements(wiki.getLanguage()), wiki, isRed));
 		sentenceRow.add(new HSpace(5));
 		sentenceRow.add(recalcIcon);
 		recalcIcon.setVisible(false);
@@ -112,7 +112,7 @@ public class SentenceComponent extends Column implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Edit...")) {
-			wiki.log("page", "dropdown: edit sentence: " + sentence.getText());
+			wiki.log("page", "dropdown: edit sentence: " + sentence.getText("Default"));
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
 			} else {
@@ -142,7 +142,7 @@ public class SentenceComponent extends Column implements ActionListener {
 					));
 			}
 		} else if (e.getActionCommand().equals("Delete")) {
-			wiki.log("page", "dropdown: delete sentence: " + sentence.getText());
+			wiki.log("page", "dropdown: delete sentence: " + sentence.getText("Default"));
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
 			} else {
@@ -156,7 +156,7 @@ public class SentenceComponent extends Column implements ActionListener {
 					));
 			}
 		} else if (e.getActionCommand().equals("Reassert")) {
-			wiki.log("page", "dropdown: reassert: " + sentence.getText());
+			wiki.log("page", "dropdown: reassert: " + sentence.getText("Default"));
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
 			} else {
@@ -176,7 +176,7 @@ public class SentenceComponent extends Column implements ActionListener {
 				}
 			}
 		} else if (e.getActionCommand().equals("Retract")) {
-			wiki.log("page", "dropdown: retract: " + sentence.getText());
+			wiki.log("page", "dropdown: retract: " + sentence.getText("Default"));
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
 			} else {
@@ -185,10 +185,10 @@ public class SentenceComponent extends Column implements ActionListener {
 				hostPage.update();
 			}
 		} else if (e.getActionCommand().equals("Show Details")) {
-			wiki.log("page", "dropdown: details sentence: " + sentence.getText());
+			wiki.log("page", "dropdown: details sentence: " + sentence.getText("Default"));
 			wiki.showPage(new SentencePage(wiki, sentence));
 		} else if (e.getSource() instanceof MessageWindow && e.getActionCommand().equals("Yes")) {
-			wiki.log("page", "dropdown: delete confirmed: " + sentence.getText());
+			wiki.log("page", "dropdown: delete confirmed: " + sentence.getText("Default"));
 			
 			wiki.enqueueStrongAsyncTask(
 				"Updating",
