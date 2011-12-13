@@ -8,7 +8,6 @@
 	<classpathentry kind="lib" path="lib/commons-lang-2.2.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.1.jar"/>
 	<classpathentry kind="lib" path="lib/jdom.jar"/>
-	<classpathentry kind="lib" path="lib/jpl.jar"/>
 	<classpathentry kind="lib" path="lib/owlapi-bin.jar"/>
 	<classpathentry kind="lib" path="lib/relaxngDatatype.jar"/>
 	<classpathentry kind="lib" path="lib/servlet-api.jar"/>

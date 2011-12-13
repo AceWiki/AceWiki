@@ -14,14 +14,11 @@
 
 package ch.uzh.ifi.attempto.acewiki.gf;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.grammaticalframework.PGF;
-import org.grammaticalframework.PGFBuilder;
 import org.grammaticalframework.Parser;
 import org.grammaticalframework.parser.ParseState;
 
@@ -42,24 +39,14 @@ public class JPGFParser implements PredictiveParser {
 	private ParseState parseState;
 	private NextTokenOptions nextTokenOptions;
 	private Parser gfParser;
-//	private Linearizer gfLinearizer;
 	
 	/**
 	 * Creates a new parser object for the given pgf file and language.
 	 * 
-	 * @param pgfFile The pgf file containing the language definition.
-	 * @param language The language to be parsed as defined in the pgf file.
+	 * @param gfParser A GF parser object.
 	 */
-	public JPGFParser(String pgfFile, String language) {
-		try {
-			ClassLoader cl = Thread.currentThread().getContextClassLoader();
-			InputStream in = cl.getResourceAsStream(pgfFile);
-			PGF pgf = PGFBuilder.fromInputStream(in);
-			gfParser = new Parser(pgf, language);
-//			gfLinearizer = new Linearizer(pgf, language);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+	public JPGFParser(Parser gfParser) {
+		this.gfParser = gfParser;
 		update();
 	}
 	
@@ -126,19 +113,8 @@ public class JPGFParser implements PredictiveParser {
 	}
 	
 	public boolean isComplete() {
-		//System.err.println(getLin());
 		return getParseState().getTrees().length > 0;
 	}
-	
-//	private String getLin() {
-//		String s = null;
-//		try {
-//			s = gfLinearizer.linearizeString(getParseState().getTrees()[0]);
-//		} catch (LinearizerException ex) {
-//			ex.printStackTrace();
-//		}
-//		return s;
-//	}
 	
 	public int getReference() {
 		return -1;
