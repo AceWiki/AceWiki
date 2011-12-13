@@ -7,7 +7,6 @@ local
 /war/WEB-INF/lib
 /lib/pellet-*.jar
 /.settings
-/lib/jpl.jar
 /data
 /logs
 /*.log

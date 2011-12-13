@@ -1,12 +1,6 @@
 Used Third-Party Libraries
 --------------------------
 
-JPL
-  files:     jpl.jar
-  url:       http://www.swi-prolog.org/packages/jpl/java_api/
-  copyright: 1990-2007 University of Amsterdam
-  licenses:  GNU Lesser General Public License (see licenses/gpl-3.txt)
-
 JDOM
   files:     jdom.jar
   url:       http://www.jdom.org/
@@ -19,28 +13,40 @@ Apache Tomcat
   copyright: 1999-2007 The Apache Software Foundation
   licenses:  Apache License, version 2.0 (see licenses/apache-2.0.txt)
 
-Commons Lang 2.2
+Apache Commons Lang 2.2
   files:     commons-lang-2.2.jar
   url:       http://commons.apache.org/lang/
   copyright: 2001-2006 The Apache Software Foundation
   licenses:  Apache License, version 2.0 (see licenses/apache-2.0.txt)
 
-Commons Logging 1.1
+Apache Commons Logging 1.1
   files:     commons-logging-1.1jar
   url:       http://commons.apache.org/logging/
   copyright: 2003-2007 The Apache Software Foundation
   licenses:  Apache License, version 2.0 (see licenses/apache-2.0.txt)
 
-Commons FileUpload 1.2.1
+Apache Commons FileUpload 1.2.1
   files:     commons-fileupload-1.2.1.jar
   url:       http://commons.apache.org/fileupload/
   copyright: 2002-2008 The Apache Software Foundation
   licenses:  Apache License, version 2.0 (see licenses/apache-2.0.txt)
 
-Jakarta Commons HttpClient
-  files:     commons-httpclient-3.1.jar
-  url:       http://hc.apache.org/httpclient-3.x/
-  copyright: 1999-2007 The Apache Software Foundation
+Apache Commons Codec 1.5
+  files:     commons-codec-1.5.jar
+  url:       http://commons.apache.org/codec/
+  copyright: 2002-2011 The Apache Software Foundation
+  licenses:  Apache License, version 2.0 (see licenses/apache-2.0.txt)
+
+Apache HttpComponents Client
+  files:     httpclient-4.1.1.jar
+  url:       http://hc.apache.org/
+  copyright: 1999-2011 The Apache Software Foundation
+  licenses:  Apache License, version 2.0 (see licenses/apache-2.0.txt)
+
+Apache HttpComponents Core
+  files:     httpcore-4.1.1.jar
+  url:       http://hc.apache.org/
+  copyright: 2005-2010 The Apache Software Foundation
   licenses:  Apache License, version 2.0 (see licenses/apache-2.0.txt)
 
 Sun Multi-Schema XML Validator (MSV)
@@ -85,10 +91,10 @@ EchoPoint 3.0.0b5
              GNU General Public License version 2 or later (see licenses/gpl-3.txt)
              GNU Lesser General Public License version 2.1 or later (see licenses/gpl-3.txt)
 
-APE 6.5-091130
+APE 6.6-110816
   files:     attempto-ape.jar
   url:       http://attempto.ifi.uzh.ch
-  copyright: 2008-2009 Attempto Group
+  copyright: 2008-2011 Attempto Group
   licenses:  GNU Lesser General Public License version 3 or later (see licenses/gpl-3.txt)
 
 HermiT 1.3.2
