@@ -15,7 +15,6 @@
 package ch.uzh.ifi.attempto.acewiki.gui;
 
 import java.awt.FontMetrics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +51,7 @@ public class CommentComponent extends Column implements ActionListener {
 	private static final int COMMENT_TEXT_WIDTH = 800;
 	
 	private static FontMetrics fontMetrics =
-		((Graphics2D) new BufferedImage(2, 2, BufferedImage.TYPE_4BYTE_ABGR_PRE)
+		(new BufferedImage(2, 2, BufferedImage.TYPE_4BYTE_ABGR_PRE)
 		.createGraphics()).getFontMetrics(new java.awt.Font("Verdana", java.awt.Font.ITALIC, 13));
 	
 	private Comment comment;

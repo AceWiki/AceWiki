@@ -59,7 +59,7 @@ public class ChartParser implements PredictiveParser {
 		if (context == null) {
 			this.context = new Nonterminal[0];
 		} else {
-			this.context = (Nonterminal[]) context.toArray(new Nonterminal[0]);
+			this.context = context.toArray(new Nonterminal[0]);
 		}
 		this.chart = new Chart(grammar);
 		options.add(null);
