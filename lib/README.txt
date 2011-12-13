@@ -91,7 +91,7 @@ EchoPoint 3.0.0b5
              GNU General Public License version 2 or later (see licenses/gpl-3.txt)
              GNU Lesser General Public License version 2.1 or later (see licenses/gpl-3.txt)
 
-APE 6.6-110816
+APE 6.6-110816+ (commit 8aa6abad14ea2519f4d599c43ca9fc01fca54b62)
   files:     attempto-ape.jar
   url:       http://attempto.ifi.uzh.ch
   copyright: 2008-2011 Attempto Group
