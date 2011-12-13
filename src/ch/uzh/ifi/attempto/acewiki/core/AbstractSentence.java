@@ -69,15 +69,5 @@ public abstract class AbstractSentence extends AbstractStatement implements Sent
 		}
 		return t;
 	}
-	
-	/**
-	 * Returns the text operator for the given language.
-	 * 
-	 * @param language The language.
-	 * @return The text operator.
-	 */
-	protected TextOperator getTextOperator(String language) {
-		return getOntology().getEngine().getLanguageHandler(language).getTextOperator();
-	}
 
 }

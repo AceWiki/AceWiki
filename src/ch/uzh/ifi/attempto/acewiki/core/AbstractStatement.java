@@ -14,6 +14,8 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
+import ch.uzh.ifi.attempto.base.TextOperator;
+
 /**
  * This class represents a statement that can be either an ACE sentence or a comment. A
  * statement can either be part of an article or it can be an independent statement that has no
@@ -47,6 +49,35 @@ public abstract class AbstractStatement implements Statement {
 	
 	public String toString() {
 		return getText("Default");
+	}
+	
+	/**
+	 * Returns the AceWiki engine.
+	 * 
+	 * @return The engine.
+	 */
+	protected AceWikiEngine getEngine() {
+		return getOntology().getEngine();
+	}
+	
+	/**
+	 * Returns the language handler for the given language.
+	 * 
+	 * @param language The language.
+	 * @return The language handler.
+	 */
+	protected LanguageHandler getLanguageHandler(String language) {
+		return getOntology().getEngine().getLanguageHandler(language);
+	}
+	
+	/**
+	 * Returns the text operator for the given language.
+	 * 
+	 * @param language The language.
+	 * @return The text operator.
+	 */
+	protected TextOperator getTextOperator(String language) {
+		return getOntology().getEngine().getLanguageHandler(language).getTextOperator();
 	}
 
 }
