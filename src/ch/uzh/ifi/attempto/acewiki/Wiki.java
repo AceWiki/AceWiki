@@ -1,14 +1,14 @@
 // This file is part of AceWiki.
 // Copyright 2008-2011, AceWiki developers.
-// 
+//
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
 // the License, or (at your option) any later version.
-// 
+//
 // AceWiki is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
 // even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 // Lesser General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
 // not, see http://www.gnu.org/licenses/.
 
@@ -88,13 +88,13 @@ import echopoint.externalevent.ExternalEventMonitor;
 /**
  * This class represents an AceWiki wiki instance (including its graphical user interface). There
  * is such a wiki object for every wiki user.
- * 
+ *
  * @author Tobias Kuhn
  */
 public class Wiki implements ActionListener, ExternalEventListener {
-	
+
 	private static final long serialVersionUID = 2777443689044226043L;
-	
+
 	private Map<String, String> parameters;
 
 	private final Ontology ontology;
@@ -103,7 +103,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private User user;
 	private OntologyExportManager ontologyExportManager;
 	private static AceWikiStorage storage;
-	
+
 	private WikiPage currentPage;
 	private Column pageCol;
 	private ContentPane contentPane = new ContentPane();
@@ -111,7 +111,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private Logger logger;
 	private SplitPane wikiPane;
 	private Row loginBackground;
-	
+
 	private IconButton backButton = new IconButton("Back", this);
 	private IconButton forwardButton = new IconButton("Forward", this);
 	private IconButton refreshButton = new IconButton("Refresh", this);
@@ -120,7 +120,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private IconButton searchButton = new IconButton("Search", this);
 	private TextField searchTextField = new TextField(170, this);
 	private Label userLabel = new SolidLabel("Anonymous", Font.ITALIC);
-	
+
 	private SmallButton homeButton = new SmallButton("Main Page", this, 12);
 	private SmallButton indexButton = new SmallButton("Index", this, 12);
 	private SmallButton searchButton2 = new SmallButton("Search", this, 12);
@@ -128,42 +128,40 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private SmallButton randomButton = new SmallButton("Random Article", this, 12);
 	private SmallButton newButton = new SmallButton("New Word...", this, 12);
 	private SmallButton exportButton = new SmallButton("Export...", this, 12);
-	
+
 	private StartPage startPage;
-	
+
 	private Stack<WikiPage> history = new Stack<WikiPage>();
 	private Stack<WikiPage> forward = new Stack<WikiPage>();
-	
+
 	private TaskQueueHandle taskQueue;
 	private MessageWindow waitWindow;
 	private List<Task> strongTasks = new ArrayList<Task>();
 	private List<Task> weakTasks = new ArrayList<Task>();
-	
+
 	private ExternalEventMonitor externalEventMonitor;
-	
+
 	private AceWikiApp application;
-	
+
 	private static Properties properties;
-	
+
 	private boolean disposed = false;
-	
+
 	private boolean locked = false;
 	private ActionListener lockedListener;
-	
+
 	/**
 	 * Creates a new wiki instance.
-	 * 
+	 *
 	 * @param parameters A set of parameters in the form of name/value pairs.
 	 * @param sessionID The session id.
 	 */
-	Wiki(Map<String, String> parameters, int sessionID) {
-		this.parameters = parameters;
-		
-		if (storage == null) {
-			storage = new FileBasedStorage(getParameter("context:datadir"));
-		}
-		
-		ontology = storage.getOntology(getParameter("ontology"), parameters);
+	Wiki(Backend backend, int sessionID) {
+		this.parameters = backend.getParameters();
+
+        storage = backend.getStorage();
+		ontology = backend.getOntology();
+
 		engine = ontology.getEngine();
 		language = getParameter("language");
 		if (language == null || language.equals("")) {
@@ -172,7 +170,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		logger = new Logger(getParameter("context:logdir") + "/" + ontology.getName(), "anon", sessionID);
 		application = (AceWikiApp) ApplicationInstance.getActive();
 		taskQueue = application.createTaskQueue();
-		
+
 		ontologyExportManager = new OntologyExportManager(ontology);
 		for (OntologyExporter o : engine.getExporters()) {
 			ontologyExportManager.addExporter(o);
@@ -180,18 +178,18 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		ontologyExportManager.addExporter(new LexiconTableExporter());
 		ontologyExportManager.addExporter(new StatementTableExporter(language));
 		ontologyExportManager.addExporter(new AceWikiDataExporter());
-		
+
 		SplitPane splitPane1 = new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM);
 		splitPane1.setSeparatorPosition(new Extent(50));
 		splitPane1.setSeparatorHeight(new Extent(0));
-		
+
 		SplitPane splitPane2 = new SplitPane(SplitPane.ORIENTATION_HORIZONTAL_RIGHT_LEFT);
 		splitPane2.setSeparatorPosition(new Extent(215));
 		splitPane2.setSeparatorWidth(new Extent(0));
-		
+
 		navigationButtons.setInsets(new Insets(5));
 		navigationButtons.setBackground(Style.shadedBackground);
-		
+
 		navigationButtons.add(backButton);
 		navigationButtons.add(new HSpace(5));
 		navigationButtons.add(forwardButton);
@@ -207,44 +205,44 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		userRow.add(logoutButton);
 		userRow.setVisible(isLoginEnabled());
 		navigationButtons.add(userRow);
-		
+
 		ContentPane menuBar = new ContentPane();
 		menuBar.setBackground(Style.shadedBackground);
 		menuBar.add(navigationButtons);
-		
+
 		Row searchRow = new Row();
 		searchRow.setInsets(new Insets(5));
 		searchRow.setBackground(Style.shadedBackground);
 		searchRow.add(searchButton);
 		searchRow.add(new HSpace(5));
 		searchRow.add(searchTextField);
-		
+
 		ContentPane searchBar = new ContentPane();
 		searchBar.setBackground(Style.shadedBackground);
 		searchBar.add(searchRow);
-		
+
 		wikiPane = new SplitPane(
-				SplitPane.ORIENTATION_HORIZONTAL_LEFT_RIGHT, 
+				SplitPane.ORIENTATION_HORIZONTAL_LEFT_RIGHT,
 				new Extent(145)
 			);
 		wikiPane.setSeparatorHeight(new Extent(0));
-		
+
 		ContentPane sideBar = new ContentPane();
 		sideBar.setBackground(Style.shadedBackground);
 		Column sideCol = new Column();
 		sideCol.setInsets(new Insets(10, 10));
 		sideCol.setCellSpacing(new Extent(1));
-		
+
 		Label logo = new Label(new ResourceImageReference(
 				"ch/uzh/ifi/attempto/acewiki/gui/img/AceWikiLogoSmall.png"
 			));
 		sideCol.add(logo);
-		
+
 		sideCol.add(new VSpace(10));
-		
+
 		ColumnLayoutData layout = new ColumnLayoutData();
 		layout.setAlignment(Alignment.ALIGN_CENTER);
-		
+
 		String title = getParameter("title");
 		if (title != null && title.length() > 0) {
 			Label titleLabel = new Label(title, Font.ITALIC, 14);
@@ -252,7 +250,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			titleLabel.setLayoutData(layout);
 			sideCol.add(new VSpace(5));
 		}
-		
+
 		if (isReadOnly()) {
 			SolidLabel rolabel = new SolidLabel("— READ ONLY —", Font.ITALIC);
 			rolabel.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
@@ -260,9 +258,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			sideCol.add(rolabel);
 			sideCol.add(new VSpace(5));
 		}
-		
+
 		sideCol.add(new VSpace(20));
-		
+
 		SolidLabel label1 = new SolidLabel("Navigation:", Font.ITALIC);
 		label1.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
 		sideCol.add(label1);
@@ -271,7 +269,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		sideCol.add(new ListItem(searchButton2));
 		sideCol.add(new ListItem(aboutButton));
 		sideCol.add(new ListItem(randomButton));
-		
+
 		sideCol.add(new VSpace(10));
 
 		SolidLabel label2 = new SolidLabel("Actions:", Font.ITALIC);
@@ -281,22 +279,22 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			sideCol.add(new ListItem(newButton));
 		}
 		sideCol.add(new ListItem(exportButton));
-		
+
 		externalEventMonitor = new ExternalEventMonitor();
 		externalEventMonitor.addExternalEventListener(this);
 		sideCol.add(externalEventMonitor);
-		
+
 		//sideCol.add(new VSpace(20));
 		//sideCol.add(new ItalicLabel("Session ID: " + sessionID));
-		
+
 		sideBar.add(sideCol);
-		
+
 		SplitPane splitPane3 = new SplitPane(SplitPane.ORIENTATION_HORIZONTAL_LEFT_RIGHT);
 		splitPane3.setSeparatorWidth(new Extent(1));
 		splitPane3.setSeparatorColor(Color.BLACK);
 		splitPane3.setSeparatorPosition(new Extent(0));
 		splitPane3.add(new Label());
-		
+
 		SplitPane splitPane4 = new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM);
 		splitPane4.setSeparatorHeight(new Extent(1));
 		splitPane4.setSeparatorColor(Color.BLACK);
@@ -306,20 +304,20 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		splitPane3.add(splitPane4);
 		pageCol = new Column();
 		splitPane4.add(pageCol);
-		
+
 		splitPane2.add(searchBar);
 		splitPane2.add(menuBar);
-		
+
 		splitPane1.add(splitPane2);
 		splitPane1.add(splitPane3);
-		
+
 		wikiPane.add(sideBar);
 		wikiPane.add(splitPane1);
 
 		contentPane.add(wikiPane);
-		
+
 		startPage = new StartPage(this);
-		
+
 		// auto login
 		if (isLoginEnabled()) {
 			String userName = getCookie("lastusername");
@@ -339,40 +337,40 @@ public class Wiki implements ActionListener, ExternalEventListener {
 				}
 			}
 		}
-		
+
 		String p = null;
 		try {
 			p = ((String[]) getContainerContext().getInitialRequestParameterMap()
 					.get("showpage"))[0];
 		} catch (Exception ex) {}
-		
+
 		if (p != null && ontology.getElement(p) != null) {
 			setCurrentPage(ArticlePage.create(ontology.getElement(p), this));
 		} else {
 			setCurrentPage(startPage);
 		}
-		
+
 		// This thread checks regularly for pending tasks and executes them. Strong tasks take
 		// precedence over weak ones.
 		Thread asyncThread = new Thread() {
-			
+
 			public void run() {
 				while (true) {
 					try {
 						sleep(500);
 					} catch (InterruptedException ex) {}
-					
+
 					if (disposed) {
 						break;
 					}
-					
+
 					Task task = null;
 					if (strongTasks.size() > 0) {
 						task = strongTasks.remove(0);
 					} else if (weakTasks.size() > 0) {
 						task = weakTasks.remove(0);
 					}
-					
+
 					final Task fTask = task;
 					if (fTask != null) {
 						task.run();
@@ -388,65 +386,65 @@ public class Wiki implements ActionListener, ExternalEventListener {
 					}
 				}
 			}
-			
+
 		};
 		asyncThread.setPriority(Thread.MIN_PRIORITY);
 		asyncThread.start();
-		
+
 		update();
 	}
-	
+
 	/**
 	 * Returns the content pane containing the wiki GUI.
-	 * 
+	 *
 	 * @return The content pane.
 	 */
 	public ContentPane getContentPane() {
 		return contentPane;
 	}
-	
+
 	/**
 	 * Returns the application instance object of this wiki.
-	 * 
+	 *
 	 * @return The application instance.
 	 */
 	public ApplicationInstance getApplication() {
 		return application;
 	}
-	
+
 	/**
 	 * Returns the value of the given parameter. These parameters are defined in the web.xml file
 	 * of the web application.
-	 * 
+	 *
 	 * @param paramName The parameter name.
 	 * @return The value of the parameter.
 	 */
 	public String getParameter(String paramName) {
 		return parameters.get(paramName);
 	}
-	
+
 	/**
 	 * Returns whether the login features are enabled.
-	 * 
+	 *
 	 * @return true if login is enabled.
 	 */
 	public boolean isLoginEnabled() {
 		return "yes".equals(getParameter("login"));
 	}
-	
+
 	/**
 	 * Returns whether login is required for viewing the wiki data.
-	 * 
+	 *
 	 * @return true if login is required for viewing.
 	 */
 	public boolean isLoginRequiredForViewing() {
 		if (!isLoginEnabled()) return false;
 		return "yes".equals(getParameter("login_required"));
 	}
-	
+
 	/**
 	 * Returns whether login is required for editing the wiki data.
-	 * 
+	 *
 	 * @return true if login is required for editing.
 	 */
 	public boolean isLoginRequiredForEditing() {
@@ -454,39 +452,39 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		if (isLoginRequiredForViewing()) return true;
 		return "edit".equals(getParameter("login_required"));
 	}
-	
+
 	/**
 	 * Returns whether the user registration is open to everyone.
-	 * 
+	 *
 	 * @return true if the user registration is open.
 	 */
 	public boolean isUserRegistrationOpen() {
 		if (!isLoginEnabled()) return false;
 		return !"no".equals(getParameter("register"));
 	}
-	
+
 	/**
 	 * Returns whether the wiki is in the current situation editable. This depends on the fact
 	 * whether a user is logged in and whether login is required for editing the wiki data.
-	 * 
+	 *
 	 * @return true if the wiki is editable.
 	 */
 	public boolean isEditable() {
 		return (user != null || !isLoginRequiredForEditing());
 	}
-	
+
 	/**
 	 * Returns true if this wiki is set to be read-only.
-	 * 
+	 *
 	 * @return true if this wiki is read-only.
 	 */
 	public boolean isReadOnly() {
 		return "on".equals(parameters.get("readonly"));
 	}
-	
+
 	/**
 	 * Shows the window.
-	 * 
+	 *
 	 * @param window The window to be shown.
 	 */
 	public void showWindow(WindowPane window) {
@@ -500,10 +498,10 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		}
 		getContentPane().add(window);
 	}
-	
+
 	/**
 	 * Shows a word editor window.
-	 * 
+	 *
 	 * @param element The ontology element to be edited.
 	 */
 	public void showEditorWindow(OntologyElement element) {
@@ -511,10 +509,10 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		editorWindow.addTab(new FormPane(element, editorWindow, this));
 		showWindow(editorWindow);
 	}
-	
+
 	/**
 	 * Shows a word creator window for the given word type and number.
-	 * 
+	 *
 	 * @param type The word type.
 	 * @param wordNumber The word number.
 	 * @param actionListener The actionlistener.
@@ -524,10 +522,10 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		creatorWindow.addTab(new FormPane(type, wordNumber, creatorWindow, this, actionListener));
 		showWindow(creatorWindow);
 	}
-	
+
 	/**
 	 * Removes the window.
-	 * 
+	 *
 	 * @param window The window to be removed.
 	 */
 	public void removeWindow(WindowPane window) {
@@ -535,7 +533,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		window.dispose();
 		cleanWindows();
 	}
-	
+
 	private void cleanWindows() {
 		for (Component c : getContentPane().getComponents()) {
 			if (!c.isVisible()) {
@@ -543,7 +541,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			}
 		}
 	}
-	
+
 	/**
 	 * Shows the login window.
 	 */
@@ -561,10 +559,10 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		}
 		showWindow(new LoginWindow(this));
 	}
-	
+
 	/**
 	 * Switches to the given page.
-	 * 
+	 *
 	 * @param page The page to switch to.
 	 */
 	public void showPage(WikiPage page) {
@@ -577,16 +575,16 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		log("navi", "goto: " + page);
 		update();
 	}
-	
+
 	/**
 	 * Switches to the page of the given ontology element.
-	 * 
+	 *
 	 * @param e The ontology element the page of which should be shown.
 	 */
 	public void showPage(OntologyElement e) {
 		showPage(ArticlePage.create(e, this));
 	}
-	
+
 	/**
 	 * Go to the previous page in the history.
 	 */
@@ -599,7 +597,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		log("navi", "back: " + page);
 		update();
 	}
-	
+
 	/**
 	 * Go to the next page in the history.
 	 */
@@ -612,83 +610,83 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		log("navi", "forw: " + page);
 		update();
 	}
-	
+
 	/**
 	 * Show the start page.
 	 */
 	public void showStartPage() {
 		showPage(startPage);
 	}
-	
+
 	/**
 	 * Show the index page.
 	 */
 	public void showIndexPage() {
 		showPage(new IndexPage(this));
 	}
-	
+
 	/**
 	 * Show the search page.
 	 */
 	public void showSearchPage() {
 		showPage(new SearchPage(this, ""));
 	}
-	
+
 	/**
 	 * Show the about page.
 	 */
 	public void showAboutPage() {
 		showPage(new AboutPage(this));
 	}
-	
+
 	/**
 	 * Returns the ontology;
-	 * 
+	 *
 	 * @return The ontology.
 	 */
 	public Ontology getOntology() {
 		return ontology;
 	}
-	
+
 	/**
 	 * Returns the ontology export manager.
-	 * 
+	 *
 	 * @return The ontology export manager.
 	 */
 	public OntologyExportManager getOntologyExportManager() {
 		return ontologyExportManager;
 	}
-	
+
 	/**
 	 * Returns the user base for this wiki.
-	 * 
+	 *
 	 * @return The user base.
 	 */
 	public UserBase getUserBase() {
 		return storage.getUserBase(ontology);
 	}
-	
+
 	/**
 	 * Returns all ontology elements. The list is a copy of the internal list.
-	 * 
+	 *
 	 * @return A list of all ontology elements.
 	 */
 	public List<OntologyElement> getOntologyElements() {
 		return ontology.getOntologyElements();
 	}
-	
+
 	/**
 	 * Updates the GUI.
 	 */
 	public void update() {
 		pageCol.removeAll();
 		pageCol.add(currentPage);
-		
+
 		removeExpiredPages(history);
 		removeExpiredPages(forward);
 		backButton.setEnabled(!history.isEmpty());
 		forwardButton.setEnabled(!forward.isEmpty());
-		
+
 		// The commented-out code below checks at every GUI update whether the ontology is consistent or not.
 		// If not, a red AceWiki logo is shown. Usually, this case should never occur because we check for
 		// consistency after every new statement.
@@ -698,7 +696,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		//	logo.setIcon(new ResourceImageReference("ch/uzh/ifi/attempto/acewiki/gui/img/AceWikiLogoSmallRed.png"));
 		//}
 	}
-	
+
 	private void removeExpiredPages(Stack<WikiPage> stack) {
 		WikiPage previousPage = null;
 		for (WikiPage page : new ArrayList<WikiPage>(stack)) {
@@ -712,30 +710,30 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			stack.pop();
 		}
 	}
-	
+
 	private void setCurrentPage(WikiPage currentPage) {
 		this.currentPage = currentPage;
 		refresh();
 	}
-	
+
 	/**
 	 * Refreshes the current page.
 	 */
 	public void refresh() {
 		currentPage.update();
 	}
-	
+
 	public void actionPerformed(ActionEvent e) {
 		Object src = e.getSource();
 		String c = e.getActionCommand();
-		
+
 		if (locked) {
 			if (lockedListener != null) {
 				lockedListener.actionPerformed(new ActionEvent(this, "locked"));
 			}
 			return;
 		}
-		
+
 		if (src == backButton) {
 			log("page", "pressed: back");
 			back();
@@ -810,25 +808,25 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			showPage(te.getOntologyElement());
 		}
 	}
-	
+
 	public void externalEvent(ExternalEvent e) {
 		OntologyElement oe = ontology.getElement(e.getParameter("page"));
 		if (oe != null) showPage(oe);
 	}
-	
+
 	/**
 	 * Writes the log entry to the log file.
-	 * 
+	 *
 	 * @param type The type of the log entry.
 	 * @param text The text of the log entry.
 	 */
 	public void log(String type, String text) {
 		logger.log(type, text);
 	}
-	
+
 	/**
 	 * Logs in the given user.
-	 * 
+	 *
 	 * @param user The user to log in.
 	 * @param stayLoggedIn Defines whether the user should stay logged in or not.
 	 */
@@ -846,7 +844,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		setCookie("stayloggedintoken", stayloggedintoken);
 		setUser(user);
 	}
-	
+
 	/**
 	 * Logs out the current user.
 	 */
@@ -856,19 +854,19 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		setCookie("stayloggedintoken", "");
 		application.logout();
 	}
-	
+
 	/**
 	 * Returns the user of this wiki object.
-	 * 
+	 *
 	 * @return The user.
 	 */
 	public User getUser() {
 		return user;
 	}
-	
+
 	/**
 	 * Sets the user.
-	 * 
+	 *
 	 * @param user The user.
 	 */
 	public void setUser(User user) {
@@ -885,10 +883,10 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		}
 		setCookie("lastusername", user.getName());
 	}
-	
+
 	/**
 	 * Sets a cookie on the client.
-	 * 
+	 *
 	 * @param name The name of the cookie.
 	 * @param value The value of the cookie.
 	 */
@@ -897,19 +895,19 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		cookie.setMaxAge(1000000000);
 		getContainerContext().addCookie(cookie);
 	}
-	
+
 	/**
 	 * Clears the given cookie on the client.
-	 * 
+	 *
 	 * @param name The name of the cookie.
 	 */
 	public void clearCookie(String name) {
 		getContainerContext().addCookie(new Cookie(name, null));
 	}
-	
+
 	/**
 	 * Returns the value of the cookie on the client, or "" if there is no such cookie.
-	 * 
+	 *
 	 * @param name The name of the cookie.
 	 * @return The value of the cookie.
 	 */
@@ -923,22 +921,22 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		}
 		return "";
 	}
-	
+
 	private ContainerContext getContainerContext() {
 		return (ContainerContext) application.getContextProperty(
 			ContainerContext.CONTEXT_PROPERTY_NAME
 		);
 	}
-	
+
 	/**
 	 * Returns the AceWiki engine.
-	 * 
+	 *
 	 * @return The AceWiki engine.
 	 */
 	public AceWikiEngine getEngine() {
 		return engine;
 	}
-	
+
 	/**
 	 * Returns the language of this wiki instance.
 	 * 
@@ -950,25 +948,25 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	
 	/**
 	 * Returns the language handler.
-	 * 
+	 *
 	 * @return The language handler.
 	 */
 	public LanguageHandler getLanguageHandler() {
 		return engine.getLanguageHandler(language);
 	}
-	
+
 	/**
 	 * Returns the logger object.
-	 * 
+	 *
 	 * @return The logger object.
 	 */
 	public Logger getLogger() {
 		return logger;
 	}
-	
+
 	/**
 	 * Runs the task without showing a wait window while it is executed.
-	 * 
+	 *
 	 * @param task The task.
 	 */
 	public void enqueueTask(Runnable task) {
@@ -978,7 +976,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	/**
 	 * Runs the task in an asynchronous way and shows a wait window while it is executed. The task
 	 * is treated as a strong task that takes precedence over weak tasks.
-	 * 
+	 *
 	 * @param title The title of the wait window.
 	 * @param message The message of the wait window.
 	 * @param task The task.
@@ -993,24 +991,24 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		);
 		waitWindow.setClosable(false);
 		showWindow(waitWindow);
-		
+
 		strongTasks.add(task);
 	}
 
 	/**
 	 * Runs the task in an asynchronous way without showing a wait window. The task is treated as a
 	 * weak task that can be overtaken by strong tasks.
-	 * 
+	 *
 	 * @param task The task.
 	 */
 	public void enqueueWeakAsyncTask(Task task) {
 		weakTasks.add(task);
 	}
-	
+
 	/**
 	 * Returns information about AceWiki, like the version number and the release date. This
 	 * information is read from the file "acewiki.properties".
-	 * 
+	 *
 	 * @param key The key string.
 	 * @return The value for the given key.
 	 */
@@ -1025,10 +1023,10 @@ public class Wiki implements ActionListener, ExternalEventListener {
 				ex.printStackTrace();
 			}
 		}
-		
+
 		return properties.getProperty(key);
 	}
-	
+
 	/**
 	 * Cleans up when the object is no longer used.
 	 */
@@ -1037,11 +1035,11 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		externalEventMonitor.removeExternalEventListener(this);
 		externalEventMonitor.dispose();
 	}
-	
+
 	/**
 	 * This methods locks the general buttons of the wiki interface. When one of these buttons
 	 * is pressed, the locked-listener is called.
-	 * 
+	 *
 	 * @param lockedListener The listener to be called when one of the buttons is pressed.
 	 */
 	public void lock(ActionListener lockedListener) {
@@ -1049,18 +1047,18 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		locked = true;
 		this.lockedListener = lockedListener;
 	}
-	
+
 	/**
 	 * Unlocks the wiki interface, if it has been locked before.
 	 */
 	public void unlock() {
 		locked = false;
 	}
-	
+
 	/**
 	 * Returns an image reference for a file in the AceWiki image directory with the given file
 	 * name.
-	 * 
+	 *
 	 * @param fileName The name of the image file.
 	 * @return The image reference.
 	 */

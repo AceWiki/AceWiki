@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -48,6 +49,8 @@ public class AceWikiServlet extends WebContainerServlet {
 	private static final long serialVersionUID = -7342857942059126499L;
 
 	private Logger logger;
+    private Backend backend;
+    private Map<String, String> parameters;
 
 	/**
 	 * Creates a new AceWiki servlet object.
@@ -55,30 +58,41 @@ public class AceWikiServlet extends WebContainerServlet {
 	public AceWikiServlet() {
 	}
 
+    /**
+     * Init the AceWiki servlet, get its Backend from ServletContext according
+     * to its config in web.xml.
+     *
+     * @param config servlet config.
+     */
+    public void init(ServletConfig config) throws ServletException {
+        String backendName = config.getInitParameter("backend");
+
+        while (true) {
+            backend = (Backend) config.getServletContext().getAttribute(backendName);
+
+            if (backend != null) break;
+            try {
+                Thread.sleep(10000);
+            }
+            catch (InterruptedException e) {
+                break;
+            }
+        }
+
+        parameters = backend.getParameters();
+        super.init(config);
+    }
+
+
+
 	public ApplicationInstance newApplicationInstance() {
-		Map<String, String> parameters = getInitParameters();
-
-		if (parameters.get("context:apecommand") == null) {
-			parameters.put("context:apecommand", "ape.exe");
-		}
-
-		if (parameters.get("context:logdir") == null) {
-			parameters.put("context:logdir", "logs");
-		}
-
-		if (parameters.get("context:datadir") == null) {
-			parameters.put("context:datadir", "data");
-		}
-
-        APE.setParameters(parameters);
-
 		if (logger == null) {
 			logger = new Logger(parameters.get("context:logdir") + "/syst", "syst", 0);
 		}
 
 		logger.log("appl", "new application instance: " + parameters.get("ontology"));
 
-		return new AceWikiApp(parameters);
+		return new AceWikiApp(backend);
 	}
 
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws
@@ -118,21 +132,4 @@ public class AceWikiServlet extends WebContainerServlet {
 			throw ex;
 		}
 	}
-
-	@SuppressWarnings("rawtypes")
-	private Map<String, String> getInitParameters() {
-		Map<String, String> initParameters = new HashMap<String, String>();
-		Enumeration paramEnum = getInitParameterNames();
-		while (paramEnum.hasMoreElements()) {
-			String n = paramEnum.nextElement().toString();
-			initParameters.put(n, getInitParameter(n));
-		}
-		Enumeration contextParamEnum = getServletContext().getInitParameterNames();
-		while (contextParamEnum.hasMoreElements()) {
-			String n = contextParamEnum.nextElement().toString();
-			initParameters.put("context:" + n, getServletContext().getInitParameter(n));
-		}
-		return initParameters;
-	}
-
 }

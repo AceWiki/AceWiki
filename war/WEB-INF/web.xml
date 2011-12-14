@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE web-app 
-  PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" 
+<!DOCTYPE web-app
+  PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
   "http://java.sun.com/dtd/web-app_2_3.dtd">
 
-<!-- 
+<!--
   This file is an exemplary web.xml file for the Attempto web applications (i.e. the ACE Editor and
   AceWiki).
 -->
 
 <web-app>
-  
+
   <!--
     This text shows up as the title of the browser window.
   -->
   <display-name>Attempto Web Applications</display-name>
-  
-  
+
+
   <!-- Parameters -->
-  
+
   <!--
       AceWiki needs to access APE, either direct call "ape.exe" which can be
       compiled from the APE package that is available on the Attempto download
@@ -29,7 +29,7 @@
     <param-name>apetype</param-name>
     <param-value>local</param-value>
   </context-param>
-  
+
   <!--
       This parameter defines the name (should always be "ape.exe") and the
       path of the executable when apetype is "local". The path can be omitted
@@ -55,7 +55,7 @@
       This parameter defines the port of APE socket server, when apetype is
       "socket". You can set up a locally running APE socket server by:
       ape.exe -server -port 2766
-  -->  
+  -->
   <context-param>
     <param-name>apeport</param-name>
     <param-value>2766</param-value>
@@ -72,7 +72,7 @@
     <param-name>apewebservice</param-name>
     <param-value>http://localhost:8000</param-value>
   </context-param>
-  
+
   <!--
     This parameter sets the directory for the log files. The value shown below is also the default.
   -->
@@ -80,7 +80,7 @@
     <param-name>logdir</param-name>
     <param-value>logs</param-value>
   </context-param>
-  
+
   <!--
     This parameter sets the directory for the AceWiki data. The value shown below is also the
     default.
@@ -89,26 +89,31 @@
     <param-name>datadir</param-name>
     <param-value>data</param-value>
   </context-param>
-  
-  
+
+
   <!-- Servlets -->
-  
-  
+
+
   <!--
-    The following is an exemplary servlet definition for an AceWiki instance.
+    The following is an exemplary servlet definition for an AceWiki Backend instance.
   -->
   <servlet>
-  
+
     <!--
       The name of the servlet is used as an identifier for the mappings (see below).
     -->
-    <servlet-name>AceWiki</servlet-name>
-    
+    <servlet-name>AceWikiBackend</servlet-name>
+
     <!--
       This argument points to the servlet class.
     -->
-    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
-    
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+
+    <!--
+        The parameter make this servlet startup before AceWiki servlet.
+    -->
+    <load-on-startup>1</load-on-startup>
+
     <!--
       The parameter 'ontology' is mandatory and specifies the name of the ontology. This name is
       used in the URIs of the OWL statements and for the file names on the server. Several servlet
@@ -119,7 +124,7 @@
       <param-name>ontology</param-name>
       <param-value>test</param-value>
     </init-param>
-    
+
     <!--
       The 'baseuri' parameter defines the base URI for the OWL statements. The URI for the ontology
       elements (i.e. words) are a concatenation of baseURI + ontologyName + word.
@@ -128,7 +133,7 @@
       <param-name>baseuri</param-name>
       <param-value>http://attempto.ifi.uzh.ch/acewiki/</param-value>
     </init-param>
-    
+
     <!--
       The parameter 'title' defines the title that is shown below the AceWiki logo.
     -->
@@ -136,7 +141,7 @@
       <param-name>title</param-name>
       <param-value>AceWiki test</param-value>
     </init-param>
-    
+
     <!--
       The 'login' parameter defines whether the login features are enabled: 'no' means that no
       login is possible (default); 'yes' means that login with password protection is enabled. The
@@ -146,7 +151,7 @@
       <param-name>login</param-name>
       <param-value>yes</param-value>
     </init-param>
-    
+
     <!--
       The 'login_required' parameter defines if and when login is required: 'no' means that no
       login is required to view and edit the wiki data (default); 'edit' means that login is
@@ -158,7 +163,7 @@
       <param-name>login_required</param-name>
       <param-value>edit</param-value>
     </init-param>
-    
+
     <!--
       The 'register' parameter defines whether users can register themselves: 'yes' means that
       everyone can register (default); 'no' means that only users who are already registered
@@ -169,11 +174,11 @@
       <param-name>register</param-name>
       <param-value>yes</param-value>
     </init-param>
-    
+
     <!--
       The 'reasoner' parameter specifies the reasoner or reasoner interface to be used. The
       following options are available at the moment:
-      
+
       'HermiT':  The integrated HermiT reasoner is used. This is the default.
       'OWLlink': The OWLlink reasoner interface is applied, which can connect to reasoners like
                  FaCT++, Pellet or HermiT in a separate process (local or remote).
@@ -187,7 +192,7 @@
       <param-name>reasoner</param-name>
       <param-value>HermiT</param-value>
     </init-param>
-    
+
     <!--
       The parameter 'reasoner_url' defines the URL over which the reasoner should be accessed. This
       parameter is only used when 'reasoner' is set to 'OWLlink'. The value shown below is also the
@@ -197,7 +202,7 @@
       <param-name>reasoner_url</param-name>
       <param-value>http://localhost:8080</param-value>
     </init-param>
-    
+
     <!--
       The parameter 'global_restrictions_policy' defines how the global restrictions on the axioms
       in OWL 2 should be ensured. See the following chapter of the OWL 2 documentation:
@@ -211,7 +216,7 @@
       <param-name>global_restrictions_policy</param-name>
       <param-value>no_chains</param-value>
     </init-param>
-    
+
     <!--
       The parameter 'owl_profile' can be used to set an OWL profile that defines which statements
       are used for reasoning. Possible values are "OWL2Full" (default), "OWL2EL", "OWL2QL", and
@@ -223,7 +228,7 @@
       <param-name>owl_profile</param-name>
       <param-value>OWL2Full</param-value>
     </init-param>
-    
+
     <!--
       The parameter 'readonly' can be used to lock the wiki data so that no changes can be made.
       The default is 'off'.
@@ -232,16 +237,32 @@
       <param-name>readonly</param-name>
       <param-value>off</param-value>
     </init-param>
-    
+
   </servlet>
-  
+
   <!--
-    You can have several servlet definitions of the same servlet class within a single web.xml
-    file. The code below launches a second AceWiki instance.
+      This AceWiki servlet using above Backend servlet as it backend.
   -->
   <servlet>
-    <servlet-name>AceWiki2</servlet-name>
+    <servlet-name>AceWiki</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <!-- this parameter make this servlet start after its backend servlet -->
+    <load-on-startup>2</load-on-startup>
+    <!-- this parameter is set the to name of backend servlet to use -->
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>AceWikiBackend</param-value>
+    </init-param>
+  </servlet>
+
+  <!--
+    You can have several servlet definitions of the same servlet class within a single web.xml
+    file. The code below launches a second AceWiki Backend instance.
+  -->
+  <servlet>
+    <servlet-name>AceWikiBackend2</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
     <init-param>
       <param-name>ontology</param-name>
       <param-value>anothertest</param-value>
@@ -251,23 +272,32 @@
       <param-value>http://attempto.ifi.uzh.ch/acewiki/</param-value>
     </init-param>
   </servlet>
-  
-  
+
+  <servlet>
+    <servlet-name>AceWiki2</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <load-on-startup>2</load-on-startup>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>AceWikiBackend2</param-value>
+    </init-param>
+  </servlet>
+
   <!--
     The following is an exemplary servlet definition for an ACE Editor instance.
   -->
   <servlet>
-  
+
     <!--
       The name of the servlet is used as an identifier for the mappings (see below).
     -->
     <servlet-name>ACE Editor</servlet-name>
-    
+
     <!--
       This argument points to the servlet class.
     -->
     <servlet-class>ch.uzh.ifi.attempto.aceeditor.ACEEditorServlet</servlet-class>
-    
+
     <!--
       The parameter 'lexicon' points to the lexicon file that should be loaded. This file should be
       formatted according to the ACE Lexicon Specification (see
@@ -277,7 +307,7 @@
       <param-name>lexicon</param-name>
       <param-value>aceeditor_lexicon.pl</param-value>
     </init-param>
-    
+
     <!--
       The parameter 'immutable_lexicon' defines whether the lexicon is immutable or can be changed
       by users.
@@ -286,7 +316,7 @@
       <param-name>immutable_lexicon</param-name>
       <param-value>off</param-value>
     </init-param>
-    
+
     <!--
       The parameter 'parse_with_clex' defines whether the compiled lexicon of the APE executable
       should be used for parsing the ACE sentences. Only the compiled lexicon of APE is used if the
@@ -298,7 +328,7 @@
       <param-name>parse_with_clex</param-name>
       <param-value>off</param-value>
     </init-param>
-    
+
     <!--
       The parameter 'max_upload_file_size' defines the maximum size in bytes for files to be
       uploaded by users. 0 means unlimited file size. Uploading large files can make the web
@@ -308,7 +338,7 @@
       <param-name>max_upload_file_size</param-name>
       <param-value>10000</param-value>
     </init-param>
-  
+
   </servlet>
   
   
@@ -396,13 +426,13 @@
   
   
   <!-- Mappings -->
-  
+
   <!--
     The mappings connect url-patterns with the servlets that should be shown when the respective
     URL is requested by the client. This can also be the root directory "/" of the servlet or a
     deeper structure like "/test/app1/".
   -->
-  
+
   <!--
     This is the mapping for the first AceWiki instance.
   -->
@@ -410,13 +440,29 @@
     <servlet-name>AceWiki</servlet-name>
     <url-pattern>/acewiki/</url-pattern>
   </servlet-mapping>
-  
+
+  <!--
+      This is the mapping for the first AceWiki Backend instance.
+  -->
+  <servlet-mapping>
+    <servlet-name>AceWikiBackend</servlet-name>
+    <url-pattern>/acewiki/backend</url-pattern>
+  </servlet-mapping>
+
   <!--
     This is the mapping for the second AceWiki instance.
   -->
   <servlet-mapping>
     <servlet-name>AceWiki2</servlet-name>
     <url-pattern>/acewiki2/</url-pattern>
+  </servlet-mapping>
+
+  <!--
+      This is the mapping for the first AceWiki Backend instance.
+  -->
+  <servlet-mapping>
+    <servlet-name>AceWikiBackend2</servlet-name>
+    <url-pattern>/acewiki2/backend</url-pattern>
   </servlet-mapping>
 
   <!--
