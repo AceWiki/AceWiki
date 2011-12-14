@@ -77,7 +77,7 @@ public class Backend {
     }
 
     /**
-     * Get special parameter for this Backend.
+     * Get a specify parameter for this Backend.
      *
      * @param param The parameter name.
      * @return The value of the parameter, or null if the parameter not exist.

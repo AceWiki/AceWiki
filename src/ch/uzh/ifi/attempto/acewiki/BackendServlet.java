@@ -39,8 +39,8 @@ import ch.uzh.ifi.attempto.base.APE;
 /**
  * This class is a servlet that create a Backend object and share it to AceWiki Servlet.
  *
- * To use a Backend object from special BackendServlet, add "backend"
- * parameter to AceWiki servlet configure and set its value to BackendServlet
+ * To use a Backend object from a particular BackendServlet, add "backend"
+ * parameter to AceWiki servlet configure and set its value to the BackendServlet
  * name.
  * <servlet>
  *   <servlet-name>acewiki1<servlet-name>
