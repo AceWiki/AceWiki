@@ -15,6 +15,7 @@ These are the AceWiki developers:
 
 - Tobias Kuhn (since 2006)
 - Kaarel Kaljurand (since 2011)
+- Yu Changyuan (since 2011)
 
 
 Institutions
@@ -173,10 +174,10 @@ Runner can be downloaded from this repository:
 
 Using Jetty Runner, the web applications can be started with
 
-    java -Djava.library.path=LIBJPLPATH -jar jetty-runner.jar acewiki.war
+    java -Djava.library.path=LIBJPLPATH -jar jetty-runner.jar --jar JPLJAR acewiki.war
 
-where LIBJPLPATH is the path of the SWI Prolog JPL library, or you can use the Unix shell script
-"run-webapps-with-jettyrunner.sh".
+where LIBJPLPATH is the path of the SWI Prolog JPL library and JPLJAR refers to the jpl.jar file.
+Alternatively, you can use the script "run-webapps-with-jettyrunner.sh".
 
 
 AceWiki Data

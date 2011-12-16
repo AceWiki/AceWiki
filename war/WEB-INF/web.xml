@@ -313,8 +313,8 @@
   
   
   <!--
-    The following three servlet start an experimental version of a GF-based wiki that can be viewed
-    and edited in different languages.
+    The following three servlets start an experimental version of a GF-based wiki that can be
+    viewed and edited in different languages.
   -->
   <servlet>
   
