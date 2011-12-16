@@ -14,6 +14,9 @@
 
 package ch.uzh.ifi.attempto.acewiki.gf;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import ch.uzh.ifi.attempto.acewiki.core.AbstractAceWikiEngine;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
@@ -26,11 +29,15 @@ import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 // To run AceWiki with this GF engine, add the following lines to web.xml:
 //
 // <servlet>
-//   <servlet-name>MoltoWiki</servlet-name>
+//   <servlet-name>MoltoWikiEng</servlet-name>
 //   <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
 //   <init-param>
 //     <param-name>engine_class</param-name>
 //     <param-value>ch.uzh.ifi.attempto.acewiki.gf.GFEngine</param-value>
+//   </init-param>
+//   <init-param>
+//     <param-name>language</param-name>
+//     <param-value>Eng</param-value>
 //   </init-param>
 //   <init-param>
 //     <param-name>ontology</param-name>
@@ -38,13 +45,13 @@ import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 //   </init-param>
 //   <init-param>
 //     <param-name>title</param-name>
-//     <param-value>Molto Wiki</param-value>
+//     <param-value>Molto Wiki in English</param-value>
 //   </init-param>
 // </servlet>
 // 
 // <servlet-mapping>
-//   <servlet-name>MoltoWiki</servlet-name>
-//   <url-pattern>/acewikimolto/</url-pattern>
+//   <servlet-name>MoltoWikiEng</servlet-name>
+//   <url-pattern>/moltoeng/</url-pattern>
 // </servlet-mapping>
 
 /**
@@ -54,23 +61,37 @@ import ch.uzh.ifi.attempto.acewiki.core.Sentence;
  */
 public class GFEngine extends AbstractAceWikiEngine {
 	
-	private GFHandler languageHandler = new GFHandler("Eng");
-//	private Map<String, GFHandler> languageHandlers = new HashMap<String, GFHandler>();
+	private Map<String, GFHandler> languageHandlers = new HashMap<String, GFHandler>();
 	private AceWikiReasoner reasoner = new DummyReasoner();
+	private GFGrammar gfGrammar;
+	
+	/**
+	 * Creates a new GF-based AceWiki engine.
+	 */
+	public GFEngine() {
+		gfGrammar = new GFGrammar("ch/uzh/ifi/attempto/acewiki/gf/", "Foods", "Eng");
+	}
 	
 	public LanguageHandler getLanguageHandler(String language) {
-//		GFHandler lh = languageHandlers.get(language);
-//		if (lh == null) {
-//			lh = new GFHandler(language);
-//			languageHandlers.put(language, lh);
-//		}
-//		return lh;
-		return languageHandler;
+		GFHandler lh = languageHandlers.get(language);
+		if (lh == null) {
+			lh = new GFHandler(language, gfGrammar);
+			languageHandlers.put(language, lh);
+		}
+		return lh;
 	}
 
 	public String[] getLanguages() {
-		//return new String[] {"Eng", "Ger"};
-		return new String[] {"Eng"};
+		return new String[] {"Eng", "Ger", "Ita"};
+	}
+	
+	/**
+	 * Returns the grammar object.
+	 * 
+	 * @return The grammar object.
+	 */
+	public GFGrammar getGFGrammar() {
+		return gfGrammar;
 	}
 	
 	public AceWikiReasoner getReasoner() {
@@ -83,7 +104,7 @@ public class GFEngine extends AbstractAceWikiEngine {
 	}
 	
 	public Sentence createSentence(String serialized) {
-		return new GFDeclaration(serialized);
+		return new GFDeclaration(gfGrammar.deserialize(serialized), gfGrammar);
 	}
 	
 	public Sentence createAssignmentSentence(Individual ind, Concept concept) {

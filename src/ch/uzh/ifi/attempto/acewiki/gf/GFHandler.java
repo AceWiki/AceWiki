@@ -14,14 +14,8 @@
 
 package ch.uzh.ifi.attempto.acewiki.gf;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.grammaticalframework.Linearizer;
-import org.grammaticalframework.PGF;
-import org.grammaticalframework.PGFBuilder;
-import org.grammaticalframework.Parser;
 
 import ch.uzh.ifi.attempto.acewiki.core.AbstractLanguageHandler;
 import ch.uzh.ifi.attempto.acewiki.core.EditorController;
@@ -39,32 +33,20 @@ import ch.uzh.ifi.attempto.base.TextOperator;
  */
 public class GFHandler extends AbstractLanguageHandler {
 	
-	private static String pgfPath = "ch/uzh/ifi/attempto/acewiki/gf/";
-	private static String pgfFile = "Foods";
-	
-//	private Ontology ontology;
 	private String language;
 	private TextOperator textOperator = new DefaultTextOperator();
-	EditorController editorController = new EditorController();
-	private Parser gfParser;
-	private Linearizer gfLinearizer;
+	private EditorController editorController = new EditorController();
+	private GFGrammar gfGrammar;
 	
 	/**
 	 * Creates a new GF handler for the given language.
 	 * 
 	 * @param language The name of the language.
+	 * @param gfGrammar The grammar object.
 	 */
-	public GFHandler(String language) {
+	public GFHandler(String language, GFGrammar gfGrammar) {
 		this.language = language;
-		try {
-			ClassLoader cl = Thread.currentThread().getContextClassLoader();
-			InputStream in = cl.getResourceAsStream(pgfPath + pgfFile + ".pgf");
-			PGF pgf = PGFBuilder.fromInputStream(in);
-			gfParser = new Parser(pgf, pgfFile + language);
-			gfLinearizer = new Linearizer(pgf, pgfFile + language);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+		this.gfGrammar = gfGrammar;
 	}
 
 	public String getLanguage() {
@@ -72,7 +54,6 @@ public class GFHandler extends AbstractLanguageHandler {
 	}
 
 	public void init(Ontology ontology) {
-//		this.ontology = ontology;
 	}
 	
 	public TextOperator getTextOperator() {
@@ -81,41 +62,13 @@ public class GFHandler extends AbstractLanguageHandler {
 	
 	public List<Sentence> extractSentences(TextContainer tc, PredictiveParser parser) {
 		List<Sentence> l = new ArrayList<Sentence>();
-		l.add(new GFDeclaration(tc.getText()));
+		l.add(new GFDeclaration(tc.getText(), language, gfGrammar));
 		return l;
 	}
 	
 	public PredictiveParser getPredictiveParser() {
-		return new JPGFParser(gfParser);
+		return new GFPredictiveParser(gfGrammar, language);
 	}
-	
-	/**
-	 * Returns the GF parser object.
-	 * 
-	 * @return The GF parser.
-	 */
-	public Parser getGFParser() {
-		return gfParser;
-	}
-	
-	/**
-	 * Returns the GF linearizer object.
-	 * 
-	 * @return The GF linearizer.
-	 */
-	public Linearizer getGFLinearizer() {
-		return gfLinearizer;
-	}
-	
-//	private String getLin() {
-//		String s = null;
-//		try {
-//			s = gfLinearizer.linearizeString(getParseState().getTrees()[0]);
-//		} catch (LinearizerException ex) {
-//			ex.printStackTrace();
-//		}
-//		return s;
-//	}
 	
 	public EditorController getEditorController() {
 		return editorController;

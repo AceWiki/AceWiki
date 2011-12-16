@@ -19,7 +19,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.grammaticalframework.Parser;
 import org.grammaticalframework.parser.ParseState;
 
 import ch.uzh.ifi.attempto.base.ConcreteOption;
@@ -33,26 +32,29 @@ import ch.uzh.ifi.attempto.base.SimpleNextTokenOptions;
  * 
  * @author Tobias Kuhn
  */
-public class JPGFParser implements PredictiveParser {
+public class GFPredictiveParser implements PredictiveParser {
 	
 	private List<String> tokens = new ArrayList<String>();
 	private ParseState parseState;
 	private NextTokenOptions nextTokenOptions;
-	private Parser gfParser;
+	private GFGrammar gfGrammar;
+	private String language;
 	
 	/**
-	 * Creates a new parser object for the given pgf file and language.
+	 * Creates a new parser object for the given language.
 	 * 
-	 * @param gfParser A GF parser object.
+	 * @param gfGrammar The grammar object.
+	 * @param language The language.
 	 */
-	public JPGFParser(Parser gfParser) {
-		this.gfParser = gfParser;
+	public GFPredictiveParser(GFGrammar gfGrammar, String language) {
+		this.gfGrammar = gfGrammar;
+		this.language = language;
 		update();
 	}
 	
 	private ParseState getParseState() {
 		if (parseState == null) {
-			parseState = gfParser.parse(getTokens().toArray(new String[] {}));
+			parseState = gfGrammar.parse(getTokensArray(), language);
 		}
 		return parseState;
 	}
@@ -91,6 +93,10 @@ public class JPGFParser implements PredictiveParser {
 	
 	public List<String> getTokens() {
 		return tokens;
+	}
+	
+	private String[] getTokensArray() {
+		return tokens.toArray(new String[] {});
 	}
 	
 	public int getTokenCount() {

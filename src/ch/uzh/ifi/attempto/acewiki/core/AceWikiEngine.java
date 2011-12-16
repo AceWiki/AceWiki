@@ -39,7 +39,8 @@ public interface AceWikiEngine {
 	public LanguageHandler getLanguageHandler(String language);
 	
 	/**
-	 * Returns the available languages.
+	 * Returns the available languages. The first language is considered the default one, which
+	 * means that at least one language must be returned.
 	 * 
 	 * @return An array of language names.
 	 */

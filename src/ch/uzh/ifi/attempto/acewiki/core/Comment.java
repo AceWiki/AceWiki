@@ -42,7 +42,7 @@ public class Comment extends AbstractStatement {
 	 * @return The comment text.
 	 */
 	public String getText() {
-		return getText("Default");
+		return text;
 	}
 	
 	public String serialize() {

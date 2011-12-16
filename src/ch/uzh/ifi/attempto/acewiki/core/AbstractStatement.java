@@ -48,7 +48,7 @@ public abstract class AbstractStatement implements Statement {
 	}
 	
 	public String toString() {
-		return getText("Default");
+		return getText(getDefaultLanguage());
 	}
 	
 	/**
@@ -61,13 +61,22 @@ public abstract class AbstractStatement implements Statement {
 	}
 	
 	/**
+	 * Returns the default language.
+	 * 
+	 * @return The default language.
+	 */
+	protected String getDefaultLanguage() {
+		return getEngine().getLanguages()[0];
+	}
+	
+	/**
 	 * Returns the language handler for the given language.
 	 * 
 	 * @param language The language.
 	 * @return The language handler.
 	 */
 	protected LanguageHandler getLanguageHandler(String language) {
-		return getOntology().getEngine().getLanguageHandler(language);
+		return getEngine().getLanguageHandler(language);
 	}
 	
 	/**
@@ -77,7 +86,7 @@ public abstract class AbstractStatement implements Statement {
 	 * @return The text operator.
 	 */
 	protected TextOperator getTextOperator(String language) {
-		return getOntology().getEngine().getLanguageHandler(language).getTextOperator();
+		return getLanguageHandler(language).getTextOperator();
 	}
 
 }

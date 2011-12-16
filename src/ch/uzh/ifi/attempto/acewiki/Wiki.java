@@ -167,7 +167,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		engine = ontology.getEngine();
 		language = getParameter("language");
 		if (language == null || language.equals("")) {
-			language = "Default";
+			language = engine.getLanguages()[0];
 		}
 		logger = new Logger(getParameter("context:logdir") + "/" + ontology.getName(), "anon", sessionID);
 		application = (AceWikiApp) ApplicationInstance.getActive();

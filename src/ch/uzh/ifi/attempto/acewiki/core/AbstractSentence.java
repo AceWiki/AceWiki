@@ -39,10 +39,6 @@ public abstract class AbstractSentence extends AbstractStatement implements Sent
 		return getArticle() == null;
 	}
 	
-	public String toString() {
-		return getText("Default");
-	}
-	
 	/**
 	 * Returns a text container with the text of this sentence in the given language.
 	 * 
