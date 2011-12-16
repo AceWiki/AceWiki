@@ -55,7 +55,8 @@ public class ProperNameChanger implements LexiconChanger {
 		l.add(new LexiconDetail(
 				"abbreviation",
 				"example: HTML, UN",
-				ind.getAbbreviation()
+				ind.getAbbreviation(),
+				false
 			));
 		l.add(new LexiconDetail(
 				"... used with \"the\"",
