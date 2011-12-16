@@ -74,7 +74,7 @@ public class AceWikiMenuCreator implements MenuCreator, ActionListener {
 
 	public MenuEntry createMenuEntry(ConcreteOption option) {
 		String menuGroup = getEditorController().getMenuGroup(option.getCategoryName());
-		TextOperator to = wiki.getOntology().getTextOperator();
+		TextOperator to = wiki.getLanguageHandler().getTextOperator();
 		TextElement te = to.createTextElement(option.getWord());
 		MenuEntry me = new MenuEntry(te, menuGroup);
 		if (te instanceof OntologyTextElement) {

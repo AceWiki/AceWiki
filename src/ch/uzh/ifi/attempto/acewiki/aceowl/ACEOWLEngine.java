@@ -14,11 +14,11 @@
 
 package ch.uzh.ifi.attempto.acewiki.aceowl;
 
-import ch.uzh.ifi.attempto.acewiki.core.AbstractAceWikiEngine;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageHandler;
+import ch.uzh.ifi.attempto.acewiki.core.MonolingualEngine;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
@@ -31,7 +31,7 @@ import ch.uzh.ifi.attempto.acewiki.owl.OWLXMLExporter;
  * 
  * @author Tobias Kuhn
  */
-public class ACEOWLEngine extends AbstractAceWikiEngine {
+public class ACEOWLEngine extends MonolingualEngine {
 	
 	private ACEHandler languageHandler = new ACEHandler();
 	private AceWikiOWLReasoner reasoner = new AceWikiOWLReasoner();
@@ -48,11 +48,11 @@ public class ACEOWLEngine extends AbstractAceWikiEngine {
 		
 		setLexicalTypes("propername", "noun", "nounof", "trverb", "tradj");
 	}
-	
+
 	public void init(Ontology ontology) {
 		super.init(ontology);
 	}
-
+	
 	public LanguageHandler getLanguageHandler() {
 		return languageHandler;
 	}

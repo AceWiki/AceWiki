@@ -50,11 +50,12 @@ public class SentencePage extends WikiPage {
 		
 		addSelectedTab("Sentence");
 		
-		add(new Title(LanguageUtils.getPrettyPrinted(sentence.getText()), false));
+		String t = LanguageUtils.getPrettyPrinted(sentence.getText(wiki.getLanguage()));
+		add(new Title(t, false));
 		addHorizontalLine();
 		add(new VSpace(15));
 		
-		List<SentenceDetail> l = sentence.getDetails();
+		List<SentenceDetail> l = sentence.getDetails(wiki.getLanguage());
 		
 		if (l == null || l.isEmpty()) {
 			Column col = new Column();
@@ -81,7 +82,7 @@ public class SentencePage extends WikiPage {
 	}
 	
 	public String toString() {
-		return sentence.getText();
+		return sentence.getText("Default");
 	}
 
 }

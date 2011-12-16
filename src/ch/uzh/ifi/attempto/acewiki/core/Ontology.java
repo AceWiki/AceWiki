@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import ch.uzh.ifi.attempto.base.Logger;
-import ch.uzh.ifi.attempto.base.TextOperator;
 
 /**
  * This class represents an AceWiki ontology which consists of ontology element definitions and
@@ -101,24 +100,6 @@ public class Ontology {
 	 */
 	public StatementFactory getStatementFactory() {
 		return statementFactory;
-	}
-	
-	/**
-	 * Returns the language handler.
-	 * 
-	 * @return The language handler.
-	 */
-	public LanguageHandler getLanguageHandler() {
-		return engine.getLanguageHandler();
-	}
-	
-	/**
-	 * Returns the text operator.
-	 * 
-	 * @return The text operator.
-	 */
-	public TextOperator getTextOperator() {
-		return getLanguageHandler().getTextOperator();
 	}
 	
 	/**

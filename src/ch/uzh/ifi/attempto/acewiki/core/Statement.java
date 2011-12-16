@@ -46,11 +46,12 @@ public interface Statement {
 	public Article getArticle();
 	
 	/**
-	 * Returns the text of this statement.
+	 * Returns the text of this statement in the given language.
 	 * 
+	 * @param language The language.
 	 * @return The text.
 	 */
-	public String getText();
+	public String getText(String language);
 	
 	/**
 	 * Returns a serialization of the statement.

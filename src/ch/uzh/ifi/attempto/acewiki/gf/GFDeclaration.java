@@ -14,7 +14,11 @@
 
 package ch.uzh.ifi.attempto.acewiki.gf;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.grammaticalframework.parser.ParseState;
 
 import ch.uzh.ifi.attempto.acewiki.core.AbstractSentence;
 import ch.uzh.ifi.attempto.acewiki.core.Declaration;
@@ -30,25 +34,47 @@ import ch.uzh.ifi.attempto.base.TextElement;
  */
 public class GFDeclaration extends AbstractSentence implements Declaration {
 	
-	private TextContainer textContainer = new TextContainer();
+	private GFGrammar gfGrammar;
+	private ParseState parseState;
+	private Map<String, TextContainer> textContainers = new HashMap<String, TextContainer>();
 	
 	/**
-	 * Creates a new declaration statement with the given text.
+	 * Creates a new GF declaration object from a parse state.
+	 * 
+	 * @param parseState The parse state.
+	 * @param gfGrammar The grammar object.
+	 */
+	public GFDeclaration(ParseState parseState, GFGrammar gfGrammar) {
+		this.gfGrammar = gfGrammar;
+		this.parseState = parseState;
+	}
+	
+	/**
+	 * Creates a new GF declaration object from a text in a given language.
 	 * 
 	 * @param text The declaration text.
+	 * @param language The language.
+	 * @param gfGrammar The grammar object.
 	 */
-	public GFDeclaration(String text) {
-		for (String s : text.split("\\s+")) {
-			textContainer.addElement(new TextElement(s));
+	public GFDeclaration(String text, String language, GFGrammar gfGrammar) {
+		this.gfGrammar = gfGrammar;
+		parseState = getGFGrammar().parse(text, language);
+	}
+	
+	protected TextContainer getTextContainer(String language) {
+		TextContainer tc = textContainers.get(language);
+		if (tc == null) {
+			tc = new TextContainer();
+			for (String s : getGFGrammar().linearizeAsTokens(parseState, language)) {
+				tc.addElement(new TextElement(s));
+			}
+			textContainers.put(language, tc);
 		}
+		return tc;
 	}
 	
-	protected TextContainer getTextContainer() {
-		return textContainer;
-	}
-	
-	public List<TextElement> getTextElements() {
-		return textContainer.getTextElements();
+	public List<TextElement> getTextElements(String language) {
+		return getTextContainer(language).getTextElements();
 	}
 	
 	public boolean contains(OntologyElement e) {
@@ -56,7 +82,7 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 		return false;
 	}
 	
-	public List<SentenceDetail> getDetails() {
+	public List<SentenceDetail> getDetails(String language) {
 		return null;
 	}
 	
@@ -68,7 +94,16 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 	}
 	
 	public String serialize() {
-		return textContainer.getText();
+		return getGFGrammar().serialize(parseState);
+	}
+	
+	/**
+	 * Returns the grammar object.
+	 * 
+	 * @return The grammar object.
+	 */
+	public GFGrammar getGFGrammar() {
+		return gfGrammar;
 	}
 
 }

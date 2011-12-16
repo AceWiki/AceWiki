@@ -74,7 +74,9 @@ public abstract class AbstractAceWikiEngine implements AceWikiEngine {
 	private WordIndex wordIndex;
 	
 	public void init(Ontology ontology) {
-		getLanguageHandler().init(ontology);
+		for (String language : getLanguages()) {
+			getLanguageHandler(language).init(ontology);
+		}
 		getReasoner().init(ontology);
 	}
 

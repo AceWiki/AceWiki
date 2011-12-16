@@ -24,6 +24,17 @@ import java.util.List;
  */
 public class StatementTableExporter extends OntologyExporter {
 	
+	private String language;
+	
+	/**
+	 * Creates a statement table exporter in the given language.
+	 * 
+	 * @param language The language.
+	 */
+	public StatementTableExporter(String language) {
+		this.language = language;
+	}
+	
 	protected void writeContent() throws IOException {
 		write("PAGE,TYPE,TEXT\n");
 		List<OntologyElement> elements = getOntologyElements();
@@ -32,7 +43,7 @@ public class StatementTableExporter extends OntologyExporter {
 			for (Statement s : oe.getArticle().getStatements()) {
 				write(LanguageUtils.getHeading(oe) + ",");
 				write(getStatementType(s) + ",");
-				write("\"" + s.getText().replaceAll("\"", "\"\"").replaceAll("\\s+", " ") + "\"");
+				write("\"" + s.getText(language).replaceAll("\"", "\"\"").replaceAll("\\s+", " ") + "\"");
 				write("\n");
 			}
 		}

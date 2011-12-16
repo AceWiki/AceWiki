@@ -63,13 +63,14 @@ public class StatementFactory {
 	 * Extracts sentence objects out of a text container and/or a parser state.
 	 * 
 	 * @param tc The text container.
+	 * @param languageHandler The language handler.
 	 * @param parser The parser object with the parsed text.
 	 * @param article The article of the sentences.
 	 * @return A list of sentences.
 	 */
-	public List<Sentence> extractSentences(TextContainer tc, PredictiveParser parser,
-			Article article) {
-		List<Sentence> l = ontology.getLanguageHandler().extractSentences(tc, parser);
+	public List<Sentence> extractSentences(LanguageHandler languageHandler, TextContainer tc,
+			PredictiveParser parser, Article article) {
+		List<Sentence> l = languageHandler.extractSentences(tc, parser);
 		for (Sentence s : l) {
 			s.init(ontology, article);
 		}
@@ -77,7 +78,7 @@ public class StatementFactory {
 	}
 	
 	/**
-	 * Creates an assignement sentence.
+	 * Creates an assignment sentence.
 	 * 
 	 * @param ind The individual.
 	 * @param conc The concept.

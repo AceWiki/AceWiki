@@ -54,7 +54,7 @@ public class CommentEditorHandler implements ActionListener {
 		textAreaWindow = new TextAreaWindow("Comment Editor", this);
 		textAreaWindow.setSize(600, 350);
 		if (edit) {
-			textAreaWindow.setText(statement.getText());
+			textAreaWindow.setText(((Comment) statement).getText());
 		}
 	}
 

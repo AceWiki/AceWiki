@@ -104,8 +104,9 @@ public class Article {
 	 * @param newStatements The new statements.
 	 */
 	public void edit(Statement oldStatement, List<Statement> newStatements) {
-		log("edit statement of " + element.getWord() + ": " + oldStatement.getText() +
-				" > " + getStatementsString(newStatements));
+		log("edit statement of " + element.getWord() + ": " +
+				oldStatement.getText(getDefaultLanguage()) + " > " +
+				getStatementsString(newStatements));
 		
 		synchronized (ontology) {
 			if (statements.contains(oldStatement)) {
@@ -178,7 +179,7 @@ public class Article {
 	private String getStatementsString(List<Statement> statements) {
 		String result = "";
 		for (Statement s : statements) {
-			result += s.getText() + " ";
+			result += s.getText(getDefaultLanguage()) + " ";
 		}
 		return result;
 	}
@@ -191,7 +192,7 @@ public class Article {
 	public void remove(Statement statement) {
 		synchronized (ontology) {
 			if (statements.contains(statement)) {
-				log("remove statement: " + statement.getText());
+				log("remove statement: " + statement.getText(getDefaultLanguage()));
 				statements.remove(statement);
 			}
 			if (ontology != null) {
@@ -212,6 +213,10 @@ public class Article {
 		if (ontology != null) {
 			ontology.log(text);
 		}
+	}
+	
+	private String getDefaultLanguage() {
+		return getOntology().getEngine().getLanguages()[0];
 	}
 
 }

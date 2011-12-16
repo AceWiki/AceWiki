@@ -38,29 +38,29 @@ import org.semanticweb.owlapi.profiles.OWLProfile;
 import org.semanticweb.owlapi.profiles.OWLProfileReport;
 import org.semanticweb.owlapi.profiles.OWLProfileViolation;
 
-import ch.uzh.ifi.attempto.acewiki.core.AbstractSentence;
 import ch.uzh.ifi.attempto.acewiki.core.Declaration;
+import ch.uzh.ifi.attempto.acewiki.core.MonolingualSentence;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceDetail;
 import ch.uzh.ifi.attempto.acewiki.owl.AceWikiOWLReasoner;
 import ch.uzh.ifi.attempto.acewiki.owl.OWLSentence;
-import ch.uzh.ifi.attempto.ape.ACEParserResult;
 import ch.uzh.ifi.attempto.ape.ACEParser;
+import ch.uzh.ifi.attempto.ape.ACEParserResult;
 import ch.uzh.ifi.attempto.ape.Lexicon;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
 import ch.uzh.ifi.attempto.ape.MessageContainer;
 import ch.uzh.ifi.attempto.ape.SyntaxBoxes;
+import ch.uzh.ifi.attempto.base.APE;
 import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.base.TextElement;
-import ch.uzh.ifi.attempto.base.APE;
 
 /**
  * This class represents an ACE sentence, which can be either a declarative sentence or a question.
  *
  * @author Tobias Kuhn
  */
-public abstract class ACESentence extends AbstractSentence implements OWLSentence {
+public abstract class ACESentence extends MonolingualSentence implements OWLSentence {
 
 	private static OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
 
@@ -135,7 +135,7 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 	}
 
 	private void tokenize() {
-		textContainer = new TextContainer(getOntology().getTextOperator());
+		textContainer = new TextContainer(getTextOperator());
 
 		// TODO Remove legacy code at some point
 
@@ -170,7 +170,7 @@ public abstract class ACESentence extends AbstractSentence implements OWLSentenc
 				}
 				textContainer.addElement(te);
 			} else {
-				TextElement te = getOntology().getTextOperator().createTextElement(s);
+				TextElement te = getTextOperator().createTextElement(s);
 				if (!(te instanceof OntologyTextElement) || serialized.indexOf("<") > -1) {
 					textContainer.addElement(te);
 				} else {

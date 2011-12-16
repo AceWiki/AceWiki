@@ -33,12 +33,27 @@ import ch.uzh.ifi.attempto.base.TextOperator;
  */
 public class GFHandler extends AbstractLanguageHandler {
 	
-//	private Ontology ontology;
+	private String language;
 	private TextOperator textOperator = new DefaultTextOperator();
-	EditorController editorController = new EditorController();
+	private EditorController editorController = new EditorController();
+	private GFGrammar gfGrammar;
+	
+	/**
+	 * Creates a new GF handler for the given language.
+	 * 
+	 * @param language The name of the language.
+	 * @param gfGrammar The grammar object.
+	 */
+	public GFHandler(String language, GFGrammar gfGrammar) {
+		this.language = language;
+		this.gfGrammar = gfGrammar;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
 
 	public void init(Ontology ontology) {
-//		this.ontology = ontology;
 	}
 	
 	public TextOperator getTextOperator() {
@@ -47,13 +62,12 @@ public class GFHandler extends AbstractLanguageHandler {
 	
 	public List<Sentence> extractSentences(TextContainer tc, PredictiveParser parser) {
 		List<Sentence> l = new ArrayList<Sentence>();
-		l.add(new GFDeclaration(tc.getText()));
+		l.add(new GFDeclaration(tc.getText(), language, gfGrammar));
 		return l;
 	}
 	
 	public PredictiveParser getPredictiveParser() {
-		return new JPGFParser("ch/uzh/ifi/attempto/acewiki/gf/Foods.pgf", "FoodsEng");
-		//return new JPGFParser("ch/uzh/ifi/attempto/acewiki/gf/TestAttempto.pgf", "TestAttemptoEng");
+		return new GFPredictiveParser(gfGrammar, language);
 	}
 	
 	public EditorController getEditorController() {

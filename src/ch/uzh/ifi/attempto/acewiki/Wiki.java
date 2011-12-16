@@ -99,6 +99,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 
 	private final Ontology ontology;
 	private final AceWikiEngine engine;
+	private String language;
 	private User user;
 	private OntologyExportManager ontologyExportManager;
 	private static AceWikiStorage storage;
@@ -164,6 +165,10 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		
 		ontology = storage.getOntology(getParameter("ontology"), parameters);
 		engine = ontology.getEngine();
+		language = getParameter("language");
+		if (language == null || language.equals("")) {
+			language = engine.getLanguages()[0];
+		}
 		logger = new Logger(getParameter("context:logdir") + "/" + ontology.getName(), "anon", sessionID);
 		application = (AceWikiApp) ApplicationInstance.getActive();
 		taskQueue = application.createTaskQueue();
@@ -173,7 +178,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			ontologyExportManager.addExporter(o);
 		}
 		ontologyExportManager.addExporter(new LexiconTableExporter());
-		ontologyExportManager.addExporter(new StatementTableExporter());
+		ontologyExportManager.addExporter(new StatementTableExporter(language));
 		ontologyExportManager.addExporter(new AceWikiDataExporter());
 		
 		SplitPane splitPane1 = new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM);
@@ -935,12 +940,21 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	}
 	
 	/**
+	 * Returns the language of this wiki instance.
+	 * 
+	 * @return The name of the language.
+	 */
+	public String getLanguage() {
+		return language;
+	}
+	
+	/**
 	 * Returns the language handler.
 	 * 
 	 * @return The language handler.
 	 */
 	public LanguageHandler getLanguageHandler() {
-		return engine.getLanguageHandler();
+		return engine.getLanguageHandler(language);
 	}
 	
 	/**

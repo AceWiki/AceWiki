@@ -210,7 +210,7 @@ public class CommentComponent extends Column implements ActionListener {
 			} else if (s.startsWith("[[") && s.endsWith("]]")) {
 				String name = s.substring(2, s.length()-2);
 				Wiki wiki = hostPage.getWiki();
-				TextElement te = wiki.getOntology().getTextOperator().createTextElement(name);
+				TextElement te = wiki.getLanguageHandler().getTextOperator().createTextElement(name);
 				if (te instanceof OntologyTextElement) {
 					OntologyTextElement ote = (OntologyTextElement) te;
 					OntologyElement oe = ote.getOntologyElement();

@@ -26,9 +26,9 @@ import ch.uzh.ifi.attempto.acewiki.core.SentenceSuggestion;
  */
 public class AToEverySuggestion implements SentenceSuggestion {
 	
-	private Sentence sentence;
+	private ACESentence sentence;
 	
-	AToEverySuggestion(Sentence sentence) {
+	AToEverySuggestion(ACESentence sentence) {
 		this.sentence = sentence;
 	}
 	

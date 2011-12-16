@@ -27,11 +27,13 @@ import ch.uzh.ifi.attempto.base.TextElement;
 public interface Sentence extends Statement {
 	
 	/**
-	 * Returns a list of text elements that represent the tokens of this sentence.
+	 * Returns a list of text elements that represent the tokens of this sentence in the given
+	 * language.
 	 * 
+	 * @param language The language.
 	 * @return A token list.
 	 */
-	public List<TextElement> getTextElements();
+	public List<TextElement> getTextElements(String language);
 	
 	/**
 	 * Returns true if this sentence can participate in reasoning.
@@ -78,10 +80,11 @@ public interface Sentence extends Statement {
 	public boolean isImmutable();
 	
 	/**
-	 * Returns a list of sentence details to be shown to the user.
+	 * Returns a list of sentence details in the given language.
 	 * 
+	 * @param language The language.
 	 * @return A list of sentence details.
 	 */
-	public List<SentenceDetail> getDetails();
+	public List<SentenceDetail> getDetails(String language);
 
 }
