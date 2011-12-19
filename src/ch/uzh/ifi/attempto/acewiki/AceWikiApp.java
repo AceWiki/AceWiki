@@ -54,17 +54,18 @@ class AceWikiApp extends ApplicationInstance {
 	/**
 	 * Creates a new AceWiki application instance.
 	 *
+     * @param backend The backend object contains ontology of the wiki.
 	 * @param parameters A set of parameters in the form of name/value pairs.
 	 */
-	public AceWikiApp(Backend backend) {
+	public AceWikiApp(Backend backend, Map<String, String> parameters) {
         this.backend = backend;
-		this.parameters = backend.getParameters();
+		this.parameters = parameters;
 	}
 
 	public Window init() {
 		setStyleSheet(Style.styleSheet);
 		window = new Window();
-		wiki = new Wiki(backend, sessionID++);
+		wiki = new Wiki(backend, parameters, sessionID++);
 		wiki.log("syst", "start session");
 
 		// Show login window if required:
@@ -88,7 +89,7 @@ class AceWikiApp extends ApplicationInstance {
 	 */
 	public void logout() {
 		wiki.dispose();
-		wiki = new Wiki(backend, sessionID++);
+		wiki = new Wiki(backend, parameters, sessionID++);
 		wiki.log("syst", "start session");
 		if (wiki.isLoginRequiredForViewing()) {
 			wiki.showLoginWindow();

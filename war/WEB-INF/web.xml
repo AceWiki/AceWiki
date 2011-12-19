@@ -110,7 +110,8 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
 
     <!--
-        The parameter make this servlet startup before AceWiki servlet.
+        This parameter make servlet container instantiation the serlvet at
+        startup.
     -->
     <load-on-startup>1</load-on-startup>
 
@@ -132,47 +133,6 @@
     <init-param>
       <param-name>baseuri</param-name>
       <param-value>http://attempto.ifi.uzh.ch/acewiki/</param-value>
-    </init-param>
-
-    <!--
-      The parameter 'title' defines the title that is shown below the AceWiki logo.
-    -->
-    <init-param>
-      <param-name>title</param-name>
-      <param-value>AceWiki test</param-value>
-    </init-param>
-
-    <!--
-      The 'login' parameter defines whether the login features are enabled: 'no' means that no
-      login is possible (default); 'yes' means that login with password protection is enabled. The
-      option 'nonpw' for a login without password is no longer supported.
-    -->
-    <init-param>
-      <param-name>login</param-name>
-      <param-value>yes</param-value>
-    </init-param>
-
-    <!--
-      The 'login_required' parameter defines if and when login is required: 'no' means that no
-      login is required to view and edit the wiki data (default); 'edit' means that login is
-      required to edit the wiki data but not to view it; 'yes' means that login is required for
-      viewing or editing the wiki data. This option is only relevant if the 'login' option is set
-      to 'yes'.
-    -->
-    <init-param>
-      <param-name>login_required</param-name>
-      <param-value>edit</param-value>
-    </init-param>
-
-    <!--
-      The 'register' parameter defines whether users can register themselves: 'yes' means that
-      everyone can register (default); 'no' means that only users who are already registered
-      (either done manually on the server or registered earlier when this option was 'yes') can
-      login. This option is only relevant if the 'login' option is set to 'yes'.
-    -->
-    <init-param>
-      <param-name>register</param-name>
-      <param-value>yes</param-value>
     </init-param>
 
     <!--
@@ -229,6 +189,62 @@
       <param-value>OWL2Full</param-value>
     </init-param>
 
+  </servlet>
+
+  <!--
+      This AceWiki servlet using above Backend servlet as it backend.
+  -->
+  <servlet>
+    <servlet-name>AceWiki</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+
+    <!-- this parameter is set the to name of backend servlet to use -->
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>AceWikiBackend</param-value>
+    </init-param>
+
+    <!--
+      The parameter 'title' defines the title that is shown below the AceWiki logo.
+    -->
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>AceWiki test</param-value>
+    </init-param>
+
+    <!--
+      The 'login' parameter defines whether the login features are enabled: 'no' means that no
+      login is possible (default); 'yes' means that login with password protection is enabled. The
+      option 'nonpw' for a login without password is no longer supported.
+    -->
+    <init-param>
+      <param-name>login</param-name>
+      <param-value>yes</param-value>
+    </init-param>
+
+    <!--
+      The 'login_required' parameter defines if and when login is required: 'no' means that no
+      login is required to view and edit the wiki data (default); 'edit' means that login is
+      required to edit the wiki data but not to view it; 'yes' means that login is required for
+      viewing or editing the wiki data. This option is only relevant if the 'login' option is set
+      to 'yes'.
+    -->
+    <init-param>
+      <param-name>login_required</param-name>
+      <param-value>edit</param-value>
+    </init-param>
+
+    <!--
+      The 'register' parameter defines whether users can register themselves: 'yes' means that
+      everyone can register (default); 'no' means that only users who are already registered
+      (either done manually on the server or registered earlier when this option was 'yes') can
+      login. This option is only relevant if the 'login' option is set to 'yes'.
+    -->
+    <init-param>
+      <param-name>register</param-name>
+      <param-value>yes</param-value>
+    </init-param>
+
     <!--
       The parameter 'readonly' can be used to lock the wiki data so that no changes can be made.
       The default is 'off'.
@@ -238,21 +254,6 @@
       <param-value>off</param-value>
     </init-param>
 
-  </servlet>
-
-  <!--
-      This AceWiki servlet using above Backend servlet as it backend.
-  -->
-  <servlet>
-    <servlet-name>AceWiki</servlet-name>
-    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
-    <!-- this parameter make this servlet start after its backend servlet -->
-    <load-on-startup>2</load-on-startup>
-    <!-- this parameter is set the to name of backend servlet to use -->
-    <init-param>
-      <param-name>backend</param-name>
-      <param-value>AceWikiBackend</param-value>
-    </init-param>
   </servlet>
 
   <!--
@@ -276,7 +277,6 @@
   <servlet>
     <servlet-name>AceWiki2</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
-    <load-on-startup>2</load-on-startup>
     <init-param>
       <param-name>backend</param-name>
       <param-value>AceWikiBackend2</param-value>

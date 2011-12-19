@@ -153,11 +153,12 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	/**
 	 * Creates a new wiki instance.
 	 *
+     * @param backend The backend object contains ontology of the wiki.
 	 * @param parameters A set of parameters in the form of name/value pairs.
 	 * @param sessionID The session id.
 	 */
-	Wiki(Backend backend, int sessionID) {
-		this.parameters = backend.getParameters();
+	Wiki(Backend backend, Map<String, String> parameters, int sessionID) {
+		this.parameters = parameters;
 
         storage = backend.getStorage();
 		ontology = backend.getOntology();
