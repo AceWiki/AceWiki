@@ -97,7 +97,7 @@ APE 6.6-110816+ (commit 8aa6abad14ea2519f4d599c43ca9fc01fca54b62)
   copyright: 2008-2011 Attempto Group
   licenses:  GNU Lesser General Public License version 3 or later (see licenses/gpl-3.txt)
 
-HermiT 1.3.2
+HermiT 1.3.5
   files:     HermiT.jar
   url:       http://hermit-reasoner.com/
   copyright: 2009 Oxford University Computing Laboratory
