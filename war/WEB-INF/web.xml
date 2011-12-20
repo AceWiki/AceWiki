@@ -445,27 +445,11 @@
   </servlet-mapping>
 
   <!--
-      This is the mapping for the first AceWiki backend instance.
-  -->
-  <servlet-mapping>
-    <servlet-name>AceWikiBackend</servlet-name>
-    <url-pattern>/acewiki/backend</url-pattern>
-  </servlet-mapping>
-
-  <!--
     This is the mapping for the second AceWiki instance.
   -->
   <servlet-mapping>
     <servlet-name>AceWiki2</servlet-name>
     <url-pattern>/acewiki2/</url-pattern>
-  </servlet-mapping>
-
-  <!--
-      This is the mapping for the first AceWiki backend instance.
-  -->
-  <servlet-mapping>
-    <servlet-name>AceWikiBackend2</servlet-name>
-    <url-pattern>/acewiki2/backend</url-pattern>
   </servlet-mapping>
 
   <!--
