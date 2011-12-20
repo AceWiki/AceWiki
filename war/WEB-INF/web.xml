@@ -4,8 +4,7 @@
   "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <!--
-  This file is an exemplary web.xml file for the Attempto web applications (i.e. the ACE Editor and
-  AceWiki).
+  This file is an exemplary web.xml file to start AceWiki and the ACE Editor.
 -->
 
 <web-app>
@@ -19,11 +18,11 @@
   <!-- Parameters -->
 
   <!--
-      AceWiki needs to access APE, either direct call "ape.exe" which can be
-      compiled from the APE package that is available on the Attempto download
-      page, or communicate to a APE server via socket or web service. This
-      parameter specify howto access APE, only "local", "socket" and
-      "webservice" are allowed.
+    AceWiki needs to connect to the ACE parser (APE). This can be done by either
+    directly call "ape.exe" (which can be compiled from the APE package), or by
+    communicating to an APE server via a socket or a web service connection. This
+    parameter specifies how APE should be accessed: "local", "socket" and
+    "webservice" are allowed values.
   -->
   <context-param>
     <param-name>apetype</param-name>
@@ -31,11 +30,11 @@
   </context-param>
 
   <!--
-      This parameter defines the name (should always be "ape.exe") and the
-      path of the executable when apetype is "local". The path can be omitted
-      if the executable is located in the home directory of the servlet
-      container service. Note that putting the path of "ape.exe" into the PATH
-      environment variable is not sufficient.
+    This parameter defines the name (should always be "ape.exe") and the
+    path of the executable when apetype is "local". The path can be omitted
+    if the executable is located in the home directory of the servlet
+    container service. Note that putting the path of "ape.exe" into the PATH
+    environment variable is not sufficient.
   -->
   <context-param>
     <param-name>apecommand</param-name>
@@ -43,8 +42,8 @@
   </context-param>
 
   <!--
-      This parameter defines the host of APE socket server, when apetype is
-      "socket".
+    This parameter defines the host of the APE socket server for the case
+    that apetype is "socket".
   -->
   <context-param>
     <param-name>apehost</param-name>
@@ -52,9 +51,9 @@
   </context-param>
 
   <!--
-      This parameter defines the port of APE socket server, when apetype is
-      "socket". You can set up a locally running APE socket server by:
-      ape.exe -server -port 2766
+    This parameter defines the port of APE socket server, when apetype is
+    "socket". You can set up a locally running APE socket server by:
+    ape.exe -server -port 2766
   -->
   <context-param>
     <param-name>apeport</param-name>
@@ -62,11 +61,11 @@
   </context-param>
 
   <!--
-      This parameter defines the URL of APE web service, when apetype is
-      "webservice". There is a demo webservice running at:
-      http://attempto.ifi.uzh.ch/ws/ape/apews.perl
-      but it is recommended to set up your own webservice using e.g.
-      ape.exe -httpserver -port 8000
+    This parameter defines the URL of an APE web service for the case that
+    apetype is "webservice". There is a demo webservice running at:
+    http://attempto.ifi.uzh.ch/ws/ape/apews.perl
+    but it is recommended to set up your own webservice using e.g.
+    ape.exe -httpserver -port 8000
   -->
   <context-param>
     <param-name>apewebservice</param-name>
@@ -95,7 +94,8 @@
 
 
   <!--
-    The following is an exemplary servlet definition for an AceWiki Backend instance.
+    The following is an exemplary servlet definition for an AceWiki backend. A backend manages the
+    ontology, and several frontends can connect to one backend (i.e. connect to the same ontology).
   -->
   <servlet>
 
@@ -110,8 +110,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
 
     <!--
-        This parameter make servlet container instantiation the serlvet at
-        startup.
+      This parameter ensures that the backend starts before the frontend.
     -->
     <load-on-startup>1</load-on-startup>
 
@@ -192,13 +191,17 @@
   </servlet>
 
   <!--
-      This AceWiki servlet using above Backend servlet as it backend.
+    The following is an AceWiki frontend servlet connecting to the above defined backend. (It is
+    possible to combine the frontend and backend in one single servlet by defining the respective
+    parameters in the same servlet definition.)
   -->
   <servlet>
     <servlet-name>AceWiki</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
 
-    <!-- this parameter is set the to name of backend servlet to use -->
+    <!--
+      This parameter refers to the backend servlet.
+    -->
     <init-param>
       <param-name>backend</param-name>
       <param-value>AceWikiBackend</param-value>
@@ -258,7 +261,7 @@
 
   <!--
     You can have several servlet definitions of the same servlet class within a single web.xml
-    file. The code below launches a second AceWiki Backend instance.
+    file. The code below launches a second AceWiki backend instance with a second frontend.
   -->
   <servlet>
     <servlet-name>AceWikiBackend2</servlet-name>
@@ -442,7 +445,7 @@
   </servlet-mapping>
 
   <!--
-      This is the mapping for the first AceWiki Backend instance.
+      This is the mapping for the first AceWiki backend instance.
   -->
   <servlet-mapping>
     <servlet-name>AceWikiBackend</servlet-name>
@@ -458,7 +461,7 @@
   </servlet-mapping>
 
   <!--
-      This is the mapping for the first AceWiki Backend instance.
+      This is the mapping for the first AceWiki backend instance.
   -->
   <servlet-mapping>
     <servlet-name>AceWikiBackend2</servlet-name>

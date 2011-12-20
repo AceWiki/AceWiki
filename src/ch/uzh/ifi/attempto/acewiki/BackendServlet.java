@@ -14,33 +14,22 @@
 
 package ch.uzh.ifi.attempto.acewiki;
 
-import javax.servlet.ServletException;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServlet;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.io.Reader;
-
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Enumeration;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 
 import ch.uzh.ifi.attempto.base.APE;
 
 /**
- * This class is a servlet that create a Backend object and share it to AceWiki Servlet.
+ * This class is a servlet that creates a Backend object and shares it with the AceWiki servlet.
  *
- * To use a Backend object from a particular BackendServlet, add "backend"
- * parameter to AceWiki servlet configure and set its value to the BackendServlet
+ * To use a Backend object from a particular BackendServlet, add a "backend"
+ * parameter to the AceWiki servlet configuration and set its value to the BackendServlet
  * name.
  * <servlet>
  *   <servlet-name>acewiki1<servlet-name>
@@ -58,7 +47,7 @@ import ch.uzh.ifi.attempto.base.APE;
  *   <!-- other parameter -->
  * </servlet>
  *
- * This servlet accept all parameters the original AceWiki accept.
+ * This servlet accepts all parameters that the AceWiki servlet accepts.
  *
  * @author Yu Changyuan
  */
@@ -67,7 +56,7 @@ public class BackendServlet extends HttpServlet {
     private static final long serialVersionUID = 1358039576597838L;
 
     @SuppressWarnings("rawtypes")
-        private Map<String, String> getInitParameters(ServletConfig config) {
+    private Map<String, String> getInitParameters(ServletConfig config) {
 
         Map<String, String> initParameters = new HashMap<String, String>();
         Enumeration paramEnum = config.getInitParameterNames();
@@ -87,6 +76,24 @@ public class BackendServlet extends HttpServlet {
         Map<String, String> parameters = getInitParameters(config);
         String name = config.getServletName();
 
+        setDefaultValues(parameters);
+
+        APE.setParameters(parameters);
+
+        backend = new Backend(parameters);
+
+        ServletContext ctx = config.getServletContext();
+        ctx.setAttribute(name, backend);
+
+        super.init(config);
+    }
+
+    /**
+     * Sets some default values for the given parameter map.
+     * 
+     * @param parameters The parameter map.
+     */
+    public static void setDefaultValues(Map<String, String> parameters) {
         if (parameters.get("context:apecommand") == null) {
             parameters.put("context:apecommand", "ape.exe");
         }
@@ -98,15 +105,6 @@ public class BackendServlet extends HttpServlet {
         if (parameters.get("context:datadir") == null) {
             parameters.put("context:datadir", "data");
         }
-
-        APE.setParameters(parameters);
-
-        backend = new Backend(parameters);
-
-        ServletContext ctx = config.getServletContext();
-        ctx.setAttribute(name, backend);
-
-        super.init(config);
     }
 }
 

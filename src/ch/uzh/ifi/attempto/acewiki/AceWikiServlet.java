@@ -43,6 +43,7 @@ import ch.uzh.ifi.attempto.base.APE;
  * <code>-Xmx400m -Xss4m</code>
  *
  * @author Tobias Kuhn
+ * @author Yu Changyuan
  */
 public class AceWikiServlet extends WebContainerServlet {
 
@@ -101,17 +102,7 @@ public class AceWikiServlet extends WebContainerServlet {
         else {
             logger.log("appl", "application create backend.");
 
-            if (parameters.get("context:apecommand") == null) {
-                parameters.put("context:apecommand", "ape.exe");
-            }
-
-            if (parameters.get("context:logdir") == null) {
-                parameters.put("context:logdir", "logs");
-            }
-
-            if (parameters.get("context:datadir") == null) {
-                parameters.put("context:datadir", "data");
-            }
+            BackendServlet.setDefaultValues(parameters);
 
             APE.setParameters(parameters);
 
@@ -166,7 +157,7 @@ public class AceWikiServlet extends WebContainerServlet {
 	}
 
     @SuppressWarnings("rawtypes")
-        private Map<String, String> getInitParameters(ServletConfig config) {
+    private Map<String, String> getInitParameters(ServletConfig config) {
 
         Map<String, String> initParameters = new HashMap<String, String>();
         Enumeration paramEnum = config.getInitParameterNames();

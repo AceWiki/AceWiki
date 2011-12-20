@@ -14,19 +14,14 @@
 
 package ch.uzh.ifi.attempto.acewiki;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.ArrayList;
-import java.util.List;
 
-import ch.uzh.ifi.attempto.acewiki.core.WordIndex;
-import ch.uzh.ifi.attempto.acewiki.core.Ontology;
-import ch.uzh.ifi.attempto.acewiki.core.AceWikiEngine;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiStorage;
 import ch.uzh.ifi.attempto.acewiki.core.FileBasedStorage;
+import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 
 /**
- * This class is used as the backend of a AceWiki.
+ * This class is used as the backend of an AceWiki.
  * It contains the ontology for the AceWiki and the parameters.
  *
  * @author Yu Changyuan
@@ -77,10 +72,10 @@ public class Backend {
     }
 
     /**
-     * Get a specify parameter for this Backend.
+     * Get a specific parameter for this Backend.
      *
      * @param param The parameter name.
-     * @return The value of the parameter, or null if the parameter not exist.
+     * @return The value of the parameter, or null if the parameter does not exist.
      */
     public String getParameter(String param) {
         return parameters.get(param);

@@ -45,7 +45,6 @@ import nextapp.echo.webcontainer.ContainerContext;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiDataExporter;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiEngine;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiStorage;
-import ch.uzh.ifi.attempto.acewiki.core.FileBasedStorage;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageHandler;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconTableExporter;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
