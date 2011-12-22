@@ -146,6 +146,7 @@
                  have to copy the files pellet-cli.jar, pellet-core.jar, pellet-datatypes.jar,
                  pellet-el.jar, pellet-owlapiv3.jar, and pellet-rules.jar into the directory "lib".
                  Pellet version 2.0.0 or later is needed.
+      'none':    No reasoner is used.
     -->
     <init-param>
       <param-name>reasoner</param-name>
