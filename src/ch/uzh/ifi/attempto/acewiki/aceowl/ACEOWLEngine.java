@@ -19,7 +19,6 @@ import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageHandler;
 import ch.uzh.ifi.attempto.acewiki.core.MonolingualEngine;
-import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.owl.AceWikiOWLReasoner;
@@ -47,10 +46,6 @@ public class ACEOWLEngine extends MonolingualEngine {
 		addExporter(new ACELexiconExporter());
 		
 		setLexicalTypes("propername", "noun", "nounof", "trverb", "tradj");
-	}
-
-	public void init(Ontology ontology) {
-		super.init(ontology);
 	}
 	
 	public LanguageHandler getLanguageHandler() {

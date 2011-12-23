@@ -32,7 +32,7 @@ import org.grammaticalframework.parser.ParseState;
  */
 public class GFGrammar {
 	
-	private String pgfFile;
+	private String fileName;
 	private String serializationLanguage;
 	private PGF pgf;
 	private Map<String, Parser> parsers = new HashMap<String, Parser>();
@@ -41,16 +41,18 @@ public class GFGrammar {
 	/**
 	 * Creates a new GF grammar object.
 	 * 
-	 * @param pgfPath The internal path to the pgf file.
-	 * @param pgfFile The name of the pgf file without ending.
+	 * @param pgfFile Path and name of the pgf file.
 	 * @param serializationLanguage The language used for serialization.
 	 */
-	public GFGrammar(String pgfPath, String pgfFile, String serializationLanguage) {
-		this.pgfFile = pgfFile;
+	public GFGrammar(String pgfFile, String serializationLanguage) {
+		if (!pgfFile.matches("^.*/[^\\/]+.pgf$")) {
+			throw new RuntimeException("Illegal pgf filename");
+		}
+		fileName = pgfFile.replaceFirst("^.*/([^\\/]+).pgf$", "$1");
 		this.serializationLanguage = serializationLanguage;
 		try {
 			ClassLoader cl = Thread.currentThread().getContextClassLoader();
-			InputStream in = cl.getResourceAsStream(pgfPath + pgfFile + ".pgf");
+			InputStream in = cl.getResourceAsStream(pgfFile);
 			pgf = PGFBuilder.fromInputStream(in);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -61,7 +63,7 @@ public class GFGrammar {
 		Parser p = parsers.get(language);
 		if (p == null) {
 			try {
-				p = new Parser(pgf, pgfFile + language);
+				p = new Parser(pgf, fileName + language);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -106,7 +108,7 @@ public class GFGrammar {
 		Linearizer l = linearizers.get(language);
 		if (l == null) {
 			try {
-				l = new Linearizer(pgf, pgfFile + language);
+				l = new Linearizer(pgf, fileName + language);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}

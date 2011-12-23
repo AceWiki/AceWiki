@@ -286,6 +286,109 @@
       <param-value>AceWikiBackend2</param-value>
     </init-param>
   </servlet>
+  
+  
+  <!--
+    The following servlets (one backend and three frontends) start an experimental version of a
+    GF-based wiki that can be viewed and edited in different languages.
+  -->
+  <servlet>
+  
+    <servlet-name>GFWikiBackend</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    
+    <!--
+      This parameter has the consequence that the GF-engine is used instead of the default one.
+    -->
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gf.GFEngine</param-value>
+    </init-param>
+    
+    <!--
+      This points to the pgf file with the grammar definition.
+    -->
+    <init-param>
+      <param-name>pgf_file</param-name>
+      <param-value>ch/uzh/ifi/attempto/acewiki/gf/Foods.pgf</param-value>
+    </init-param>
+    
+    <!--
+      This parameter defines all supported languages as a comma-separated list. The first
+      one is the default, which is used for logging and for serialization.
+    -->
+    <init-param>
+      <param-name>languages</param-name>
+      <param-value>Eng,Ger,Ita</param-value>
+    </init-param>
+    
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>gf</param-value>
+    </init-param>
+  
+  </servlet>
+  
+  <servlet>
+  
+    <servlet-name>GFWikiEng</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>GFWikiBackend</param-value>
+    </init-param>
+    
+    <!--
+      This parameter defines the language of the frontend instance.
+    -->
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>Eng</param-value>
+    </init-param>
+    
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>GF Wiki in English</param-value>
+    </init-param>
+  
+  </servlet>
+
+  <servlet>
+    <servlet-name>GFWikiGer</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>GFWikiBackend</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>Ger</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>GF Wiki in German</param-value>
+    </init-param>
+  </servlet>
+
+  <servlet>
+    <servlet-name>GFWikiIta</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>GFWikiBackend</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>Ita</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>GF Wiki in Italian</param-value>
+    </init-param>
+  </servlet>
+
 
   <!--
     The following is an exemplary servlet definition for an ACE Editor instance.
@@ -346,89 +449,6 @@
   </servlet>
   
   
-  <!--
-    The following three servlets start an experimental version of a GF-based wiki that can be
-    viewed and edited in different languages.
-  -->
-  <servlet>
-  
-    <servlet-name>GFWikiEng</servlet-name>
-    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
-    
-    <!--
-      This parameter has the consequence that the GF-engine is used instead of the default one.
-    -->
-    <init-param>
-      <param-name>engine_class</param-name>
-      <param-value>ch.uzh.ifi.attempto.acewiki.gf.GFEngine</param-value>
-    </init-param>
-    
-    <!--
-      This parameter defines the language of the servlet instance.
-    -->
-    <init-param>
-      <param-name>language</param-name>
-      <param-value>Eng</param-value>
-    </init-param>
-    
-    <!--
-      The different language versions point to the same ontology
-    -->
-    <init-param>
-      <param-name>ontology</param-name>
-      <param-value>gf</param-value>
-    </init-param>
-    
-    <init-param>
-      <param-name>title</param-name>
-      <param-value>GF Wiki in English</param-value>
-    </init-param>
-  
-  </servlet>
-
-  <servlet>
-    <servlet-name>GFWikiGer</servlet-name>
-    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
-    <init-param>
-      <param-name>engine_class</param-name>
-      <param-value>ch.uzh.ifi.attempto.acewiki.gf.GFEngine</param-value>
-    </init-param>
-    <init-param>
-      <param-name>language</param-name>
-      <param-value>Ger</param-value>
-    </init-param>
-    <init-param>
-      <param-name>ontology</param-name>
-      <param-value>gf</param-value>
-    </init-param>
-    <init-param>
-      <param-name>title</param-name>
-      <param-value>GF Wiki in German</param-value>
-    </init-param>
-  </servlet>
-
-  <servlet>
-    <servlet-name>GFWikiIta</servlet-name>
-    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
-    <init-param>
-      <param-name>engine_class</param-name>
-      <param-value>ch.uzh.ifi.attempto.acewiki.gf.GFEngine</param-value>
-    </init-param>
-    <init-param>
-      <param-name>language</param-name>
-      <param-value>Ita</param-value>
-    </init-param>
-    <init-param>
-      <param-name>ontology</param-name>
-      <param-value>gf</param-value>
-    </init-param>
-    <init-param>
-      <param-name>title</param-name>
-      <param-value>GF Wiki in Italian</param-value>
-    </init-param>
-  </servlet>
-  
-  
   <!-- Mappings -->
 
   <!--
@@ -452,14 +472,6 @@
     <servlet-name>AceWiki2</servlet-name>
     <url-pattern>/acewiki2/</url-pattern>
   </servlet-mapping>
-
-  <!--
-    This is the mapping for the ACE Editor servlet.
-  -->
-  <servlet-mapping>
-    <servlet-name>ACE Editor</servlet-name>
-    <url-pattern>/aceeditor/</url-pattern>
-  </servlet-mapping>
   
   <!--
     These are the mappings for the multilingual GF engine (experimental).
@@ -475,6 +487,14 @@
   <servlet-mapping>
     <servlet-name>GFWikiIta</servlet-name>
     <url-pattern>/gfita/</url-pattern>
+  </servlet-mapping>
+
+  <!--
+    This is the mapping for the ACE Editor servlet.
+  -->
+  <servlet-mapping>
+    <servlet-name>ACE Editor</servlet-name>
+    <url-pattern>/aceeditor/</url-pattern>
   </servlet-mapping>
   
 </web-app>

@@ -47,6 +47,7 @@ public abstract class AbstractAceWikiEngine implements AceWikiEngine {
 		    } catch (Exception ex) {
 		        ontology.log("Failed to load engine object: " + n);
 		        System.err.println("Failed to load engine object: " + n);
+		        ex.printStackTrace();
 		    }
 		}
 		

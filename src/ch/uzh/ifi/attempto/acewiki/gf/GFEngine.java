@@ -23,36 +23,9 @@ import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.DummyReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageHandler;
+import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
-
-// To run AceWiki with this GF engine, add the following lines to web.xml:
-//
-// <servlet>
-//   <servlet-name>MoltoWikiEng</servlet-name>
-//   <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
-//   <init-param>
-//     <param-name>engine_class</param-name>
-//     <param-value>ch.uzh.ifi.attempto.acewiki.gf.GFEngine</param-value>
-//   </init-param>
-//   <init-param>
-//     <param-name>language</param-name>
-//     <param-value>Eng</param-value>
-//   </init-param>
-//   <init-param>
-//     <param-name>ontology</param-name>
-//     <param-value>molto</param-value>
-//   </init-param>
-//   <init-param>
-//     <param-name>title</param-name>
-//     <param-value>Molto Wiki in English</param-value>
-//   </init-param>
-// </servlet>
-// 
-// <servlet-mapping>
-//   <servlet-name>MoltoWikiEng</servlet-name>
-//   <url-pattern>/moltoeng/</url-pattern>
-// </servlet-mapping>
 
 /**
  * This is an AceWiki engine using GF (Grammatical Framework).
@@ -64,12 +37,21 @@ public class GFEngine extends AbstractAceWikiEngine {
 	private Map<String, GFHandler> languageHandlers = new HashMap<String, GFHandler>();
 	private AceWikiReasoner reasoner = new DummyReasoner();
 	private GFGrammar gfGrammar;
+	private Ontology ontology;
 	
 	/**
 	 * Creates a new GF-based AceWiki engine.
 	 */
 	public GFEngine() {
-		gfGrammar = new GFGrammar("ch/uzh/ifi/attempto/acewiki/gf/", "Foods", "Eng");
+	}
+
+	public void init(Ontology ontology) {
+		this.ontology = ontology;
+		gfGrammar = new GFGrammar(
+				ontology.getParameter("pgf_file"),
+				getLanguages()[0]
+			);
+		super.init(ontology);
 	}
 	
 	public LanguageHandler getLanguageHandler(String language) {
@@ -82,7 +64,7 @@ public class GFEngine extends AbstractAceWikiEngine {
 	}
 
 	public String[] getLanguages() {
-		return new String[] {"Eng", "Ger", "Ita"};
+		return ontology.getParameter("languages").split(",");
 	}
 	
 	/**
