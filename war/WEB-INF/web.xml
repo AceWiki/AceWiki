@@ -488,7 +488,24 @@
     <servlet-name>GFWikiIta</servlet-name>
     <url-pattern>/gfita/</url-pattern>
   </servlet-mapping>
-
+  
+  <!--
+    In some circumstances, the backends need URL-mappings too, because some environments skip
+    servlets without mappings.
+  -->
+  <servlet-mapping>
+    <servlet-name>AceWikiBackend</servlet-name>
+    <url-pattern>/acewiki/backend/</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AceWikiBackend2</servlet-name>
+    <url-pattern>/acewiki2/backend/</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GFWikiBackend</servlet-name>
+    <url-pattern>/gf/</url-pattern>
+  </servlet-mapping>
+  
   <!--
     This is the mapping for the ACE Editor servlet.
   -->
