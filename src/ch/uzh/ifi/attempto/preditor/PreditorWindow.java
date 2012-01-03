@@ -53,10 +53,10 @@ import echopoint.DirectHtml;
 //import static ch.uzh.ifi.attempto.echocomp.KeyStrokes.*;
 
 /**
- * This class represents a predictive editor window. The predictive editor enables easy creation of texts that
- * comply with a certain grammar. The users can create such a text word-by-word by clicking on one of different
- * menu items. The menu items are structured into menu blocks each of which has a name that is displayed above
- * the menu block.
+ * This class represents a predictive editor window. The predictive editor enables easy creation of
+ * texts that comply with a certain grammar. The users can create such a text word-by-word by
+ * clicking on one of different menu items. The menu items are structured into menu blocks each of
+ * which has a name that is displayed above the menu block.
  * 
  * @author Tobias Kuhn
  */
@@ -82,6 +82,9 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 	private GeneralButton clearButton = new GeneralButton("Clear", 70, this);
 	private Button okButton = new GeneralButton("OK", 70, this);
 	private Button cancelButton = new GeneralButton("Cancel", 70, this);
+	
+	private String textAreaStartText = "";
+	private String textAreaEndText = "<span style=\"color: rgb(150, 150, 150)\"> ...</span>";
 	
 	// TODO: reactive key combinations
 //	private KeyStrokeListener keyStrokeListener = new KeyStrokeListener();
@@ -235,6 +238,26 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 	}
 	
 	/**
+	 * Sets the text to be shown in the text area in front of the text entered by the user. The
+	 * default is an empty string.
+	 * 
+	 * @param textAreaStartText The text, possibly enriched with HTML tags.
+	 */
+	public void setTextAreaStartText(String textAreaStartText) {
+		this.textAreaStartText = textAreaStartText;
+	}
+	
+	/**
+	 * Sets the text to be shown in the text area at the end of the text entered by the user. The
+	 * default are three gray dots "...".
+	 * 
+	 * @param textAreaEndText The text, possibly enriched with HTML tags.
+	 */
+	public void setTextAreaEndText(String textAreaEndText) {
+		this.textAreaEndText = textAreaEndText;
+	}
+	
+	/**
 	 * Returns a copy of the text container object that contains the (partial) text that has been
 	 * entered.
 	 * 
@@ -331,8 +354,13 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 			prev = te;
 		}
 		if (t.startsWith(" ")) t = t.substring(1);
-		textArea.setText("<div style=\"font-family: Verdana,Arial,Helvetica,Sans-Serif; font-size: 12px\">" +
-				t + "<span style=\"color: rgb(150, 150, 150)\"> ...</span></div>");
+		textArea.setText(
+				"<div style=\"font-family: Verdana,Arial,Helvetica,Sans-Serif; font-size: 12px\">" +
+				textAreaStartText +
+				t +
+				textAreaEndText +
+				"</div>"
+			);
 		
 		menuBlockManager.clear();
 		
