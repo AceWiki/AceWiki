@@ -1,8 +1,38 @@
 AceWiki Change Log
 ------------------
 
-This file lists the changes between the different AceWiki versions. See the Bazaar log for more
+This file lists the changes between the different AceWiki versions. See the Git log for more
 details.
+
+
+Version 0.5.2
+
+- The AceWiki repository moved from Launchpad to GitHub, and thereby from Bazaar to Git.
+- The package structure has changed, with several new packages. See README.md for the details.
+- There is a new interface that enables the use of other predictive parsers besides the Codeco
+  chart-parser.
+- Redesign of the engine/language interfaces to support multilinguality: AceWikiEngine is the main
+  interface (language-independent). LanguageHandler is the interface for language-specific
+  behavior.
+- Experimental GF engine as an alternative to the ACE-OWL engine: It uses GF (Grammatical
+  Framework) to allow for automatic translations into other languages. The current prototype uses
+  a very simple "Foods" grammar for English, German and Italian. The GF engine is in a very early
+  stage of development and very buggy. Reasoning is not supported at the moment.
+- AceWiki applications can now be split into backends and frontends: Multiple frontends can connect
+  to the same backend, i.e. to the same ontology. See web.xml for the details.
+- jpl.jar (Java binding for SWI Prolog) is no longer part of the AceWiki package. Instead, AceWiki
+  needs to directly access the library of the given SWI Prolog installation with a Java argument of
+  the form "-Djava.library.path=/path/to/swipl/" pointing to the location of jpl.jar.
+- New AceWiki data format (for export/import): The new format includes IDs and links of the form
+  "<element-id,word-id>". It now corresponds to the internal format of the file-based storage, is
+  more general, and should be more stable. The old format is still supported for the time being.
+- The ACE parser (APE) can now be connected in three different ways: "local" (via jpl.jar),
+  "socket" or "webservice".
+- Internal refactoring, clean-up, and improvements (concerning serialization, manager/engine
+  classes, chart-parser interface, and more)
+- Simplification of ontology classes
+- More minor bug-fixes, improvements, refactoring, and clean-up
+
 
 Version 0.5.1
 
