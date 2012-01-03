@@ -98,7 +98,7 @@
              doctitle="AceWiki, version ${version}"
              overview="src/overview.html"
              linksource="on">
-            <bottom><![CDATA[<em>Copyright 2008-2011, AceWiki developers</em>]]></bottom>
+            <bottom><![CDATA[<em>Copyright 2008-2012, AceWiki developers</em>]]></bottom>
         </javadoc>
         <copy
             file="README.md"

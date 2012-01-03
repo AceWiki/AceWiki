@@ -1,7 +1,7 @@
 AceWiki
 =======
 
-Copyright 2008-2011, AceWiki developers.
+Copyright 2008-2012, AceWiki developers.
 
 AceWiki is a semantic wiki based on controlled natural language.
 
@@ -28,7 +28,7 @@ The following institutions are or were involved in the development of AceWiki:
 - University of Chile (2010)
 - University of Malta (2011)
 - University of Gothenburg, Sweden (since 2011)
-- University of Helsinki, Finland (since 2011)
+- University of Helsinki, Finland (2011)
 
 
 Repository
