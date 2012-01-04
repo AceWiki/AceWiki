@@ -112,7 +112,7 @@ public class SentenceComponent extends Column implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Edit...")) {
-			wiki.log("page", "dropdown: edit sentence: " + sentence.getText("Default"));
+			log("dropdown: edit sentence:");
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
 			} else {
@@ -122,7 +122,7 @@ public class SentenceComponent extends Column implements ActionListener {
 				wiki.showWindow(SentenceEditorHandler.generateEditWindow(sentence, page));
 			}
 		} else if (e.getActionCommand().equals("Add Sentence...")) {
-			wiki.log("page", "dropdown: add sentence");
+			log("dropdown: add sentence");
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
 			} else {
@@ -132,7 +132,7 @@ public class SentenceComponent extends Column implements ActionListener {
 					));
 			}
 		} else if (e.getActionCommand().equals("Add Comment...")) {
-			wiki.log("page", "dropdown: add comment");
+			log("dropdown: add comment");
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
 			} else {
@@ -142,7 +142,7 @@ public class SentenceComponent extends Column implements ActionListener {
 					));
 			}
 		} else if (e.getActionCommand().equals("Delete")) {
-			wiki.log("page", "dropdown: delete sentence: " + sentence.getText("Default"));
+			log("dropdown: delete sentence:");
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
 			} else {
@@ -156,7 +156,7 @@ public class SentenceComponent extends Column implements ActionListener {
 					));
 			}
 		} else if (e.getActionCommand().equals("Reassert")) {
-			wiki.log("page", "dropdown: reassert: " + sentence.getText("Default"));
+			log("dropdown: reassert:");
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
 			} else {
@@ -176,7 +176,7 @@ public class SentenceComponent extends Column implements ActionListener {
 				}
 			}
 		} else if (e.getActionCommand().equals("Retract")) {
-			wiki.log("page", "dropdown: retract: " + sentence.getText("Default"));
+			log("dropdown: retract:");
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
 			} else {
@@ -185,10 +185,10 @@ public class SentenceComponent extends Column implements ActionListener {
 				hostPage.update();
 			}
 		} else if (e.getActionCommand().equals("Show Details")) {
-			wiki.log("page", "dropdown: details sentence: " + sentence.getText("Default"));
+			log("dropdown: details sentence:");
 			wiki.showPage(new SentencePage(wiki, sentence));
 		} else if (e.getSource() instanceof MessageWindow && e.getActionCommand().equals("Yes")) {
-			wiki.log("page", "dropdown: delete confirmed: " + sentence.getText("Default"));
+			log("dropdown: delete confirmed:");
 			
 			wiki.enqueueStrongAsyncTask(
 				"Updating",
@@ -204,6 +204,13 @@ public class SentenceComponent extends Column implements ActionListener {
 				}
 			);
 		}
+	}
+	
+	private void log(String text) {
+		if (text.endsWith(":")) {
+			text += " " + sentence.getText(wiki.getEngine().getLanguages()[0]);
+		}
+		wiki.log("page", text);
 	}
 
 }

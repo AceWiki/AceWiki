@@ -82,7 +82,7 @@ public class SentencePage extends WikiPage {
 	}
 	
 	public String toString() {
-		return sentence.getText("Default");
+		return sentence.getText(getWiki().getEngine().getLanguages()[0]);
 	}
 
 }
