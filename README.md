@@ -120,6 +120,10 @@ Linux) is located. For example:
 
     -Djava.library.path="/usr/lib/pl-5.8.3/lib/i386-linux"
 
+The jpl.jar file is no longer part of the AceWiki package. You have to refer to the file of your
+SWI Prolog installation and include it in the Java classpath (something like
+/usr/lib/pl-5.8.3/lib/jpl.jar).
+
 Under Linux, the environment variable LD_PRELOAD has to be set additionally to refer to the SWI
 Prolog library file:
 
