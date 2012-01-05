@@ -171,12 +171,13 @@
     />
 	
     <target name="createzip"
-            description="Create the ZIP file">
+            description="Create the ZIP file"
+    	    depends="buildeverything">
         <zip
             destfile="acewiki-${version}.zip"
             basedir="."
             includes="**"
-            excludes="*.zip *.war .* .git/** classes/** war/WEB-INF/lib/** **/local/**"
+            excludes="*.zip *.war .* .git/** classes/** war/WEB-INF/lib/** **/local/** /lib/pellet-*.jar .settings/** data/** logs/** ape.exe"
         />
     </target>
 
