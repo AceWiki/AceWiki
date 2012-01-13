@@ -22,7 +22,6 @@ import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Article;
-import ch.uzh.ifi.attempto.acewiki.core.Comment;
 import ch.uzh.ifi.attempto.acewiki.core.InconsistencyException;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageHandler;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
@@ -74,8 +73,8 @@ public class SentenceEditorHandler implements ActionListener {
 		editorWindow.setTextOperator(lh.getTextOperator());
 		
 		if (edit) {
-			Comment c = (Comment) statement;
-			editorWindow.addText(LanguageUtils.getPrettyPrinted(c.getText()) + " ");
+			String t = statement.getText(wiki.getLanguage());
+			editorWindow.addText(LanguageUtils.getPrettyPrinted(t) + " ");
 		}
 	}
 	
