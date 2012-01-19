@@ -5,6 +5,11 @@ This file lists the changes between the different AceWiki versions. See the Git 
 details.
 
 
+Version 0.5.3
+
+- Fix serious bug: crash when editing a sentence
+
+
 Version 0.5.2
 
 - The AceWiki repository moved from Launchpad to GitHub, and thereby from Bazaar to Git.
