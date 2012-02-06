@@ -303,7 +303,7 @@
     -->
     <init-param>
       <param-name>engine_class</param-name>
-      <param-value>ch.uzh.ifi.attempto.acewiki.gf.GFEngine</param-value>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
     </init-param>
     
     <!--
@@ -312,6 +312,16 @@
     <init-param>
       <param-name>pgf_file</param-name>
       <param-value>ch/uzh/ifi/attempto/acewiki/gf/Foods.pgf</param-value>
+    </init-param>
+
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>grammars/Foods.pgf</param-value>
+    </init-param>
+
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://localhost:41296/</param-value>
     </init-param>
     
     <!--
