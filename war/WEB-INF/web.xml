@@ -330,7 +330,7 @@
     -->
     <init-param>
       <param-name>languages</param-name>
-      <param-value>Eng,Ger,Ita</param-value>
+      <param-value>FoodsEng,FoodsGer,FoodsIta</param-value>
     </init-param>
     
     <init-param>
@@ -355,7 +355,7 @@
     -->
     <init-param>
       <param-name>language</param-name>
-      <param-value>Eng</param-value>
+      <param-value>FoodsEng</param-value>
     </init-param>
     
     <init-param>
@@ -374,7 +374,7 @@
     </init-param>
     <init-param>
       <param-name>language</param-name>
-      <param-value>Ger</param-value>
+      <param-value>FoodsGer</param-value>
     </init-param>
     <init-param>
       <param-name>title</param-name>
@@ -391,7 +391,7 @@
     </init-param>
     <init-param>
       <param-name>language</param-name>
-      <param-value>Ita</param-value>
+      <param-value>FoodsIta</param-value>
     </init-param>
     <init-param>
       <param-name>title</param-name>

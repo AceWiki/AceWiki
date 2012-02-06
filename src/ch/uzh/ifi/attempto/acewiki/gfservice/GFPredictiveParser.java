@@ -96,7 +96,7 @@ public class GFPredictiveParser implements PredictiveParser {
 		if (nextTokenOptions == null) {
 			Set<ConcreteOption> options = new HashSet<ConcreteOption>();
 			try {
-				Set<String> completions = gfGrammar.complete(Joiner.on(" ").join(tokens) + " ", language);
+				Set<String> completions = gfGrammar.complete(getCompletionInput(), language);
 				for (String s : completions) {
 					options.add(new SimpleConcreteOption(s));
 				}
@@ -114,19 +114,24 @@ public class GFPredictiveParser implements PredictiveParser {
 	}
 
 	public boolean isComplete() {
-		Set<String> result = null;
 		try {
-			result = gfGrammar.complete(tokens.toString(), language);
+			return gfGrammar.complete(getCompletionInput(), language).isEmpty();
 		} catch (GfServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return false;
 		}
-		return result.isEmpty();
+		return false;
 	}
 
 	public int getReference() {
 		return -1;
+	}
+
+	private String getCompletionInput() {
+		if (tokens.isEmpty()) {
+			return "";
+		}
+		return Joiner.on(" ").join(tokens) + " ";
 	}
 
 }
