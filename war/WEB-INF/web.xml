@@ -319,15 +319,6 @@
       <param-value>http://localhost:41296/</param-value>
     </init-param>
     
-    <!--
-      This parameter defines all supported languages as a comma-separated list. The first
-      one is the default, which is used for logging and for serialization.
-    -->
-    <init-param>
-      <param-name>languages</param-name>
-      <param-value>TestAttemptoEng,TestAttemptoGer,TestAttemptoIta</param-value>
-    </init-param>
-    
     <init-param>
       <param-name>ontology</param-name>
       <param-value>gf</param-value>

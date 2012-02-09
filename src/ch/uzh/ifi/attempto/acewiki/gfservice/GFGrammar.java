@@ -18,7 +18,6 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.Set;
 
-import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 
 import ch.uzh.ifi.attempto.gfservice.GfService;
@@ -37,18 +36,27 @@ import ch.uzh.ifi.attempto.gfservice.gfwebservice.GfWebService;
 public class GFGrammar {
 
 	private final GfService mGfService;
-	private final String serializationLanguage;
 
 
 	/**
 	 * Creates a new GF grammar object.
-	 *
-	 * @param pgfFile Path and name of the pgf file.
-	 * @param serializationLanguage The language used for serialization.
 	 */
-	public GFGrammar(URI serviceUri, String pgfName, String serializationLanguage) {
-		this.serializationLanguage = serializationLanguage;
+	public GFGrammar(URI serviceUri, String pgfName) {
 		mGfService = new GfWebService(serviceUri, pgfName);
+	}
+
+
+	/**
+	 * @return set of names of the concrete languages defined in the grammar
+	 */
+	public Set<String> getLanguages() {
+		try {
+			return mGfService.grammar().getLanguages().keySet();
+		} catch (GfServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return Collections.emptySet();
 	}
 
 
@@ -88,8 +96,21 @@ public class GFGrammar {
 	 * @return The parse state.
 	 * @throws GfServiceException
 	 */
-	public Set<String> deserialize(String serialized) throws GfServiceException {
-		return parse(serialized, serializationLanguage);
+	public String deserialize(String serialized) throws GfServiceException {
+		return serialized;
+	}
+
+
+	/**
+	 * Note we return just the first linearization.
+	 */
+	public Iterable<String> linearizeAsTokens(String tree, String language) throws GfServiceException {
+		GfServiceResultLinearize result = mGfService.linearize(tree, language);
+		Set<String> texts = result.getTexts(language);
+		if (texts.isEmpty()) {
+			return Collections.emptyList();
+		}
+		return Splitter.on(' ').split(texts.iterator().next());
 	}
 
 
@@ -100,6 +121,8 @@ public class GFGrammar {
 	 * @param language The language.
 	 * @return The linearization as a list of tokens.
 	 * @throws GfServiceException
+	 *
+	 * @Deprecated
 	 */
 	public Iterable<String> linearizeAsTokens(Set<String> trees, String language) throws GfServiceException {
 		String result = linearizeAsString(trees, language);
@@ -123,8 +146,8 @@ public class GFGrammar {
 	 * @return The serialization.
 	 * @throws GfServiceException
 	 */
-	public String serialize(Set<String> trees) throws GfServiceException {
-		return linearizeAsString(trees, serializationLanguage);
+	public String serialize(String tree) throws GfServiceException {
+		return tree;
 	}
 
 
@@ -137,6 +160,8 @@ public class GFGrammar {
 	 * @param language The language.
 	 * @return The linearization as a string.
 	 * @throws GfServiceException
+	 *
+	 * @Deprecated
 	 */
 	private String linearizeAsString(Set<String> trees, String language) throws GfServiceException {
 		if (trees.isEmpty()) {

@@ -37,8 +37,8 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 	private final GFGrammar gfGrammar;
 	private final Map<String, TextContainer> textContainers = new HashMap<String, TextContainer>();
 
-	// TODO: parse state = set of abstract syntax trees
-	private Set<String> parseState;
+	// TODO: parse state = a single abstract syntax tree
+	private String parseState;
 
 	/**
 	 * Creates a new GF declaration object from a parse state.
@@ -46,7 +46,7 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 	 * @param parseState The parse state.
 	 * @param gfGrammar The grammar object.
 	 */
-	public GFDeclaration(Set<String> parseState, GFGrammar gfGrammar) {
+	public GFDeclaration(String parseState, GFGrammar gfGrammar) {
 		this.parseState = parseState;
 		this.gfGrammar = gfGrammar;
 	}
@@ -65,7 +65,12 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 		text = text.replaceAll("\\.", " .");
 		this.gfGrammar = gfGrammar;
 		try {
-			parseState = getGFGrammar().parse(text, language);
+			Set<String> trees = getGFGrammar().parse(text, language);
+			if (trees.isEmpty()) {
+				parseState = "";
+			} else {
+				parseState = trees.iterator().next();
+			}
 		} catch (GfServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

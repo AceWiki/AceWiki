@@ -40,7 +40,6 @@ public class GFEngine extends AbstractAceWikiEngine {
 	private Map<String, GFHandler> languageHandlers = new HashMap<String, GFHandler>();
 	private AceWikiReasoner reasoner = new DummyReasoner();
 	private GFGrammar gfGrammar;
-	private Ontology ontology;
 
 	/**
 	 * Creates a new GF-based AceWiki engine.
@@ -49,7 +48,6 @@ public class GFEngine extends AbstractAceWikiEngine {
 	}
 
 	public void init(Ontology ontology) {
-		this.ontology = ontology;
 
 		URI serviceUri;
 		try {
@@ -59,8 +57,7 @@ public class GFEngine extends AbstractAceWikiEngine {
 		}
 		gfGrammar = new GFGrammar(
 				serviceUri,
-				ontology.getParameter("pgf_name"),
-				getLanguages()[0]
+				ontology.getParameter("pgf_name")
 				);
 		super.init(ontology);
 	}
@@ -74,9 +71,11 @@ public class GFEngine extends AbstractAceWikiEngine {
 		return lh;
 	}
 
+
 	public String[] getLanguages() {
-		return ontology.getParameter("languages").split(",");
+		return gfGrammar.getLanguages().toArray(new String[0]);
 	}
+
 
 	/**
 	 * Returns the grammar object.
