@@ -39,7 +39,7 @@ eval `swipl -dump-runtime-variables`
 ## export LD_LIBRARY_PATH="/usr/lib/jvm/java-6-openjdk/jre/lib/amd64/:
 ## /usr/lib/jvm/java-6-openjdk/jre/lib/amd64/server/"
 
-#export LD_PRELOAD=$PLBASE/lib/$PLARCH/libjpl.so:/usr/lib/libswipl.so
+export LD_PRELOAD=$PLBASE/lib/$PLARCH/libjpl.so:$PLBASE/lib/$PLARCH/libswipl.so
 #export LD_LIBRARY_PATH=$JAVA_HOME/jre/lib/i386:$LD_LIBRARY_PATH
 #export LD_LIBRARY_PATH=$JAVA_HOME/jre/lib/i386/server:$LD_LIBRARY_PATH
 #export LD_LIBRARY_PATH=$PLBASE/lib/$PLARCH:$LD_LIBRARY_PATH

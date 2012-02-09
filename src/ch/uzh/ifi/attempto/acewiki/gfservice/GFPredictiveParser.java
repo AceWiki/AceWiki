@@ -113,9 +113,18 @@ public class GFPredictiveParser implements PredictiveParser {
 		return getNextTokenOptions().containsToken(token);
 	}
 
+
+	/**
+	 * <p>TODO: one should distinguish between "complete" and "parsable".
+	 * E.g. an ACE text is never complete, because one can always add another
+	 * sentence creating another ACE text. An incomplete ACE can be parsable
+	 * though, e.g. a one-sentence ACE text.</p>
+	 *
+	 * @return <code>true</code> iff the current text is parsable
+	 */
 	public boolean isComplete() {
 		try {
-			return gfGrammar.complete(getCompletionInput(), language).isEmpty();
+			return ! gfGrammar.parse(Joiner.on(" ").join(tokens), language).isEmpty();
 		} catch (GfServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

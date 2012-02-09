@@ -34,8 +34,8 @@ import ch.uzh.ifi.attempto.gfservice.GfServiceException;
  */
 public class GFDeclaration extends AbstractSentence implements Declaration {
 
-	private GFGrammar gfGrammar;
-	private Map<String, TextContainer> textContainers = new HashMap<String, TextContainer>();
+	private final GFGrammar gfGrammar;
+	private final Map<String, TextContainer> textContainers = new HashMap<String, TextContainer>();
 
 	// TODO: parse state = set of abstract syntax trees
 	private Set<String> parseState;
@@ -53,12 +53,16 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 
 	/**
 	 * Creates a new GF declaration object from a text in a given language.
+	 *
+	 * TODO: the input text should probably be in the form of a token list
 	 * 
 	 * @param text The declaration text.
 	 * @param language The language.
 	 * @param gfGrammar The grammar object.
 	 */
 	public GFDeclaration(String text, String language, GFGrammar gfGrammar) {
+		// TODO: quick and ugly hack to be able to move on
+		text = text.replaceAll("\\.", " .");
 		this.gfGrammar = gfGrammar;
 		try {
 			parseState = getGFGrammar().parse(text, language);

@@ -15,6 +15,7 @@
 package ch.uzh.ifi.attempto.acewiki.gfservice;
 
 import java.net.URI;
+import java.util.Collections;
 import java.util.Set;
 
 import com.google.common.base.Joiner;
@@ -60,8 +61,7 @@ public class GFGrammar {
 	 * @throws GfServiceException
 	 */
 	public Set<String> parse(String text, String language) throws GfServiceException {
-		GfServiceResultParse result;
-		result = mGfService.parse(null, text, language);
+		GfServiceResultParse result = mGfService.parse(null, text, language);
 		return result.getTrees(language);
 	}
 
@@ -74,9 +74,11 @@ public class GFGrammar {
 	 * @return The parse result.
 	 * @throws GfServiceException
 	 */
+	/*
 	public Set<String> parse(String[] tokens, String language) throws GfServiceException {
 		return parse(Joiner.on(" ").join(tokens), language);
 	}
+	 */
 
 
 	/**
@@ -92,29 +94,6 @@ public class GFGrammar {
 
 
 	/**
-	 * <p>Linearizes the first tree in the given set of trees
-	 * and returns the first linearization, or <code>null</code>
-	 * iff there are no linearizations.</p>
-	 *
-	 * @param parseState The parse state.
-	 * @param language The language.
-	 * @return The linearization as a string.
-	 * @throws GfServiceException
-	 */
-	public String linearizeAsString(Set<String> trees, String language) throws GfServiceException {
-		if (trees.isEmpty()) {
-			return null;
-		}
-		GfServiceResultLinearize result = mGfService.linearize(trees.iterator().next(), language);
-		Set<String> texts = result.getTexts(language);
-		if (texts.isEmpty()) {
-			return null;
-		}
-		return texts.iterator().next();
-	}
-
-
-	/**
 	 * Linearizes a parse state in the given language.
 	 *
 	 * @param parseState The parse state.
@@ -125,16 +104,14 @@ public class GFGrammar {
 	public Iterable<String> linearizeAsTokens(Set<String> trees, String language) throws GfServiceException {
 		String result = linearizeAsString(trees, language);
 		if (result == null) {
-			return null;
+			return Collections.emptyList();
 		}
 		return Splitter.on(' ').split(result);
 	}
 
 
 	public Set<String> complete(String text, String language) throws GfServiceException {
-		// TODO: instead of 100, we want all trees, i.e. make the GF-Java API accept null
-		// or omitted argument
-		GfServiceResultComplete result = mGfService.complete(null, text, language, 100);
+		GfServiceResultComplete result = mGfService.complete(null, text, language, -1);
 		return result.getCompletions(language);
 	}
 
@@ -148,6 +125,29 @@ public class GFGrammar {
 	 */
 	public String serialize(Set<String> trees) throws GfServiceException {
 		return linearizeAsString(trees, serializationLanguage);
+	}
+
+
+	/**
+	 * <p>Linearizes the first tree in the given set of trees
+	 * and returns the first linearization, or <code>null</code>
+	 * iff there are no linearizations.</p>
+	 *
+	 * @param parseState The parse state.
+	 * @param language The language.
+	 * @return The linearization as a string.
+	 * @throws GfServiceException
+	 */
+	private String linearizeAsString(Set<String> trees, String language) throws GfServiceException {
+		if (trees.isEmpty()) {
+			return null;
+		}
+		GfServiceResultLinearize result = mGfService.linearize(trees.iterator().next(), language);
+		Set<String> texts = result.getTexts(language);
+		if (texts.isEmpty()) {
+			return null;
+		}
+		return texts.iterator().next();
 	}
 
 }

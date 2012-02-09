@@ -310,13 +310,8 @@
       This points to the pgf file with the grammar definition.
     -->
     <init-param>
-      <param-name>pgf_file</param-name>
-      <param-value>ch/uzh/ifi/attempto/acewiki/gf/Foods.pgf</param-value>
-    </init-param>
-
-    <init-param>
       <param-name>pgf_name</param-name>
-      <param-value>grammars/Foods.pgf</param-value>
+      <param-value>grammars/ACE-0_0_1.pgf</param-value>
     </init-param>
 
     <init-param>
@@ -330,7 +325,7 @@
     -->
     <init-param>
       <param-name>languages</param-name>
-      <param-value>FoodsEng,FoodsGer,FoodsIta</param-value>
+      <param-value>TestAttemptoEng,TestAttemptoGer,TestAttemptoIta</param-value>
     </init-param>
     
     <init-param>
@@ -355,7 +350,7 @@
     -->
     <init-param>
       <param-name>language</param-name>
-      <param-value>FoodsEng</param-value>
+      <param-value>TestAttemptoEng</param-value>
     </init-param>
     
     <init-param>
@@ -374,7 +369,7 @@
     </init-param>
     <init-param>
       <param-name>language</param-name>
-      <param-value>FoodsGer</param-value>
+      <param-value>TestAttemptoGer</param-value>
     </init-param>
     <init-param>
       <param-name>title</param-name>
@@ -391,7 +386,7 @@
     </init-param>
     <init-param>
       <param-name>language</param-name>
-      <param-value>FoodsIta</param-value>
+      <param-value>TestAttemptoIta</param-value>
     </init-param>
     <init-param>
       <param-name>title</param-name>
