@@ -14,10 +14,13 @@
 
 package ch.uzh.ifi.attempto.acewiki.gfservice;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import com.google.common.base.Joiner;
 
 import ch.uzh.ifi.attempto.acewiki.core.AbstractSentence;
 import ch.uzh.ifi.attempto.acewiki.core.Declaration;
@@ -103,9 +106,51 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 		return false;
 	}
 
+
+	/**
+	 * <p>Returns the details of this sentence:</p>
+	 * <ul>
+	 * <li>language;</li>
+	 * <li>abstract tree;</li>
+	 * <li>TODO: translations;</li>
+	 * <li>TODO: word alignment;</li>
+	 * <li>TODO: parse tree;</li>
+	 * <li>...</li>
+	 * </ul>
+	 * <p>TODO: everything should be hyperlinked.</p>
+	 */
 	public List<SentenceDetail> getDetails(String language) {
-		return null;
+		List<SentenceDetail> l = new ArrayList<SentenceDetail>();
+		l.add(new SentenceDetail(
+				"Language",
+				"<pre>" + language + "</pre>"
+				));
+		l.add(new SentenceDetail(
+				"Abstract tree",
+				"<pre>" + parseState + "</pre>"
+				));
+		try {
+			Map<String, Set<String>> m = getGFGrammar().linearize(parseState);
+			StringBuilder sb = new StringBuilder();
+			sb.append("<ul>");
+			for (String key : m.keySet()) {
+				if (! key.equals(language)) {
+					sb.append("<li><b>" + key + "</b>: " + m.get(key) + "</li>");
+				}
+			}
+			sb.append("</ul>");
+			l.add(new SentenceDetail(
+					"Translations",
+					sb.toString()
+					));
+		} catch (GfServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return l;
 	}
+
 
 	public boolean isReasonable() {
 		return true;

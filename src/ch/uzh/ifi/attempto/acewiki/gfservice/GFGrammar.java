@@ -16,6 +16,8 @@ package ch.uzh.ifi.attempto.acewiki.gfservice;
 
 import java.net.URI;
 import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.google.common.base.Splitter;
@@ -111,6 +113,12 @@ public class GFGrammar {
 			return Collections.emptyList();
 		}
 		return Splitter.on(' ').split(texts.iterator().next());
+	}
+
+
+	public Map<String, Set<String>> linearize(String tree) throws GfServiceException {
+		GfServiceResultLinearize result = mGfService.linearize(tree, null);
+		return result.getTexts();
 	}
 
 
