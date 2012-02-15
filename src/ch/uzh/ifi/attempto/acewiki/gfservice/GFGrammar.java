@@ -16,7 +16,6 @@ package ch.uzh.ifi.attempto.acewiki.gfservice;
 
 import java.net.URI;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -96,9 +95,8 @@ public class GFGrammar {
 	 *
 	 * @param serialized The serialized representation
 	 * @return The parse state.
-	 * @throws GfServiceException
 	 */
-	public String deserialize(String serialized) throws GfServiceException {
+	public static String deserialize(String serialized) {
 		return serialized;
 	}
 
@@ -152,9 +150,8 @@ public class GFGrammar {
 	 *
 	 * @param parseState The parse state.
 	 * @return The serialization.
-	 * @throws GfServiceException
 	 */
-	public String serialize(String tree) throws GfServiceException {
+	public static String serialize(String tree) {
 		return tree;
 	}
 

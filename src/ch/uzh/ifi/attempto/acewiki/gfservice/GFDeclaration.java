@@ -20,8 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.base.Joiner;
-
 import ch.uzh.ifi.attempto.acewiki.core.AbstractSentence;
 import ch.uzh.ifi.attempto.acewiki.core.Declaration;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
@@ -160,13 +158,7 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 	}
 
 	public String serialize() {
-		try {
-			return getGFGrammar().serialize(parseState);
-		} catch (GfServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+		return GFGrammar.serialize(parseState);
 	}
 
 	/**

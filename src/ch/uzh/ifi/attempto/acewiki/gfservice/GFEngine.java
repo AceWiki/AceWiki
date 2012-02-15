@@ -28,7 +28,6 @@ import ch.uzh.ifi.attempto.acewiki.core.LanguageHandler;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
-import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 
 /**
  * This is an AceWiki engine using GF (Grammatical Framework).
@@ -96,13 +95,7 @@ public class GFEngine extends AbstractAceWikiEngine {
 	}
 
 	public Sentence createSentence(String serialized) {
-		try {
-			return new GFDeclaration(gfGrammar.deserialize(serialized), gfGrammar);
-		} catch (GfServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+		return new GFDeclaration(GFGrammar.deserialize(serialized), gfGrammar);
 	}
 
 	public Sentence createAssignmentSentence(Individual ind, Concept concept) {
