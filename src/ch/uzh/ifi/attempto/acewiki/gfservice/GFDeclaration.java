@@ -145,6 +145,15 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		try {
+			l.add(new SentenceDetail(
+					"Word alignment",
+					"<img src=\"" + getGFGrammar().alignment(parseState) + "\"/>"
+					));
+		} catch (GfServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		return l;
 	}

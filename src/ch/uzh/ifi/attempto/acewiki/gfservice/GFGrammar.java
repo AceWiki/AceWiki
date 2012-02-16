@@ -145,6 +145,11 @@ public class GFGrammar {
 	}
 
 
+	public String alignment(String tree) throws GfServiceException {
+		return mGfService.alignment(tree).getAlignmentAsDataUri();
+	}
+
+
 	/**
 	 * Serializes a given parse state.
 	 *
