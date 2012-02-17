@@ -16,9 +16,11 @@ package ch.uzh.ifi.attempto.acewiki.gfservice;
 
 import java.net.URI;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 
 import ch.uzh.ifi.attempto.gfservice.GfService;
@@ -139,14 +141,14 @@ public class GFGrammar {
 	}
 
 
-	public Set<String> complete(String text, String language) throws GfServiceException {
-		GfServiceResultComplete result = mGfService.complete(null, text, language, -1);
+	public Set<String> complete(List<String> tokens, String language) throws GfServiceException {
+		GfServiceResultComplete result = mGfService.complete(null, getCompletionInput(tokens), language, null);
 		return result.getCompletions(language);
 	}
 
 
 	public String alignment(String tree) throws GfServiceException {
-		return mGfService.alignment(tree).getAlignmentAsDataUri();
+		return mGfService.alignment(tree).getDataUri();
 	}
 
 
@@ -158,6 +160,14 @@ public class GFGrammar {
 	 */
 	public static String serialize(String tree) {
 		return tree;
+	}
+
+
+	private static String getCompletionInput(List<String> tokens) {
+		if (tokens.isEmpty()) {
+			return "";
+		}
+		return Joiner.on(" ").join(tokens) + " ";
 	}
 
 

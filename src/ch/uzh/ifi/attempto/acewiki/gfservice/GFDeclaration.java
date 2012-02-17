@@ -63,7 +63,7 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 	 */
 	public GFDeclaration(String text, String language, GFGrammar gfGrammar) {
 		// TODO: quick and ugly hack to be able to move on
-		text = text.replaceAll("\\.", " .");
+		text = text.replaceAll("([\\.?!])", " $1");
 		this.gfGrammar = gfGrammar;
 		try {
 			Set<String> trees = getGFGrammar().parse(text, language);
