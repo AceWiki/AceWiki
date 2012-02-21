@@ -147,6 +147,16 @@ public class GFGrammar {
 	}
 
 
+	public String abstrtree(String tree) throws GfServiceException {
+		return mGfService.abstrtree(tree).getDataUri();
+	}
+
+
+	public String parsetree(String tree, String from) throws GfServiceException {
+		return mGfService.parsetree(tree, from).getDataUri();
+	}
+
+
 	public String alignment(String tree) throws GfServiceException {
 		return mGfService.alignment(tree).getDataUri();
 	}

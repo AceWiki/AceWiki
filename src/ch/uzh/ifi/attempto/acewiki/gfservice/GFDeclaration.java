@@ -110,9 +110,10 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 	 * <ul>
 	 * <li>language;</li>
 	 * <li>abstract tree;</li>
-	 * <li>TODO: translations;</li>
-	 * <li>TODO: word alignment;</li>
-	 * <li>TODO: parse tree;</li>
+	 * <li>translations;</li>
+	 * <li>abstract tree diagram;</li>
+	 * <li>parse tree diagram;</li>
+	 * <li>word alignment diagram;</li>
 	 * <li>...</li>
 	 * </ul>
 	 * <p>TODO: everything should be hyperlinked.</p>
@@ -145,15 +146,10 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		try {
-			l.add(new SentenceDetail(
-					"Word alignment",
-					"<img src=\"" + getGFGrammar().alignment(parseState) + "\"/>"
-					));
-		} catch (GfServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		l.add(new SentenceDetail("Abstract tree", getAbstrtreeAsHtml()));
+		l.add(new SentenceDetail("Parsetree", getParsetreeAsHtml(language)));
+		l.add(new SentenceDetail("Word alignment", getAlignmentAsHtml()));
 
 		return l;
 	}
@@ -177,6 +173,43 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 	 */
 	public GFGrammar getGFGrammar() {
 		return gfGrammar;
+	}
+
+
+	private String getAbstrtreeAsHtml() {
+		try {
+			return getImg(getGFGrammar().abstrtree(parseState));
+		} catch (GfServiceException e) {
+			return getError(e.getMessage());
+		}
+	}
+
+
+	private String getParsetreeAsHtml(String language) {
+		try {
+			return getImg(getGFGrammar().parsetree(parseState, language));
+		} catch (GfServiceException e) {
+			return getError(e.getMessage());
+		}
+	}
+
+
+	private String getAlignmentAsHtml() {
+		try {
+			return getImg(getGFGrammar().alignment(parseState));
+		} catch (GfServiceException e) {
+			return getError(e.getMessage());
+		}
+	}
+
+
+	private String getImg(String dataUri) {
+		return "<img src=\"" + dataUri + "\"/>";
+	}
+
+
+	private String getError(String message) {
+		return "<p style=\"color: red\">" + message + "</p>";
 	}
 
 }
