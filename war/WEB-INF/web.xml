@@ -286,18 +286,18 @@
       <param-value>AceWikiBackend2</param-value>
     </init-param>
   </servlet>
-  
-  
+
+
   <!--
     The following servlets (one backend and three frontends) start an experimental version of a
     GF-based wiki that can be viewed and edited in different languages.
   -->
   <servlet>
-  
+
     <servlet-name>GFWikiBackend</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
-    
+
     <!--
       This parameter has the consequence that the GF-engine is used instead of the default one.
     -->
@@ -305,37 +305,71 @@
       <param-name>engine_class</param-name>
       <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
     </init-param>
-    
+
     <!--
       This points to the pgf file with the grammar definition.
     -->
     <init-param>
       <param-name>pgf_name</param-name>
-      <param-value>grammars/ACE-0_0_1.pgf</param-value>
+      <param-value>grammars/ACE-0_0_2.pgf</param-value>
     </init-param>
 
     <init-param>
       <param-name>service_uri</param-name>
       <param-value>http://localhost:41296/</param-value>
     </init-param>
-    
+
     <init-param>
       <param-name>ontology</param-name>
       <param-value>gf</param-value>
     </init-param>
-  
+
   </servlet>
-  
+
+  <!-- GF Geography Wiki only in English -->
   <servlet>
-  
+    <servlet-name>GFGeoBackend</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+
+    <!--
+      This parameter has the consequence that the GF-engine is used instead of the default one.
+    -->
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+
+    <!--
+      This points to the pgf file with the grammar definition.
+    -->
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>grammars/Geo.pgf</param-value>
+    </init-param>
+
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://localhost:41296/</param-value>
+    </init-param>
+
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>GFGeo</param-value>
+    </init-param>
+  </servlet>
+
+
+  <servlet>
+
     <servlet-name>GFWikiEng</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
-    
+
     <init-param>
       <param-name>backend</param-name>
       <param-value>GFWikiBackend</param-value>
     </init-param>
-    
+
     <!--
       This parameter defines the language of the frontend instance.
     -->
@@ -343,12 +377,12 @@
       <param-name>language</param-name>
       <param-value>TestAttemptoEng</param-value>
     </init-param>
-    
+
     <init-param>
       <param-name>title</param-name>
       <param-value>GF Wiki in English</param-value>
     </init-param>
-  
+
   </servlet>
 
   <servlet>
@@ -382,6 +416,24 @@
     <init-param>
       <param-name>title</param-name>
       <param-value>GF Wiki in Italian</param-value>
+    </init-param>
+  </servlet>
+
+
+  <servlet>
+    <servlet-name>GFGeoEng</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>GFGeoBackend</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>GeoEng</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>GF Geography Wiki (in ACE)</param-value>
     </init-param>
   </servlet>
 
@@ -443,8 +495,8 @@
     </init-param>
 
   </servlet>
-  
-  
+
+
   <!-- Mappings -->
 
   <!--
@@ -468,7 +520,7 @@
     <servlet-name>AceWiki2</servlet-name>
     <url-pattern>/acewiki2/</url-pattern>
   </servlet-mapping>
-  
+
   <!--
     These are the mappings for the multilingual GF engine (experimental).
   -->
@@ -484,7 +536,11 @@
     <servlet-name>GFWikiIta</servlet-name>
     <url-pattern>/gfita/</url-pattern>
   </servlet-mapping>
-  
+  <servlet-mapping>
+    <servlet-name>GFGeoEng</servlet-name>
+    <url-pattern>/GFGeoEng/</url-pattern>
+  </servlet-mapping>
+
   <!--
     In some circumstances, the backends need URL-mappings too, because some environments skip
     servlets without mappings.
@@ -501,7 +557,11 @@
     <servlet-name>GFWikiBackend</servlet-name>
     <url-pattern>/gf/</url-pattern>
   </servlet-mapping>
-  
+  <servlet-mapping>
+    <servlet-name>GFGeoBackend</servlet-name>
+    <url-pattern>/GFGeoBackend/</url-pattern>
+  </servlet-mapping>
+
   <!--
     This is the mapping for the ACE Editor servlet.
   -->
@@ -509,5 +569,5 @@
     <servlet-name>ACE Editor</servlet-name>
     <url-pattern>/aceeditor/</url-pattern>
   </servlet-mapping>
-  
+
 </web-app>
