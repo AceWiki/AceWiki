@@ -1,16 +1,18 @@
 #! /usr/bin/env python
 
-# AceWiki data converter (work in progress)
+# AceWiki data converter
 # Author: Kaarel Kaljurand
 # Version: 2012-02-23
 #
 # This script provides the conversion of a given AceWiki data file
 # into other formats, e.g. JSON and GF.
 #
-# Example:
+# Examples:
 #
+# python convert_acewiki.py --in geo.acewikidata > Geo.json
 # python convert_acewiki.py --in geo.acewikidata --format gfabs --name Geo > Geo.gf
 # python convert_acewiki.py --in geo.acewikidata --format gfconc --name Geo > GeoEng.gf
+# python convert_acewiki.py --in geo.acewikidata --format sentences > Geo.ace.txt
 #
 import sys
 import argparse
@@ -20,11 +22,15 @@ import time
 import simplejson
 from string import Template
 
+# Regular expression patterns
 pattern_sep = re.compile('^\s*$')
 pattern_name = re.compile('^([0-9]+)$')
 pattern_type = re.compile('^type:([a-z]+)$')
-pattern_words = re.compile('^words:(.+)$')
+pattern_words = re.compile('^words:(.+);$')
+pattern_sentence = re.compile('^(c|\||#) (.+)$')
+pattern_token = re.compile('^<([0-9]+),([0-9]+)>$')
 
+# GF-specific templates and strings
 # TODO: put these into a different module
 gf = {}
 gf['propername'] = ['PN', 'awPN']
@@ -45,19 +51,24 @@ concrete ${name}Eng of $name = AttemptoEng **
   open SyntaxEng, ParadigmsEng, IrregEng, (C = ConstructX) in {
 
 -- TODO: review these, maybe we can do better
--- Currently there is an extra 'by' with past participles
-oper awCN : (_,_,_:Str) -> CN = \\sg,pl,d -> mkCN (ParadigmsEng.mkN sg pl) ;
-oper awCNof : (_,_:Str) -> CN = \\x,d1 -> mkCN (ParadigmsEng.mkN x) ;
-oper awPN : (_,_,_,_,_:Str) -> PN = \\x,d1,d2,d3,d4 -> mkPN x ;
-oper awV2 : (_,_,_,_:Str) -> V2 = \\goes,go,gone,d -> mkV2 (ParadigmsEng.mkV go goes "dummy" gone "dummy") ;
-oper awA2 : (_,_:Str) -> A2 = \\x,d1 -> mkA2 (mkA x) (mkPrep "") ;
+-- We use ~ as a dummy symbol which represents all the forms
+-- that we do not want to actually generate.
+-- This seems to be less confusing that using an empty string.
+oper awCN : (_,_:Str) -> CN = \\sg,pl -> mkCN (ParadigmsEng.mkN sg pl) ;
+oper awCNof : (_:Str) -> CN = \\x -> mkCN (ParadigmsEng.mkN x "~") ;
+oper awPN : (_,_,_,_:Str) -> PN = \\x,d1,d2,d3 -> mkPN x ;
+oper awV2 : (_,_,_:Str) -> V2 = \\goes,go,gone -> mkV2 (ParadigmsEng.mkV go goes "~" gone "~") ;
+oper awA2 : (_:Str) -> A2 = \\x -> mkA2 (mkA x) (mkPrep "") ;
 
 lin""")
 
 
 def parse_acewiki(path):
 	"""
-	Parses AceWiki data file into a Python data structure
+	Parses AceWiki data file into a Python data structure.
+	TODO: Currently does not change the token representation (i.e. <id1,id2>).
+	Assumes that article IDs are integers.
+	This way we get an ordering for articles which results in a stable output.
 	"""
 	data = {}
 	id = -1
@@ -66,7 +77,7 @@ def parse_acewiki(path):
 		line = line.strip()
 		m = pattern_name.match(line)
 		if m is not None:
-			id = m.group(1)
+			id = int(m.group(1))
 			data[id] = {}
 			continue
 		m = pattern_type.match(line)
@@ -77,17 +88,22 @@ def parse_acewiki(path):
 		if m is not None:
 			data[id]['words'] = m.group(1).split(';')
 			continue
-		# TODO: parse sentences and comments
+		m = pattern_sentence.match(line)
+		if m is not None:
+			if 'sentences' not in data[id]:
+				data[id]['sentences'] = []
+			data[id]['sentences'].append({ 'type': m.group(1), 'content' : m.group(2).split(' ') })
+			continue
 	f.close()
 	return data
 
 
 def out_gf_abs(data, name):
 	"""
-	Outputs the GF abstract syntax file
+	Outputs the data as GF abstract syntax file with the given name.
 	"""
 	print template_abs.substitute(name = name)
-	for id in data:
+	for id in sorted(data):
 		if 'words' in data[id]:
 			type = data[id]['type']
 			[gf_type, gf_oper] = gf[type]
@@ -102,32 +118,85 @@ def gf_quote(str):
 	return '"' + str.replace("_", " ").replace('"', '\\"') + '"'
 
 
+def rewrite_words(type, words):
+	"""
+	Removes 'by' from past participles ('trverb').
+	Removes 'of' from of-constructs ('nounof').
+	This is currently needed only for the GF output.
+	"""
+	if type == 'trverb':
+		[sg, pl, vbg] = words
+		vbg = re.sub(r' by$', '', vbg)
+		return [sg, pl, vbg]
+	elif type == 'nounof':
+		[nounof] = words
+		return [re.sub(r' of$', '', nounof)]
+	return words
+
+
+def rewrite_token(data, token):
+	"""
+	If the given token is a function word then
+	returns it lowercased (unless it is a variable),
+	otherwise
+	returns the wordform that corresponds to the ID-representation.
+	"""
+	m = pattern_token.match(token)
+	if m is None:
+		if token in ['X', 'Y', 'Z']:
+			return token
+		return token.lower()
+	else:
+		try:
+			article_id = int(m.group(1))
+			wordform_id = int(m.group(2))
+			return data[article_id]['words'][wordform_id].replace('_', ' ')
+		except:
+			print >> sys.stderr, 'Warning: Bad token ID: {}'.format(token)
+			return token
+
+
 def out_gf_conc(data, name):
 	"""
-	Outputs the GF concrete syntax file
+	Outputs the data as GF concrete syntax file with the given name.
 	"""
 	print template_conc.substitute(name = name)
-	for id in data:
+	for id in sorted(data):
 		if 'words' in data[id]:
-			words = ' '.join([gf_quote(x) for x in data[id]['words']])
 			type = data[id]['type']
+			words = rewrite_words(type, data[id]['words'])
+			words_as_str = ' '.join([gf_quote(x) for x in words])
 			[gf_type, gf_oper] = gf[type]
-			print 'w{}_{} = {} {} ;'.format(id, gf_type, gf_oper, words)
+			print 'w{}_{} = {} {} ;'.format(id, gf_type, gf_oper, words_as_str)
 	print '}'
 
 
-parser = argparse.ArgumentParser(description='AceWiki data format converter')
+def out_sentences(data):
+	"""
+	Outputs the data as a list of sentences (excl. comments).
+	The token IDs are resolved to the wordforms.
+	"""
+	for id in sorted(data):
+		if 'sentences' in data[id]:
+			for s in data[id]['sentences']:
+				if s['type'] == 'c':
+					continue
+				print ' '.join([rewrite_token(data, x) for x in s['content']])
+
+
+# Commandline arguments parsing
+parser = argparse.ArgumentParser(description='AceWiki data file converter')
 
 parser.add_argument('-i', '--in', type=str, action='store', dest='file_in',
-                   help='set the input file that contains AceWiki data (OBLIGATORY)')
+                   help='file that contains AceWiki data (OBLIGATORY)')
 
 parser.add_argument('-n', '--name', type=str, action='store', dest='name',
                    default="Acewiki",
-                   help='set the name of the grammar (default: AceWiki)')
+                   help='name of the grammar, used for GF outputs (default: AceWiki)')
 
 parser.add_argument('-f', '--format', type=str, action='store', dest='fmt',
                    default="json",
-                   help='set the output format, one of {json} (default: json)')
+                   help='output format, one of {json,gfabs,gfconc,sentences} (default: json)')
 
 parser.add_argument('-v', '--version', action='version', version='%(prog)s v0.1')
 
@@ -142,12 +211,11 @@ data = parse_acewiki(args.file_in)
 
 if args.fmt == "json":
 	print simplejson.dumps(data)
-
-if args.fmt == "gfabs":
+elif args.fmt == "gfabs":
 	out_gf_abs(data, args.name)
-
-if args.fmt == "gfconc":
+elif args.fmt == "gfconc":
 	out_gf_conc(data, args.name)
-
-
-print >> sys.stderr, 'Size: {}'.format(len(data))
+elif args.fmt == "sentences":
+	out_sentences(data)
+else:
+	print >> sys.stderr, 'ERROR: Unsupported format: {}'.format(args.fmt)
