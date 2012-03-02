@@ -67,11 +67,13 @@ import ch.uzh.ifi.attempto.acewiki.gui.SearchPage;
 import ch.uzh.ifi.attempto.acewiki.gui.StartPage;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.acewiki.gui.UserWindow;
+import ch.uzh.ifi.attempto.acewiki.gui.WebLink;
 import ch.uzh.ifi.attempto.acewiki.gui.WikiPage;
 import ch.uzh.ifi.attempto.base.Logger;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
+import ch.uzh.ifi.attempto.echocomp.SectionTitle;
 import ch.uzh.ifi.attempto.echocomp.SmallButton;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.Style;
@@ -152,14 +154,14 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	/**
 	 * Creates a new wiki instance.
 	 *
-     * @param backend The backend object contains ontology of the wiki.
+	 * @param backend The backend object contains ontology of the wiki.
 	 * @param parameters A set of parameters in the form of name/value pairs.
 	 * @param sessionID The session id.
 	 */
 	Wiki(Backend backend, Map<String, String> parameters, int sessionID) {
 		this.parameters = parameters;
 
-        storage = backend.getStorage();
+		storage = backend.getStorage();
 		ontology = backend.getOntology();
 
 		engine = ontology.getEngine();
@@ -224,7 +226,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		wikiPane = new SplitPane(
 				SplitPane.ORIENTATION_HORIZONTAL_LEFT_RIGHT,
 				new Extent(145)
-			);
+				);
 		wikiPane.setSeparatorHeight(new Extent(0));
 
 		ContentPane sideBar = new ContentPane();
@@ -235,7 +237,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 
 		Label logo = new Label(new ResourceImageReference(
 				"ch/uzh/ifi/attempto/acewiki/gui/img/AceWikiLogoSmall.png"
-			));
+				));
 		sideCol.add(logo);
 
 		sideCol.add(new VSpace(10));
@@ -261,9 +263,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 
 		sideCol.add(new VSpace(20));
 
-		SolidLabel label1 = new SolidLabel("Navigation:", Font.ITALIC);
-		label1.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
-		sideCol.add(label1);
+		sideCol.add(new SectionTitle("Navigation"));
 		sideCol.add(new ListItem(homeButton));
 		sideCol.add(new ListItem(indexButton));
 		sideCol.add(new ListItem(searchButton2));
@@ -271,14 +271,21 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		sideCol.add(new ListItem(randomButton));
 
 		sideCol.add(new VSpace(10));
-
-		SolidLabel label2 = new SolidLabel("Actions:", Font.ITALIC);
-		label2.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
-		sideCol.add(label2);
+		sideCol.add(new SectionTitle("Actions"));
 		if (!isReadOnly() && getEngine().getLexicalTypes().length > 0) {
 			sideCol.add(new ListItem(newButton));
 		}
 		sideCol.add(new ListItem(exportButton));
+
+
+		sideCol.add(new VSpace(10));
+		sideCol.add(new SectionTitle("Languages"));
+		for (String l : engine.getLanguages()) {
+			// TODO: fix the URL
+			sideCol.add(new ListItem(
+					new WebLink("http://localhost:9077/" +
+							ontology.getName() + "/" + l + "/", l)));
+		}
 
 		externalEventMonitor = new ExternalEventMonitor();
 		externalEventMonitor.addExternalEventListener(this);
@@ -792,7 +799,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 					null,
 					this,
 					"Yes", "No"
-				));
+					));
 		} else if (src == userButton) {
 			if (user == null) {
 				showLoginWindow();
@@ -924,8 +931,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 
 	private ContainerContext getContainerContext() {
 		return (ContainerContext) application.getContextProperty(
-			ContainerContext.CONTEXT_PROPERTY_NAME
-		);
+				ContainerContext.CONTEXT_PROPERTY_NAME
+				);
 	}
 
 	/**
@@ -945,7 +952,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	public String getLanguage() {
 		return language;
 	}
-	
+
 	/**
 	 * Returns the language handler.
 	 *
@@ -983,12 +990,12 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 */
 	public void enqueueStrongAsyncTask(String title, String message, Task task) {
 		waitWindow = new MessageWindow(
-			title,
-			new ResourceImageReference("ch/uzh/ifi/attempto/acewiki/gui/img/wait.gif"),
-			message,
-			null,
-			null
-		);
+				title,
+				new ResourceImageReference("ch/uzh/ifi/attempto/acewiki/gui/img/wait.gif"),
+				message,
+				null,
+				null
+				);
 		waitWindow.setClosable(false);
 		showWindow(waitWindow);
 
