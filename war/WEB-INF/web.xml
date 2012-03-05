@@ -452,6 +452,57 @@
     </init-param>
   </servlet>
 
+  <servlet>
+    <servlet-name>GFWikiFre</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>GFWikiBackend</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoFre</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>GF Wiki in French</param-value>
+    </init-param>
+  </servlet>
+
+  <servlet>
+    <servlet-name>GFWikiSwe</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>GFWikiBackend</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoSwe</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>GF Wiki in Swedish</param-value>
+    </init-param>
+  </servlet>
+
+  <servlet>
+    <servlet-name>GFWikiAce</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>GFWikiBackend</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoAce</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>GF Wiki in ACE</param-value>
+    </init-param>
+  </servlet>
+
 
   <servlet>
     <servlet-name>GFGeoEng</servlet-name>
@@ -655,6 +706,19 @@
     <servlet-name>GFWikiIta</servlet-name>
     <url-pattern>/gf/TestAttemptoIta/</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GFWikiFre</servlet-name>
+    <url-pattern>/gf/TestAttemptoFre/</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GFWikiSwe</servlet-name>
+    <url-pattern>/gf/TestAttemptoSwe/</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GFWikiAce</servlet-name>
+    <url-pattern>/gf/TestAttemptoAce/</url-pattern>
+  </servlet-mapping>
+
   <servlet-mapping>
     <servlet-name>GFGeoEng</servlet-name>
     <url-pattern>/GFGeo/GeoEng/</url-pattern>
