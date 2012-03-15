@@ -275,6 +275,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		if (!isReadOnly() && getEngine().getLexicalTypes().length > 0) {
 			sideCol.add(new ListItem(newButton));
 		}
+		// TODO: make the URL configurable
+		sideCol.add(new ListItem(
+				new WebLink("http://cloud.grammaticalframework.org/gfse/share.html#gfse.74044909", "Edit grammar")));
 		sideCol.add(new ListItem(exportButton));
 
 

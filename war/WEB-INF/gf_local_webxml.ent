@@ -1,0 +1,1382 @@
+
+  <servlet>
+    <servlet-name>Action.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/grammars/Action.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://localhost:41296</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>Action.pgf</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Action.pgf</servlet-name>
+    <url-pattern>/backend/Action.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>ActionApp</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Action.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>ActionApp</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in ActionApp</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ActionApp</servlet-name>
+    <url-pattern>/Action.pgf/ActionApp/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>ActionEst</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Action.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>ActionEst</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in ActionEst</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ActionEst</servlet-name>
+    <url-pattern>/Action.pgf/ActionEst/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>Geo.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/grammars/Geo.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://localhost:41296</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>Geo.pgf</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Geo.pgf</servlet-name>
+    <url-pattern>/backend/Geo.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>GeoEng</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Geo.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>GeoEng</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in GeoEng</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GeoEng</servlet-name>
+    <url-pattern>/Geo.pgf/GeoEng/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>Foods.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/grammars/Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://localhost:41296</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Foods.pgf</servlet-name>
+    <url-pattern>/backend/Foods.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsAfr</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsAfr</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsAfr</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsAfr</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsAfr/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsAmh</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsAmh</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsAmh</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsAmh</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsAmh/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsBul</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsBul</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsBul</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsBul</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsBul/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsCat</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsCat</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsCat</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsCat</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsCat/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsCze</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsCze</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsCze</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsCze</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsCze/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsDut</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsDut</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsDut</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsDut</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsDut/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsEng</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsEng</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsEng</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsEng</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsEng/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsEpo</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsEpo</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsEpo</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsEpo</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsEpo/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsFin</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsFin</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsFin</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsFin</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsFin/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsFre</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsFre</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsFre</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsFre</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsFre/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsGer</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsGer</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsGer</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsGer</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsGer/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsGle</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsGle</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsGle</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsGle</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsGle/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsHeb</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsHeb</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsHeb</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsHeb</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsHeb/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsHin</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsHin</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsHin</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsHin</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsHin/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsIce</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsIce</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsIce</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsIce</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsIce/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsIta</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsIta</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsIta</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsIta</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsIta/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsJpn</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsJpn</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsJpn</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsJpn</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsJpn/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsLav</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsLav</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsLav</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsLav</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsLav/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsMlt</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsMlt</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsMlt</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsMlt</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsMlt/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsMon</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsMon</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsMon</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsMon</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsMon/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsNep</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsNep</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsNep</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsNep</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsNep/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsPes</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsPes</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsPes</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsPes</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsPes/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsPor</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsPor</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsPor</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsPor</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsPor/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsRon</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsRon</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsRon</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsRon</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsRon/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsSpa</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsSpa</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsSpa</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsSpa</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsSpa/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsSwe</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsSwe</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsSwe</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsSwe</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsSwe/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsTsn</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsTsn</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsTsn</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsTsn</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsTsn/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsTur</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsTur</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsTur</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsTur</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsTur/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsUrd</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsUrd</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsUrd</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsUrd</servlet-name>
+    <url-pattern>/Foods.pgf/FoodsUrd/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>Letter.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/grammars/Letter.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://localhost:41296</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>Letter.pgf</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Letter.pgf</servlet-name>
+    <url-pattern>/backend/Letter.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>LetterEng</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Letter.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>LetterEng</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in LetterEng</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LetterEng</servlet-name>
+    <url-pattern>/Letter.pgf/LetterEng/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>LetterFin</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Letter.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>LetterFin</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in LetterFin</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LetterFin</servlet-name>
+    <url-pattern>/Letter.pgf/LetterFin/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>LetterFre</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Letter.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>LetterFre</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in LetterFre</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LetterFre</servlet-name>
+    <url-pattern>/Letter.pgf/LetterFre/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>LetterHeb</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Letter.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>LetterHeb</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in LetterHeb</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LetterHeb</servlet-name>
+    <url-pattern>/Letter.pgf/LetterHeb/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>LetterRus</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Letter.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>LetterRus</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in LetterRus</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LetterRus</servlet-name>
+    <url-pattern>/Letter.pgf/LetterRus/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>LetterSwe</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Letter.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>LetterSwe</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in LetterSwe</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LetterSwe</servlet-name>
+    <url-pattern>/Letter.pgf/LetterSwe/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>Alarm.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/grammars/Alarm.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://localhost:41296</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>Alarm.pgf</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Alarm.pgf</servlet-name>
+    <url-pattern>/backend/Alarm.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>AlarmApp</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Alarm.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>AlarmApp</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in AlarmApp</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AlarmApp</servlet-name>
+    <url-pattern>/Alarm.pgf/AlarmApp/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>AlarmEst</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Alarm.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>AlarmEst</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in AlarmEst</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AlarmEst</servlet-name>
+    <url-pattern>/Alarm.pgf/AlarmEst/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>Commands.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/grammars/Commands.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://localhost:41296</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>Commands.pgf</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Commands.pgf</servlet-name>
+    <url-pattern>/backend/Commands.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>CommandsCat</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Commands.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>CommandsCat</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in CommandsCat</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CommandsCat</servlet-name>
+    <url-pattern>/Commands.pgf/CommandsCat/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>CommandsEng</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Commands.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>CommandsEng</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in CommandsEng</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CommandsEng</servlet-name>
+    <url-pattern>/Commands.pgf/CommandsEng/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>CommandsGer</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Commands.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>CommandsGer</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in CommandsGer</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CommandsGer</servlet-name>
+    <url-pattern>/Commands.pgf/CommandsGer/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>CommandsSage</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Commands.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>CommandsSage</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in CommandsSage</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CommandsSage</servlet-name>
+    <url-pattern>/Commands.pgf/CommandsSage/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>CommandsSpa</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Commands.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>CommandsSpa</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in CommandsSpa</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CommandsSpa</servlet-name>
+    <url-pattern>/Commands.pgf/CommandsSpa/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>ACE-0_0_2.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/grammars/ACE-0_0_2.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://localhost:41296</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>ACE-0_0_2.pgf</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ACE-0_0_2.pgf</servlet-name>
+    <url-pattern>/backend/ACE-0_0_2.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>TestAttemptoEng</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>ACE-0_0_2.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoEng</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoEng</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestAttemptoEng</servlet-name>
+    <url-pattern>/ACE-0_0_2.pgf/TestAttemptoEng/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>TestAttemptoFre</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>ACE-0_0_2.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoFre</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoFre</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestAttemptoFre</servlet-name>
+    <url-pattern>/ACE-0_0_2.pgf/TestAttemptoFre/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>TestAttemptoGer</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>ACE-0_0_2.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoGer</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoGer</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestAttemptoGer</servlet-name>
+    <url-pattern>/ACE-0_0_2.pgf/TestAttemptoGer/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>TestAttemptoIta</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>ACE-0_0_2.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoIta</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoIta</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestAttemptoIta</servlet-name>
+    <url-pattern>/ACE-0_0_2.pgf/TestAttemptoIta/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>TestAttemptoSwe</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>ACE-0_0_2.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoSwe</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoSwe</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestAttemptoSwe</servlet-name>
+    <url-pattern>/ACE-0_0_2.pgf/TestAttemptoSwe/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>Go.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/grammars/Go.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://localhost:41296</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>Go.pgf</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Go.pgf</servlet-name>
+    <url-pattern>/backend/Go.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>GoApp</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Go.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>GoApp</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in GoApp</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GoApp</servlet-name>
+    <url-pattern>/Go.pgf/GoApp/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>GoEng</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Go.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>GoEng</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in GoEng</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GoEng</servlet-name>
+    <url-pattern>/Go.pgf/GoEng/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>GoEst</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>Go.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>GoEst</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in GoEst</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GoEst</servlet-name>
+    <url-pattern>/Go.pgf/GoEst/</url-pattern>
+  </servlet-mapping>
+
