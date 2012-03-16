@@ -286,8 +286,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		for (String l : engine.getLanguages()) {
 			// TODO: fix the URL
 			sideCol.add(new ListItem(
-					new WebLink("http://localhost:9077/" +
-							ontology.getName() + "/" + l + "/", l)));
+					new WebLink("http://localhost:9077" +
+							getParameter("pgf_name") + "/" + l + "/", l)));
 		}
 
 		externalEventMonitor = new ExternalEventMonitor();

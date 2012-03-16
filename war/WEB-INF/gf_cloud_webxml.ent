@@ -22,7 +22,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Foods.pgf</servlet-name>
-    <url-pattern>/backend/Foods.pgf</url-pattern>
+    <url-pattern>/Foods.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -44,7 +44,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsAfr</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsAfr/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsAfr/</url-pattern>
   </servlet-mapping>
 
 
@@ -66,7 +66,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsAmh</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsAmh/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsAmh/</url-pattern>
   </servlet-mapping>
 
 
@@ -88,7 +88,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsBul</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsBul/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsBul/</url-pattern>
   </servlet-mapping>
 
 
@@ -110,7 +110,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsCat</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsCat/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsCat/</url-pattern>
   </servlet-mapping>
 
 
@@ -132,7 +132,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsCze</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsCze/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsCze/</url-pattern>
   </servlet-mapping>
 
 
@@ -154,7 +154,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsDut</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsDut/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsDut/</url-pattern>
   </servlet-mapping>
 
 
@@ -176,7 +176,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsEng</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsEng/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsEng/</url-pattern>
   </servlet-mapping>
 
 
@@ -198,7 +198,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsEpo</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsEpo/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsEpo/</url-pattern>
   </servlet-mapping>
 
 
@@ -220,7 +220,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsFin</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsFin/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsFin/</url-pattern>
   </servlet-mapping>
 
 
@@ -242,7 +242,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsFre</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsFre/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsFre/</url-pattern>
   </servlet-mapping>
 
 
@@ -264,7 +264,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsGer</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsGer/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsGer/</url-pattern>
   </servlet-mapping>
 
 
@@ -286,7 +286,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsGle</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsGle/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsGle/</url-pattern>
   </servlet-mapping>
 
 
@@ -308,7 +308,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsHeb</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsHeb/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsHeb/</url-pattern>
   </servlet-mapping>
 
 
@@ -330,7 +330,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsHin</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsHin/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsHin/</url-pattern>
   </servlet-mapping>
 
 
@@ -352,7 +352,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsIce</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsIce/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsIce/</url-pattern>
   </servlet-mapping>
 
 
@@ -374,7 +374,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsIta</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsIta/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsIta/</url-pattern>
   </servlet-mapping>
 
 
@@ -396,7 +396,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsJpn</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsJpn/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsJpn/</url-pattern>
   </servlet-mapping>
 
 
@@ -418,7 +418,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsLav</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsLav/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsLav/</url-pattern>
   </servlet-mapping>
 
 
@@ -440,7 +440,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsMlt</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsMlt/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsMlt/</url-pattern>
   </servlet-mapping>
 
 
@@ -462,7 +462,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsMon</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsMon/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsMon/</url-pattern>
   </servlet-mapping>
 
 
@@ -484,7 +484,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsNep</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsNep/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsNep/</url-pattern>
   </servlet-mapping>
 
 
@@ -506,7 +506,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsPes</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsPes/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsPes/</url-pattern>
   </servlet-mapping>
 
 
@@ -528,7 +528,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsPor</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsPor/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsPor/</url-pattern>
   </servlet-mapping>
 
 
@@ -550,7 +550,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsRon</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsRon/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsRon/</url-pattern>
   </servlet-mapping>
 
 
@@ -572,7 +572,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsSpa</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsSpa/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsSpa/</url-pattern>
   </servlet-mapping>
 
 
@@ -594,7 +594,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsSwe</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsSwe/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsSwe/</url-pattern>
   </servlet-mapping>
 
 
@@ -616,7 +616,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsThai</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsThai/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsThai/</url-pattern>
   </servlet-mapping>
 
 
@@ -638,7 +638,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsTsn</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsTsn/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsTsn/</url-pattern>
   </servlet-mapping>
 
 
@@ -660,7 +660,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsTur</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsTur/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsTur/</url-pattern>
   </servlet-mapping>
 
 
@@ -682,7 +682,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsUrd</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsUrd/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsUrd/</url-pattern>
   </servlet-mapping>
 
 
@@ -709,7 +709,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Letter.pgf</servlet-name>
-    <url-pattern>/backend/Letter.pgf</url-pattern>
+    <url-pattern>/Letter.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -731,7 +731,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>LetterEng</servlet-name>
-    <url-pattern>/Letter.pgf/LetterEng/</url-pattern>
+    <url-pattern>/grammars/Letter.pgf/LetterEng/</url-pattern>
   </servlet-mapping>
 
 
@@ -753,7 +753,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>LetterFin</servlet-name>
-    <url-pattern>/Letter.pgf/LetterFin/</url-pattern>
+    <url-pattern>/grammars/Letter.pgf/LetterFin/</url-pattern>
   </servlet-mapping>
 
 
@@ -775,7 +775,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>LetterFre</servlet-name>
-    <url-pattern>/Letter.pgf/LetterFre/</url-pattern>
+    <url-pattern>/grammars/Letter.pgf/LetterFre/</url-pattern>
   </servlet-mapping>
 
 
@@ -797,7 +797,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>LetterHeb</servlet-name>
-    <url-pattern>/Letter.pgf/LetterHeb/</url-pattern>
+    <url-pattern>/grammars/Letter.pgf/LetterHeb/</url-pattern>
   </servlet-mapping>
 
 
@@ -819,7 +819,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>LetterRus</servlet-name>
-    <url-pattern>/Letter.pgf/LetterRus/</url-pattern>
+    <url-pattern>/grammars/Letter.pgf/LetterRus/</url-pattern>
   </servlet-mapping>
 
 
@@ -841,7 +841,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>LetterSwe</servlet-name>
-    <url-pattern>/Letter.pgf/LetterSwe/</url-pattern>
+    <url-pattern>/grammars/Letter.pgf/LetterSwe/</url-pattern>
   </servlet-mapping>
 
 
@@ -868,7 +868,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MathBar.pgf</servlet-name>
-    <url-pattern>/backend/MathBar.pgf</url-pattern>
+    <url-pattern>/MathBar.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -890,7 +890,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MathBarBul</servlet-name>
-    <url-pattern>/MathBar.pgf/MathBarBul/</url-pattern>
+    <url-pattern>/grammars/MathBar.pgf/MathBarBul/</url-pattern>
   </servlet-mapping>
 
 
@@ -912,7 +912,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MathBarCat</servlet-name>
-    <url-pattern>/MathBar.pgf/MathBarCat/</url-pattern>
+    <url-pattern>/grammars/MathBar.pgf/MathBarCat/</url-pattern>
   </servlet-mapping>
 
 
@@ -934,7 +934,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MathBarEng</servlet-name>
-    <url-pattern>/MathBar.pgf/MathBarEng/</url-pattern>
+    <url-pattern>/grammars/MathBar.pgf/MathBarEng/</url-pattern>
   </servlet-mapping>
 
 
@@ -956,7 +956,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MathBarFin</servlet-name>
-    <url-pattern>/MathBar.pgf/MathBarFin/</url-pattern>
+    <url-pattern>/grammars/MathBar.pgf/MathBarFin/</url-pattern>
   </servlet-mapping>
 
 
@@ -978,7 +978,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MathBarFre</servlet-name>
-    <url-pattern>/MathBar.pgf/MathBarFre/</url-pattern>
+    <url-pattern>/grammars/MathBar.pgf/MathBarFre/</url-pattern>
   </servlet-mapping>
 
 
@@ -1000,7 +1000,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MathBarGer</servlet-name>
-    <url-pattern>/MathBar.pgf/MathBarGer/</url-pattern>
+    <url-pattern>/grammars/MathBar.pgf/MathBarGer/</url-pattern>
   </servlet-mapping>
 
 
@@ -1022,7 +1022,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MathBarIta</servlet-name>
-    <url-pattern>/MathBar.pgf/MathBarIta/</url-pattern>
+    <url-pattern>/grammars/MathBar.pgf/MathBarIta/</url-pattern>
   </servlet-mapping>
 
 
@@ -1044,7 +1044,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MathBarLaTeX</servlet-name>
-    <url-pattern>/MathBar.pgf/MathBarLaTeX/</url-pattern>
+    <url-pattern>/grammars/MathBar.pgf/MathBarLaTeX/</url-pattern>
   </servlet-mapping>
 
 
@@ -1066,7 +1066,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MathBarPol</servlet-name>
-    <url-pattern>/MathBar.pgf/MathBarPol/</url-pattern>
+    <url-pattern>/grammars/MathBar.pgf/MathBarPol/</url-pattern>
   </servlet-mapping>
 
 
@@ -1088,7 +1088,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MathBarRon</servlet-name>
-    <url-pattern>/MathBar.pgf/MathBarRon/</url-pattern>
+    <url-pattern>/grammars/MathBar.pgf/MathBarRon/</url-pattern>
   </servlet-mapping>
 
 
@@ -1110,7 +1110,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MathBarRus</servlet-name>
-    <url-pattern>/MathBar.pgf/MathBarRus/</url-pattern>
+    <url-pattern>/grammars/MathBar.pgf/MathBarRus/</url-pattern>
   </servlet-mapping>
 
 
@@ -1137,7 +1137,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MiniGrammar.pgf</servlet-name>
-    <url-pattern>/backend/MiniGrammar.pgf</url-pattern>
+    <url-pattern>/MiniGrammar.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -1159,7 +1159,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MiniGrammarAfr</servlet-name>
-    <url-pattern>/MiniGrammar.pgf/MiniGrammarAfr/</url-pattern>
+    <url-pattern>/grammars/MiniGrammar.pgf/MiniGrammarAfr/</url-pattern>
   </servlet-mapping>
 
 
@@ -1181,7 +1181,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MiniGrammarBul</servlet-name>
-    <url-pattern>/MiniGrammar.pgf/MiniGrammarBul/</url-pattern>
+    <url-pattern>/grammars/MiniGrammar.pgf/MiniGrammarBul/</url-pattern>
   </servlet-mapping>
 
 
@@ -1203,7 +1203,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MiniGrammarCat</servlet-name>
-    <url-pattern>/MiniGrammar.pgf/MiniGrammarCat/</url-pattern>
+    <url-pattern>/grammars/MiniGrammar.pgf/MiniGrammarCat/</url-pattern>
   </servlet-mapping>
 
 
@@ -1225,7 +1225,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MiniGrammarDan</servlet-name>
-    <url-pattern>/MiniGrammar.pgf/MiniGrammarDan/</url-pattern>
+    <url-pattern>/grammars/MiniGrammar.pgf/MiniGrammarDan/</url-pattern>
   </servlet-mapping>
 
 
@@ -1247,7 +1247,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MiniGrammarDut</servlet-name>
-    <url-pattern>/MiniGrammar.pgf/MiniGrammarDut/</url-pattern>
+    <url-pattern>/grammars/MiniGrammar.pgf/MiniGrammarDut/</url-pattern>
   </servlet-mapping>
 
 
@@ -1269,7 +1269,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MiniGrammarEng</servlet-name>
-    <url-pattern>/MiniGrammar.pgf/MiniGrammarEng/</url-pattern>
+    <url-pattern>/grammars/MiniGrammar.pgf/MiniGrammarEng/</url-pattern>
   </servlet-mapping>
 
 
@@ -1291,7 +1291,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MiniGrammarFin</servlet-name>
-    <url-pattern>/MiniGrammar.pgf/MiniGrammarFin/</url-pattern>
+    <url-pattern>/grammars/MiniGrammar.pgf/MiniGrammarFin/</url-pattern>
   </servlet-mapping>
 
 
@@ -1313,7 +1313,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MiniGrammarFre</servlet-name>
-    <url-pattern>/MiniGrammar.pgf/MiniGrammarFre/</url-pattern>
+    <url-pattern>/grammars/MiniGrammar.pgf/MiniGrammarFre/</url-pattern>
   </servlet-mapping>
 
 
@@ -1335,7 +1335,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MiniGrammarGer</servlet-name>
-    <url-pattern>/MiniGrammar.pgf/MiniGrammarGer/</url-pattern>
+    <url-pattern>/grammars/MiniGrammar.pgf/MiniGrammarGer/</url-pattern>
   </servlet-mapping>
 
 
@@ -1357,7 +1357,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MiniGrammarHin</servlet-name>
-    <url-pattern>/MiniGrammar.pgf/MiniGrammarHin/</url-pattern>
+    <url-pattern>/grammars/MiniGrammar.pgf/MiniGrammarHin/</url-pattern>
   </servlet-mapping>
 
 
@@ -1379,7 +1379,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MiniGrammarIta</servlet-name>
-    <url-pattern>/MiniGrammar.pgf/MiniGrammarIta/</url-pattern>
+    <url-pattern>/grammars/MiniGrammar.pgf/MiniGrammarIta/</url-pattern>
   </servlet-mapping>
 
 
@@ -1401,7 +1401,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MiniGrammarLav</servlet-name>
-    <url-pattern>/MiniGrammar.pgf/MiniGrammarLav/</url-pattern>
+    <url-pattern>/grammars/MiniGrammar.pgf/MiniGrammarLav/</url-pattern>
   </servlet-mapping>
 
 
@@ -1423,7 +1423,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MiniGrammarNep</servlet-name>
-    <url-pattern>/MiniGrammar.pgf/MiniGrammarNep/</url-pattern>
+    <url-pattern>/grammars/MiniGrammar.pgf/MiniGrammarNep/</url-pattern>
   </servlet-mapping>
 
 
@@ -1445,7 +1445,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MiniGrammarNor</servlet-name>
-    <url-pattern>/MiniGrammar.pgf/MiniGrammarNor/</url-pattern>
+    <url-pattern>/grammars/MiniGrammar.pgf/MiniGrammarNor/</url-pattern>
   </servlet-mapping>
 
 
@@ -1467,7 +1467,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MiniGrammarPes</servlet-name>
-    <url-pattern>/MiniGrammar.pgf/MiniGrammarPes/</url-pattern>
+    <url-pattern>/grammars/MiniGrammar.pgf/MiniGrammarPes/</url-pattern>
   </servlet-mapping>
 
 
@@ -1489,7 +1489,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MiniGrammarPnb</servlet-name>
-    <url-pattern>/MiniGrammar.pgf/MiniGrammarPnb/</url-pattern>
+    <url-pattern>/grammars/MiniGrammar.pgf/MiniGrammarPnb/</url-pattern>
   </servlet-mapping>
 
 
@@ -1511,7 +1511,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MiniGrammarPol</servlet-name>
-    <url-pattern>/MiniGrammar.pgf/MiniGrammarPol/</url-pattern>
+    <url-pattern>/grammars/MiniGrammar.pgf/MiniGrammarPol/</url-pattern>
   </servlet-mapping>
 
 
@@ -1533,7 +1533,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MiniGrammarRon</servlet-name>
-    <url-pattern>/MiniGrammar.pgf/MiniGrammarRon/</url-pattern>
+    <url-pattern>/grammars/MiniGrammar.pgf/MiniGrammarRon/</url-pattern>
   </servlet-mapping>
 
 
@@ -1555,7 +1555,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MiniGrammarRus</servlet-name>
-    <url-pattern>/MiniGrammar.pgf/MiniGrammarRus/</url-pattern>
+    <url-pattern>/grammars/MiniGrammar.pgf/MiniGrammarRus/</url-pattern>
   </servlet-mapping>
 
 
@@ -1577,7 +1577,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MiniGrammarSnd</servlet-name>
-    <url-pattern>/MiniGrammar.pgf/MiniGrammarSnd/</url-pattern>
+    <url-pattern>/grammars/MiniGrammar.pgf/MiniGrammarSnd/</url-pattern>
   </servlet-mapping>
 
 
@@ -1599,7 +1599,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MiniGrammarSpa</servlet-name>
-    <url-pattern>/MiniGrammar.pgf/MiniGrammarSpa/</url-pattern>
+    <url-pattern>/grammars/MiniGrammar.pgf/MiniGrammarSpa/</url-pattern>
   </servlet-mapping>
 
 
@@ -1621,7 +1621,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MiniGrammarSwe</servlet-name>
-    <url-pattern>/MiniGrammar.pgf/MiniGrammarSwe/</url-pattern>
+    <url-pattern>/grammars/MiniGrammar.pgf/MiniGrammarSwe/</url-pattern>
   </servlet-mapping>
 
 
@@ -1643,7 +1643,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MiniGrammarTha</servlet-name>
-    <url-pattern>/MiniGrammar.pgf/MiniGrammarTha/</url-pattern>
+    <url-pattern>/grammars/MiniGrammar.pgf/MiniGrammarTha/</url-pattern>
   </servlet-mapping>
 
 
@@ -1665,7 +1665,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MiniGrammarUrd</servlet-name>
-    <url-pattern>/MiniGrammar.pgf/MiniGrammarUrd/</url-pattern>
+    <url-pattern>/grammars/MiniGrammar.pgf/MiniGrammarUrd/</url-pattern>
   </servlet-mapping>
 
 
@@ -1692,7 +1692,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MorphoQuizVerbsEng.pgf</servlet-name>
-    <url-pattern>/backend/MorphoQuizVerbsEng.pgf</url-pattern>
+    <url-pattern>/MorphoQuizVerbsEng.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -1714,7 +1714,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>EngDescr</servlet-name>
-    <url-pattern>/MorphoQuizVerbsEng.pgf/EngDescr/</url-pattern>
+    <url-pattern>/grammars/MorphoQuizVerbsEng.pgf/EngDescr/</url-pattern>
   </servlet-mapping>
 
 
@@ -1736,7 +1736,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>EngReal</servlet-name>
-    <url-pattern>/MorphoQuizVerbsEng.pgf/EngReal/</url-pattern>
+    <url-pattern>/grammars/MorphoQuizVerbsEng.pgf/EngReal/</url-pattern>
   </servlet-mapping>
 
 
@@ -1763,7 +1763,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Numerals.pgf</servlet-name>
-    <url-pattern>/backend/Numerals.pgf</url-pattern>
+    <url-pattern>/Numerals.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -1785,7 +1785,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>af_tunni</servlet-name>
-    <url-pattern>/Numerals.pgf/af_tunni/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/af_tunni/</url-pattern>
   </servlet-mapping>
 
 
@@ -1807,7 +1807,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>albanian</servlet-name>
-    <url-pattern>/Numerals.pgf/albanian/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/albanian/</url-pattern>
   </servlet-mapping>
 
 
@@ -1829,7 +1829,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>amharic</servlet-name>
-    <url-pattern>/Numerals.pgf/amharic/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/amharic/</url-pattern>
   </servlet-mapping>
 
 
@@ -1851,7 +1851,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>arabic_classical</servlet-name>
-    <url-pattern>/Numerals.pgf/arabic_classical/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/arabic_classical/</url-pattern>
   </servlet-mapping>
 
 
@@ -1873,7 +1873,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>arabic_modern</servlet-name>
-    <url-pattern>/Numerals.pgf/arabic_modern/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/arabic_modern/</url-pattern>
   </servlet-mapping>
 
 
@@ -1895,7 +1895,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>basque</servlet-name>
-    <url-pattern>/Numerals.pgf/basque/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/basque/</url-pattern>
   </servlet-mapping>
 
 
@@ -1917,7 +1917,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>bearlake_slave</servlet-name>
-    <url-pattern>/Numerals.pgf/bearlake_slave/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/bearlake_slave/</url-pattern>
   </servlet-mapping>
 
 
@@ -1939,7 +1939,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>bulgarian</servlet-name>
-    <url-pattern>/Numerals.pgf/bulgarian/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/bulgarian/</url-pattern>
   </servlet-mapping>
 
 
@@ -1961,7 +1961,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>catalan</servlet-name>
-    <url-pattern>/Numerals.pgf/catalan/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/catalan/</url-pattern>
   </servlet-mapping>
 
 
@@ -1983,7 +1983,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>chinese</servlet-name>
-    <url-pattern>/Numerals.pgf/chinese/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/chinese/</url-pattern>
   </servlet-mapping>
 
 
@@ -2005,7 +2005,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>croatian</servlet-name>
-    <url-pattern>/Numerals.pgf/croatian/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/croatian/</url-pattern>
   </servlet-mapping>
 
 
@@ -2027,7 +2027,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>czech</servlet-name>
-    <url-pattern>/Numerals.pgf/czech/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/czech/</url-pattern>
   </servlet-mapping>
 
 
@@ -2049,7 +2049,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>dagur</servlet-name>
-    <url-pattern>/Numerals.pgf/dagur/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/dagur/</url-pattern>
   </servlet-mapping>
 
 
@@ -2071,7 +2071,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>danish</servlet-name>
-    <url-pattern>/Numerals.pgf/danish/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/danish/</url-pattern>
   </servlet-mapping>
 
 
@@ -2093,7 +2093,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>decimal</servlet-name>
-    <url-pattern>/Numerals.pgf/decimal/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/decimal/</url-pattern>
   </servlet-mapping>
 
 
@@ -2115,7 +2115,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>dutch</servlet-name>
-    <url-pattern>/Numerals.pgf/dutch/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/dutch/</url-pattern>
   </servlet-mapping>
 
 
@@ -2137,7 +2137,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>english</servlet-name>
-    <url-pattern>/Numerals.pgf/english/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/english/</url-pattern>
   </servlet-mapping>
 
 
@@ -2159,7 +2159,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>finnish</servlet-name>
-    <url-pattern>/Numerals.pgf/finnish/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/finnish/</url-pattern>
   </servlet-mapping>
 
 
@@ -2181,7 +2181,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>french</servlet-name>
-    <url-pattern>/Numerals.pgf/french/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/french/</url-pattern>
   </servlet-mapping>
 
 
@@ -2203,7 +2203,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>french_belgian</servlet-name>
-    <url-pattern>/Numerals.pgf/french_belgian/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/french_belgian/</url-pattern>
   </servlet-mapping>
 
 
@@ -2225,7 +2225,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>french_swiss</servlet-name>
-    <url-pattern>/Numerals.pgf/french_swiss/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/french_swiss/</url-pattern>
   </servlet-mapping>
 
 
@@ -2247,7 +2247,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>fulfulde</servlet-name>
-    <url-pattern>/Numerals.pgf/fulfulde/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/fulfulde/</url-pattern>
   </servlet-mapping>
 
 
@@ -2269,7 +2269,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>geez</servlet-name>
-    <url-pattern>/Numerals.pgf/geez/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/geez/</url-pattern>
   </servlet-mapping>
 
 
@@ -2291,7 +2291,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>german</servlet-name>
-    <url-pattern>/Numerals.pgf/german/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/german/</url-pattern>
   </servlet-mapping>
 
 
@@ -2313,7 +2313,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>greek_classical</servlet-name>
-    <url-pattern>/Numerals.pgf/greek_classical/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/greek_classical/</url-pattern>
   </servlet-mapping>
 
 
@@ -2335,7 +2335,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>greek_modern</servlet-name>
-    <url-pattern>/Numerals.pgf/greek_modern/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/greek_modern/</url-pattern>
   </servlet-mapping>
 
 
@@ -2357,7 +2357,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>guahibo</servlet-name>
-    <url-pattern>/Numerals.pgf/guahibo/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/guahibo/</url-pattern>
   </servlet-mapping>
 
 
@@ -2379,7 +2379,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>guarani</servlet-name>
-    <url-pattern>/Numerals.pgf/guarani/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/guarani/</url-pattern>
   </servlet-mapping>
 
 
@@ -2401,7 +2401,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>hebrew_biblical</servlet-name>
-    <url-pattern>/Numerals.pgf/hebrew_biblical/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/hebrew_biblical/</url-pattern>
   </servlet-mapping>
 
 
@@ -2423,7 +2423,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>hindi</servlet-name>
-    <url-pattern>/Numerals.pgf/hindi/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/hindi/</url-pattern>
   </servlet-mapping>
 
 
@@ -2445,7 +2445,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>hungarian</servlet-name>
-    <url-pattern>/Numerals.pgf/hungarian/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/hungarian/</url-pattern>
   </servlet-mapping>
 
 
@@ -2467,7 +2467,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>icelandic</servlet-name>
-    <url-pattern>/Numerals.pgf/icelandic/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/icelandic/</url-pattern>
   </servlet-mapping>
 
 
@@ -2489,7 +2489,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>interlingua</servlet-name>
-    <url-pattern>/Numerals.pgf/interlingua/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/interlingua/</url-pattern>
   </servlet-mapping>
 
 
@@ -2511,7 +2511,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>irish</servlet-name>
-    <url-pattern>/Numerals.pgf/irish/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/irish/</url-pattern>
   </servlet-mapping>
 
 
@@ -2533,7 +2533,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>italian</servlet-name>
-    <url-pattern>/Numerals.pgf/italian/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/italian/</url-pattern>
   </servlet-mapping>
 
 
@@ -2555,7 +2555,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>japanese</servlet-name>
-    <url-pattern>/Numerals.pgf/japanese/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/japanese/</url-pattern>
   </servlet-mapping>
 
 
@@ -2577,7 +2577,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>kabardian</servlet-name>
-    <url-pattern>/Numerals.pgf/kabardian/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/kabardian/</url-pattern>
   </servlet-mapping>
 
 
@@ -2599,7 +2599,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>kambera</servlet-name>
-    <url-pattern>/Numerals.pgf/kambera/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/kambera/</url-pattern>
   </servlet-mapping>
 
 
@@ -2621,7 +2621,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>kawaiisu</servlet-name>
-    <url-pattern>/Numerals.pgf/kawaiisu/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/kawaiisu/</url-pattern>
   </servlet-mapping>
 
 
@@ -2643,7 +2643,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>khmer</servlet-name>
-    <url-pattern>/Numerals.pgf/khmer/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/khmer/</url-pattern>
   </servlet-mapping>
 
 
@@ -2665,7 +2665,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>khowar</servlet-name>
-    <url-pattern>/Numerals.pgf/khowar/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/khowar/</url-pattern>
   </servlet-mapping>
 
 
@@ -2687,7 +2687,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>kolyma_yukaghir</servlet-name>
-    <url-pattern>/Numerals.pgf/kolyma_yukaghir/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/kolyma_yukaghir/</url-pattern>
   </servlet-mapping>
 
 
@@ -2709,7 +2709,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>korean</servlet-name>
-    <url-pattern>/Numerals.pgf/korean/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/korean/</url-pattern>
   </servlet-mapping>
 
 
@@ -2731,7 +2731,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>kulung</servlet-name>
-    <url-pattern>/Numerals.pgf/kulung/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/kulung/</url-pattern>
   </servlet-mapping>
 
 
@@ -2753,7 +2753,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>kwami</servlet-name>
-    <url-pattern>/Numerals.pgf/kwami/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/kwami/</url-pattern>
   </servlet-mapping>
 
 
@@ -2775,7 +2775,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>kwaza</servlet-name>
-    <url-pattern>/Numerals.pgf/kwaza/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/kwaza/</url-pattern>
   </servlet-mapping>
 
 
@@ -2797,7 +2797,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>lalo</servlet-name>
-    <url-pattern>/Numerals.pgf/lalo/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/lalo/</url-pattern>
   </servlet-mapping>
 
 
@@ -2819,7 +2819,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>lamani</servlet-name>
-    <url-pattern>/Numerals.pgf/lamani/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/lamani/</url-pattern>
   </servlet-mapping>
 
 
@@ -2841,7 +2841,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>latvian</servlet-name>
-    <url-pattern>/Numerals.pgf/latvian/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/latvian/</url-pattern>
   </servlet-mapping>
 
 
@@ -2863,7 +2863,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>lithuanian</servlet-name>
-    <url-pattern>/Numerals.pgf/lithuanian/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/lithuanian/</url-pattern>
   </servlet-mapping>
 
 
@@ -2885,7 +2885,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>lotuxo</servlet-name>
-    <url-pattern>/Numerals.pgf/lotuxo/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/lotuxo/</url-pattern>
   </servlet-mapping>
 
 
@@ -2907,7 +2907,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>maale</servlet-name>
-    <url-pattern>/Numerals.pgf/maale/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/maale/</url-pattern>
   </servlet-mapping>
 
 
@@ -2929,7 +2929,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>malay</servlet-name>
-    <url-pattern>/Numerals.pgf/malay/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/malay/</url-pattern>
   </servlet-mapping>
 
 
@@ -2951,7 +2951,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>maltese</servlet-name>
-    <url-pattern>/Numerals.pgf/maltese/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/maltese/</url-pattern>
   </servlet-mapping>
 
 
@@ -2973,7 +2973,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>mapuche</servlet-name>
-    <url-pattern>/Numerals.pgf/mapuche/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/mapuche/</url-pattern>
   </servlet-mapping>
 
 
@@ -2995,7 +2995,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>margi</servlet-name>
-    <url-pattern>/Numerals.pgf/margi/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/margi/</url-pattern>
   </servlet-mapping>
 
 
@@ -3017,7 +3017,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>maybrat</servlet-name>
-    <url-pattern>/Numerals.pgf/maybrat/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/maybrat/</url-pattern>
   </servlet-mapping>
 
 
@@ -3039,7 +3039,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>miya</servlet-name>
-    <url-pattern>/Numerals.pgf/miya/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/miya/</url-pattern>
   </servlet-mapping>
 
 
@@ -3061,7 +3061,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>mongolian</servlet-name>
-    <url-pattern>/Numerals.pgf/mongolian/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/mongolian/</url-pattern>
   </servlet-mapping>
 
 
@@ -3083,7 +3083,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>nenets</servlet-name>
-    <url-pattern>/Numerals.pgf/nenets/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/nenets/</url-pattern>
   </servlet-mapping>
 
 
@@ -3105,7 +3105,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>norwegian_book</servlet-name>
-    <url-pattern>/Numerals.pgf/norwegian_book/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/norwegian_book/</url-pattern>
   </servlet-mapping>
 
 
@@ -3127,7 +3127,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>old_church_slavonic</servlet-name>
-    <url-pattern>/Numerals.pgf/old_church_slavonic/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/old_church_slavonic/</url-pattern>
   </servlet-mapping>
 
 
@@ -3149,7 +3149,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>oromo</servlet-name>
-    <url-pattern>/Numerals.pgf/oromo/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/oromo/</url-pattern>
   </servlet-mapping>
 
 
@@ -3171,7 +3171,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>pashto</servlet-name>
-    <url-pattern>/Numerals.pgf/pashto/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/pashto/</url-pattern>
   </servlet-mapping>
 
 
@@ -3193,7 +3193,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>polish</servlet-name>
-    <url-pattern>/Numerals.pgf/polish/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/polish/</url-pattern>
   </servlet-mapping>
 
 
@@ -3215,7 +3215,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>portuguese</servlet-name>
-    <url-pattern>/Numerals.pgf/portuguese/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/portuguese/</url-pattern>
   </servlet-mapping>
 
 
@@ -3237,7 +3237,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>quechua</servlet-name>
-    <url-pattern>/Numerals.pgf/quechua/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/quechua/</url-pattern>
   </servlet-mapping>
 
 
@@ -3259,7 +3259,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>romanian</servlet-name>
-    <url-pattern>/Numerals.pgf/romanian/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/romanian/</url-pattern>
   </servlet-mapping>
 
 
@@ -3281,7 +3281,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>russian</servlet-name>
-    <url-pattern>/Numerals.pgf/russian/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/russian/</url-pattern>
   </servlet-mapping>
 
 
@@ -3303,7 +3303,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>sango</servlet-name>
-    <url-pattern>/Numerals.pgf/sango/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/sango/</url-pattern>
   </servlet-mapping>
 
 
@@ -3325,7 +3325,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>slovak</servlet-name>
-    <url-pattern>/Numerals.pgf/slovak/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/slovak/</url-pattern>
   </servlet-mapping>
 
 
@@ -3347,7 +3347,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>sorani</servlet-name>
-    <url-pattern>/Numerals.pgf/sorani/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/sorani/</url-pattern>
   </servlet-mapping>
 
 
@@ -3369,7 +3369,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>spanish</servlet-name>
-    <url-pattern>/Numerals.pgf/spanish/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/spanish/</url-pattern>
   </servlet-mapping>
 
 
@@ -3391,7 +3391,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>stieng</servlet-name>
-    <url-pattern>/Numerals.pgf/stieng/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/stieng/</url-pattern>
   </servlet-mapping>
 
 
@@ -3413,7 +3413,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>swahili</servlet-name>
-    <url-pattern>/Numerals.pgf/swahili/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/swahili/</url-pattern>
   </servlet-mapping>
 
 
@@ -3435,7 +3435,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>swedish</servlet-name>
-    <url-pattern>/Numerals.pgf/swedish/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/swedish/</url-pattern>
   </servlet-mapping>
 
 
@@ -3457,7 +3457,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>tamil</servlet-name>
-    <url-pattern>/Numerals.pgf/tamil/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/tamil/</url-pattern>
   </servlet-mapping>
 
 
@@ -3479,7 +3479,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>tampere</servlet-name>
-    <url-pattern>/Numerals.pgf/tampere/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/tampere/</url-pattern>
   </servlet-mapping>
 
 
@@ -3501,7 +3501,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>thai</servlet-name>
-    <url-pattern>/Numerals.pgf/thai/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/thai/</url-pattern>
   </servlet-mapping>
 
 
@@ -3523,7 +3523,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>tibetan</servlet-name>
-    <url-pattern>/Numerals.pgf/tibetan/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/tibetan/</url-pattern>
   </servlet-mapping>
 
 
@@ -3545,7 +3545,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>totonac</servlet-name>
-    <url-pattern>/Numerals.pgf/totonac/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/totonac/</url-pattern>
   </servlet-mapping>
 
 
@@ -3567,7 +3567,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>tuda_daza</servlet-name>
-    <url-pattern>/Numerals.pgf/tuda_daza/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/tuda_daza/</url-pattern>
   </servlet-mapping>
 
 
@@ -3589,7 +3589,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>tukang_besi</servlet-name>
-    <url-pattern>/Numerals.pgf/tukang_besi/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/tukang_besi/</url-pattern>
   </servlet-mapping>
 
 
@@ -3611,7 +3611,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>turkish</servlet-name>
-    <url-pattern>/Numerals.pgf/turkish/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/turkish/</url-pattern>
   </servlet-mapping>
 
 
@@ -3633,7 +3633,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>votic</servlet-name>
-    <url-pattern>/Numerals.pgf/votic/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/votic/</url-pattern>
   </servlet-mapping>
 
 
@@ -3655,7 +3655,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>yasin_burushaski</servlet-name>
-    <url-pattern>/Numerals.pgf/yasin_burushaski/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/yasin_burushaski/</url-pattern>
   </servlet-mapping>
 
 
@@ -3677,7 +3677,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>zaiwa</servlet-name>
-    <url-pattern>/Numerals.pgf/zaiwa/</url-pattern>
+    <url-pattern>/grammars/Numerals.pgf/zaiwa/</url-pattern>
   </servlet-mapping>
 
 
@@ -3704,7 +3704,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Painting.pgf</servlet-name>
-    <url-pattern>/backend/Painting.pgf</url-pattern>
+    <url-pattern>/Painting.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -3726,7 +3726,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PaintingEng</servlet-name>
-    <url-pattern>/Painting.pgf/PaintingEng/</url-pattern>
+    <url-pattern>/grammars/Painting.pgf/PaintingEng/</url-pattern>
   </servlet-mapping>
 
 
@@ -3748,7 +3748,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PaintingFin</servlet-name>
-    <url-pattern>/Painting.pgf/PaintingFin/</url-pattern>
+    <url-pattern>/grammars/Painting.pgf/PaintingFin/</url-pattern>
   </servlet-mapping>
 
 
@@ -3770,7 +3770,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PaintingFre</servlet-name>
-    <url-pattern>/Painting.pgf/PaintingFre/</url-pattern>
+    <url-pattern>/grammars/Painting.pgf/PaintingFre/</url-pattern>
   </servlet-mapping>
 
 
@@ -3792,7 +3792,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PaintingIta</servlet-name>
-    <url-pattern>/Painting.pgf/PaintingIta/</url-pattern>
+    <url-pattern>/grammars/Painting.pgf/PaintingIta/</url-pattern>
   </servlet-mapping>
 
 
@@ -3814,7 +3814,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PaintingSwe</servlet-name>
-    <url-pattern>/Painting.pgf/PaintingSwe/</url-pattern>
+    <url-pattern>/grammars/Painting.pgf/PaintingSwe/</url-pattern>
   </servlet-mapping>
 
 
@@ -3841,7 +3841,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Phrasebook.pgf</servlet-name>
-    <url-pattern>/backend/Phrasebook.pgf</url-pattern>
+    <url-pattern>/Phrasebook.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -3863,7 +3863,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>DisambPhrasebookEng</servlet-name>
-    <url-pattern>/Phrasebook.pgf/DisambPhrasebookEng/</url-pattern>
+    <url-pattern>/grammars/Phrasebook.pgf/DisambPhrasebookEng/</url-pattern>
   </servlet-mapping>
 
 
@@ -3885,7 +3885,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookBul</servlet-name>
-    <url-pattern>/Phrasebook.pgf/PhrasebookBul/</url-pattern>
+    <url-pattern>/grammars/Phrasebook.pgf/PhrasebookBul/</url-pattern>
   </servlet-mapping>
 
 
@@ -3907,7 +3907,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookCat</servlet-name>
-    <url-pattern>/Phrasebook.pgf/PhrasebookCat/</url-pattern>
+    <url-pattern>/grammars/Phrasebook.pgf/PhrasebookCat/</url-pattern>
   </servlet-mapping>
 
 
@@ -3929,7 +3929,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookDan</servlet-name>
-    <url-pattern>/Phrasebook.pgf/PhrasebookDan/</url-pattern>
+    <url-pattern>/grammars/Phrasebook.pgf/PhrasebookDan/</url-pattern>
   </servlet-mapping>
 
 
@@ -3951,7 +3951,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookDut</servlet-name>
-    <url-pattern>/Phrasebook.pgf/PhrasebookDut/</url-pattern>
+    <url-pattern>/grammars/Phrasebook.pgf/PhrasebookDut/</url-pattern>
   </servlet-mapping>
 
 
@@ -3973,7 +3973,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookEng</servlet-name>
-    <url-pattern>/Phrasebook.pgf/PhrasebookEng/</url-pattern>
+    <url-pattern>/grammars/Phrasebook.pgf/PhrasebookEng/</url-pattern>
   </servlet-mapping>
 
 
@@ -3995,7 +3995,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookFin</servlet-name>
-    <url-pattern>/Phrasebook.pgf/PhrasebookFin/</url-pattern>
+    <url-pattern>/grammars/Phrasebook.pgf/PhrasebookFin/</url-pattern>
   </servlet-mapping>
 
 
@@ -4017,7 +4017,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookFre</servlet-name>
-    <url-pattern>/Phrasebook.pgf/PhrasebookFre/</url-pattern>
+    <url-pattern>/grammars/Phrasebook.pgf/PhrasebookFre/</url-pattern>
   </servlet-mapping>
 
 
@@ -4039,7 +4039,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookGer</servlet-name>
-    <url-pattern>/Phrasebook.pgf/PhrasebookGer/</url-pattern>
+    <url-pattern>/grammars/Phrasebook.pgf/PhrasebookGer/</url-pattern>
   </servlet-mapping>
 
 
@@ -4061,7 +4061,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookHin</servlet-name>
-    <url-pattern>/Phrasebook.pgf/PhrasebookHin/</url-pattern>
+    <url-pattern>/grammars/Phrasebook.pgf/PhrasebookHin/</url-pattern>
   </servlet-mapping>
 
 
@@ -4083,7 +4083,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookIta</servlet-name>
-    <url-pattern>/Phrasebook.pgf/PhrasebookIta/</url-pattern>
+    <url-pattern>/grammars/Phrasebook.pgf/PhrasebookIta/</url-pattern>
   </servlet-mapping>
 
 
@@ -4105,7 +4105,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookNor</servlet-name>
-    <url-pattern>/Phrasebook.pgf/PhrasebookNor/</url-pattern>
+    <url-pattern>/grammars/Phrasebook.pgf/PhrasebookNor/</url-pattern>
   </servlet-mapping>
 
 
@@ -4127,7 +4127,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookPes</servlet-name>
-    <url-pattern>/Phrasebook.pgf/PhrasebookPes/</url-pattern>
+    <url-pattern>/grammars/Phrasebook.pgf/PhrasebookPes/</url-pattern>
   </servlet-mapping>
 
 
@@ -4149,7 +4149,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookPol</servlet-name>
-    <url-pattern>/Phrasebook.pgf/PhrasebookPol/</url-pattern>
+    <url-pattern>/grammars/Phrasebook.pgf/PhrasebookPol/</url-pattern>
   </servlet-mapping>
 
 
@@ -4171,7 +4171,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookRon</servlet-name>
-    <url-pattern>/Phrasebook.pgf/PhrasebookRon/</url-pattern>
+    <url-pattern>/grammars/Phrasebook.pgf/PhrasebookRon/</url-pattern>
   </servlet-mapping>
 
 
@@ -4193,7 +4193,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookRus</servlet-name>
-    <url-pattern>/Phrasebook.pgf/PhrasebookRus/</url-pattern>
+    <url-pattern>/grammars/Phrasebook.pgf/PhrasebookRus/</url-pattern>
   </servlet-mapping>
 
 
@@ -4215,7 +4215,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookSpa</servlet-name>
-    <url-pattern>/Phrasebook.pgf/PhrasebookSpa/</url-pattern>
+    <url-pattern>/grammars/Phrasebook.pgf/PhrasebookSpa/</url-pattern>
   </servlet-mapping>
 
 
@@ -4237,7 +4237,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookSwe</servlet-name>
-    <url-pattern>/Phrasebook.pgf/PhrasebookSwe/</url-pattern>
+    <url-pattern>/grammars/Phrasebook.pgf/PhrasebookSwe/</url-pattern>
   </servlet-mapping>
 
 
@@ -4259,7 +4259,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookTha</servlet-name>
-    <url-pattern>/Phrasebook.pgf/PhrasebookTha/</url-pattern>
+    <url-pattern>/grammars/Phrasebook.pgf/PhrasebookTha/</url-pattern>
   </servlet-mapping>
 
 
@@ -4281,7 +4281,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookUrd</servlet-name>
-    <url-pattern>/Phrasebook.pgf/PhrasebookUrd/</url-pattern>
+    <url-pattern>/grammars/Phrasebook.pgf/PhrasebookUrd/</url-pattern>
   </servlet-mapping>
 
 
@@ -4308,7 +4308,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookNov2011.pgf</servlet-name>
-    <url-pattern>/backend/PhrasebookNov2011.pgf</url-pattern>
+    <url-pattern>/PhrasebookNov2011.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -4330,7 +4330,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>DisambPhrasebookEng</servlet-name>
-    <url-pattern>/PhrasebookNov2011.pgf/DisambPhrasebookEng/</url-pattern>
+    <url-pattern>/grammars/PhrasebookNov2011.pgf/DisambPhrasebookEng/</url-pattern>
   </servlet-mapping>
 
 
@@ -4352,7 +4352,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookBul</servlet-name>
-    <url-pattern>/PhrasebookNov2011.pgf/PhrasebookBul/</url-pattern>
+    <url-pattern>/grammars/PhrasebookNov2011.pgf/PhrasebookBul/</url-pattern>
   </servlet-mapping>
 
 
@@ -4374,7 +4374,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookCat</servlet-name>
-    <url-pattern>/PhrasebookNov2011.pgf/PhrasebookCat/</url-pattern>
+    <url-pattern>/grammars/PhrasebookNov2011.pgf/PhrasebookCat/</url-pattern>
   </servlet-mapping>
 
 
@@ -4396,7 +4396,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookDan</servlet-name>
-    <url-pattern>/PhrasebookNov2011.pgf/PhrasebookDan/</url-pattern>
+    <url-pattern>/grammars/PhrasebookNov2011.pgf/PhrasebookDan/</url-pattern>
   </servlet-mapping>
 
 
@@ -4418,7 +4418,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookDut</servlet-name>
-    <url-pattern>/PhrasebookNov2011.pgf/PhrasebookDut/</url-pattern>
+    <url-pattern>/grammars/PhrasebookNov2011.pgf/PhrasebookDut/</url-pattern>
   </servlet-mapping>
 
 
@@ -4440,7 +4440,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookEng</servlet-name>
-    <url-pattern>/PhrasebookNov2011.pgf/PhrasebookEng/</url-pattern>
+    <url-pattern>/grammars/PhrasebookNov2011.pgf/PhrasebookEng/</url-pattern>
   </servlet-mapping>
 
 
@@ -4462,7 +4462,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookFin</servlet-name>
-    <url-pattern>/PhrasebookNov2011.pgf/PhrasebookFin/</url-pattern>
+    <url-pattern>/grammars/PhrasebookNov2011.pgf/PhrasebookFin/</url-pattern>
   </servlet-mapping>
 
 
@@ -4484,7 +4484,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookFre</servlet-name>
-    <url-pattern>/PhrasebookNov2011.pgf/PhrasebookFre/</url-pattern>
+    <url-pattern>/grammars/PhrasebookNov2011.pgf/PhrasebookFre/</url-pattern>
   </servlet-mapping>
 
 
@@ -4506,7 +4506,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookGer</servlet-name>
-    <url-pattern>/PhrasebookNov2011.pgf/PhrasebookGer/</url-pattern>
+    <url-pattern>/grammars/PhrasebookNov2011.pgf/PhrasebookGer/</url-pattern>
   </servlet-mapping>
 
 
@@ -4528,7 +4528,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookIta</servlet-name>
-    <url-pattern>/PhrasebookNov2011.pgf/PhrasebookIta/</url-pattern>
+    <url-pattern>/grammars/PhrasebookNov2011.pgf/PhrasebookIta/</url-pattern>
   </servlet-mapping>
 
 
@@ -4550,7 +4550,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookNor</servlet-name>
-    <url-pattern>/PhrasebookNov2011.pgf/PhrasebookNor/</url-pattern>
+    <url-pattern>/grammars/PhrasebookNov2011.pgf/PhrasebookNor/</url-pattern>
   </servlet-mapping>
 
 
@@ -4572,7 +4572,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookPol</servlet-name>
-    <url-pattern>/PhrasebookNov2011.pgf/PhrasebookPol/</url-pattern>
+    <url-pattern>/grammars/PhrasebookNov2011.pgf/PhrasebookPol/</url-pattern>
   </servlet-mapping>
 
 
@@ -4594,7 +4594,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookRon</servlet-name>
-    <url-pattern>/PhrasebookNov2011.pgf/PhrasebookRon/</url-pattern>
+    <url-pattern>/grammars/PhrasebookNov2011.pgf/PhrasebookRon/</url-pattern>
   </servlet-mapping>
 
 
@@ -4616,7 +4616,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookRus</servlet-name>
-    <url-pattern>/PhrasebookNov2011.pgf/PhrasebookRus/</url-pattern>
+    <url-pattern>/grammars/PhrasebookNov2011.pgf/PhrasebookRus/</url-pattern>
   </servlet-mapping>
 
 
@@ -4638,7 +4638,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookSpa</servlet-name>
-    <url-pattern>/PhrasebookNov2011.pgf/PhrasebookSpa/</url-pattern>
+    <url-pattern>/grammars/PhrasebookNov2011.pgf/PhrasebookSpa/</url-pattern>
   </servlet-mapping>
 
 
@@ -4660,7 +4660,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookSwe</servlet-name>
-    <url-pattern>/PhrasebookNov2011.pgf/PhrasebookSwe/</url-pattern>
+    <url-pattern>/grammars/PhrasebookNov2011.pgf/PhrasebookSwe/</url-pattern>
   </servlet-mapping>
 
 
@@ -4682,7 +4682,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PhrasebookUrd</servlet-name>
-    <url-pattern>/PhrasebookNov2011.pgf/PhrasebookUrd/</url-pattern>
+    <url-pattern>/grammars/PhrasebookNov2011.pgf/PhrasebookUrd/</url-pattern>
   </servlet-mapping>
 
 
@@ -4709,7 +4709,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Quiz.pgf</servlet-name>
-    <url-pattern>/backend/Quiz.pgf</url-pattern>
+    <url-pattern>/Quiz.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -4731,7 +4731,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>QuizEng</servlet-name>
-    <url-pattern>/Quiz.pgf/QuizEng/</url-pattern>
+    <url-pattern>/grammars/Quiz.pgf/QuizEng/</url-pattern>
   </servlet-mapping>
 
 
@@ -4753,7 +4753,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>QuizSwe</servlet-name>
-    <url-pattern>/Quiz.pgf/QuizSwe/</url-pattern>
+    <url-pattern>/grammars/Quiz.pgf/QuizSwe/</url-pattern>
   </servlet-mapping>
 
 
@@ -4780,7 +4780,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Smart.pgf</servlet-name>
-    <url-pattern>/backend/Smart.pgf</url-pattern>
+    <url-pattern>/Smart.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -4802,7 +4802,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>SmartEng</servlet-name>
-    <url-pattern>/Smart.pgf/SmartEng/</url-pattern>
+    <url-pattern>/grammars/Smart.pgf/SmartEng/</url-pattern>
   </servlet-mapping>
 
 
@@ -4824,7 +4824,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>SmartFre</servlet-name>
-    <url-pattern>/Smart.pgf/SmartFre/</url-pattern>
+    <url-pattern>/grammars/Smart.pgf/SmartFre/</url-pattern>
   </servlet-mapping>
 
 
@@ -4851,7 +4851,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Syllogism.pgf</servlet-name>
-    <url-pattern>/backend/Syllogism.pgf</url-pattern>
+    <url-pattern>/Syllogism.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -4873,6 +4873,6 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>SyllogismEng</servlet-name>
-    <url-pattern>/Syllogism.pgf/SyllogismEng/</url-pattern>
+    <url-pattern>/grammars/Syllogism.pgf/SyllogismEng/</url-pattern>
   </servlet-mapping>
 

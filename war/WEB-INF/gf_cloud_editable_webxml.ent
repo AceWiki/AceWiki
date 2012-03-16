@@ -22,7 +22,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Go.pgf</servlet-name>
-    <url-pattern>/backend/Go.pgf</url-pattern>
+    <url-pattern>/Go.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -44,7 +44,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>GoApp</servlet-name>
-    <url-pattern>/Go.pgf/GoApp/</url-pattern>
+    <url-pattern>/tmp/gfse.74044909/Go.pgf/GoApp/</url-pattern>
   </servlet-mapping>
 
 
@@ -66,7 +66,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>GoEng</servlet-name>
-    <url-pattern>/Go.pgf/GoEng/</url-pattern>
+    <url-pattern>/tmp/gfse.74044909/Go.pgf/GoEng/</url-pattern>
   </servlet-mapping>
 
 
@@ -88,7 +88,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>GoEst</servlet-name>
-    <url-pattern>/Go.pgf/GoEst/</url-pattern>
+    <url-pattern>/tmp/gfse.74044909/Go.pgf/GoEst/</url-pattern>
   </servlet-mapping>
 
 
@@ -115,7 +115,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Hello.pgf</servlet-name>
-    <url-pattern>/backend/Hello.pgf</url-pattern>
+    <url-pattern>/Hello.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -137,7 +137,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>HelloEng</servlet-name>
-    <url-pattern>/Hello.pgf/HelloEng/</url-pattern>
+    <url-pattern>/tmp/gfse.74044909/Hello.pgf/HelloEng/</url-pattern>
   </servlet-mapping>
 
 
@@ -159,7 +159,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>HelloEst</servlet-name>
-    <url-pattern>/Hello.pgf/HelloEst/</url-pattern>
+    <url-pattern>/tmp/gfse.74044909/Hello.pgf/HelloEst/</url-pattern>
   </servlet-mapping>
 
 
@@ -181,6 +181,6 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>HelloSwe</servlet-name>
-    <url-pattern>/Hello.pgf/HelloSwe/</url-pattern>
+    <url-pattern>/tmp/gfse.74044909/Hello.pgf/HelloSwe/</url-pattern>
   </servlet-mapping>
 

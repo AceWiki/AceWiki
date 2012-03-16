@@ -22,7 +22,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Action.pgf</servlet-name>
-    <url-pattern>/backend/Action.pgf</url-pattern>
+    <url-pattern>/Action.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -44,7 +44,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ActionApp</servlet-name>
-    <url-pattern>/Action.pgf/ActionApp/</url-pattern>
+    <url-pattern>/grammars/Action.pgf/ActionApp/</url-pattern>
   </servlet-mapping>
 
 
@@ -66,7 +66,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ActionEst</servlet-name>
-    <url-pattern>/Action.pgf/ActionEst/</url-pattern>
+    <url-pattern>/grammars/Action.pgf/ActionEst/</url-pattern>
   </servlet-mapping>
 
 
@@ -93,7 +93,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Geo.pgf</servlet-name>
-    <url-pattern>/backend/Geo.pgf</url-pattern>
+    <url-pattern>/Geo.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -115,7 +115,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>GeoEng</servlet-name>
-    <url-pattern>/Geo.pgf/GeoEng/</url-pattern>
+    <url-pattern>/grammars/Geo.pgf/GeoEng/</url-pattern>
   </servlet-mapping>
 
 
@@ -142,7 +142,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Foods.pgf</servlet-name>
-    <url-pattern>/backend/Foods.pgf</url-pattern>
+    <url-pattern>/Foods.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -164,7 +164,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsAfr</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsAfr/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsAfr/</url-pattern>
   </servlet-mapping>
 
 
@@ -186,7 +186,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsAmh</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsAmh/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsAmh/</url-pattern>
   </servlet-mapping>
 
 
@@ -208,7 +208,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsBul</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsBul/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsBul/</url-pattern>
   </servlet-mapping>
 
 
@@ -230,7 +230,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsCat</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsCat/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsCat/</url-pattern>
   </servlet-mapping>
 
 
@@ -252,7 +252,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsCze</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsCze/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsCze/</url-pattern>
   </servlet-mapping>
 
 
@@ -274,7 +274,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsDut</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsDut/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsDut/</url-pattern>
   </servlet-mapping>
 
 
@@ -296,7 +296,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsEng</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsEng/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsEng/</url-pattern>
   </servlet-mapping>
 
 
@@ -318,7 +318,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsEpo</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsEpo/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsEpo/</url-pattern>
   </servlet-mapping>
 
 
@@ -340,7 +340,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsFin</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsFin/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsFin/</url-pattern>
   </servlet-mapping>
 
 
@@ -362,7 +362,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsFre</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsFre/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsFre/</url-pattern>
   </servlet-mapping>
 
 
@@ -384,7 +384,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsGer</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsGer/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsGer/</url-pattern>
   </servlet-mapping>
 
 
@@ -406,7 +406,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsGle</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsGle/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsGle/</url-pattern>
   </servlet-mapping>
 
 
@@ -428,7 +428,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsHeb</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsHeb/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsHeb/</url-pattern>
   </servlet-mapping>
 
 
@@ -450,7 +450,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsHin</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsHin/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsHin/</url-pattern>
   </servlet-mapping>
 
 
@@ -472,7 +472,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsIce</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsIce/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsIce/</url-pattern>
   </servlet-mapping>
 
 
@@ -494,7 +494,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsIta</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsIta/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsIta/</url-pattern>
   </servlet-mapping>
 
 
@@ -516,7 +516,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsJpn</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsJpn/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsJpn/</url-pattern>
   </servlet-mapping>
 
 
@@ -538,7 +538,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsLav</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsLav/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsLav/</url-pattern>
   </servlet-mapping>
 
 
@@ -560,7 +560,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsMlt</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsMlt/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsMlt/</url-pattern>
   </servlet-mapping>
 
 
@@ -582,7 +582,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsMon</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsMon/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsMon/</url-pattern>
   </servlet-mapping>
 
 
@@ -604,7 +604,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsNep</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsNep/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsNep/</url-pattern>
   </servlet-mapping>
 
 
@@ -626,7 +626,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsPes</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsPes/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsPes/</url-pattern>
   </servlet-mapping>
 
 
@@ -648,7 +648,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsPor</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsPor/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsPor/</url-pattern>
   </servlet-mapping>
 
 
@@ -670,7 +670,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsRon</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsRon/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsRon/</url-pattern>
   </servlet-mapping>
 
 
@@ -692,7 +692,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsSpa</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsSpa/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsSpa/</url-pattern>
   </servlet-mapping>
 
 
@@ -714,7 +714,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsSwe</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsSwe/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsSwe/</url-pattern>
   </servlet-mapping>
 
 
@@ -736,7 +736,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsTsn</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsTsn/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsTsn/</url-pattern>
   </servlet-mapping>
 
 
@@ -758,7 +758,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsTur</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsTur/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsTur/</url-pattern>
   </servlet-mapping>
 
 
@@ -780,7 +780,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodsUrd</servlet-name>
-    <url-pattern>/Foods.pgf/FoodsUrd/</url-pattern>
+    <url-pattern>/grammars/Foods.pgf/FoodsUrd/</url-pattern>
   </servlet-mapping>
 
 
@@ -807,7 +807,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Letter.pgf</servlet-name>
-    <url-pattern>/backend/Letter.pgf</url-pattern>
+    <url-pattern>/Letter.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -829,7 +829,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>LetterEng</servlet-name>
-    <url-pattern>/Letter.pgf/LetterEng/</url-pattern>
+    <url-pattern>/grammars/Letter.pgf/LetterEng/</url-pattern>
   </servlet-mapping>
 
 
@@ -851,7 +851,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>LetterFin</servlet-name>
-    <url-pattern>/Letter.pgf/LetterFin/</url-pattern>
+    <url-pattern>/grammars/Letter.pgf/LetterFin/</url-pattern>
   </servlet-mapping>
 
 
@@ -873,7 +873,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>LetterFre</servlet-name>
-    <url-pattern>/Letter.pgf/LetterFre/</url-pattern>
+    <url-pattern>/grammars/Letter.pgf/LetterFre/</url-pattern>
   </servlet-mapping>
 
 
@@ -895,7 +895,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>LetterHeb</servlet-name>
-    <url-pattern>/Letter.pgf/LetterHeb/</url-pattern>
+    <url-pattern>/grammars/Letter.pgf/LetterHeb/</url-pattern>
   </servlet-mapping>
 
 
@@ -917,7 +917,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>LetterRus</servlet-name>
-    <url-pattern>/Letter.pgf/LetterRus/</url-pattern>
+    <url-pattern>/grammars/Letter.pgf/LetterRus/</url-pattern>
   </servlet-mapping>
 
 
@@ -939,7 +939,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>LetterSwe</servlet-name>
-    <url-pattern>/Letter.pgf/LetterSwe/</url-pattern>
+    <url-pattern>/grammars/Letter.pgf/LetterSwe/</url-pattern>
   </servlet-mapping>
 
 
@@ -966,7 +966,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Alarm.pgf</servlet-name>
-    <url-pattern>/backend/Alarm.pgf</url-pattern>
+    <url-pattern>/Alarm.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -988,7 +988,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>AlarmApp</servlet-name>
-    <url-pattern>/Alarm.pgf/AlarmApp/</url-pattern>
+    <url-pattern>/grammars/Alarm.pgf/AlarmApp/</url-pattern>
   </servlet-mapping>
 
 
@@ -1010,7 +1010,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>AlarmEst</servlet-name>
-    <url-pattern>/Alarm.pgf/AlarmEst/</url-pattern>
+    <url-pattern>/grammars/Alarm.pgf/AlarmEst/</url-pattern>
   </servlet-mapping>
 
 
@@ -1037,7 +1037,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Commands.pgf</servlet-name>
-    <url-pattern>/backend/Commands.pgf</url-pattern>
+    <url-pattern>/Commands.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -1059,7 +1059,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>CommandsCat</servlet-name>
-    <url-pattern>/Commands.pgf/CommandsCat/</url-pattern>
+    <url-pattern>/grammars/Commands.pgf/CommandsCat/</url-pattern>
   </servlet-mapping>
 
 
@@ -1081,7 +1081,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>CommandsEng</servlet-name>
-    <url-pattern>/Commands.pgf/CommandsEng/</url-pattern>
+    <url-pattern>/grammars/Commands.pgf/CommandsEng/</url-pattern>
   </servlet-mapping>
 
 
@@ -1103,7 +1103,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>CommandsGer</servlet-name>
-    <url-pattern>/Commands.pgf/CommandsGer/</url-pattern>
+    <url-pattern>/grammars/Commands.pgf/CommandsGer/</url-pattern>
   </servlet-mapping>
 
 
@@ -1125,7 +1125,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>CommandsSage</servlet-name>
-    <url-pattern>/Commands.pgf/CommandsSage/</url-pattern>
+    <url-pattern>/grammars/Commands.pgf/CommandsSage/</url-pattern>
   </servlet-mapping>
 
 
@@ -1147,7 +1147,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>CommandsSpa</servlet-name>
-    <url-pattern>/Commands.pgf/CommandsSpa/</url-pattern>
+    <url-pattern>/grammars/Commands.pgf/CommandsSpa/</url-pattern>
   </servlet-mapping>
 
 
@@ -1174,7 +1174,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ACE-0_0_2.pgf</servlet-name>
-    <url-pattern>/backend/ACE-0_0_2.pgf</url-pattern>
+    <url-pattern>/ACE-0_0_2.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -1196,7 +1196,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>TestAttemptoEng</servlet-name>
-    <url-pattern>/ACE-0_0_2.pgf/TestAttemptoEng/</url-pattern>
+    <url-pattern>/grammars/ACE-0_0_2.pgf/TestAttemptoEng/</url-pattern>
   </servlet-mapping>
 
 
@@ -1218,7 +1218,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>TestAttemptoFre</servlet-name>
-    <url-pattern>/ACE-0_0_2.pgf/TestAttemptoFre/</url-pattern>
+    <url-pattern>/grammars/ACE-0_0_2.pgf/TestAttemptoFre/</url-pattern>
   </servlet-mapping>
 
 
@@ -1240,7 +1240,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>TestAttemptoGer</servlet-name>
-    <url-pattern>/ACE-0_0_2.pgf/TestAttemptoGer/</url-pattern>
+    <url-pattern>/grammars/ACE-0_0_2.pgf/TestAttemptoGer/</url-pattern>
   </servlet-mapping>
 
 
@@ -1262,7 +1262,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>TestAttemptoIta</servlet-name>
-    <url-pattern>/ACE-0_0_2.pgf/TestAttemptoIta/</url-pattern>
+    <url-pattern>/grammars/ACE-0_0_2.pgf/TestAttemptoIta/</url-pattern>
   </servlet-mapping>
 
 
@@ -1284,7 +1284,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>TestAttemptoSwe</servlet-name>
-    <url-pattern>/ACE-0_0_2.pgf/TestAttemptoSwe/</url-pattern>
+    <url-pattern>/grammars/ACE-0_0_2.pgf/TestAttemptoSwe/</url-pattern>
   </servlet-mapping>
 
 
@@ -1311,7 +1311,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Go.pgf</servlet-name>
-    <url-pattern>/backend/Go.pgf</url-pattern>
+    <url-pattern>/Go.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -1333,7 +1333,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>GoApp</servlet-name>
-    <url-pattern>/Go.pgf/GoApp/</url-pattern>
+    <url-pattern>/grammars/Go.pgf/GoApp/</url-pattern>
   </servlet-mapping>
 
 
@@ -1355,7 +1355,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>GoEng</servlet-name>
-    <url-pattern>/Go.pgf/GoEng/</url-pattern>
+    <url-pattern>/grammars/Go.pgf/GoEng/</url-pattern>
   </servlet-mapping>
 
 
@@ -1377,6 +1377,6 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>GoEst</servlet-name>
-    <url-pattern>/Go.pgf/GoEst/</url-pattern>
+    <url-pattern>/grammars/Go.pgf/GoEst/</url-pattern>
   </servlet-mapping>
 
