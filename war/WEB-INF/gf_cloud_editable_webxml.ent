@@ -1,6 +1,6 @@
 
   <servlet>
-    <servlet-name>Go.pgf</servlet-name>
+    <servlet-name>/tmp/gfse.74044909/Go.pgf</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
     <init-param>
@@ -17,12 +17,12 @@
     </init-param>
     <init-param>
       <param-name>ontology</param-name>
-      <param-value>Go.pgf</param-value>
+      <param-value>tmp__gfse.74044909__Go</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Go.pgf</servlet-name>
-    <url-pattern>/Go.pgf</url-pattern>
+    <servlet-name>/tmp/gfse.74044909/Go.pgf</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Go.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -31,7 +31,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Go.pgf</param-value>
+      <param-value>/tmp/gfse.74044909/Go.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -53,7 +53,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Go.pgf</param-value>
+      <param-value>/tmp/gfse.74044909/Go.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -75,7 +75,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Go.pgf</param-value>
+      <param-value>/tmp/gfse.74044909/Go.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -93,7 +93,7 @@
 
 
   <servlet>
-    <servlet-name>Hello.pgf</servlet-name>
+    <servlet-name>/tmp/gfse.74044909/Hello.pgf</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
     <init-param>
@@ -110,12 +110,12 @@
     </init-param>
     <init-param>
       <param-name>ontology</param-name>
-      <param-value>Hello.pgf</param-value>
+      <param-value>tmp__gfse.74044909__Hello</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Hello.pgf</servlet-name>
-    <url-pattern>/Hello.pgf</url-pattern>
+    <servlet-name>/tmp/gfse.74044909/Hello.pgf</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Hello.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -124,7 +124,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Hello.pgf</param-value>
+      <param-value>/tmp/gfse.74044909/Hello.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -146,7 +146,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Hello.pgf</param-value>
+      <param-value>/tmp/gfse.74044909/Hello.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -164,11 +164,33 @@
 
 
   <servlet>
+    <servlet-name>HelloGer</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Hello.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>HelloGer</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in HelloGer</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HelloGer</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Hello.pgf/HelloGer/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
     <servlet-name>HelloSwe</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Hello.pgf</param-value>
+      <param-value>/tmp/gfse.74044909/Hello.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>

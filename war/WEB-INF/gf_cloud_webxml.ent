@@ -1,6 +1,6 @@
 
   <servlet>
-    <servlet-name>Foods.pgf</servlet-name>
+    <servlet-name>/grammars/Foods.pgf</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
     <init-param>
@@ -17,12 +17,12 @@
     </init-param>
     <init-param>
       <param-name>ontology</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>grammars__Foods</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Foods.pgf</servlet-name>
-    <url-pattern>/Foods.pgf</url-pattern>
+    <servlet-name>/grammars/Foods.pgf</servlet-name>
+    <url-pattern>/grammars/Foods.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -31,7 +31,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -53,7 +53,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -75,7 +75,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -97,7 +97,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -119,7 +119,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -141,7 +141,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -163,7 +163,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -185,7 +185,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -207,7 +207,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -229,7 +229,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -251,7 +251,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -273,7 +273,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -295,7 +295,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -317,7 +317,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -339,7 +339,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -361,7 +361,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -383,7 +383,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -405,7 +405,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -427,7 +427,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -449,7 +449,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -471,7 +471,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -493,7 +493,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -515,7 +515,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -537,7 +537,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -559,7 +559,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -581,7 +581,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -603,7 +603,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -625,7 +625,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -647,7 +647,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -669,7 +669,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Foods.pgf</param-value>
+      <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -687,7 +687,7 @@
 
 
   <servlet>
-    <servlet-name>Letter.pgf</servlet-name>
+    <servlet-name>/grammars/Letter.pgf</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
     <init-param>
@@ -704,12 +704,12 @@
     </init-param>
     <init-param>
       <param-name>ontology</param-name>
-      <param-value>Letter.pgf</param-value>
+      <param-value>grammars__Letter</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Letter.pgf</servlet-name>
-    <url-pattern>/Letter.pgf</url-pattern>
+    <servlet-name>/grammars/Letter.pgf</servlet-name>
+    <url-pattern>/grammars/Letter.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -718,7 +718,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Letter.pgf</param-value>
+      <param-value>/grammars/Letter.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -740,7 +740,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Letter.pgf</param-value>
+      <param-value>/grammars/Letter.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -762,7 +762,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Letter.pgf</param-value>
+      <param-value>/grammars/Letter.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -784,7 +784,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Letter.pgf</param-value>
+      <param-value>/grammars/Letter.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -806,7 +806,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Letter.pgf</param-value>
+      <param-value>/grammars/Letter.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -828,7 +828,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Letter.pgf</param-value>
+      <param-value>/grammars/Letter.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -846,7 +846,7 @@
 
 
   <servlet>
-    <servlet-name>MathBar.pgf</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
     <init-param>
@@ -863,12 +863,12 @@
     </init-param>
     <init-param>
       <param-name>ontology</param-name>
-      <param-value>MathBar.pgf</param-value>
+      <param-value>grammars__MathBar</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>MathBar.pgf</servlet-name>
-    <url-pattern>/MathBar.pgf</url-pattern>
+    <servlet-name>/grammars/MathBar.pgf</servlet-name>
+    <url-pattern>/grammars/MathBar.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -877,7 +877,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MathBar.pgf</param-value>
+      <param-value>/grammars/MathBar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -899,7 +899,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MathBar.pgf</param-value>
+      <param-value>/grammars/MathBar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -921,7 +921,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MathBar.pgf</param-value>
+      <param-value>/grammars/MathBar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -943,7 +943,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MathBar.pgf</param-value>
+      <param-value>/grammars/MathBar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -965,7 +965,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MathBar.pgf</param-value>
+      <param-value>/grammars/MathBar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -987,7 +987,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MathBar.pgf</param-value>
+      <param-value>/grammars/MathBar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1009,7 +1009,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MathBar.pgf</param-value>
+      <param-value>/grammars/MathBar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1031,7 +1031,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MathBar.pgf</param-value>
+      <param-value>/grammars/MathBar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1053,7 +1053,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MathBar.pgf</param-value>
+      <param-value>/grammars/MathBar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1075,7 +1075,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MathBar.pgf</param-value>
+      <param-value>/grammars/MathBar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1097,7 +1097,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MathBar.pgf</param-value>
+      <param-value>/grammars/MathBar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1115,7 +1115,7 @@
 
 
   <servlet>
-    <servlet-name>MiniGrammar.pgf</servlet-name>
+    <servlet-name>/grammars/MiniGrammar.pgf</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
     <init-param>
@@ -1132,12 +1132,12 @@
     </init-param>
     <init-param>
       <param-name>ontology</param-name>
-      <param-value>MiniGrammar.pgf</param-value>
+      <param-value>grammars__MiniGrammar</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>MiniGrammar.pgf</servlet-name>
-    <url-pattern>/MiniGrammar.pgf</url-pattern>
+    <servlet-name>/grammars/MiniGrammar.pgf</servlet-name>
+    <url-pattern>/grammars/MiniGrammar.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -1146,7 +1146,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MiniGrammar.pgf</param-value>
+      <param-value>/grammars/MiniGrammar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1168,7 +1168,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MiniGrammar.pgf</param-value>
+      <param-value>/grammars/MiniGrammar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1190,7 +1190,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MiniGrammar.pgf</param-value>
+      <param-value>/grammars/MiniGrammar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1212,7 +1212,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MiniGrammar.pgf</param-value>
+      <param-value>/grammars/MiniGrammar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1234,7 +1234,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MiniGrammar.pgf</param-value>
+      <param-value>/grammars/MiniGrammar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1256,7 +1256,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MiniGrammar.pgf</param-value>
+      <param-value>/grammars/MiniGrammar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1278,7 +1278,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MiniGrammar.pgf</param-value>
+      <param-value>/grammars/MiniGrammar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1300,7 +1300,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MiniGrammar.pgf</param-value>
+      <param-value>/grammars/MiniGrammar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1322,7 +1322,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MiniGrammar.pgf</param-value>
+      <param-value>/grammars/MiniGrammar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1344,7 +1344,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MiniGrammar.pgf</param-value>
+      <param-value>/grammars/MiniGrammar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1366,7 +1366,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MiniGrammar.pgf</param-value>
+      <param-value>/grammars/MiniGrammar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1388,7 +1388,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MiniGrammar.pgf</param-value>
+      <param-value>/grammars/MiniGrammar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1410,7 +1410,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MiniGrammar.pgf</param-value>
+      <param-value>/grammars/MiniGrammar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1432,7 +1432,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MiniGrammar.pgf</param-value>
+      <param-value>/grammars/MiniGrammar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1454,7 +1454,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MiniGrammar.pgf</param-value>
+      <param-value>/grammars/MiniGrammar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1476,7 +1476,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MiniGrammar.pgf</param-value>
+      <param-value>/grammars/MiniGrammar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1498,7 +1498,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MiniGrammar.pgf</param-value>
+      <param-value>/grammars/MiniGrammar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1520,7 +1520,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MiniGrammar.pgf</param-value>
+      <param-value>/grammars/MiniGrammar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1542,7 +1542,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MiniGrammar.pgf</param-value>
+      <param-value>/grammars/MiniGrammar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1564,7 +1564,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MiniGrammar.pgf</param-value>
+      <param-value>/grammars/MiniGrammar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1586,7 +1586,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MiniGrammar.pgf</param-value>
+      <param-value>/grammars/MiniGrammar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1608,7 +1608,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MiniGrammar.pgf</param-value>
+      <param-value>/grammars/MiniGrammar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1630,7 +1630,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MiniGrammar.pgf</param-value>
+      <param-value>/grammars/MiniGrammar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1652,7 +1652,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MiniGrammar.pgf</param-value>
+      <param-value>/grammars/MiniGrammar.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1670,7 +1670,7 @@
 
 
   <servlet>
-    <servlet-name>MorphoQuizVerbsEng.pgf</servlet-name>
+    <servlet-name>/grammars/MorphoQuizVerbsEng.pgf</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
     <init-param>
@@ -1687,12 +1687,12 @@
     </init-param>
     <init-param>
       <param-name>ontology</param-name>
-      <param-value>MorphoQuizVerbsEng.pgf</param-value>
+      <param-value>grammars__MorphoQuizVerbsEng</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>MorphoQuizVerbsEng.pgf</servlet-name>
-    <url-pattern>/MorphoQuizVerbsEng.pgf</url-pattern>
+    <servlet-name>/grammars/MorphoQuizVerbsEng.pgf</servlet-name>
+    <url-pattern>/grammars/MorphoQuizVerbsEng.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -1701,7 +1701,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MorphoQuizVerbsEng.pgf</param-value>
+      <param-value>/grammars/MorphoQuizVerbsEng.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1723,7 +1723,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>MorphoQuizVerbsEng.pgf</param-value>
+      <param-value>/grammars/MorphoQuizVerbsEng.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1741,7 +1741,7 @@
 
 
   <servlet>
-    <servlet-name>Numerals.pgf</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
     <init-param>
@@ -1758,12 +1758,12 @@
     </init-param>
     <init-param>
       <param-name>ontology</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>grammars__Numerals</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Numerals.pgf</servlet-name>
-    <url-pattern>/Numerals.pgf</url-pattern>
+    <servlet-name>/grammars/Numerals.pgf</servlet-name>
+    <url-pattern>/grammars/Numerals.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -1772,7 +1772,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1794,7 +1794,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1816,7 +1816,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1838,7 +1838,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1860,7 +1860,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1882,7 +1882,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1904,7 +1904,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1926,7 +1926,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1948,7 +1948,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1970,7 +1970,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -1992,7 +1992,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2014,7 +2014,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2036,7 +2036,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2058,7 +2058,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2080,7 +2080,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2102,7 +2102,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2124,7 +2124,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2146,7 +2146,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2168,7 +2168,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2190,7 +2190,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2212,7 +2212,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2234,7 +2234,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2256,7 +2256,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2278,7 +2278,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2300,7 +2300,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2322,7 +2322,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2344,7 +2344,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2366,7 +2366,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2388,7 +2388,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2410,7 +2410,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2432,7 +2432,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2454,7 +2454,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2476,7 +2476,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2498,7 +2498,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2520,7 +2520,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2542,7 +2542,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2564,7 +2564,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2586,7 +2586,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2608,7 +2608,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2630,7 +2630,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2652,7 +2652,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2674,7 +2674,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2696,7 +2696,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2718,7 +2718,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2740,7 +2740,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2762,7 +2762,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2784,7 +2784,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2806,7 +2806,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2828,7 +2828,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2850,7 +2850,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2872,7 +2872,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2894,7 +2894,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2916,7 +2916,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2938,7 +2938,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2960,7 +2960,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -2982,7 +2982,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3004,7 +3004,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3026,7 +3026,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3048,7 +3048,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3070,7 +3070,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3092,7 +3092,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3114,7 +3114,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3136,7 +3136,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3158,7 +3158,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3180,7 +3180,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3202,7 +3202,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3224,7 +3224,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3246,7 +3246,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3268,7 +3268,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3290,7 +3290,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3312,7 +3312,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3334,7 +3334,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3356,7 +3356,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3378,7 +3378,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3400,7 +3400,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3422,7 +3422,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3444,7 +3444,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3466,7 +3466,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3488,7 +3488,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3510,7 +3510,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3532,7 +3532,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3554,7 +3554,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3576,7 +3576,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3598,7 +3598,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3620,7 +3620,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3642,7 +3642,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3664,7 +3664,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Numerals.pgf</param-value>
+      <param-value>/grammars/Numerals.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3682,7 +3682,7 @@
 
 
   <servlet>
-    <servlet-name>Painting.pgf</servlet-name>
+    <servlet-name>/grammars/Painting.pgf</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
     <init-param>
@@ -3699,12 +3699,12 @@
     </init-param>
     <init-param>
       <param-name>ontology</param-name>
-      <param-value>Painting.pgf</param-value>
+      <param-value>grammars__Painting</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Painting.pgf</servlet-name>
-    <url-pattern>/Painting.pgf</url-pattern>
+    <servlet-name>/grammars/Painting.pgf</servlet-name>
+    <url-pattern>/grammars/Painting.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -3713,7 +3713,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Painting.pgf</param-value>
+      <param-value>/grammars/Painting.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3735,7 +3735,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Painting.pgf</param-value>
+      <param-value>/grammars/Painting.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3757,7 +3757,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Painting.pgf</param-value>
+      <param-value>/grammars/Painting.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3779,7 +3779,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Painting.pgf</param-value>
+      <param-value>/grammars/Painting.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3801,7 +3801,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Painting.pgf</param-value>
+      <param-value>/grammars/Painting.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3819,7 +3819,7 @@
 
 
   <servlet>
-    <servlet-name>Phrasebook.pgf</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
     <init-param>
@@ -3836,12 +3836,12 @@
     </init-param>
     <init-param>
       <param-name>ontology</param-name>
-      <param-value>Phrasebook.pgf</param-value>
+      <param-value>grammars__Phrasebook</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Phrasebook.pgf</servlet-name>
-    <url-pattern>/Phrasebook.pgf</url-pattern>
+    <servlet-name>/grammars/Phrasebook.pgf</servlet-name>
+    <url-pattern>/grammars/Phrasebook.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -3850,7 +3850,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Phrasebook.pgf</param-value>
+      <param-value>/grammars/Phrasebook.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3872,7 +3872,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Phrasebook.pgf</param-value>
+      <param-value>/grammars/Phrasebook.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3894,7 +3894,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Phrasebook.pgf</param-value>
+      <param-value>/grammars/Phrasebook.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3916,7 +3916,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Phrasebook.pgf</param-value>
+      <param-value>/grammars/Phrasebook.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3938,7 +3938,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Phrasebook.pgf</param-value>
+      <param-value>/grammars/Phrasebook.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3960,7 +3960,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Phrasebook.pgf</param-value>
+      <param-value>/grammars/Phrasebook.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -3982,7 +3982,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Phrasebook.pgf</param-value>
+      <param-value>/grammars/Phrasebook.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4004,7 +4004,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Phrasebook.pgf</param-value>
+      <param-value>/grammars/Phrasebook.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4026,7 +4026,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Phrasebook.pgf</param-value>
+      <param-value>/grammars/Phrasebook.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4048,7 +4048,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Phrasebook.pgf</param-value>
+      <param-value>/grammars/Phrasebook.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4070,7 +4070,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Phrasebook.pgf</param-value>
+      <param-value>/grammars/Phrasebook.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4092,7 +4092,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Phrasebook.pgf</param-value>
+      <param-value>/grammars/Phrasebook.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4114,7 +4114,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Phrasebook.pgf</param-value>
+      <param-value>/grammars/Phrasebook.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4136,7 +4136,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Phrasebook.pgf</param-value>
+      <param-value>/grammars/Phrasebook.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4158,7 +4158,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Phrasebook.pgf</param-value>
+      <param-value>/grammars/Phrasebook.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4180,7 +4180,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Phrasebook.pgf</param-value>
+      <param-value>/grammars/Phrasebook.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4202,7 +4202,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Phrasebook.pgf</param-value>
+      <param-value>/grammars/Phrasebook.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4224,7 +4224,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Phrasebook.pgf</param-value>
+      <param-value>/grammars/Phrasebook.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4246,7 +4246,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Phrasebook.pgf</param-value>
+      <param-value>/grammars/Phrasebook.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4268,7 +4268,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Phrasebook.pgf</param-value>
+      <param-value>/grammars/Phrasebook.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4286,7 +4286,7 @@
 
 
   <servlet>
-    <servlet-name>PhrasebookNov2011.pgf</servlet-name>
+    <servlet-name>/grammars/PhrasebookNov2011.pgf</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
     <init-param>
@@ -4303,12 +4303,12 @@
     </init-param>
     <init-param>
       <param-name>ontology</param-name>
-      <param-value>PhrasebookNov2011.pgf</param-value>
+      <param-value>grammars__PhrasebookNov2011</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PhrasebookNov2011.pgf</servlet-name>
-    <url-pattern>/PhrasebookNov2011.pgf</url-pattern>
+    <servlet-name>/grammars/PhrasebookNov2011.pgf</servlet-name>
+    <url-pattern>/grammars/PhrasebookNov2011.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -4317,7 +4317,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>PhrasebookNov2011.pgf</param-value>
+      <param-value>/grammars/PhrasebookNov2011.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4339,7 +4339,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>PhrasebookNov2011.pgf</param-value>
+      <param-value>/grammars/PhrasebookNov2011.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4361,7 +4361,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>PhrasebookNov2011.pgf</param-value>
+      <param-value>/grammars/PhrasebookNov2011.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4383,7 +4383,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>PhrasebookNov2011.pgf</param-value>
+      <param-value>/grammars/PhrasebookNov2011.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4405,7 +4405,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>PhrasebookNov2011.pgf</param-value>
+      <param-value>/grammars/PhrasebookNov2011.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4427,7 +4427,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>PhrasebookNov2011.pgf</param-value>
+      <param-value>/grammars/PhrasebookNov2011.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4449,7 +4449,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>PhrasebookNov2011.pgf</param-value>
+      <param-value>/grammars/PhrasebookNov2011.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4471,7 +4471,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>PhrasebookNov2011.pgf</param-value>
+      <param-value>/grammars/PhrasebookNov2011.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4493,7 +4493,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>PhrasebookNov2011.pgf</param-value>
+      <param-value>/grammars/PhrasebookNov2011.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4515,7 +4515,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>PhrasebookNov2011.pgf</param-value>
+      <param-value>/grammars/PhrasebookNov2011.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4537,7 +4537,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>PhrasebookNov2011.pgf</param-value>
+      <param-value>/grammars/PhrasebookNov2011.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4559,7 +4559,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>PhrasebookNov2011.pgf</param-value>
+      <param-value>/grammars/PhrasebookNov2011.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4581,7 +4581,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>PhrasebookNov2011.pgf</param-value>
+      <param-value>/grammars/PhrasebookNov2011.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4603,7 +4603,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>PhrasebookNov2011.pgf</param-value>
+      <param-value>/grammars/PhrasebookNov2011.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4625,7 +4625,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>PhrasebookNov2011.pgf</param-value>
+      <param-value>/grammars/PhrasebookNov2011.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4647,7 +4647,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>PhrasebookNov2011.pgf</param-value>
+      <param-value>/grammars/PhrasebookNov2011.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4669,7 +4669,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>PhrasebookNov2011.pgf</param-value>
+      <param-value>/grammars/PhrasebookNov2011.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4687,7 +4687,7 @@
 
 
   <servlet>
-    <servlet-name>Quiz.pgf</servlet-name>
+    <servlet-name>/grammars/Quiz.pgf</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
     <init-param>
@@ -4704,12 +4704,12 @@
     </init-param>
     <init-param>
       <param-name>ontology</param-name>
-      <param-value>Quiz.pgf</param-value>
+      <param-value>grammars__Quiz</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Quiz.pgf</servlet-name>
-    <url-pattern>/Quiz.pgf</url-pattern>
+    <servlet-name>/grammars/Quiz.pgf</servlet-name>
+    <url-pattern>/grammars/Quiz.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -4718,7 +4718,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Quiz.pgf</param-value>
+      <param-value>/grammars/Quiz.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4740,7 +4740,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Quiz.pgf</param-value>
+      <param-value>/grammars/Quiz.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4758,7 +4758,7 @@
 
 
   <servlet>
-    <servlet-name>Smart.pgf</servlet-name>
+    <servlet-name>/grammars/Smart.pgf</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
     <init-param>
@@ -4775,12 +4775,12 @@
     </init-param>
     <init-param>
       <param-name>ontology</param-name>
-      <param-value>Smart.pgf</param-value>
+      <param-value>grammars__Smart</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Smart.pgf</servlet-name>
-    <url-pattern>/Smart.pgf</url-pattern>
+    <servlet-name>/grammars/Smart.pgf</servlet-name>
+    <url-pattern>/grammars/Smart.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -4789,7 +4789,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Smart.pgf</param-value>
+      <param-value>/grammars/Smart.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4811,7 +4811,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Smart.pgf</param-value>
+      <param-value>/grammars/Smart.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -4829,7 +4829,7 @@
 
 
   <servlet>
-    <servlet-name>Syllogism.pgf</servlet-name>
+    <servlet-name>/grammars/Syllogism.pgf</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
     <init-param>
@@ -4846,12 +4846,12 @@
     </init-param>
     <init-param>
       <param-name>ontology</param-name>
-      <param-value>Syllogism.pgf</param-value>
+      <param-value>grammars__Syllogism</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Syllogism.pgf</servlet-name>
-    <url-pattern>/Syllogism.pgf</url-pattern>
+    <servlet-name>/grammars/Syllogism.pgf</servlet-name>
+    <url-pattern>/grammars/Syllogism.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -4860,7 +4860,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>Syllogism.pgf</param-value>
+      <param-value>/grammars/Syllogism.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
