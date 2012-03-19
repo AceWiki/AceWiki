@@ -206,3 +206,145 @@
     <url-pattern>/tmp/gfse.74044909/Hello.pgf/HelloSwe/</url-pattern>
   </servlet-mapping>
 
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/MyFoods.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/tmp/gfse.74044909/MyFoods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://cloud.grammaticalframework.org:80</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>tmp__gfse.74044909__MyFoods</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/MyFoods.pgf</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/MyFoods.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>MyFoodsEng</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/MyFoods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>MyFoodsEng</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in MyFoodsEng</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MyFoodsEng</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/MyFoods.pgf/MyFoodsEng/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>MyFoodsEst</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/MyFoods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>MyFoodsEst</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in MyFoodsEst</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MyFoodsEst</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/MyFoods.pgf/MyFoodsEst/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>MyFoodsIta</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/MyFoods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>MyFoodsIta</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in MyFoodsIta</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MyFoodsIta</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/MyFoods.pgf/MyFoodsIta/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Test.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/tmp/gfse.74044909/Test.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://cloud.grammaticalframework.org:80</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>tmp__gfse.74044909__Test</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Test.pgf</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Test.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>TestGer</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Test.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestGer</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestGer</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestGer</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Test.pgf/TestGer/</url-pattern>
+  </servlet-mapping>
+

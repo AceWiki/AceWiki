@@ -16,6 +16,7 @@ package ch.uzh.ifi.attempto.acewiki;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -282,8 +283,10 @@ public class Wiki implements ActionListener, ExternalEventListener {
 
 
 		sideCol.add(new VSpace(10));
-		sideCol.add(new SectionTitle("Languages"));
-		for (String l : engine.getLanguages()) {
+		String[] languages = engine.getLanguages();
+		sideCol.add(new SectionTitle("Languages" + " (" + languages.length + ")"));
+		Arrays.sort(languages);
+		for (String l : languages) {
 			// TODO: fix the URL
 			sideCol.add(new ListItem(
 					new WebLink("http://localhost:9077" +

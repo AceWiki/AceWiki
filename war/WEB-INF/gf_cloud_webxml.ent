@@ -599,7 +599,7 @@
 
 
   <servlet>
-    <servlet-name>FoodsThai</servlet-name>
+    <servlet-name>FoodsTha</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -607,16 +607,16 @@
     </init-param>
     <init-param>
       <param-name>language</param-name>
-      <param-value>FoodsThai</param-value>
+      <param-value>FoodsTha</param-value>
     </init-param>
     <init-param>
       <param-name>title</param-name>
-      <param-value>Wiki in FoodsThai</param-value>
+      <param-value>Wiki in FoodsTha</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsThai</servlet-name>
-    <url-pattern>/grammars/Foods.pgf/FoodsThai/</url-pattern>
+    <servlet-name>FoodsTha</servlet-name>
+    <url-pattern>/grammars/Foods.pgf/FoodsTha/</url-pattern>
   </servlet-mapping>
 
 
