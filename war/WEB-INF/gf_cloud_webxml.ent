@@ -30,6 +30,14 @@
     <servlet-name>FoodsAfr</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
+      <param-name>login</param-name>
+      <param-value>yes</param-value>
+    </init-param>
+    <init-param>
+      <param-name>login_required</param-name>
+      <param-value>edit</param-value>
+    </init-param>
+    <init-param>
       <param-name>backend</param-name>
       <param-value>/grammars/Foods.pgf</param-value>
     </init-param>
@@ -139,6 +147,14 @@
   <servlet>
     <servlet-name>FoodsDut</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>login</param-name>
+      <param-value>yes</param-value>
+    </init-param>
+    <init-param>
+      <param-name>login_required</param-name>
+      <param-value>edit</param-value>
+    </init-param>
     <init-param>
       <param-name>backend</param-name>
       <param-value>/grammars/Foods.pgf</param-value>
@@ -1744,6 +1760,14 @@
     <servlet-name>/grammars/Numerals.pgf</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>login</param-name>
+      <param-value>yes</param-value>
+    </init-param>
+    <init-param>
+      <param-name>login_required</param-name>
+      <param-value>edit</param-value>
+    </init-param>
     <init-param>
       <param-name>engine_class</param-name>
       <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
