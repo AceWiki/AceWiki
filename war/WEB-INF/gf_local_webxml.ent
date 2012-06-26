@@ -1,5 +1,274 @@
 
   <servlet>
+    <servlet-name>/grammars/Ontograph40_lang11_20120601.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/grammars/Ontograph40_lang11_20120601.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://localhost:41296</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>grammars__Ontograph40_lang11_20120601</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/grammars/Ontograph40_lang11_20120601.pgf</servlet-name>
+    <url-pattern>/grammars/Ontograph40_lang11_20120601.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>TestAttemptoAce</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/grammars/Ontograph40_lang11_20120601.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoAce</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoAce</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestAttemptoAce</servlet-name>
+    <url-pattern>/grammars/Ontograph40_lang11_20120601.pgf/TestAttemptoAce/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>TestAttemptoCat</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/grammars/Ontograph40_lang11_20120601.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoCat</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoCat</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestAttemptoCat</servlet-name>
+    <url-pattern>/grammars/Ontograph40_lang11_20120601.pgf/TestAttemptoCat/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>TestAttemptoDut</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/grammars/Ontograph40_lang11_20120601.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoDut</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoDut</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestAttemptoDut</servlet-name>
+    <url-pattern>/grammars/Ontograph40_lang11_20120601.pgf/TestAttemptoDut/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>TestAttemptoEng</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/grammars/Ontograph40_lang11_20120601.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoEng</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoEng</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestAttemptoEng</servlet-name>
+    <url-pattern>/grammars/Ontograph40_lang11_20120601.pgf/TestAttemptoEng/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>TestAttemptoFin</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/grammars/Ontograph40_lang11_20120601.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoFin</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoFin</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestAttemptoFin</servlet-name>
+    <url-pattern>/grammars/Ontograph40_lang11_20120601.pgf/TestAttemptoFin/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>TestAttemptoFre</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/grammars/Ontograph40_lang11_20120601.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoFre</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoFre</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestAttemptoFre</servlet-name>
+    <url-pattern>/grammars/Ontograph40_lang11_20120601.pgf/TestAttemptoFre/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>TestAttemptoGer</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/grammars/Ontograph40_lang11_20120601.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoGer</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoGer</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestAttemptoGer</servlet-name>
+    <url-pattern>/grammars/Ontograph40_lang11_20120601.pgf/TestAttemptoGer/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>TestAttemptoIta</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/grammars/Ontograph40_lang11_20120601.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoIta</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoIta</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestAttemptoIta</servlet-name>
+    <url-pattern>/grammars/Ontograph40_lang11_20120601.pgf/TestAttemptoIta/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>TestAttemptoSpa</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/grammars/Ontograph40_lang11_20120601.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoSpa</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoSpa</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestAttemptoSpa</servlet-name>
+    <url-pattern>/grammars/Ontograph40_lang11_20120601.pgf/TestAttemptoSpa/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>TestAttemptoSwe</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/grammars/Ontograph40_lang11_20120601.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoSwe</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoSwe</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestAttemptoSwe</servlet-name>
+    <url-pattern>/grammars/Ontograph40_lang11_20120601.pgf/TestAttemptoSwe/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>TestAttemptoUrd</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/grammars/Ontograph40_lang11_20120601.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoUrd</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoUrd</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestAttemptoUrd</servlet-name>
+    <url-pattern>/grammars/Ontograph40_lang11_20120601.pgf/TestAttemptoUrd/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
     <servlet-name>/grammars/Action.pgf</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
@@ -715,6 +984,28 @@
   <servlet-mapping>
     <servlet-name>FoodsSwe</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsSwe/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FoodsTha</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/grammars/Foods.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FoodsTha</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FoodsTha</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoodsTha</servlet-name>
+    <url-pattern>/grammars/Foods.pgf/FoodsTha/</url-pattern>
   </servlet-mapping>
 
 
