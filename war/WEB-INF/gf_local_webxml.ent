@@ -12,6 +12,10 @@
       <param-value>/grammars/Ontograph40_lang11_20120601.pgf</param-value>
     </init-param>
     <init-param>
+      <param-name>start_cat</param-name>
+      <param-value>Text</param-value>
+    </init-param>
+    <init-param>
       <param-name>service_uri</param-name>
       <param-value>http://localhost:41296</param-value>
     </init-param>

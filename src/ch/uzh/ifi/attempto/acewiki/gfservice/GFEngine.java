@@ -54,9 +54,12 @@ public class GFEngine extends AbstractAceWikiEngine {
 		} catch (URISyntaxException e) {
 			throw new RuntimeException(e);
 		}
+
+		// Note: start_cat can be null, in this case the default start category is used
 		gfGrammar = new GFGrammar(
 				serviceUri,
-				ontology.getParameter("pgf_name")
+				ontology.getParameter("pgf_name"),
+				ontology.getParameter("start_cat")
 				);
 		super.init(ontology);
 	}

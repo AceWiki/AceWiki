@@ -39,13 +39,16 @@ import ch.uzh.ifi.attempto.gfservice.gfwebservice.GfWebService;
 public class GFGrammar {
 
 	private final GfService mGfService;
+	private final String mCat;
 
 
 	/**
 	 * Creates a new GF grammar object.
 	 */
-	public GFGrammar(URI serviceUri, String pgfName) {
+	public GFGrammar(URI serviceUri, String pgfName, String cat) {
 		mGfService = new GfWebService(serviceUri, pgfName);
+		mCat = cat;
+
 	}
 
 
@@ -72,7 +75,7 @@ public class GFGrammar {
 	 * @throws GfServiceException
 	 */
 	public Set<String> parse(String text, String language) throws GfServiceException {
-		GfServiceResultParse result = mGfService.parse(null, text, language);
+		GfServiceResultParse result = mGfService.parse(mCat, text, language);
 		return result.getTrees(language);
 	}
 
@@ -142,7 +145,19 @@ public class GFGrammar {
 
 
 	public Set<String> complete(List<String> tokens, String language) throws GfServiceException {
-		GfServiceResultComplete result = mGfService.complete(null, getCompletionInput(tokens), language, null);
+		return complete(mCat, tokens, language);
+	}
+
+
+	/**
+	 * @param cat start category for the parser
+	 * @param tokens list of tokens the last of which is to be completed
+	 * @param language language of the input tokens
+	 * @return list of possible completions
+	 * @throws GfServiceException
+	 */
+	public Set<String> complete(String cat, List<String> tokens, String language) throws GfServiceException {
+		GfServiceResultComplete result = mGfService.complete(cat, getCompletionInput(tokens), language, null);
 		return result.getCompletions(language);
 	}
 
