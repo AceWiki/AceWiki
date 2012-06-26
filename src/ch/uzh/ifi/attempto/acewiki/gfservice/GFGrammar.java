@@ -101,8 +101,8 @@ public class GFGrammar {
 	 * @param serialized The serialized representation
 	 * @return The parse state.
 	 */
-	public static String deserialize(String serialized) {
-		return serialized;
+	public static ParseState deserialize(String serialized) {
+		return new ParseState(Splitter.on('|').split(serialized));
 	}
 
 
@@ -161,19 +161,26 @@ public class GFGrammar {
 		return result.getCompletions(language);
 	}
 
+	/**
+	 * TODO: visualize all the trees
+	 */
+	public String abstrtree(ParseState mParseState) throws GfServiceException {
+		return mGfService.abstrtree(mParseState.getTree()).getDataUri();
+	}
 
-	public String abstrtree(String tree) throws GfServiceException {
-		return mGfService.abstrtree(tree).getDataUri();
+	/**
+	 * TODO: visualize all the trees
+	 */
+	public String parsetree(ParseState mParseState, String from) throws GfServiceException {
+		return mGfService.parsetree(mParseState.getTree(), from).getDataUri();
 	}
 
 
-	public String parsetree(String tree, String from) throws GfServiceException {
-		return mGfService.parsetree(tree, from).getDataUri();
-	}
-
-
-	public String alignment(String tree) throws GfServiceException {
-		return mGfService.alignment(tree).getDataUri();
+	/**
+	 * TODO: visualize all the trees
+	 */
+	public String alignment(ParseState mParseState) throws GfServiceException {
+		return mGfService.alignment(mParseState.getTree()).getDataUri();
 	}
 
 
@@ -183,8 +190,8 @@ public class GFGrammar {
 	 * @param parseState The parse state.
 	 * @return The serialization.
 	 */
-	public static String serialize(String tree) {
-		return tree;
+	public static String serialize(ParseState mParseState) {
+		return Joiner.on("|").join(mParseState.getTrees());
 	}
 
 
