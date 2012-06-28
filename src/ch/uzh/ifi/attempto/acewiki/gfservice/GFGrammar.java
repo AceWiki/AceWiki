@@ -38,6 +38,8 @@ import ch.uzh.ifi.attempto.gfservice.gfwebservice.GfWebService;
  */
 public class GFGrammar {
 
+	private final static char SEPARATOR = '|';
+
 	private final GfService mGfService;
 	private final String mCat;
 
@@ -102,7 +104,7 @@ public class GFGrammar {
 	 * @return The parse state.
 	 */
 	public static ParseState deserialize(String serialized) {
-		return new ParseState(Splitter.on('|').split(serialized));
+		return new ParseState(Splitter.on(SEPARATOR).split(serialized));
 	}
 
 
@@ -161,26 +163,16 @@ public class GFGrammar {
 		return result.getCompletions(language);
 	}
 
-	/**
-	 * TODO: visualize all the trees
-	 */
-	public String abstrtree(ParseState mParseState) throws GfServiceException {
-		return mGfService.abstrtree(mParseState.getTree()).getDataUri();
+	public String abstrtree(String tree) throws GfServiceException {
+		return mGfService.abstrtree(tree).getDataUri();
 	}
 
-	/**
-	 * TODO: visualize all the trees
-	 */
-	public String parsetree(ParseState mParseState, String from) throws GfServiceException {
-		return mGfService.parsetree(mParseState.getTree(), from).getDataUri();
+	public String parsetree(String tree, String from) throws GfServiceException {
+		return mGfService.parsetree(tree, from).getDataUri();
 	}
 
-
-	/**
-	 * TODO: visualize all the trees
-	 */
-	public String alignment(ParseState mParseState) throws GfServiceException {
-		return mGfService.alignment(mParseState.getTree()).getDataUri();
+	public String alignment(String tree) throws GfServiceException {
+		return mGfService.alignment(tree).getDataUri();
 	}
 
 
@@ -191,7 +183,7 @@ public class GFGrammar {
 	 * @return The serialization.
 	 */
 	public static String serialize(ParseState mParseState) {
-		return Joiner.on("|").join(mParseState.getTrees());
+		return Joiner.on(SEPARATOR).join(mParseState.getTrees());
 	}
 
 

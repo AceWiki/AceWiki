@@ -20,8 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.base.Joiner;
-
 import ch.uzh.ifi.attempto.acewiki.core.AbstractSentence;
 import ch.uzh.ifi.attempto.acewiki.core.Declaration;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
@@ -32,12 +30,13 @@ import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 
 /**
  * This class represents a declaration statement for the GF AceWiki engine.
+ * The "declaration" is a tree set.
  * 
  * @author Kaarel Kaljurand
  */
 public class GFDeclaration extends AbstractSentence implements Declaration {
 
-	private final GFGrammar gfGrammar;
+	private final GFGrammar mGfGrammar;
 	private final Map<String, TextContainer> textContainers = new HashMap<String, TextContainer>();
 
 	private ParseState mParseState;
@@ -50,7 +49,7 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 	 */
 	public GFDeclaration(ParseState parseState, GFGrammar gfGrammar) {
 		mParseState = parseState;
-		this.gfGrammar = gfGrammar;
+		mGfGrammar = gfGrammar;
 	}
 
 	/**
@@ -65,7 +64,7 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 	public GFDeclaration(String text, String language, GFGrammar gfGrammar) {
 		// TODO: quick and ugly hack to be able to move on
 		text = text.replaceAll("([\\.?!])", " $1");
-		this.gfGrammar = gfGrammar;
+		mGfGrammar = gfGrammar;
 		try {
 			Set<String> trees = getGFGrammar().parse(text, language);
 			mParseState = new ParseState(trees);
@@ -80,9 +79,11 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 		if (tc == null) {
 			tc = new TextContainer();
 			try {
-				// TODO: handle all the trees
-				for (String s : getGFGrammar().linearizeAsTokens(mParseState.getTree(), language)) {
-					tc.addElement(new TextElement(s));
+				// TODO: separate the linearizations of different trees
+				for (String tree : mParseState.getTrees()) {
+					for (String s : getGFGrammar().linearizeAsTokens(tree, language)) {
+						tc.addElement(new TextElement(s));
+					}
 				}
 			} catch (GfServiceException e) {
 				// TODO Auto-generated catch block
@@ -99,56 +100,30 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 
 	public boolean contains(OntologyElement e) {
 		// TODO
-		return false;
+		return true;
 	}
 
 
 	/**
-	 * <p>Returns the details of this sentence:</p>
-	 * <ul>
-	 * <li>language;</li>
-	 * <li>abstract tree;</li>
-	 * <li>translations;</li>
-	 * <li>abstract tree diagram;</li>
-	 * <li>parse tree diagram;</li>
-	 * <li>word alignment diagram;</li>
-	 * <li>...</li>
-	 * </ul>
-	 * <p>TODO: everything should be hyperlinked.</p>
+	 * Returns the details of this tree set:
+	 * 
+	 *   - abstract trees;
+	 *   - translations;
+	 *   - abstract tree diagram;
+	 *   - parse tree diagram;
+	 *   - word alignment diagram;
+	 *   - ...
+	 * 
+	 * The output highlights the given language.
+	 *
+	 * TODO: everything should be hyperlinked.
 	 */
-	public List<SentenceDetail> getDetails(String language) {
+	public List<SentenceDetail> getDetails(String lang) {
 		List<SentenceDetail> l = new ArrayList<SentenceDetail>();
-		l.add(new SentenceDetail(
-				"Language",
-				"<pre>" + language + "</pre>"
-				));
-		l.add(new SentenceDetail(
-				"Abstract trees (" + mParseState.size() + ")",
-				"<pre>" + Joiner.on('\n').join(mParseState.getTrees()) + "</pre>"
-				));
-		try {
-			// TODO: handle all the trees
-			Map<String, Set<String>> m = getGFGrammar().linearize(mParseState.getTree());
-			StringBuilder sb = new StringBuilder();
-			sb.append("<ul>");
-			for (String key : m.keySet()) {
-				if (! key.equals(language)) {
-					sb.append("<li><b>" + key + "</b>: " + m.get(key) + "</li>");
-				}
-			}
-			sb.append("</ul>");
-			l.add(new SentenceDetail(
-					"Translations",
-					sb.toString()
-					));
-		} catch (GfServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
-		l.add(new SentenceDetail("Abstract tree", getAbstrtreeAsHtml()));
-		l.add(new SentenceDetail("Parsetree", getParsetreeAsHtml(language)));
-		l.add(new SentenceDetail("Word alignment", getAlignmentAsHtml()));
+		for (String tree : mParseState.getTrees()) {
+			l.addAll(formatTree(mGfGrammar, tree, lang));
+		}
 
 		return l;
 	}
@@ -171,31 +146,31 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 	 * @return The grammar object.
 	 */
 	public GFGrammar getGFGrammar() {
-		return gfGrammar;
+		return mGfGrammar;
 	}
 
 
-	private String getAbstrtreeAsHtml() {
+	private String getAbstrtreeAsHtml(String tree) {
 		try {
-			return getImg(getGFGrammar().abstrtree(mParseState));
+			return getImg(getGFGrammar().abstrtree(tree));
 		} catch (GfServiceException e) {
 			return getError(e.getMessage());
 		}
 	}
 
 
-	private String getParsetreeAsHtml(String language) {
+	private String getParsetreeAsHtml(String tree, String language) {
 		try {
-			return getImg(getGFGrammar().parsetree(mParseState, language));
+			return getImg(getGFGrammar().parsetree(tree, language));
 		} catch (GfServiceException e) {
 			return getError(e.getMessage());
 		}
 	}
 
 
-	private String getAlignmentAsHtml() {
+	private String getAlignmentAsHtml(String tree) {
 		try {
-			return getImg(getGFGrammar().alignment(mParseState));
+			return getImg(getGFGrammar().alignment(tree));
 		} catch (GfServiceException e) {
 			return getError(e.getMessage());
 		}
@@ -207,8 +182,47 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 	}
 
 
-	private String getError(String message) {
+	private static String getError(String message) {
 		return "<p style=\"color: red\">" + message + "</p>";
+	}
+
+
+	private static SentenceDetail getError(String tree, String lang, String message) {
+		return new SentenceDetail("ERROR", getError(tree + ": " + lang + ": " + message));
+	}
+
+
+	private List<SentenceDetail> formatTree(GFGrammar grammar, String tree, String lang) {
+		List<SentenceDetail> l = new ArrayList<SentenceDetail>();
+		l.add(new SentenceDetail(
+				"Tree (ASCII)",
+				"<pre>" + tree + "</pre>"
+				));
+		l.add(new SentenceDetail("Tree (diagram)", getAbstrtreeAsHtml(tree)));
+		l.add(new SentenceDetail("Parsetree for " + lang, getParsetreeAsHtml(tree, lang)));
+		try {
+			Map<String, Set<String>> m = grammar.linearize(tree);
+			StringBuilder sb = new StringBuilder();
+			sb.append("<ul>");
+			for (String key : m.keySet()) {
+				if (key.equals(lang)) {
+					sb.append("<li style='background-color: yellow'><b>" + key + "</b>: " + m.get(key) + "</li>");
+				} else {
+					sb.append("<li><b>" + key + "</b>: " + m.get(key) + "</li>");
+				}
+			}
+			sb.append("</ul>");
+			l.add(new SentenceDetail(
+					"Translations",
+					sb.toString()
+					));
+		} catch (GfServiceException e) {
+			l.add(getError(tree, lang, "linearization failed: " + e.getMessage()));
+		}
+
+		l.add(new SentenceDetail("Word alignment", getAlignmentAsHtml(tree)));
+
+		return l;
 	}
 
 }

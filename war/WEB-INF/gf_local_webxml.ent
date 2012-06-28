@@ -1,6 +1,6 @@
 
   <servlet>
-    <servlet-name>/grammars/Ontograph40_lang11_20120601.pgf</servlet-name>
+    <servlet-name>/grammars/Ontograph40_lang11_20120627.pgf</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
     <init-param>
@@ -9,24 +9,26 @@
     </init-param>
     <init-param>
       <param-name>pgf_name</param-name>
-      <param-value>/grammars/Ontograph40_lang11_20120601.pgf</param-value>
+      <param-value>/grammars/Ontograph40_lang11_20120627.pgf</param-value>
     </init-param>
+<!--
     <init-param>
       <param-name>start_cat</param-name>
       <param-value>Text</param-value>
     </init-param>
+-->
     <init-param>
       <param-name>service_uri</param-name>
       <param-value>http://localhost:41296</param-value>
     </init-param>
     <init-param>
       <param-name>ontology</param-name>
-      <param-value>grammars__Ontograph40_lang11_20120601</param-value>
+      <param-value>grammars__Ontograph40_lang11_20120627</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>/grammars/Ontograph40_lang11_20120601.pgf</servlet-name>
-    <url-pattern>/grammars/Ontograph40_lang11_20120601.pgf</url-pattern>
+    <servlet-name>/grammars/Ontograph40_lang11_20120627.pgf</servlet-name>
+    <url-pattern>/grammars/Ontograph40_lang11_20120627.pgf</url-pattern>
   </servlet-mapping>
 
 
@@ -35,7 +37,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>/grammars/Ontograph40_lang11_20120601.pgf</param-value>
+      <param-value>/grammars/Ontograph40_lang11_20120627.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -48,7 +50,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>TestAttemptoAce</servlet-name>
-    <url-pattern>/grammars/Ontograph40_lang11_20120601.pgf/TestAttemptoAce/</url-pattern>
+    <url-pattern>/grammars/Ontograph40_lang11_20120627.pgf/TestAttemptoAce/</url-pattern>
   </servlet-mapping>
 
 
@@ -57,7 +59,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>/grammars/Ontograph40_lang11_20120601.pgf</param-value>
+      <param-value>/grammars/Ontograph40_lang11_20120627.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -70,7 +72,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>TestAttemptoCat</servlet-name>
-    <url-pattern>/grammars/Ontograph40_lang11_20120601.pgf/TestAttemptoCat/</url-pattern>
+    <url-pattern>/grammars/Ontograph40_lang11_20120627.pgf/TestAttemptoCat/</url-pattern>
   </servlet-mapping>
 
 
@@ -79,7 +81,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>/grammars/Ontograph40_lang11_20120601.pgf</param-value>
+      <param-value>/grammars/Ontograph40_lang11_20120627.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -92,7 +94,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>TestAttemptoDut</servlet-name>
-    <url-pattern>/grammars/Ontograph40_lang11_20120601.pgf/TestAttemptoDut/</url-pattern>
+    <url-pattern>/grammars/Ontograph40_lang11_20120627.pgf/TestAttemptoDut/</url-pattern>
   </servlet-mapping>
 
 
@@ -101,7 +103,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>/grammars/Ontograph40_lang11_20120601.pgf</param-value>
+      <param-value>/grammars/Ontograph40_lang11_20120627.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -114,7 +116,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>TestAttemptoEng</servlet-name>
-    <url-pattern>/grammars/Ontograph40_lang11_20120601.pgf/TestAttemptoEng/</url-pattern>
+    <url-pattern>/grammars/Ontograph40_lang11_20120627.pgf/TestAttemptoEng/</url-pattern>
   </servlet-mapping>
 
 
@@ -123,7 +125,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>/grammars/Ontograph40_lang11_20120601.pgf</param-value>
+      <param-value>/grammars/Ontograph40_lang11_20120627.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -136,7 +138,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>TestAttemptoFin</servlet-name>
-    <url-pattern>/grammars/Ontograph40_lang11_20120601.pgf/TestAttemptoFin/</url-pattern>
+    <url-pattern>/grammars/Ontograph40_lang11_20120627.pgf/TestAttemptoFin/</url-pattern>
   </servlet-mapping>
 
 
@@ -145,7 +147,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>/grammars/Ontograph40_lang11_20120601.pgf</param-value>
+      <param-value>/grammars/Ontograph40_lang11_20120627.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -158,7 +160,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>TestAttemptoFre</servlet-name>
-    <url-pattern>/grammars/Ontograph40_lang11_20120601.pgf/TestAttemptoFre/</url-pattern>
+    <url-pattern>/grammars/Ontograph40_lang11_20120627.pgf/TestAttemptoFre/</url-pattern>
   </servlet-mapping>
 
 
@@ -167,7 +169,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>/grammars/Ontograph40_lang11_20120601.pgf</param-value>
+      <param-value>/grammars/Ontograph40_lang11_20120627.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -180,7 +182,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>TestAttemptoGer</servlet-name>
-    <url-pattern>/grammars/Ontograph40_lang11_20120601.pgf/TestAttemptoGer/</url-pattern>
+    <url-pattern>/grammars/Ontograph40_lang11_20120627.pgf/TestAttemptoGer/</url-pattern>
   </servlet-mapping>
 
 
@@ -189,7 +191,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>/grammars/Ontograph40_lang11_20120601.pgf</param-value>
+      <param-value>/grammars/Ontograph40_lang11_20120627.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -202,7 +204,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>TestAttemptoIta</servlet-name>
-    <url-pattern>/grammars/Ontograph40_lang11_20120601.pgf/TestAttemptoIta/</url-pattern>
+    <url-pattern>/grammars/Ontograph40_lang11_20120627.pgf/TestAttemptoIta/</url-pattern>
   </servlet-mapping>
 
 
@@ -211,7 +213,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>/grammars/Ontograph40_lang11_20120601.pgf</param-value>
+      <param-value>/grammars/Ontograph40_lang11_20120627.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -224,7 +226,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>TestAttemptoSpa</servlet-name>
-    <url-pattern>/grammars/Ontograph40_lang11_20120601.pgf/TestAttemptoSpa/</url-pattern>
+    <url-pattern>/grammars/Ontograph40_lang11_20120627.pgf/TestAttemptoSpa/</url-pattern>
   </servlet-mapping>
 
 
@@ -233,7 +235,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>/grammars/Ontograph40_lang11_20120601.pgf</param-value>
+      <param-value>/grammars/Ontograph40_lang11_20120627.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -246,7 +248,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>TestAttemptoSwe</servlet-name>
-    <url-pattern>/grammars/Ontograph40_lang11_20120601.pgf/TestAttemptoSwe/</url-pattern>
+    <url-pattern>/grammars/Ontograph40_lang11_20120627.pgf/TestAttemptoSwe/</url-pattern>
   </servlet-mapping>
 
 
@@ -255,7 +257,7 @@
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>/grammars/Ontograph40_lang11_20120601.pgf</param-value>
+      <param-value>/grammars/Ontograph40_lang11_20120627.pgf</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
@@ -268,7 +270,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>TestAttemptoUrd</servlet-name>
-    <url-pattern>/grammars/Ontograph40_lang11_20120601.pgf/TestAttemptoUrd/</url-pattern>
+    <url-pattern>/grammars/Ontograph40_lang11_20120627.pgf/TestAttemptoUrd/</url-pattern>
   </servlet-mapping>
 
 
