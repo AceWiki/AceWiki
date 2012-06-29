@@ -20,6 +20,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ch.uzh.ifi.attempto.acewiki.core.AbstractSentence;
 import ch.uzh.ifi.attempto.acewiki.core.Declaration;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
@@ -30,13 +33,21 @@ import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 
 /**
  * This class represents a declaration statement for the GF AceWiki engine.
- * The "declaration" is a tree set.
+ * The "declaration" is a tree set that can be linearized into multiple
+ * languages.
  * 
  * @author Kaarel Kaljurand
  */
 public class GFDeclaration extends AbstractSentence implements Declaration {
 
+	final Logger logger = LoggerFactory.getLogger(GFDeclaration.class);
+
+	// TODO: move it somewhere else
+	private static final String BIND = "&+";
+
 	private final GFGrammar mGfGrammar;
+
+	// Maps languages to text containers
 	private final Map<String, TextContainer> textContainers = new HashMap<String, TextContainer>();
 
 	private ParseState mParseState;
@@ -82,7 +93,8 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 				// TODO: separate the linearizations of different trees
 				for (String tree : mParseState.getTrees()) {
 					for (String s : getGFGrammar().linearizeAsTokens(tree, language)) {
-						tc.addElement(new TextElement(s));
+						// TODO: handle BIND-symbols somewhere else
+						tc.addElement(new TextElement(getTokenText(s)));
 					}
 				}
 			} catch (GfServiceException e) {
@@ -95,6 +107,7 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 	}
 
 	public List<TextElement> getTextElements(String language) {
+		//logger.info("getTextElements {}: {}", language, getTextContainer(language).getTextElements());
 		return getTextContainer(language).getTextElements();
 	}
 
@@ -225,4 +238,11 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 		return l;
 	}
 
+
+	private static String getTokenText(String s) {
+		if (BIND.equals(s)) {
+			return "·";
+		}
+		return s;
+	}
 }

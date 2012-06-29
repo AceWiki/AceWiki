@@ -50,7 +50,6 @@ public class GFGrammar {
 	public GFGrammar(URI serviceUri, String pgfName, String cat) {
 		mGfService = new GfWebService(serviceUri, pgfName);
 		mCat = cat;
-
 	}
 
 
@@ -127,25 +126,6 @@ public class GFGrammar {
 	}
 
 
-	/**
-	 * Linearizes a parse state in the given language.
-	 *
-	 * @param parseState The parse state.
-	 * @param language The language.
-	 * @return The linearization as a list of tokens.
-	 * @throws GfServiceException
-	 *
-	 * @Deprecated
-	 */
-	public Iterable<String> linearizeAsTokens(Set<String> trees, String language) throws GfServiceException {
-		String result = linearizeAsString(trees, language);
-		if (result == null) {
-			return Collections.emptyList();
-		}
-		return Splitter.on(' ').split(result);
-	}
-
-
 	public Set<String> complete(List<String> tokens, String language) throws GfServiceException {
 		return complete(mCat, tokens, language);
 	}
@@ -182,8 +162,8 @@ public class GFGrammar {
 	 * @param parseState The parse state.
 	 * @return The serialization.
 	 */
-	public static String serialize(ParseState mParseState) {
-		return Joiner.on(SEPARATOR).join(mParseState.getTrees());
+	public static String serialize(ParseState parseState) {
+		return Joiner.on(SEPARATOR).join(parseState.getTrees());
 	}
 
 
@@ -192,31 +172,6 @@ public class GFGrammar {
 			return "";
 		}
 		return Joiner.on(" ").join(tokens) + " ";
-	}
-
-
-	/**
-	 * <p>Linearizes the first tree in the given set of trees
-	 * and returns the first linearization, or <code>null</code>
-	 * iff there are no linearizations.</p>
-	 *
-	 * @param parseState The parse state.
-	 * @param language The language.
-	 * @return The linearization as a string.
-	 * @throws GfServiceException
-	 *
-	 * @Deprecated
-	 */
-	private String linearizeAsString(Set<String> trees, String language) throws GfServiceException {
-		if (trees.isEmpty()) {
-			return null;
-		}
-		GfServiceResultLinearize result = mGfService.linearize(trees.iterator().next(), language);
-		Set<String> texts = result.getTexts(language);
-		if (texts.isEmpty()) {
-			return null;
-		}
-		return texts.iterator().next();
 	}
 
 }

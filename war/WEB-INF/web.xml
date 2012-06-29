@@ -401,7 +401,9 @@
   </error-page>
 
   &gf_local_webxml;
+<!--
   &gf_cloud_webxml;
   &gf_cloud_editable_webxml;
+-->
 
 </web-app>
