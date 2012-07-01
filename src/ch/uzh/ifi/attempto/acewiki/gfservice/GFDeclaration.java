@@ -42,9 +42,6 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 
 	final Logger logger = LoggerFactory.getLogger(GFDeclaration.class);
 
-	// TODO: move it somewhere else
-	private static final String BIND = "&+";
-
 	private final GFGrammar mGfGrammar;
 
 	// Maps languages to text containers
@@ -93,8 +90,7 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 				// TODO: separate the linearizations of different trees
 				for (String tree : mParseState.getTrees()) {
 					for (String s : getGFGrammar().linearizeAsTokens(tree, language)) {
-						// TODO: handle BIND-symbols somewhere else
-						tc.addElement(new TextElement(getTokenText(s)));
+						tc.addElement(new TextElement(s));
 					}
 				}
 			} catch (GfServiceException e) {
@@ -236,13 +232,5 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 		l.add(new SentenceDetail("Word alignment", getAlignmentAsHtml(tree)));
 
 		return l;
-	}
-
-
-	private static String getTokenText(String s) {
-		if (BIND.equals(s)) {
-			return "·";
-		}
-		return s;
 	}
 }

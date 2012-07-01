@@ -22,15 +22,16 @@ import java.util.List;
  * @author Tobias Kuhn
  */
 public interface TextOperator {
-	
+
 	/**
 	 * This method should split a text into its tokens.
 	 * 
 	 * @param text The input text.
 	 * @return A list of strings representing the tokens.
 	 */
+	// TODO: maybe return Iterable<String>
 	public List<String> splitIntoTokens(String text);
-	
+
 	/**
 	 * This method checks the context of a text element and can do small surface adaptations of a
 	 * token according to the surrounding text. E.g. in English "a" should become "an" in front
@@ -42,7 +43,7 @@ public interface TextOperator {
 	 * @return The adapted text.
 	 */
 	public String getTextInContext(TextElement textElement, String preceding, String following);
-	
+
 	/**
 	 * This method should create a text element for the given text.
 	 * 
@@ -51,7 +52,7 @@ public interface TextOperator {
 	 */
 	// TODO This method should be able to return multiple possibilities.
 	public TextElement createTextElement(String text);
-	
+
 	/**
 	 * This method should return the "glue" to connect two text elements. Mostly, this should be a
 	 * single blank space or the empty string.

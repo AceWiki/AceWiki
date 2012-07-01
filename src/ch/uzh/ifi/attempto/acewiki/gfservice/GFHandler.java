@@ -21,7 +21,6 @@ import ch.uzh.ifi.attempto.acewiki.core.AbstractLanguageHandler;
 import ch.uzh.ifi.attempto.acewiki.core.EditorController;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
-import ch.uzh.ifi.attempto.base.DefaultTextOperator;
 import ch.uzh.ifi.attempto.base.PredictiveParser;
 import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.base.TextOperator;
@@ -34,7 +33,7 @@ import ch.uzh.ifi.attempto.base.TextOperator;
 public class GFHandler extends AbstractLanguageHandler {
 
 	private String language;
-	private TextOperator textOperator = new DefaultTextOperator();
+	private TextOperator textOperator = new GfTextOperator();
 	private EditorController editorController = new EditorController();
 	private GFGrammar gfGrammar;
 
