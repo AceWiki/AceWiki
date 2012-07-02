@@ -142,6 +142,12 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 		return true;
 	}
 
+
+	public int getNumberOfParseTrees() {
+		return mParseState.size();
+	}
+
+
 	public void update() {
 	}
 

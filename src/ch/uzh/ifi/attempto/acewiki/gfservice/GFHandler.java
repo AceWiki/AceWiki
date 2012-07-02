@@ -21,6 +21,7 @@ import ch.uzh.ifi.attempto.acewiki.core.AbstractLanguageHandler;
 import ch.uzh.ifi.attempto.acewiki.core.EditorController;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
+import ch.uzh.ifi.attempto.acewiki.core.SentenceSuggestion;
 import ch.uzh.ifi.attempto.base.PredictiveParser;
 import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.base.TextOperator;
@@ -73,4 +74,10 @@ public class GFHandler extends AbstractLanguageHandler {
 		return editorController;
 	}
 
+	public SentenceSuggestion getSuggestion(Sentence sentence) {
+		if (sentence.getNumberOfParseTrees() > 1) {
+			return new DisambiguationSuggestion(sentence);
+		}
+		return null;
+	}
 }

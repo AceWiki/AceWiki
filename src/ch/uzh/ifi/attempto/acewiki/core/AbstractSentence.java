@@ -22,23 +22,28 @@ import ch.uzh.ifi.attempto.base.TextOperator;
  * This class is a partial implementation of a sentence.
  * 
  * @author Tobias Kuhn
+ * @author Kaarel Kaljurand
  */
 public abstract class AbstractSentence extends AbstractStatement implements Sentence {
-	
+
 	private boolean integrated = false;
-	
+
 	public boolean isIntegrated() {
 		return integrated;
 	}
-	
+
 	public void setIntegrated(boolean integrated) {
 		this.integrated = integrated;
 	}
-	
+
 	public boolean isImmutable() {
 		return getArticle() == null;
 	}
-	
+
+	public int getNumberOfParseTrees() {
+		return 1;
+	}
+
 	/**
 	 * Returns a text container with the text of this sentence in the given language.
 	 * 
@@ -46,7 +51,7 @@ public abstract class AbstractSentence extends AbstractStatement implements Sent
 	 * @return The text container.
 	 */
 	protected abstract TextContainer getTextContainer(String language);
-	
+
 	public String getText(String language) {
 		String t = "";
 		TextElement prev = null;

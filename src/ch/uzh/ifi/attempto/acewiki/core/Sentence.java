@@ -23,9 +23,10 @@ import ch.uzh.ifi.attempto.base.TextElement;
  * declarative sentences as well as questions.
  * 
  * @author Tobias Kuhn
+ * @author Kaarel Kaljurand
  */
 public interface Sentence extends Statement {
-	
+
 	/**
 	 * Returns a list of text elements that represent the tokens of this sentence in the given
 	 * language.
@@ -34,7 +35,7 @@ public interface Sentence extends Statement {
 	 * @return A token list.
 	 */
 	public List<TextElement> getTextElements(String language);
-	
+
 	/**
 	 * Returns true if this sentence can participate in reasoning.
 	 * 
@@ -42,14 +43,14 @@ public interface Sentence extends Statement {
 	 */
 	// TODO move to ontology or reasoner class?
 	public boolean isReasonable();
-	
+
 	/**
 	 * Returns true if the sentence is integrated into the ontology.
 	 * 
 	 * @return true if the sentence is integrated into the ontology.
 	 */
 	public boolean isIntegrated();
-	
+
 	/**
 	 * Informs the sentence object whether it is integrated into the ontology or not. This
 	 * method should only be called from the ontology or an ontology loader.
@@ -66,19 +67,19 @@ public interface Sentence extends Statement {
 	 * @return true if the ontology element occurs in this sentence.
 	 */
 	public boolean contains(OntologyElement e);
-	
+
 	/**
 	 * This method is called whenever some words of the sentence are modified.
 	 */
 	public void update();
-	
+
 	/**
 	 * Returns whether the sentence can be changed or is immutable.
 	 * 
 	 * @return true if the sentence cannot be changed.
 	 */
 	public boolean isImmutable();
-	
+
 	/**
 	 * Returns a list of sentence details in the given language.
 	 * 
@@ -86,5 +87,10 @@ public interface Sentence extends Statement {
 	 * @return A list of sentence details.
 	 */
 	public List<SentenceDetail> getDetails(String language);
+
+	/**
+	 * @return number of parse trees
+	 */
+	public int getNumberOfParseTrees();
 
 }
