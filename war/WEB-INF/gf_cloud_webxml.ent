@@ -27,16 +27,8 @@
 
 
   <servlet>
-    <servlet-name>FoodsAfr</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsAfr</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
-    <init-param>
-      <param-name>login</param-name>
-      <param-value>yes</param-value>
-    </init-param>
-    <init-param>
-      <param-name>login_required</param-name>
-      <param-value>edit</param-value>
-    </init-param>
     <init-param>
       <param-name>backend</param-name>
       <param-value>/grammars/Foods.pgf</param-value>
@@ -51,13 +43,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsAfr</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsAfr</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsAfr/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsAmh</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsAmh</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -73,13 +65,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsAmh</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsAmh</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsAmh/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsBul</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsBul</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -95,13 +87,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsBul</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsBul</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsBul/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsCat</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsCat</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -117,13 +109,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsCat</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsCat</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsCat/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsCze</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsCze</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -139,22 +131,14 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsCze</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsCze</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsCze/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsDut</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsDut</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
-    <init-param>
-      <param-name>login</param-name>
-      <param-value>yes</param-value>
-    </init-param>
-    <init-param>
-      <param-name>login_required</param-name>
-      <param-value>edit</param-value>
-    </init-param>
     <init-param>
       <param-name>backend</param-name>
       <param-value>/grammars/Foods.pgf</param-value>
@@ -169,13 +153,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsDut</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsDut</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsDut/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsEng</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsEng</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -191,13 +175,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsEng</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsEng</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsEng/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsEpo</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsEpo</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -213,13 +197,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsEpo</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsEpo</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsEpo/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsFin</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsFin</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -235,13 +219,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsFin</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsFin</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsFin/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsFre</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsFre</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -257,13 +241,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsFre</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsFre</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsFre/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsGer</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsGer</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -279,13 +263,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsGer</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsGer</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsGer/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsGle</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsGle</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -301,13 +285,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsGle</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsGle</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsGle/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsHeb</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsHeb</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -323,13 +307,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsHeb</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsHeb</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsHeb/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsHin</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsHin</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -345,13 +329,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsHin</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsHin</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsHin/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsIce</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsIce</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -367,13 +351,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsIce</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsIce</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsIce/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsIta</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsIta</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -389,13 +373,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsIta</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsIta</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsIta/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsJpn</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsJpn</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -411,13 +395,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsJpn</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsJpn</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsJpn/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsLav</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsLav</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -433,13 +417,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsLav</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsLav</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsLav/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsMlt</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsMlt</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -455,13 +439,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsMlt</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsMlt</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsMlt/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsMon</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsMon</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -477,13 +461,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsMon</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsMon</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsMon/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsNep</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsNep</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -499,13 +483,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsNep</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsNep</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsNep/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsPes</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsPes</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -521,13 +505,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsPes</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsPes</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsPes/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsPor</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsPor</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -543,13 +527,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsPor</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsPor</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsPor/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsRon</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsRon</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -565,13 +549,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsRon</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsRon</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsRon/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsSpa</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsSpa</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -587,13 +571,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsSpa</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsSpa</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsSpa/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsSwe</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsSwe</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -609,13 +593,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsSwe</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsSwe</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsSwe/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsTha</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsTha</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -631,13 +615,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsTha</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsTha</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsTha/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsTsn</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsTsn</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -653,13 +637,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsTsn</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsTsn</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsTsn/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsTur</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsTur</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -675,13 +659,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsTur</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsTur</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsTur/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>FoodsUrd</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsUrd</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -697,7 +681,7 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FoodsUrd</servlet-name>
+    <servlet-name>/grammars/Foods.pgf/FoodsUrd</servlet-name>
     <url-pattern>/grammars/Foods.pgf/FoodsUrd/</url-pattern>
   </servlet-mapping>
 
@@ -730,7 +714,7 @@
 
 
   <servlet>
-    <servlet-name>LetterEng</servlet-name>
+    <servlet-name>/grammars/Letter.pgf/LetterEng</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -746,13 +730,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>LetterEng</servlet-name>
+    <servlet-name>/grammars/Letter.pgf/LetterEng</servlet-name>
     <url-pattern>/grammars/Letter.pgf/LetterEng/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>LetterFin</servlet-name>
+    <servlet-name>/grammars/Letter.pgf/LetterFin</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -768,13 +752,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>LetterFin</servlet-name>
+    <servlet-name>/grammars/Letter.pgf/LetterFin</servlet-name>
     <url-pattern>/grammars/Letter.pgf/LetterFin/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>LetterFre</servlet-name>
+    <servlet-name>/grammars/Letter.pgf/LetterFre</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -790,13 +774,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>LetterFre</servlet-name>
+    <servlet-name>/grammars/Letter.pgf/LetterFre</servlet-name>
     <url-pattern>/grammars/Letter.pgf/LetterFre/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>LetterHeb</servlet-name>
+    <servlet-name>/grammars/Letter.pgf/LetterHeb</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -812,13 +796,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>LetterHeb</servlet-name>
+    <servlet-name>/grammars/Letter.pgf/LetterHeb</servlet-name>
     <url-pattern>/grammars/Letter.pgf/LetterHeb/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>LetterRus</servlet-name>
+    <servlet-name>/grammars/Letter.pgf/LetterRus</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -834,13 +818,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>LetterRus</servlet-name>
+    <servlet-name>/grammars/Letter.pgf/LetterRus</servlet-name>
     <url-pattern>/grammars/Letter.pgf/LetterRus/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>LetterSwe</servlet-name>
+    <servlet-name>/grammars/Letter.pgf/LetterSwe</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -856,7 +840,7 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>LetterSwe</servlet-name>
+    <servlet-name>/grammars/Letter.pgf/LetterSwe</servlet-name>
     <url-pattern>/grammars/Letter.pgf/LetterSwe/</url-pattern>
   </servlet-mapping>
 
@@ -889,7 +873,7 @@
 
 
   <servlet>
-    <servlet-name>LibraryBrowserAPI</servlet-name>
+    <servlet-name>/grammars/LibraryBrowser.pgf/LibraryBrowserAPI</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -905,13 +889,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>LibraryBrowserAPI</servlet-name>
+    <servlet-name>/grammars/LibraryBrowser.pgf/LibraryBrowserAPI</servlet-name>
     <url-pattern>/grammars/LibraryBrowser.pgf/LibraryBrowserAPI/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>LibraryBrowserDut</servlet-name>
+    <servlet-name>/grammars/LibraryBrowser.pgf/LibraryBrowserDut</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -927,13 +911,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>LibraryBrowserDut</servlet-name>
+    <servlet-name>/grammars/LibraryBrowser.pgf/LibraryBrowserDut</servlet-name>
     <url-pattern>/grammars/LibraryBrowser.pgf/LibraryBrowserDut/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>LibraryBrowserEng</servlet-name>
+    <servlet-name>/grammars/LibraryBrowser.pgf/LibraryBrowserEng</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -949,7 +933,7 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>LibraryBrowserEng</servlet-name>
+    <servlet-name>/grammars/LibraryBrowser.pgf/LibraryBrowserEng</servlet-name>
     <url-pattern>/grammars/LibraryBrowser.pgf/LibraryBrowserEng/</url-pattern>
   </servlet-mapping>
 
@@ -982,7 +966,7 @@
 
 
   <servlet>
-    <servlet-name>MathBarBul</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarBul</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -998,13 +982,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>MathBarBul</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarBul</servlet-name>
     <url-pattern>/grammars/MathBar.pgf/MathBarBul/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>MathBarCat</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarCat</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1020,13 +1004,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>MathBarCat</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarCat</servlet-name>
     <url-pattern>/grammars/MathBar.pgf/MathBarCat/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>MathBarEng</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarEng</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1042,13 +1026,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>MathBarEng</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarEng</servlet-name>
     <url-pattern>/grammars/MathBar.pgf/MathBarEng/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>MathBarFin</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarFin</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1064,13 +1048,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>MathBarFin</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarFin</servlet-name>
     <url-pattern>/grammars/MathBar.pgf/MathBarFin/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>MathBarFre</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarFre</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1086,13 +1070,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>MathBarFre</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarFre</servlet-name>
     <url-pattern>/grammars/MathBar.pgf/MathBarFre/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>MathBarGer</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarGer</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1108,13 +1092,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>MathBarGer</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarGer</servlet-name>
     <url-pattern>/grammars/MathBar.pgf/MathBarGer/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>MathBarHin</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarHin</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1130,13 +1114,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>MathBarHin</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarHin</servlet-name>
     <url-pattern>/grammars/MathBar.pgf/MathBarHin/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>MathBarIta</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarIta</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1152,13 +1136,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>MathBarIta</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarIta</servlet-name>
     <url-pattern>/grammars/MathBar.pgf/MathBarIta/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>MathBarLaTeX</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarLaTeX</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1174,13 +1158,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>MathBarLaTeX</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarLaTeX</servlet-name>
     <url-pattern>/grammars/MathBar.pgf/MathBarLaTeX/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>MathBarPol</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarPol</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1196,13 +1180,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>MathBarPol</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarPol</servlet-name>
     <url-pattern>/grammars/MathBar.pgf/MathBarPol/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>MathBarRon</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarRon</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1218,13 +1202,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>MathBarRon</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarRon</servlet-name>
     <url-pattern>/grammars/MathBar.pgf/MathBarRon/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>MathBarRus</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarRus</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1240,13 +1224,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>MathBarRus</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarRus</servlet-name>
     <url-pattern>/grammars/MathBar.pgf/MathBarRus/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>MathBarSpa</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarSpa</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1262,13 +1246,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>MathBarSpa</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarSpa</servlet-name>
     <url-pattern>/grammars/MathBar.pgf/MathBarSpa/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>MathBarSwe</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarSwe</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1284,13 +1268,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>MathBarSwe</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarSwe</servlet-name>
     <url-pattern>/grammars/MathBar.pgf/MathBarSwe/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>MathBarUrd</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarUrd</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1306,7 +1290,7 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>MathBarUrd</servlet-name>
+    <servlet-name>/grammars/MathBar.pgf/MathBarUrd</servlet-name>
     <url-pattern>/grammars/MathBar.pgf/MathBarUrd/</url-pattern>
   </servlet-mapping>
 
@@ -1339,7 +1323,7 @@
 
 
   <servlet>
-    <servlet-name>EngDescr</servlet-name>
+    <servlet-name>/grammars/MorphoQuizVerbsEng.pgf/EngDescr</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1355,13 +1339,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>EngDescr</servlet-name>
+    <servlet-name>/grammars/MorphoQuizVerbsEng.pgf/EngDescr</servlet-name>
     <url-pattern>/grammars/MorphoQuizVerbsEng.pgf/EngDescr/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>EngReal</servlet-name>
+    <servlet-name>/grammars/MorphoQuizVerbsEng.pgf/EngReal</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1377,7 +1361,7 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>EngReal</servlet-name>
+    <servlet-name>/grammars/MorphoQuizVerbsEng.pgf/EngReal</servlet-name>
     <url-pattern>/grammars/MorphoQuizVerbsEng.pgf/EngReal/</url-pattern>
   </servlet-mapping>
 
@@ -1386,14 +1370,6 @@
     <servlet-name>/grammars/Numerals.pgf</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
-    <init-param>
-      <param-name>login</param-name>
-      <param-value>yes</param-value>
-    </init-param>
-    <init-param>
-      <param-name>login_required</param-name>
-      <param-value>edit</param-value>
-    </init-param>
     <init-param>
       <param-name>engine_class</param-name>
       <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
@@ -1418,7 +1394,7 @@
 
 
   <servlet>
-    <servlet-name>af_tunni</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/af_tunni</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1434,13 +1410,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>af_tunni</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/af_tunni</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/af_tunni/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>albanian</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/albanian</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1456,13 +1432,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>albanian</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/albanian</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/albanian/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>amharic</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/amharic</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1478,13 +1454,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>amharic</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/amharic</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/amharic/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>arabic_classical</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/arabic_classical</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1500,13 +1476,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>arabic_classical</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/arabic_classical</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/arabic_classical/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>arabic_modern</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/arabic_modern</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1522,13 +1498,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>arabic_modern</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/arabic_modern</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/arabic_modern/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>basque</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/basque</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1544,13 +1520,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>basque</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/basque</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/basque/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>bearlake_slave</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/bearlake_slave</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1566,13 +1542,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>bearlake_slave</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/bearlake_slave</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/bearlake_slave/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>bulgarian</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/bulgarian</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1588,13 +1564,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>bulgarian</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/bulgarian</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/bulgarian/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>catalan</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/catalan</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1610,13 +1586,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>catalan</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/catalan</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/catalan/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>chinese</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/chinese</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1632,13 +1608,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>chinese</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/chinese</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/chinese/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>croatian</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/croatian</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1654,13 +1630,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>croatian</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/croatian</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/croatian/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>czech</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/czech</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1676,13 +1652,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>czech</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/czech</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/czech/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>dagur</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/dagur</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1698,13 +1674,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>dagur</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/dagur</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/dagur/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>danish</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/danish</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1720,13 +1696,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>danish</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/danish</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/danish/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>decimal</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/decimal</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1742,13 +1718,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>decimal</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/decimal</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/decimal/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>dutch</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/dutch</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1764,13 +1740,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>dutch</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/dutch</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/dutch/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>english</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/english</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1786,13 +1762,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>english</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/english</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/english/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>finnish</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/finnish</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1808,13 +1784,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>finnish</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/finnish</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/finnish/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>french</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/french</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1830,13 +1806,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>french</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/french</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/french/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>french_belgian</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/french_belgian</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1852,13 +1828,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>french_belgian</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/french_belgian</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/french_belgian/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>french_swiss</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/french_swiss</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1874,13 +1850,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>french_swiss</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/french_swiss</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/french_swiss/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>fulfulde</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/fulfulde</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1896,13 +1872,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>fulfulde</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/fulfulde</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/fulfulde/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>geez</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/geez</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1918,13 +1894,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>geez</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/geez</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/geez/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>german</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/german</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1940,13 +1916,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>german</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/german</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/german/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>greek_classical</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/greek_classical</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1962,13 +1938,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>greek_classical</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/greek_classical</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/greek_classical/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>greek_modern</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/greek_modern</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -1984,13 +1960,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>greek_modern</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/greek_modern</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/greek_modern/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>guahibo</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/guahibo</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2006,13 +1982,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>guahibo</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/guahibo</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/guahibo/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>guarani</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/guarani</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2028,13 +2004,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>guarani</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/guarani</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/guarani/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>hebrew_biblical</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/hebrew_biblical</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2050,13 +2026,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>hebrew_biblical</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/hebrew_biblical</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/hebrew_biblical/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>hindi</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/hindi</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2072,13 +2048,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>hindi</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/hindi</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/hindi/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>hungarian</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/hungarian</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2094,13 +2070,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>hungarian</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/hungarian</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/hungarian/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>icelandic</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/icelandic</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2116,13 +2092,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>icelandic</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/icelandic</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/icelandic/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>interlingua</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/interlingua</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2138,13 +2114,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>interlingua</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/interlingua</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/interlingua/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>irish</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/irish</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2160,13 +2136,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>irish</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/irish</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/irish/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>italian</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/italian</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2182,13 +2158,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>italian</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/italian</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/italian/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>japanese</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/japanese</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2204,13 +2180,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>japanese</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/japanese</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/japanese/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>kabardian</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/kabardian</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2226,13 +2202,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>kabardian</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/kabardian</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/kabardian/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>kambera</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/kambera</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2248,13 +2224,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>kambera</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/kambera</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/kambera/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>kawaiisu</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/kawaiisu</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2270,13 +2246,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>kawaiisu</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/kawaiisu</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/kawaiisu/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>khmer</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/khmer</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2292,13 +2268,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>khmer</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/khmer</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/khmer/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>khowar</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/khowar</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2314,13 +2290,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>khowar</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/khowar</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/khowar/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>kolyma_yukaghir</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/kolyma_yukaghir</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2336,13 +2312,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>kolyma_yukaghir</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/kolyma_yukaghir</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/kolyma_yukaghir/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>korean</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/korean</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2358,13 +2334,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>korean</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/korean</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/korean/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>kulung</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/kulung</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2380,13 +2356,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>kulung</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/kulung</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/kulung/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>kwami</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/kwami</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2402,13 +2378,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>kwami</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/kwami</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/kwami/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>kwaza</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/kwaza</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2424,13 +2400,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>kwaza</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/kwaza</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/kwaza/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>lalo</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/lalo</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2446,13 +2422,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>lalo</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/lalo</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/lalo/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>lamani</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/lamani</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2468,13 +2444,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>lamani</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/lamani</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/lamani/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>latvian</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/latvian</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2490,13 +2466,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>latvian</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/latvian</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/latvian/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>lithuanian</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/lithuanian</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2512,13 +2488,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>lithuanian</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/lithuanian</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/lithuanian/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>lotuxo</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/lotuxo</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2534,13 +2510,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>lotuxo</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/lotuxo</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/lotuxo/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>maale</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/maale</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2556,13 +2532,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>maale</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/maale</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/maale/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>malay</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/malay</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2578,13 +2554,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>malay</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/malay</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/malay/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>maltese</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/maltese</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2600,13 +2576,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>maltese</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/maltese</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/maltese/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>mapuche</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/mapuche</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2622,13 +2598,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>mapuche</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/mapuche</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/mapuche/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>margi</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/margi</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2644,13 +2620,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>margi</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/margi</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/margi/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>maybrat</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/maybrat</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2666,13 +2642,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>maybrat</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/maybrat</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/maybrat/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>miya</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/miya</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2688,13 +2664,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>miya</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/miya</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/miya/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>mongolian</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/mongolian</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2710,13 +2686,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>mongolian</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/mongolian</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/mongolian/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>nenets</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/nenets</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2732,13 +2708,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>nenets</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/nenets</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/nenets/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>norwegian_book</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/norwegian_book</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2754,13 +2730,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>norwegian_book</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/norwegian_book</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/norwegian_book/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>old_church_slavonic</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/old_church_slavonic</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2776,13 +2752,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>old_church_slavonic</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/old_church_slavonic</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/old_church_slavonic/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>oromo</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/oromo</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2798,13 +2774,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>oromo</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/oromo</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/oromo/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>pashto</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/pashto</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2820,13 +2796,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>pashto</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/pashto</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/pashto/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>polish</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/polish</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2842,13 +2818,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>polish</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/polish</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/polish/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>portuguese</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/portuguese</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2864,13 +2840,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>portuguese</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/portuguese</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/portuguese/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>quechua</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/quechua</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2886,13 +2862,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>quechua</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/quechua</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/quechua/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>romanian</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/romanian</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2908,13 +2884,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>romanian</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/romanian</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/romanian/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>russian</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/russian</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2930,13 +2906,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>russian</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/russian</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/russian/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>sango</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/sango</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2952,13 +2928,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>sango</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/sango</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/sango/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>slovak</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/slovak</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2974,13 +2950,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>slovak</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/slovak</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/slovak/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>sorani</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/sorani</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -2996,13 +2972,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>sorani</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/sorani</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/sorani/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>spanish</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/spanish</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3018,13 +2994,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>spanish</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/spanish</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/spanish/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>stieng</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/stieng</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3040,13 +3016,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>stieng</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/stieng</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/stieng/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>swahili</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/swahili</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3062,13 +3038,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>swahili</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/swahili</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/swahili/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>swedish</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/swedish</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3084,13 +3060,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>swedish</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/swedish</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/swedish/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>tamil</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/tamil</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3106,13 +3082,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>tamil</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/tamil</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/tamil/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>tampere</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/tampere</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3128,13 +3104,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>tampere</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/tampere</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/tampere/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>thai</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/thai</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3150,13 +3126,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>thai</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/thai</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/thai/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>tibetan</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/tibetan</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3172,13 +3148,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>tibetan</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/tibetan</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/tibetan/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>totonac</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/totonac</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3194,13 +3170,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>totonac</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/totonac</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/totonac/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>tuda_daza</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/tuda_daza</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3216,13 +3192,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>tuda_daza</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/tuda_daza</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/tuda_daza/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>tukang_besi</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/tukang_besi</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3238,13 +3214,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>tukang_besi</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/tukang_besi</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/tukang_besi/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>turkish</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/turkish</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3260,13 +3236,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>turkish</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/turkish</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/turkish/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>votic</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/votic</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3282,13 +3258,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>votic</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/votic</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/votic/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>yasin_burushaski</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/yasin_burushaski</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3304,13 +3280,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>yasin_burushaski</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/yasin_burushaski</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/yasin_burushaski/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>zaiwa</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/zaiwa</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3326,7 +3302,7 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>zaiwa</servlet-name>
+    <servlet-name>/grammars/Numerals.pgf/zaiwa</servlet-name>
     <url-pattern>/grammars/Numerals.pgf/zaiwa/</url-pattern>
   </servlet-mapping>
 
@@ -3359,7 +3335,7 @@
 
 
   <servlet>
-    <servlet-name>PaintingEng</servlet-name>
+    <servlet-name>/grammars/Painting.pgf/PaintingEng</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3375,13 +3351,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PaintingEng</servlet-name>
+    <servlet-name>/grammars/Painting.pgf/PaintingEng</servlet-name>
     <url-pattern>/grammars/Painting.pgf/PaintingEng/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>PaintingFin</servlet-name>
+    <servlet-name>/grammars/Painting.pgf/PaintingFin</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3397,13 +3373,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PaintingFin</servlet-name>
+    <servlet-name>/grammars/Painting.pgf/PaintingFin</servlet-name>
     <url-pattern>/grammars/Painting.pgf/PaintingFin/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>PaintingFre</servlet-name>
+    <servlet-name>/grammars/Painting.pgf/PaintingFre</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3419,13 +3395,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PaintingFre</servlet-name>
+    <servlet-name>/grammars/Painting.pgf/PaintingFre</servlet-name>
     <url-pattern>/grammars/Painting.pgf/PaintingFre/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>PaintingIta</servlet-name>
+    <servlet-name>/grammars/Painting.pgf/PaintingIta</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3441,13 +3417,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PaintingIta</servlet-name>
+    <servlet-name>/grammars/Painting.pgf/PaintingIta</servlet-name>
     <url-pattern>/grammars/Painting.pgf/PaintingIta/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>PaintingSwe</servlet-name>
+    <servlet-name>/grammars/Painting.pgf/PaintingSwe</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3463,7 +3439,7 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PaintingSwe</servlet-name>
+    <servlet-name>/grammars/Painting.pgf/PaintingSwe</servlet-name>
     <url-pattern>/grammars/Painting.pgf/PaintingSwe/</url-pattern>
   </servlet-mapping>
 
@@ -3496,7 +3472,7 @@
 
 
   <servlet>
-    <servlet-name>DisambPhrasebookEng</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/DisambPhrasebookEng</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3512,13 +3488,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>DisambPhrasebookEng</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/DisambPhrasebookEng</servlet-name>
     <url-pattern>/grammars/Phrasebook.pgf/DisambPhrasebookEng/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>PhrasebookBul</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookBul</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3534,13 +3510,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PhrasebookBul</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookBul</servlet-name>
     <url-pattern>/grammars/Phrasebook.pgf/PhrasebookBul/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>PhrasebookCat</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookCat</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3556,13 +3532,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PhrasebookCat</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookCat</servlet-name>
     <url-pattern>/grammars/Phrasebook.pgf/PhrasebookCat/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>PhrasebookDan</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookDan</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3578,13 +3554,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PhrasebookDan</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookDan</servlet-name>
     <url-pattern>/grammars/Phrasebook.pgf/PhrasebookDan/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>PhrasebookDut</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookDut</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3600,13 +3576,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PhrasebookDut</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookDut</servlet-name>
     <url-pattern>/grammars/Phrasebook.pgf/PhrasebookDut/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>PhrasebookEng</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookEng</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3622,13 +3598,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PhrasebookEng</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookEng</servlet-name>
     <url-pattern>/grammars/Phrasebook.pgf/PhrasebookEng/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>PhrasebookFin</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookFin</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3644,13 +3620,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PhrasebookFin</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookFin</servlet-name>
     <url-pattern>/grammars/Phrasebook.pgf/PhrasebookFin/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>PhrasebookFre</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookFre</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3666,13 +3642,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PhrasebookFre</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookFre</servlet-name>
     <url-pattern>/grammars/Phrasebook.pgf/PhrasebookFre/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>PhrasebookGer</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookGer</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3688,13 +3664,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PhrasebookGer</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookGer</servlet-name>
     <url-pattern>/grammars/Phrasebook.pgf/PhrasebookGer/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>PhrasebookHin</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookHin</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3710,13 +3686,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PhrasebookHin</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookHin</servlet-name>
     <url-pattern>/grammars/Phrasebook.pgf/PhrasebookHin/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>PhrasebookIta</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookIta</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3732,13 +3708,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PhrasebookIta</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookIta</servlet-name>
     <url-pattern>/grammars/Phrasebook.pgf/PhrasebookIta/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>PhrasebookNor</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookNor</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3754,13 +3730,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PhrasebookNor</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookNor</servlet-name>
     <url-pattern>/grammars/Phrasebook.pgf/PhrasebookNor/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>PhrasebookPes</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookPes</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3776,13 +3752,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PhrasebookPes</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookPes</servlet-name>
     <url-pattern>/grammars/Phrasebook.pgf/PhrasebookPes/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>PhrasebookPol</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookPol</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3798,13 +3774,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PhrasebookPol</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookPol</servlet-name>
     <url-pattern>/grammars/Phrasebook.pgf/PhrasebookPol/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>PhrasebookRon</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookRon</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3820,13 +3796,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PhrasebookRon</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookRon</servlet-name>
     <url-pattern>/grammars/Phrasebook.pgf/PhrasebookRon/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>PhrasebookRus</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookRus</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3842,13 +3818,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PhrasebookRus</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookRus</servlet-name>
     <url-pattern>/grammars/Phrasebook.pgf/PhrasebookRus/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>PhrasebookSpa</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookSpa</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3864,13 +3840,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PhrasebookSpa</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookSpa</servlet-name>
     <url-pattern>/grammars/Phrasebook.pgf/PhrasebookSpa/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>PhrasebookSwe</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookSwe</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3886,13 +3862,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PhrasebookSwe</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookSwe</servlet-name>
     <url-pattern>/grammars/Phrasebook.pgf/PhrasebookSwe/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>PhrasebookTha</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookTha</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3908,13 +3884,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PhrasebookTha</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookTha</servlet-name>
     <url-pattern>/grammars/Phrasebook.pgf/PhrasebookTha/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>PhrasebookUrd</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookUrd</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3930,7 +3906,7 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PhrasebookUrd</servlet-name>
+    <servlet-name>/grammars/Phrasebook.pgf/PhrasebookUrd</servlet-name>
     <url-pattern>/grammars/Phrasebook.pgf/PhrasebookUrd/</url-pattern>
   </servlet-mapping>
 
@@ -3963,7 +3939,7 @@
 
 
   <servlet>
-    <servlet-name>QuizEng</servlet-name>
+    <servlet-name>/grammars/Quiz.pgf/QuizEng</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -3979,13 +3955,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>QuizEng</servlet-name>
+    <servlet-name>/grammars/Quiz.pgf/QuizEng</servlet-name>
     <url-pattern>/grammars/Quiz.pgf/QuizEng/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>QuizSwe</servlet-name>
+    <servlet-name>/grammars/Quiz.pgf/QuizSwe</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4001,7 +3977,7 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>QuizSwe</servlet-name>
+    <servlet-name>/grammars/Quiz.pgf/QuizSwe</servlet-name>
     <url-pattern>/grammars/Quiz.pgf/QuizSwe/</url-pattern>
   </servlet-mapping>
 
@@ -4034,7 +4010,7 @@
 
 
   <servlet>
-    <servlet-name>ResourceDemoAfr</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoAfr</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4050,13 +4026,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ResourceDemoAfr</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoAfr</servlet-name>
     <url-pattern>/grammars/ResourceDemo.pgf/ResourceDemoAfr/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>ResourceDemoBul</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoBul</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4072,13 +4048,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ResourceDemoBul</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoBul</servlet-name>
     <url-pattern>/grammars/ResourceDemo.pgf/ResourceDemoBul/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>ResourceDemoCat</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoCat</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4094,13 +4070,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ResourceDemoCat</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoCat</servlet-name>
     <url-pattern>/grammars/ResourceDemo.pgf/ResourceDemoCat/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>ResourceDemoDan</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoDan</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4116,13 +4092,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ResourceDemoDan</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoDan</servlet-name>
     <url-pattern>/grammars/ResourceDemo.pgf/ResourceDemoDan/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>ResourceDemoDut</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoDut</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4138,13 +4114,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ResourceDemoDut</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoDut</servlet-name>
     <url-pattern>/grammars/ResourceDemo.pgf/ResourceDemoDut/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>ResourceDemoEng</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoEng</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4160,13 +4136,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ResourceDemoEng</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoEng</servlet-name>
     <url-pattern>/grammars/ResourceDemo.pgf/ResourceDemoEng/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>ResourceDemoFin</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoFin</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4182,13 +4158,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ResourceDemoFin</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoFin</servlet-name>
     <url-pattern>/grammars/ResourceDemo.pgf/ResourceDemoFin/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>ResourceDemoFre</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoFre</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4204,13 +4180,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ResourceDemoFre</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoFre</servlet-name>
     <url-pattern>/grammars/ResourceDemo.pgf/ResourceDemoFre/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>ResourceDemoGer</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoGer</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4226,13 +4202,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ResourceDemoGer</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoGer</servlet-name>
     <url-pattern>/grammars/ResourceDemo.pgf/ResourceDemoGer/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>ResourceDemoHin</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoHin</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4248,13 +4224,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ResourceDemoHin</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoHin</servlet-name>
     <url-pattern>/grammars/ResourceDemo.pgf/ResourceDemoHin/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>ResourceDemoIta</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoIta</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4270,13 +4246,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ResourceDemoIta</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoIta</servlet-name>
     <url-pattern>/grammars/ResourceDemo.pgf/ResourceDemoIta/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>ResourceDemoJpn</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoJpn</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4292,13 +4268,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ResourceDemoJpn</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoJpn</servlet-name>
     <url-pattern>/grammars/ResourceDemo.pgf/ResourceDemoJpn/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>ResourceDemoLav</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoLav</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4314,13 +4290,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ResourceDemoLav</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoLav</servlet-name>
     <url-pattern>/grammars/ResourceDemo.pgf/ResourceDemoLav/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>ResourceDemoNep</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoNep</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4336,13 +4312,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ResourceDemoNep</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoNep</servlet-name>
     <url-pattern>/grammars/ResourceDemo.pgf/ResourceDemoNep/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>ResourceDemoNor</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoNor</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4358,13 +4334,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ResourceDemoNor</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoNor</servlet-name>
     <url-pattern>/grammars/ResourceDemo.pgf/ResourceDemoNor/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>ResourceDemoPes</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoPes</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4380,13 +4356,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ResourceDemoPes</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoPes</servlet-name>
     <url-pattern>/grammars/ResourceDemo.pgf/ResourceDemoPes/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>ResourceDemoPnb</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoPnb</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4402,13 +4378,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ResourceDemoPnb</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoPnb</servlet-name>
     <url-pattern>/grammars/ResourceDemo.pgf/ResourceDemoPnb/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>ResourceDemoPol</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoPol</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4424,13 +4400,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ResourceDemoPol</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoPol</servlet-name>
     <url-pattern>/grammars/ResourceDemo.pgf/ResourceDemoPol/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>ResourceDemoRon</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoRon</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4446,13 +4422,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ResourceDemoRon</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoRon</servlet-name>
     <url-pattern>/grammars/ResourceDemo.pgf/ResourceDemoRon/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>ResourceDemoRus</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoRus</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4468,13 +4444,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ResourceDemoRus</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoRus</servlet-name>
     <url-pattern>/grammars/ResourceDemo.pgf/ResourceDemoRus/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>ResourceDemoSnd</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoSnd</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4490,13 +4466,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ResourceDemoSnd</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoSnd</servlet-name>
     <url-pattern>/grammars/ResourceDemo.pgf/ResourceDemoSnd/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>ResourceDemoSpa</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoSpa</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4512,13 +4488,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ResourceDemoSpa</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoSpa</servlet-name>
     <url-pattern>/grammars/ResourceDemo.pgf/ResourceDemoSpa/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>ResourceDemoSwe</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoSwe</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4534,13 +4510,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ResourceDemoSwe</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoSwe</servlet-name>
     <url-pattern>/grammars/ResourceDemo.pgf/ResourceDemoSwe/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>ResourceDemoTha</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoTha</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4556,13 +4532,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ResourceDemoTha</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoTha</servlet-name>
     <url-pattern>/grammars/ResourceDemo.pgf/ResourceDemoTha/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>ResourceDemoUrd</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoUrd</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4578,7 +4554,7 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ResourceDemoUrd</servlet-name>
+    <servlet-name>/grammars/ResourceDemo.pgf/ResourceDemoUrd</servlet-name>
     <url-pattern>/grammars/ResourceDemo.pgf/ResourceDemoUrd/</url-pattern>
   </servlet-mapping>
 
@@ -4611,7 +4587,7 @@
 
 
   <servlet>
-    <servlet-name>SmartEng</servlet-name>
+    <servlet-name>/grammars/Smart.pgf/SmartEng</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4627,13 +4603,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>SmartEng</servlet-name>
+    <servlet-name>/grammars/Smart.pgf/SmartEng</servlet-name>
     <url-pattern>/grammars/Smart.pgf/SmartEng/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>SmartFre</servlet-name>
+    <servlet-name>/grammars/Smart.pgf/SmartFre</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4649,7 +4625,7 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>SmartFre</servlet-name>
+    <servlet-name>/grammars/Smart.pgf/SmartFre</servlet-name>
     <url-pattern>/grammars/Smart.pgf/SmartFre/</url-pattern>
   </servlet-mapping>
 
@@ -4682,7 +4658,7 @@
 
 
   <servlet>
-    <servlet-name>SyllogismEng</servlet-name>
+    <servlet-name>/grammars/Syllogism.pgf/SyllogismEng</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -4698,7 +4674,7 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>SyllogismEng</servlet-name>
+    <servlet-name>/grammars/Syllogism.pgf/SyllogismEng</servlet-name>
     <url-pattern>/grammars/Syllogism.pgf/SyllogismEng/</url-pattern>
   </servlet-mapping>
 

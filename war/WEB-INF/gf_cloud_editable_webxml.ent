@@ -27,7 +27,7 @@
 
 
   <servlet>
-    <servlet-name>GoApp</servlet-name>
+    <servlet-name>/tmp/gfse.74044909/Go.pgf/GoApp</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -43,13 +43,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>GoApp</servlet-name>
+    <servlet-name>/tmp/gfse.74044909/Go.pgf/GoApp</servlet-name>
     <url-pattern>/tmp/gfse.74044909/Go.pgf/GoApp/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>GoEng</servlet-name>
+    <servlet-name>/tmp/gfse.74044909/Go.pgf/GoEng</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -65,13 +65,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>GoEng</servlet-name>
+    <servlet-name>/tmp/gfse.74044909/Go.pgf/GoEng</servlet-name>
     <url-pattern>/tmp/gfse.74044909/Go.pgf/GoEng/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>GoEst</servlet-name>
+    <servlet-name>/tmp/gfse.74044909/Go.pgf/GoEst</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -87,7 +87,7 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>GoEst</servlet-name>
+    <servlet-name>/tmp/gfse.74044909/Go.pgf/GoEst</servlet-name>
     <url-pattern>/tmp/gfse.74044909/Go.pgf/GoEst/</url-pattern>
   </servlet-mapping>
 
@@ -120,7 +120,7 @@
 
 
   <servlet>
-    <servlet-name>HelloEng</servlet-name>
+    <servlet-name>/tmp/gfse.74044909/Hello.pgf/HelloEng</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -136,13 +136,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>HelloEng</servlet-name>
+    <servlet-name>/tmp/gfse.74044909/Hello.pgf/HelloEng</servlet-name>
     <url-pattern>/tmp/gfse.74044909/Hello.pgf/HelloEng/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>HelloEst</servlet-name>
+    <servlet-name>/tmp/gfse.74044909/Hello.pgf/HelloEst</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -158,13 +158,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>HelloEst</servlet-name>
+    <servlet-name>/tmp/gfse.74044909/Hello.pgf/HelloEst</servlet-name>
     <url-pattern>/tmp/gfse.74044909/Hello.pgf/HelloEst/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>HelloGer</servlet-name>
+    <servlet-name>/tmp/gfse.74044909/Hello.pgf/HelloGer</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -180,13 +180,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>HelloGer</servlet-name>
+    <servlet-name>/tmp/gfse.74044909/Hello.pgf/HelloGer</servlet-name>
     <url-pattern>/tmp/gfse.74044909/Hello.pgf/HelloGer/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>HelloSwe</servlet-name>
+    <servlet-name>/tmp/gfse.74044909/Hello.pgf/HelloSwe</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -202,7 +202,7 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>HelloSwe</servlet-name>
+    <servlet-name>/tmp/gfse.74044909/Hello.pgf/HelloSwe</servlet-name>
     <url-pattern>/tmp/gfse.74044909/Hello.pgf/HelloSwe/</url-pattern>
   </servlet-mapping>
 
@@ -235,7 +235,7 @@
 
 
   <servlet>
-    <servlet-name>MyFoodsEng</servlet-name>
+    <servlet-name>/tmp/gfse.74044909/MyFoods.pgf/MyFoodsEng</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -251,13 +251,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>MyFoodsEng</servlet-name>
+    <servlet-name>/tmp/gfse.74044909/MyFoods.pgf/MyFoodsEng</servlet-name>
     <url-pattern>/tmp/gfse.74044909/MyFoods.pgf/MyFoodsEng/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>MyFoodsEst</servlet-name>
+    <servlet-name>/tmp/gfse.74044909/MyFoods.pgf/MyFoodsEst</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -273,13 +273,13 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>MyFoodsEst</servlet-name>
+    <servlet-name>/tmp/gfse.74044909/MyFoods.pgf/MyFoodsEst</servlet-name>
     <url-pattern>/tmp/gfse.74044909/MyFoods.pgf/MyFoodsEst/</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>MyFoodsIta</servlet-name>
+    <servlet-name>/tmp/gfse.74044909/MyFoods.pgf/MyFoodsIta</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -295,7 +295,7 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>MyFoodsIta</servlet-name>
+    <servlet-name>/tmp/gfse.74044909/MyFoods.pgf/MyFoodsIta</servlet-name>
     <url-pattern>/tmp/gfse.74044909/MyFoods.pgf/MyFoodsIta/</url-pattern>
   </servlet-mapping>
 
@@ -328,7 +328,7 @@
 
 
   <servlet>
-    <servlet-name>TestGer</servlet-name>
+    <servlet-name>/tmp/gfse.74044909/Test.pgf/TestGer</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
@@ -344,7 +344,7 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>TestGer</servlet-name>
+    <servlet-name>/tmp/gfse.74044909/Test.pgf/TestGer</servlet-name>
     <url-pattern>/tmp/gfse.74044909/Test.pgf/TestGer/</url-pattern>
   </servlet-mapping>
 
