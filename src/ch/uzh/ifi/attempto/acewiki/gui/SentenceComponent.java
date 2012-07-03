@@ -35,15 +35,24 @@ import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 public class SentenceComponent extends Column implements ActionListener {
 
 	private static final long serialVersionUID = -540135972060005725L;
-	
+
+	private static final String ACTION_EDIT = "Edit...";
+	private static final String ACTION_ADD_SENTENCE = "Add Sentence...";
+	private static final String ACTION_ADD_COMMENT = "Add Comment...";
+	private static final String ACTION_PRUNE = "Prune";
+	private static final String ACTION_DELETE = "Delete";
+	private static final String ACTION_REASSERT = "Reassert";
+	private static final String ACTION_RETRACT = "Retract";
+	private static final String ACTION_SHOW_DETAILS = "Show Details";
+
 	private Sentence sentence;
 	private Wiki wiki;
 	private WikiPage hostPage;
-	
+
 	private Row sentenceRow = new Row();
 	private StatementMenu dropDown;
 	private RecalcIcon recalcIcon;
-	
+
 	/**
 	 * Creates a new sentence component. The host page is the page that contains the text row
 	 * (which is not necessarily the owner page of the sentence).
@@ -58,7 +67,7 @@ public class SentenceComponent extends Column implements ActionListener {
 		this.recalcIcon = new RecalcIcon("The answer to this question is being updated.");
 		update();
 	}
-	
+
 	private void update() {
 		if (sentence.isImmutable()) {
 			dropDown = new StatementMenu(StatementMenu.INFERRED_TYPE, wiki, this);
@@ -69,30 +78,33 @@ public class SentenceComponent extends Column implements ActionListener {
 		} else {
 			dropDown = new StatementMenu(StatementMenu.NOREASONING_TYPE, wiki, this);
 		}
-		
+
 		if (!wiki.isReadOnly() && !sentence.isImmutable()) {
-			dropDown.addMenuEntry("Edit...", "Edit this sentence");
+			dropDown.addMenuEntry(ACTION_EDIT, "Edit this sentence");
 			if (sentence.isReasonable()) {
 				if (sentence.isIntegrated()) {
-					dropDown.addMenuEntry("Retract", "Retract this sentence from the knowledge base");
+					dropDown.addMenuEntry(ACTION_RETRACT, "Retract this sentence from the knowledge base");
 				} else {
-					dropDown.addMenuEntry("Reassert", "Reassert this sentence in the knowledge base");
+					dropDown.addMenuEntry(ACTION_REASSERT, "Reassert this sentence into the knowledge base");
 				}
 			}
-			dropDown.addMenuEntry("Delete", "Delete this sentence from the article");
+			if (sentence.getNumberOfParseTrees() > 1) {
+				dropDown.addMenuEntry(ACTION_PRUNE, "Remove some of the " + sentence.getNumberOfParseTrees() + " trees");
+			}
+			dropDown.addMenuEntry(ACTION_DELETE, "Delete this sentence from the article");
 		}
-		
-		dropDown.addMenuEntry("Show Details", "Show the details of this sentence");
-		
+
+		dropDown.addMenuEntry(ACTION_SHOW_DETAILS, "Show the details of this sentence");
+
 		if (!wiki.isReadOnly() && hostPage instanceof ArticlePage) {
 			dropDown.addMenuSeparator();
-			dropDown.addMenuEntry("Add Sentence...", "Add a new sentence here");
-			dropDown.addMenuEntry("Add Comment...", "Add a new comment here");
+			dropDown.addMenuEntry(ACTION_ADD_SENTENCE, "Add a new sentence here");
+			dropDown.addMenuEntry(ACTION_ADD_COMMENT, "Add a new comment here");
 		}
-		
-		
+
+
 		boolean isRed = !sentence.isIntegrated() && !sentence.isImmutable() && !(sentence instanceof Question);
-		
+
 		removeAll();
 		sentenceRow.removeAll();
 		sentenceRow.add(dropDown);
@@ -103,7 +115,7 @@ public class SentenceComponent extends Column implements ActionListener {
 		recalcIcon.setVisible(false);
 		sentenceRow.add(new HSpace(5));
 		add(sentenceRow);
-		
+
 		// Question Answering:
 		if (sentence instanceof Question && hostPage instanceof ArticlePage) {
 			add(new AnswerList(wiki, (Question) sentence, recalcIcon));
@@ -111,7 +123,8 @@ public class SentenceComponent extends Column implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("Edit...")) {
+		String actionCommand = e.getActionCommand();
+		if (ACTION_EDIT.equals(actionCommand)) {
 			log("dropdown: edit sentence:");
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
@@ -121,7 +134,7 @@ public class SentenceComponent extends Column implements ActionListener {
 				wiki.showPage(page);
 				wiki.showWindow(SentenceEditorHandler.generateEditWindow(sentence, page));
 			}
-		} else if (e.getActionCommand().equals("Add Sentence...")) {
+		} else if (ACTION_ADD_SENTENCE.equals(actionCommand)) {
 			log("dropdown: add sentence");
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
@@ -129,9 +142,9 @@ public class SentenceComponent extends Column implements ActionListener {
 				wiki.showWindow(SentenceEditorHandler.generateCreationWindow(
 						sentence,
 						(ArticlePage) hostPage
-					));
+						));
 			}
-		} else if (e.getActionCommand().equals("Add Comment...")) {
+		} else if (ACTION_ADD_COMMENT.equals(actionCommand)) {
 			log("dropdown: add comment");
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
@@ -139,23 +152,38 @@ public class SentenceComponent extends Column implements ActionListener {
 				wiki.showWindow(CommentEditorHandler.generateCreationWindow(
 						sentence,
 						(ArticlePage) hostPage
-					));
+						));
 			}
-		} else if (e.getActionCommand().equals("Delete")) {
+		} else if (ACTION_PRUNE.equals(actionCommand)) {
+			log("dropdown: prune sentence:");
+			if (!wiki.isEditable()) {
+				wiki.showLoginWindow();
+			} else {
+				// TODO: launch a pruning dialog instead
+				wiki.showWindow(new MessageWindow(
+						ACTION_PRUNE,
+						"TODO: pruning dialog not implemented",
+						null,
+						this,
+						"Yes",
+						"No"
+						));
+			}
+		} else if (ACTION_DELETE.equals(actionCommand)) {
 			log("dropdown: delete sentence:");
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
 			} else {
 				wiki.showWindow(new MessageWindow(
-						"Delete",
+						ACTION_DELETE,
 						"Do you really want to delete this sentence?",
 						null,
 						this,
 						"Yes",
 						"No"
-					));
+						));
 			}
-		} else if (e.getActionCommand().equals("Reassert")) {
+		} else if (ACTION_REASSERT.equals(actionCommand)) {
 			log("dropdown: reassert:");
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
@@ -166,16 +194,16 @@ public class SentenceComponent extends Column implements ActionListener {
 					wiki.showWindow(new MessageWindow(
 							"Conflict",
 							"The sentence is in conflict with the current knowledge. For that " +
-								"reason, it cannot be added to the knowledge base.",
-							"OK"
-						));
+									"reason, it cannot be added to the knowledge base.",
+									"OK"
+							));
 				}
 				if (sentence.isIntegrated()) {
 					update();
 					hostPage.update();
 				}
 			}
-		} else if (e.getActionCommand().equals("Retract")) {
+		} else if (ACTION_RETRACT.equals(actionCommand)) {
 			log("dropdown: retract:");
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
@@ -184,28 +212,29 @@ public class SentenceComponent extends Column implements ActionListener {
 				update();
 				hostPage.update();
 			}
-		} else if (e.getActionCommand().equals("Show Details")) {
+		} else if (ACTION_SHOW_DETAILS.equals(actionCommand)) {
 			log("dropdown: details sentence:");
 			wiki.showPage(new SentencePage(wiki, sentence));
-		} else if (e.getSource() instanceof MessageWindow && e.getActionCommand().equals("Yes")) {
+		} else if (e.getSource() instanceof MessageWindow && actionCommand.equals("Yes")) {
+			// TODO: move this code closer to the rest of the Delete action definition
 			log("dropdown: delete confirmed:");
-			
+
 			wiki.enqueueStrongAsyncTask(
-				"Updating",
-				"The sentence is being removed from the knowledge base...",
-				new Task() {
-					public void run() {
-						sentence.getArticle().remove(sentence);
+					"Updating",
+					"The sentence is being removed from the knowledge base...",
+					new Task() {
+						public void run() {
+							sentence.getArticle().remove(sentence);
+						}
+						public void updateGUI() {
+							wiki.update();
+							wiki.refresh();
+						}
 					}
-					public void updateGUI() {
-						wiki.update();
-						wiki.refresh();
-					}
-				}
-			);
+					);
 		}
 	}
-	
+
 	private void log(String text) {
 		if (text.endsWith(":")) {
 			text += " " + sentence.getText(wiki.getEngine().getLanguages()[0]);
