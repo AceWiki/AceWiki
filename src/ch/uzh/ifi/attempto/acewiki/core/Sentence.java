@@ -15,6 +15,7 @@
 package ch.uzh.ifi.attempto.acewiki.core;
 
 import java.util.List;
+import java.util.Set;
 
 import ch.uzh.ifi.attempto.base.TextElement;
 
@@ -92,5 +93,8 @@ public interface Sentence extends Statement {
 	 * @return number of parse trees
 	 */
 	public int getNumberOfParseTrees();
+
+
+	public Set<String> getParseTrees();
 
 }

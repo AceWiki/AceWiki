@@ -14,6 +14,10 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
+import java.util.Set;
+
+import com.google.common.collect.ImmutableSet;
+
 import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.base.TextOperator;
@@ -42,6 +46,12 @@ public abstract class AbstractSentence extends AbstractStatement implements Sent
 
 	public int getNumberOfParseTrees() {
 		return 1;
+	}
+
+	// TODO: we return an empty set for now, this method
+	// should not be called for monolingual sentences anyway
+	public Set<String> getParseTrees() {
+		return ImmutableSet.of();
 	}
 
 	/**

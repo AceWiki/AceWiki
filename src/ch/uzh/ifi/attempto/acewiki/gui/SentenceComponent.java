@@ -26,6 +26,7 @@ import ch.uzh.ifi.attempto.acewiki.core.Question;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
+import ch.uzh.ifi.attempto.echocomp.MultipleChoiceWindow;
 
 /**
  * This class represents a sentence component consisting of a drop down menu and the sentence text.
@@ -159,14 +160,25 @@ public class SentenceComponent extends Column implements ActionListener {
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
 			} else {
-				// TODO: launch a pruning dialog instead
-				wiki.showWindow(new MessageWindow(
+				wiki.showWindow(new MultipleChoiceWindow(
 						ACTION_PRUNE,
-						"TODO: pruning dialog not implemented",
+						"Which meanings do you want to keep?\n[TODO: show lins instead of trees]",
+						sentence.getParseTrees(),
 						null,
-						this,
-						"Yes",
-						"No"
+						new ActionListener() {
+
+							private static final long serialVersionUID = 7820078327036231367L;
+
+							@Override
+							public void actionPerformed(ActionEvent arg0) {
+								wiki.showWindow(new MessageWindow(
+										"TEST",
+										arg0.getActionCommand(),
+										null,
+										this
+										));
+							}							
+						}
 						));
 			}
 		} else if (ACTION_DELETE.equals(actionCommand)) {

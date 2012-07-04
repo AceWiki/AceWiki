@@ -31,9 +31,6 @@
             file="src/ch/uzh/ifi/attempto/acewiki/acewiki.properties"
             tofile="classes/ch/uzh/ifi/attempto/acewiki/acewiki.properties"
         />
-        <copy todir="classes/ch/uzh/ifi/attempto/acewiki/gf">
-            <fileset dir="src/ch/uzh/ifi/attempto/acewiki/gf" includes="*.pgf"/>
-        </copy>
         <copy
             file="src/ch/uzh/ifi/attempto/aceeditor/aceeditor.properties"
             tofile="classes/ch/uzh/ifi/attempto/aceeditor/aceeditor.properties"

@@ -44,7 +44,7 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 
 	private final GFGrammar mGfGrammar;
 
-	// Maps languages to text containers
+	// TODO: map languages to text container sets
 	private final Map<String, TextContainer> textContainers = new HashMap<String, TextContainer>();
 
 	private ParseState mParseState;
@@ -145,6 +145,11 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 
 	public int getNumberOfParseTrees() {
 		return mParseState.size();
+	}
+
+
+	public Set<String> getParseTrees() {
+		return mParseState.getTrees();
 	}
 
 

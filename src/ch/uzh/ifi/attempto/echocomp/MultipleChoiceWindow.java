@@ -14,6 +14,8 @@
 
 package ch.uzh.ifi.attempto.echocomp;
 
+import java.util.Collection;
+
 import nextapp.echo.app.Alignment;
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Column;
@@ -31,34 +33,25 @@ import nextapp.echo.app.event.WindowPaneListener;
 import nextapp.echo.app.layout.GridLayoutData;
 
 /**
- * This is a convenience class for easy creation of message windows.
+ * This is a convenience class for the creation of multiple choice windows.
  * 
- * @author Tobias Kuhn
+ * @author Kaarel Kaljurand
  */
-public class MessageWindow extends GeneralWindow implements ActionListener {
+public class MultipleChoiceWindow extends GeneralWindow implements ActionListener {
 
-	private static final long serialVersionUID = -6999194368016297503L;
+	private static final long serialVersionUID = 607616571978106335L;
+	private ActionListener mActionListener;
 
-	private ActionListener actionListener;
 
-	/**
-	 * Creates a new message window.
-	 * 
-	 * @param title The title of the window.
-	 * @param image The image to be displayed above the text.
-	 * @param message The message text.
-	 * @param parent The parent window.
-	 * @param actionListener The action-listener.
-	 * @param options A list of options each represented by a button in the message window.
-	 */
-	public MessageWindow(String title, ResourceImageReference image, String message,
-			WindowPane parent, ActionListener actionListener, String... options) {
-		this.actionListener = actionListener;
+	public MultipleChoiceWindow(String title, ResourceImageReference image, String message,
+			Collection<String>  choices,
+			WindowPane parent, ActionListener actionListener) {
+		mActionListener = actionListener;
 		setTitle(title);
 		setTitleFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		setModal(true);
 		setWidth(new Extent(420));
-		setHeight(new Extent(180));
+		setHeight(new Extent(100 * choices.size()));
 		setResizable(false);
 		setMovable(true);
 		setTitleBackground(Style.windowTitleBackground);
@@ -66,10 +59,10 @@ public class MessageWindow extends GeneralWindow implements ActionListener {
 
 		addWindowPaneListener(new WindowPaneListener() {
 
-			private static final long serialVersionUID = -3897741327122083261L;
+			private static final long serialVersionUID = -1107201830529731000L;
 
 			public void windowPaneClosing(WindowPaneEvent e) {
-				actionPerformed(new ActionEvent(MessageWindow.this, "Close"));
+				actionPerformed(new ActionEvent(MultipleChoiceWindow.this, "Close"));
 			}
 
 		});
@@ -94,15 +87,22 @@ public class MessageWindow extends GeneralWindow implements ActionListener {
 		iconMessageColumn.add(label);
 		grid.add(iconMessageColumn);
 
+		// Choices
+		Column choicesColumn = new Column();
+		for (String choice : choices) {
+			CheckBox cb = new CheckBox(choice);
+			choicesColumn.add(cb);
+		}
+		grid.add(choicesColumn);
+
+		// Buttons
 		Row buttonBar = new Row();
 		buttonBar.setCellSpacing(new Extent(10));
 		buttonBar.setInsets(new Insets(0, 0, 0, 10));
-		for (String s : options) {
-			buttonBar.add(new GeneralButton(s, 80, this));
-		}
-		if (options.length == 1) {
-			ApplicationInstance.getActive().setFocusedComponent(buttonBar.getComponent(0));
-		}
+		buttonBar.add(new GeneralButton("OK", 80, this));
+		buttonBar.add(new GeneralButton("Cancel", 80, this));
+		ApplicationInstance.getActive().setFocusedComponent(buttonBar.getComponent(0));
+
 		GridLayoutData layout2 = new GridLayoutData();
 		layout2.setAlignment(new Alignment(Alignment.CENTER, Alignment.BOTTOM));
 		buttonBar.setLayoutData(layout2);
@@ -110,50 +110,30 @@ public class MessageWindow extends GeneralWindow implements ActionListener {
 
 		add(grid);
 
-		setCentered(parent);
+		//setCentered(parent);
 	}
 
-	/**
-	 * Creates a new message window.
-	 * 
-	 * @param title The title of the window.
-	 * @param message The message text.
-	 * @param parent The parent window.
-	 * @param actionListener The action-listener.
-	 * @param options A list of options each represented by a button in the message window.
-	 */
-	public MessageWindow(String title, String message, WindowPane parent,
-			ActionListener actionListener, String... options) {
-		this(title, null, message, parent, actionListener, options);
+
+	public MultipleChoiceWindow(String title, String message, Collection<String> choises, WindowPane parent,
+			ActionListener actionListener) {
+		this(title, null, message, choises, parent, actionListener);
 	}
 
-	/**
-	 * Creates a new message window.
-	 * 
-	 * @param title The title of the window.
-	 * @param message The message text.
-	 * @param parent The parent window.
-	 * @param options A list of options each represented by a button in the message window.
-	 */
-	public MessageWindow(String title, String message, WindowPane parent, String... options) {
-		this(title, null, message, parent, null, options);
+
+	public MultipleChoiceWindow(String title, String message, Collection<String> choises, WindowPane parent) {
+		this(title, null, message, choises, parent, null);
 	}
 
-	/**
-	 * Creates a new message window.
-	 * 
-	 * @param title The title of the window.
-	 * @param message The message text.
-	 * @param options A list of options each represented by a button in the message window.
-	 */
-	public MessageWindow(String title, String message, String... options) {
-		this(title, null, message, null, null, options);
+
+	public MultipleChoiceWindow(String title, String message, Collection<String> choises) {
+		this(title, null, message, choises, null, null);
 	}
+
 
 	public void actionPerformed(ActionEvent e) {
 		setVisible(false);
-		if (actionListener != null) {
-			actionListener.actionPerformed(new ActionEvent(this, e.getActionCommand()));
+		if (mActionListener != null) {
+			mActionListener.actionPerformed(new ActionEvent(this, e.getActionCommand()));
 		}
 	}
 
