@@ -53,6 +53,7 @@ import ch.uzh.ifi.attempto.ape.MessageContainer;
 import ch.uzh.ifi.attempto.ape.SyntaxBoxes;
 import ch.uzh.ifi.attempto.base.APE;
 import ch.uzh.ifi.attempto.base.TextContainer;
+import ch.uzh.ifi.attempto.base.TextContainerSet;
 import ch.uzh.ifi.attempto.base.TextElement;
 
 /**
@@ -98,7 +99,7 @@ public abstract class ACESentence extends MonolingualSentence implements OWLSent
 	public List<TextElement> getTextElements() {
 		List<TextElement> list = new ArrayList<TextElement>();
 		// TODO: this should be done in a different way
-		for (TextElement e : getTextContainer().getTextElements()) {
+		for (TextElement e : getTextContainerSet().getTextElements()) {
 			if (e instanceof OntologyTextElement) {
 				OntologyTextElement ote = (OntologyTextElement) e;
 				OntologyElement oe = ote.getOntologyElement();
@@ -127,11 +128,11 @@ public abstract class ACESentence extends MonolingualSentence implements OWLSent
 		return list;
 	}
 
-	protected TextContainer getTextContainer() {
+	public TextContainerSet getTextContainerSet() {
 		if (textContainer == null) {
 			tokenize();
 		}
-		return textContainer;
+		return new TextContainerSet(textContainer);
 	}
 
 	private void tokenize() {
@@ -182,8 +183,8 @@ public abstract class ACESentence extends MonolingualSentence implements OWLSent
 						ProperNameIndividual ind = (ProperNameIndividual) oe;
 						if (ind.hasDefiniteArticle(wordId-1) && textContainer.getTextElementsCount() > 0) {
 							String precedingText = textContainer.
-							getTextElement(textContainer.getTextElementsCount()-1).
-							getText();
+									getTextElement(textContainer.getTextElementsCount()-1).
+									getText();
 							if (precedingText.equals("the") || precedingText.equals("The")) {
 								textContainer.removeLastElement();
 								wordId--;
@@ -257,7 +258,7 @@ public abstract class ACESentence extends MonolingualSentence implements OWLSent
 			ape.setURI(getOntology().getURI());
 			ape.setClexEnabled(false);
 			Lexicon lexicon = new Lexicon();
-			for (TextElement te : getTextContainer().getTextElements()) {
+			for (TextElement te : getTextContainerSet().getTextElements()) {
 				if (te instanceof OntologyTextElement) {
 					OntologyElement oe = ((OntologyTextElement) te).getOntologyElement();
 					if (oe instanceof ACEOWLOntoElement) {
@@ -276,23 +277,23 @@ public abstract class ACESentence extends MonolingualSentence implements OWLSent
 					OWLXML,
 					OWLFSSPP,
 					DRSPP
-				);
+					);
 		}
 		MessageContainer mc = parserResult.getMessageContainer();
 		String owlxml = parserResult.get(OWLXML);
 
 		isOWLSWRL =
-			(mc.getMessages("owl").size() == 0) &&
-			(owlxml.length() > 0);
+				(mc.getMessages("owl").size() == 0) &&
+				(owlxml.length() > 0);
 
 		isOWL = isOWLSWRL &&
-			(owlxml.indexOf("<swrl:Imp>") < 0) &&
-			(owlxml.indexOf("<DLSafeRule>") < 0);
+				(owlxml.indexOf("<swrl:Imp>") < 0) &&
+				(owlxml.indexOf("<DLSafeRule>") < 0);
 
 		if (isOWL && reasoner.getGlobalRestrictionsPolicy().equals("no_chains")) {
 			reasonable =
-				(owlxml.indexOf("<TransitiveObjectProperty>") < 0) &&
-				(owlxml.indexOf("<ObjectPropertyChain>") < 0);
+					(owlxml.indexOf("<TransitiveObjectProperty>") < 0) &&
+					(owlxml.indexOf("<ObjectPropertyChain>") < 0);
 		} else {
 			reasonable = isOWL;
 		}
@@ -303,7 +304,7 @@ public abstract class ACESentence extends MonolingualSentence implements OWLSent
 			try {
 				owlOntology = ontologyManager.loadOntologyFromOntologyDocument(
 						new StringDocumentSource(owlxml)
-					);
+						);
 				if (owlOntology.isEmpty()) {
 					reasonable = false;
 					isOWL = false;
@@ -346,7 +347,7 @@ public abstract class ACESentence extends MonolingualSentence implements OWLSent
 	}
 
 	public boolean contains(OntologyElement e) {
-		for (TextElement t : getTextContainer().getTextElements()) {
+		for (TextElement t : getTextContainerSet().getTextElements()) {
 			if (t instanceof OntologyTextElement) {
 				if (e == ((OntologyTextElement) t).getOntologyElement()) return true;
 			}
@@ -356,7 +357,7 @@ public abstract class ACESentence extends MonolingualSentence implements OWLSent
 
 	public String serialize() {
 		String s = "";
-		for (TextElement te : getTextContainer().getTextElements()) {
+		for (TextElement te : getTextContainerSet().getTextElements()) {
 			if (te instanceof OntologyTextElement) {
 				OntologyTextElement ot = (OntologyTextElement) te;
 				s += ot.getPreText();
@@ -375,24 +376,24 @@ public abstract class ACESentence extends MonolingualSentence implements OWLSent
 		l.add(new SentenceDetail(
 				"Paraphrase",
 				StringEscapeUtils.escapeHtml(getParserResult().get(PARAPHRASE1))
-			));
+				));
 		l.add(new SentenceDetail(
 				"Syntax Boxes",
 				SyntaxBoxes.getBoxesHtml(getParserResult())
-			));
+				));
 		l.add(new SentenceDetail(
 				"Syntax Tree",
 				"<pre>" + getParserResult().get(SYNTAXPP) + "</pre>"
-			));
+				));
 		l.add(new SentenceDetail(
 				"Logical representation",
 				"<i><pre>" + StringEscapeUtils.escapeHtml(getParserResult().get(DRSPP)) + "</pre></i>"
-			));
+				));
 		if (isOWLSWRL()) {
 			l.add(new SentenceDetail(
 					"OWL",
 					"<i><pre>" + StringEscapeUtils.escapeHtml(getPrettyOWL()) + "</pre></i>"
-				));
+					));
 		}
 		return l;
 	}

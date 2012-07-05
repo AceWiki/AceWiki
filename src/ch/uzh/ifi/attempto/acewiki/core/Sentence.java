@@ -17,11 +17,13 @@ package ch.uzh.ifi.attempto.acewiki.core;
 import java.util.List;
 import java.util.Set;
 
+import ch.uzh.ifi.attempto.base.TextContainerSet;
 import ch.uzh.ifi.attempto.base.TextElement;
 
 /**
- * This interface represents a sentence in the given controlled natural language. It includes
- * declarative sentences as well as questions.
+ * This interface represents a tree set (= a potentially ambiguous sentence)
+ * and covers declarative as well as interrogative tree sets. It can be viewed
+ * in different languages.
  * 
  * @author Tobias Kuhn
  * @author Kaarel Kaljurand
@@ -34,8 +36,12 @@ public interface Sentence extends Statement {
 	 * 
 	 * @param language The language.
 	 * @return A token list.
+	 * @deprecated
 	 */
 	public List<TextElement> getTextElements(String language);
+
+
+	public TextContainerSet getTextContainerSet(String language);
 
 	/**
 	 * Returns true if this sentence can participate in reasoning.

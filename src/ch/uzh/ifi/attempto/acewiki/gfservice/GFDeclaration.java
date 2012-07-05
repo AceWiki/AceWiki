@@ -16,6 +16,7 @@ package ch.uzh.ifi.attempto.acewiki.gfservice;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -28,6 +29,7 @@ import ch.uzh.ifi.attempto.acewiki.core.Declaration;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceDetail;
 import ch.uzh.ifi.attempto.base.TextContainer;
+import ch.uzh.ifi.attempto.base.TextContainerSet;
 import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 
@@ -44,8 +46,8 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 
 	private final GFGrammar mGfGrammar;
 
-	// TODO: map languages to text container sets
-	private final Map<String, TextContainer> textContainers = new HashMap<String, TextContainer>();
+	// maps a language identifier to the set of linearizations (text containers) in this language
+	private final Map<String, TextContainerSet> textContainers = new HashMap<String, TextContainerSet>();
 
 	private ParseState mParseState;
 
@@ -74,38 +76,43 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 		text = text.replaceAll("([\\.?!])", " $1");
 		mGfGrammar = gfGrammar;
 		try {
-			Set<String> trees = getGFGrammar().parse(text, language);
-			mParseState = new ParseState(trees);
+			mParseState = new ParseState(getGFGrammar().parse(text, language));
 		} catch (GfServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	protected TextContainer getTextContainer(String language) {
-		TextContainer tc = textContainers.get(language);
-		if (tc == null) {
-			tc = new TextContainer();
+	public TextContainerSet getTextContainerSet(String language) {
+		TextContainerSet tcs = textContainers.get(language);
+		if (tcs == null) {
 			try {
-				// TODO: separate the linearizations of different trees
+				Set<TextContainer> tmp = new HashSet<TextContainer>();
 				for (String tree : mParseState.getTrees()) {
+					TextContainer tc = new TextContainer(); 
 					for (String s : getGFGrammar().linearizeAsTokens(tree, language)) {
 						tc.addElement(new TextElement(s));
 					}
+					tmp.add(tc);
 				}
+				tcs = new TextContainerSet(tmp);
 			} catch (GfServiceException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			textContainers.put(language, tc);
+			textContainers.put(language, tcs);
 		}
-		return tc;
+		return tcs;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public List<TextElement> getTextElements(String language) {
-		//logger.info("getTextElements {}: {}", language, getTextContainer(language).getTextElements());
-		return getTextContainer(language).getTextElements();
+		//logger.info("getTextElements {}: {}", language, getTextContainerSet(language).getTextElements());
+		return getTextContainerSet(language).getTextElements();
 	}
+
 
 	public boolean contains(OntologyElement e) {
 		// TODO
@@ -244,4 +251,5 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 
 		return l;
 	}
+
 }

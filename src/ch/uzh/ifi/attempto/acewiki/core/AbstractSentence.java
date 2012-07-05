@@ -18,7 +18,7 @@ import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
 
-import ch.uzh.ifi.attempto.base.TextContainer;
+import ch.uzh.ifi.attempto.base.TextContainerSet;
 import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.base.TextOperator;
 
@@ -60,13 +60,13 @@ public abstract class AbstractSentence extends AbstractStatement implements Sent
 	 * @param language The language.
 	 * @return The text container.
 	 */
-	protected abstract TextContainer getTextContainer(String language);
+	public abstract TextContainerSet getTextContainerSet(String language);
 
 	public String getText(String language) {
 		String t = "";
 		TextElement prev = null;
 		TextOperator textOperator = getTextOperator(language);
-		for (TextElement te : getTextContainer(language).getTextElements()) {
+		for (TextElement te : getTextContainerSet(language).getTextElements()) {
 			String glue = "";
 			if (prev != null) {
 				glue = textOperator.getGlue(prev, te);

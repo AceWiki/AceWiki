@@ -14,12 +14,13 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui;
 
-import java.util.List;
-
 import nextapp.echo.app.Color;
+import nextapp.echo.app.Column;
 import nextapp.echo.app.Row;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
+import ch.uzh.ifi.attempto.base.TextContainer;
+import ch.uzh.ifi.attempto.base.TextContainerSet;
 import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
@@ -28,52 +29,60 @@ import ch.uzh.ifi.attempto.echocomp.SolidLabel;
  * This component renders a CNL text into GUI elements.
  * 
  * @author Tobias Kuhn
+ * @author Kaarel Kaljurand
  */
-public class TextRow extends Row {
-	
+public class TextRow extends Column {
+
 	private static final long serialVersionUID = -3410891086679856030L;
-	
+
 	/**
-	 * Creates a new text row with the given text.
+	 * Constructs a column of text rows, where each row corresponds to
+	 * an element of the given set of text containers.
 	 * 
-	 * @param text The text as a list of text elements.
+	 * @param textContainerSet Set of text containers.
 	 * @param wiki The wiki object.
 	 * @param isRed true if the text color should be red.
 	 */
-	public TextRow(List<TextElement> text, Wiki wiki, boolean isRed) {
+	// TODO: maybe apply the color to the complete column, not individually to each label
+	public TextRow(TextContainerSet textContainerSet, Wiki wiki, boolean isRed) {
 		Color color = Color.BLACK;
 		if (isRed) {
 			color = new Color(180, 0, 0);
 		}
-		TextElement prev = null;
-		for (TextElement e : text) {
-			if (prev != null) {
-				String glue = wiki.getLanguageHandler().getTextOperator().getGlue(prev, e);
-				if (glue.matches("\\s+")) {
-					add(new HSpace(5 * glue.length()));
-				} else if (glue.length() > 0) {
-					add(new SolidLabel(glue));
+		for (TextContainer tc : textContainerSet) {
+			Row row = new Row();
+			TextElement prev = null;
+			for (TextElement e : tc.getTextElements()) {
+				if (prev != null) {
+					String glue = wiki.getLanguageHandler().getTextOperator().getGlue(prev, e);
+					if (glue.matches("\\s+")) {
+						row.add(new HSpace(5 * glue.length()));
+					} else if (glue.length() > 0) {
+						row.add(new SolidLabel(glue));
+					}
+				}
+				prev = e;
+				if (e instanceof OntologyTextElement) {
+					row.add(new WikiLink(((OntologyTextElement) e), wiki, isRed));
+				} else {
+					SolidLabel l = new SolidLabel(e.getText());
+					l.setForeground(color);
+					row.add(l);
 				}
 			}
-			prev = e;
-			if (e instanceof OntologyTextElement) {
-				add(new WikiLink(((OntologyTextElement) e), wiki, isRed));
-			} else {
-				SolidLabel l = new SolidLabel(e.getText());
-				l.setForeground(color);
-				add(l);
-			}
+			add(row);
 		}
 	}
 
 	/**
-	 * Creates a new text row with the given text.
+	 * Constructs a column of text rows, where each row corresponds to
+	 * an element of the given set of text containers.
 	 * 
-	 * @param text The text as a list of text elements.
+	 * @param textContainerSet Set of text containers.
 	 * @param wiki The wiki object.
 	 */
-	public TextRow(List<TextElement> text, Wiki wiki) {
-		this(text, wiki, false);
+	public TextRow(TextContainerSet textContainerSet, Wiki wiki) {
+		this(textContainerSet, wiki, false);
 	}
 
 }

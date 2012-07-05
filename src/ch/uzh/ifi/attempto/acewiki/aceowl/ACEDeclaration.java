@@ -23,7 +23,7 @@ import ch.uzh.ifi.attempto.base.TextContainer;
  * @author Tobias Kuhn
  */
 public class ACEDeclaration extends ACESentence implements Declaration {
-	
+
 	/**
 	 * Creates a new declarative ACE sentence.
 	 * 
@@ -32,7 +32,7 @@ public class ACEDeclaration extends ACESentence implements Declaration {
 	public ACEDeclaration(String serialized) {
 		super(serialized);
 	}
-	
+
 	/**
 	 * Creates a new declarative ACE sentence.
 	 * 

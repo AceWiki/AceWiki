@@ -16,7 +16,7 @@ package ch.uzh.ifi.attempto.acewiki.core;
 
 import java.util.List;
 
-import ch.uzh.ifi.attempto.base.TextContainer;
+import ch.uzh.ifi.attempto.base.TextContainerSet;
 import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.base.TextOperator;
 
@@ -26,7 +26,7 @@ import ch.uzh.ifi.attempto.base.TextOperator;
  * @author Tobias Kuhn
  */
 public abstract class MonolingualSentence extends AbstractSentence {
-	
+
 	/**
 	 * Initializes a new sentence.
 	 */
@@ -39,7 +39,7 @@ public abstract class MonolingualSentence extends AbstractSentence {
 	 * @return A token list.
 	 */
 	public abstract List<TextElement> getTextElements();
-	
+
 	public final List<TextElement> getTextElements(String language) {
 		return getTextElements();
 	}
@@ -49,12 +49,12 @@ public abstract class MonolingualSentence extends AbstractSentence {
 	 * 
 	 * @return The text container.
 	 */
-	protected abstract TextContainer getTextContainer();
+	public abstract TextContainerSet getTextContainerSet();
 
-	protected final TextContainer getTextContainer(String language) {
-		return getTextContainer();
+	public final TextContainerSet getTextContainerSet(String language) {
+		return getTextContainerSet();
 	}
-	
+
 	/**
 	 * Returns the text of this sentence in the only available language.
 	 * 
@@ -70,11 +70,11 @@ public abstract class MonolingualSentence extends AbstractSentence {
 	 * @return A list of sentence details.
 	 */
 	public abstract List<SentenceDetail> getDetails();
-	
+
 	public final List<SentenceDetail> getDetails(String language) {
 		return getDetails();
 	}
-	
+
 	/**
 	 * Returns the text operator for the given language.
 	 * 

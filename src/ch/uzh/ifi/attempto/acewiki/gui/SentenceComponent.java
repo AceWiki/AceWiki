@@ -14,10 +14,12 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui;
 
+import nextapp.echo.app.Alignment;
 import nextapp.echo.app.Column;
 import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
+import nextapp.echo.app.layout.RowLayoutData;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.InconsistencyException;
@@ -110,11 +112,17 @@ public class SentenceComponent extends Column implements ActionListener {
 		sentenceRow.removeAll();
 		sentenceRow.add(dropDown);
 		sentenceRow.add(new HSpace(5));
-		sentenceRow.add(new TextRow(sentence.getTextElements(wiki.getLanguage()), wiki, isRed));
+		sentenceRow.add(new TextRow(sentence.getTextContainerSet(wiki.getLanguage()), wiki, isRed));
 		sentenceRow.add(new HSpace(5));
 		sentenceRow.add(recalcIcon);
 		recalcIcon.setVisible(false);
 		sentenceRow.add(new HSpace(5));
+
+		// Move to triangle to the top left of the row
+		RowLayoutData rowLayoutData = new RowLayoutData();
+		rowLayoutData.setAlignment(new Alignment(Alignment.LEFT, Alignment.TOP));
+		dropDown.setLayoutData(rowLayoutData);
+
 		add(sentenceRow);
 
 		// Question Answering:
