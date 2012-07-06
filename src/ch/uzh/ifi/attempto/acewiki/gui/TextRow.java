@@ -85,4 +85,8 @@ public class TextRow extends Column {
 		this(textContainerSet, wiki, false);
 	}
 
+	public TextRow(TextContainer textContainer, Wiki wiki) {
+		this(new TextContainerSet(textContainer), wiki, false);
+	}
+
 }

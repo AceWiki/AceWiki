@@ -36,6 +36,7 @@ import nextapp.echo.app.Font;
 import nextapp.echo.app.Insets;
 import nextapp.echo.app.ResourceImageReference;
 import nextapp.echo.app.Row;
+import nextapp.echo.app.SelectField;
 import nextapp.echo.app.SplitPane;
 import nextapp.echo.app.TaskQueueHandle;
 import nextapp.echo.app.WindowPane;
@@ -43,6 +44,7 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.layout.ColumnLayoutData;
 import nextapp.echo.webcontainer.ContainerContext;
+import nextapp.echo.webcontainer.command.BrowserRedirectCommand;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiDataExporter;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiEngine;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiStorage;
@@ -62,6 +64,7 @@ import ch.uzh.ifi.attempto.acewiki.gui.ExportWindow;
 import ch.uzh.ifi.attempto.acewiki.gui.FormPane;
 import ch.uzh.ifi.attempto.acewiki.gui.IconButton;
 import ch.uzh.ifi.attempto.acewiki.gui.IndexPage;
+import ch.uzh.ifi.attempto.acewiki.gui.LanguageListModel;
 import ch.uzh.ifi.attempto.acewiki.gui.ListItem;
 import ch.uzh.ifi.attempto.acewiki.gui.LoginWindow;
 import ch.uzh.ifi.attempto.acewiki.gui.SearchPage;
@@ -114,22 +117,24 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private SplitPane wikiPane;
 	private Row loginBackground;
 
-	private IconButton backButton = new IconButton("Back", this);
-	private IconButton forwardButton = new IconButton("Forward", this);
-	private IconButton refreshButton = new IconButton("Refresh", this);
-	private IconButton userButton = new IconButton("User", this);
-	private IconButton logoutButton = new IconButton("Logout", this);
-	private IconButton searchButton = new IconButton("Search", this);
-	private TextField searchTextField = new TextField(170, this);
-	private Label userLabel = new SolidLabel("Anonymous", Font.ITALIC);
+	private final IconButton backButton = new IconButton("Back", this);
+	private final IconButton forwardButton = new IconButton("Forward", this);
+	private final IconButton refreshButton = new IconButton("Refresh", this);
+	private final IconButton userButton = new IconButton("User", this);
+	private final IconButton logoutButton = new IconButton("Logout", this);
+	private final IconButton searchButton = new IconButton("Search", this);
+	private final TextField searchTextField = new TextField(170, this);
+	private final Label userLabel = new SolidLabel("Anonymous", Font.ITALIC);
 
-	private SmallButton homeButton = new SmallButton("Main Page", this, 12);
-	private SmallButton indexButton = new SmallButton("Index", this, 12);
-	private SmallButton searchButton2 = new SmallButton("Search", this, 12);
-	private SmallButton aboutButton = new SmallButton("About", this, 12);
-	private SmallButton randomButton = new SmallButton("Random Article", this, 12);
-	private SmallButton newButton = new SmallButton("New Word...", this, 12);
-	private SmallButton exportButton = new SmallButton("Export...", this, 12);
+	private final SmallButton homeButton = new SmallButton("Main Page", this, 12);
+	private final SmallButton indexButton = new SmallButton("Index", this, 12);
+	private final SmallButton searchButton2 = new SmallButton("Search", this, 12);
+	private final SmallButton aboutButton = new SmallButton("About", this, 12);
+	private final SmallButton randomButton = new SmallButton("Random Article", this, 12);
+	private final SmallButton newButton = new SmallButton("New Word...", this, 12);
+	private final SmallButton exportButton = new SmallButton("Export...", this, 12);
+
+	private SelectField langSelectField;
 
 	private StartPage startPage;
 
@@ -291,6 +296,13 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			sideCol.add(new ListItem(
 					new WebLink("http://localhost:9077" +
 							getParameter("pgf_name") + "/" + l + "/", l)));
+		}
+
+		int langCount = languages.length;
+		if (langCount > 1) {
+			langSelectField = new SelectField(new LanguageListModel(engine));
+			sideCol.add(new SectionTitle("Languages" + " (" + langCount + ")"));
+			sideCol.add(langSelectField);
 		}
 
 		externalEventMonitor = new ExternalEventMonitor();
@@ -786,6 +798,11 @@ public class Wiki implements ActionListener, ExternalEventListener {
 				}
 				showWindow(w);
 			}
+		} else if (src == langSelectField) {
+			String lang = langSelectField.getSelectedItem().toString();
+			// TODO: use the correct URL
+			String url = "http://localhost:9077" + getParameter("pgf_name") + "/" + lang + "/";
+			ApplicationInstance.getActive().enqueueCommand(new BrowserRedirectCommand(url));
 		} else if (src == searchButton || src == searchTextField || src == searchButton2) {
 			log("page", "pressed: search '" + searchTextField.getText() + "'");
 			String s = searchTextField.getText();
