@@ -16,7 +16,6 @@ package ch.uzh.ifi.attempto.acewiki;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -133,8 +132,6 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private final SmallButton randomButton = new SmallButton("Random Article", this, 12);
 	private final SmallButton newButton = new SmallButton("New Word...", this, 12);
 	private final SmallButton exportButton = new SmallButton("Export...", this, 12);
-
-	private SelectField langSelectField;
 
 	private StartPage startPage;
 
@@ -269,6 +266,27 @@ public class Wiki implements ActionListener, ExternalEventListener {
 
 		sideCol.add(new VSpace(20));
 
+		// If there are several languages then we add a language switcher, which
+		// currently loads a new URL into the browser.
+		if (engine.getLanguages().length > 1) {
+			final SelectField langSelectField = new SelectField(new LanguageListModel(engine));
+			langSelectField.setSelectedItem(language);
+			langSelectField.addActionListener(new ActionListener() {
+				private static final long serialVersionUID = -3066332579612158783L;
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					String lang = langSelectField.getSelectedItem().toString();
+					// TODO: use the correct URL
+					String url = "http://localhost:9077" + getParameter("pgf_name") + "/" + lang + "/";
+					ApplicationInstance.getActive().enqueueCommand(new BrowserRedirectCommand(url));
+				}
+			});
+			sideCol.add(langSelectField);
+		}
+
+		sideCol.add(new VSpace(10));
+
 		sideCol.add(new SectionTitle("Navigation"));
 		sideCol.add(new ListItem(homeButton));
 		sideCol.add(new ListItem(indexButton));
@@ -285,25 +303,6 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		sideCol.add(new ListItem(
 				new WebLink("http://cloud.grammaticalframework.org/gfse/share.html#gfse.74044909", "Edit grammar")));
 		sideCol.add(new ListItem(exportButton));
-
-
-		sideCol.add(new VSpace(10));
-		String[] languages = engine.getLanguages();
-		sideCol.add(new SectionTitle("Languages" + " (" + languages.length + ")"));
-		Arrays.sort(languages);
-		for (String l : languages) {
-			// TODO: fix the URL
-			sideCol.add(new ListItem(
-					new WebLink("http://localhost:9077" +
-							getParameter("pgf_name") + "/" + l + "/", l)));
-		}
-
-		int langCount = languages.length;
-		if (langCount > 1) {
-			langSelectField = new SelectField(new LanguageListModel(engine));
-			sideCol.add(new SectionTitle("Languages" + " (" + langCount + ")"));
-			sideCol.add(langSelectField);
-		}
 
 		externalEventMonitor = new ExternalEventMonitor();
 		externalEventMonitor.addExternalEventListener(this);
@@ -798,11 +797,6 @@ public class Wiki implements ActionListener, ExternalEventListener {
 				}
 				showWindow(w);
 			}
-		} else if (src == langSelectField) {
-			String lang = langSelectField.getSelectedItem().toString();
-			// TODO: use the correct URL
-			String url = "http://localhost:9077" + getParameter("pgf_name") + "/" + lang + "/";
-			ApplicationInstance.getActive().enqueueCommand(new BrowserRedirectCommand(url));
 		} else if (src == searchButton || src == searchTextField || src == searchButton2) {
 			log("page", "pressed: search '" + searchTextField.getText() + "'");
 			String s = searchTextField.getText();
