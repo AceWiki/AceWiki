@@ -10,7 +10,6 @@
             description="Compile the Java files">
     	<mkdir dir="classes"/>
         <javac
-            target="1.5"
             encoding="utf-8"
             includeantruntime="false"
             debug="true"

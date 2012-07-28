@@ -14,8 +14,6 @@
 
 package ch.uzh.ifi.attempto.acewiki;
 
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletConfig;
@@ -55,28 +53,9 @@ public class BackendServlet extends HttpServlet {
     private Backend backend;
     private static final long serialVersionUID = 1358039576597838L;
 
-    @SuppressWarnings("rawtypes")
-    private Map<String, String> getInitParameters(ServletConfig config) {
-
-        Map<String, String> initParameters = new HashMap<String, String>();
-        Enumeration paramEnum = config.getInitParameterNames();
-        while (paramEnum.hasMoreElements()) {
-            String n = paramEnum.nextElement().toString();
-            initParameters.put(n, config.getInitParameter(n));
-        }
-        Enumeration contextParamEnum = config.getServletContext().getInitParameterNames();
-        while (contextParamEnum.hasMoreElements()) {
-            String n = contextParamEnum.nextElement().toString();
-            initParameters.put("context:" + n, config.getServletContext().getInitParameter(n));
-        }
-        return initParameters;
-    }
-
     public void init(ServletConfig config) throws ServletException {
-        Map<String, String> parameters = getInitParameters(config);
+        Map<String, String> parameters = AceWikiServlet.getInitParameters(config);
         String name = config.getServletName();
-
-        setDefaultValues(parameters);
 
         APE.setParameters(parameters);
 
@@ -88,23 +67,5 @@ public class BackendServlet extends HttpServlet {
         super.init(config);
     }
 
-    /**
-     * Sets some default values for the given parameter map.
-     * 
-     * @param parameters The parameter map.
-     */
-    public static void setDefaultValues(Map<String, String> parameters) {
-        if (parameters.get("context:apecommand") == null) {
-            parameters.put("context:apecommand", "ape.exe");
-        }
-
-        if (parameters.get("context:logdir") == null) {
-            parameters.put("context:logdir", "logs");
-        }
-
-        if (parameters.get("context:datadir") == null) {
-            parameters.put("context:datadir", "data");
-        }
-    }
 }
 

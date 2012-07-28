@@ -77,7 +77,7 @@ public class AceWikiServlet extends WebContainerServlet {
         backendName = config.getInitParameter("backend");
 
         if (backendName != null) {
-            logger.log("appl", "application use backend: " + backendName);
+            logger.log("appl", "use backend: " + backendName);
 
             while (true) {
                 backend = (Backend) config.getServletContext().getAttribute(backendName);
@@ -91,18 +91,13 @@ public class AceWikiServlet extends WebContainerServlet {
                 }
             }
 
-            logger.log("appl", "application get backend: " + backend);
-
             // merge backend parameters
             Map<String, String> p = parameters;
             parameters = new HashMap<String,String>();
             parameters.putAll(backend.getParameters());
             parameters.putAll(p);
-        }
-        else {
-            logger.log("appl", "application create backend.");
-
-            BackendServlet.setDefaultValues(parameters);
+        } else {
+            logger.log("appl", "create backend");
 
             APE.setParameters(parameters);
 
@@ -157,8 +152,7 @@ public class AceWikiServlet extends WebContainerServlet {
 	}
 
     @SuppressWarnings("rawtypes")
-    private Map<String, String> getInitParameters(ServletConfig config) {
-
+    static Map<String, String> getInitParameters(ServletConfig config) {
         Map<String, String> initParameters = new HashMap<String, String>();
         Enumeration paramEnum = config.getInitParameterNames();
         while (paramEnum.hasMoreElements()) {
@@ -170,6 +164,21 @@ public class AceWikiServlet extends WebContainerServlet {
             String n = contextParamEnum.nextElement().toString();
             initParameters.put("context:" + n, config.getServletContext().getInitParameter(n));
         }
+
+        // Set default parameters:
+        if (initParameters.get("context:apecommand") == null) {
+        	initParameters.put("context:apecommand", "ape.exe");
+        }
+
+        if (initParameters.get("context:logdir") == null) {
+        	initParameters.put("context:logdir", "logs");
+        }
+
+        if (initParameters.get("context:datadir") == null) {
+        	initParameters.put("context:datadir", "data");
+        }
+        
         return initParameters;
     }
+
 }
