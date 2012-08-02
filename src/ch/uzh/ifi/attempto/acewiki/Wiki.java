@@ -277,8 +277,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					String lang = langSelectField.getSelectedItem().toString();
-					// TODO: use the correct URL
-					String url = "http://localhost:9077" + getParameter("pgf_name") + "/" + lang + "/";
+					String url = getParameter("context:wiki_url") + getParameter("pgf_name") + "/" + lang + "/";
 					ApplicationInstance.getActive().enqueueCommand(new BrowserRedirectCommand(url));
 				}
 			});
@@ -299,9 +298,14 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		if (!isReadOnly() && getEngine().getLexicalTypes().length > 0) {
 			sideCol.add(new ListItem(newButton));
 		}
-		// TODO: make the URL configurable
-		sideCol.add(new ListItem(
-				new WebLink("http://cloud.grammaticalframework.org/gfse/share.html#gfse.74044909", "Edit grammar")));
+
+		// We add a link to the grammar editor, but only if the wiki is multilingual.
+		// TODO: provide the link only if the grammar is editable.
+		if (getParameter("language") != null) {
+			sideCol.add(new ListItem(
+					new WebLink(getParameter("context:grammar_editor_url"), "Grammar editor")));
+		}
+
 		sideCol.add(new ListItem(exportButton));
 
 		externalEventMonitor = new ExternalEventMonitor();

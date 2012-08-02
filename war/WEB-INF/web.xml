@@ -94,6 +94,24 @@
   </context-param>
 
 
+  <!--
+    URL on which the wiki is running
+  -->
+  <context-param>
+    <param-name>wiki_url</param-name>
+    <param-value>http://localhost:9077</param-value>
+  </context-param>
+
+
+  <!--
+    URL of the grammar editor
+  -->
+  <context-param>
+    <param-name>grammar_editor_url</param-name>
+    <param-value>http://cloud.grammaticalframework.org/gfse/share.html#gfse.74044909</param-value>
+  </context-param>
+
+
   <!-- Servlets -->
 
 
