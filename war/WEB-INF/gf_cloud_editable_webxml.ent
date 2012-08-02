@@ -1,5 +1,1192 @@
 
   <servlet>
+    <servlet-name>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://cloud.grammaticalframework.org:80</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>tmp__gfse.74044909__AceWikiTest_lang11_20120708</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoAce</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoAce</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoAce</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoAce</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoAce/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoCat</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoCat</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoCat</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoCat</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoCat/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoDut</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoDut</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoDut</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoDut</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoDut/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoEng</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoEng</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoEng</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoEng</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoEng/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoFin</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoFin</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoFin</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoFin</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoFin/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoFre</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoFre</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoFre</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoFre</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoFre/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoGer</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoGer</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoGer</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoGer</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoGer/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoIta</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoIta</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoIta</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoIta</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoIta/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoSpa</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoSpa</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoSpa</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoSpa</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoSpa/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoSwe</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoSwe</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoSwe</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoSwe</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoSwe/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoUrd</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoUrd</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoUrd</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoUrd</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/AceWikiTest_lang11_20120708.pgf/TestAttemptoUrd/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Action.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/tmp/gfse.74044909/Action.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://cloud.grammaticalframework.org:80</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>tmp__gfse.74044909__Action</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Action.pgf</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Action.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Action.pgf/ActionApp</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Action.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>ActionApp</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in ActionApp</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Action.pgf/ActionApp</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Action.pgf/ActionApp/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Action.pgf/ActionEst</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Action.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>ActionEst</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in ActionEst</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Action.pgf/ActionEst</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Action.pgf/ActionEst/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Address.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/tmp/gfse.74044909/Address.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://cloud.grammaticalframework.org:80</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>tmp__gfse.74044909__Address</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Address.pgf</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Address.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Address.pgf/AddressApp</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Address.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>AddressApp</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in AddressApp</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Address.pgf/AddressApp</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Address.pgf/AddressApp/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Address.pgf/AddressEst</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Address.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>AddressEst</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in AddressEst</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Address.pgf/AddressEst</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Address.pgf/AddressEst/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Alarm.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/tmp/gfse.74044909/Alarm.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://cloud.grammaticalframework.org:80</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>tmp__gfse.74044909__Alarm</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Alarm.pgf</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Alarm.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Alarm.pgf/AlarmApp</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Alarm.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>AlarmApp</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in AlarmApp</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Alarm.pgf/AlarmApp</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Alarm.pgf/AlarmApp/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Alarm.pgf/AlarmEst</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Alarm.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>AlarmEst</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in AlarmEst</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Alarm.pgf/AlarmEst</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Alarm.pgf/AlarmEst/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Calc.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/tmp/gfse.74044909/Calc.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://cloud.grammaticalframework.org:80</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>tmp__gfse.74044909__Calc</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Calc.pgf</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Calc.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Calc.pgf/CalcApp</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Calc.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>CalcApp</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in CalcApp</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Calc.pgf/CalcApp</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Calc.pgf/CalcApp/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Calc.pgf/CalcEst</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Calc.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>CalcEst</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in CalcEst</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Calc.pgf/CalcEst</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Calc.pgf/CalcEst/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Commands.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/tmp/gfse.74044909/Commands.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://cloud.grammaticalframework.org:80</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>tmp__gfse.74044909__Commands</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Commands.pgf</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Commands.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Commands.pgf/CommandsCat</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Commands.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>CommandsCat</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in CommandsCat</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Commands.pgf/CommandsCat</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Commands.pgf/CommandsCat/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Commands.pgf/CommandsEng</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Commands.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>CommandsEng</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in CommandsEng</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Commands.pgf/CommandsEng</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Commands.pgf/CommandsEng/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Commands.pgf/CommandsGer</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Commands.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>CommandsGer</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in CommandsGer</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Commands.pgf/CommandsGer</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Commands.pgf/CommandsGer/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Commands.pgf/CommandsSage</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Commands.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>CommandsSage</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in CommandsSage</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Commands.pgf/CommandsSage</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Commands.pgf/CommandsSage/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Commands.pgf/CommandsSpa</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Commands.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>CommandsSpa</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in CommandsSpa</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Commands.pgf/CommandsSpa</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Commands.pgf/CommandsSpa/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Copy.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/tmp/gfse.74044909/Copy.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://cloud.grammaticalframework.org:80</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>tmp__gfse.74044909__Copy</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Copy.pgf</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Copy.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Copy.pgf/CopyC1</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Copy.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>CopyC1</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in CopyC1</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Copy.pgf/CopyC1</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Copy.pgf/CopyC1/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Copy.pgf/CopyC2</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Copy.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>CopyC2</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in CopyC2</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Copy.pgf/CopyC2</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Copy.pgf/CopyC2/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Digit.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/tmp/gfse.74044909/Digit.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://cloud.grammaticalframework.org:80</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>tmp__gfse.74044909__Digit</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Digit.pgf</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Digit.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Digit.pgf/DigitApp</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Digit.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>DigitApp</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in DigitApp</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Digit.pgf/DigitApp</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Digit.pgf/DigitApp/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Digit.pgf/DigitEst</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Digit.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>DigitEst</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in DigitEst</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Digit.pgf/DigitEst</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Digit.pgf/DigitEst/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Direction.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/tmp/gfse.74044909/Direction.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://cloud.grammaticalframework.org:80</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>tmp__gfse.74044909__Direction</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Direction.pgf</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Direction.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Direction.pgf/DirectionApp</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Direction.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>DirectionApp</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in DirectionApp</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Direction.pgf/DirectionApp</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Direction.pgf/DirectionApp/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Direction.pgf/DirectionEst</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Direction.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>DirectionEst</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in DirectionEst</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Direction.pgf/DirectionEst</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Direction.pgf/DirectionEst/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Estvrp.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/tmp/gfse.74044909/Estvrp.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://cloud.grammaticalframework.org:80</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>tmp__gfse.74044909__Estvrp</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Estvrp.pgf</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Estvrp.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Estvrp.pgf/EstvrpApp</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Estvrp.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>EstvrpApp</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in EstvrpApp</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Estvrp.pgf/EstvrpApp</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Estvrp.pgf/EstvrpApp/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Estvrp.pgf/EstvrpEst</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Estvrp.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>EstvrpEst</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in EstvrpEst</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Estvrp.pgf/EstvrpEst</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Estvrp.pgf/EstvrpEst/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Expr.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/tmp/gfse.74044909/Expr.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://cloud.grammaticalframework.org:80</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>tmp__gfse.74044909__Expr</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Expr.pgf</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Expr.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Expr.pgf/ExprApp</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Expr.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>ExprApp</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in ExprApp</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Expr.pgf/ExprApp</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Expr.pgf/ExprApp/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Expr.pgf/ExprEst</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Expr.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>ExprEst</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in ExprEst</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Expr.pgf/ExprEst</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Expr.pgf/ExprEst/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Expr.pgf/ExprEstamb</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Expr.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>ExprEstamb</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in ExprEstamb</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Expr.pgf/ExprEstamb</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Expr.pgf/ExprEstamb/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Fraction.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/tmp/gfse.74044909/Fraction.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://cloud.grammaticalframework.org:80</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>tmp__gfse.74044909__Fraction</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Fraction.pgf</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Fraction.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Fraction.pgf/FractionApp</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Fraction.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FractionApp</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FractionApp</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Fraction.pgf/FractionApp</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Fraction.pgf/FractionApp/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Fraction.pgf/FractionEst</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Fraction.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>FractionEst</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in FractionEst</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Fraction.pgf/FractionEst</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Fraction.pgf/FractionEst/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Geo.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/tmp/gfse.74044909/Geo.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://cloud.grammaticalframework.org:80</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>tmp__gfse.74044909__Geo</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Geo.pgf</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Geo.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Geo.pgf/GeoEng</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Geo.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>GeoEng</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in GeoEng</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Geo.pgf/GeoEng</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Geo.pgf/GeoEng/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
     <servlet-name>/tmp/gfse.74044909/Go.pgf</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
@@ -208,6 +1395,77 @@
 
 
   <servlet>
+    <servlet-name>/tmp/gfse.74044909/Letter.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/tmp/gfse.74044909/Letter.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://cloud.grammaticalframework.org:80</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>tmp__gfse.74044909__Letter</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Letter.pgf</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Letter.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Letter.pgf/LetterApp</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Letter.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>LetterApp</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in LetterApp</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Letter.pgf/LetterApp</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Letter.pgf/LetterApp/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Letter.pgf/LetterEst</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Letter.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>LetterEst</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in LetterEst</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Letter.pgf/LetterEst</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Letter.pgf/LetterEst/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
     <servlet-name>/tmp/gfse.74044909/MyFoods.pgf</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
@@ -301,6 +1559,488 @@
 
 
   <servlet>
+    <servlet-name>/tmp/gfse.74044909/Numeral.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/tmp/gfse.74044909/Numeral.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://cloud.grammaticalframework.org:80</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>tmp__gfse.74044909__Numeral</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Numeral.pgf</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Numeral.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Numeral.pgf/NumeralApp</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Numeral.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>NumeralApp</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in NumeralApp</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Numeral.pgf/NumeralApp</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Numeral.pgf/NumeralApp/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://cloud.grammaticalframework.org:80</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>tmp__gfse.74044909__Ontograph40_lang11_20120627</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoAce</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoAce</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoAce</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoAce</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoAce/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoCat</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoCat</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoCat</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoCat</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoCat/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoDut</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoDut</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoDut</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoDut</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoDut/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoEng</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoEng</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoEng</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoEng</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoEng/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoFin</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoFin</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoFin</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoFin</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoFin/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoFre</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoFre</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoFre</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoFre</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoFre/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoGer</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoGer</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoGer</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoGer</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoGer/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoIta</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoIta</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoIta</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoIta</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoIta/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoSpa</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoSpa</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoSpa</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoSpa</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoSpa/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoSwe</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoSwe</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoSwe</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoSwe</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoSwe/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoUrd</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoUrd</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TestAttemptoUrd</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoUrd</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Ontograph40_lang11_20120627.pgf/TestAttemptoUrd/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Symbols.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/tmp/gfse.74044909/Symbols.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://cloud.grammaticalframework.org:80</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>tmp__gfse.74044909__Symbols</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Symbols.pgf</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Symbols.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Symbols.pgf/SymbolsApp</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Symbols.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>SymbolsApp</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in SymbolsApp</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Symbols.pgf/SymbolsApp</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Symbols.pgf/SymbolsApp/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Symbols.pgf/SymbolsEst</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Symbols.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>SymbolsEst</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in SymbolsEst</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Symbols.pgf/SymbolsEst</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Symbols.pgf/SymbolsEst/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Tallinndirection.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/tmp/gfse.74044909/Tallinndirection.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://cloud.grammaticalframework.org:80</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>tmp__gfse.74044909__Tallinndirection</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Tallinndirection.pgf</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Tallinndirection.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Tallinndirection.pgf/TallinndirectionApp</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Tallinndirection.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TallinndirectionApp</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TallinndirectionApp</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Tallinndirection.pgf/TallinndirectionApp</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Tallinndirection.pgf/TallinndirectionApp/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Tallinndirection.pgf/TallinndirectionEdwin</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Tallinndirection.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TallinndirectionEdwin</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TallinndirectionEdwin</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Tallinndirection.pgf/TallinndirectionEdwin</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Tallinndirection.pgf/TallinndirectionEdwin/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Tallinndirection.pgf/TallinndirectionEst</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Tallinndirection.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TallinndirectionEst</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in TallinndirectionEst</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Tallinndirection.pgf/TallinndirectionEst</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Tallinndirection.pgf/TallinndirectionEst/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
     <servlet-name>/tmp/gfse.74044909/Test.pgf</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
@@ -346,5 +2086,76 @@
   <servlet-mapping>
     <servlet-name>/tmp/gfse.74044909/Test.pgf/TestGer</servlet-name>
     <url-pattern>/tmp/gfse.74044909/Test.pgf/TestGer/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Unitconv.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/tmp/gfse.74044909/Unitconv.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://cloud.grammaticalframework.org:80</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>tmp__gfse.74044909__Unitconv</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Unitconv.pgf</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Unitconv.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Unitconv.pgf/UnitconvApp</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Unitconv.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>UnitconvApp</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in UnitconvApp</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Unitconv.pgf/UnitconvApp</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Unitconv.pgf/UnitconvApp/</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.74044909/Unitconv.pgf/UnitconvEst</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.74044909/Unitconv.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>UnitconvEst</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Wiki in UnitconvEst</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.74044909/Unitconv.pgf/UnitconvEst</servlet-name>
+    <url-pattern>/tmp/gfse.74044909/Unitconv.pgf/UnitconvEst/</url-pattern>
   </servlet-mapping>
 
