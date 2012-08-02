@@ -108,7 +108,7 @@ public class GFGrammar {
 
 
 	/**
-	 * Note we return just the first linearization.
+	 * TODO: Note we return just the first linearization.
 	 */
 	public Iterable<String> linearizeAsTokens(String tree, String language) throws GfServiceException {
 		GfServiceResultLinearize result = mGfService.linearize(tree, language);

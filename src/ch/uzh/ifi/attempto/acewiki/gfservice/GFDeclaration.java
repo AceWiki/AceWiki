@@ -86,30 +86,40 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 	public TextContainerSet getTextContainerSet(String language) {
 		TextContainerSet tcs = textContainers.get(language);
 		if (tcs == null) {
-			try {
-				Set<TextContainer> tmp = new HashSet<TextContainer>();
-				for (String tree : mParseState.getTrees()) {
-					TextContainer tc = new TextContainer(); 
-					for (String s : getGFGrammar().linearizeAsTokens(tree, language)) {
+			Set<TextContainer> tmp = new HashSet<TextContainer>();
+			for (String tree : mParseState.getTrees()) {
+				Iterable<String> tokens = getTokens(tree, language);
+				if (tokens == null) {
+					logger.info("getTextContainerSet: null {}: {}", language, tree);
+					// TODO to it properly
+					TextContainer tc = new TextContainer();
+					tc.addElement(new TextElement("-NULL-"));
+					tmp.add(tc);
+				} else if (! tokens.iterator().hasNext()) {
+					logger.info("getTextContainerSet: 0 els {}: {}", language, tree);
+					// TODO to it properly
+					TextContainer tc = new TextContainer();
+					tc.addElement(new TextElement("-EMPTY-"));
+					tmp.add(tc);
+				} else {
+					TextContainer tc = new TextContainer();
+					for (String s : tokens) {
 						tc.addElement(new TextElement(s));
 					}
 					tmp.add(tc);
 				}
-				tcs = new TextContainerSet(tmp);
-			} catch (GfServiceException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
+			tcs = new TextContainerSet(tmp);
 			textContainers.put(language, tcs);
 		}
 		return tcs;
 	}
 
+
 	/**
 	 * @deprecated
 	 */
 	public List<TextElement> getTextElements(String language) {
-		//logger.info("getTextElements {}: {}", language, getTextContainerSet(language).getTextElements());
 		return getTextContainerSet(language).getTextElements();
 	}
 
@@ -250,6 +260,17 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 		l.add(new SentenceDetail("Word alignment", getAlignmentAsHtml(tree)));
 
 		return l;
+	}
+
+
+	private Iterable<String> getTokens(String tree, String language) {
+		try {
+			return getGFGrammar().linearizeAsTokens(tree, language);
+		} catch (GfServiceException e) {
+			// TODO find out what happened, i.e.
+			// why was the tree not supported by the grammar.
+			return null;
+		}
 	}
 
 }
