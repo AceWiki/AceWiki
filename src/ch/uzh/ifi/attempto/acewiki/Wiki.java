@@ -133,6 +133,10 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private final SmallButton newButton = new SmallButton("New Word...", this, 12);
 	private final SmallButton exportButton = new SmallButton("Export...", this, 12);
 
+	// Admin menu
+	private final SmallButton deleteArticleButton = new SmallButton("Delete Article", this, 12);
+	private final SmallButton reparseArticleButton = new SmallButton("Reparse Article", this, 12);
+
 	private StartPage startPage;
 
 	private Stack<WikiPage> history = new Stack<WikiPage>();
@@ -307,6 +311,12 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		}
 
 		sideCol.add(new ListItem(exportButton));
+
+		sideCol.add(new VSpace(10));
+
+		sideCol.add(new SectionTitle("Admin"));
+		sideCol.add(new ListItem(deleteArticleButton));
+		sideCol.add(new ListItem(reparseArticleButton));
 
 		externalEventMonitor = new ExternalEventMonitor();
 		externalEventMonitor.addExternalEventListener(this);
@@ -786,6 +796,12 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			} else {
 				showStartPage();
 			}
+		} else if (src == deleteArticleButton) {
+			log("page", "pressed: delete article");
+			// TODO
+		} else if (src == reparseArticleButton) {
+			log("page", "pressed: reparse article");
+			// TODO
 		} else if (src == refreshButton) {
 			log("page", "pressed: refresh");
 			update();

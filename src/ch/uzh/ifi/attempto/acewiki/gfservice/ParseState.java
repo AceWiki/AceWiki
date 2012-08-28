@@ -8,7 +8,7 @@ public class ParseState {
 
 	private final ImmutableSet<String> mTrees;
 
-	ParseState(Iterable<String> trees) {
+	public ParseState(Iterable<String> trees) {
 		mTrees = ImmutableSet.copyOf(trees);
 	}
 

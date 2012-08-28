@@ -107,7 +107,7 @@ public class Article {
 		log("edit statement of " + element.getWord() + ": " +
 				oldStatement.getText(getDefaultLanguage()) + " > " +
 				getStatementsString(newStatements));
-		
+
 		synchronized (ontology) {
 			if (statements.contains(oldStatement)) {
 				int i = statements.indexOf(oldStatement);

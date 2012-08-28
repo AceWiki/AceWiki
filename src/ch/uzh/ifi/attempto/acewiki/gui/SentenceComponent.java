@@ -14,18 +14,26 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui;
 
+import com.google.common.collect.ImmutableList;
+
 import nextapp.echo.app.Alignment;
 import nextapp.echo.app.Column;
 import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.layout.RowLayoutData;
-import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
+import ch.uzh.ifi.attempto.acewiki.core.AceWikiEngine;
+import ch.uzh.ifi.attempto.acewiki.core.Article;
 import ch.uzh.ifi.attempto.acewiki.core.InconsistencyException;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
+import ch.uzh.ifi.attempto.acewiki.core.Statement;
+import ch.uzh.ifi.attempto.acewiki.gfservice.GFDeclaration;
+import ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine;
+import ch.uzh.ifi.attempto.acewiki.gfservice.GFGrammar;
+import ch.uzh.ifi.attempto.acewiki.gfservice.ParseState;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.echocomp.MultipleChoiceWindow;
@@ -39,14 +47,25 @@ public class SentenceComponent extends Column implements ActionListener {
 
 	private static final long serialVersionUID = -540135972060005725L;
 
+	// TODO: move this to a central place (and allow it to be localized)
+	private static final String YES = "Yes";
+
 	private static final String ACTION_EDIT = "Edit...";
 	private static final String ACTION_ADD_SENTENCE = "Add Sentence...";
 	private static final String ACTION_ADD_COMMENT = "Add Comment...";
 	private static final String ACTION_PRUNE = "Prune";
-	private static final String ACTION_DELETE = "Delete";
 	private static final String ACTION_REASSERT = "Reassert";
 	private static final String ACTION_RETRACT = "Retract";
 	private static final String ACTION_SHOW_DETAILS = "Show Details";
+
+	private static final SentenceAction actionDelete = new SentenceAction("Delete",
+			"Delete this sentence from the article",
+			"Do you really want to delete this sentence?",
+			"The sentence is being removed from the knowledge base...");
+
+	// TODO: this is GF-specific, in normal AceWiki reparsing does not make sense
+	private static final SentenceAction actionReparse = new SentenceAction("Reparse",
+			"Reparse this sentence", "Do you really want to reparse this sentence?");
 
 	private Sentence sentence;
 	private Wiki wiki;
@@ -94,7 +113,8 @@ public class SentenceComponent extends Column implements ActionListener {
 			if (sentence.getNumberOfParseTrees() > 1) {
 				dropDown.addMenuEntry(ACTION_PRUNE, "Remove some of the " + sentence.getNumberOfParseTrees() + " trees");
 			}
-			dropDown.addMenuEntry(ACTION_DELETE, "Delete this sentence from the article");
+			dropDown.addMenuEntry(actionDelete.getTitle(), actionDelete.getDesc());
+			dropDown.addMenuEntry(actionReparse.getTitle(), actionReparse.getDesc());
 		}
 
 		dropDown.addMenuEntry(ACTION_SHOW_DETAILS, "Show the details of this sentence");
@@ -189,19 +209,35 @@ public class SentenceComponent extends Column implements ActionListener {
 						}
 						));
 			}
-		} else if (ACTION_DELETE.equals(actionCommand)) {
+		} else if (actionDelete.hasTitle(actionCommand)) {
 			log("dropdown: delete sentence:");
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
 			} else {
-				wiki.showWindow(new MessageWindow(
-						ACTION_DELETE,
-						"Do you really want to delete this sentence?",
-						null,
-						this,
-						"Yes",
-						"No"
-						));
+				wiki.showWindow(actionDelete.getYesNoDialog(null, this));
+			}
+		} else if (actionReparse.hasTitle(actionCommand)) {
+			final AceWikiEngine engine = wiki.getEngine();
+			if (engine instanceof GFEngine) {
+				log("dropdown: reparse sentence:");
+				if (!wiki.isEditable()) {
+					wiki.showLoginWindow();
+				} else {
+					actionReparse.performAction(wiki, new Executable() {
+
+						@Override
+						public void execute() {
+							ParseState parseState = new ParseState(sentence.getParseTrees());
+							GFGrammar grammar = ((GFEngine) engine).getGFGrammar();
+							GFDeclaration gfDecl = new GFDeclaration(parseState, grammar);
+							Article article = sentence.getArticle();
+							// TODO: understand better why the init-call is needed
+							gfDecl.init(article.getOntology(), article);
+							article.edit(sentence, ImmutableList.of((Statement) gfDecl));
+						}
+
+					});
+				}
 			}
 		} else if (ACTION_REASSERT.equals(actionCommand)) {
 			log("dropdown: reassert:");
@@ -235,23 +271,21 @@ public class SentenceComponent extends Column implements ActionListener {
 		} else if (ACTION_SHOW_DETAILS.equals(actionCommand)) {
 			log("dropdown: details sentence:");
 			wiki.showPage(new SentencePage(wiki, sentence));
-		} else if (e.getSource() instanceof MessageWindow && actionCommand.equals("Yes")) {
-			// TODO: move this code closer to the rest of the Delete action definition
-			log("dropdown: delete confirmed:");
+		} else if (e.getSource() instanceof MessageWindow && actionCommand.equals(YES)) {
 
-			wiki.enqueueStrongAsyncTask(
-					"Updating",
-					"The sentence is being removed from the knowledge base...",
-					new Task() {
-						public void run() {
-							sentence.getArticle().remove(sentence);
-						}
-						public void updateGUI() {
-							wiki.update();
-							wiki.refresh();
-						}
+			// TODO: move this code closer to the respective actions
+			MessageWindow window = (MessageWindow) e.getSource();
+
+			if (actionDelete.hasTitle(window.getTitle())) {
+				log("dropdown: delete confirmed:");
+
+				actionDelete.performAction(wiki, new Executable() {
+					@Override
+					public void execute() {
+						sentence.getArticle().remove(sentence);
 					}
-					);
+				});
+			}
 		}
 	}
 
