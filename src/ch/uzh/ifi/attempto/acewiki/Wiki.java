@@ -94,8 +94,14 @@ import echopoint.externalevent.ExternalEventMonitor;
  * is such a wiki object for every wiki user.
  *
  * @author Tobias Kuhn
+ * @author Kaarel Kaljurand
  */
 public class Wiki implements ActionListener, ExternalEventListener {
+
+	// In standard AceWiki, Word == Page. In a more general setting, Page
+	// seems to be a more clear term.
+	public static final String LABEL_BUTTON_NEW_PAGE = "New Page...";
+	public static final String LABEL_WINDOW_NEW_PAGE = "Page Creator";
 
 	private static final long serialVersionUID = 2777443689044226043L;
 
@@ -130,7 +136,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private final SmallButton searchButton2 = new SmallButton("Search", this, 12);
 	private final SmallButton aboutButton = new SmallButton("About", this, 12);
 	private final SmallButton randomButton = new SmallButton("Random Article", this, 12);
-	private final SmallButton newButton = new SmallButton("New Word...", this, 12);
+	private final SmallButton newButton = new SmallButton(LABEL_BUTTON_NEW_PAGE, this, 12);
 	private final SmallButton exportButton = new SmallButton("Export...", this, 12);
 
 	// Admin menu
@@ -556,7 +562,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * @param actionListener The actionlistener.
 	 */
 	public void showCreatorWindow(String type, int wordNumber, ActionListener actionListener) {
-		WordEditorWindow creatorWindow = new WordEditorWindow("Word Creator");
+		WordEditorWindow creatorWindow = new WordEditorWindow(LABEL_WINDOW_NEW_PAGE);
 		creatorWindow.addTab(new FormPane(type, wordNumber, creatorWindow, this, actionListener));
 		showWindow(creatorWindow);
 	}
@@ -811,7 +817,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			if (!isEditable()) {
 				showLoginWindow();
 			} else {
-				WordEditorWindow w = new WordEditorWindow("Word Creator");
+				WordEditorWindow w = new WordEditorWindow(LABEL_WINDOW_NEW_PAGE);
 				for (String t : getEngine().getLexicalTypes()) {
 					w.addTab(new FormPane(t, w, this));
 				}

@@ -17,6 +17,7 @@ package ch.uzh.ifi.attempto.acewiki.gfservice;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.uzh.ifi.attempto.acewiki.aceowl.ProperNameChanger;
 import ch.uzh.ifi.attempto.acewiki.core.AbstractLanguageHandler;
 import ch.uzh.ifi.attempto.acewiki.core.EditorController;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
@@ -47,6 +48,9 @@ public class GFHandler extends AbstractLanguageHandler {
 	public GFHandler(String language, GFGrammar gfGrammar) {
 		this.language = language;
 		this.gfGrammar = gfGrammar;
+
+		setLexiconChanger(GFEngine.TYPE_ARTICLE, new ArticleChanger());
+		setLexiconChanger(GFEngine.TYPE_TEST, new ProperNameChanger());
 	}
 
 	public String getLanguage() {
