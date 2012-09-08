@@ -90,8 +90,10 @@ import echopoint.externalevent.ExternalEventListener;
 import echopoint.externalevent.ExternalEventMonitor;
 
 /**
- * This class represents an AceWiki wiki instance (including its graphical user interface). There
- * is such a wiki object for every wiki user.
+ * This class represents an AceWiki wiki instance (including its graphical user interface).
+ * There is such a wiki object for every wiki user.
+ * The actions displayed in this GUI refer to the whole wiki not its individual articles
+ * (Main Page and Random Article being the exceptions).
  *
  * @author Tobias Kuhn
  * @author Kaarel Kaljurand
@@ -138,10 +140,6 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private final SmallButton randomButton = new SmallButton("Random Article", this, 12);
 	private final SmallButton newButton = new SmallButton(LABEL_BUTTON_NEW_PAGE, this, 12);
 	private final SmallButton exportButton = new SmallButton("Export...", this, 12);
-
-	// Admin menu
-	private final SmallButton deleteArticleButton = new SmallButton("Delete Article", this, 12);
-	private final SmallButton reparseArticleButton = new SmallButton("Reparse Article", this, 12);
 
 	private StartPage startPage;
 
@@ -319,10 +317,6 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		sideCol.add(new ListItem(exportButton));
 
 		sideCol.add(new VSpace(10));
-
-		sideCol.add(new SectionTitle("Admin"));
-		sideCol.add(new ListItem(deleteArticleButton));
-		sideCol.add(new ListItem(reparseArticleButton));
 
 		externalEventMonitor = new ExternalEventMonitor();
 		externalEventMonitor.addExternalEventListener(this);
@@ -802,12 +796,6 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			} else {
 				showStartPage();
 			}
-		} else if (src == deleteArticleButton) {
-			log("page", "pressed: delete article");
-			// TODO
-		} else if (src == reparseArticleButton) {
-			log("page", "pressed: reparse article");
-			// TODO
 		} else if (src == refreshButton) {
 			log("page", "pressed: refresh");
 			update();

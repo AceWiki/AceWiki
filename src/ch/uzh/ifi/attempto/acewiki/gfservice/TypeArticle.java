@@ -14,49 +14,36 @@
 
 package ch.uzh.ifi.attempto.acewiki.gfservice;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import ch.uzh.ifi.attempto.acewiki.core.AbstractOntologyElement;
 
-import ch.uzh.ifi.attempto.acewiki.aceowl.ACEOWLOntoElement;
-import ch.uzh.ifi.attempto.acewiki.owl.OWLRelation;
-import ch.uzh.ifi.attempto.ape.LexiconEntry;
-import ch.uzh.ifi.attempto.chartparser.LexicalRule;
+/**
+ * Article that does not represent an (OWL) ontology element.
+ *
+ * @author Kaarel Kaljurand
+ *
+ */
+public class TypeArticle extends AbstractOntologyElement {
 
-// TODO: this is a temporary hack,
-// extend some general ontology element instead
-public class TypeArticle extends OWLRelation implements ACEOWLOntoElement {
+	private String mWord = "";
 
-	private String word;
-
-	/**
-	 * Creates a new relation that is represented by a transitive adjective.
-	 */
 	public TypeArticle() {
-		word = "";
 	}
 
 	public String[] getWords() {
-		return new String[] {word};
+		return new String[] {mWord};
 	}
 
 	public void setWords(String serializedWords) {
 		String[] words = serializedWords.split(";");
-		word = words[0];
+		mWord = words[0];
 	}
 
 	public String serializeWords() {
-		return word + ";";
+		return mWord + ";";
 	}
 
 	public String getIRISuffix() {
 		return getWord(0);
-	}
-
-	public List<LexiconEntry> getLexiconEntries() {
-		List<LexiconEntry> entries = new ArrayList<LexiconEntry>();
-		entries.add(LexiconEntry.createTrAdjEntry(word, word, ""));
-		return entries;
 	}
 
 	public String getType() {
@@ -65,12 +52,6 @@ public class TypeArticle extends OWLRelation implements ACEOWLOntoElement {
 
 	public String getInternalType() {
 		return "article";
-	}
-
-	public void collectLexicalRules(String catName, Collection<LexicalRule> lexRules) {
-		if (catName == null || catName.equals("tradj")) {
-			lexRules.add(new LexicalRule("tradj", getWord(0)));
-		}
 	}
 
 }

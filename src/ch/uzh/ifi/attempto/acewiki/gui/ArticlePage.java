@@ -31,6 +31,8 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Relation;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
+import ch.uzh.ifi.attempto.acewiki.gfservice.GeneralPage;
+import ch.uzh.ifi.attempto.acewiki.gfservice.TypeArticle;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 
 /**
@@ -40,13 +42,13 @@ import ch.uzh.ifi.attempto.echocomp.SolidLabel;
  * @author Tobias Kuhn
  */
 public abstract class ArticlePage extends WikiPage implements ActionListener {
-	
+
 	private static final long serialVersionUID = -297830105047433502L;
-	
+
 	private Column textColumn = new Column();
 	private StatementMenu dropDown = new StatementMenu(StatementMenu.EMPTY_TYPE, getWiki(), this);
 	private Title title;
-	
+
 	/**
 	 * Creates a new article page.
 	 * 
@@ -55,7 +57,7 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 	 */
 	protected ArticlePage(Wiki wiki, OntologyElement ontologyElement) {
 		super(wiki);
-		
+
 		if (!(ontologyElement instanceof DummyOntologyElement)) {
 			addSelectedTab("Article");
 			addTab("References", this);
@@ -63,18 +65,18 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 		} else {
 			title = new Title("", true, null, null);
 		}
-		
+
 		add(title);
 		addHorizontalLine();
-		
+
 		dropDown.addMenuEntry("Add Sentence...", "Add a new sentence here");
 		dropDown.addMenuEntry("Add Comment...", "Add a new comment here");
-		
+
 		textColumn.setInsets(new Insets(10, 20, 0, 50));
 		textColumn.setCellSpacing(new Extent(2));
 		add(textColumn);
 	}
-	
+
 	/**
 	 * Creates an article page for the given ontology element.
 	 * 
@@ -91,17 +93,19 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 			return new RelationPage((Relation) oe, wiki);
 		} else if (oe instanceof DummyOntologyElement) {
 			return new StartPage(wiki);
+		} else if (oe instanceof TypeArticle) {
+			return new GeneralPage(oe, wiki);
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Returns the ontology element of this article page.
 	 * 
 	 * @return The ontology element.
 	 */
 	public abstract OntologyElement getOntologyElement();
-	
+
 	/**
 	 * Returns the article object.
 	 * 
@@ -110,10 +114,10 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 	public Article getArticle() {
 		return getOntologyElement().getArticle();
 	}
-	
+
 	protected void doUpdate() {
 		textColumn.removeAll();
-		
+
 		for (Statement s : getArticle().getStatements()) {
 			if (s instanceof Sentence) {
 				textColumn.add(new SentenceComponent((Sentence) s, this));
@@ -121,11 +125,11 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 				textColumn.add(new CommentComponent((Comment) s, this));
 			}
 		}
-		
+
 		if (getArticle().getStatements().size() == 0) {
 			textColumn.add(new SolidLabel("(article is empty)", Font.ITALIC, 10));
 		}
-		
+
 		if (!getWiki().isReadOnly()) {
 			Row addButtonRow = new Row();
 			addButtonRow.add(dropDown);
@@ -139,15 +143,15 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 		}
 		return false;
 	}
-	
+
 	public String toString() {
 		return getOntologyElement().getWord();
 	}
-	
+
 	public boolean isExpired() {
 		return !getWiki().getOntology().contains(getOntologyElement());
 	}
-	
+
 	/**
 	 * Returns the title object of this page.
 	 * 
