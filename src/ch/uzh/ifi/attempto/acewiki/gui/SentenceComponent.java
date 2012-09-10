@@ -26,6 +26,7 @@ import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiEngine;
 import ch.uzh.ifi.attempto.acewiki.core.Article;
 import ch.uzh.ifi.attempto.acewiki.core.InconsistencyException;
+import ch.uzh.ifi.attempto.acewiki.core.MultilingualSentence;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
@@ -57,6 +58,7 @@ public class SentenceComponent extends Column implements ActionListener {
 	private static final String ACTION_REASSERT = "Reassert";
 	private static final String ACTION_RETRACT = "Retract";
 	private static final String ACTION_SHOW_DETAILS = "Show Details";
+	private static final String ACTION_SHOW_TRANSLATIONS = "Show Translations";
 
 	private static final SentenceAction actionDelete = new SentenceAction("Delete",
 			"Delete this sentence from the article",
@@ -118,6 +120,10 @@ public class SentenceComponent extends Column implements ActionListener {
 		}
 
 		dropDown.addMenuEntry(ACTION_SHOW_DETAILS, "Show the details of this sentence");
+
+		if (sentence instanceof MultilingualSentence) {
+			dropDown.addMenuEntry(ACTION_SHOW_TRANSLATIONS, "Show the translations of this sentence");
+		}
 
 		if (!wiki.isReadOnly() && hostPage instanceof ArticlePage) {
 			dropDown.addMenuSeparator();
@@ -271,6 +277,9 @@ public class SentenceComponent extends Column implements ActionListener {
 		} else if (ACTION_SHOW_DETAILS.equals(actionCommand)) {
 			log("dropdown: details sentence:");
 			wiki.showPage(new SentencePage(wiki, sentence));
+		} else if (ACTION_SHOW_TRANSLATIONS.equals(actionCommand)) {
+			log("dropdown: translations sentence:");
+			wiki.showPage(new TranslationsPage(wiki, (MultilingualSentence) sentence));
 		} else if (e.getSource() instanceof MessageWindow && actionCommand.equals(YES)) {
 
 			// TODO: move this code closer to the respective actions

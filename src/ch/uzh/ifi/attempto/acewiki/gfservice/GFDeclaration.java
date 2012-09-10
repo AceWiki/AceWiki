@@ -15,6 +15,7 @@
 package ch.uzh.ifi.attempto.acewiki.gfservice;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -24,7 +25,13 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ch.uzh.ifi.attempto.acewiki.core.AbstractSentence;
+import com.google.common.base.Joiner;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Sets;
+
+import ch.uzh.ifi.attempto.acewiki.core.MultilingualSentence;
 import ch.uzh.ifi.attempto.acewiki.core.Declaration;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceDetail;
@@ -40,9 +47,11 @@ import ch.uzh.ifi.attempto.gfservice.GfServiceException;
  * 
  * @author Kaarel Kaljurand
  */
-public class GFDeclaration extends AbstractSentence implements Declaration {
+public class GFDeclaration extends MultilingualSentence implements Declaration {
 
 	final Logger logger = LoggerFactory.getLogger(GFDeclaration.class);
+
+	private final Joiner mLinsetJoiner = Joiner.on(" // ").skipNulls();
 
 	private final GFGrammar mGfGrammar;
 
@@ -85,25 +94,32 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 
 	public TextContainerSet getTextContainerSet(String language) {
 		TextContainerSet tcs = textContainers.get(language);
+		Set<String> seen = Sets.newHashSet();
 		if (tcs == null) {
 			Set<TextContainer> tmp = new HashSet<TextContainer>();
 			for (String tree : mParseState.getTrees()) {
-				Iterable<String> tokens = getTokens(tree, language);
-				if (tokens == null) {
+				Set<String> lins = getLins(tree, language);
+
+				if (lins == null) {
 					logger.info("getTextContainerSet: null {}: {}", language, tree);
-					// TODO to it properly
+					// TODO do it properly
 					TextContainer tc = new TextContainer();
 					tc.addElement(new TextElement("-NULL-"));
 					tmp.add(tc);
-				} else if (! tokens.iterator().hasNext()) {
+				} else if (lins.isEmpty()) {
 					logger.info("getTextContainerSet: 0 els {}: {}", language, tree);
-					// TODO to it properly
+					// TODO do it properly
 					TextContainer tc = new TextContainer();
 					tc.addElement(new TextElement("-EMPTY-"));
 					tmp.add(tc);
+				} else if (seen.contains(lins.iterator().next())) {
+					// Don't show the same linearization twice
 				} else {
+					// TODO: limitation: we only work with the first linearization
+					String lin = lins.iterator().next();
+					seen.add(lin);
 					TextContainer tc = new TextContainer();
-					for (String s : tokens) {
+					for (String s : GFGrammar.GF_TOKEN_SPLITTER.split(lin)) {
 						tc.addElement(new TextElement(s));
 					}
 					tmp.add(tc);
@@ -152,6 +168,11 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 		}
 
 		return l;
+	}
+
+
+	public List<SentenceDetail> getTranslations(String lang) {
+		return formatTranslations(mGfGrammar, mParseState, ImmutableSet.of(lang));
 	}
 
 
@@ -263,9 +284,51 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 	}
 
 
-	private Iterable<String> getTokens(String tree, String language) {
+	private List<SentenceDetail> formatTranslations(GFGrammar grammar, ParseState parseState, Set<String> excludeLangs) {
+		Multimap<String, Set<String>> mm = HashMultimap.create();
+
+		// Creating the map:
+		// lang -> linset1, linset2, ..., linsetN
+		// TODO: move this to a library
+		for (String tree : parseState.getTrees()) {
+			Map<String, Set<String>> m = null;
+			try {
+				m = grammar.linearize(tree);
+			} catch (GfServiceException e) {
+			}
+
+			// TODO handle this better
+			if (m == null) continue;
+
+			for (String lang : m.keySet()) {
+				if (! excludeLangs.contains(lang)) {
+					mm.put(lang, m.get(lang));
+				}
+			}
+		}
+
+		// Formatting the map
+		List<SentenceDetail> l = new ArrayList<SentenceDetail>();
+		List<String> languageList = new ArrayList<String>(mm.keySet());
+		Collections.sort(languageList);
+		for (String lang : languageList) {
+			StringBuilder sb = new StringBuilder();
+			sb.append("<ul>");
+			for (Set<String> linset : mm.get(lang)) {
+				sb.append("<li>" + mLinsetJoiner.join(linset) + "</li>");
+			}
+			sb.append("</ul>");
+			int size = mm.get(lang).size();
+			String title = size == 1 ? lang : lang + " (" + size + ")";
+			l.add(new SentenceDetail(title, sb.toString()));
+		}
+		return l;
+	}
+
+
+	private Set<String> getLins(String tree, String language) {
 		try {
-			return getGFGrammar().linearizeAsTokens(tree, language);
+			return getGFGrammar().linearize(tree, language);
 		} catch (GfServiceException e) {
 			// TODO find out what happened, i.e.
 			// why was the tree not supported by the grammar.

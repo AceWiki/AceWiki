@@ -38,7 +38,10 @@ import ch.uzh.ifi.attempto.gfservice.gfwebservice.GfWebService;
  */
 public class GFGrammar {
 
-	private final static char SEPARATOR = '|';
+	private final static char GF_TOKEN_SEPARATOR = ' ';
+	private final static char GF_TREE_SEPARATOR = '|';
+
+	public final static Splitter GF_TOKEN_SPLITTER = Splitter.on(GF_TOKEN_SEPARATOR);
 
 	private final GfService mGfService;
 	private final String mCat;
@@ -82,41 +85,19 @@ public class GFGrammar {
 
 
 	/**
-	 * Parses the given tokens in the given language.
-	 *
-	 * @param tokens The tokens.
-	 * @param language The language.
-	 * @return The parse result.
-	 * @throws GfServiceException
-	 */
-	/*
-	public Set<String> parse(String[] tokens, String language) throws GfServiceException {
-		return parse(Joiner.on(" ").join(tokens), language);
-	}
-	 */
-
-
-	/**
 	 * Deserializes a serialized representation into a parse state.
 	 *
 	 * @param serialized The serialized representation
 	 * @return The parse state.
 	 */
 	public static ParseState deserialize(String serialized) {
-		return new ParseState(Splitter.on(SEPARATOR).split(serialized));
+		return new ParseState(Splitter.on(GF_TREE_SEPARATOR).split(serialized));
 	}
 
 
-	/**
-	 * TODO: Note we return just the first linearization.
-	 */
-	public Iterable<String> linearizeAsTokens(String tree, String language) throws GfServiceException {
+	public Set<String> linearize(String tree, String language) throws GfServiceException {
 		GfServiceResultLinearize result = mGfService.linearize(tree, language);
-		Set<String> texts = result.getTexts(language);
-		if (texts.isEmpty()) {
-			return Collections.emptyList();
-		}
-		return Splitter.on(' ').split(texts.iterator().next());
+		return result.getTexts(language);
 	}
 
 
@@ -163,7 +144,7 @@ public class GFGrammar {
 	 * @return The serialization.
 	 */
 	public static String serialize(ParseState parseState) {
-		return Joiner.on(SEPARATOR).join(parseState.getTrees());
+		return Joiner.on(GF_TREE_SEPARATOR).join(parseState.getTrees());
 	}
 
 
@@ -171,7 +152,7 @@ public class GFGrammar {
 		if (tokens.isEmpty()) {
 			return "";
 		}
-		return Joiner.on(" ").join(tokens) + " ";
+		return Joiner.on(GF_TOKEN_SEPARATOR).join(tokens) + GF_TOKEN_SEPARATOR;
 	}
 
 }
