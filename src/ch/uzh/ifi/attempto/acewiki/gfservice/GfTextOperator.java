@@ -20,6 +20,9 @@ import java.util.List;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 
+import ch.uzh.ifi.attempto.acewiki.core.Ontology;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.base.DefaultTextOperator;
 import ch.uzh.ifi.attempto.base.TextElement;
 
@@ -37,6 +40,23 @@ public class GfTextOperator extends DefaultTextOperator {
 	private static final String EMPTY = "";
 	private static final String GF_BIND = "&+";
 	private static final String GF_BIND_PRETTY = "·";
+
+	private Ontology mOntology;
+
+
+	public GfTextOperator(Ontology ontology) {
+		mOntology = ontology;
+	}
+
+
+	public TextElement createTextElement(String text) {
+		OntologyTextElement ote = createOntologyTextElement(text);
+		if (ote == null) {
+			return new TextElement(text);
+		}
+		return ote;
+	}
+
 
 	public String getTextInContext(TextElement textElement, String preceding, String following) {
 		String text = textElement.getOriginalText();
@@ -68,6 +88,26 @@ public class GfTextOperator extends DefaultTextOperator {
 		}
 		 */
 		return SPACE;
+	}
+
+
+	/**
+	 * OntologyTextElement requires the index of the wordform, so we scan
+	 * all the words and return the index of the first form that matches.
+	 *
+	 * TODO: use this also for the ACETextOperator
+	 */
+	private OntologyTextElement createOntologyTextElement(String text) {
+		OntologyElement oe = mOntology.getElement(text);
+		if (oe != null) {
+			int index = 0;
+			for (String word : oe.getWords()) {
+				if (text.equals(word))
+					return new OntologyTextElement(oe, index);
+				index++;
+			}
+		}
+		return null;
 	}
 
 }

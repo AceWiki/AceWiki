@@ -34,10 +34,11 @@ import ch.uzh.ifi.attempto.base.TextOperator;
  */
 public class GFHandler extends AbstractLanguageHandler {
 
-	private String language;
-	private TextOperator textOperator = new GfTextOperator();
-	private EditorController editorController = new EditorController();
-	private GFGrammar gfGrammar;
+	private final String mLanguage;
+	private final EditorController mEditorController = new EditorController();
+	private final GFGrammar mGfGrammar;
+
+	private TextOperator mTextOperator;
 
 	/**
 	 * Creates a new GF handler for the given language.
@@ -46,36 +47,37 @@ public class GFHandler extends AbstractLanguageHandler {
 	 * @param gfGrammar The grammar object.
 	 */
 	public GFHandler(String language, GFGrammar gfGrammar) {
-		this.language = language;
-		this.gfGrammar = gfGrammar;
+		mLanguage = language;
+		mGfGrammar = gfGrammar;
 
 		setLexiconChanger(GFEngine.TYPE_ARTICLE, new ArticleChanger());
 		setLexiconChanger(GFEngine.TYPE_TEST, new ProperNameChanger());
 	}
 
 	public String getLanguage() {
-		return language;
+		return mLanguage;
 	}
 
 	public void init(Ontology ontology) {
+		mTextOperator = new GfTextOperator(ontology);
 	}
 
 	public TextOperator getTextOperator() {
-		return textOperator;
+		return mTextOperator;
 	}
 
 	public List<Sentence> extractSentences(TextContainer tc, PredictiveParser parser) {
 		List<Sentence> l = new ArrayList<Sentence>();
-		l.add(new GFDeclaration(tc.getText(), language, gfGrammar));
+		l.add(new GFDeclaration(tc.getText(), mLanguage, mGfGrammar));
 		return l;
 	}
 
 	public PredictiveParser getPredictiveParser() {
-		return new GFPredictiveParser(gfGrammar, language);
+		return new GFPredictiveParser(mGfGrammar, mLanguage);
 	}
 
 	public EditorController getEditorController() {
-		return editorController;
+		return mEditorController;
 	}
 
 	public SentenceSuggestion getSuggestion(Sentence sentence) {
