@@ -28,6 +28,7 @@ import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultComplete;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultLinearize;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultParse;
+import ch.uzh.ifi.attempto.gfservice.GfServiceResultRandom;
 import ch.uzh.ifi.attempto.gfservice.gfwebservice.GfWebService;
 
 
@@ -81,6 +82,17 @@ public class GFGrammar {
 	public Set<String> parse(String text, String language) throws GfServiceException {
 		GfServiceResultParse result = mGfService.parse(mCat, text, language);
 		return result.getTrees(language);
+	}
+
+
+	public String random() throws GfServiceException {
+		return random(1).iterator().next();
+	}
+
+
+	public List<String> random(int limit) throws GfServiceException {
+		GfServiceResultRandom result = mGfService.random(mCat, limit);
+		return result.getTrees();
 	}
 
 

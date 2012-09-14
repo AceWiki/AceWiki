@@ -60,6 +60,16 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 
 	private ParseState mParseState;
 
+	public GFDeclaration(GFGrammar gfGrammar) {
+		mGfGrammar = gfGrammar;
+		try {
+			mParseState = new ParseState(gfGrammar.random());
+		} catch (GfServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * Creates a new GF declaration object from a parse state.
 	 * 
@@ -140,9 +150,12 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	}
 
 
+
+	/**
+	 * TODO
+	 */
 	public boolean contains(OntologyElement e) {
-		// TODO
-		return true;
+		return false;
 	}
 
 

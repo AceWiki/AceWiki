@@ -12,6 +12,10 @@ public class ParseState {
 		mTrees = ImmutableSet.copyOf(trees);
 	}
 
+	public ParseState(String tree) {
+		mTrees = ImmutableSet.of(tree);
+	}
+
 	public Set<String> getTrees() {
 		return mTrees;
 	}

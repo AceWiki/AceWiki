@@ -15,6 +15,7 @@
 package ch.uzh.ifi.attempto.acewiki.gui;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 
 import nextapp.echo.app.Alignment;
 import nextapp.echo.app.Column;
@@ -37,7 +38,6 @@ import ch.uzh.ifi.attempto.acewiki.gfservice.GFGrammar;
 import ch.uzh.ifi.attempto.acewiki.gfservice.ParseState;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
-import ch.uzh.ifi.attempto.echocomp.MultipleChoiceWindow;
 
 /**
  * This class represents a sentence component consisting of a drop down menu and the sentence text.
@@ -54,20 +54,41 @@ public class SentenceComponent extends Column implements ActionListener {
 	private static final String ACTION_EDIT = "Edit...";
 	private static final String ACTION_ADD_SENTENCE = "Add Sentence...";
 	private static final String ACTION_ADD_COMMENT = "Add Comment...";
-	private static final String ACTION_PRUNE = "Prune";
 	private static final String ACTION_REASSERT = "Reassert";
 	private static final String ACTION_RETRACT = "Retract";
 	private static final String ACTION_SHOW_DETAILS = "Show Details";
 	private static final String ACTION_SHOW_TRANSLATIONS = "Show Translations";
 
-	private static final SentenceAction actionDelete = new SentenceAction("Delete",
+	private static final SentenceAction actionDelete = new SentenceAction(
+			"Delete",
 			"Delete this sentence from the article",
 			"Do you really want to delete this sentence?",
 			"The sentence is being removed from the knowledge base...");
 
-	// TODO: this is GF-specific, in normal AceWiki reparsing does not make sense
-	private static final SentenceAction actionReparse = new SentenceAction("Reparse",
-			"Reparse this sentence", "Do you really want to reparse this sentence?");
+	// TODO: this is GF-specific, in normal AceWiki these actions do not make sense
+	private static final SentenceAction actionGenSentence = new SentenceAction(
+			"Generate Sentence",
+			"Generate a new sentence here",
+			"",
+			"A new sentence is being randomly generated...");
+
+	private static final SentenceAction actionReparse = new SentenceAction(
+			"Reparse",
+			"Reparse this sentence",
+			"Do you really want to reparse this sentence?");
+
+	private static final ImmutableSet<String> EDIT_ACTIONS = new ImmutableSet.Builder<String>()
+			.add(ACTION_EDIT)
+			.add(ACTION_ADD_SENTENCE)
+			.add(ACTION_ADD_COMMENT)
+			.add(ACTION_REASSERT)
+			.add(ACTION_RETRACT)
+			.add(actionDelete.getTitle())
+			.add(actionGenSentence.getTitle())
+			.add(actionReparse.getTitle())
+			.build();
+
+
 
 	private Sentence sentence;
 	private Wiki wiki;
@@ -112,9 +133,6 @@ public class SentenceComponent extends Column implements ActionListener {
 					dropDown.addMenuEntry(ACTION_REASSERT, "Reassert this sentence into the knowledge base");
 				}
 			}
-			if (sentence.getNumberOfParseTrees() > 1) {
-				dropDown.addMenuEntry(ACTION_PRUNE, "Remove some of the " + sentence.getNumberOfParseTrees() + " trees");
-			}
 			dropDown.addMenuEntry(actionDelete.getTitle(), actionDelete.getDesc());
 			dropDown.addMenuEntry(actionReparse.getTitle(), actionReparse.getDesc());
 		}
@@ -123,6 +141,7 @@ public class SentenceComponent extends Column implements ActionListener {
 
 		if (sentence instanceof MultilingualSentence) {
 			dropDown.addMenuEntry(ACTION_SHOW_TRANSLATIONS, "Show the translations of this sentence");
+			dropDown.addMenuEntry(actionGenSentence.getTitle(), actionGenSentence.getDesc());
 		}
 
 		if (!wiki.isReadOnly() && hostPage instanceof ArticlePage) {
@@ -159,121 +178,91 @@ public class SentenceComponent extends Column implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		String actionCommand = e.getActionCommand();
+
+		if (!wiki.isEditable() && EDIT_ACTIONS.contains(actionCommand)) {
+			wiki.showLoginWindow();
+			return;
+		}
+
 		if (ACTION_EDIT.equals(actionCommand)) {
 			log("dropdown: edit sentence:");
-			if (!wiki.isEditable()) {
-				wiki.showLoginWindow();
-			} else {
-				OntologyElement el = sentence.getArticle().getOntologyElement();
-				ArticlePage page = ArticlePage.create(el, wiki);
-				wiki.showPage(page);
-				wiki.showWindow(SentenceEditorHandler.generateEditWindow(sentence, page));
-			}
+			OntologyElement el = sentence.getArticle().getOntologyElement();
+			ArticlePage page = ArticlePage.create(el, wiki);
+			wiki.showPage(page);
+			wiki.showWindow(SentenceEditorHandler.generateEditWindow(sentence, page));
 		} else if (ACTION_ADD_SENTENCE.equals(actionCommand)) {
 			log("dropdown: add sentence");
-			if (!wiki.isEditable()) {
-				wiki.showLoginWindow();
-			} else {
-				wiki.showWindow(SentenceEditorHandler.generateCreationWindow(
-						sentence,
-						(ArticlePage) hostPage
-						));
-			}
+			wiki.showWindow(SentenceEditorHandler.generateCreationWindow(
+					sentence,
+					(ArticlePage) hostPage
+					));
 		} else if (ACTION_ADD_COMMENT.equals(actionCommand)) {
 			log("dropdown: add comment");
-			if (!wiki.isEditable()) {
-				wiki.showLoginWindow();
-			} else {
-				wiki.showWindow(CommentEditorHandler.generateCreationWindow(
-						sentence,
-						(ArticlePage) hostPage
-						));
-			}
-		} else if (ACTION_PRUNE.equals(actionCommand)) {
-			log("dropdown: prune sentence:");
-			if (!wiki.isEditable()) {
-				wiki.showLoginWindow();
-			} else {
-				wiki.showWindow(new MultipleChoiceWindow(
-						ACTION_PRUNE,
-						"Which meanings do you want to keep?\n[TODO: show lins instead of trees]",
-						sentence.getParseTrees(),
-						null,
-						new ActionListener() {
-
-							private static final long serialVersionUID = 7820078327036231367L;
-
-							@Override
-							public void actionPerformed(ActionEvent arg0) {
-								wiki.showWindow(new MessageWindow(
-										"TEST",
-										arg0.getActionCommand(),
-										null,
-										this
-										));
-							}							
-						}
-						));
-			}
+			wiki.showWindow(CommentEditorHandler.generateCreationWindow(
+					sentence,
+					(ArticlePage) hostPage
+					));
 		} else if (actionDelete.hasTitle(actionCommand)) {
 			log("dropdown: delete sentence:");
-			if (!wiki.isEditable()) {
-				wiki.showLoginWindow();
-			} else {
-				wiki.showWindow(actionDelete.getYesNoDialog(null, this));
+			wiki.showWindow(actionDelete.getYesNoDialog(null, this));
+		} else if (actionGenSentence.hasTitle(actionCommand)) {
+			final AceWikiEngine engine = wiki.getEngine();
+			if (engine instanceof GFEngine) {
+				actionGenSentence.performAction(wiki, new Executable() {
+
+					@Override
+					public void execute() {
+						GFDeclaration gfDecl = new GFDeclaration(((GFEngine) engine).getGFGrammar());
+						Article article = sentence.getArticle();
+						// TODO: understand better why the init-call is needed
+						gfDecl.init(article.getOntology(), article);
+						article.add(sentence, ImmutableList.of((Statement) gfDecl));
+					}
+
+				});
 			}
-		} else if (actionReparse.hasTitle(actionCommand)) {
+		}
+		else if (actionReparse.hasTitle(actionCommand)) {
 			final AceWikiEngine engine = wiki.getEngine();
 			if (engine instanceof GFEngine) {
 				log("dropdown: reparse sentence:");
-				if (!wiki.isEditable()) {
-					wiki.showLoginWindow();
-				} else {
-					actionReparse.performAction(wiki, new Executable() {
 
-						@Override
-						public void execute() {
-							ParseState parseState = new ParseState(sentence.getParseTrees());
-							GFGrammar grammar = ((GFEngine) engine).getGFGrammar();
-							GFDeclaration gfDecl = new GFDeclaration(parseState, grammar);
-							Article article = sentence.getArticle();
-							// TODO: understand better why the init-call is needed
-							gfDecl.init(article.getOntology(), article);
-							article.edit(sentence, ImmutableList.of((Statement) gfDecl));
-						}
+				actionReparse.performAction(wiki, new Executable() {
 
-					});
-				}
+					@Override
+					public void execute() {
+						ParseState parseState = new ParseState(sentence.getParseTrees());
+						GFGrammar grammar = ((GFEngine) engine).getGFGrammar();
+						GFDeclaration gfDecl = new GFDeclaration(parseState, grammar);
+						Article article = sentence.getArticle();
+						// TODO: understand better why the init-call is needed
+						gfDecl.init(article.getOntology(), article);
+						article.edit(sentence, ImmutableList.of((Statement) gfDecl));
+					}
+
+				});
 			}
 		} else if (ACTION_REASSERT.equals(actionCommand)) {
 			log("dropdown: reassert:");
-			if (!wiki.isEditable()) {
-				wiki.showLoginWindow();
-			} else {
-				try {
-					wiki.getOntology().reassert(sentence);
-				} catch (InconsistencyException ex) {
-					wiki.showWindow(new MessageWindow(
-							"Conflict",
-							"The sentence is in conflict with the current knowledge. For that " +
-									"reason, it cannot be added to the knowledge base.",
-									"OK"
-							));
-				}
-				if (sentence.isIntegrated()) {
-					update();
-					hostPage.update();
-				}
+			try {
+				wiki.getOntology().reassert(sentence);
+			} catch (InconsistencyException ex) {
+				wiki.showWindow(new MessageWindow(
+						"Conflict",
+						"The sentence is in conflict with the current knowledge. For that " +
+								"reason, it cannot be added to the knowledge base.",
+								"OK"
+						));
 			}
-		} else if (ACTION_RETRACT.equals(actionCommand)) {
-			log("dropdown: retract:");
-			if (!wiki.isEditable()) {
-				wiki.showLoginWindow();
-			} else {
-				wiki.getOntology().retract(sentence);
+			if (sentence.isIntegrated()) {
 				update();
 				hostPage.update();
 			}
+		} else if (ACTION_RETRACT.equals(actionCommand)) {
+			log("dropdown: retract:");
+			wiki.getOntology().retract(sentence);
+			update();
+			hostPage.update();
 		} else if (ACTION_SHOW_DETAILS.equals(actionCommand)) {
 			log("dropdown: details sentence:");
 			wiki.showPage(new SentencePage(wiki, sentence));
