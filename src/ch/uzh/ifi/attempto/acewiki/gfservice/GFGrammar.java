@@ -26,6 +26,7 @@ import com.google.common.base.Splitter;
 import ch.uzh.ifi.attempto.gfservice.GfService;
 import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultComplete;
+import ch.uzh.ifi.attempto.gfservice.GfServiceResultGrammar;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultLinearize;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultParse;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultRandom;
@@ -54,6 +55,11 @@ public class GFGrammar {
 	public GFGrammar(URI serviceUri, String pgfName, String cat) {
 		mGfService = new GfWebService(serviceUri, pgfName);
 		mCat = cat;
+	}
+
+
+	public GfServiceResultGrammar getGrammar() throws GfServiceException {
+		return mGfService.grammar();
 	}
 
 

@@ -57,10 +57,12 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.acewiki.core.StatementTableExporter;
 import ch.uzh.ifi.attempto.acewiki.core.User;
 import ch.uzh.ifi.attempto.acewiki.core.UserBase;
+import ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine;
 import ch.uzh.ifi.attempto.acewiki.gui.AboutPage;
 import ch.uzh.ifi.attempto.acewiki.gui.ArticlePage;
 import ch.uzh.ifi.attempto.acewiki.gui.ExportWindow;
 import ch.uzh.ifi.attempto.acewiki.gui.FormPane;
+import ch.uzh.ifi.attempto.acewiki.gui.GrammarPage;
 import ch.uzh.ifi.attempto.acewiki.gui.IconButton;
 import ch.uzh.ifi.attempto.acewiki.gui.IndexPage;
 import ch.uzh.ifi.attempto.acewiki.gui.LanguageListModel;
@@ -83,6 +85,7 @@ import ch.uzh.ifi.attempto.echocomp.Style;
 import ch.uzh.ifi.attempto.echocomp.TextAreaWindow;
 import ch.uzh.ifi.attempto.echocomp.TextField;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
+import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 import ch.uzh.ifi.attempto.preditor.PreditorWindow;
 import ch.uzh.ifi.attempto.preditor.WordEditorWindow;
 import echopoint.externalevent.ExternalEvent;
@@ -104,6 +107,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	// seems to be a more clear term.
 	public static final String LABEL_BUTTON_NEW_PAGE = "New Page...";
 	public static final String LABEL_WINDOW_NEW_PAGE = "Page Creator";
+
+	public static final String LABEL_ABOUT_GRAMMAR = "About Grammar";
 
 	private static final long serialVersionUID = 2777443689044226043L;
 
@@ -140,6 +145,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private final SmallButton randomButton = new SmallButton("Random Article", this, 12);
 	private final SmallButton newButton = new SmallButton(LABEL_BUTTON_NEW_PAGE, this, 12);
 	private final SmallButton exportButton = new SmallButton("Export...", this, 12);
+
+	private final SmallButton aboutGrammarButton = new SmallButton(LABEL_ABOUT_GRAMMAR, this, 12);
 
 	private StartPage startPage;
 
@@ -307,14 +314,17 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			sideCol.add(new ListItem(newButton));
 		}
 
+		sideCol.add(new ListItem(exportButton));
+
+		sideCol.add(new VSpace(10));
+		sideCol.add(new SectionTitle("Grammar"));
+		sideCol.add(new ListItem(aboutGrammarButton));
 		// We add a link to the grammar editor, but only if the wiki is multilingual.
 		// TODO: provide the link only if the grammar is editable.
 		if (getParameter("language") != null) {
 			sideCol.add(new ListItem(
 					new WebLink(getParameter("context:grammar_editor_url"), "Grammar editor")));
 		}
-
-		sideCol.add(new ListItem(exportButton));
 
 		sideCol.add(new VSpace(10));
 
@@ -678,6 +688,21 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	}
 
 	/**
+	 * Show the about grammar page.
+	 */
+	public void showAboutGrammarPage() {
+		if (engine instanceof GFEngine) {
+			GFEngine gfEngine = (GFEngine) engine;
+			try {
+				showPage(new GrammarPage(this, gfEngine.getGFGrammar().getGrammar()));
+			} catch (GfServiceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	/**
 	 * Returns the ontology;
 	 *
 	 * @return The ontology.
@@ -784,6 +809,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		} else if (src == aboutButton) {
 			log("page", "pressed: about");
 			showAboutPage();
+		} else if (src == aboutGrammarButton) {
+			log("page", "pressed: about grammar");
+			showAboutGrammarPage();
 		} else if (src == homeButton) {
 			log("page", "pressed: main page");
 			showStartPage();
