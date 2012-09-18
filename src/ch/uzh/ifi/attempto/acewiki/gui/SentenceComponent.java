@@ -19,6 +19,7 @@ import com.google.common.collect.ImmutableSet;
 
 import nextapp.echo.app.Alignment;
 import nextapp.echo.app.Column;
+import nextapp.echo.app.Font;
 import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
@@ -37,6 +38,7 @@ import ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine;
 import ch.uzh.ifi.attempto.acewiki.gfservice.GFGrammar;
 import ch.uzh.ifi.attempto.acewiki.gfservice.ParseState;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
+import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 
 /**
@@ -158,6 +160,11 @@ public class SentenceComponent extends Column implements ActionListener {
 		sentenceRow.add(dropDown);
 		sentenceRow.add(new HSpace(5));
 		sentenceRow.add(new TextRow(sentence.getTextContainerSet(wiki.getLanguage()), wiki, isRed));
+		sentenceRow.add(new HSpace(5));
+		// If the sentence is ambiguous then show the number of trees
+		if (sentence.getNumberOfParseTrees() > 1) {
+			sentenceRow.add(new Label("(" + sentence.getNumberOfParseTrees() + ")", Font.BOLD));
+		}
 		sentenceRow.add(new HSpace(5));
 		sentenceRow.add(recalcIcon);
 		recalcIcon.setVisible(false);

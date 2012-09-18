@@ -79,7 +79,7 @@ public class SentenceEditorHandler implements ActionListener {
 	}
 	
 	/**
-	 * Generates a new preditive editor window for the creation of a new sentence.
+	 * Generates a new predictive editor window for the creation of a new sentence.
 	 * 
 	 * @param followingStatement The statement in front of which the new sentences should be added,
 	 *   or null if the sentences should be added to the end of the article.
@@ -93,7 +93,7 @@ public class SentenceEditorHandler implements ActionListener {
 	}
 	
 	/**
-	 * Generates a new preditive editor window for editing an existing sentence.
+	 * Generates a new predictive editor window for editing an existing sentence.
 	 * 
 	 * @param sentence The sentence that should be edited.
 	 * @param page The host page which contains the sentence to be edited.

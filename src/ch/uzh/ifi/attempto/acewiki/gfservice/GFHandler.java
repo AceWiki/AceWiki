@@ -80,10 +80,20 @@ public class GFHandler extends AbstractLanguageHandler {
 		return mEditorController;
 	}
 
+	/**
+	 * If there is an issue with the sentence (e.g. if it is ambiguous)
+	 * then we can return a suggestion to ask the user to immediately
+	 * deal with the issue.
+	 *
+	 * TODO: We currently don't do anything, e.g. ambiguity can be dealt with
+	 * later as well.
+	 */
 	public SentenceSuggestion getSuggestion(Sentence sentence) {
+		/*
 		if (sentence.getNumberOfParseTrees() > 1) {
 			return new DisambiguationSuggestion(sentence);
 		}
+		 */
 		return null;
 	}
 }

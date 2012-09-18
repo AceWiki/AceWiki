@@ -47,20 +47,20 @@ import ch.uzh.ifi.attempto.echocomp.VSpace;
 public class CommentComponent extends Column implements ActionListener {
 
 	private static final long serialVersionUID = -540135972060005725L;
-	
+
 	private static final int COMMENT_TEXT_WIDTH = 800;
-	
+
 	private static FontMetrics fontMetrics =
-		(new BufferedImage(2, 2, BufferedImage.TYPE_4BYTE_ABGR_PRE)
-		.createGraphics()).getFontMetrics(new java.awt.Font("Verdana", java.awt.Font.ITALIC, 13));
-	
+			(new BufferedImage(2, 2, BufferedImage.TYPE_4BYTE_ABGR_PRE)
+			.createGraphics()).getFontMetrics(new java.awt.Font("Verdana", java.awt.Font.ITALIC, 13));
+
 	private Comment comment;
 	private Wiki wiki;
 	private WikiPage hostPage;
-	
+
 	private Row commentRow = new Row();
 	private StatementMenu statementMenu;
-	
+
 	/**
 	 * Creates a new comment row.
 	 * 
@@ -73,7 +73,7 @@ public class CommentComponent extends Column implements ActionListener {
 		this.wiki = hostPage.getWiki();
 		update();
 	}
-	
+
 	private void update() {
 		statementMenu = new StatementMenu(StatementMenu.COMMENT_TYPE, wiki, this);
 		if (!wiki.isReadOnly()) {
@@ -99,7 +99,7 @@ public class CommentComponent extends Column implements ActionListener {
 				c.add(r);
 			}
 		}
-		
+
 		removeAll();
 		commentRow.removeAll();
 		commentRow.add(statementMenu);
@@ -118,7 +118,7 @@ public class CommentComponent extends Column implements ActionListener {
 				wiki.showWindow(CommentEditorHandler.generateEditWindow(
 						comment,
 						(ArticlePage) hostPage
-					));
+						));
 			}
 		} else if (e.getActionCommand().equals("Add Sentence...")) {
 			wiki.log("page", "dropdown: add sentence");
@@ -128,7 +128,7 @@ public class CommentComponent extends Column implements ActionListener {
 				wiki.showWindow(SentenceEditorHandler.generateCreationWindow(
 						comment,
 						(ArticlePage) hostPage
-					));
+						));
 			}
 		} else if (e.getActionCommand().equals("Add Comment...")) {
 			wiki.log("page", "dropdown: add comment");
@@ -138,7 +138,7 @@ public class CommentComponent extends Column implements ActionListener {
 				wiki.showWindow(CommentEditorHandler.generateCreationWindow(
 						comment,
 						(ArticlePage) hostPage
-					));
+						));
 			}
 		} else if (e.getActionCommand().equals("Delete")) {
 			wiki.log("page", "dropdown: delete sentence: " + comment.getText());
@@ -151,7 +151,7 @@ public class CommentComponent extends Column implements ActionListener {
 						null,
 						this,
 						"Yes", "No"
-					));
+						));
 			}
 		} else if (e.getSource() instanceof MessageWindow && e.getActionCommand().equals("Yes")) {
 			wiki.log("page", "dropdown: delete confirmed: " + comment.getText());
@@ -160,7 +160,8 @@ public class CommentComponent extends Column implements ActionListener {
 			wiki.refresh();
 		}
 	}
-	
+
+	// TODO: this is very ACE specific
 	private List<Component> wrapText(String text, int width) {
 		List<Component> wrappedText = new ArrayList<Component>();
 		String line = "";
@@ -194,15 +195,15 @@ public class CommentComponent extends Column implements ActionListener {
 		}
 		return wrappedText;
 	}
-	
-	
+
+
 	private class CommentPart extends Component {
-		
+
 		private static final long serialVersionUID = 8522664422692717971L;
-		
+
 		private Component comp;
 		private String text;
-		
+
 		public CommentPart(String s) {
 			if (s.startsWith("http://") || s.startsWith("https://") || s.startsWith("ftp://")) {
 				comp = new WebLink(s);
@@ -226,15 +227,15 @@ public class CommentComponent extends Column implements ActionListener {
 				text = s;
 			}
 		}
-		
+
 		public Component getComponent() {
 			return comp;
 		}
-		
+
 		public String getText() {
 			return text;
 		}
-		
+
 	}
 
 }
