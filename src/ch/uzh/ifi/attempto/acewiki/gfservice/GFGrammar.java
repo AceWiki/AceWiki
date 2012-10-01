@@ -43,6 +43,8 @@ public class GFGrammar {
 	private final static char GF_TOKEN_SEPARATOR = ' ';
 	private final static char GF_TREE_SEPARATOR = '|';
 
+	private final static int GF_PARSE_LIMIT = 10;
+
 	public final static Splitter GF_TOKEN_SPLITTER = Splitter.on(GF_TOKEN_SEPARATOR);
 
 	private final GfService mGfService;
@@ -86,7 +88,7 @@ public class GFGrammar {
 	 * @throws GfServiceException
 	 */
 	public Set<String> parse(String text, String language) throws GfServiceException {
-		GfServiceResultParse result = mGfService.parse(mCat, text, language);
+		GfServiceResultParse result = mGfService.parse(mCat, text, language, GF_PARSE_LIMIT);
 		return result.getTrees(language);
 	}
 
