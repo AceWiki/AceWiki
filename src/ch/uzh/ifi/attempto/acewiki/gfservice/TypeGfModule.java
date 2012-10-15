@@ -17,19 +17,18 @@ package ch.uzh.ifi.attempto.acewiki.gfservice;
 import ch.uzh.ifi.attempto.acewiki.core.AbstractOntologyElement;
 
 /**
- * Article that does not represent an (OWL) ontology element.
+ * Page that represents a GF grammar module
  *
  * @author Kaarel Kaljurand
- *
  */
-public class TypeArticle extends AbstractOntologyElement {
+public class TypeGfModule extends AbstractOntologyElement {
 
-	public static final String TYPE = "Article";
-	public static final String INTERNAL_TYPE = "article";
+	public static final String TYPE = "GF Module";
+	public static final String INTERNAL_TYPE = "gfmodule";
 
 	private String mWord = "";
 
-	public TypeArticle() {
+	public TypeGfModule() {
 	}
 
 	public String[] getWords() {
@@ -57,8 +56,8 @@ public class TypeArticle extends AbstractOntologyElement {
 		return INTERNAL_TYPE;
 	}
 
-
 	public static boolean hasType(String type) {
 		return INTERNAL_TYPE.equals(type);
 	}
+
 }

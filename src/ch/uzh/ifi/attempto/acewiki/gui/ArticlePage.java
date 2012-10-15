@@ -32,7 +32,9 @@ import ch.uzh.ifi.attempto.acewiki.core.Relation;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.gfservice.GeneralPage;
+import ch.uzh.ifi.attempto.acewiki.gfservice.GfModulePage;
 import ch.uzh.ifi.attempto.acewiki.gfservice.TypeArticle;
+import ch.uzh.ifi.attempto.acewiki.gfservice.TypeGfModule;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 
 /**
@@ -95,6 +97,8 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 			return new StartPage(wiki);
 		} else if (oe instanceof TypeArticle) {
 			return new GeneralPage(oe, wiki);
+		} else if (oe instanceof TypeGfModule) {
+			return new GfModulePage(oe, wiki);
 		}
 		return null;
 	}

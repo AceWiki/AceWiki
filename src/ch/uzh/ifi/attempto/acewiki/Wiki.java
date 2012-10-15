@@ -72,7 +72,6 @@ import ch.uzh.ifi.attempto.acewiki.gui.SearchPage;
 import ch.uzh.ifi.attempto.acewiki.gui.StartPage;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.acewiki.gui.UserWindow;
-import ch.uzh.ifi.attempto.acewiki.gui.WebLink;
 import ch.uzh.ifi.attempto.acewiki.gui.WikiPage;
 import ch.uzh.ifi.attempto.base.Logger;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
@@ -319,12 +318,6 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		sideCol.add(new VSpace(10));
 		sideCol.add(new SectionTitle("Grammar"));
 		sideCol.add(new ListItem(aboutGrammarButton));
-		// We add a link to the grammar editor, but only if the wiki is multilingual.
-		// TODO: provide the link only if the grammar is editable.
-		if (getParameter("language") != null) {
-			sideCol.add(new ListItem(
-					new WebLink(getParameter("context:grammar_editor_url"), "Grammar editor")));
-		}
 
 		sideCol.add(new VSpace(10));
 

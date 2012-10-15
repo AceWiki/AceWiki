@@ -18,6 +18,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ch.uzh.ifi.attempto.acewiki.aceowl.ProperNameIndividual;
 import ch.uzh.ifi.attempto.acewiki.core.AbstractAceWikiEngine;
@@ -29,6 +34,11 @@ import ch.uzh.ifi.attempto.acewiki.core.LanguageHandler;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
+import ch.uzh.ifi.attempto.gfservice.GfModule;
+import ch.uzh.ifi.attempto.gfservice.GfServiceException;
+import ch.uzh.ifi.attempto.gfservice.GfStorage;
+import ch.uzh.ifi.attempto.gfservice.GfStorageResult;
+import ch.uzh.ifi.attempto.gfservice.gfwebservice.GfWebStorage;
 
 /**
  * This is an AceWiki engine using GF (Grammatical Framework).
@@ -37,20 +47,25 @@ import ch.uzh.ifi.attempto.acewiki.core.Sentence;
  */
 public class GFEngine extends AbstractAceWikiEngine {
 
-	public static final String TYPE_ARTICLE = "article";
+	private final Logger mLogger = LoggerFactory.getLogger(GFEngine.class);
+
 	// TODO: support the creation of dynamic queries
 	// public static final String TYPE_QUERY = "query";
+
+	// TODO: remove this
 	public static final String TYPE_TEST = "test";
 
 	private Map<String, GFHandler> languageHandlers = new HashMap<String, GFHandler>();
 	private AceWikiReasoner reasoner = new DummyReasoner();
 	private GFGrammar gfGrammar;
+	private GfStorage mStorage;
+	private String mDir = null;
 
 	/**
 	 * Creates a new GF-based AceWiki engine.
 	 */
 	public GFEngine() {
-		setLexicalTypes(TYPE_ARTICLE, TYPE_TEST);
+		setLexicalTypes(TypeArticle.INTERNAL_TYPE, TypeGfModule.INTERNAL_TYPE, TYPE_TEST);
 	}
 
 	public void init(Ontology ontology) {
@@ -68,8 +83,14 @@ public class GFEngine extends AbstractAceWikiEngine {
 				ontology.getParameter("pgf_name"),
 				ontology.getParameter("start_cat")
 				);
+
+		mStorage = new GfWebStorage(serviceUri);
+		mDir = getDir(ontology.getParameter("pgf_name"));
+		mLogger.info("GfEngine: init: mDir = '{}'", mDir);
+
 		super.init(ontology);
 	}
+
 
 	public LanguageHandler getLanguageHandler(String language) {
 		GFHandler lh = languageHandlers.get(language);
@@ -101,8 +122,10 @@ public class GFEngine extends AbstractAceWikiEngine {
 
 	// TODO: return sensible objects
 	public OntologyElement createOntologyElement(String type) {
-		if (type.equals(TYPE_ARTICLE)) {
+		if (TypeArticle.hasType(type)) {
 			return new TypeArticle();
+		} else if (TypeGfModule.hasType(type)) {
+			return new TypeGfModule();
 		} else if (type.equals(TYPE_TEST)) {
 			return new ProperNameIndividual();
 		}
@@ -120,6 +143,36 @@ public class GFEngine extends AbstractAceWikiEngine {
 
 	public Sentence createHierarchySentence(Concept subConcept, Concept superConcept) {
 		// TODO
+		return null;
+	}
+
+
+	/**
+	 * Updates the grammar based on the given GF module, which is either
+	 * a new component of the grammar or which has undergone modifications
+	 * and need to be reintegrated.
+	 *
+	 * @param gfModule new or modified grammar module
+	 * @return GfStorageResult
+	 * @throws GfServiceException
+	 */
+	public GfStorageResult integrateGfModule(GfModule gfModule) throws GfServiceException {
+		return mStorage.make(mDir, gfModule);
+	}
+
+
+	public boolean isGrammarEditable() {
+		return ! (mDir == null);
+	}
+
+
+	// TODO: we assume that editable directories have a certain form
+	private String getDir(String str) {
+		Pattern p = Pattern.compile("(/tmp/.+)/.+");
+		Matcher m = p.matcher(str);
+		if (m.matches()) {
+			return m.group(1);
+		}
 		return null;
 	}
 

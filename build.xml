@@ -16,7 +16,7 @@
             debuglevel="lines,vars,source"
             srcdir="src/"
             excludes="**/test/**"
-            classpath="lib/slf4j-api-1.6.6.jar;lib/gf-java.jar;lib/guava-11.0.1.jar;lib/aterm-java-1.6.jar;lib/attempto-ape.jar;lib/commons-fileupload-1.2.1.jar;lib/commons-lang-2.2.jar;lib/commons-logging-1.1.jar;lib/Echo3_App.jar;lib/Echo3_FileTransfer_App.jar;lib/Echo3_FileTransfer_WebContainer.jar;lib/Echo3_FileTransfer_Model.jar;lib/Echo3_FileTransfer_Receiver.jar;lib/Echo3_Extras_App.jar;lib/Echo3_Extras_WebContainer.jar;lib/Echo3_WebContainer.jar;lib/echopoint-3.0.0b5.jar;lib/jdom.jar;lib/owlapi-bin.jar;lib/HermiT.jar;lib/owllink-bin.jar;lib/relaxngDatatype.jar;lib/servlet-api.jar;lib/xsdlib.jar;lib/xstream-1.3.1.jar;lib/JPGF.final.jar"
+            classpath="lib/slf4j-api-1.6.6.jar;lib/gf-java.jar;lib/guava-11.0.1.jar;lib/aterm-java-1.6.jar;lib/attempto-ape.jar;lib/commons-fileupload-1.2.1.jar;lib/commons-lang-2.2.jar;lib/commons-logging-1.1.jar;lib/Echo3_App.jar;lib/Echo3_FileTransfer_App.jar;lib/Echo3_FileTransfer_WebContainer.jar;lib/Echo3_FileTransfer_Model.jar;lib/Echo3_FileTransfer_Receiver.jar;lib/Echo3_Extras_App.jar;lib/Echo3_Extras_WebContainer.jar;lib/Echo3_WebContainer.jar;lib/echopoint-3.0.0b5.jar;lib/jdom.jar;lib/owlapi-bin.jar;lib/HermiT.jar;lib/owllink-bin.jar;lib/relaxngDatatype.jar;lib/servlet-api.jar;lib/xsdlib.jar;lib/xstream-1.3.1.jar"
             destdir="classes/">
           <compilerarg value="-Xlint"/>
         </javac>

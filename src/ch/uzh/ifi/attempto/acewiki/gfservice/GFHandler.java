@@ -50,7 +50,8 @@ public class GFHandler extends AbstractLanguageHandler {
 		mLanguage = language;
 		mGfGrammar = gfGrammar;
 
-		setLexiconChanger(GFEngine.TYPE_ARTICLE, new ArticleChanger());
+		setLexiconChanger(TypeArticle.INTERNAL_TYPE, new ArticleChanger());
+		setLexiconChanger(TypeGfModule.INTERNAL_TYPE, new GfModuleChanger());
 		setLexiconChanger(GFEngine.TYPE_TEST, new ProperNameChanger());
 	}
 
