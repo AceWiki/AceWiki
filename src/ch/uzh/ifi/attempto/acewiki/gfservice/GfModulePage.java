@@ -11,6 +11,7 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.gui.ArticlePage;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.gfservice.GfModule;
+import ch.uzh.ifi.attempto.gfservice.GfParseResult;
 import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 import ch.uzh.ifi.attempto.gfservice.GfStorageResult;
 
@@ -19,6 +20,10 @@ public class GfModulePage extends ArticlePage {
 	private final Logger mLogger = LoggerFactory.getLogger(GfModulePage.class);
 
 	private static final long serialVersionUID = -5592272938081004472L;
+
+	// TODO: make it a button (not a tab), and enable it only if the grammar is error free
+	private static final String ACTION_MAKE = "Make";
+
 	private final OntologyElement mElement;
 	private final GFEngine mEngine;
 
@@ -34,6 +39,7 @@ public class GfModulePage extends ArticlePage {
 			mEngine = null;
 		}
 		getTitle().setColor(new Color(102, 153, 0));
+		addTab(ACTION_MAKE, this);
 	}
 
 	public OntologyElement getOntologyElement() {
@@ -42,35 +48,57 @@ public class GfModulePage extends ArticlePage {
 
 	public void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);
+		if (ACTION_MAKE.equals(e.getActionCommand())) {
+			log("page", "pressed: make");
+			make();
+		}
 	}
 
 	protected void doUpdate() {
 		super.doUpdate();
 		getTitle().setText(mElement.getWord());
+		parse();
+	}
 
+
+	private void make() {
 		// TODO: this blocks, do it in the background
 		if (mEngine.isGrammarEditable() && hasContent()) {
-			String name = getName();
-			String content = getContent();
-
-			mLogger.info("doUpdate: element: '{}'", name);
-			mLogger.info("doUpdate: statements: {}", content);
-
-			GfModule gfModule = new GfModule(name, content);
-
 			try {
-				GfStorageResult result = mEngine.integrateGfModule(gfModule);
+				GfStorageResult result = mEngine.integrateGfModule(getGfModule());
 
 				if (! result.isSuccess()) {
 					// Pop up error message
-					mLogger.info("doUpdate: GfServiceException: '{}'", result);
+					mLogger.info("make: GfStorageResult: '{}'", result);
 					getWiki().showWindow(new MessageWindow(result.getResultCode(),
 							result.getMessage() + " (" + result.getCommand() + ")"));
 				}
 			} catch (GfServiceException e) {
-				mLogger.info("doUpdate: GfServiceException: '{}'", e.getMessage());
+				mLogger.info("make: GfServiceException: '{}'", e.getMessage());
 			}
 		}
+	}
+
+
+	private void parse() {
+		// TODO: this blocks, do it in the background
+		if (hasContent()) {
+			try {
+				GfParseResult result = mEngine.parseGfModule(getGfModule());
+				if (! result.isSuccess()) {
+					// Pop up error message
+					mLogger.info("parse: GfParseResult: '{}'", result);
+					getWiki().showWindow(new MessageWindow(result.getResultCode(), "Line:Column = " + result.getLocation()));
+				}
+			} catch (GfServiceException e) {
+				mLogger.info("parse: GfServiceException: '{}'", e.getMessage());
+			}
+		}
+	}
+
+
+	private GfModule getGfModule() {
+		return new GfModule(getName(), getContent());
 	}
 
 

@@ -35,6 +35,7 @@ import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.gfservice.GfModule;
+import ch.uzh.ifi.attempto.gfservice.GfParseResult;
 import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 import ch.uzh.ifi.attempto.gfservice.GfStorage;
 import ch.uzh.ifi.attempto.gfservice.GfStorageResult;
@@ -144,6 +145,11 @@ public class GFEngine extends AbstractAceWikiEngine {
 	public Sentence createHierarchySentence(Concept subConcept, Concept superConcept) {
 		// TODO
 		return null;
+	}
+
+
+	public GfParseResult parseGfModule(GfModule gfModule) throws GfServiceException {
+		return mStorage.parse(gfModule);
 	}
 
 
