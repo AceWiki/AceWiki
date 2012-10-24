@@ -1,12 +1,17 @@
 package ch.uzh.ifi.attempto.acewiki.gfservice;
 
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.collect.Sets;
 
 import nextapp.echo.app.Color;
 import nextapp.echo.app.event.ActionEvent;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiEngine;
+import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.gui.ArticlePage;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
@@ -22,7 +27,7 @@ public class GfModulePage extends ArticlePage {
 	private static final long serialVersionUID = -5592272938081004472L;
 
 	// TODO: make it a button (not a tab), and enable it only if the grammar is error free
-	private static final String ACTION_MAKE = "Make";
+	private static final String ACTION_MAKE = "Rebuild grammar";
 
 	private final OntologyElement mElement;
 	private final GFEngine mEngine;
@@ -50,7 +55,7 @@ public class GfModulePage extends ArticlePage {
 		super.actionPerformed(e);
 		if (ACTION_MAKE.equals(e.getActionCommand())) {
 			log("page", "pressed: make");
-			make();
+			integrate();
 		}
 	}
 
@@ -61,15 +66,17 @@ public class GfModulePage extends ArticlePage {
 	}
 
 
-	private void make() {
+	private void integrate() {
 		// TODO: this blocks, do it in the background
 		if (mEngine.isGrammarEditable() && hasContent()) {
 			try {
-				GfStorageResult result = mEngine.integrateGfModule(getGfModule());
+				GfStorageResult result = mEngine.integrateGfModule(
+						getGfModule(),
+						getModuleNames(getArticle().getOntology()));
 
 				if (! result.isSuccess()) {
 					// Pop up error message
-					mLogger.info("make: GfStorageResult: '{}'", result);
+					mLogger.info("integrate: GfStorageResult: '{}'", result);
 					getWiki().showWindow(new MessageWindow(result.getResultCode(),
 							result.getMessage() + " (" + result.getCommand() + ")"));
 				}
@@ -114,6 +121,19 @@ public class GfModulePage extends ArticlePage {
 
 	private String getContent() {
 		return getArticle().getStatements().iterator().next().toString();
+	}
+
+
+	/**
+	 * Returns the names of all the modules that are part of the given
+	 * ontology.
+	 */
+	private static Set<String> getModuleNames(Ontology ont) {
+		Set<String> names = Sets.newHashSet();
+		for (TypeGfModule el : ont.getOntologyElements(TypeGfModule.class)) {
+			names.add(el.getWord());
+		}
+		return names;
 	}
 
 }

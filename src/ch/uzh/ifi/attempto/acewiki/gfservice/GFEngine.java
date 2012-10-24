@@ -18,11 +18,14 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.collect.Sets;
 
 import ch.uzh.ifi.attempto.acewiki.aceowl.ProperNameIndividual;
 import ch.uzh.ifi.attempto.acewiki.core.AbstractAceWikiEngine;
@@ -58,6 +61,7 @@ public class GFEngine extends AbstractAceWikiEngine {
 
 	private Map<String, GFHandler> languageHandlers = new HashMap<String, GFHandler>();
 	private AceWikiReasoner reasoner = new DummyReasoner();
+
 	private GFGrammar gfGrammar;
 	private GfStorage mStorage;
 	private String mDir = null;
@@ -162,8 +166,8 @@ public class GFEngine extends AbstractAceWikiEngine {
 	 * @return GfStorageResult
 	 * @throws GfServiceException
 	 */
-	public GfStorageResult integrateGfModule(GfModule gfModule) throws GfServiceException {
-		return mStorage.make(mDir, gfModule);
+	public GfStorageResult integrateGfModule(GfModule gfModule, Set<String> moduleNames) throws GfServiceException {
+		return mStorage.update(mDir, gfModule, moduleNames);
 	}
 
 
