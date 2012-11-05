@@ -1,17 +1,12 @@
 package ch.uzh.ifi.attempto.acewiki.gfservice;
 
-import java.util.Set;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.Sets;
 
 import nextapp.echo.app.Color;
 import nextapp.echo.app.event.ActionEvent;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiEngine;
-import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.gui.ArticlePage;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
@@ -70,9 +65,7 @@ public class GfModulePage extends ArticlePage {
 		// TODO: this blocks, do it in the background
 		if (mEngine.isGrammarEditable() && hasContent()) {
 			try {
-				GfStorageResult result = mEngine.integrateGfModule(
-						getGfModule(),
-						getModuleNames(getArticle().getOntology()));
+				GfStorageResult result = mEngine.integrateGfModule(getGfModule());
 
 				if (! result.isSuccess()) {
 					// Pop up error message
@@ -95,7 +88,9 @@ public class GfModulePage extends ArticlePage {
 				if (! result.isSuccess()) {
 					// Pop up error message
 					mLogger.info("parse: GfParseResult: '{}'", result);
-					getWiki().showWindow(new MessageWindow(result.getResultCode(), "Line:Column = " + result.getLocation()));
+					getWiki().showWindow(new MessageWindow(
+							"Syntax error at line:column = " + result.getLocation(),
+							result.getResultCode()));
 				}
 			} catch (GfServiceException e) {
 				mLogger.info("parse: GfServiceException: '{}'", e.getMessage());
@@ -121,19 +116,6 @@ public class GfModulePage extends ArticlePage {
 
 	private String getContent() {
 		return getArticle().getStatements().iterator().next().toString();
-	}
-
-
-	/**
-	 * Returns the names of all the modules that are part of the given
-	 * ontology.
-	 */
-	private static Set<String> getModuleNames(Ontology ont) {
-		Set<String> names = Sets.newHashSet();
-		for (TypeGfModule el : ont.getOntologyElements(TypeGfModule.class)) {
-			names.add(el.getWord());
-		}
-		return names;
 	}
 
 }

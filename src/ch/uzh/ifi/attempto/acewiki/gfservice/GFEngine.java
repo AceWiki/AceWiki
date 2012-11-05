@@ -25,8 +25,6 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.Sets;
-
 import ch.uzh.ifi.attempto.acewiki.aceowl.ProperNameIndividual;
 import ch.uzh.ifi.attempto.acewiki.core.AbstractAceWikiEngine;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiReasoner;
@@ -63,6 +61,11 @@ public class GFEngine extends AbstractAceWikiEngine {
 	private AceWikiReasoner reasoner = new DummyReasoner();
 
 	private GFGrammar gfGrammar;
+
+	// List of languages, i.e. concrete language modules.
+	// This is instantiated at init-time.
+	// TODO: allow languages to be added and removed during wiki runtime
+	private Set<String> mLanguages;
 	private GfStorage mStorage;
 	private String mDir = null;
 
@@ -88,7 +91,7 @@ public class GFEngine extends AbstractAceWikiEngine {
 				ontology.getParameter("pgf_name"),
 				ontology.getParameter("start_cat")
 				);
-
+		mLanguages = gfGrammar.getLanguages();
 		mStorage = new GfWebStorage(serviceUri);
 		mDir = getDir(ontology.getParameter("pgf_name"));
 		mLogger.info("GfEngine: init: mDir = '{}'", mDir);
@@ -108,7 +111,7 @@ public class GFEngine extends AbstractAceWikiEngine {
 
 
 	public String[] getLanguages() {
-		return gfGrammar.getLanguages().toArray(new String[0]);
+		return mLanguages.toArray(new String[0]);
 	}
 
 
@@ -160,14 +163,21 @@ public class GFEngine extends AbstractAceWikiEngine {
 	/**
 	 * Updates the grammar based on the given GF module, which is either
 	 * a new component of the grammar or which has undergone modifications
-	 * and need to be reintegrated.
+	 * and needs to be reintegrated.
 	 *
 	 * @param gfModule new or modified grammar module
 	 * @return GfStorageResult
 	 * @throws GfServiceException
 	 */
-	public GfStorageResult integrateGfModule(GfModule gfModule, Set<String> moduleNames) throws GfServiceException {
-		return mStorage.update(mDir, gfModule, moduleNames);
+	public GfStorageResult integrateGfModule(GfModule gfModule) throws GfServiceException {
+		// If the module is a concrete syntax module then
+		// update it in the context of other concrete modules.
+		if (mLanguages.contains(gfModule.getName())) {
+			return mStorage.update(mDir, gfModule, mLanguages);
+		}
+		// Otherwise just upload it and recompile the existing concrete modules.
+		mStorage.upload(mDir, gfModule);
+		return mStorage.update(mDir, mLanguages);
 	}
 
 
@@ -177,7 +187,7 @@ public class GFEngine extends AbstractAceWikiEngine {
 
 
 	// TODO: we assume that editable directories have a certain form
-	private String getDir(String str) {
+	private static String getDir(String str) {
 		Pattern p = Pattern.compile("(/tmp/.+)/.+");
 		Matcher m = p.matcher(str);
 		if (m.matches()) {
