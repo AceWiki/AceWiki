@@ -19,10 +19,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 
+import ch.uzh.ifi.attempto.gfservice.GfModule;
+import ch.uzh.ifi.attempto.gfservice.GfParseResult;
 import ch.uzh.ifi.attempto.gfservice.GfService;
 import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultComplete;
@@ -30,7 +34,10 @@ import ch.uzh.ifi.attempto.gfservice.GfServiceResultGrammar;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultLinearize;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultParse;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultRandom;
+import ch.uzh.ifi.attempto.gfservice.GfStorage;
+import ch.uzh.ifi.attempto.gfservice.GfStorageResult;
 import ch.uzh.ifi.attempto.gfservice.gfwebservice.GfWebService;
+import ch.uzh.ifi.attempto.gfservice.gfwebservice.GfWebStorage;
 
 
 /**
@@ -40,6 +47,7 @@ import ch.uzh.ifi.attempto.gfservice.gfwebservice.GfWebService;
  */
 public class GFGrammar {
 
+	private final static boolean OPTIMIZE_PGF = true;
 	private final static char GF_TOKEN_SEPARATOR = ' ';
 	private final static char GF_TREE_SEPARATOR = '|';
 
@@ -48,7 +56,14 @@ public class GFGrammar {
 	public final static Splitter GF_TOKEN_SPLITTER = Splitter.on(GF_TOKEN_SEPARATOR);
 
 	private final GfService mGfService;
+	private final GfStorage mGfStorage;
 	private final String mCat;
+	private final String mDir;
+
+	// List of languages, i.e. concrete language modules.
+	// This is instantiated/finalized at construction-time.
+	// TODO: allow languages to be added and removed during wiki runtime
+	private final Set<String> mLanguages;
 
 
 	/**
@@ -56,7 +71,10 @@ public class GFGrammar {
 	 */
 	public GFGrammar(URI serviceUri, String pgfName, String cat) {
 		mGfService = new GfWebService(serviceUri, pgfName);
+		mGfStorage = new GfWebStorage(serviceUri);
 		mCat = cat;
+		mDir = getDir(pgfName);
+		mLanguages = makeLanguages();
 	}
 
 
@@ -69,13 +87,7 @@ public class GFGrammar {
 	 * @return set of names of the concrete languages defined in the grammar
 	 */
 	public Set<String> getLanguages() {
-		try {
-			return mGfService.grammar().getLanguages().keySet();
-		} catch (GfServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return Collections.emptySet();
+		return mLanguages;
 	}
 
 
@@ -168,6 +180,48 @@ public class GFGrammar {
 	}
 
 
+	public GfParseResult parseGfModule(GfModule gfModule) throws GfServiceException {
+		return mGfStorage.parse(gfModule);
+	}
+
+
+	/**
+	 * Updates the grammar based on the given GF module, which is either
+	 * a new component of the grammar or which has undergone modifications
+	 * and needs to be reintegrated.
+	 *
+	 * @param gfModule new or modified grammar module
+	 * @return GfStorageResult
+	 * @throws GfServiceException
+	 */
+	public GfStorageResult integrateGfModule(GfModule gfModule) throws GfServiceException {
+		// If the module is a concrete syntax module then
+		// update it in the context of other concrete modules.
+		if (mLanguages.contains(gfModule.getName())) {
+			return mGfStorage.update(mDir, mCat, OPTIMIZE_PGF, mLanguages, gfModule);
+		}
+		// Otherwise just upload it and recompile the existing concrete modules.
+		mGfStorage.upload(mDir, gfModule);
+		return mGfStorage.update(mDir, mCat, OPTIMIZE_PGF, mLanguages);
+	}
+
+
+	public boolean isGrammarEditable() {
+		return ! (mDir == null);
+	}
+
+
+	// TODO: we assume that editable directories have a certain form
+	private static String getDir(String str) {
+		Pattern p = Pattern.compile("(/tmp/.+)/.+");
+		Matcher m = p.matcher(str);
+		if (m.matches()) {
+			return m.group(1);
+		}
+		return null;
+	}
+
+
 	private static String getCompletionInput(List<String> tokens) {
 		if (tokens.isEmpty()) {
 			return "";
@@ -175,4 +229,14 @@ public class GFGrammar {
 		return Joiner.on(GF_TOKEN_SEPARATOR).join(tokens) + GF_TOKEN_SEPARATOR;
 	}
 
+
+	private Set<String> makeLanguages() {
+		try {
+			return mGfService.grammar().getLanguages().keySet();
+		} catch (GfServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return Collections.emptySet();
+	}
 }

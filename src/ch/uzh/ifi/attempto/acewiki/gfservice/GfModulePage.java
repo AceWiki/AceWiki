@@ -63,9 +63,9 @@ public class GfModulePage extends ArticlePage {
 
 	private void integrate() {
 		// TODO: this blocks, do it in the background
-		if (mEngine.isGrammarEditable() && hasContent()) {
+		if (mEngine.getGFGrammar().isGrammarEditable() && hasContent()) {
 			try {
-				GfStorageResult result = mEngine.integrateGfModule(getGfModule());
+				GfStorageResult result = mEngine.getGFGrammar().integrateGfModule(getGfModule());
 
 				if (! result.isSuccess()) {
 					// Pop up error message
@@ -84,7 +84,7 @@ public class GfModulePage extends ArticlePage {
 		// TODO: this blocks, do it in the background
 		if (hasContent()) {
 			try {
-				GfParseResult result = mEngine.parseGfModule(getGfModule());
+				GfParseResult result = mEngine.getGFGrammar().parseGfModule(getGfModule());
 				if (! result.isSuccess()) {
 					// Pop up error message
 					mLogger.info("parse: GfParseResult: '{}'", result);
