@@ -22,6 +22,7 @@ import com.google.common.base.Joiner;
 import nextapp.echo.app.Insets;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultGrammar;
 
@@ -29,8 +30,11 @@ import ch.uzh.ifi.attempto.gfservice.GfServiceResultGrammar;
 public class GrammarPage extends AbstractNavigationPage implements ActionListener {
 
 	private static final long serialVersionUID = -2031690219932377941L;
+	private static final Joiner JOINER_SPACE = Joiner.on(' ');
+	private static final Joiner JOINER_COMMA = Joiner.on(", ");
 	private NameValueTable table1, table2;
 	private GfServiceResultGrammar mGrammar;
+	private final Wiki mWiki;
 
 	/**
 	 * Creates a new grammar page.
@@ -39,6 +43,7 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 	 */
 	public GrammarPage(Wiki wiki, GfServiceResultGrammar grammar) {
 		super(wiki);
+		mWiki = wiki;
 
 		mGrammar = grammar;
 
@@ -64,11 +69,16 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 
 		table1.addEntry("Name", mGrammar.getName());
 		table1.addEntry("Startcat", mGrammar.getStartcat());
-		table1.addEntry("Categories", Joiner.on(", ").join(mGrammar.getCategories()));
-		table1.addEntry("Functions", Joiner.on(", ").join(mGrammar.getFunctions()));
+		table1.addEntry("Categories", JOINER_COMMA.join(mGrammar.getCategories()));
+		table1.addEntry("Functions", JOINER_COMMA.join(mGrammar.getFunctions()));
 
 		for (Entry<String, Set<String>> entry : mGrammar.getLanguages().entrySet()) {
-			table2.addEntry(entry.getKey(), Joiner.on(' ').join(entry.getValue()));
+			OntologyElement ol = mWiki.getOntology().getElement(entry.getKey());
+			if (ol == null) {
+				table2.addEntry(entry.getKey(), JOINER_SPACE.join(entry.getValue()));
+			} else {
+				table2.addEntry(new WikiLink(ol, mWiki), JOINER_SPACE.join(entry.getValue()));
+			}
 		}
 	}
 
