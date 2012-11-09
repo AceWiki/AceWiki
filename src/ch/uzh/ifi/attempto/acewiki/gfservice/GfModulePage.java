@@ -4,12 +4,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nextapp.echo.app.Color;
+import nextapp.echo.app.Column;
+import nextapp.echo.app.Font;
+import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiEngine;
+import ch.uzh.ifi.attempto.acewiki.core.Comment;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.gui.ArticlePage;
+import ch.uzh.ifi.attempto.acewiki.gui.GfModuleComponent;
+import ch.uzh.ifi.attempto.acewiki.gui.StatementMenu;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
+import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.gfservice.GfModule;
 import ch.uzh.ifi.attempto.gfservice.GfParseResult;
 import ch.uzh.ifi.attempto.gfservice.GfServiceException;
@@ -46,6 +54,7 @@ public class GfModulePage extends ArticlePage {
 		return mElement;
 	}
 
+
 	public void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);
 		if (ACTION_MAKE.equals(e.getActionCommand())) {
@@ -55,7 +64,26 @@ public class GfModulePage extends ArticlePage {
 	}
 
 	protected void doUpdate() {
-		super.doUpdate();
+		Column textColumn = getTextColumn();
+		StatementMenu dropDown = getDropDown();
+		textColumn.removeAll();
+
+		// Treat comments in the GF Module Page as GF Modules
+		for (Statement s : getArticle().getStatements()) {
+			if (s instanceof Comment) {
+				textColumn.add(new GfModuleComponent((Comment) s, this));
+			}
+		}
+
+		if (getArticle().getStatements().size() == 0) {
+			textColumn.add(new SolidLabel("(grammar is empty)", Font.ITALIC, 10));
+		}
+
+		if (!getWiki().isReadOnly()) {
+			Row addButtonRow = new Row();
+			addButtonRow.add(dropDown);
+			textColumn.add(addButtonRow);
+		}
 		getTitle().setText(mElement.getWord());
 		parse();
 	}

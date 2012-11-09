@@ -47,7 +47,12 @@ import ch.uzh.ifi.attempto.gfservice.gfwebservice.GfWebStorage;
  */
 public class GFGrammar {
 
+	// Note that true can remove (always removes?) lins
+	// which are not available in all the concretes,
+	// i.e. if you add a lin then you need to add it too all the concretes
+	// otherwise you cannot use it in a sentence.
 	private final static boolean OPTIMIZE_PGF = true;
+
 	private final static char GF_TOKEN_SEPARATOR = ' ';
 	private final static char GF_TREE_SEPARATOR = '|';
 

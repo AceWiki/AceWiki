@@ -165,6 +165,15 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 		return title;
 	}
 
+	protected Column getTextColumn() {
+		return textColumn;
+	}
+
+	protected StatementMenu getDropDown() {
+		return dropDown;
+	}
+
+
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Add Sentence...")) {
 			getWiki().log("page", "dropdown: add sentence");
