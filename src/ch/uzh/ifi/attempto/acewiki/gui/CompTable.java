@@ -14,63 +14,48 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui;
 
+import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import nextapp.echo.app.Border;
 import nextapp.echo.app.Color;
 import nextapp.echo.app.Column;
+import nextapp.echo.app.Component;
 import nextapp.echo.app.Font;
 import nextapp.echo.app.Grid;
 import nextapp.echo.app.Insets;
 
-/**
- * This class represents a graphical table that displays simple name/value pairs.
- * 
- * @author Tobias Kuhn
- */
-public class NameValueTable extends Column {
+public class CompTable extends Column {
 
-	private static final long serialVersionUID = -5329037871133296963L;
+	private static final long serialVersionUID = -8481242896629521650L;
+	private final Grid grid;
 
-	private Grid grid;
-
-	/**
-	 * Creates a new table.
-	 */
-	public NameValueTable() {
+	public CompTable() {
 		grid = new Grid(2);
-		grid.setInsets(new Insets(5, 1, 20, 2));
+		grid.setInsets(new Insets(4, 2, 8, 2));
 		grid.setBorder(new Border(1, Color.DARKGRAY, Border.STYLE_SOLID));
 		grid.setBackground(new Color(240, 240, 240));
 		add(grid);
 	}
 
-	/**
-	 * Adds the name/value pair to the table. The value is displayed in italics.
-	 * 
-	 * @param name The name.
-	 * @param value The value.
-	 */
+
 	public void addEntry(String name, String value) {
-		grid.add(new SolidLabel(name, Font.ITALIC + Font.BOLD, 11));
-		grid.add(new SolidLabel(value, Font.ITALIC));
+		grid.add(new SolidLabel(name, Font.BOLD, 12));
+		grid.add(new Label(value, Font.PLAIN, 12));
 	}
 
 
-	/**
-	 * Adds the name/value pair to the table. The value is supposed to be an ACE phrase and is for
-	 * that reason displayed in normal font (non-italics).
-	 * 
-	 * @param name The name.
-	 * @param aceValue The ACE phrase as value.
-	 */
-	public void addACEEntry(String name, String aceValue) {
-		grid.add(new SolidLabel(name, Font.ITALIC + Font.BOLD, 11));
-		grid.add(new SolidLabel(aceValue));
+	public void addEntry(Component name, String value) {
+		grid.add(name);
+		grid.add(new Label(value, Font.PLAIN, 12));
 	}
 
-	/**
-	 * Removes all entries.
-	 */
+
+	public void addEntry(String name, Component value) {
+		grid.add(new SolidLabel(name, Font.BOLD, 12));
+		grid.add(value);
+	}
+
+
 	public void clear() {
 		grid.removeAll();
 	}

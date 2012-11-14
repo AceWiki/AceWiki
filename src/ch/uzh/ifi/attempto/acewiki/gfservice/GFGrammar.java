@@ -24,11 +24,13 @@ import java.util.regex.Pattern;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
+import com.google.common.collect.Maps;
 
 import ch.uzh.ifi.attempto.gfservice.GfModule;
 import ch.uzh.ifi.attempto.gfservice.GfParseResult;
 import ch.uzh.ifi.attempto.gfservice.GfService;
 import ch.uzh.ifi.attempto.gfservice.GfServiceException;
+import ch.uzh.ifi.attempto.gfservice.GfServiceResultBrowse;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultComplete;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultGrammar;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultLinearize;
@@ -69,6 +71,9 @@ public class GFGrammar {
 	// This is instantiated/finalized at construction-time.
 	// TODO: allow languages to be added and removed during wiki runtime
 	private final Set<String> mLanguages;
+
+	private final Map<String, Set<String>> mCacheCatProducers = Maps.newHashMap();
+	private final Map<String, Set<String>> mCacheCatConsumers = Maps.newHashMap();
 
 
 	/**
@@ -174,6 +179,24 @@ public class GFGrammar {
 	}
 
 
+	public Set<String> getProducers(String cat) throws GfServiceException {
+		Set<String> producers = mCacheCatProducers.get(cat);
+		if (producers == null) {
+			producers = addResultBrowse(cat, true);
+		}
+		return producers;
+	}
+
+
+	public Set<String> getConsumers(String cat) throws GfServiceException {
+		Set<String> consumers = mCacheCatConsumers.get(cat);
+		if (consumers == null) {
+			consumers = addResultBrowse(cat, false);
+		}
+		return consumers;
+	}
+
+
 	/**
 	 * Serializes a given parse state.
 	 *
@@ -243,5 +266,18 @@ public class GFGrammar {
 			e.printStackTrace();
 		}
 		return Collections.emptySet();
+	}
+
+
+	private Set<String> addResultBrowse(String cat, boolean returnProducers) throws GfServiceException {
+		GfServiceResultBrowse result = mGfService.browse(cat);
+		Set<String> producers = result.getProducers();
+		Set<String> consumers = result.getConsumers();
+		mCacheCatProducers.put(cat, producers);
+		mCacheCatConsumers.put(cat, consumers);
+		if (returnProducers) {
+			return producers;
+		}
+		return consumers;
 	}
 }

@@ -687,7 +687,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		if (engine instanceof GFEngine) {
 			GFEngine gfEngine = (GFEngine) engine;
 			try {
-				showPage(new GrammarPage(this, gfEngine.getGFGrammar().getGrammar()));
+				showPage(new GrammarPage(this, gfEngine.getGFGrammar()));
 			} catch (GfServiceException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
