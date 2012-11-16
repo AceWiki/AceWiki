@@ -3,6 +3,9 @@ package ch.uzh.ifi.attempto.acewiki.gfservice;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceSuggestion;
 
+/**
+ * @deprecated
+ */
 public class DisambiguationSuggestion implements SentenceSuggestion {
 
 	private Sentence mSentence;

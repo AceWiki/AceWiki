@@ -44,6 +44,9 @@ public class GFEngine extends AbstractAceWikiEngine {
 	public static final String TYPE_TEST = "test";
 
 	private Map<String, GFHandler> languageHandlers = new HashMap<String, GFHandler>();
+
+	// TODO: implement a reasoner that does ACE reasoning if ACE is
+	// one of the languages
 	private AceWikiReasoner reasoner = new DummyReasoner();
 
 	private GFGrammar gfGrammar;
@@ -115,14 +118,26 @@ public class GFEngine extends AbstractAceWikiEngine {
 		return null;
 	}
 
+
+	/**
+	 * TODO: the serialization format should be:
+	 * lang:text:tree1|tree2|...|treeN
+	 * This is more robust, e.g. if the tree cannot be linearized anymore
+	 * because grammar was refactored then we could try to parse the
+	 * sentence. Also the sentence could be shown if the tree
+	 * has multiple variant lins.
+	 */
 	public Sentence createSentence(String serialized) {
-		return new GFDeclaration(GFGrammar.deserialize(serialized), gfGrammar);
+		// TODO: set the lang-argument to non-null
+		return new GFDeclaration(GFGrammar.deserialize(serialized), null, gfGrammar);
 	}
+
 
 	public Sentence createAssignmentSentence(Individual ind, Concept concept) {
 		// TODO
 		return null;
 	}
+
 
 	public Sentence createHierarchySentence(Concept subConcept, Concept superConcept) {
 		// TODO

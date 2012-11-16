@@ -4,15 +4,15 @@ import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
 
-public class ParseState {
+public class TreeSet {
 
 	private final ImmutableSet<String> mTrees;
 
-	public ParseState(Iterable<String> trees) {
+	public TreeSet(Iterable<String> trees) {
 		mTrees = ImmutableSet.copyOf(trees);
 	}
 
-	public ParseState(String tree) {
+	public TreeSet(String tree) {
 		mTrees = ImmutableSet.of(tree);
 	}
 

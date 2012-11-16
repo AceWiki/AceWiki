@@ -132,8 +132,8 @@ public class GFGrammar {
 	 * @param serialized The serialized representation
 	 * @return The parse state.
 	 */
-	public static ParseState deserialize(String serialized) {
-		return new ParseState(Splitter.on(GF_TREE_SEPARATOR).split(serialized));
+	public static TreeSet deserialize(String serialized) {
+		return new TreeSet(Splitter.on(GF_TREE_SEPARATOR).split(serialized));
 	}
 
 
@@ -203,7 +203,7 @@ public class GFGrammar {
 	 * @param parseState The parse state.
 	 * @return The serialization.
 	 */
-	public static String serialize(ParseState parseState) {
+	public static String serialize(TreeSet parseState) {
 		return Joiner.on(GF_TREE_SEPARATOR).join(parseState.getTrees());
 	}
 

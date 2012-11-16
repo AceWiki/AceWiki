@@ -36,7 +36,7 @@ import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.gfservice.GFDeclaration;
 import ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine;
 import ch.uzh.ifi.attempto.acewiki.gfservice.GFGrammar;
-import ch.uzh.ifi.attempto.acewiki.gfservice.ParseState;
+import ch.uzh.ifi.attempto.acewiki.gfservice.TreeSet;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
@@ -219,7 +219,7 @@ public class SentenceComponent extends Column implements ActionListener {
 
 					@Override
 					public void execute() {
-						GFDeclaration gfDecl = new GFDeclaration(((GFEngine) engine).getGFGrammar());
+						GFDeclaration gfDecl = new GFDeclaration(wiki.getLanguage(), ((GFEngine) engine).getGFGrammar());
 						Article article = sentence.getArticle();
 						// TODO: understand better why the init-call is needed
 						gfDecl.init(article.getOntology(), article);
@@ -238,9 +238,9 @@ public class SentenceComponent extends Column implements ActionListener {
 
 					@Override
 					public void execute() {
-						ParseState parseState = new ParseState(sentence.getParseTrees());
+						TreeSet parseState = new TreeSet(sentence.getParseTrees());
 						GFGrammar grammar = ((GFEngine) engine).getGFGrammar();
-						GFDeclaration gfDecl = new GFDeclaration(parseState, grammar);
+						GFDeclaration gfDecl = new GFDeclaration(parseState, wiki.getLanguage(), grammar);
 						Article article = sentence.getArticle();
 						// TODO: understand better why the init-call is needed
 						gfDecl.init(article.getOntology(), article);

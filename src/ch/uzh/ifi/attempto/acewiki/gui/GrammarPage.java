@@ -22,14 +22,10 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 
-import nextapp.echo.app.Component;
-import nextapp.echo.app.Font;
 import nextapp.echo.app.Insets;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
-import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.gfservice.GFGrammar;
-import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
 import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultGrammar;
@@ -86,12 +82,12 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 		table3.clear();
 		table4.clear();
 
-		table1.addEntry("Name", getNameComponent(mInfo.getName()));
+		table1.addEntry("Name", GuiUtils.getNameComponent(mWiki, mInfo.getName()));
 		table1.addEntry("Startcat", mInfo.getStartcat());
 		table1.addEntry("Functions", JOINER_COMMA.join(mInfo.getFunctions()));
 
 		for (Entry<String, Set<String>> entry : mInfo.getLanguages().entrySet()) {
-			table2.addEntry(getNameComponent(entry.getKey()), JOINER_SPACE.join(entry.getValue()));
+			table2.addEntry(GuiUtils.getNameComponent(mWiki, entry.getKey()), JOINER_SPACE.join(entry.getValue()));
 		}
 
 		try {
@@ -120,14 +116,4 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 		return TAB_ABOUT_GRAMMAR.equals(tabName);
 	}
 
-
-	private Component getNameComponent(String name) {
-		OntologyElement ol = mWiki.getOntology().getElement(name);
-		if (ol == null) {
-			return new SolidLabel(name, Font.BOLD, 12);
-		}
-		// TODO: we currently use red (i.e. true) just to highlight what is a link.
-		// It would be better to use blue (currently blue appears only during roll-over).
-		return new WikiLink(ol, name, mWiki, true);
-	}
 }

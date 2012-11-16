@@ -1,6 +1,7 @@
 package ch.uzh.ifi.attempto.acewiki.core;
 
 import java.util.List;
+import java.util.Set;
 
 import ch.uzh.ifi.attempto.base.TextContainerSet;
 import ch.uzh.ifi.attempto.base.TextElement;
@@ -49,6 +50,6 @@ public abstract class MultilingualSentence extends AbstractSentence {
 		return null;
 	}
 
-	public abstract List<SentenceDetail> getTranslations(String language);
+	public abstract List<SentenceDetail> getLins(Set<String> excludeLangs);
 
 }

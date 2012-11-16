@@ -2,11 +2,12 @@ package ch.uzh.ifi.attempto.acewiki.gui;
 
 import java.util.List;
 
+import com.google.common.collect.ImmutableSet;
+
 import nextapp.echo.app.Column;
 import nextapp.echo.app.Font;
 import nextapp.echo.app.Insets;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
-import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.MultilingualSentence;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceDetail;
@@ -28,12 +29,11 @@ public class TranslationsPage extends WikiPage {
 
 		addSelectedTab(TAB_TRANSLATIONS);
 
-		String t = LanguageUtils.getPrettyPrinted(sentence.getText(wiki.getLanguage()));
-		add(new Title(t, false));
+		add(new Title(TAB_TRANSLATIONS, false));
 		addHorizontalLine();
 		add(new VSpace(15));
 
-		List<SentenceDetail> l = sentence.getTranslations(wiki.getLanguage());
+		List<SentenceDetail> l = sentence.getLins(ImmutableSet.of(wiki.getLanguage()));
 
 		if (l == null || l.isEmpty()) {
 			Column col = new Column();
@@ -43,6 +43,7 @@ public class TranslationsPage extends WikiPage {
 		} else {
 			for (SentenceDetail si : l) {
 				addHeadline(si.getName());
+				add(GuiUtils.getNameComponent(wiki, si.getName()));
 				Column infoColumn = new Column();
 				infoColumn.setInsets(new Insets(10, 5, 5, 15));
 				infoColumn.add(new DirectHtml(si.getRichText()));

@@ -27,7 +27,6 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.HashMultimap;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 
@@ -44,6 +43,11 @@ import ch.uzh.ifi.attempto.gfservice.GfServiceException;
  * This class represents a declaration statement for the GF AceWiki engine.
  * The "declaration" is a tree set that can be linearized into multiple
  * languages.
+ *
+ * TODO: store also the language in whose context this declaration (treeset) was created,
+ * knowing this can be useful in certain situations
+ *
+ * TODO: move the HTML-formatting out of this class
  * 
  * @author Kaarel Kaljurand
  */
@@ -58,12 +62,14 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	// maps a language identifier to the set of linearizations (text containers) in this language
 	private final Map<String, TextContainerSet> textContainers = new HashMap<String, TextContainerSet>();
 
-	private ParseState mParseState;
+	private TreeSet mTreeSet;
+	private final String mLang;
 
-	public GFDeclaration(GFGrammar gfGrammar) {
+	public GFDeclaration(String lang, GFGrammar gfGrammar) {
 		mGfGrammar = gfGrammar;
+		mLang = lang;
 		try {
-			mParseState = new ParseState(gfGrammar.random());
+			mTreeSet = new TreeSet(gfGrammar.random());
 		} catch (GfServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -73,12 +79,13 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	/**
 	 * Creates a new GF declaration object from a parse state.
 	 * 
-	 * @param parseState The parse state.
+	 * @param treeSet The tree set.
 	 * @param gfGrammar The grammar object.
 	 */
-	public GFDeclaration(ParseState parseState, GFGrammar gfGrammar) {
-		mParseState = parseState;
+	public GFDeclaration(TreeSet treeSet, String lang, GFGrammar gfGrammar) {
+		mTreeSet = treeSet;
 		mGfGrammar = gfGrammar;
+		mLang = lang;
 	}
 
 	/**
@@ -90,12 +97,13 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	 * @param language The language.
 	 * @param gfGrammar The grammar object.
 	 */
-	public GFDeclaration(String text, String language, GFGrammar gfGrammar) {
+	public GFDeclaration(String text, String lang, GFGrammar gfGrammar) {
 		// TODO: quick and ugly hack to be able to move on
 		text = text.replaceAll("([\\.?!])", " $1");
 		mGfGrammar = gfGrammar;
+		mLang = lang;
 		try {
-			mParseState = new ParseState(getGFGrammar().parse(text, language));
+			mTreeSet = new TreeSet(getGFGrammar().parse(text, lang));
 		} catch (GfServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -107,7 +115,7 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 		Set<String> seen = Sets.newHashSet();
 		if (tcs == null) {
 			Set<TextContainer> tmp = new HashSet<TextContainer>();
-			for (String tree : mParseState.getTrees()) {
+			for (String tree : mTreeSet.getTrees()) {
 				Set<String> lins = getLins(tree, language);
 
 				if (lins == null) {
@@ -150,7 +158,6 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	}
 
 
-
 	/**
 	 * TODO
 	 */
@@ -176,7 +183,7 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	public List<SentenceDetail> getDetails(String lang) {
 		List<SentenceDetail> l = new ArrayList<SentenceDetail>();
 
-		for (String tree : mParseState.getTrees()) {
+		for (String tree : mTreeSet.getTrees()) {
 			l.addAll(formatTree(mGfGrammar, tree, lang));
 		}
 
@@ -184,8 +191,8 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	}
 
 
-	public List<SentenceDetail> getTranslations(String lang) {
-		return formatTranslations(mGfGrammar, mParseState, ImmutableSet.of(lang));
+	public List<SentenceDetail> getLins(Set<String> excludeLangs) {
+		return formatTranslations(mGfGrammar, mTreeSet, excludeLangs);
 	}
 
 
@@ -195,12 +202,12 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 
 
 	public int getNumberOfParseTrees() {
-		return mParseState.size();
+		return mTreeSet.size();
 	}
 
 
 	public Set<String> getParseTrees() {
-		return mParseState.getTrees();
+		return mTreeSet.getTrees();
 	}
 
 
@@ -208,7 +215,7 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	}
 
 	public String serialize() {
-		return GFGrammar.serialize(mParseState);
+		return GFGrammar.serialize(mTreeSet);
 	}
 
 	/**
@@ -297,7 +304,10 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	}
 
 
-	private List<SentenceDetail> formatTranslations(GFGrammar grammar, ParseState parseState, Set<String> excludeLangs) {
+	/*
+	 * TODO: highlight the linearization that is in the language mLang
+	 */
+	private List<SentenceDetail> formatTranslations(GFGrammar grammar, TreeSet parseState, Set<String> excludeLangs) {
 		Multimap<String, Set<String>> mm = HashMultimap.create();
 
 		// Creating the map:
@@ -339,6 +349,8 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	}
 
 
+	// TODO: linearize into all the languages at once for better
+	// performance
 	private Set<String> getLins(String tree, String language) {
 		try {
 			return getGFGrammar().linearize(tree, language);
