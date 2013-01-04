@@ -68,7 +68,7 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 	private static final int REF_WIDTH = 753;
 	private static final int REF_WIDTH_GRID = 730;
 	private static final int REF_WIDTH_TEXT = 708;
-	private static final int REF_HEIGHT = 523;
+	private static final int REF_HEIGHT = 524;
 	private static final int REF_HEIGHT_MENU = 240;
 	private static final int REF_HEIGHT_MENU2 = 275;
 

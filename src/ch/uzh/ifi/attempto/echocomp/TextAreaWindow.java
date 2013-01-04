@@ -55,7 +55,7 @@ public class TextAreaWindow extends WindowPane implements ActionListener {
 		setStyleName("Default");
 		
 		Column mainColumn = new Column();
-		mainColumn.setInsets(new Insets(10, 10));
+		mainColumn.setInsets(new Insets(10, 10, 0, 0));
 		mainColumn.setCellSpacing(new Extent(10));
 		
 		textArea = new TextArea();
@@ -65,6 +65,7 @@ public class TextAreaWindow extends WindowPane implements ActionListener {
 		
 		Row buttonBar = new Row();
 		buttonBar.setAlignment(new Alignment(Alignment.RIGHT, Alignment.CENTER));
+		buttonBar.setInsets(new Insets(0, 0, 10, 0));
 		buttonBar.setCellSpacing(new Extent(5));
 		GeneralButton okButton = new GeneralButton("OK", 70, this);
 		buttonBar.add(okButton);
@@ -117,8 +118,8 @@ public class TextAreaWindow extends WindowPane implements ActionListener {
 		if (height < 120) height = 120;
 		setWidth(new Extent(width));
 		setHeight(new Extent(height));
-		textArea.setWidth(new Extent(width - 45));
-		textArea.setHeight(new Extent(height - 105));
+		textArea.setWidth(new Extent(width - 47));
+		textArea.setHeight(new Extent(height - 108));
 	}
 	
 	public void actionPerformed(ActionEvent e) {

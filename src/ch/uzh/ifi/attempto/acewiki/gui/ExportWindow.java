@@ -71,7 +71,7 @@ public class ExportWindow extends WindowPane implements ActionListener {
 		setTitleFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		setModal(true);
 		setWidth(new Extent(420));
-		setHeight(new Extent(200));
+		setHeight(new Extent(205));
 		setResizable(false);
 		setMovable(true);
 		setTitleBackground(Style.windowTitleBackground);
@@ -88,7 +88,7 @@ public class ExportWindow extends WindowPane implements ActionListener {
 		});
 
 		Grid grid = new Grid(1);
-		grid.setInsets(new Insets(10, 10, 10, 0));
+		grid.setInsets(new Insets(10, 10, 0, 0));
 		grid.setColumnWidth(0, new Extent(400));
 		grid.setRowHeight(0, new Extent(110));
 
@@ -122,11 +122,10 @@ public class ExportWindow extends WindowPane implements ActionListener {
 
 		Row buttonBar = new Row();
 		buttonBar.setCellSpacing(new Extent(10));
-		buttonBar.setInsets(new Insets(0, 0, 0, 10));
 		buttonBar.add(new GeneralButton("Export", 80, this));
 		buttonBar.add(new GeneralButton("Cancel", 80, this));
 		GridLayoutData layout2 = new GridLayoutData();
-		layout2.setAlignment(new Alignment(Alignment.CENTER, Alignment.BOTTOM));
+		layout2.setAlignment(new Alignment(Alignment.CENTER, Alignment.TOP));
 		buttonBar.setLayoutData(layout2);
 		grid.add(buttonBar);
 
