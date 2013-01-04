@@ -108,7 +108,7 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 		setTitle(title);
 		setTitleFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		setWidth(new Extent(753));
-		setHeight(new Extent(523));
+		setHeight(new Extent(524));
 		setResizable(false);
 		setTitleBackground(Style.windowTitleBackground);
 		setStyleName("Default");
