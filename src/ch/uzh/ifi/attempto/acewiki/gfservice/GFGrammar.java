@@ -155,6 +155,11 @@ public class GFGrammar {
 
 
 	/**
+	 * <p>This method tries to return a set that contains more than one element, i.e.
+	 * if there is only one (unambiguous) completion then "complete" is automatically
+	 * called again. In this case the result set contains multi-token completions.
+	 * There is a limit of 15 tokens to each completion.</p>
+	 *
 	 * @param cat start category for the parser
 	 * @param tokens list of tokens the last of which is to be completed
 	 * @param language language of the input tokens
@@ -162,7 +167,8 @@ public class GFGrammar {
 	 * @throws GfServiceException
 	 */
 	public Set<String> complete(String cat, List<String> tokens, String language) throws GfServiceException {
-		GfServiceResultComplete result = mGfService.complete(cat, getCompletionInput(tokens), language, null);
+		// Remove the last argument if this behavior turns out to be confusing
+		GfServiceResultComplete result = mGfService.complete(cat, getCompletionInput(tokens), language, null, 15);
 		return result.getCompletions(language);
 	}
 
