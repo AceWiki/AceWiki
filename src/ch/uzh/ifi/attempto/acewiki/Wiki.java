@@ -127,6 +127,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private SmallButton randomButton = new SmallButton("Random Article", this, 12);
 	private SmallButton newButton = new SmallButton("New Word...", this, 12);
 	private SmallButton exportButton = new SmallButton("Export...", this, 12);
+	
+	private List<SmallButton> languageButtons = new ArrayList<SmallButton>();
 
 	private StartPage startPage;
 
@@ -261,9 +263,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 
 		sideCol.add(new VSpace(20));
 
-		SolidLabel label1 = new SolidLabel("Navigation:", Font.ITALIC);
-		label1.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
-		sideCol.add(label1);
+		SolidLabel label = new SolidLabel("Navigation:", Font.ITALIC);
+		label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
+		sideCol.add(label);
 		sideCol.add(new ListItem(homeButton));
 		sideCol.add(new ListItem(indexButton));
 		sideCol.add(new ListItem(searchButton2));
@@ -271,14 +273,29 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		sideCol.add(new ListItem(randomButton));
 
 		sideCol.add(new VSpace(10));
-
-		SolidLabel label2 = new SolidLabel("Actions:", Font.ITALIC);
-		label2.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
-		sideCol.add(label2);
+		label = new SolidLabel("Actions:", Font.ITALIC);
+		label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
+		sideCol.add(label);
 		if (!isReadOnly() && getEngine().getLexicalTypes().length > 0) {
 			sideCol.add(new ListItem(newButton));
 		}
 		sideCol.add(new ListItem(exportButton));
+
+		if (engine.getLanguages().length > 1 && !"off".equals(getParameter("language_switching"))) {
+			// show language switcher
+
+			sideCol.add(new VSpace(10));
+			label = new SolidLabel("Languages:", Font.ITALIC);
+			label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
+			sideCol.add(label);
+			
+			for (String lang : engine.getLanguages()) {
+				SmallButton b = new SmallButton(lang, this, 12);
+				if (lang.equals(language)) b.setEnabled(false);
+				languageButtons.add(b);
+				sideCol.add(new ListItem(b));
+			}
+		}
 
 		externalEventMonitor = new ExternalEventMonitor();
 		externalEventMonitor.addExternalEventListener(this);
@@ -806,6 +823,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			OntologyTextElement te = (OntologyTextElement) src;
 			log("edit", "new word: " + te.getOntologyElement().getWord());
 			showPage(te.getOntologyElement());
+		} else if (languageButtons.contains(src)) {
+			switchLanguage(((SmallButton) src).getText());
 		}
 	}
 
@@ -944,6 +963,20 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 */
 	public String getLanguage() {
 		return language;
+	}
+	
+	/**
+	 * Switches to another language.
+	 * 
+	 * @param language The new language.
+	 */
+	public void switchLanguage(String language) {
+		this.language = language;
+		for (SmallButton b : languageButtons) {
+			b.setEnabled(!b.getText().equals(language));
+		}
+		update();
+		refresh();
 	}
 	
 	/**

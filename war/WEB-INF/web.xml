@@ -332,7 +332,7 @@
   
   <servlet>
   
-    <servlet-name>GFWikiEng</servlet-name>
+    <servlet-name>GFWiki</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     
     <init-param>
@@ -341,52 +341,26 @@
     </init-param>
     
     <!--
-      This parameter defines the language of the frontend instance.
+      This parameter defines the (default) language of the frontend instance.
     -->
     <init-param>
       <param-name>language</param-name>
       <param-value>Eng</param-value>
     </init-param>
     
+    <!--
+      This parameter defines whether users can switch the language. By default, this is on.
+    -->
+    <init-param>
+      <param-name>language_switching</param-name>
+      <param-value>on</param-value>
+    </init-param>
+    
     <init-param>
       <param-name>title</param-name>
-      <param-value>GF Wiki in English</param-value>
+      <param-value>GF Wiki</param-value>
     </init-param>
   
-  </servlet>
-
-  <servlet>
-    <servlet-name>GFWikiGer</servlet-name>
-    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
-    <init-param>
-      <param-name>backend</param-name>
-      <param-value>GFWikiBackend</param-value>
-    </init-param>
-    <init-param>
-      <param-name>language</param-name>
-      <param-value>Ger</param-value>
-    </init-param>
-    <init-param>
-      <param-name>title</param-name>
-      <param-value>GF Wiki in German</param-value>
-    </init-param>
-  </servlet>
-
-  <servlet>
-    <servlet-name>GFWikiIta</servlet-name>
-    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
-    <init-param>
-      <param-name>backend</param-name>
-      <param-value>GFWikiBackend</param-value>
-    </init-param>
-    <init-param>
-      <param-name>language</param-name>
-      <param-value>Ita</param-value>
-    </init-param>
-    <init-param>
-      <param-name>title</param-name>
-      <param-value>GF Wiki in Italian</param-value>
-    </init-param>
   </servlet>
 
 
@@ -477,16 +451,8 @@
     These are the mappings for the multilingual GF engine (experimental).
   -->
   <servlet-mapping>
-    <servlet-name>GFWikiEng</servlet-name>
-    <url-pattern>/gfeng/</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>GFWikiGer</servlet-name>
-    <url-pattern>/gfger/</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>GFWikiIta</servlet-name>
-    <url-pattern>/gfita/</url-pattern>
+    <servlet-name>GFWiki</servlet-name>
+    <url-pattern>/gf/</url-pattern>
   </servlet-mapping>
   
   <!--
@@ -503,7 +469,7 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>GFWikiBackend</servlet-name>
-    <url-pattern>/gf/</url-pattern>
+    <url-pattern>/gf/backend/</url-pattern>
   </servlet-mapping>
   
   <!--
