@@ -147,6 +147,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 
 	private final SmallButton aboutGrammarButton = new SmallButton(LABEL_ABOUT_GRAMMAR, this, 12);
 
+	private List<SmallButton> languageButtons = new ArrayList<SmallButton>();
+
 	private StartPage startPage;
 
 	private Stack<WikiPage> history = new Stack<WikiPage>();
@@ -319,7 +321,19 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		sideCol.add(new SectionTitle("Grammar"));
 		sideCol.add(new ListItem(aboutGrammarButton));
 
-		sideCol.add(new VSpace(10));
+		if (engine.getLanguages().length > 1 && !"off".equals(getParameter("language_switching"))) {
+			// show language switcher
+
+			sideCol.add(new VSpace(10));
+			sideCol.add(new SectionTitle("Languages"));
+			
+			for (String lang : engine.getLanguages()) {
+				SmallButton b = new SmallButton(lang, this, 12);
+				if (lang.equals(language)) b.setEnabled(false);
+				languageButtons.add(b);
+				sideCol.add(new ListItem(b));
+			}
+		}
 
 		externalEventMonitor = new ExternalEventMonitor();
 		externalEventMonitor.addExternalEventListener(this);
@@ -865,6 +879,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			OntologyTextElement te = (OntologyTextElement) src;
 			log("edit", "new word: " + te.getOntologyElement().getWord());
 			showPage(te.getOntologyElement());
+		} else if (languageButtons.contains(src)) {
+			switchLanguage(((SmallButton) src).getText());
 		}
 	}
 
@@ -1005,6 +1021,20 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		return language;
 	}
 
+	/**
+	 * Switches to another language.
+	 * 
+	 * @param language The new language.
+	 */
+	public void switchLanguage(String language) {
+		this.language = language;
+		for (SmallButton b : languageButtons) {
+			b.setEnabled(!b.getText().equals(language));
+		}
+		update();
+		refresh();
+	}
+	
 	/**
 	 * Returns the language handler.
 	 *
