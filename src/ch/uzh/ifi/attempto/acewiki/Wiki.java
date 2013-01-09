@@ -35,7 +35,6 @@ import nextapp.echo.app.Font;
 import nextapp.echo.app.Insets;
 import nextapp.echo.app.ResourceImageReference;
 import nextapp.echo.app.Row;
-import nextapp.echo.app.SelectField;
 import nextapp.echo.app.SplitPane;
 import nextapp.echo.app.TaskQueueHandle;
 import nextapp.echo.app.WindowPane;
@@ -43,7 +42,6 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.layout.ColumnLayoutData;
 import nextapp.echo.webcontainer.ContainerContext;
-import nextapp.echo.webcontainer.command.BrowserRedirectCommand;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiDataExporter;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiEngine;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiStorage;
@@ -65,7 +63,6 @@ import ch.uzh.ifi.attempto.acewiki.gui.FormPane;
 import ch.uzh.ifi.attempto.acewiki.gui.GrammarPage;
 import ch.uzh.ifi.attempto.acewiki.gui.IconButton;
 import ch.uzh.ifi.attempto.acewiki.gui.IndexPage;
-import ch.uzh.ifi.attempto.acewiki.gui.LanguageListModel;
 import ch.uzh.ifi.attempto.acewiki.gui.ListItem;
 import ch.uzh.ifi.attempto.acewiki.gui.LoginWindow;
 import ch.uzh.ifi.attempto.acewiki.gui.SearchPage;
@@ -281,26 +278,6 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		}
 
 		sideCol.add(new VSpace(20));
-
-		// If there are several languages then we add a language switcher, which
-		// currently loads a new URL into the browser.
-		if (engine.getLanguages().length > 1) {
-			final SelectField langSelectField = new SelectField(new LanguageListModel(engine));
-			langSelectField.setSelectedItem(language);
-			langSelectField.addActionListener(new ActionListener() {
-				private static final long serialVersionUID = -3066332579612158783L;
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					String lang = langSelectField.getSelectedItem().toString();
-					String url = getParameter("context:wiki_url") + getParameter("pgf_name") + "/" + lang + "/";
-					ApplicationInstance.getActive().enqueueCommand(new BrowserRedirectCommand(url));
-				}
-			});
-			sideCol.add(langSelectField);
-		}
-
-		sideCol.add(new VSpace(10));
 
 		sideCol.add(new SectionTitle("Navigation"));
 		sideCol.add(new ListItem(homeButton));
