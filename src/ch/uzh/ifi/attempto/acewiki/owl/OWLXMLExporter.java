@@ -40,7 +40,7 @@ public class OWLXMLExporter extends OntologyExporter {
 		this.consistent = consistent;
 	}
 	
-	protected void writeContent() throws IOException {
+	protected void writeContent(String language) throws IOException {
 		AceWikiOWLReasoner owlReasoner = (AceWikiOWLReasoner) getOntology()
 				.getReasoner().getWrappedReasoner();
 		OWLOntology owlOntology = owlReasoner.exportOWLOntology(consistent);

@@ -31,7 +31,7 @@ import ch.uzh.ifi.attempto.ape.LexiconEntry;
  */
 public class ACELexiconExporter extends OntologyExporter {
 	
-	protected void writeContent() throws IOException {
+	protected void writeContent(String language) throws IOException {
 		List<String> lexiconEntries = new ArrayList<String>();
 		for (OntologyElement oe : getOntologyElements()) {
 			if (oe instanceof ACEOWLOntoElement) {

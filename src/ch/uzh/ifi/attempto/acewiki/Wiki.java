@@ -16,6 +16,7 @@ package ch.uzh.ifi.attempto.acewiki;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -179,22 +180,31 @@ public class Wiki implements ActionListener, ExternalEventListener {
 
 		storage = backend.getStorage();
 		ontology = backend.getOntology();
-
 		engine = ontology.getEngine();
+		
+		logger = new Logger(getParameter("context:logdir") + "/" + ontology.getName(), "anon", sessionID);
+		application = (AceWikiApp) ApplicationInstance.getActive();
+		taskQueue = application.createTaskQueue();
+
 		language = getParameter("language");
 		if (language == null || language.equals("")) {
 			language = engine.getLanguages()[0];
 		}
-		logger = new Logger(getParameter("context:logdir") + "/" + ontology.getName(), "anon", sessionID);
-		application = (AceWikiApp) ApplicationInstance.getActive();
-		taskQueue = application.createTaskQueue();
+
+		if (isLanguageSwitchingEnabled()) {
+			String showLang = getURLParameterValue("showlang");
+			if (showLang != null && Arrays.asList(engine.getLanguages()).contains(showLang)) {
+				System.err.println(showLang);
+				language = showLang;
+			}
+		}
 
 		ontologyExportManager = new OntologyExportManager(ontology);
 		for (OntologyExporter o : engine.getExporters()) {
 			ontologyExportManager.addExporter(o);
 		}
 		ontologyExportManager.addExporter(new LexiconTableExporter());
-		ontologyExportManager.addExporter(new StatementTableExporter(language));
+		ontologyExportManager.addExporter(new StatementTableExporter());
 		ontologyExportManager.addExporter(new AceWikiDataExporter());
 
 		SplitPane splitPane1 = new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM);
@@ -305,7 +315,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		sideCol.add(new SectionTitle("Grammar"));
 		sideCol.add(new ListItem(aboutGrammarButton));
 
-		if (engine.getLanguages().length > 1 && !"off".equals(getParameter("language_switching"))) {
+		if (engine.getLanguages().length > 1 && isLanguageSwitchingEnabled()) {
 			// show language switcher
 
 			sideCol.add(new VSpace(10));
@@ -377,14 +387,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			}
 		}
 
-		String p = null;
-		try {
-			p = ((String[]) getContainerContext().getInitialRequestParameterMap()
-					.get("showpage"))[0];
-		} catch (Exception ex) {}
-
-		if (p != null && ontology.getElement(p) != null) {
-			setCurrentPage(ArticlePage.create(ontology.getElement(p), this));
+		String showpage = getURLParameterValue("showpage");
+		if (showpage != null && ontology.getElement(showpage) != null) {
+			setCurrentPage(ArticlePage.create(ontology.getElement(showpage), this));
 		} else {
 			setCurrentPage(startPage);
 		}
@@ -519,6 +524,15 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 */
 	public boolean isReadOnly() {
 		return "on".equals(parameters.get("readonly"));
+	}
+
+	/**
+	 * Returns true if language switching is enabled.
+	 * 
+	 * @return true if language switching is enabled.
+	 */
+	public boolean isLanguageSwitchingEnabled() {
+		return !"off".equals(getParameter("language_switching"));
 	}
 
 	/**
@@ -869,8 +883,15 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	}
 
 	public void externalEvent(ExternalEvent e) {
-		OntologyElement oe = ontology.getElement(e.getParameter("page"));
-		if (oe != null) showPage(oe);
+		String p = e.getParameter("page");
+		if (p != null) {
+			OntologyElement oe = ontology.getElement(e.getParameter("page"));
+			if (oe != null) showPage(oe);
+		}
+		p = e.getParameter("lang");
+		if (p != null &&Arrays.asList(engine.getLanguages()).contains(p)) {
+			switchLanguage(p);
+		}
 	}
 
 	/**
@@ -1137,6 +1158,16 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 */
 	public static ResourceImageReference getImage(String fileName) {
 		return Style.getImage("ch/uzh/ifi/attempto/acewiki/gui/img/" + fileName);
+	}
+	
+	private String getURLParameterValue(String name) {
+		String v = null;
+		try {
+			ContainerContext cc = getContainerContext();
+			String[] values = (String[]) cc.getInitialRequestParameterMap().get(name);
+			v = values[0];
+		} catch (Exception ex) {}
+		return v;
 	}
 
 }

@@ -115,22 +115,29 @@ public class AceWikiServlet extends WebContainerServlet {
 
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws
 			IOException, ServletException {
+		
+		String params = "";
+		String p;
+		boolean hasInternalParams = false;
 
 		// URLs of the form "...?showpage=ArticleName" can be used to access an article directly.
 		// For the internal processing "...?page=ArticleName" is used.
-		String showpageParam = request.getParameter("showpage");
-		if ("".equals(showpageParam)) showpageParam = null;
-		String pageParam = request.getParameter("page");
-		if ("".equals(pageParam)) pageParam = null;
-		String serviceidParam = request.getParameter("sid");
-		if ("".equals(serviceidParam)) serviceidParam = null;
+		p = request.getParameter("showpage");
+		if (p != null) params += "&page=" + p;
+		if (request.getParameter("page") != null) hasInternalParams = true;
 
-		if (!request.getSession().isNew() && showpageParam != null) {
+		// URLs of the form "...?showlang=Language" can be used to access a specific language
+		// version of the wiki. For the internal processing "...?lang=Language" is used.
+		p = request.getParameter("showlang");
+		if (p != null) params += "&lang=" + p;
+		if (request.getParameter("lang") != null) hasInternalParams = true;
+
+		if (!request.getSession().isNew() && params.length() > 0) {
 			response.sendRedirect(
-					response.encodeRedirectURL("?sid=ExternalEvent&page=" + showpageParam)
+					response.encodeRedirectURL("?sid=ExternalEvent" + params)
 				);
 		}
-		if (showpageParam == null && pageParam != null && serviceidParam == null) {
+		if (params.length() == 0 && hasInternalParams && request.getParameter("sid") == null) {
 			response.sendRedirect(response.encodeRedirectURL("."));
 		}
 
