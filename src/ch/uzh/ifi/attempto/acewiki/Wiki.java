@@ -245,18 +245,22 @@ public class Wiki implements ActionListener, ExternalEventListener {
 				);
 		wikiPane.setSeparatorHeight(new Extent(0));
 
-		ContentPane sideBar = new ContentPane();
+		SplitPane sideBar = new SplitPane(
+				SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM,
+				new Extent(170)
+			);
+		sideBar.setSeparatorHeight(new Extent(0));
 		sideBar.setBackground(Style.shadedBackground);
-		Column sideCol = new Column();
-		sideCol.setInsets(new Insets(10, 10));
-		sideCol.setCellSpacing(new Extent(1));
+		Column iconCol = new Column();
+		iconCol.setInsets(new Insets(10, 10, 10, 0));
+		iconCol.setCellSpacing(new Extent(1));
 
 		Label logo = new Label(new ResourceImageReference(
 				"ch/uzh/ifi/attempto/acewiki/gui/img/AceWikiLogoSmall.png"
 				));
-		sideCol.add(logo);
+		iconCol.add(logo);
 
-		sideCol.add(new VSpace(10));
+		iconCol.add(new VSpace(10));
 
 		ColumnLayoutData layout = new ColumnLayoutData();
 		layout.setAlignment(Alignment.ALIGN_CENTER);
@@ -264,20 +268,23 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		String title = getParameter("title");
 		if (title != null && title.length() > 0) {
 			Label titleLabel = new Label(title, Font.ITALIC, 14);
-			sideCol.add(titleLabel);
+			iconCol.add(titleLabel);
 			titleLabel.setLayoutData(layout);
-			sideCol.add(new VSpace(5));
+			iconCol.add(new VSpace(5));
 		}
 
 		if (isReadOnly()) {
 			SolidLabel rolabel = new SolidLabel("— READ ONLY —", Font.ITALIC);
 			rolabel.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
 			rolabel.setLayoutData(layout);
-			sideCol.add(rolabel);
-			sideCol.add(new VSpace(5));
+			iconCol.add(rolabel);
 		}
-
-		sideCol.add(new VSpace(20));
+		
+		sideBar.add(iconCol);
+		
+		Column sideCol = new Column();
+		sideCol.setInsets(new Insets(10, 0, 0, 10));
+		sideCol.setCellSpacing(new Extent(1));
 
 		sideCol.add(new SectionTitle("Navigation"));
 		sideCol.add(new ListItem(homeButton));
