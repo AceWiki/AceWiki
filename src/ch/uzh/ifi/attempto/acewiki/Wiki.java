@@ -155,7 +155,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	/**
 	 * Creates a new wiki instance.
 	 *
-     * @param backend The backend object contains ontology of the wiki.
+     * @param backend The backend object.
 	 * @param parameters A set of parameters in the form of name/value pairs.
 	 * @param sessionID The session id.
 	 */
@@ -178,7 +178,6 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		if (isLanguageSwitchingEnabled()) {
 			String showLang = getURLParameterValue("showlang");
 			if (showLang != null && Arrays.asList(engine.getLanguages()).contains(showLang)) {
-				System.err.println(showLang);
 				language = showLang;
 			}
 		}
