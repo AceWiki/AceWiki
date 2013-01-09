@@ -178,7 +178,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			ontologyExportManager.addExporter(o);
 		}
 		ontologyExportManager.addExporter(new LexiconTableExporter());
-		ontologyExportManager.addExporter(new StatementTableExporter(language));
+		ontologyExportManager.addExporter(new StatementTableExporter());
 		ontologyExportManager.addExporter(new AceWikiDataExporter());
 
 		SplitPane splitPane1 = new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM);
@@ -362,14 +362,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			}
 		}
 
-		String p = null;
-		try {
-			p = ((String[]) getContainerContext().getInitialRequestParameterMap()
-					.get("showpage"))[0];
-		} catch (Exception ex) {}
-
-		if (p != null && ontology.getElement(p) != null) {
-			setCurrentPage(ArticlePage.create(ontology.getElement(p), this));
+		String showpage = getURLParameterValue("showpage");
+		if (showpage != null && ontology.getElement(showpage) != null) {
+			setCurrentPage(ArticlePage.create(ontology.getElement(showpage), this));
 		} else {
 			setCurrentPage(startPage);
 		}
@@ -1104,6 +1099,16 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 */
 	public static ResourceImageReference getImage(String fileName) {
 		return Style.getImage("ch/uzh/ifi/attempto/acewiki/gui/img/" + fileName);
+	}
+	
+	private String getURLParameterValue(String name) {
+		String v = null;
+		try {
+			ContainerContext cc = getContainerContext();
+			String[] values = (String[]) cc.getInitialRequestParameterMap().get(name);
+			v = values[0];
+		} catch (Exception ex) {}
+		return v;
 	}
 
 }

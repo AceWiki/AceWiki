@@ -40,7 +40,7 @@ public class ACETextExporter extends OntologyExporter {
 		this.consistent = consistent;
 	}
 	
-	protected void writeContent() throws IOException {
+	protected void writeContent(String language) throws IOException {
 		List<OntologyElement> elements = getOntologyElements();
 		LanguageUtils.sortOntologyElements(elements);
 		for (OntologyElement oe : elements) {

@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class LexiconTableExporter extends OntologyExporter {
 	
-	protected void writeContent() throws IOException {
+	protected void writeContent(String language) throws IOException {
 		write("TYPE,HEADWORDS,SERIALIZED\n");
 		List<OntologyElement> elements = getOntologyElements();
 		LanguageUtils.sortOntologyElements(elements);

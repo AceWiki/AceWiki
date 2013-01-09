@@ -153,7 +153,7 @@ public class ExportWindow extends WindowPane implements ActionListener {
 				}
 
 				public void writeFile(OutputStream out) throws IOException {
-					exporter.export(out);
+					exporter.export(out, wiki.getLanguage());
 				}
 				
 			};

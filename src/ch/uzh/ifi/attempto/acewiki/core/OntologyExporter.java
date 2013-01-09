@@ -46,11 +46,12 @@ public abstract class OntologyExporter {
 	 * Writes the export content into the given output stream. The stream is closed at the end.
 	 * 
 	 * @param outputStream The output stream.
+	 * @param language The language used for exporting (ignored by many exporters).
 	 */
-	public void export(OutputStream outputStream) {
+	public void export(OutputStream outputStream, String language) {
 		this.outputStream = outputStream;
 		try {
-			writeContent();
+			writeContent(language);
 			if (writer != null) writer.close();
 			outputStream.close();
 			this.writer = null;
@@ -77,9 +78,10 @@ public abstract class OntologyExporter {
 	/**
 	 * This internal method should write the export content.
 	 * 
+	 * @param language The current language.
 	 * @throws IOException when an IO problem occurs.
 	 */
-	protected abstract void writeContent() throws IOException;
+	protected abstract void writeContent(String language) throws IOException;
 	
 	/**
 	 * Returns the file suffix for the given export type.

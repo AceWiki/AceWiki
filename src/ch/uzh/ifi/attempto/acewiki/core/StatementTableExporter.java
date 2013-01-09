@@ -24,18 +24,13 @@ import java.util.List;
  */
 public class StatementTableExporter extends OntologyExporter {
 	
-	private String language;
-	
 	/**
-	 * Creates a statement table exporter in the given language.
-	 * 
-	 * @param language The language.
+	 * Creates a statement table exporter.
 	 */
-	public StatementTableExporter(String language) {
-		this.language = language;
+	public StatementTableExporter() {
 	}
 	
-	protected void writeContent() throws IOException {
+	protected void writeContent(String language) throws IOException {
 		write("PAGE,TYPE,TEXT\n");
 		List<OntologyElement> elements = getOntologyElements();
 		LanguageUtils.sortOntologyElements(elements);
