@@ -16,6 +16,7 @@ package ch.uzh.ifi.attempto.acewiki;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -163,15 +164,24 @@ public class Wiki implements ActionListener, ExternalEventListener {
 
         storage = backend.getStorage();
 		ontology = backend.getOntology();
-
 		engine = ontology.getEngine();
+		
+		logger = new Logger(getParameter("context:logdir") + "/" + ontology.getName(), "anon", sessionID);
+		application = (AceWikiApp) ApplicationInstance.getActive();
+		taskQueue = application.createTaskQueue();
+
 		language = getParameter("language");
 		if (language == null || language.equals("")) {
 			language = engine.getLanguages()[0];
 		}
-		logger = new Logger(getParameter("context:logdir") + "/" + ontology.getName(), "anon", sessionID);
-		application = (AceWikiApp) ApplicationInstance.getActive();
-		taskQueue = application.createTaskQueue();
+
+		if (isLanguageSwitchingEnabled()) {
+			String showLang = getURLParameterValue("showlang");
+			if (showLang != null && Arrays.asList(engine.getLanguages()).contains(showLang)) {
+				System.err.println(showLang);
+				language = showLang;
+			}
+		}
 
 		ontologyExportManager = new OntologyExportManager(ontology);
 		for (OntologyExporter o : engine.getExporters()) {
@@ -288,7 +298,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		}
 		sideCol.add(new ListItem(exportButton));
 
-		if (engine.getLanguages().length > 1 && !"off".equals(getParameter("language_switching"))) {
+		if (engine.getLanguages().length > 1 && isLanguageSwitchingEnabled()) {
 			// show language switcher
 
 			sideCol.add(new VSpace(10));
@@ -499,6 +509,15 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 */
 	public boolean isReadOnly() {
 		return "on".equals(parameters.get("readonly"));
+	}
+
+	/**
+	 * Returns true if language switching is enabled.
+	 * 
+	 * @return true if language switching is enabled.
+	 */
+	public boolean isLanguageSwitchingEnabled() {
+		return !"off".equals(getParameter("language_switching"));
 	}
 
 	/**
@@ -831,8 +850,15 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	}
 
 	public void externalEvent(ExternalEvent e) {
-		OntologyElement oe = ontology.getElement(e.getParameter("page"));
-		if (oe != null) showPage(oe);
+		String p = e.getParameter("page");
+		if (p != null) {
+			OntologyElement oe = ontology.getElement(e.getParameter("page"));
+			if (oe != null) showPage(oe);
+		}
+		p = e.getParameter("lang");
+		if (p != null &&Arrays.asList(engine.getLanguages()).contains(p)) {
+			switchLanguage(p);
+		}
 	}
 
 	/**
