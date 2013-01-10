@@ -109,7 +109,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private WikiPage currentPage;
 	private Column pageCol;
 	private ContentPane contentPane = new ContentPane();
-	private Row navigationButtons = new Row();
+	private Row navigationButtons;
 	private Logger logger;
 	private SplitPane wikiPane;
 	private Row loginBackground;
@@ -131,7 +131,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private SmallButton newButton = new SmallButton("New Word...", this, 12);
 	private SmallButton exportButton = new SmallButton("Export...", this, 12);
 	
-	private List<SmallButton> languageButtons = new ArrayList<SmallButton>();
+	private List<SmallButton> languageButtons;
 
 	private StartPage startPage;
 
@@ -193,6 +193,89 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		ontologyExportManager.addExporter(new LexiconTableExporter());
 		ontologyExportManager.addExporter(new StatementTableExporter());
 		ontologyExportManager.addExporter(new AceWikiDataExporter());
+		
+		buildContentPane();
+
+		userLabel.setForeground(Color.DARKGRAY);
+		logoutButton.setVisible(false);
+
+		startPage = new StartPage(this);
+
+		// auto login
+		if (isLoginEnabled()) {
+			String userName = getCookie("lastusername");
+			boolean stayLoggedIn = getCookie("stayloggedin").equals("true");
+			if (getUserBase().containsUser(userName) && stayLoggedIn) {
+				String clientToken = getCookie("stayloggedintoken");
+				if (clientToken.length() > 0) {
+					log("syst", "try auto login...");
+					user = getUserBase().autoLogin(userName, clientToken);
+					if (user != null) {
+						log("syst", "auto login successful: " + user.getName());
+						setUser(user);
+					} else {
+						log("syst", "auto login failed: " + userName);
+						clearCookie("stayloggedintoken");
+					}
+				}
+			}
+		}
+
+		String showpage = getURLParameterValue("showpage");
+		if (showpage != null && ontology.getElement(showpage) != null) {
+			setCurrentPage(ArticlePage.create(ontology.getElement(showpage), this));
+		} else {
+			setCurrentPage(startPage);
+		}
+
+		// This thread checks regularly for pending tasks and executes them. Strong tasks take
+		// precedence over weak ones.
+		Thread asyncThread = new Thread() {
+
+			public void run() {
+				while (true) {
+					try {
+						sleep(500);
+					} catch (InterruptedException ex) {}
+
+					if (disposed) {
+						break;
+					}
+
+					Task task = null;
+					if (strongTasks.size() > 0) {
+						task = strongTasks.remove(0);
+					} else if (weakTasks.size() > 0) {
+						task = weakTasks.remove(0);
+					}
+
+					final Task fTask = task;
+					if (fTask != null) {
+						task.run();
+						application.enqueueTask(taskQueue, new Runnable() {
+							public synchronized void run() {
+								fTask.updateGUI();
+								if (waitWindow != null) {
+									removeWindow(waitWindow);
+									waitWindow = null;
+								}
+							}
+						});
+					}
+				}
+			}
+
+		};
+		asyncThread.setPriority(Thread.MIN_PRIORITY);
+		asyncThread.start();
+
+		update();
+	}
+	
+	private void buildContentPane() {
+		if (loginBackground != null) return;
+		
+		contentPane.removeAll();
 
 		SplitPane splitPane1 = new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM);
 		splitPane1.setSeparatorPosition(new Extent(50));
@@ -202,6 +285,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		splitPane2.setSeparatorPosition(new Extent(215));
 		splitPane2.setSeparatorWidth(new Extent(0));
 
+		navigationButtons = new Row();
 		navigationButtons.setInsets(new Insets(5));
 		navigationButtons.setBackground(Style.shadedBackground);
 
@@ -214,9 +298,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		Row userRow = new Row();
 		userRow.add(userButton);
 		userRow.add(new HSpace(3));
-		userLabel.setForeground(Color.DARKGRAY);
 		userRow.add(userLabel);
-		logoutButton.setVisible(false);
 		userRow.add(logoutButton);
 		userRow.setVisible(isLoginEnabled());
 		navigationButtons.add(userRow);
@@ -309,6 +391,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
 			sideCol.add(label);
 			
+			languageButtons = new ArrayList<SmallButton>();
+			
 			for (String lang : engine.getLanguages()) {
 				SmallButton b = new SmallButton(lang, this, 12);
 				if (lang.equals(language)) b.setEnabled(false);
@@ -317,6 +401,10 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			}
 		}
 
+		if (externalEventMonitor != null) {
+			externalEventMonitor.removeExternalEventListener(this);
+			externalEventMonitor.dispose();
+		}
 		externalEventMonitor = new ExternalEventMonitor();
 		externalEventMonitor.addExternalEventListener(this);
 		sideCol.add(externalEventMonitor);
@@ -352,78 +440,6 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		wikiPane.add(splitPane1);
 
 		contentPane.add(wikiPane);
-
-		startPage = new StartPage(this);
-
-		// auto login
-		if (isLoginEnabled()) {
-			String userName = getCookie("lastusername");
-			boolean stayLoggedIn = getCookie("stayloggedin").equals("true");
-			if (getUserBase().containsUser(userName) && stayLoggedIn) {
-				String clientToken = getCookie("stayloggedintoken");
-				if (clientToken.length() > 0) {
-					log("syst", "try auto login...");
-					user = getUserBase().autoLogin(userName, clientToken);
-					if (user != null) {
-						log("syst", "auto login successful: " + user.getName());
-						setUser(user);
-					} else {
-						log("syst", "auto login failed: " + userName);
-						clearCookie("stayloggedintoken");
-					}
-				}
-			}
-		}
-
-		String showpage = getURLParameterValue("showpage");
-		if (showpage != null && ontology.getElement(showpage) != null) {
-			setCurrentPage(ArticlePage.create(ontology.getElement(showpage), this));
-		} else {
-			setCurrentPage(startPage);
-		}
-
-		// This thread checks regularly for pending tasks and executes them. Strong tasks take
-		// precedence over weak ones.
-		Thread asyncThread = new Thread() {
-
-			public void run() {
-				while (true) {
-					try {
-						sleep(500);
-					} catch (InterruptedException ex) {}
-
-					if (disposed) {
-						break;
-					}
-
-					Task task = null;
-					if (strongTasks.size() > 0) {
-						task = strongTasks.remove(0);
-					} else if (weakTasks.size() > 0) {
-						task = weakTasks.remove(0);
-					}
-
-					final Task fTask = task;
-					if (fTask != null) {
-						task.run();
-						application.enqueueTask(taskQueue, new Runnable() {
-							public synchronized void run() {
-								fTask.updateGUI();
-								if (waitWindow != null) {
-									removeWindow(waitWindow);
-									waitWindow = null;
-								}
-							}
-						});
-					}
-				}
-			}
-
-		};
-		asyncThread.setPriority(Thread.MIN_PRIORITY);
-		asyncThread.start();
-
-		update();
 	}
 
 	/**
@@ -801,6 +817,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			}
 		} else if (src == refreshButton) {
 			log("page", "pressed: refresh");
+			buildContentPane();
 			update();
 			refresh();
 		} else if (src == newButton) {
@@ -919,7 +936,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 *
 	 * @param user The user.
 	 */
-	public void setUser(User user) {
+	private void setUser(User user) {
 		this.user = user;
 		logger.setUsername(user.getName());
 		userLabel.setForeground(Color.BLACK);
@@ -1016,6 +1033,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			b.setEnabled(!b.getText().equals(language));
 		}
 		application.setLocale(getLanguageHandler().getLocale());
+		buildContentPane();
 		update();
 		refresh();
 	}
