@@ -41,8 +41,11 @@ public class IndexPage extends WikiPage implements ActionListener {
 	private static final long serialVersionUID = 6061966610996079528L;
 	
 	private static final int pageSize = 50;
-	
-	private String chosenChar = "A";
+
+	// Group by first letter if there are more then this number of articles:
+	private static final int simpleViewSize = 100;
+
+	private String chosenChar = "";
 	private int chosenPage = 0;
 	private HashMap<String, OntologyElement> entries = new HashMap<String, OntologyElement>();
 	
@@ -67,8 +70,11 @@ public class IndexPage extends WikiPage implements ActionListener {
 		addHorizontalLine();
 		add(new VSpace(20));
 		
-		letterIndexBar = new IndexBar("First letter:", this);
-		add(letterIndexBar);
+		if (getWiki().getOntologyElements().size() > simpleViewSize) {
+			chosenChar = "A";
+			letterIndexBar = new IndexBar("First letter:", this);
+			add(letterIndexBar);
+		}
 		
 		numberIndexBar = new IndexBar("Page:", 0, this);
 		add(numberIndexBar);
