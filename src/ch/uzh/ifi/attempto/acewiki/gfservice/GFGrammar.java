@@ -1,5 +1,5 @@
 // This file is part of AceWiki.
-// Copyright 2008-2012, AceWiki developers.
+// Copyright 2008-2013, AceWiki developers.
 //
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
@@ -67,10 +67,7 @@ public class GFGrammar {
 	private final String mCat;
 	private final String mDir;
 
-	// List of languages, i.e. concrete language modules.
-	// This is instantiated/finalized at construction-time.
-	// TODO: allow languages to be added and removed during wiki runtime
-	private final Set<String> mLanguages;
+	private GfServiceResultGrammar mGfServiceResultGrammar;
 
 	private final Map<String, Set<String>> mCacheCatProducers = Maps.newHashMap();
 	private final Map<String, Set<String>> mCacheCatConsumers = Maps.newHashMap();
@@ -84,12 +81,18 @@ public class GFGrammar {
 		mGfStorage = new GfWebStorage(serviceUri);
 		mCat = cat;
 		mDir = getDir(pgfName);
-		mLanguages = makeLanguages();
+
+		try {
+			refreshGrammarInfo();
+		} catch (GfServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 
-	public GfServiceResultGrammar getGrammar() throws GfServiceException {
-		return mGfService.grammar();
+	public GfServiceResultGrammar getGrammar() {
+		return mGfServiceResultGrammar;
 	}
 
 
@@ -97,7 +100,10 @@ public class GFGrammar {
 	 * @return set of names of the concrete languages defined in the grammar
 	 */
 	public Set<String> getLanguages() {
-		return mLanguages;
+		if (mGfServiceResultGrammar == null) {
+			return Collections.emptySet();
+		}
+		return mGfServiceResultGrammar.getLanguages().keySet();
 	}
 
 
@@ -229,19 +235,50 @@ public class GFGrammar {
 	 * @throws GfServiceException
 	 */
 	public GfStorageResult integrateGfModule(GfModule gfModule) throws GfServiceException {
-		// If the module is a concrete syntax module then
-		// update it in the context of other concrete modules.
-		if (mLanguages.contains(gfModule.getName())) {
-			return mGfStorage.update(mDir, mCat, OPTIMIZE_PGF, mLanguages, gfModule);
+		Set<String> languages = getLanguages();
+		GfStorageResult result = null;
+		if (isToplevelModule(gfModule, languages)) {
+			// If the module is a (toplevel) concrete syntax module then
+			// update it in the context of other concrete modules.
+			result = mGfStorage.update(mDir, mCat, OPTIMIZE_PGF, languages, gfModule);
+		} else {
+			// Otherwise just upload it and recompile the existing concrete modules.
+			mGfStorage.upload(mDir, gfModule);
+			result = mGfStorage.update(mDir, mCat, OPTIMIZE_PGF, languages);
 		}
-		// Otherwise just upload it and recompile the existing concrete modules.
-		mGfStorage.upload(mDir, gfModule);
-		return mGfStorage.update(mDir, mCat, OPTIMIZE_PGF, mLanguages);
+		if (result != null && result.isSuccess()) {
+			refreshGrammarInfo();
+		}
+		return result;
 	}
 
 
 	public boolean isGrammarEditable() {
 		return ! (mDir == null);
+	}
+
+
+	/**
+	 * True if the module is a concrete syntax module which no other
+	 * module imports. We check if the module name has the form
+	 * {@code GrammarLan}. This covers also modules
+	 * which were added after the wiki was started up. The previous
+	 * technique {@code languages.contains(gfModule.getName())} did not
+	 * cover the new modules.
+	 */
+	private boolean isToplevelModule(GfModule gfModule, Set<String> languages) {
+		String moduleName = gfModule.getName();
+		if (languages.contains(moduleName)) {
+			return true;
+		}
+		if (mGfServiceResultGrammar == null) {
+			return false;
+		}
+		String grammarName = mGfServiceResultGrammar.getName();
+		return (
+				moduleName.startsWith(grammarName) &&
+				moduleName.length() >= grammarName.length() + 3 &&
+				Character.isUpperCase(moduleName.charAt(grammarName.length())));
 	}
 
 
@@ -264,14 +301,8 @@ public class GFGrammar {
 	}
 
 
-	private Set<String> makeLanguages() {
-		try {
-			return mGfService.grammar().getLanguages().keySet();
-		} catch (GfServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return Collections.emptySet();
+	private void refreshGrammarInfo() throws GfServiceException {
+		mGfServiceResultGrammar = mGfService.grammar();
 	}
 
 

@@ -43,7 +43,7 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 	private final GfServiceResultGrammar mInfo;
 	private final Wiki mWiki;
 
-	public GrammarPage(Wiki wiki, GFGrammar grammar) throws GfServiceException {
+	public GrammarPage(Wiki wiki, GFGrammar grammar) {
 		super(wiki);
 		mWiki = wiki;
 
@@ -77,6 +77,9 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 	}
 
 	protected void doUpdate() {
+		if (mInfo == null) {
+			return;
+		}
 		table1.clear();
 		table2.clear();
 		table3.clear();
