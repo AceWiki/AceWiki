@@ -15,6 +15,7 @@
 package ch.uzh.ifi.attempto.acewiki.core;
 
 import java.util.List;
+import java.util.Locale;
 
 import ch.uzh.ifi.attempto.base.PredictiveParser;
 import ch.uzh.ifi.attempto.base.TextContainer;
@@ -47,6 +48,13 @@ public interface LanguageHandler {
 	 * @return The name of the language or null.
 	 */
 	public String getLanguage();
+
+	/**
+	 * Returns the locale for this language handler.
+	 * 
+	 * @return The locale.
+	 */
+	public Locale getLocale();
 	
 	/**
 	 * Extracts the sentences from a text container and/or a parser state.

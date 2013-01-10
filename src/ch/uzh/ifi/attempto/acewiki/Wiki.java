@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
@@ -71,11 +72,11 @@ import ch.uzh.ifi.attempto.acewiki.gui.StartPage;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.acewiki.gui.UserWindow;
 import ch.uzh.ifi.attempto.acewiki.gui.WikiPage;
+import ch.uzh.ifi.attempto.base.LocaleResources;
 import ch.uzh.ifi.attempto.base.Logger;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
-import ch.uzh.ifi.attempto.echocomp.SectionTitle;
 import ch.uzh.ifi.attempto.echocomp.SmallButton;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.Style;
@@ -121,7 +122,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private WikiPage currentPage;
 	private Column pageCol;
 	private ContentPane contentPane = new ContentPane();
-	private Row navigationButtons = new Row();
+	private Row navigationButtons;
 	private Logger logger;
 	private SplitPane wikiPane;
 	private Row loginBackground;
@@ -145,7 +146,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 
 	private final SmallButton aboutGrammarButton = new SmallButton(LABEL_ABOUT_GRAMMAR, this, 12);
 
-	private List<SmallButton> languageButtons = new ArrayList<SmallButton>();
+	private List<SmallButton> languageButtons;
 
 	private StartPage startPage;
 
@@ -198,6 +199,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			}
 		}
 
+		application.setLocale(getLanguageHandler().getLocale());
+
 		ontologyExportManager = new OntologyExportManager(ontology);
 		for (OntologyExporter o : engine.getExporters()) {
 			ontologyExportManager.addExporter(o);
@@ -205,164 +208,11 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		ontologyExportManager.addExporter(new LexiconTableExporter());
 		ontologyExportManager.addExporter(new StatementTableExporter());
 		ontologyExportManager.addExporter(new AceWikiDataExporter());
+		
+		buildContentPane();
 
-		SplitPane splitPane1 = new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM);
-		splitPane1.setSeparatorPosition(new Extent(50));
-		splitPane1.setSeparatorHeight(new Extent(0));
-
-		SplitPane splitPane2 = new SplitPane(SplitPane.ORIENTATION_HORIZONTAL_RIGHT_LEFT);
-		splitPane2.setSeparatorPosition(new Extent(215));
-		splitPane2.setSeparatorWidth(new Extent(0));
-
-		navigationButtons.setInsets(new Insets(5));
-		navigationButtons.setBackground(Style.shadedBackground);
-
-		navigationButtons.add(backButton);
-		navigationButtons.add(new HSpace(5));
-		navigationButtons.add(forwardButton);
-		navigationButtons.add(new HSpace(5));
-		navigationButtons.add(refreshButton);
-		navigationButtons.add(new HSpace(30));
-		Row userRow = new Row();
-		userRow.add(userButton);
-		userRow.add(new HSpace(3));
 		userLabel.setForeground(Color.DARKGRAY);
-		userRow.add(userLabel);
 		logoutButton.setVisible(false);
-		userRow.add(logoutButton);
-		userRow.setVisible(isLoginEnabled());
-		navigationButtons.add(userRow);
-
-		ContentPane menuBar = new ContentPane();
-		menuBar.setBackground(Style.shadedBackground);
-		menuBar.add(navigationButtons);
-
-		Row searchRow = new Row();
-		searchRow.setInsets(new Insets(5));
-		searchRow.setBackground(Style.shadedBackground);
-		searchRow.add(searchButton);
-		searchRow.add(new HSpace(5));
-		searchRow.add(searchTextField);
-
-		ContentPane searchBar = new ContentPane();
-		searchBar.setBackground(Style.shadedBackground);
-		searchBar.add(searchRow);
-
-		wikiPane = new SplitPane(
-				SplitPane.ORIENTATION_HORIZONTAL_LEFT_RIGHT,
-				new Extent(145)
-				);
-		wikiPane.setSeparatorHeight(new Extent(0));
-
-		SplitPane sideBar = new SplitPane(
-				SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM,
-				new Extent(170)
-			);
-		sideBar.setSeparatorHeight(new Extent(0));
-		sideBar.setBackground(Style.shadedBackground);
-		Column iconCol = new Column();
-		iconCol.setInsets(new Insets(10, 10, 10, 0));
-		iconCol.setCellSpacing(new Extent(1));
-
-		Label logo = new Label(new ResourceImageReference(
-				"ch/uzh/ifi/attempto/acewiki/gui/img/AceWikiLogoSmall.png"
-				));
-		iconCol.add(logo);
-
-		iconCol.add(new VSpace(10));
-
-		ColumnLayoutData layout = new ColumnLayoutData();
-		layout.setAlignment(Alignment.ALIGN_CENTER);
-
-		String title = getParameter("title");
-		if (title != null && title.length() > 0) {
-			Label titleLabel = new Label(title, Font.ITALIC, 14);
-			iconCol.add(titleLabel);
-			titleLabel.setLayoutData(layout);
-			iconCol.add(new VSpace(5));
-		}
-
-		if (isReadOnly()) {
-			SolidLabel rolabel = new SolidLabel("— READ ONLY —", Font.ITALIC);
-			rolabel.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
-			rolabel.setLayoutData(layout);
-			iconCol.add(rolabel);
-		}
-		
-		sideBar.add(iconCol);
-		
-		Column sideCol = new Column();
-		sideCol.setInsets(new Insets(10, 0, 0, 10));
-		sideCol.setCellSpacing(new Extent(1));
-
-		sideCol.add(new SectionTitle("Navigation"));
-		sideCol.add(new ListItem(homeButton));
-		sideCol.add(new ListItem(indexButton));
-		sideCol.add(new ListItem(searchButton2));
-		sideCol.add(new ListItem(aboutButton));
-		sideCol.add(new ListItem(randomButton));
-
-		sideCol.add(new VSpace(10));
-		sideCol.add(new SectionTitle("Actions"));
-		if (!isReadOnly() && getEngine().getLexicalTypes().length > 0) {
-			sideCol.add(new ListItem(newButton));
-		}
-
-		sideCol.add(new ListItem(exportButton));
-
-		sideCol.add(new VSpace(10));
-		sideCol.add(new SectionTitle("Grammar"));
-		sideCol.add(new ListItem(aboutGrammarButton));
-
-		if (engine.getLanguages().length > 1 && isLanguageSwitchingEnabled()) {
-			// show language switcher
-
-			sideCol.add(new VSpace(10));
-			sideCol.add(new SectionTitle("Languages"));
-			
-			for (String lang : engine.getLanguages()) {
-				SmallButton b = new SmallButton(lang, this, 12);
-				if (lang.equals(language)) b.setEnabled(false);
-				languageButtons.add(b);
-				sideCol.add(new ListItem(b));
-			}
-		}
-
-		externalEventMonitor = new ExternalEventMonitor();
-		externalEventMonitor.addExternalEventListener(this);
-		sideCol.add(externalEventMonitor);
-
-		//sideCol.add(new VSpace(20));
-		//sideCol.add(new ItalicLabel("Session ID: " + sessionID));
-
-		sideBar.add(sideCol);
-
-		SplitPane splitPane3 = new SplitPane(SplitPane.ORIENTATION_HORIZONTAL_LEFT_RIGHT);
-		splitPane3.setSeparatorWidth(new Extent(1));
-		splitPane3.setSeparatorColor(Color.BLACK);
-		splitPane3.setSeparatorPosition(new Extent(0));
-		splitPane3.add(new Label());
-
-		SplitPane splitPane4 = new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM);
-		splitPane4.setSeparatorHeight(new Extent(1));
-		splitPane4.setSeparatorColor(Color.BLACK);
-		splitPane4.setSeparatorPosition(new Extent(0));
-		splitPane4.add(new Label());
-
-		splitPane3.add(splitPane4);
-		pageCol = new Column();
-		splitPane4.add(pageCol);
-
-		splitPane2.add(searchBar);
-		splitPane2.add(menuBar);
-
-		splitPane1.add(splitPane2);
-		splitPane1.add(splitPane3);
-
-		wikiPane.add(sideBar);
-		wikiPane.add(splitPane1);
-
-		contentPane.add(wikiPane);
 
 		startPage = new StartPage(this);
 
@@ -435,6 +285,176 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		asyncThread.start();
 
 		update();
+	}
+	
+	private void buildContentPane() {
+		if (loginBackground != null) return;
+		
+		contentPane.removeAll();
+
+		SplitPane splitPane1 = new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM);
+		splitPane1.setSeparatorPosition(new Extent(50));
+		splitPane1.setSeparatorHeight(new Extent(0));
+
+		SplitPane splitPane2 = new SplitPane(SplitPane.ORIENTATION_HORIZONTAL_RIGHT_LEFT);
+		splitPane2.setSeparatorPosition(new Extent(215));
+		splitPane2.setSeparatorWidth(new Extent(0));
+
+		navigationButtons = new Row();
+		navigationButtons.setInsets(new Insets(5));
+		navigationButtons.setBackground(Style.shadedBackground);
+
+		navigationButtons.add(backButton);
+		navigationButtons.add(new HSpace(5));
+		navigationButtons.add(forwardButton);
+		navigationButtons.add(new HSpace(5));
+		navigationButtons.add(refreshButton);
+		navigationButtons.add(new HSpace(30));
+		Row userRow = new Row();
+		userRow.add(userButton);
+		userRow.add(new HSpace(3));
+		userRow.add(userLabel);
+		userRow.add(logoutButton);
+		userRow.setVisible(isLoginEnabled());
+		navigationButtons.add(userRow);
+
+		ContentPane menuBar = new ContentPane();
+		menuBar.setBackground(Style.shadedBackground);
+		menuBar.add(navigationButtons);
+
+		Row searchRow = new Row();
+		searchRow.setInsets(new Insets(5));
+		searchRow.setBackground(Style.shadedBackground);
+		searchRow.add(searchButton);
+		searchRow.add(new HSpace(5));
+		searchRow.add(searchTextField);
+
+		ContentPane searchBar = new ContentPane();
+		searchBar.setBackground(Style.shadedBackground);
+		searchBar.add(searchRow);
+
+		wikiPane = new SplitPane(
+				SplitPane.ORIENTATION_HORIZONTAL_LEFT_RIGHT,
+				new Extent(145)
+			);
+		wikiPane.setSeparatorHeight(new Extent(0));
+
+		SplitPane sideBar = new SplitPane(
+				SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM,
+				new Extent(170)
+			);
+		sideBar.setSeparatorHeight(new Extent(0));
+		sideBar.setBackground(Style.shadedBackground);
+		Column iconCol = new Column();
+		iconCol.setInsets(new Insets(10, 10, 10, 0));
+		iconCol.setCellSpacing(new Extent(1));
+
+		Label logo = new Label(new ResourceImageReference(
+				"ch/uzh/ifi/attempto/acewiki/gui/img/AceWikiLogoSmall.png"
+			));
+		iconCol.add(logo);
+
+		iconCol.add(new VSpace(10));
+
+		ColumnLayoutData layout = new ColumnLayoutData();
+		layout.setAlignment(Alignment.ALIGN_CENTER);
+
+		String title = getParameter("title");
+		if (title != null && title.length() > 0) {
+			Label titleLabel = new Label(title, Font.ITALIC, 14);
+			iconCol.add(titleLabel);
+			titleLabel.setLayoutData(layout);
+			iconCol.add(new VSpace(5));
+		}
+
+		if (isReadOnly()) {
+			SolidLabel rolabel = new SolidLabel("— READ ONLY —", Font.ITALIC);
+			rolabel.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
+			rolabel.setLayoutData(layout);
+			iconCol.add(rolabel);
+		}
+		
+		sideBar.add(iconCol);
+		
+		Column sideCol = new Column();
+		sideCol.setInsets(new Insets(10, 0, 0, 10));
+		sideCol.setCellSpacing(new Extent(1));
+
+		SolidLabel label = new SolidLabel(getGUIText("sidemenu_navigation"), Font.ITALIC);
+		label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
+		sideCol.add(label);
+		sideCol.add(new ListItem(homeButton));
+		sideCol.add(new ListItem(indexButton));
+		sideCol.add(new ListItem(searchButton2));
+		sideCol.add(new ListItem(aboutButton));
+		sideCol.add(new ListItem(randomButton));
+
+		sideCol.add(new VSpace(10));
+		label = new SolidLabel(getGUIText("sidemenu_actions"), Font.ITALIC);
+		label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
+		sideCol.add(label);
+		if (!isReadOnly() && getEngine().getLexicalTypes().length > 0) {
+			sideCol.add(new ListItem(newButton));
+		}
+		sideCol.add(new ListItem(exportButton));
+
+		if (engine.getLanguages().length > 1 && isLanguageSwitchingEnabled()) {
+			// show language switcher
+
+			sideCol.add(new VSpace(10));
+			label = new SolidLabel(getGUIText("sidemenu_languages"), Font.ITALIC);
+			label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
+			sideCol.add(label);
+			
+			languageButtons = new ArrayList<SmallButton>();
+			
+			for (String lang : engine.getLanguages()) {
+				SmallButton b = new SmallButton(lang, this, 12);
+				if (lang.equals(language)) b.setEnabled(false);
+				languageButtons.add(b);
+				sideCol.add(new ListItem(b));
+			}
+		}
+
+		if (externalEventMonitor != null) {
+			externalEventMonitor.removeExternalEventListener(this);
+			externalEventMonitor.dispose();
+		}
+		externalEventMonitor = new ExternalEventMonitor();
+		externalEventMonitor.addExternalEventListener(this);
+		sideCol.add(externalEventMonitor);
+
+		//sideCol.add(new VSpace(20));
+		//sideCol.add(new ItalicLabel("Session ID: " + sessionID));
+
+		sideBar.add(sideCol);
+
+		SplitPane splitPane3 = new SplitPane(SplitPane.ORIENTATION_HORIZONTAL_LEFT_RIGHT);
+		splitPane3.setSeparatorWidth(new Extent(1));
+		splitPane3.setSeparatorColor(Color.BLACK);
+		splitPane3.setSeparatorPosition(new Extent(0));
+		splitPane3.add(new Label());
+
+		SplitPane splitPane4 = new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM);
+		splitPane4.setSeparatorHeight(new Extent(1));
+		splitPane4.setSeparatorColor(Color.BLACK);
+		splitPane4.setSeparatorPosition(new Extent(0));
+		splitPane4.add(new Label());
+
+		splitPane3.add(splitPane4);
+		pageCol = new Column();
+		splitPane4.add(pageCol);
+
+		splitPane2.add(searchBar);
+		splitPane2.add(menuBar);
+
+		splitPane1.add(splitPane2);
+		splitPane1.add(splitPane3);
+
+		wikiPane.add(sideBar);
+		wikiPane.add(splitPane1);
+
+		contentPane.add(wikiPane);
 	}
 
 	/**
@@ -830,6 +850,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			}
 		} else if (src == refreshButton) {
 			log("page", "pressed: refresh");
+			buildContentPane();
 			update();
 			refresh();
 		} else if (src == newButton) {
@@ -948,7 +969,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 *
 	 * @param user The user.
 	 */
-	public void setUser(User user) {
+	private void setUser(User user) {
 		this.user = user;
 		logger.setUsername(user.getName());
 		userLabel.setForeground(Color.BLACK);
@@ -1026,6 +1047,15 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	}
 
 	/**
+	 * Returns the locale of this wiki instance.
+	 * 
+	 * @return The locale.
+	 */
+	public Locale getLocale() {
+		return getLanguageHandler().getLocale();
+	}
+	
+	/**
 	 * Switches to another language.
 	 * 
 	 * @param language The new language.
@@ -1035,6 +1065,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		for (SmallButton b : languageButtons) {
 			b.setEnabled(!b.getText().equals(language));
 		}
+		application.setLocale(getLanguageHandler().getLocale());
+		buildContentPane();
 		update();
 		refresh();
 	}
@@ -1157,6 +1189,16 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 */
 	public static ResourceImageReference getImage(String fileName) {
 		return Style.getImage("ch/uzh/ifi/attempto/acewiki/gui/img/" + fileName);
+	}
+
+	/**
+	 * Returns the GUI text for the current locale.
+	 * 
+	 * @param key The key of the GUI text item.
+	 * @return The localized string.
+	 */
+	public String getGUIText(String key) {
+		return LocaleResources.getString("ch/uzh/ifi/attempto/acewiki/text", getLocale(), key);
 	}
 	
 	private String getURLParameterValue(String name) {

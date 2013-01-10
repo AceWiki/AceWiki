@@ -15,7 +15,10 @@
 package ch.uzh.ifi.attempto.acewiki.core;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+
+import ch.uzh.ifi.attempto.base.LocaleResources;
 
 /**
  * This is a partial implementation of a language handler.
@@ -25,6 +28,10 @@ import java.util.Map;
 public abstract class AbstractLanguageHandler implements LanguageHandler {
 
 	private Map<String, LexiconChanger> lexiconChangers = new HashMap<String, LexiconChanger>();
+
+	public Locale getLocale() {
+		return LocaleResources.defaultLocale;
+	}
 
 	/**
 	 * Sets a lexicon changer for the given lexical type.

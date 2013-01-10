@@ -16,6 +16,7 @@ package ch.uzh.ifi.attempto.acewiki.gfservice;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import ch.uzh.ifi.attempto.acewiki.aceowl.ProperNameChanger;
 import ch.uzh.ifi.attempto.acewiki.core.AbstractLanguageHandler;
@@ -23,6 +24,7 @@ import ch.uzh.ifi.attempto.acewiki.core.EditorController;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceSuggestion;
+import ch.uzh.ifi.attempto.base.LocaleResources;
 import ch.uzh.ifi.attempto.base.PredictiveParser;
 import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.base.TextOperator;
@@ -35,6 +37,7 @@ import ch.uzh.ifi.attempto.base.TextOperator;
 public class GFHandler extends AbstractLanguageHandler {
 
 	private final String mLanguage;
+	private final Locale mLocale;
 	private final EditorController mEditorController = new EditorController();
 	private final GFGrammar mGfGrammar;
 
@@ -53,10 +56,20 @@ public class GFHandler extends AbstractLanguageHandler {
 		setLexiconChanger(TypeArticle.INTERNAL_TYPE, new ArticleChanger());
 		setLexiconChanger(TypeGfModule.INTERNAL_TYPE, new GfModuleChanger());
 		setLexiconChanger(GFEngine.TYPE_TEST, new ProperNameChanger());
+
+		if (mLanguage.endsWith("Ger")) {
+			mLocale = new Locale("de", "DE");
+		} else {
+			mLocale = LocaleResources.defaultLocale;
+		}
 	}
 
 	public String getLanguage() {
 		return mLanguage;
+	}
+
+	public Locale getLocale() {
+		return mLocale;
 	}
 
 	public void init(Ontology ontology) {
