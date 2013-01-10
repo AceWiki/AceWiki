@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
@@ -69,6 +70,7 @@ import ch.uzh.ifi.attempto.acewiki.gui.StartPage;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.acewiki.gui.UserWindow;
 import ch.uzh.ifi.attempto.acewiki.gui.WikiPage;
+import ch.uzh.ifi.attempto.base.LocaleResources;
 import ch.uzh.ifi.attempto.base.Logger;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.Label;
@@ -182,6 +184,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			}
 		}
 
+		application.setLocale(getLanguageHandler().getLocale());
+
 		ontologyExportManager = new OntologyExportManager(ontology);
 		for (OntologyExporter o : engine.getExporters()) {
 			ontologyExportManager.addExporter(o);
@@ -279,7 +283,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		sideCol.setInsets(new Insets(10, 0, 0, 10));
 		sideCol.setCellSpacing(new Extent(1));
 
-		SolidLabel label = new SolidLabel("Navigation:", Font.ITALIC);
+		SolidLabel label = new SolidLabel(getGUIText("sidemenu_navigation"), Font.ITALIC);
 		label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
 		sideCol.add(label);
 		sideCol.add(new ListItem(homeButton));
@@ -289,7 +293,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		sideCol.add(new ListItem(randomButton));
 
 		sideCol.add(new VSpace(10));
-		label = new SolidLabel("Actions:", Font.ITALIC);
+		label = new SolidLabel(getGUIText("sidemenu_actions"), Font.ITALIC);
 		label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
 		sideCol.add(label);
 		if (!isReadOnly() && getEngine().getLexicalTypes().length > 0) {
@@ -301,7 +305,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			// show language switcher
 
 			sideCol.add(new VSpace(10));
-			label = new SolidLabel("Languages:", Font.ITALIC);
+			label = new SolidLabel(getGUIText("sidemenu_languages"), Font.ITALIC);
 			label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
 			sideCol.add(label);
 			
@@ -991,6 +995,15 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	public String getLanguage() {
 		return language;
 	}
+
+	/**
+	 * Returns the locale of this wiki instance.
+	 * 
+	 * @return The locale.
+	 */
+	public Locale getLocale() {
+		return getLanguageHandler().getLocale();
+	}
 	
 	/**
 	 * Switches to another language.
@@ -1002,6 +1015,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		for (SmallButton b : languageButtons) {
 			b.setEnabled(!b.getText().equals(language));
 		}
+		application.setLocale(getLanguageHandler().getLocale());
 		update();
 		refresh();
 	}
@@ -1124,6 +1138,16 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 */
 	public static ResourceImageReference getImage(String fileName) {
 		return Style.getImage("ch/uzh/ifi/attempto/acewiki/gui/img/" + fileName);
+	}
+
+	/**
+	 * Returns the GUI text for the current locale.
+	 * 
+	 * @param key The key of the GUI text item.
+	 * @return The localized string.
+	 */
+	public String getGUIText(String key) {
+		return LocaleResources.getString("ch/uzh/ifi/attempto/acewiki/text", getLocale(), key);
 	}
 	
 	private String getURLParameterValue(String name) {
