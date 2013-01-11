@@ -110,14 +110,17 @@ public abstract class WikiPage extends Column {
 	/**
 	 * Adds a new tab to the tab row.
 	 * 
-	 * @param text Either the key of the GUI text item or the tab text itself.
+	 * @param text Either a text key or the text itself.
 	 * @param actionListener The actionlistener.
 	 */
 	protected void addTab(String text, ActionListener actionListener) {
 		String tabName = getWiki().getGUIText(text);
-		if (tabName == null) tabName = text;
-		SmallButton b = new SmallButton(tabName, actionListener, true);
-		b.setActionCommand(text);
+		SmallButton b;
+		if (tabName == null) {
+			b = new SmallButton(text, actionListener);
+		} else {
+			b = new SmallButton(tabName, text, actionListener);
+		}
 		tabRow.add(b);
 		tabRow.add(new HSpace(8));
 		tabRow.add(createTabSeparator());
@@ -127,12 +130,18 @@ public abstract class WikiPage extends Column {
 	/**
 	 * Adds a new tab to the tab row that is currently selected.
 	 * 
-	 * @param text Either the key of the GUI text item or the tab text itself.
+	 * @param text Either a text key or the text itself.
 	 */
 	protected void addSelectedTab(String text) {
 		String tabName = getWiki().getGUIText(text);
-		if (tabName == null) tabName = text;
-		tabRow.add(new SmallButton(tabName, null, false));
+		SmallButton b;
+		if (tabName == null) {
+			b = new SmallButton(text, null);
+		} else {
+			b = new SmallButton(tabName, text, null);
+		}
+		b.setEnabled(false);
+		tabRow.add(b);
 		tabRow.add(new HSpace(8));
 		tabRow.add(createTabSeparator());
 		tabRow.add(new HSpace(8));

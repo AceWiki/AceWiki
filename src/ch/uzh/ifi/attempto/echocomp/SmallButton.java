@@ -35,14 +35,14 @@ public class SmallButton extends Button {
 	 * Creates a new small button.
 	 * 
 	 * @param text The button text.
+	 * @param actionCommand The action command.
 	 * @param actionListener The action-listener of the button.
 	 * @param size The size of the text.
-	 * @param enabled false if the button should be disabled.
 	 */
-	public SmallButton(String text, ActionListener actionListener, int size, boolean enabled) {
+	public SmallButton(String text, String actionCommand, ActionListener actionListener, int size) {
 		super(text);
 		
-		setActionCommand(text);
+		setActionCommand(actionCommand);
 		addActionListener(actionListener);
 		
 		setHeight(new Extent(size + 4));
@@ -59,8 +59,18 @@ public class SmallButton extends Button {
 		setAlignment(new Alignment(Alignment.CENTER, Alignment.CENTER));
 		setTextAlignment(new Alignment(Alignment.CENTER, Alignment.CENTER));
 		
-		setEnabled(enabled);
 		setLineWrap(false);
+	}
+	
+	/**
+	 * Creates a new small button.
+	 * 
+	 * @param text The button text.
+	 * @param actionCommand The action command.
+	 * @param actionListener The action-listener of the button.
+	 */
+	public SmallButton(String text, String actionCommand, ActionListener actionListener) {
+		this(text, actionCommand, actionListener, 10);
 	}
 	
 	/**
@@ -71,18 +81,7 @@ public class SmallButton extends Button {
 	 * @param size The size of the text.
 	 */
 	public SmallButton(String text, ActionListener actionListener, int size) {
-		this(text, actionListener, size, true);
-	}
-	
-	/**
-	 * Creates a new small button with text size 10.
-	 * 
-	 * @param text The button text.
-	 * @param actionListener The action-listener of the button.
-	 * @param enabled false if the button should be disabled.
-	 */
-	public SmallButton(String text, ActionListener actionListener, boolean enabled) {
-		this(text, actionListener, 10, enabled);
+		this(text, text, actionListener, size);
 	}
 	
 	/**
@@ -92,7 +91,7 @@ public class SmallButton extends Button {
 	 * @param actionListener The action-listener of the button.
 	 */
 	public SmallButton(String text, ActionListener actionListener) {
-		this(text, actionListener, 10, true);
+		this(text, text, actionListener, 10);
 	}
 
 }

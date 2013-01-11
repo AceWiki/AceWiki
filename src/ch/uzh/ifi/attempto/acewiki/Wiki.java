@@ -384,7 +384,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		label = new SolidLabel(getGUIText("acewiki_sidemenu_actions"), Font.ITALIC);
 		label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
 		sideCol.add(label);
-		newButton = new SmallButton(getGUIText("acewiki_action_newword"), this, 12);
+		newButton = new SmallButton(getGUIText("acewiki_action_new"), this, 12);
 		exportButton = new SmallButton(getGUIText("acewiki_action_export"), this, 12);
 		if (!isReadOnly() && getEngine().getLexicalTypes().length > 0) {
 			sideCol.add(new ListItem(newButton));
@@ -1028,6 +1028,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 */
 	public Locale getLocale() {
 		return getLanguageHandler().getLocale();
+		// for locale testing:
+		//return new Locale("de", "DE");
 	}
 	
 	/**
@@ -1173,9 +1175,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * @return The localized string.
 	 */
 	public String getGUIText(String key) {
-		//return LocaleResources.getString(getLocale(), key);
-		// For locale testing:
-		return LocaleResources.getString(new Locale("de", "DE"), key);
+		return LocaleResources.getString(getLocale(), key);
 	}
 	
 	private String getURLParameterValue(String name) {

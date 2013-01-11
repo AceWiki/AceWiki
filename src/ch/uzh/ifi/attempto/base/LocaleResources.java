@@ -59,7 +59,10 @@ public class LocaleResources {
 	 * @return The localized string.
 	 */
 	public static String getString(Locale l, String key) {
-		String s = getResourceString(l, key);
+		String s = null;
+		if (l != null) {
+			s = getResourceString(l, key);
+		}
 		if (isEmpty(s)) {
 			s = getResourceString(defaultLocale, key);
 		}

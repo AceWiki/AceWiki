@@ -119,8 +119,8 @@ public class UserWindow extends WindowPane implements ActionListener {
 		buttonBar = new Row();
 		buttonBar.setCellSpacing(new Extent(10));
 		buttonBar.setInsets(new Insets(0, 0, 0, 10));
-		buttonBar.add(new GeneralButton("Unlock", 80, this));
-		buttonBar.add(new GeneralButton("Close", 80, this));
+		buttonBar.add(new GeneralButton("Unlock", this, 80));
+		buttonBar.add(new GeneralButton("Close", this, 80));
 		GridLayoutData layout2 = new GridLayoutData();
 		layout2.setAlignment(new Alignment(Alignment.CENTER, Alignment.BOTTOM));
 		buttonBar.setLayoutData(layout2);
@@ -145,8 +145,8 @@ public class UserWindow extends WindowPane implements ActionListener {
 			newPasswordField.setEnabled(true);
 			retypePasswordField.setEnabled(true);
 			buttonBar.removeAll();
-			buttonBar.add(new GeneralButton("Change", 80, this));
-			buttonBar.add(new GeneralButton("Cancel", 80, this));
+			buttonBar.add(new GeneralButton("Change", this, 80));
+			buttonBar.add(new GeneralButton("Cancel", this, 80));
 			wiki.getApplication().setFocusedComponent(emailField);
 		} else {
 			wiki.log("logi", "pressed: change user data");

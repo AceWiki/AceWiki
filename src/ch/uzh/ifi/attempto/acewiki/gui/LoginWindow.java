@@ -105,12 +105,12 @@ public class LoginWindow extends WindowPane implements ActionListener {
 		Row buttonBar = new Row();
 		buttonBar.setCellSpacing(new Extent(10));
 		buttonBar.setInsets(new Insets(0, 0, 0, 10));
-		buttonBar.add(new GeneralButton("Login", 80, this));
+		buttonBar.add(new GeneralButton("Login", this, 80));
 		if (wiki.isUserRegistrationOpen()) {
-			buttonBar.add(new GeneralButton("Register...", 80, this));
+			buttonBar.add(new GeneralButton("Register...", this, 80));
 		}
 		if (!wiki.isLoginRequiredForViewing()) {
-			buttonBar.add(new GeneralButton("Cancel", 80, this));
+			buttonBar.add(new GeneralButton("Cancel", this, 80));
 		}
 		GridLayoutData layout2 = new GridLayoutData();
 		layout2.setAlignment(new Alignment(Alignment.CENTER, Alignment.BOTTOM));

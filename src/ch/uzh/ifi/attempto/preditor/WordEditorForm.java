@@ -157,7 +157,7 @@ public class WordEditorForm extends ContentPane implements ActionListener {
 	 * @param buttonText The text of the button.
 	 */
 	public void addButton(String buttonText) {
-		buttonBar.add(new GeneralButton(buttonText, 70, this));
+		buttonBar.add(new GeneralButton(buttonText, this, 80));
 	}
 	
 	/**

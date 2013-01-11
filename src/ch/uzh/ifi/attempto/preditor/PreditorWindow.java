@@ -78,10 +78,10 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 	private TabSensitiveTextField textField;
 	private TextField dummyTextField;
 	private Column menuBlockArea;
-	private GeneralButton deleteButton = new GeneralButton("< Delete", 70, this);
-	private GeneralButton clearButton = new GeneralButton("Clear", 70, this);
-	private Button okButton = new GeneralButton("OK", 70, this);
-	private Button cancelButton = new GeneralButton("Cancel", 70, this);
+	private GeneralButton deleteButton = new GeneralButton("< Delete", this, 80);
+	private GeneralButton clearButton = new GeneralButton("Clear", this, 80);
+	private Button okButton = new GeneralButton("OK", this, 80);
+	private Button cancelButton = new GeneralButton("Cancel", this, 80);
 	
 	private String textAreaStartText = "";
 	private String textAreaEndText = "<span style=\"color: rgb(150, 150, 150)\"> ...</span>";

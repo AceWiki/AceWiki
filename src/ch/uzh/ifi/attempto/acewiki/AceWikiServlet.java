@@ -105,7 +105,7 @@ public class AceWikiServlet extends WebContainerServlet {
             backend = new Backend(parameters);
         }
 
-		LocaleResources.loadBundle("ch/uzh/ifi/attempto/base/text");
+		LocaleResources.loadBundle("ch/uzh/ifi/attempto/echocomp/text");
 		LocaleResources.loadBundle("ch/uzh/ifi/attempto/acewiki/text");
 
         super.init(config);

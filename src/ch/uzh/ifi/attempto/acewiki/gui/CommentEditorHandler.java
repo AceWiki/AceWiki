@@ -51,7 +51,7 @@ public class CommentEditorHandler implements ActionListener {
 		this.page = page;
 		this.edit = edit;
 		
-		textAreaWindow = new TextAreaWindow("Comment Editor", this);
+		textAreaWindow = new TextAreaWindow("Comment Editor", page.getWiki().getLocale(), this);
 		textAreaWindow.setSize(600, 350);
 		if (edit) {
 			textAreaWindow.setText(((Comment) statement).getText());
