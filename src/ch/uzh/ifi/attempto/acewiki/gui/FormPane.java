@@ -102,6 +102,7 @@ public class FormPane extends WordEditorForm {
 		super(window, actionListener);
 		this.wordNumber = wordNumber;
 		this.wiki = wiki;
+		removeAllButtons();
 		if (element != null) {
 			this.locked = true;
 			if (wiki.isReadOnly()) {
