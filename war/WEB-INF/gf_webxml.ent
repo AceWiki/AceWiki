@@ -1,0 +1,128 @@
+
+  <servlet>
+    <servlet-name>/grammars/Phrasebook.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/grammars/Phrasebook.pgf</param-value>
+    </init-param>
+    <!-- The optional start_cat parameter can be used to override the default
+         start category (which in case of Phrasebook is "Phrase").
+         Also, in case of editable grammars it is sometimes useful to provide
+         it explicitly. -->
+    <init-param>
+      <param-name>start_cat</param-name>
+      <param-value>Question</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://cloud.grammaticalframework.org:80</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>grammars__Phrasebook</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/grammars/Phrasebook.pgf</servlet-name>
+    <url-pattern>/grammars/Phrasebook.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/grammars/Phrasebook.pgf/Phrasebook</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/grammars/Phrasebook.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>PhrasebookEng</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Phrasebook questions</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/grammars/Phrasebook.pgf/Phrasebook</servlet-name>
+    <url-pattern>/grammars/Phrasebook.pgf/Phrasebook/</url-pattern>
+  </servlet-mapping>
+
+  <!--
+      Configuration of an editable wiki. The only difference is that
+      the grammar directory on the GF service is a subdirectory of /tmp
+      (because currently only such subdirectories are editable).
+
+      Additionally we need to pull all the GF grammar source files into
+      the AceWiki data directory. Future versions of AceWiki-GF might do
+      this automatically. For now you can use a Python script from
+      https://github.com/Kaljurand/GF-Utils
+
+      python copy_gf_to_data.py \
+               -s http://cloud.grammaticalframework.org:80 \
+               -d /tmp/gfse.1391129840/ \
+               -e "gf" \
+               -o path_to_acewiki_data/data/tmp__gfse.1391129840__TestAttempto/
+
+      where the out-directory name matches the ontology-parameter.
+  -->
+
+  <servlet>
+    <servlet-name>/tmp/gfse.1391129840/TestAttempto.pgf</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/tmp/gfse.1391129840/TestAttempto.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>start_cat</param-name>
+      <param-value>ACEText</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://cloud.grammaticalframework.org:80</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>tmp__gfse.1391129840__TestAttempto</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.1391129840/TestAttempto.pgf</servlet-name>
+    <url-pattern>/tmp/gfse.1391129840/TestAttempto.pgf</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>/tmp/gfse.1391129840/TestAttempto.pgf/TestAttempto</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>/tmp/gfse.1391129840/TestAttempto.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>language</param-name>
+      <param-value>TestAttemptoAce</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Multilingual ACE wiki</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/tmp/gfse.1391129840/TestAttempto.pgf/TestAttempto</servlet-name>
+    <url-pattern>/tmp/gfse.1391129840/TestAttempto.pgf/TestAttempto/</url-pattern>
+  </servlet-mapping>
+

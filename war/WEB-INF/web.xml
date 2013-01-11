@@ -2,8 +2,7 @@
 <!DOCTYPE web-app
   PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
   "http://java.sun.com/dtd/web-app_2_3.dtd" [
-  <!ENTITY gf_cloud_webxml SYSTEM "gf_cloud_webxml.ent">
-  <!ENTITY gf_cloud_editable_webxml SYSTEM "gf_cloud_editable_webxml.ent">
+  <!ENTITY gf_webxml SYSTEM "gf_webxml.ent">
 ]>
 
 <!--
@@ -99,15 +98,6 @@
   <context-param>
     <param-name>wiki_url</param-name>
     <param-value>http://localhost:9077</param-value>
-  </context-param>
-
-
-  <!--
-    URL of the grammar editor
-  -->
-  <context-param>
-    <param-name>grammar_editor_url</param-name>
-    <param-value>http://cloud.grammaticalframework.org/gfse/share.html#gfse.74044909</param-value>
   </context-param>
 
 
@@ -417,7 +407,6 @@
     <location>/errors/404.html</location>
   </error-page>
 
-  &gf_cloud_webxml;
-  &gf_cloud_editable_webxml;
+  &gf_webxml;
 
 </web-app>

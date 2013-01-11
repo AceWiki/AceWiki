@@ -397,6 +397,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		}
 		sideCol.add(new ListItem(exportButton));
 
+		sideCol.add(new VSpace(10));
+		sideCol.add(new ListItem(aboutGrammarButton));
+
 		if (engine.getLanguages().length > 1 && isLanguageSwitchingEnabled()) {
 			// show language switcher
 
