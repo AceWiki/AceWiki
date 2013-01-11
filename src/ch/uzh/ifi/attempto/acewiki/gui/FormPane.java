@@ -105,14 +105,16 @@ public class FormPane extends WordEditorForm {
 		if (element != null) {
 			this.locked = true;
 			if (wiki.isReadOnly()) {
-				setButtons("Close");
+				addButton("Close");
 			} else {
-				setButtons("Unlock", "Close");
+				addButton("Unlock");
+				addButton("Close");
 			}
 		} else {
 			element = wiki.getOntology().getEngine().createOntologyElement(type);
 			this.locked = false;
-			setButtons("OK", "Cancel");
+			addButton("OK");
+			addButton("Cancel");
 		}
 		this.element = element;
 		
@@ -175,7 +177,10 @@ public class FormPane extends WordEditorForm {
 	}
 	
 	private void unlock() {
-		setButtons("Delete", "Change", "Cancel");
+		removeAllButtons();
+		addButton("Delete");
+		addButton("Change");
+		addButton("Cancel");
 		for (Component c : getFormElements()) {
 			c.setEnabled(true);
 		}
