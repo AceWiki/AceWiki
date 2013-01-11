@@ -26,6 +26,7 @@ import ch.uzh.ifi.attempto.acewiki.core.DummyOntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
+import ch.uzh.ifi.attempto.acewiki.gfservice.TypeGfModule;
 import ch.uzh.ifi.attempto.echocomp.Style;
 
 /**
@@ -91,6 +92,9 @@ public class WikiLink extends Button implements ActionListener {
 		setRolloverEnabled(true);
 		if (ontologyElement instanceof DummyOntologyElement) {
 			setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
+		} else if (ontologyElement instanceof TypeGfModule) {
+			setFont(new Font(Font.MONOSPACE, Font.PLAIN, new Extent(12)));
+			setForeground(GuiUtils.COLOR_GF_MODULE);
 		} else {
 			setFont(new Font(Style.fontTypeface, Font.PLAIN, new Extent(13)));
 		}

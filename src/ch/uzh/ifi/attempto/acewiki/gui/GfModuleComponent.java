@@ -4,9 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nextapp.echo.app.Alignment;
-import nextapp.echo.app.Color;
 import nextapp.echo.app.Column;
 import nextapp.echo.app.Component;
+import nextapp.echo.app.Extent;
 import nextapp.echo.app.Font;
 import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
@@ -18,6 +18,7 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
+import ch.uzh.ifi.attempto.echocomp.Style;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
 
 public class GfModuleComponent extends Column implements ActionListener {
@@ -118,6 +119,13 @@ public class GfModuleComponent extends Column implements ActionListener {
 		return text;
 	}
 
+	private static SolidLabel makePlainText(String s) {
+		SolidLabel label = new SolidLabel(s, Font.PLAIN);
+		label.setForeground(Style.darkForeground);
+		label.setFont(new Font(Font.MONOSPACE, Font.PLAIN, new Extent(12)));
+		return label;
+	}
+
 	private class CommentPart extends Component {
 
 		private static final long serialVersionUID = -8722454707702222523L;
@@ -128,9 +136,7 @@ public class GfModuleComponent extends Column implements ActionListener {
 			// Check if the element is in the ontology
 			OntologyElement oe = wiki.getOntology().getElement(s);
 			if (oe == null) {
-				SolidLabel label = new SolidLabel(s, Font.PLAIN);
-				label.setForeground(new Color(120, 120, 120));
-				comp = label;
+				comp = makePlainText(s);
 				text = s;
 			} else {
 				comp = new WikiLink(oe, s, wiki, false);

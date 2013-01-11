@@ -42,7 +42,7 @@ public class TranslationsPage extends WikiPage {
 			add(col);
 		} else {
 			for (SentenceDetail si : l) {
-				addHeadline(si.getName());
+				// addHeadline(si.getName());
 				add(GuiUtils.getNameComponent(wiki, si.getName()));
 				Column infoColumn = new Column();
 				infoColumn.setInsets(new Insets(10, 5, 5, 15));

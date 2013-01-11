@@ -3,7 +3,6 @@ package ch.uzh.ifi.attempto.acewiki.gfservice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nextapp.echo.app.Color;
 import nextapp.echo.app.Column;
 import nextapp.echo.app.Font;
 import nextapp.echo.app.Row;
@@ -15,6 +14,7 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.gui.ArticlePage;
 import ch.uzh.ifi.attempto.acewiki.gui.GfModuleComponent;
+import ch.uzh.ifi.attempto.acewiki.gui.GuiUtils;
 import ch.uzh.ifi.attempto.acewiki.gui.StatementMenu;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
@@ -46,7 +46,7 @@ public class GfModulePage extends ArticlePage {
 		} else {
 			mEngine = null;
 		}
-		getTitle().setColor(new Color(102, 153, 0));
+		getTitle().setColor(GuiUtils.COLOR_GF_MODULE);
 		addTab(ACTION_MAKE, this);
 	}
 

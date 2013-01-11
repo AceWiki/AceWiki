@@ -1,12 +1,16 @@
 package ch.uzh.ifi.attempto.acewiki.gui;
 
+import nextapp.echo.app.Color;
 import nextapp.echo.app.Component;
 import nextapp.echo.app.Font;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 
+// TODO: merge this class with some other class (see e.g. echocomp)
 public class GuiUtils {
+
+	public static final Color COLOR_GF_MODULE = new Color(102, 153, 0);
 
 	/**
 	 * Returns a link or a label, depending on if the given
@@ -17,9 +21,7 @@ public class GuiUtils {
 		if (ol == null) {
 			return new SolidLabel(name, Font.BOLD, 12);
 		}
-		// TODO: we currently use red (i.e. true) just to highlight what is a link.
-		// It would be better to use blue (currently blue appears only during roll-over).
-		return new WikiLink(ol, name, wiki, true);
+		return new WikiLink(ol, name, wiki, false);
 	}
 
 }
