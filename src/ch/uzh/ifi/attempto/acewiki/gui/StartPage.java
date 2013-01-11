@@ -38,8 +38,13 @@ public class StartPage extends ArticlePage {
 		super(wiki, wiki.getOntology().get(0));
 		
 		this.oe = wiki.getOntology().get(0);
-		getTitle().setText(wiki.getGUIText("acewiki_specialpage_main"));
+	}
+
+	protected void doUpdate() {
+		super.doUpdate();
 		
+		removeAllTabs();
+		getTitle().setText(getWiki().getGUIText("acewiki_specialpage_main"));
 		addSelectedTab("acewiki_specialpage_main");
 		addTab("acewiki_specialpage_index", this);
 		addTab("acewiki_specialpage_search", this);

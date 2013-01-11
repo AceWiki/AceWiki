@@ -33,8 +33,6 @@ public class AboutPage extends WikiPage implements ActionListener {
 	
 	private static final long serialVersionUID = -5184590884798735077L;
 	
-	private NameValueTable table1, table2, table3, table4;
-	
 	/**
 	 * Creates a new about page.
 	 * 
@@ -42,47 +40,44 @@ public class AboutPage extends WikiPage implements ActionListener {
 	 */
 	public AboutPage(Wiki wiki) {
 		super(wiki);
+	}
+	
+	protected void doUpdate() {
+		Wiki w = getWiki();
+		Ontology o = w.getOntology();
+
+		removeAll();
 
 		addTab("acewiki_specialpage_main", this);
 		addTab("acewiki_specialpage_index", this);
 		addTab("acewiki_specialpage_search", this);
 		addSelectedTab("acewiki_specialpage_about");
 		
-		add(new Title(wiki.getGUIText("acewiki_specialpage_about"), true));
+		add(new Title(w.getGUIText("acewiki_specialpage_about"), true));
 		addHorizontalLine();
 		add(new VSpace(10));
 		
 		addHeadline("System");
-		table1 = new NameValueTable();
+		NameValueTable table1 = new NameValueTable();
 		table1.setInsets(new Insets(10, 10, 10, 15));
 		add(table1);
 
 		addHeadline("Ontology");
-		table2 = new NameValueTable();
+		NameValueTable table2 = new NameValueTable();
 		table2.setInsets(new Insets(10, 10, 10, 15));
 		add(table2);
 
 		addHeadline("Reasoner");
-		table3 = new NameValueTable();
+		NameValueTable table3 = new NameValueTable();
 		table3.setInsets(new Insets(10, 10, 10, 15));
 		add(table3);
 
 		addHeadline("Users");
-		table4 = new NameValueTable();
+		NameValueTable table4 = new NameValueTable();
 		table4.setInsets(new Insets(10, 10, 10, 15));
 		add(table4);
 		
 		add(new VSpace(20));
-	}
-	
-	protected void doUpdate() {
-		table1.clear();
-		table2.clear();
-		table3.clear();
-		table4.clear();
-		
-		Wiki w = getWiki();
-		Ontology o = w.getOntology();
 		
 		table1.addEntry("AceWiki version", Wiki.getInfo("acewiki-version"));
 		table1.addEntry("AceWiki release stage", Wiki.getInfo("acewiki-release-stage"));

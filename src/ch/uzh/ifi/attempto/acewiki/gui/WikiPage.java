@@ -107,6 +107,18 @@ public abstract class WikiPage extends Column {
 		return false;
 	}
 	
+	public void removeAll() {
+		super.removeAll();
+		tabRow.removeAll();
+	}
+	
+	/**
+	 * Removes all tabs in the tab row.
+	 */
+	public void removeAllTabs() {
+		tabRow.removeAll();
+	}
+	
 	/**
 	 * Adds a new tab to the tab row.
 	 * 
@@ -125,6 +137,10 @@ public abstract class WikiPage extends Column {
 		tabRow.add(new HSpace(8));
 		tabRow.add(createTabSeparator());
 		tabRow.add(new HSpace(8));
+		if (indexOf(tabRow) < 0) {
+			add(tabRow, 0);
+			add(new VSpace(20), 1);
+		}
 	}
 	
 	/**
@@ -145,6 +161,10 @@ public abstract class WikiPage extends Column {
 		tabRow.add(new HSpace(8));
 		tabRow.add(createTabSeparator());
 		tabRow.add(new HSpace(8));
+		if (indexOf(tabRow) < 0) {
+			add(tabRow, 0);
+			add(new VSpace(20), 1);
+		}
 	}
 	
 	private Button createTabSeparator() {
