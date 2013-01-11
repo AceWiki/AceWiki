@@ -44,7 +44,7 @@ class MenuBlock extends Column implements ActionListener {
 	
 	private static final long serialVersionUID = -5856577034761259001L;
 	
-	private ActionListener actionListener;
+	private PreditorWindow preditor;
 	private MenuBlockContent content;
 	private ContainerEx container;
 	private Column menuColumn = new Column();
@@ -66,13 +66,13 @@ class MenuBlock extends Column implements ActionListener {
 	 * 
 	 * @param actionListener The action listener.
 	 */
-	MenuBlock(int width, int height, int colorShift, ActionListener actionListener) {
+	MenuBlock(int width, int height, int colorShift, PreditorWindow preditor) {
 		this.width = width;
 		this.height = height;
 		this.colorShift = colorShift % 360;
 		this.app = ApplicationInstance.getActive();
 		this.taskQueue = app.createTaskQueue();
-		this.actionListener = actionListener;
+		this.preditor = preditor;
 		
 		setInsets(new Insets(0, 1, 0, 0));
 		Row labelRow = new Row();
@@ -216,20 +216,18 @@ class MenuBlock extends Column implements ActionListener {
 	public void setEnlarged(boolean enlarged) {
 		if (enlarged) {
 			enlargeButton.setText("–");
-			enlargeButton.setToolTipText("back to normal size");
+			enlargeButton.setToolTipText(preditor.getLocalized("preditor_menublocktooltip_normalsize"));
 			enlargeButton.setActionCommand("downsize");
 		} else {
 			enlargeButton.setText("+");
-			enlargeButton.setToolTipText("enlarge this box");
+			enlargeButton.setToolTipText(preditor.getLocalized("preditor_menublocktooltip_enlarge"));
 			enlargeButton.setActionCommand("enlarge");
 		}
 	}
 	
 	public void actionPerformed(ActionEvent e) {
 		String c = e.getActionCommand();
-		if (actionListener != null) {
-			actionListener.actionPerformed(new ActionEvent(this, c));
-		}
+		preditor.actionPerformed(new ActionEvent(this, c));
 	}
 
 }

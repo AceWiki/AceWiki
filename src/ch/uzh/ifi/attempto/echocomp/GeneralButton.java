@@ -36,13 +36,15 @@ public class GeneralButton extends Button {
 	 * Creates a new button.
 	 * 
 	 * @param text The button text.
-	 * @param width The button width.
+	 * @param actionCommand The action command.
 	 * @param actionListener The action-listener of the button.
+	 * @param width The button width.
 	 */
-	public GeneralButton(String text, int width, ActionListener actionListener) {
+	public GeneralButton(String text, String actionCommand, ActionListener actionListener, int width) {
 		super(text);
 		
-		if (width > 0) {setBorder(new Border(1, Color.BLACK, Border.STYLE_OUTSET));
+		if (width > 0) {
+			setBorder(new Border(1, Color.BLACK, Border.STYLE_OUTSET));
 			setWidth(new Extent(width));
 		}
 		setHeight(new Extent(17));
@@ -61,8 +63,30 @@ public class GeneralButton extends Button {
 		setTextAlignment(new Alignment(Alignment.CENTER, Alignment.CENTER));
 		setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		
-		setActionCommand(text);
+		setActionCommand(actionCommand);
 		addActionListener(actionListener);
+	}
+
+	/**
+	 * Creates a new button.
+	 * 
+	 * @param text The button text.
+	 * @param actionCommand The action command.
+	 * @param actionListener The action-listener of the button.
+	 */
+	public GeneralButton(String text, String actionCommand, ActionListener actionListener) {
+		this(text, actionCommand, actionListener, 0);
+	}
+
+	/**
+	 * Creates a new button.
+	 * 
+	 * @param text The button text.
+	 * @param actionListener The action-listener of the button.
+	 * @param width The button width.
+	 */
+	public GeneralButton(String text, ActionListener actionListener, int width) {
+		this(text, text, actionListener, width);
 	}
 	
 	/**
@@ -72,7 +96,7 @@ public class GeneralButton extends Button {
 	 * @param actionListener The action-listener of the button.
 	 */
 	public GeneralButton(String text, ActionListener actionListener) {
-		this(text, 0, actionListener);
+		this(text, text, actionListener, 0);
 	}
 	
 	public void setEnabled(boolean enabled) {

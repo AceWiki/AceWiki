@@ -99,8 +99,8 @@ public class MultipleChoiceWindow extends GeneralWindow implements ActionListene
 		Row buttonBar = new Row();
 		buttonBar.setCellSpacing(new Extent(10));
 		buttonBar.setInsets(new Insets(0, 0, 0, 10));
-		buttonBar.add(new GeneralButton("OK", 80, this));
-		buttonBar.add(new GeneralButton("Cancel", 80, this));
+		buttonBar.add(new GeneralButton("OK", this, 80));
+		buttonBar.add(new GeneralButton("Cancel", this, 80));
 		ApplicationInstance.getActive().setFocusedComponent(buttonBar.getComponent(0));
 
 		GridLayoutData layout2 = new GridLayoutData();

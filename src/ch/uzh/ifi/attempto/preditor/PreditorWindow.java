@@ -17,12 +17,12 @@ package ch.uzh.ifi.attempto.preditor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import nextapp.echo.app.Alignment;
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Border;
-import nextapp.echo.app.Button;
 import nextapp.echo.app.Color;
 import nextapp.echo.app.Column;
 import nextapp.echo.app.Extent;
@@ -37,6 +37,7 @@ import nextapp.echo.app.event.WindowPaneListener;
 import nextapp.echo.app.layout.GridLayoutData;
 import ch.uzh.ifi.attempto.base.ConcreteOption;
 import ch.uzh.ifi.attempto.base.DefaultTextOperator;
+import ch.uzh.ifi.attempto.base.LocaleResources;
 import ch.uzh.ifi.attempto.base.Logger;
 import ch.uzh.ifi.attempto.base.NextTokenOptions;
 import ch.uzh.ifi.attempto.base.PredictiveParser;
@@ -82,12 +83,18 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 	private static final int HEIGHT_MENU = Math.round(REF_HEIGHT_MENU * SCALE_HEIGHT);
 	private static final int HEIGHT_MENU2 = Math.round(REF_HEIGHT_MENU2 * SCALE_HEIGHT);
 	
+	static {
+		LocaleResources.loadBundle("ch/uzh/ifi/attempto/echocomp/text");
+		LocaleResources.loadBundle("ch/uzh/ifi/attempto/preditor/text");
+	}
+	
 	private final TextContainer textContainer = new TextContainer();
 	private MenuCreator menuCreator;
 	private TextOperator textOperator;
 	private PredictiveParser parser;
 	private List<ActionListener> actionListeners = new ArrayList<ActionListener>();
 	private Logger logger;
+	private Locale locale;
 	
 	private MenuBlockManager menuBlockManager;
 	private MenuBlock enlargedMenuBlock;
@@ -96,10 +103,7 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 	private TabSensitiveTextField textField;
 	private TextField dummyTextField;
 	private Column menuBlockArea;
-	private GeneralButton deleteButton = new GeneralButton("< Delete", 70, this);
-	private GeneralButton clearButton = new GeneralButton("Clear", 70, this);
-	private Button okButton = new GeneralButton("OK", 70, this);
-	private Button cancelButton = new GeneralButton("Cancel", 70, this);
+	private GeneralButton deleteButton, clearButton, okButton, cancelButton;
 	
 	private String textAreaStartText = "";
 	private String textAreaEndText = "<span style=\"color: rgb(150, 150, 150)\"> ...</span>";
@@ -115,10 +119,12 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 	 * @param title The title of the window.
 	 * @param parser The predictive parser to be used. Do not modify this object while the
 	 *     preditor window is active!
+	 * @param locale The locale.
 	 */
-	public PreditorWindow(String title, PredictiveParser parser) {
+	public PreditorWindow(String title, PredictiveParser parser, Locale locale) {
 		this.parser = parser;
 		this.menuBlockManager = new MenuBlockManager(this);
+		this.locale = locale;
 		
 		addWindowPaneListener(this);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -153,8 +159,10 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 		textAreaButtonBar.setAlignment(new Alignment(Alignment.RIGHT, Alignment.CENTER));
 		textAreaButtonBar.setInsets(new Insets(0, 5, 10, 0));
 		textAreaButtonBar.setCellSpacing(new Extent(5));
+		clearButton = new GeneralButton(getLocalized("preditor_button_clear"), this, 80);
 		clearButton.setVisible(false);
 		textAreaButtonBar.add(clearButton);
+		deleteButton = new GeneralButton(getLocalized("preditor_button_delete"), this, 80);
 		textAreaButtonBar.add(deleteButton);
 		textColumn.add(textAreaButtonBar);
 		
@@ -194,12 +202,26 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 		buttonBar.setAlignment(new Alignment(Alignment.RIGHT, Alignment.TOP));
 		buttonBar.setInsets(new Insets(10, 10, 10, 0));
 		buttonBar.setCellSpacing(new Extent(5));
+		okButton = new GeneralButton(getLocalized("general_button_ok"), this, 80);
 		buttonBar.add(okButton);
+		cancelButton = new GeneralButton(getLocalized("general_button_cancel"), this, 80);
 		buttonBar.add(cancelButton);
 		grid.setRowHeight(3, new Extent(30));
 		grid.add(buttonBar);
 		
 		update();
+	}
+	
+
+	/**
+	 * Creates a new predictive editor window using the given predictive parser.
+	 * 
+	 * @param title The title of the window.
+	 * @param parser The predictive parser to be used. Do not modify this object while the
+	 *     preditor window is active!
+	 */
+	public PreditorWindow(String title, PredictiveParser parser) {
+		this(title, parser, null);
 	}
 	
 	/**
@@ -622,6 +644,23 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 	 */
 	public PredictiveParser getPredictiveParser() {
 		return parser;
+	}
+
+	/**
+	 * Returns the locale.
+	 */
+	public Locale getLocale() {
+		return locale;
+	}
+	
+	/**
+	 * Returns a localized string.
+	 * 
+	 * @param key The text key.
+	 * @return The text.
+	 */
+	protected String getLocalized(String key) {
+		return LocaleResources.getString(getLocale(), key);
 	}
 	
 	public void windowPaneClosing(WindowPaneEvent e) {

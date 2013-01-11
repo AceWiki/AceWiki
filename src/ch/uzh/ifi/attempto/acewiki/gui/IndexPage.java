@@ -60,13 +60,18 @@ public class IndexPage extends WikiPage implements ActionListener {
 	 */
 	public IndexPage(Wiki wiki) {
 		super(wiki);
-		
-		addTab("Main Page", this);
-		addSelectedTab("Index");
-		addTab("Search", this);
-		addTab("About", this);
-		
-		add(new Title("Index", true));
+	}
+	
+	protected void doUpdate() {
+
+		removeAll();
+
+		addTab("acewiki_specialpage_main", this);
+		addSelectedTab("acewiki_specialpage_index");
+		addTab("acewiki_specialpage_search", this);
+		addTab("acewiki_specialpage_about", this);
+
+		add(new Title(getWiki().getGUIText("acewiki_specialpage_index"), true));
 		addHorizontalLine();
 		add(new VSpace(20));
 		
@@ -82,9 +87,7 @@ public class IndexPage extends WikiPage implements ActionListener {
 		indexColumn.setInsets(new Insets(10, 5, 5, 20));
 		indexColumn.setCellSpacing(new Extent(2));
 		add(indexColumn);
-	}
-	
-	protected void doUpdate() {
+		
 		indexColumn.removeAll();
 		
 		entries.clear();
@@ -141,11 +144,11 @@ public class IndexPage extends WikiPage implements ActionListener {
 			chosenPage = Integer.parseInt(e.getActionCommand()) - 1;
 			log("page", "pressed: page " + (chosenPage+1));
 			updatePage();
-		} else if ("Main Page".equals(e.getActionCommand())) {
+		} else if ("acewiki_specialpage_main".equals(e.getActionCommand())) {
 			getWiki().showStartPage();
-		} else if ("Search".equals(e.getActionCommand())) {
+		} else if ("acewiki_specialpage_search".equals(e.getActionCommand())) {
 			getWiki().showSearchPage();
-		} else if ("About".equals(e.getActionCommand())) {
+		} else if ("acewiki_specialpage_about".equals(e.getActionCommand())) {
 			getWiki().showAboutPage();
 		}
 	}

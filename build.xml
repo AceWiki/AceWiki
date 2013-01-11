@@ -26,15 +26,12 @@
         <copy todir="classes/ch/uzh/ifi/attempto/acewiki/gui/img">
             <fileset dir="src/ch/uzh/ifi/attempto/acewiki/gui/img"/>
         </copy>
-        <copy todir="classes/ch/uzh/ifi/attempto/acewiki">
-            <fileset dir="src/ch/uzh/ifi/attempto/acewiki" includes="*.properties"/>
-        </copy>
         <copy
             file="src/ch/uzh/ifi/attempto/aceeditor/aceeditor.properties"
             tofile="classes/ch/uzh/ifi/attempto/aceeditor/aceeditor.properties"
         />
-        <copy todir="classes/">
-            <fileset dir="src" includes="*.properties"/>
+        <copy todir="classes">
+            <fileset dir="src" includes="**/*.properties"/>
         </copy>
         <copy todir="classes/ch/uzh/ifi/attempto/echocomp">
             <fileset dir="src/ch/uzh/ifi/attempto/echocomp" includes="*.js"/>

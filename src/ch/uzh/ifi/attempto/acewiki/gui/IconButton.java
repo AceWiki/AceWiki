@@ -16,7 +16,6 @@ package ch.uzh.ifi.attempto.acewiki.gui;
 
 import nextapp.echo.app.Button;
 import nextapp.echo.app.Extent;
-import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 
 /**
@@ -30,23 +29,21 @@ public class IconButton extends Button {
 	private static final long serialVersionUID = 9007778082893227249L;
 
 	/**
-	 * Creates a new icon button. The name has to correspond to the name of the icon image files
-	 * and is also shown as a tooltip.
+	 * Creates a new icon button. The name corresponds to the icon image files.
 	 * 
 	 * @param name The name of the icon button.
-	 * @param actionListener The action listener for this button.
+	 * @param wiki The wiki object.
 	 */
-	public IconButton(String name, ActionListener actionListener) {
+	public IconButton(String name, Wiki wiki) {
 		setRolloverEnabled(true);
 		setWidth(new Extent(25));
 		setHeight(new Extent(25));
-		String filename = name.toLowerCase();
-		setIcon(Wiki.getImage(filename + ".png"));
-		setRolloverIcon(Wiki.getImage(filename + "h.png"));
-		setDisabledIcon(Wiki.getImage(filename + "i.png"));
+		setIcon(Wiki.getImage(name + ".png"));
+		setRolloverIcon(Wiki.getImage(name + "h.png"));
+		setDisabledIcon(Wiki.getImage(name + "i.png"));
 		setActionCommand(name);
-		setToolTipText(name);
-		addActionListener(actionListener);
+		setToolTipText(wiki.getGUIText("acewiki_icontooltip_" + name));
+		addActionListener(wiki);
 	}
 
 }

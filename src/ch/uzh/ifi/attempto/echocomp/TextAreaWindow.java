@@ -14,6 +14,10 @@
 
 package ch.uzh.ifi.attempto.echocomp;
 
+import java.util.Locale;
+
+import ch.uzh.ifi.attempto.base.LocaleResources;
+
 import nextapp.echo.app.Alignment;
 import nextapp.echo.app.Column;
 import nextapp.echo.app.Extent;
@@ -41,10 +45,10 @@ public class TextAreaWindow extends WindowPane implements ActionListener {
 	 * Creates a new text area window with the given title, text, and action-listener.
 	 * 
 	 * @param title The title of the window.
-	 * @param text The initial text in the text area.
+	 * @param locale The locale to show GUI text.
 	 * @param actionListener The action-listener or null.
 	 */
-	public TextAreaWindow(String title, String text, ActionListener actionListener) {
+	public TextAreaWindow(String title, Locale locale, ActionListener actionListener) {
 		this.actionListener = actionListener;
 		
 		setModal(true);
@@ -60,16 +64,17 @@ public class TextAreaWindow extends WindowPane implements ActionListener {
 		
 		textArea = new TextArea();
 		textArea.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
-		textArea.setText(text);
 		mainColumn.add(textArea);
 		
 		Row buttonBar = new Row();
 		buttonBar.setAlignment(new Alignment(Alignment.RIGHT, Alignment.CENTER));
 		buttonBar.setInsets(new Insets(0, 0, 10, 0));
 		buttonBar.setCellSpacing(new Extent(5));
-		GeneralButton okButton = new GeneralButton("OK", 70, this);
+		String okText = LocaleResources.getString(locale, "general_button_ok");
+		GeneralButton okButton = new GeneralButton(okText, "OK", this, 80);
 		buttonBar.add(okButton);
-		GeneralButton cancelButton = new GeneralButton("Cancel", 70, this);
+		String cancelText = LocaleResources.getString(locale, "general_button_cancel");
+		GeneralButton cancelButton = new GeneralButton(cancelText, "Cancel", this, 80);
 		buttonBar.add(cancelButton);
 		mainColumn.add(buttonBar);
 		
@@ -86,7 +91,7 @@ public class TextAreaWindow extends WindowPane implements ActionListener {
 	 * @param actionListener The action-listener or null.
 	 */
 	public TextAreaWindow(String title, ActionListener actionListener) {
-		this(title, "", actionListener);
+		this(title, null, actionListener);
 	}
 	
 	/**

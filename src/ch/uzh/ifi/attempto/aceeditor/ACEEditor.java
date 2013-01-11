@@ -507,13 +507,11 @@ public class ACEEditor extends Window implements ActionListener {
 	private void showCommentEditor(boolean edit) {
 		this.editMode = edit;
 		if (edit) {
-			showWindow(new TextAreaWindow(
-					"Comment Editor",
-					selectedEntry.getText().substring(2),
-					this
-				));
+			TextAreaWindow w = new TextAreaWindow("Comment Editor", this);
+			w.setText(selectedEntry.getText().substring(2));
+			showWindow(w);
 		} else {
-			showWindow(new TextAreaWindow("Comment Editor", "", this));
+			showWindow(new TextAreaWindow("Comment Editor", this));
 		}
 	}
 

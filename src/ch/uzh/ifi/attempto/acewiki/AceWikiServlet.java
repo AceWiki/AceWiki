@@ -19,15 +19,15 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.ServletException;
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.webcontainer.WebContainerServlet;
-import ch.uzh.ifi.attempto.base.Logger;
 import ch.uzh.ifi.attempto.base.APE;
+import ch.uzh.ifi.attempto.base.Logger;
 
 /**
  * This servlet class is used by the web server to start AceWiki.

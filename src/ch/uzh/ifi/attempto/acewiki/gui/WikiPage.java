@@ -107,31 +107,64 @@ public abstract class WikiPage extends Column {
 		return false;
 	}
 	
+	public void removeAll() {
+		super.removeAll();
+		tabRow.removeAll();
+	}
+	
+	/**
+	 * Removes all tabs in the tab row.
+	 */
+	public void removeAllTabs() {
+		tabRow.removeAll();
+	}
+	
 	/**
 	 * Adds a new tab to the tab row.
 	 * 
-	 * @param tabName The name of the tab.
+	 * @param text Either a text key or the text itself.
 	 * @param actionListener The actionlistener.
 	 */
-	protected void addTab(String tabName, ActionListener actionListener) {
-		SmallButton b = new SmallButton(tabName, actionListener, true);
-		b.setActionCommand(tabName);
+	protected void addTab(String text, ActionListener actionListener) {
+		String tabName = getWiki().getGUIText(text);
+		SmallButton b;
+		if (tabName == null) {
+			b = new SmallButton(text, actionListener);
+		} else {
+			b = new SmallButton(tabName, text, actionListener);
+		}
 		tabRow.add(b);
 		tabRow.add(new HSpace(8));
 		tabRow.add(createTabSeparator());
 		tabRow.add(new HSpace(8));
+		if (indexOf(tabRow) < 0) {
+			add(tabRow, 0);
+			add(new VSpace(20), 1);
+		}
 	}
 	
 	/**
 	 * Adds a new tab to the tab row that is currently selected.
 	 * 
-	 * @param tabName The name of the tab.
+	 * @param text Either a text key or the text itself.
 	 */
-	protected void addSelectedTab(String tabName) {
-		tabRow.add(new SmallButton(tabName, null, false));
+	protected void addSelectedTab(String text) {
+		String tabName = getWiki().getGUIText(text);
+		SmallButton b;
+		if (tabName == null) {
+			b = new SmallButton(text, null);
+		} else {
+			b = new SmallButton(tabName, text, null);
+		}
+		b.setEnabled(false);
+		tabRow.add(b);
 		tabRow.add(new HSpace(8));
 		tabRow.add(createTabSeparator());
 		tabRow.add(new HSpace(8));
+		if (indexOf(tabRow) < 0) {
+			add(tabRow, 0);
+			add(new VSpace(20), 1);
+		}
 	}
 	
 	private Button createTabSeparator() {

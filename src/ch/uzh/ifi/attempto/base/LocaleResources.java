@@ -14,7 +14,9 @@
 
 package ch.uzh.ifi.attempto.base;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
@@ -27,23 +29,75 @@ import java.util.ResourceBundle;
  */
 public class LocaleResources {
 	
-	private LocaleResources() {}  // no instances allowed
-	
 	/**
 	 * The default locale.
 	 */
 	public static final Locale defaultLocale = new Locale("en", "US");
 
-	private static Map<String, ResourceBundle> bundles = new HashMap<String, ResourceBundle>();
+	private static Map<String, ResourceBundle> bundles = new HashMap<>();
+	
+	private static List<String> baseNames = new ArrayList<>();
+	
+	private LocaleResources() {}  // no instances allowed
 
 	/**
-	 * Returns the resource bundle from the respective properties-file.
+	 * Loads a bundle, unless it is loaded already.
 	 * 
 	 * @param baseName The base name referring to the properties file to be loaded.
-	 * @param l The locale.
-	 * @return The resource bundle.
 	 */
-	public static ResourceBundle getResourceBundle(String baseName, Locale l) {
+	public static void loadBundle(String baseName) {
+		if (!baseNames.contains(baseName)) {
+			baseNames.add(baseName);
+		}
+	}
+
+	/**
+	 * Returns a localized text.
+	 * 
+	 * @param l The locale.
+	 * @param key The key of the text item.
+	 * @return The localized string.
+	 */
+	public static String getString(Locale l, String key) {
+		String s = null;
+		if (l != null) {
+			s = getResourceString(l, key);
+		}
+		if (isEmpty(s)) {
+			s = getResourceString(defaultLocale, key);
+		}
+		if (isEmpty(s)) s = null;
+		return s;
+	}
+
+	/**
+	 * Returns a localized text for the default locale.
+	 * 
+	 * @param key The key of the text item.
+	 * @return The localized string.
+	 */
+	public static String getString(String key) {
+		return getString(defaultLocale, key);
+	}
+	
+	private static String getResourceString(Locale l, String key) {
+		String s = null;
+		for (String n : baseNames) {
+			s = getResourceString(n, l, key);
+			if (!isEmpty(s)) return s;
+		}
+		return s;
+	}
+	
+	private static String getResourceString(String baseName, Locale l, String key) {
+		String s = null;
+		try {
+			s = getResourceBundle(baseName, l).getString(key);
+		} catch (MissingResourceException ex) {}
+		return s;
+	}
+
+	private static ResourceBundle getResourceBundle(String baseName, Locale l) {
 		ResourceBundle r = bundles.get(baseName + " " + l);
 		if (r == null) {
 			try {
@@ -55,42 +109,9 @@ public class LocaleResources {
 		}
 		return r;
 	}
-
-	/**
-	 * Returns the resource bundle from the respective properties-file for the default locale.
-	 * 
-	 * @param baseName The base name referring to the properties file to be loaded.
-	 * @return The resource bundle.
-	 */
-	public static ResourceBundle getResourceBundle(String baseName) {
-		return getResourceBundle(baseName, defaultLocale);
-	}
-
-	/**
-	 * Returns a localized text.
-	 * 
-	 * @param baseName The base name referring to the properties file to be loaded.
-	 * @param l The locale.
-	 * @param key The key of the text item.
-	 * @return The localized string.
-	 */
-	public static String getString(String baseName, Locale l, String key) {
-		String s = getResourceBundle(baseName, l).getString(key);
-		if (s == null) {
-			s = getResourceBundle(baseName, defaultLocale).getString(key);
-		}
-		return s;
-	}
-
-	/**
-	 * Returns a localized text for the default locale.
-	 * 
-	 * @param baseName The base name referring to the properties file to be loaded.
-	 * @param key The key of the text item.
-	 * @return The localized string.
-	 */
-	public static String getString(String baseName, String key) {
-		return getString(baseName, defaultLocale, key);
+	
+	private static boolean isEmpty(String s) {
+		return s == null || s.matches("\\s*");
 	}
 
 }

@@ -122,8 +122,8 @@ public class ExportWindow extends WindowPane implements ActionListener {
 
 		Row buttonBar = new Row();
 		buttonBar.setCellSpacing(new Extent(10));
-		buttonBar.add(new GeneralButton("Export", 80, this));
-		buttonBar.add(new GeneralButton("Cancel", 80, this));
+		buttonBar.add(new GeneralButton("Export", this, 80));
+		buttonBar.add(new GeneralButton("Cancel", this, 80));
 		GridLayoutData layout2 = new GridLayoutData();
 		layout2.setAlignment(new Alignment(Alignment.CENTER, Alignment.TOP));
 		buttonBar.setLayoutData(layout2);

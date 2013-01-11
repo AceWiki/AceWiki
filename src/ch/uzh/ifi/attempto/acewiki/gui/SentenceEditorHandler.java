@@ -66,7 +66,7 @@ public class SentenceEditorHandler implements ActionListener {
 				this
 			);
 		LanguageHandler lh = wiki.getLanguageHandler();
-		editorWindow = new PreditorWindow("Sentence Editor", lh.getPredictiveParser());
+		editorWindow = new PreditorWindow("Sentence Editor", lh.getPredictiveParser(), wiki.getLocale());
 		editorWindow.setMenuCreator(menuCreator);
 		editorWindow.setLogger(wiki.getLogger());
 		editorWindow.addActionListener(this);

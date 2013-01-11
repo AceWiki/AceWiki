@@ -98,7 +98,7 @@ public class MessageWindow extends GeneralWindow implements ActionListener {
 		buttonBar.setCellSpacing(new Extent(10));
 		buttonBar.setInsets(new Insets(0, 0, 0, 10));
 		for (String s : options) {
-			buttonBar.add(new GeneralButton(s, 80, this));
+			buttonBar.add(new GeneralButton(s, this, 80));
 		}
 		if (options.length == 1) {
 			ApplicationInstance.getActive().setFocusedComponent(buttonBar.getComponent(0));
