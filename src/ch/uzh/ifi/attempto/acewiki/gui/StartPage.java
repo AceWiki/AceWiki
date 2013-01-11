@@ -38,21 +38,21 @@ public class StartPage extends ArticlePage {
 		super(wiki, wiki.getOntology().get(0));
 		
 		this.oe = wiki.getOntology().get(0);
-		getTitle().setText("Main Page");
+		getTitle().setText(wiki.getGUIText("acewiki_specialpage_main"));
 		
-		addSelectedTab("Main Page");
-		addTab("Index", this);
-		addTab("Search", this);
-		addTab("About", this);
+		addSelectedTab("acewiki_specialpage_main");
+		addTab("acewiki_specialpage_index", this);
+		addTab("acewiki_specialpage_search", this);
+		addTab("acewiki_specialpage_about", this);
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);
-		if ("Index".equals(e.getActionCommand())) {
+		if ("acewiki_specialpage_index".equals(e.getActionCommand())) {
 			getWiki().showIndexPage();
-		} else if ("Search".equals(e.getActionCommand())) {
+		} else if ("acewiki_specialpage_search".equals(e.getActionCommand())) {
 			getWiki().showSearchPage();
-		} else if ("About".equals(e.getActionCommand())) {
+		} else if ("acewiki_specialpage_about".equals(e.getActionCommand())) {
 			getWiki().showAboutPage();
 		}
 	}

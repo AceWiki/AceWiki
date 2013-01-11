@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.webcontainer.WebContainerServlet;
+import ch.uzh.ifi.attempto.base.LocaleResources;
 import ch.uzh.ifi.attempto.base.Logger;
 import ch.uzh.ifi.attempto.base.APE;
 
@@ -103,6 +104,9 @@ public class AceWikiServlet extends WebContainerServlet {
 
             backend = new Backend(parameters);
         }
+
+		LocaleResources.loadBundle("ch/uzh/ifi/attempto/base/text");
+		LocaleResources.loadBundle("ch/uzh/ifi/attempto/acewiki/text");
 
         super.init(config);
     }

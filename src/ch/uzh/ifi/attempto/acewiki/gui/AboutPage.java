@@ -43,12 +43,12 @@ public class AboutPage extends WikiPage implements ActionListener {
 	public AboutPage(Wiki wiki) {
 		super(wiki);
 
-		addTab("Main Page", this);
-		addTab("Index", this);
-		addTab("Search", this);
-		addSelectedTab("About");
+		addTab("acewiki_specialpage_main", this);
+		addTab("acewiki_specialpage_index", this);
+		addTab("acewiki_specialpage_search", this);
+		addSelectedTab("acewiki_specialpage_about");
 		
-		add(new Title("About", true));
+		add(new Title(wiki.getGUIText("acewiki_specialpage_about"), true));
 		addHorizontalLine();
 		add(new VSpace(10));
 		
@@ -111,11 +111,11 @@ public class AboutPage extends WikiPage implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if ("Main Page".equals(e.getActionCommand())) {
+		if ("acewiki_specialpage_main".equals(e.getActionCommand())) {
 			getWiki().showStartPage();
-		} else if ("Index".equals(e.getActionCommand())) {
+		} else if ("acewiki_specialpage_index".equals(e.getActionCommand())) {
 			getWiki().showIndexPage();
-		} else if ("Search".equals(e.getActionCommand())) {
+		} else if ("acewiki_specialpage_search".equals(e.getActionCommand())) {
 			getWiki().showSearchPage();
 		}
 	}

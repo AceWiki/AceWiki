@@ -104,7 +104,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private String language;
 	private User user;
 	private OntologyExportManager ontologyExportManager;
-	private static AceWikiStorage storage;
+	private AceWikiStorage storage;
 
 	private WikiPage currentPage;
 	private Column pageCol;
@@ -114,22 +114,14 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private SplitPane wikiPane;
 	private Row loginBackground;
 
-	private IconButton backButton = new IconButton("Back", this);
-	private IconButton forwardButton = new IconButton("Forward", this);
-	private IconButton refreshButton = new IconButton("Refresh", this);
-	private IconButton userButton = new IconButton("User", this);
-	private IconButton logoutButton = new IconButton("Logout", this);
-	private IconButton searchButton = new IconButton("Search", this);
-	private TextField searchTextField = new TextField(170, this);
-	private Label userLabel = new SolidLabel("Anonymous", Font.ITALIC);
+	private IconButton backButton, forwardButton, refreshButton, userButton, logoutButton,
+		searchButton;
 
-	private SmallButton homeButton = new SmallButton("Main Page", this, 12);
-	private SmallButton indexButton = new SmallButton("Index", this, 12);
-	private SmallButton searchButton2 = new SmallButton("Search", this, 12);
-	private SmallButton aboutButton = new SmallButton("About", this, 12);
-	private SmallButton randomButton = new SmallButton("Random Article", this, 12);
-	private SmallButton newButton = new SmallButton("New Word...", this, 12);
-	private SmallButton exportButton = new SmallButton("Export...", this, 12);
+	private TextField searchTextField = new TextField(170, this);
+	private Label userLabel;
+
+	private SmallButton homeButton, indexButton, searchButton2, aboutButton, randomButton,
+		newButton, exportButton;
 	
 	private List<SmallButton> languageButtons;
 
@@ -194,9 +186,11 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		ontologyExportManager.addExporter(new StatementTableExporter());
 		ontologyExportManager.addExporter(new AceWikiDataExporter());
 		
+		userLabel = new SolidLabel(getGUIText("acewiki_anonymoususer_name"), Font.ITALIC);
+		userLabel.setForeground(Color.DARKGRAY);
+		
 		buildContentPane();
 
-		userLabel.setForeground(Color.DARKGRAY);
 		logoutButton.setVisible(false);
 
 		startPage = new StartPage(this);
@@ -289,6 +283,13 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		navigationButtons.setInsets(new Insets(5));
 		navigationButtons.setBackground(Style.shadedBackground);
 
+		backButton = new IconButton("back", this);
+		forwardButton = new IconButton("forward", this);
+		refreshButton = new IconButton("refresh", this);
+		userButton = new IconButton("user", this);
+		logoutButton = new IconButton("logout", this);
+		searchButton = new IconButton("search", this);
+
 		navigationButtons.add(backButton);
 		navigationButtons.add(new HSpace(5));
 		navigationButtons.add(forwardButton);
@@ -365,9 +366,14 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		sideCol.setInsets(new Insets(10, 0, 0, 10));
 		sideCol.setCellSpacing(new Extent(1));
 
-		SolidLabel label = new SolidLabel(getGUIText("sidemenu_navigation"), Font.ITALIC);
+		SolidLabel label = new SolidLabel(getGUIText("acewiki_sidemenu_navigation"), Font.ITALIC);
 		label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
 		sideCol.add(label);
+		homeButton = new SmallButton(getGUIText("acewiki_specialpage_main"), this, 12);
+		indexButton = new SmallButton(getGUIText("acewiki_specialpage_index"), this, 12);
+		searchButton2 = new SmallButton(getGUIText("acewiki_specialpage_search"), this, 12);
+		aboutButton = new SmallButton(getGUIText("acewiki_specialpage_about"), this, 12);
+		randomButton = new SmallButton(getGUIText("acewiki_specialpage_random"), this, 12);
 		sideCol.add(new ListItem(homeButton));
 		sideCol.add(new ListItem(indexButton));
 		sideCol.add(new ListItem(searchButton2));
@@ -375,9 +381,11 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		sideCol.add(new ListItem(randomButton));
 
 		sideCol.add(new VSpace(10));
-		label = new SolidLabel(getGUIText("sidemenu_actions"), Font.ITALIC);
+		label = new SolidLabel(getGUIText("acewiki_sidemenu_actions"), Font.ITALIC);
 		label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
 		sideCol.add(label);
+		newButton = new SmallButton(getGUIText("acewiki_action_newword"), this, 12);
+		exportButton = new SmallButton(getGUIText("acewiki_action_export"), this, 12);
 		if (!isReadOnly() && getEngine().getLexicalTypes().length > 0) {
 			sideCol.add(new ListItem(newButton));
 		}
@@ -387,7 +395,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			// show language switcher
 
 			sideCol.add(new VSpace(10));
-			label = new SolidLabel(getGUIText("sidemenu_languages"), Font.ITALIC);
+			label = new SolidLabel(getGUIText("acewiki_sidemenu_languages"), Font.ITALIC);
 			label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
 			sideCol.add(label);
 			
@@ -1165,7 +1173,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * @return The localized string.
 	 */
 	public String getGUIText(String key) {
-		return LocaleResources.getString("ch/uzh/ifi/attempto/acewiki/text", getLocale(), key);
+		//return LocaleResources.getString(getLocale(), key);
+		// For locale testing:
+		return LocaleResources.getString(new Locale("de", "DE"), key);
 	}
 	
 	private String getURLParameterValue(String name) {
