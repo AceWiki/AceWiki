@@ -19,6 +19,7 @@ import java.util.Locale;
 import ch.uzh.ifi.attempto.base.LocaleResources;
 
 import nextapp.echo.app.Alignment;
+import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Column;
 import nextapp.echo.app.Extent;
 import nextapp.echo.app.Font;
@@ -45,10 +46,9 @@ public class TextAreaWindow extends WindowPane implements ActionListener {
 	 * Creates a new text area window with the given title, text, and action-listener.
 	 * 
 	 * @param title The title of the window.
-	 * @param locale The locale to show GUI text.
 	 * @param actionListener The action-listener or null.
 	 */
-	public TextAreaWindow(String title, Locale locale, ActionListener actionListener) {
+	public TextAreaWindow(String title, ActionListener actionListener) {
 		this.actionListener = actionListener;
 		
 		setModal(true);
@@ -70,10 +70,10 @@ public class TextAreaWindow extends WindowPane implements ActionListener {
 		buttonBar.setAlignment(new Alignment(Alignment.RIGHT, Alignment.CENTER));
 		buttonBar.setInsets(new Insets(0, 0, 10, 0));
 		buttonBar.setCellSpacing(new Extent(5));
-		String okText = LocaleResources.getString(locale, "general_button_ok");
+		String okText = LocaleResources.getString(getLocale(), "general_button_ok");
 		GeneralButton okButton = new GeneralButton(okText, "OK", this, 80);
 		buttonBar.add(okButton);
-		String cancelText = LocaleResources.getString(locale, "general_button_cancel");
+		String cancelText = LocaleResources.getString(getLocale(), "general_button_cancel");
 		GeneralButton cancelButton = new GeneralButton(cancelText, "Cancel", this, 80);
 		buttonBar.add(cancelButton);
 		mainColumn.add(buttonBar);
@@ -81,17 +81,6 @@ public class TextAreaWindow extends WindowPane implements ActionListener {
 		add(mainColumn);
 		
 		setSize(450, 300);
-	}
-
-	/**
-	 * Creates a new text area window with an empty text area and the given title and
-	 * action-listener.
-	 * 
-	 * @param title The title of the window.
-	 * @param actionListener The action-listener or null.
-	 */
-	public TextAreaWindow(String title, ActionListener actionListener) {
-		this(title, null, actionListener);
 	}
 	
 	/**
@@ -133,6 +122,10 @@ public class TextAreaWindow extends WindowPane implements ActionListener {
 		}
 		setVisible(false);
 		dispose();
+	}
+	
+	public Locale getLocale() {
+		return ApplicationInstance.getActive().getLocale();
 	}
 
 }
