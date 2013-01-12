@@ -354,7 +354,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		}
 
 		if (isReadOnly()) {
-			SolidLabel rolabel = new SolidLabel("— READ ONLY —", Font.ITALIC);
+			String s = "— " + getGUIText("acewiki_state_readonly") + " —";
+			SolidLabel rolabel = new SolidLabel(s, Font.ITALIC);
 			rolabel.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
 			rolabel.setLayoutData(layout);
 			iconCol.add(rolabel);
@@ -391,6 +392,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		}
 		sideCol.add(new ListItem(exportButton));
 
+		languageButtons = new ArrayList<SmallButton>();
+
 		if (engine.getLanguages().length > 1 && isLanguageSwitchingEnabled()) {
 			// show language switcher
 
@@ -398,8 +401,6 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			label = new SolidLabel(getGUIText("acewiki_sidemenu_languages"), Font.ITALIC);
 			label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
 			sideCol.add(label);
-			
-			languageButtons = new ArrayList<SmallButton>();
 			
 			for (String lang : engine.getLanguages()) {
 				SmallButton b = new SmallButton(lang, this, 12);
@@ -833,7 +834,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			if (!isEditable()) {
 				showLoginWindow();
 			} else {
-				WordEditorWindow w = new WordEditorWindow("Word Creator");
+				WordEditorWindow w = new WordEditorWindow(getGUIText("acewiki_wordeditor_creatortitle"));
 				for (String t : getEngine().getLexicalTypes()) {
 					w.addTab(new FormPane(t, w, this));
 				}
@@ -853,8 +854,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			showWindow(new ExportWindow(this));
 		} else if (src == logoutButton) {
 			showWindow(new MessageWindow(
-					"Logout",
-					"Do you really want to log out?",
+					getGUIText("acewiki_logoutwindow_title"),
+					getGUIText("acewiki_logoutwindow_message"),
 					null,
 					this,
 					"Yes", "No"
