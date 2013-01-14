@@ -72,6 +72,7 @@ import ch.uzh.ifi.attempto.acewiki.gui.UserWindow;
 import ch.uzh.ifi.attempto.acewiki.gui.WikiPage;
 import ch.uzh.ifi.attempto.base.LocaleResources;
 import ch.uzh.ifi.attempto.base.Logger;
+import ch.uzh.ifi.attempto.echocomp.EchoThread;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
@@ -161,7 +162,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		engine = ontology.getEngine();
 		
 		logger = new Logger(getParameter("context:logdir") + "/" + ontology.getName(), "anon", sessionID);
-		application = (AceWikiApp) ApplicationInstance.getActive();
+		application = (AceWikiApp) EchoThread.getApplication(Thread.currentThread());
 		taskQueue = application.createTaskQueue();
 
 		language = getParameter("language");
@@ -224,7 +225,11 @@ public class Wiki implements ActionListener, ExternalEventListener {
 
 		// This thread checks regularly for pending tasks and executes them. Strong tasks take
 		// precedence over weak ones.
-		Thread asyncThread = new Thread() {
+		EchoThread asyncThread = new EchoThread() {
+			
+			public ApplicationInstance getApplication() {
+				return application;
+			}
 
 			public void run() {
 				while (true) {
@@ -370,11 +375,11 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		SolidLabel label = new SolidLabel(getGUIText("acewiki_sidemenu_navigation"), Font.ITALIC);
 		label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
 		sideCol.add(label);
-		homeButton = new SmallButton(getGUIText("acewiki_specialpage_main"), this, 12);
-		indexButton = new SmallButton(getGUIText("acewiki_specialpage_index"), this, 12);
-		searchButton2 = new SmallButton(getGUIText("acewiki_specialpage_search"), this, 12);
-		aboutButton = new SmallButton(getGUIText("acewiki_specialpage_about"), this, 12);
-		randomButton = new SmallButton(getGUIText("acewiki_specialpage_random"), this, 12);
+		homeButton = new SmallButton(getGUIText("acewiki_page_main"), this, 12);
+		indexButton = new SmallButton(getGUIText("acewiki_page_index"), this, 12);
+		searchButton2 = new SmallButton(getGUIText("acewiki_page_search"), this, 12);
+		aboutButton = new SmallButton(getGUIText("acewiki_page_about"), this, 12);
+		randomButton = new SmallButton(getGUIText("acewiki_page_random"), this, 12);
 		sideCol.add(new ListItem(homeButton));
 		sideCol.add(new ListItem(indexButton));
 		sideCol.add(new ListItem(searchButton2));
@@ -854,11 +859,11 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			showWindow(new ExportWindow(this));
 		} else if (src == logoutButton) {
 			showWindow(new MessageWindow(
-					getGUIText("acewiki_logoutwindow_title"),
-					getGUIText("acewiki_logoutwindow_message"),
+					"acewiki_message_logouttitle",
+					"acewiki_message_logout",
 					null,
 					this,
-					"general_button_yes", "general_button_no"
+					"general_action_yes", "general_action_no"
 				));
 		} else if (src == userButton) {
 			if (user == null) {
@@ -866,7 +871,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			} else {
 				showWindow(new UserWindow(this));
 			}
-		} else if (src instanceof MessageWindow && c.equals("general_button_yes")) {
+		} else if (src instanceof MessageWindow && c.equals("general_action_yes")) {
 			logout();
 		} else if (src instanceof OntologyTextElement) {
 			// for newly generated elements
@@ -1176,7 +1181,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * @return The localized string.
 	 */
 	public String getGUIText(String key) {
-		return LocaleResources.getString(getLocale(), key);
+		String text = LocaleResources.getString(getLocale(), key);
+		if (text == null) text = key;
+		return text;
 	}
 	
 	private String getURLParameterValue(String name) {

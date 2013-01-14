@@ -49,7 +49,7 @@ public abstract class DelayedComponent extends Column {
 			add(tempComponent);
 		}
 		
-		final ApplicationInstance application = ApplicationInstance.getActive();
+		final ApplicationInstance application = EchoThread.getApplication(Thread.currentThread());
 		TaskQueueHandle taskQueueTemp = taskQueues.get(application.toString());
 		if (taskQueueTemp == null) {
 			taskQueueTemp = application.createTaskQueue();
@@ -59,7 +59,12 @@ public abstract class DelayedComponent extends Column {
 		
 		if (synchronize) {
 			
-			Thread thread = new Thread() {
+			EchoThread thread = new EchoThread() {
+				
+				public ApplicationInstance getApplication() {
+					return application;
+				}
+				
 				public void run() {
 					synchronized (application) {
 						final Component c = initComponent();
@@ -78,13 +83,19 @@ public abstract class DelayedComponent extends Column {
 						} catch (InterruptedException ex) {}
 					}
 				}
+				
 			};
 			thread.setPriority(Thread.MIN_PRIORITY);
 			thread.start();
 			
 		} else {
 			
-			Thread thread = new Thread() {
+			EchoThread thread = new EchoThread() {
+				
+				public ApplicationInstance getApplication() {
+					return application;
+				}
+				
 				public void run() {
 					final Component c = initComponent();
 					application.enqueueTask(
@@ -98,6 +109,7 @@ public abstract class DelayedComponent extends Column {
 						}
 					);
 				}
+				
 			};
 			thread.start();
 			

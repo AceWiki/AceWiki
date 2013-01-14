@@ -41,7 +41,7 @@ public class IndividualPage extends ArticlePage {
 		super(wiki, ind);
 		this.ind = ind;
 		
-		addTab("Assignments", this);
+		addTab("acewiki_page_assignments", this);
 	}
 	
 	public OntologyElement getOntologyElement() {
@@ -50,7 +50,7 @@ public class IndividualPage extends ArticlePage {
 
 	public void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);
-		if ("Assignments".equals(e.getActionCommand())) {
+		if ("acewiki_page_assignments".equals(e.getActionCommand())) {
 			getWiki().showPage(new AssignmentsPage(this));
 		}
 	}

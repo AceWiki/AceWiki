@@ -64,7 +64,7 @@ public class UserWindow extends WindowPane implements ActionListener {
 		this.wiki = wiki;
 		this.user = wiki.getUser();
 		
-		setTitle("User: " + user.getName());
+		setTitle(wiki.getGUIText("acewiki_userwindow_title") + " " + user.getName());
 		setTitleFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		setModal(true);
 		setWidth(new Extent(470));
@@ -85,31 +85,31 @@ public class UserWindow extends WindowPane implements ActionListener {
 		GridLayoutData layout1 = new GridLayoutData();
 		layout1.setAlignment(new Alignment(Alignment.LEFT, Alignment.TOP));
 		messageColumn.setLayoutData(layout1);
-		Label label = new Label("Your personal information:");
+		Label label = new Label(wiki.getGUIText("acewiki_userwindow_message"));
 		label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		messageColumn.add(label);
 		messageColumn.add(new VSpace());
 		
 		Grid formGrid = new Grid(2);
 		formGrid.setInsets(new Insets(10, 10, 10, 0));
-		formGrid.add(new SolidLabel("username:", Font.ITALIC));
+		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_username"), Font.ITALIC));
 		formGrid.add(new SolidLabel(user.getName(), Font.ITALIC));
-		formGrid.add(new SolidLabel("registration:", Font.ITALIC));
+		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_registerdate"), Font.ITALIC));
 		formGrid.add(new SolidLabel(user.getUserData("registerdate"), Font.ITALIC));
-		formGrid.add(new SolidLabel("number of sessions:", Font.ITALIC));
+		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_sessions"), Font.ITALIC));
 		formGrid.add(new SolidLabel(user.getUserData("logincount"), Font.ITALIC));
-		formGrid.add(new SolidLabel("email:", Font.ITALIC));
+		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_email"), Font.ITALIC));
 		emailField.setText(user.getUserData("email"));
 		emailField.setEnabled(false);
 		formGrid.add(emailField);
-		formGrid.add(new SolidLabel("current password:", Font.ITALIC));
+		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_currentpassword"), Font.ITALIC));
 		passwordField.setText("***************");
 		passwordField.setEnabled(false);
 		formGrid.add(passwordField);
-		formGrid.add(new SolidLabel("new password:", Font.ITALIC));
+		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_newpassword"), Font.ITALIC));
 		newPasswordField.setEnabled(false);
 		formGrid.add(newPasswordField);
-		formGrid.add(new SolidLabel("retype new password:", Font.ITALIC));
+		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_retypenewpassword"), Font.ITALIC));
 		retypePasswordField.setEnabled(false);
 		formGrid.add(retypePasswordField);
 		messageColumn.add(formGrid);
@@ -119,8 +119,8 @@ public class UserWindow extends WindowPane implements ActionListener {
 		buttonBar = new Row();
 		buttonBar.setCellSpacing(new Extent(10));
 		buttonBar.setInsets(new Insets(0, 0, 0, 10));
-		buttonBar.add(new GeneralButton("Unlock", this, 80));
-		buttonBar.add(new GeneralButton("Close", this, 80));
+		buttonBar.add(new GeneralButton("general_action_unlock", this, 80));
+		buttonBar.add(new GeneralButton("general_action_close", this, 80));
 		GridLayoutData layout2 = new GridLayoutData();
 		layout2.setAlignment(new Alignment(Alignment.CENTER, Alignment.BOTTOM));
 		buttonBar.setLayoutData(layout2);
@@ -130,62 +130,43 @@ public class UserWindow extends WindowPane implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		String c = e.getActionCommand();
 		String password = passwordField.getText();
 		String newPassword = newPasswordField.getText();
 		String newPassword2 = retypePasswordField.getText();
 		String email = emailField.getText();
-		if ("Cancel".equals(e.getActionCommand()) || "Close".equals(e.getActionCommand())) {
+		if ("general_action_cancel".equals(c) || "general_action_close".equals(c)) {
 			wiki.log("logi", "registration canceled");
 			setVisible(false);
 			wiki.removeWindow(this);
-		} else if ("Unlock".equals(e.getActionCommand())) {
+		} else if ("general_action_unlock".equals(c)) {
 			emailField.setEnabled(true);
 			passwordField.setEnabled(true);
 			passwordField.setText("");
 			newPasswordField.setEnabled(true);
 			retypePasswordField.setEnabled(true);
 			buttonBar.removeAll();
-			buttonBar.add(new GeneralButton("Change", this, 80));
-			buttonBar.add(new GeneralButton("Cancel", this, 80));
+			buttonBar.add(new GeneralButton("acewiki_userwindow_changebutton", this, 80));
+			buttonBar.add(new GeneralButton("general_action_cancel", this, 80));
 			wiki.getApplication().setFocusedComponent(emailField);
 		} else {
 			wiki.log("logi", "pressed: change user data");
 			if (!user.isCorrectPassword(password)) {
 				wiki.log("logi", "invalid password");
 				if (password.length() == 0) {
-					wiki.showWindow(new MessageWindow(
-							"Error",
-							"You have to enter your current password to apply the changes.",
-							"OK"
-						));
+					showErrorMessage("acewiki_error_nopassword");
 				} else {
-					wiki.showWindow(new MessageWindow(
-							"Error",
-							"The password is not correct.",
-							"OK"
-						));
+					showErrorMessage("acewiki_error_incorrectpassword");
 				}
 			} else if (newPassword.length() > 0 && newPassword.length() < 5) {
 				wiki.log("logi", "invalid new password");
-				wiki.showWindow(new MessageWindow(
-						"Error",
-						"Password needs at least 5 characters.",
-						"OK"
-					));
+				showErrorMessage("acewiki_error_passwordlength");
 			} else if (!newPassword.equals(newPassword2)) {
 				wiki.log("logi", "retype password does not match");
-				wiki.showWindow(new MessageWindow(
-						"Error",
-						"The two passwords do not match.",
-						"OK"
-					));
+				showErrorMessage("acewiki_error_retypepassword");
 			} else if (email.indexOf("@") < 0) {
 				wiki.log("logi", "no email");
-				wiki.showWindow(new MessageWindow(
-						"Error",
-						"Please provide a valid email address.",
-						"OK"
-					));
+				showErrorMessage("acewiki_error_email");
 			} else {
 				user.setUserData("email", email);
 				if (newPassword.length() > 0) {
@@ -194,6 +175,10 @@ public class UserWindow extends WindowPane implements ActionListener {
 				wiki.removeWindow(this);
 			}
 		}
+	}
+	
+	private void showErrorMessage(String s) {
+		wiki.showWindow(new MessageWindow("acewiki_error_title", s, "general_action_ok"));
 	}
 	
 }

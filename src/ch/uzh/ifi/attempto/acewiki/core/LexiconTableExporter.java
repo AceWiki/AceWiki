@@ -41,7 +41,7 @@ public class LexiconTableExporter extends OntologyExporter {
 	}
 	
 	public String getName() {
-		return "Lexicon Table";
+		return "acewiki_export_lexiconfile";
 	}
 	
 	public String getFileSuffix() {

@@ -49,7 +49,7 @@ public class StatementTableExporter extends OntologyExporter {
 	}
 	
 	public String getName() {
-		return "Statement Table";
+		return "acewiki_export_statementfile";
 	}
 	
 	public String getFileSuffix() {

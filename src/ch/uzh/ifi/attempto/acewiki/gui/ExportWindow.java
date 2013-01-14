@@ -67,7 +67,7 @@ public class ExportWindow extends WindowPane implements ActionListener {
 	public ExportWindow(Wiki wiki) {
 		this.wiki = wiki;
 		
-		setTitle("Export");
+		setTitle(wiki.getGUIText("acewiki_exportwindow_title"));
 		setTitleFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		setModal(true);
 		setWidth(new Extent(420));
@@ -97,7 +97,7 @@ public class ExportWindow extends WindowPane implements ActionListener {
 		layout1.setAlignment(new Alignment(Alignment.LEFT, Alignment.TOP));
 		messageColumn.setLayoutData(layout1);
 
-		Label label = new Label("Choose the type of export from the list:");
+		Label label = new Label(wiki.getGUIText("acewiki_exportwindow_message"));
 		label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		messageColumn.add(label);
 		messageColumn.add(new VSpace());
@@ -106,7 +106,7 @@ public class ExportWindow extends WindowPane implements ActionListener {
 		String[] options = new String[exporters.size()];
 		for (int i = 0 ; i < exporters.size() ; i++) {
 			OntologyExporter e = exporters.get(i);
-			options[i] = e.getName() + " (" + e.getFileSuffix() + ")";
+			options[i] = wiki.getGUIText(e.getName()) + " (" + e.getFileSuffix() + ")";
 		}
 		
 		listBox = new ListBox(options);
@@ -122,8 +122,8 @@ public class ExportWindow extends WindowPane implements ActionListener {
 
 		Row buttonBar = new Row();
 		buttonBar.setCellSpacing(new Extent(10));
-		buttonBar.add(new GeneralButton("Export", this, 80));
-		buttonBar.add(new GeneralButton("Cancel", this, 80));
+		buttonBar.add(new GeneralButton("acewiki_exportwindow_button", this, 80));
+		buttonBar.add(new GeneralButton("general_action_cancel", this, 80));
 		GridLayoutData layout2 = new GridLayoutData();
 		layout2.setAlignment(new Alignment(Alignment.CENTER, Alignment.TOP));
 		buttonBar.setLayoutData(layout2);
@@ -135,7 +135,7 @@ public class ExportWindow extends WindowPane implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		setVisible(false);
 		
-		if (e.getActionCommand().equals("Export")) {
+		if (e.getActionCommand().equals("acewiki_exportwindow_button")) {
 			
 			final Ontology ontology = wiki.getOntology();
 			final OntologyExporter exporter = exporters.get(listBox.getSelectedIndices()[0]);

@@ -89,7 +89,7 @@ public class AceWikiMenuCreator implements MenuCreator, ActionListener {
 		for (String p : getEditorController().getExtensibleCategories()) {
 			if (!options.containsCategory(p)) continue;
 			String g = getEditorController().getMenuGroup(p);
-			menuItems.add(new SpecialMenuItem("new...", g, p, this));
+			menuItems.add(new SpecialMenuItem(wiki.getGUIText("acewiki_preditor_menuitemnew"), g, p, this));
 		}
 		return menuItems;
 	}

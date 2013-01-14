@@ -61,12 +61,12 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 		super(page.getWiki());
 		this.page = page;
 		
-		addTab("Article", this);
-		addTab("References", this);
-		addSelectedTab("Assignments");
+		addTab("acewiki_page_article", this);
+		addTab("acewiki_page_references", this);
+		addSelectedTab("acewiki_page_assignments");
 		
 		OntologyElement oe = page.getOntologyElement();
-		title = new Title(getHeading(oe), "- Assignments", oe.getType(), this);
+		title = new Title(getHeading(oe), "- " + getWiki().getGUIText("acewiki_page_assignments"), oe.getType(), this);
 		add(title);
 		addHorizontalLine();
 		add(assignmentsColumn);
@@ -78,7 +78,7 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 		
 		final Column waitComp = new Column();
 		waitComp.setInsets(new Insets(10, 0, 0, 0));
-		waitComp.add(new RecalcIcon("This list is being updated."));
+		waitComp.add(new RecalcIcon(getWiki().getGUIText("acewiki_list_updating")));
 		
 		CachingReasoner cr = getWiki().getOntology().getReasoner();
 		
@@ -108,10 +108,10 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if ("Article".equals(e.getActionCommand())) {
+		if ("acewiki_page_article".equals(e.getActionCommand())) {
 			log("page", "pressed: article");
 			getWiki().showPage(page);
-		} else if ("References".equals(e.getActionCommand())) {
+		} else if ("acewiki_page_references".equals(e.getActionCommand())) {
 			log("page", "pressed: references");
 			getWiki().showPage(new ReferencesPage(page));
 		} else if (e.getSource() == title) {
@@ -144,7 +144,7 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 		private List<Sentence> sentences;
 		
 		public AssignmentsComponent(boolean cached) {
-			indexBar = new IndexBar("Page:", 0, this);
+			indexBar = new IndexBar(0, this);
 			add(indexBar);
 			
 			sentencesColumn.setInsets(new Insets(10, 2, 5, 20));
@@ -168,7 +168,7 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 				}
 				if (sentences.size() == 0) {
 					indexBar.setVisible(false);
-					sentencesColumn.add(new SolidLabel("(no assignment found)", Font.ITALIC, 10));
+					sentencesColumn.add(new SolidLabel(getWiki().getGUIText("acewiki_list_empty"), Font.ITALIC, 10));
 				} else {
 					int i = ((sentences.size()-1) / pageSize) + 1;
 					if (chosenPage > i) chosenPage = 0;

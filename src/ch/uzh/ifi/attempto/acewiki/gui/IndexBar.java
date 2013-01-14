@@ -15,9 +15,7 @@
 package ch.uzh.ifi.attempto.acewiki.gui;
 
 import java.awt.Font;
-
-import ch.uzh.ifi.attempto.echocomp.SmallButton;
-import ch.uzh.ifi.attempto.echocomp.SolidLabel;
+import java.util.Locale;
 
 import nextapp.echo.app.Border;
 import nextapp.echo.app.Color;
@@ -27,6 +25,10 @@ import nextapp.echo.app.Insets;
 import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
+import ch.uzh.ifi.attempto.base.LocaleResources;
+import ch.uzh.ifi.attempto.echocomp.EchoThread;
+import ch.uzh.ifi.attempto.echocomp.SmallButton;
+import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 
 /**
  * This class represents an index bar that shows either letters from A to Z or numbers. This
@@ -43,7 +45,7 @@ public class IndexBar extends Column implements ActionListener {
 	private SmallButton activeButton;
 	private Row row;
 	
-	private IndexBar(String text) {
+	private void init(String text) {
 		Row mainRow = new Row();
 		mainRow.setInsets(new Insets(10, 2, 5, 2));
 		mainRow.setCellSpacing(new Extent(5));
@@ -56,11 +58,10 @@ public class IndexBar extends Column implements ActionListener {
 	/**
 	 * Creates a new index bar showing letters from A to Z.
 	 * 
-	 * @param text The text to be shown on the left hand side of the index bar.
 	 * @param actionListener The actionlistener.
 	 */
-	public IndexBar(String text, ActionListener actionListener) {
-		this(text);
+	public IndexBar(ActionListener actionListener) {
+		init(LocaleResources.getString(getLocale(), "acewiki_list_firstletter"));
 		this.actionListener = actionListener;
 		setLetters();
 	}
@@ -68,12 +69,11 @@ public class IndexBar extends Column implements ActionListener {
 	/**
 	 * Creates a new index bar showing numbers from 1 to the specified number.
 	 * 
-	 * @param text The text to be shown on the left hand side of the index bar.
 	 * @param n The last number to be shown.
 	 * @param actionListener The actionlistener.
 	 */
-	public IndexBar(String text, int n, ActionListener actionListener) {
-		this(text);
+	public IndexBar(int n, ActionListener actionListener) {
+		init(LocaleResources.getString(getLocale(), "acewiki_list_page"));
 		this.actionListener = actionListener;
 		setNumbers(n);
 	}
@@ -133,6 +133,10 @@ public class IndexBar extends Column implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		setActiveButton((SmallButton) e.getSource());
 		actionListener.actionPerformed(new ActionEvent(this, e.getActionCommand()));
+	}
+	
+	public Locale getLocale() {
+		return EchoThread.getApplication(Thread.currentThread()).getLocale();
 	}
 
 }

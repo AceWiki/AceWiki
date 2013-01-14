@@ -181,9 +181,9 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 		buttonBar.setAlignment(new Alignment(Alignment.RIGHT, Alignment.TOP));
 		buttonBar.setInsets(new Insets(10, 10, 10, 0));
 		buttonBar.setCellSpacing(new Extent(5));
-		okButton = new GeneralButton(getLocalized("general_button_ok"), this, 80);
+		okButton = new GeneralButton(getLocalized("general_action_ok"), this, 80);
 		buttonBar.add(okButton);
-		cancelButton = new GeneralButton(getLocalized("general_button_cancel"), this, 80);
+		cancelButton = new GeneralButton(getLocalized("general_action_cancel"), this, 80);
 		buttonBar.add(cancelButton);
 		grid.setRowHeight(3, new Extent(30));
 		grid.add(buttonBar);
