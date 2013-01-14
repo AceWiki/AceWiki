@@ -155,26 +155,21 @@ public class WordEditorForm extends ContentPane implements ActionListener {
 	 * Adds a button to the button bar.
 	 * 
 	 * @param buttonText The text of the button.
-	 * @param actionCommand The action command.
-	 */
-	public void addButton(String buttonText, String actionCommand) {
-		buttonBar.add(new GeneralButton(buttonText, actionCommand, this, 80));
-	}
-	
-	/**
-	 * Adds a button to the button bar.
-	 * 
-	 * @param buttonText The text of the button.
 	 */
 	public void addButton(String buttonText) {
-		addButton(buttonText, buttonText);
+		buttonBar.add(new GeneralButton(buttonText, this, 80));
 	}
 	
 	/**
-	 * Removes all buttons from the button bar.
+	 * Removes all existing buttons and adds the given buttons to the button bar.
+	 * 
+	 * @param buttonTexts The texts for the buttons.
 	 */
-	public void removeAllButtons() {
+	public void setButtons(String... buttonTexts) {
 		buttonBar.removeAll();
+		for (String t : buttonTexts) {
+			addButton(t);
+		}
 	}
 	
 	/**

@@ -176,7 +176,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			}
 		}
 
-		application.setLocale(getLanguageHandler().getLocale());
+		application.setLocale(getLocale());
 
 		ontologyExportManager = new OntologyExportManager(ontology);
 		for (OntologyExporter o : engine.getExporters()) {
@@ -571,7 +571,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * @param element The ontology element to be edited.
 	 */
 	public void showEditorWindow(OntologyElement element) {
-		WordEditorWindow editorWindow = new WordEditorWindow("Word Editor");
+		WordEditorWindow editorWindow = new WordEditorWindow(getGUIText("acewiki_wordeditor_title"));
 		editorWindow.addTab(new FormPane(element, editorWindow, this));
 		showWindow(editorWindow);
 	}
@@ -584,7 +584,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * @param actionListener The actionlistener.
 	 */
 	public void showCreatorWindow(String type, int wordNumber, ActionListener actionListener) {
-		WordEditorWindow creatorWindow = new WordEditorWindow("Word Creator");
+		WordEditorWindow creatorWindow = new WordEditorWindow(getGUIText("acewiki_wordeditor_creatortitle"));
 		creatorWindow.addTab(new FormPane(type, wordNumber, creatorWindow, this, actionListener));
 		showWindow(creatorWindow);
 	}
@@ -858,7 +858,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 					getGUIText("acewiki_logoutwindow_message"),
 					null,
 					this,
-					"Yes", "No"
+					"general_button_yes", "general_button_no"
 				));
 		} else if (src == userButton) {
 			if (user == null) {
@@ -866,7 +866,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			} else {
 				showWindow(new UserWindow(this));
 			}
-		} else if (src instanceof MessageWindow && c.equals("Yes")) {
+		} else if (src instanceof MessageWindow && c.equals("general_button_yes")) {
 			logout();
 		} else if (src instanceof OntologyTextElement) {
 			// for newly generated elements
@@ -1043,7 +1043,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		for (SmallButton b : languageButtons) {
 			b.setEnabled(!b.getText().equals(language));
 		}
-		application.setLocale(getLanguageHandler().getLocale());
+		application.setLocale(getLocale());
 		buildContentPane();
 		update();
 		refresh();

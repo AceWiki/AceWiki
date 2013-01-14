@@ -126,14 +126,7 @@ public abstract class WikiPage extends Column {
 	 * @param actionListener The actionlistener.
 	 */
 	protected void addTab(String text, ActionListener actionListener) {
-		String tabName = getWiki().getGUIText(text);
-		SmallButton b;
-		if (tabName == null) {
-			b = new SmallButton(text, actionListener);
-		} else {
-			b = new SmallButton(tabName, text, actionListener);
-		}
-		tabRow.add(b);
+		tabRow.add(new SmallButton(text, actionListener));
 		tabRow.add(new HSpace(8));
 		tabRow.add(createTabSeparator());
 		tabRow.add(new HSpace(8));
@@ -149,13 +142,7 @@ public abstract class WikiPage extends Column {
 	 * @param text Either a text key or the text itself.
 	 */
 	protected void addSelectedTab(String text) {
-		String tabName = getWiki().getGUIText(text);
-		SmallButton b;
-		if (tabName == null) {
-			b = new SmallButton(text, null);
-		} else {
-			b = new SmallButton(tabName, text, null);
-		}
+		SmallButton b = new SmallButton(text, null);
 		b.setEnabled(false);
 		tabRow.add(b);
 		tabRow.add(new HSpace(8));

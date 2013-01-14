@@ -14,7 +14,12 @@
 
 package ch.uzh.ifi.attempto.echocomp;
 
+import java.util.Locale;
+
+import ch.uzh.ifi.attempto.base.LocaleResources;
+
 import nextapp.echo.app.Alignment;
+import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Border;
 import nextapp.echo.app.Button;
 import nextapp.echo.app.Color;
@@ -35,18 +40,15 @@ public class GeneralButton extends Button {
 	/**
 	 * Creates a new button.
 	 * 
-	 * @param text The button text.
-	 * @param actionCommand The action command.
+	 * @param s Either the text key for localization or the actual button text.
 	 * @param actionListener The action-listener of the button.
 	 * @param width The button width.
 	 */
-	public GeneralButton(String text, String actionCommand, ActionListener actionListener, int width) {
-		super(text);
-		
-		if (width > 0) {
-			setBorder(new Border(1, Color.BLACK, Border.STYLE_OUTSET));
-			setWidth(new Extent(width));
-		}
+	public GeneralButton(String s, ActionListener actionListener, int width) {
+		String text = LocaleResources.getString(getLocale(), s);
+		if (text == null) text = s;
+		setText(text);
+		if (width > 0) setWidth(new Extent(width));
 		setHeight(new Extent(17));
 		setBackground(Style.mediumBackground);
 		setForeground(Style.darkForeground);
@@ -63,40 +65,18 @@ public class GeneralButton extends Button {
 		setTextAlignment(new Alignment(Alignment.CENTER, Alignment.CENTER));
 		setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		
-		setActionCommand(actionCommand);
+		setActionCommand(s);
 		addActionListener(actionListener);
-	}
-
-	/**
-	 * Creates a new button.
-	 * 
-	 * @param text The button text.
-	 * @param actionCommand The action command.
-	 * @param actionListener The action-listener of the button.
-	 */
-	public GeneralButton(String text, String actionCommand, ActionListener actionListener) {
-		this(text, actionCommand, actionListener, 0);
-	}
-
-	/**
-	 * Creates a new button.
-	 * 
-	 * @param text The button text.
-	 * @param actionListener The action-listener of the button.
-	 * @param width The button width.
-	 */
-	public GeneralButton(String text, ActionListener actionListener, int width) {
-		this(text, text, actionListener, width);
 	}
 	
 	/**
 	 * Creates a new button.
 	 * 
-	 * @param text The button text.
+	 * @param s Either the text key for localization or the actual button text.
 	 * @param actionListener The action-listener of the button.
 	 */
-	public GeneralButton(String text, ActionListener actionListener) {
-		this(text, text, actionListener, 0);
+	public GeneralButton(String s, ActionListener actionListener) {
+		this(s, actionListener, 0);
 	}
 	
 	public void setEnabled(boolean enabled) {
@@ -109,6 +89,10 @@ public class GeneralButton extends Button {
 		} else {
 			setBackground(null);
 		}
+	}
+	
+	public Locale getLocale() {
+		return ApplicationInstance.getActive().getLocale();
 	}
 
 }

@@ -14,12 +14,7 @@
 
 package ch.uzh.ifi.attempto.echocomp;
 
-import java.util.Locale;
-
-import ch.uzh.ifi.attempto.base.LocaleResources;
-
 import nextapp.echo.app.Alignment;
-import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Column;
 import nextapp.echo.app.Extent;
 import nextapp.echo.app.Font;
@@ -70,11 +65,9 @@ public class TextAreaWindow extends WindowPane implements ActionListener {
 		buttonBar.setAlignment(new Alignment(Alignment.RIGHT, Alignment.CENTER));
 		buttonBar.setInsets(new Insets(0, 0, 10, 0));
 		buttonBar.setCellSpacing(new Extent(5));
-		String okText = LocaleResources.getString(getLocale(), "general_button_ok");
-		GeneralButton okButton = new GeneralButton(okText, "OK", this, 80);
+		GeneralButton okButton = new GeneralButton("general_button_ok", this, 80);
 		buttonBar.add(okButton);
-		String cancelText = LocaleResources.getString(getLocale(), "general_button_cancel");
-		GeneralButton cancelButton = new GeneralButton(cancelText, "Cancel", this, 80);
+		GeneralButton cancelButton = new GeneralButton("general_button_cancel", this, 80);
 		buttonBar.add(cancelButton);
 		mainColumn.add(buttonBar);
 		
@@ -122,10 +115,6 @@ public class TextAreaWindow extends WindowPane implements ActionListener {
 		}
 		setVisible(false);
 		dispose();
-	}
-	
-	public Locale getLocale() {
-		return ApplicationInstance.getActive().getLocale();
 	}
 
 }
