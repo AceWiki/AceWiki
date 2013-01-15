@@ -111,10 +111,10 @@ public class UploadWindow extends WindowPane implements ActionListener, UploadLi
 		Row buttonBar = new Row();
 		buttonBar.setCellSpacing(new Extent(10));
 		buttonBar.setInsets(new Insets(0, 0, 0, 10));
-		openButton = new GeneralButton("Open", this, 80);
+		openButton = new GeneralButton("Open", this, 100);
 		openButton.setEnabled(false);
 		buttonBar.add(openButton);
-		buttonBar.add(new GeneralButton("Cancel", this, 80));
+		buttonBar.add(new GeneralButton("Cancel", this, 100));
 		GridLayoutData layout2 = new GridLayoutData();
 		layout2.setAlignment(new Alignment(Alignment.CENTER, Alignment.BOTTOM));
 		buttonBar.setLayoutData(layout2);

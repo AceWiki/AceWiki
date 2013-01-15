@@ -116,8 +116,8 @@ public class RegisterWindow extends WindowPane implements ActionListener {
 		Row buttonBar = new Row();
 		buttonBar.setCellSpacing(new Extent(10));
 		buttonBar.setInsets(new Insets(0, 0, 0, 10));
-		buttonBar.add(new GeneralButton("acewiki_userwindow_registerbutton", this, 80));
-		buttonBar.add(new GeneralButton("general_action_cancel", this, 80));
+		buttonBar.add(new GeneralButton("acewiki_userwindow_registerbutton", this, 100));
+		buttonBar.add(new GeneralButton("general_action_cancel", this, 100));
 		GridLayoutData layout2 = new GridLayoutData();
 		layout2.setAlignment(new Alignment(Alignment.CENTER, Alignment.BOTTOM));
 		buttonBar.setLayoutData(layout2);
