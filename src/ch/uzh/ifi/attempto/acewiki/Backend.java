@@ -19,6 +19,7 @@ import java.util.Map;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiStorage;
 import ch.uzh.ifi.attempto.acewiki.core.FileBasedStorage;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
+import ch.uzh.ifi.attempto.base.LocaleResources;
 
 /**
  * This class is used as the backend of an AceWiki.
@@ -27,57 +28,64 @@ import ch.uzh.ifi.attempto.acewiki.core.Ontology;
  * @author Yu Changyuan
  */
 public class Backend {
-    private final Ontology ontology;
-    private static AceWikiStorage storage;
-    private final Map<String, String> parameters;
 
-    /**
-     * Creates a new Backend instance for the given parameters.
-     *
-     * @param parameters The parameters for the AceWiki Backend.
-     */
-    public Backend(Map<String, String> parameters) {
-        this.parameters = parameters;
-        if (storage == null) {
-            storage = new FileBasedStorage(parameters.get("context:datadir"));
-        }
-        ontology = getStorage().getOntology(parameters.get("ontology"), parameters);
-    }
+	private final Ontology ontology;
+	private static AceWikiStorage storage;
+	private final Map<String, String> parameters;
 
-    /**
-     * Get the storage associated with this backend.
-     *
-     * @return The AceWikiStorage instance.
-     */
-    public AceWikiStorage getStorage() {
-        return storage;
-    }
+	static {
+		LocaleResources.loadBundle("ch/uzh/ifi/attempto/echocomp/text");
+		LocaleResources.loadBundle("ch/uzh/ifi/attempto/acewiki/text");
+	}
 
-    /**
-     * Get the Ontology instance for this Backend.
-     *
-     * @return The Ontology object.
-     */
-    public Ontology getOntology() {
-        return ontology;
-    }
+	/**
+	 * Creates a new Backend instance for the given parameters.
+	 *
+	 * @param parameters The parameters for the AceWiki Backend.
+	 */
+	public Backend(Map<String, String> parameters) {
+		this.parameters = parameters;
+		if (storage == null) {
+			storage = new FileBasedStorage(parameters.get("context:datadir"));
+		}
+		ontology = getStorage().getOntology(parameters.get("ontology"), parameters);
+	}
 
-    /**
-     * Get the parameters of this Backend.
-     *
-     * @return The parameters.
-     */
-    public Map<String, String> getParameters() {
-        return parameters;
-    }
+	/**
+	 * Get the storage associated with this backend.
+	 *
+	 * @return The AceWikiStorage instance.
+	 */
+	public AceWikiStorage getStorage() {
+		return storage;
+	}
 
-    /**
-     * Get a specific parameter for this Backend.
-     *
-     * @param param The parameter name.
-     * @return The value of the parameter, or null if the parameter does not exist.
-     */
-    public String getParameter(String param) {
-        return parameters.get(param);
-    }
+	/**
+	 * Get the Ontology instance for this Backend.
+	 *
+	 * @return The Ontology object.
+	 */
+	public Ontology getOntology() {
+		return ontology;
+	}
+
+	/**
+	 * Get the parameters of this Backend.
+	 *
+	 * @return The parameters.
+	 */
+	public Map<String, String> getParameters() {
+		return parameters;
+	}
+
+	/**
+	 * Get a specific parameter for this Backend.
+	 *
+	 * @param param The parameter name.
+	 * @return The value of the parameter, or null if the parameter does not exist.
+	 */
+	public String getParameter(String param) {
+		return parameters.get(param);
+	}
+
 }

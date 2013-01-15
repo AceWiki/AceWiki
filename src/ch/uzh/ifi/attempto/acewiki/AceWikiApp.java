@@ -18,7 +18,6 @@ import java.util.Map;
 
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Window;
-import ch.uzh.ifi.attempto.base.LocaleResources;
 import ch.uzh.ifi.attempto.echocomp.Style;
 
 /**
@@ -29,11 +28,6 @@ import ch.uzh.ifi.attempto.echocomp.Style;
 class AceWikiApp extends ApplicationInstance {
 
 	private static final long serialVersionUID = -2038165609406790355L;
-
-	static {
-		LocaleResources.loadBundle("ch/uzh/ifi/attempto/echocomp/text");
-		LocaleResources.loadBundle("ch/uzh/ifi/attempto/acewiki/text");
-	}
 	
 	/**
 	 * No login required option.

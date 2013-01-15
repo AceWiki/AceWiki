@@ -45,9 +45,16 @@ public interface LanguageHandler {
 	/**
 	 * Returns the language of this language handler. Null can be returned for monolingual engines.
 	 * 
-	 * @return The name of the language or null.
+	 * @return The language identifier.
 	 */
 	public String getLanguage();
+
+	/**
+	 * Returns the name of the language in the form to be shown in the list of languages.
+	 * 
+	 * @return The name of the language.
+	 */
+	public String getLanguageName();
 
 	/**
 	 * Returns the locale for this language handler.

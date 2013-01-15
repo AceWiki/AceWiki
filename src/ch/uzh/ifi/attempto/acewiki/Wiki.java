@@ -419,7 +419,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			sideCol.add(label);
 			
 			for (String lang : engine.getLanguages()) {
-				SmallButton b = new SmallButton(lang, this, 12);
+				String n = engine.getLanguageHandler(lang).getLanguageName();
+				SmallButton b = new SmallButton(n, this, 12);
 				if (lang.equals(language)) b.setEnabled(false);
 				languageButtons.add(b);
 				sideCol.add(new ListItem(b));
@@ -903,7 +904,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			log("edit", "new word: " + te.getOntologyElement().getWord());
 			showPage(te.getOntologyElement());
 		} else if (languageButtons.contains(src)) {
-			switchLanguage(((SmallButton) src).getText());
+			switchLanguage(engine.getLanguages()[languageButtons.indexOf(src)]);
 		}
 	}
 
@@ -1069,8 +1070,10 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 */
 	public void switchLanguage(String language) {
 		this.language = language;
-		for (SmallButton b : languageButtons) {
-			b.setEnabled(!b.getText().equals(language));
+		String[] languages = engine.getLanguages();
+		for (int i = 0 ; i < languages.length ; i++) {
+			String l = languages[i];
+			languageButtons.get(i).setEnabled(!l.equals(language));
 		}
 		application.setLocale(getLocale());
 		buildContentPane();

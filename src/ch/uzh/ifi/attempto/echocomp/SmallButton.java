@@ -14,6 +14,8 @@
 
 package ch.uzh.ifi.attempto.echocomp;
 
+import java.util.Locale;
+
 import ch.uzh.ifi.attempto.base.LocaleResources;
 import nextapp.echo.app.Alignment;
 import nextapp.echo.app.Button;
@@ -72,6 +74,10 @@ public class SmallButton extends Button {
 	 */
 	public SmallButton(String s, ActionListener actionListener) {
 		this(s, actionListener, 10);
+	}
+
+	public Locale getLocale() {
+		return EchoThread.getActiveApplication().getLocale();
 	}
 
 }
