@@ -32,12 +32,12 @@ public abstract class EchoThread extends Thread {
 	public abstract ApplicationInstance getApplication();
 	
 	/**
-	 * Returns the application instance for the current thread.
+	 * Returns the current application instance, using Echo-aware threads if available.
 	 * 
-	 * @param currentThread The current thread.
 	 * @return The application instance.
 	 */
-	public static ApplicationInstance getApplication(Thread currentThread) {
+	public static ApplicationInstance getActiveApplication() {
+		Thread currentThread = Thread.currentThread();
 		if (currentThread instanceof EchoThread) {
 			return ((EchoThread) currentThread).getApplication();
 		}

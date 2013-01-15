@@ -650,7 +650,7 @@ public class ACEEditor extends Window implements ActionListener {
 	}
 	
 	private ApplicationInstance getApplication() {
-		return EchoThread.getApplication(Thread.currentThread());
+		return EchoThread.getActiveApplication();
 	}
 
 }

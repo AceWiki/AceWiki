@@ -95,7 +95,7 @@ public class WebLink extends Button implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		ApplicationInstance app = EchoThread.getApplication(Thread.currentThread());
+		ApplicationInstance app = EchoThread.getActiveApplication();
 		app.enqueueCommand(new BrowserRedirectCommand(url));
 	}
 

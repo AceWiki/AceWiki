@@ -49,7 +49,7 @@ public abstract class DelayedComponent extends Column {
 			add(tempComponent);
 		}
 		
-		final ApplicationInstance application = EchoThread.getApplication(Thread.currentThread());
+		final ApplicationInstance application = EchoThread.getActiveApplication();
 		TaskQueueHandle taskQueueTemp = taskQueues.get(application.toString());
 		if (taskQueueTemp == null) {
 			taskQueueTemp = application.createTaskQueue();

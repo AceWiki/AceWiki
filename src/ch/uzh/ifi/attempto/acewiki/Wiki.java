@@ -162,7 +162,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		engine = ontology.getEngine();
 		
 		logger = new Logger(getParameter("context:logdir") + "/" + ontology.getName(), "anon", sessionID);
-		application = (AceWikiApp) EchoThread.getApplication(Thread.currentThread());
+		application = (AceWikiApp) EchoThread.getActiveApplication();
 		taskQueue = application.createTaskQueue();
 
 		language = getParameter("language");

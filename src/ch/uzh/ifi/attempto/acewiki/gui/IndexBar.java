@@ -136,7 +136,7 @@ public class IndexBar extends Column implements ActionListener {
 	}
 	
 	public Locale getLocale() {
-		return EchoThread.getApplication(Thread.currentThread()).getLocale();
+		return EchoThread.getActiveApplication().getLocale();
 	}
 
 }
