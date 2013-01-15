@@ -1046,8 +1046,10 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 */
 	public void switchLanguage(String language) {
 		this.language = language;
-		for (SmallButton b : languageButtons) {
-			b.setEnabled(!b.getText().equals(language));
+		String[] languages = engine.getLanguages();
+		for (int i = 0 ; i < languages.length ; i++) {
+			String l = languages[i];
+			languageButtons.get(i).setEnabled(!l.equals(language));
 		}
 		application.setLocale(getLocale());
 		buildContentPane();
