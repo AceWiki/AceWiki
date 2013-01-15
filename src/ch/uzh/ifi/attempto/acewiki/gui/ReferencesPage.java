@@ -61,23 +61,23 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 		super(page.getWiki());
 		this.page = page;
 		
-		addTab("Article", this);
-		addSelectedTab("References");
+		addTab("acewiki_page_article", this);
+		addSelectedTab("acewiki_page_references");
 		if (page instanceof ConceptPage) {
-			addTab("Individuals", this);
-			addTab("Hierarchy", this);
+			addTab("acewiki_page_individuals", this);
+			addTab("acewiki_page_hierarchy", this);
 		}
 		if (page instanceof IndividualPage) {
-			addTab("Assignments", this);
+			addTab("acewiki_page_assignments", this);
 		}
 		
 		OntologyElement oe = page.getOntologyElement();
-		title = new Title(getHeading(oe), "- References", oe.getType(), this);
+		title = new Title(getHeading(oe), "- " + getWiki().getGUIText("acewiki_page_references"), oe.getType(), this);
 		add(title);
 		addHorizontalLine();
 		add(new VSpace(18));
 		
-		indexBar = new IndexBar("Page:", 0, this);
+		indexBar = new IndexBar(0, this);
 		add(indexBar);
 
 		referenceColumn.setInsets(new Insets(10, 2, 5, 20));
@@ -101,9 +101,8 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 		}
 		if (sentences.size() == 0) {
 			indexBar.setVisible(false);
-			String h = LanguageUtils.getPrettyPrinted(page.getOntologyElement().getHeadwords()[0]);
 			referenceColumn.add(new SolidLabel(
-					"(no other article refers to '" + h + "')",
+					getWiki().getGUIText("acewiki_references_empty"),
 					Font.ITALIC,
 					10
 				));
@@ -139,7 +138,7 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 				r.add(c);
 				if (i > 0 && sentences.get(i-1).getArticle() == a) {
 					r.add(new HSpace());
-					r.add(new SolidLabel("(continued)", Font.ITALIC, 10));
+					r.add(new SolidLabel(getWiki().getGUIText("acewiki_list_continued"), Font.ITALIC, 10));
 				}
 				referenceColumn.add(new VSpace());
 				referenceColumn.add(r);
@@ -152,16 +151,16 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		Wiki wiki = getWiki();
-		if ("Article".equals(e.getActionCommand())) {
+		if ("acewiki_page_article".equals(e.getActionCommand())) {
 			log("page", "pressed: article");
 			wiki.showPage(page);
-		} else if ("Individuals".equals(e.getActionCommand())) {
+		} else if ("acewiki_page_individuals".equals(e.getActionCommand())) {
 			log("page", "pressed: individuals");
 			wiki.showPage(new IndividualsPage((ConceptPage) page));
-		} else if ("Hierarchy".equals(e.getActionCommand())) {
+		} else if ("acewiki_page_hierarchy".equals(e.getActionCommand())) {
 			log("page", "pressed: hierarchy");
 			wiki.showPage(new HierarchyPage((ConceptPage) page));
-		} else if ("Assignments".equals(e.getActionCommand())) {
+		} else if ("acewiki_page_assignments".equals(e.getActionCommand())) {
 			log("page", "pressed: assignments");
 			wiki.showPage(new AssignmentsPage((IndividualPage) page));
 		} else if (e.getSource() == indexBar) {

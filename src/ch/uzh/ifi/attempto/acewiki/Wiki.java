@@ -74,6 +74,7 @@ import ch.uzh.ifi.attempto.acewiki.gui.UserWindow;
 import ch.uzh.ifi.attempto.acewiki.gui.WikiPage;
 import ch.uzh.ifi.attempto.base.LocaleResources;
 import ch.uzh.ifi.attempto.base.Logger;
+import ch.uzh.ifi.attempto.echocomp.EchoThread;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
@@ -92,18 +93,12 @@ import echopoint.externalevent.ExternalEventMonitor;
 /**
  * This class represents an AceWiki wiki instance (including its graphical user interface).
  * There is such a wiki object for every wiki user.
- * The actions displayed in this GUI refer to the whole wiki not its individual articles
- * (Main Page and Random Article being the exceptions).
+ * The actions handled by this class refer to the wiki as a whole.
  *
  * @author Tobias Kuhn
  * @author Kaarel Kaljurand
  */
 public class Wiki implements ActionListener, ExternalEventListener {
-
-	// In standard AceWiki, Word == Page. In a more general setting, Page
-	// seems to be a more clear term.
-	public static final String LABEL_BUTTON_NEW_PAGE = "New Page...";
-	public static final String LABEL_WINDOW_NEW_PAGE = "Page Creator";
 
 	public static final String LABEL_ABOUT_GRAMMAR = "About Grammar";
 
@@ -175,7 +170,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		engine = ontology.getEngine();
 		
 		logger = new Logger(getParameter("context:logdir") + "/" + ontology.getName(), "anon", sessionID);
-		application = (AceWikiApp) ApplicationInstance.getActive();
+		application = (AceWikiApp) EchoThread.getActiveApplication();
 		taskQueue = application.createTaskQueue();
 
 		language = getParameter("language");
@@ -190,7 +185,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			}
 		}
 
-		application.setLocale(getLanguageHandler().getLocale());
+		application.setLocale(getLocale());
 
 		ontologyExportManager = new OntologyExportManager(ontology);
 		for (OntologyExporter o : engine.getExporters()) {
@@ -238,7 +233,11 @@ public class Wiki implements ActionListener, ExternalEventListener {
 
 		// This thread checks regularly for pending tasks and executes them. Strong tasks take
 		// precedence over weak ones.
-		Thread asyncThread = new Thread() {
+		EchoThread asyncThread = new EchoThread() {
+			
+			public ApplicationInstance getApplication() {
+				return application;
+			}
 
 			public void run() {
 				while (true) {
@@ -368,7 +367,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		}
 
 		if (isReadOnly()) {
-			SolidLabel rolabel = new SolidLabel("— READ ONLY —", Font.ITALIC);
+			String s = "— " + getGUIText("acewiki_state_readonly") + " —";
+			SolidLabel rolabel = new SolidLabel(s, Font.ITALIC);
 			rolabel.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
 			rolabel.setLayoutData(layout);
 			iconCol.add(rolabel);
@@ -383,11 +383,11 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		SolidLabel label = new SolidLabel(getGUIText("acewiki_sidemenu_navigation"), Font.ITALIC);
 		label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
 		sideCol.add(label);
-		homeButton = new SmallButton(getGUIText("acewiki_specialpage_main"), this, 12);
-		indexButton = new SmallButton(getGUIText("acewiki_specialpage_index"), this, 12);
-		searchButton2 = new SmallButton(getGUIText("acewiki_specialpage_search"), this, 12);
-		aboutButton = new SmallButton(getGUIText("acewiki_specialpage_about"), this, 12);
-		randomButton = new SmallButton(getGUIText("acewiki_specialpage_random"), this, 12);
+		homeButton = new SmallButton(getGUIText("acewiki_page_main"), this, 12);
+		indexButton = new SmallButton(getGUIText("acewiki_page_index"), this, 12);
+		searchButton2 = new SmallButton(getGUIText("acewiki_page_search"), this, 12);
+		aboutButton = new SmallButton(getGUIText("acewiki_page_about"), this, 12);
+		randomButton = new SmallButton(getGUIText("acewiki_page_random"), this, 12);
 		sideCol.add(new ListItem(homeButton));
 		sideCol.add(new ListItem(indexButton));
 		sideCol.add(new ListItem(searchButton2));
@@ -408,6 +408,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		sideCol.add(new VSpace(10));
 		sideCol.add(new ListItem(aboutGrammarButton));
 
+		languageButtons = new ArrayList<SmallButton>();
+
 		if (engine.getLanguages().length > 1 && isLanguageSwitchingEnabled()) {
 			// show language switcher
 
@@ -415,8 +417,6 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			label = new SolidLabel(getGUIText("acewiki_sidemenu_languages"), Font.ITALIC);
 			label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
 			sideCol.add(label);
-			
-			languageButtons = new ArrayList<SmallButton>();
 			
 			for (String lang : engine.getLanguages()) {
 				SmallButton b = new SmallButton(lang, this, 12);
@@ -587,7 +587,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * @param element The ontology element to be edited.
 	 */
 	public void showEditorWindow(OntologyElement element) {
-		WordEditorWindow editorWindow = new WordEditorWindow("Word Editor");
+		WordEditorWindow editorWindow = new WordEditorWindow(getGUIText("acewiki_wordeditor_title"));
 		editorWindow.addTab(new FormPane(element, editorWindow, this));
 		showWindow(editorWindow);
 	}
@@ -600,7 +600,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * @param actionListener The actionlistener.
 	 */
 	public void showCreatorWindow(String type, int wordNumber, ActionListener actionListener) {
-		WordEditorWindow creatorWindow = new WordEditorWindow(LABEL_WINDOW_NEW_PAGE);
+		WordEditorWindow creatorWindow = new WordEditorWindow(getGUIText("acewiki_wordeditor_creatortitle"));
 		creatorWindow.addTab(new FormPane(type, wordNumber, creatorWindow, this, actionListener));
 		showWindow(creatorWindow);
 	}
@@ -863,7 +863,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			if (!isEditable()) {
 				showLoginWindow();
 			} else {
-				WordEditorWindow w = new WordEditorWindow(LABEL_WINDOW_NEW_PAGE);
+				WordEditorWindow w = new WordEditorWindow(getGUIText("acewiki_wordeditor_creatortitle"));
 				for (String t : getEngine().getLexicalTypes()) {
 					w.addTab(new FormPane(t, w, this));
 				}
@@ -883,11 +883,11 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			showWindow(new ExportWindow(this));
 		} else if (src == logoutButton) {
 			showWindow(new MessageWindow(
-					"Logout",
-					"Do you really want to log out?",
+					"acewiki_message_logouttitle",
+					"acewiki_message_logout",
 					null,
 					this,
-					"Yes", "No"
+					"general_action_yes", "general_action_no"
 					));
 		} else if (src == userButton) {
 			if (user == null) {
@@ -895,7 +895,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			} else {
 				showWindow(new UserWindow(this));
 			}
-		} else if (src instanceof MessageWindow && c.equals("Yes")) {
+		} else if (src instanceof MessageWindow && c.equals("general_action_yes")) {
 			logout();
 		} else if (src instanceof OntologyTextElement) {
 			// for newly generated elements
@@ -1072,7 +1072,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		for (SmallButton b : languageButtons) {
 			b.setEnabled(!b.getText().equals(language));
 		}
-		application.setLocale(getLanguageHandler().getLocale());
+		application.setLocale(getLocale());
 		buildContentPane();
 		update();
 		refresh();
@@ -1205,7 +1205,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * @return The localized string.
 	 */
 	public String getGUIText(String key) {
-		return LocaleResources.getString(getLocale(), key);
+		String text = LocaleResources.getString(getLocale(), key);
+		if (text == null) text = key;
+		return text;
 	}
 	
 	private String getURLParameterValue(String name) {

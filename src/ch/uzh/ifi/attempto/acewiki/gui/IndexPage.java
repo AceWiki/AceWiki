@@ -66,22 +66,22 @@ public class IndexPage extends WikiPage implements ActionListener {
 
 		removeAll();
 
-		addTab("acewiki_specialpage_main", this);
-		addSelectedTab("acewiki_specialpage_index");
-		addTab("acewiki_specialpage_search", this);
-		addTab("acewiki_specialpage_about", this);
+		addTab("acewiki_page_main", this);
+		addSelectedTab("acewiki_page_index");
+		addTab("acewiki_page_search", this);
+		addTab("acewiki_page_about", this);
 
-		add(new Title(getWiki().getGUIText("acewiki_specialpage_index"), true));
+		add(new Title(getWiki().getGUIText("acewiki_page_index"), true));
 		addHorizontalLine();
 		add(new VSpace(20));
 		
 		if (getWiki().getOntologyElements().size() > simpleViewSize) {
 			chosenChar = "A";
-			letterIndexBar = new IndexBar("First letter:", this);
+			letterIndexBar = new IndexBar(this);
 			add(letterIndexBar);
 		}
 		
-		numberIndexBar = new IndexBar("Page:", 0, this);
+		numberIndexBar = new IndexBar(0, this);
 		add(numberIndexBar);
 		
 		indexColumn.setInsets(new Insets(10, 5, 5, 20));
@@ -102,7 +102,7 @@ public class IndexPage extends WikiPage implements ActionListener {
 		if (entries.size() == 0) {
 			numberIndexBar.setVisible(false);
 			indexColumn.add(new SolidLabel(
-					"(no entry starting with '" + chosenChar + "')",
+					getWiki().getGUIText("acewiki_list_empty"),
 					Font.ITALIC,
 					10
 				));
@@ -144,11 +144,11 @@ public class IndexPage extends WikiPage implements ActionListener {
 			chosenPage = Integer.parseInt(e.getActionCommand()) - 1;
 			log("page", "pressed: page " + (chosenPage+1));
 			updatePage();
-		} else if ("acewiki_specialpage_main".equals(e.getActionCommand())) {
+		} else if ("acewiki_page_main".equals(e.getActionCommand())) {
 			getWiki().showStartPage();
-		} else if ("acewiki_specialpage_search".equals(e.getActionCommand())) {
+		} else if ("acewiki_page_search".equals(e.getActionCommand())) {
 			getWiki().showSearchPage();
-		} else if ("acewiki_specialpage_about".equals(e.getActionCommand())) {
+		} else if ("acewiki_page_about".equals(e.getActionCommand())) {
 			getWiki().showAboutPage();
 		}
 	}

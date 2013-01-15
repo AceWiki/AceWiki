@@ -115,15 +115,15 @@ public class StatementMenu extends Row implements ActionListener {
 	/**
 	 * Adds a menu entry to the drop down menu.
 	 * 
-	 * @param text The text of the menu entry.
-	 * @param tooltip The tool tip text of the menu entry.
+	 * @param text The text of the menu entry (or a text key for localization).
+	 * @param tooltip The tool tip text of the menu entry (or a text key for localization).
 	 */
 	public void addMenuEntry(String text, String tooltip) {
 		if (menuSeparator != null) {
 			menuColumn.add(menuSeparator);
 			menuSeparator = null;
 		}
-		Button menuEntry = new Button(text);
+		Button menuEntry = new Button(wiki.getGUIText(text));
 		menuEntry.setActionCommand(text);
 		menuEntry.setHeight(new Extent(16));
 		menuEntry.setWidth(new Extent(140));
@@ -136,7 +136,7 @@ public class StatementMenu extends Row implements ActionListener {
 		menuEntry.setAlignment(new Alignment(Alignment.LEFT, Alignment.CENTER));
 		menuEntry.setTextAlignment(new Alignment(Alignment.LEFT, Alignment.CENTER));
 		menuEntry.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
-		menuEntry.setToolTipText(tooltip);
+		menuEntry.setToolTipText(wiki.getGUIText(tooltip));
 		menuEntry.addActionListener(this);
 		menuColumn.add(menuEntry);
 	}
@@ -250,17 +250,17 @@ public class StatementMenu extends Row implements ActionListener {
 	private String getTooltipText() {
 		String t = null;
 		if (type == REASONING_TYPE ) {
-			t = "Blue triangle: This statement is considered for reasoning.";
+			t = wiki.getGUIText("acewiki_statementtooltip_reasoning");
 		} else if (type == QUESTION_TYPE) {
-			t = "This is a question that is automatically answered.";
+			t = wiki.getGUIText("acewiki_statementtooltip_question");
 		} else if (type == NOREASONING_TYPE) {
-			t = "Red triangle: This statement is too complex to be considered for reasoning.";
+			t = wiki.getGUIText("acewiki_statementtooltip_noreasoning");
 		} else if (type == INFERRED_TYPE) {
-			t = "White triangle: This statement is automatically inferred.";
+			t = wiki.getGUIText("acewiki_statementtooltip_inferred");
 		} else if (type == COMMENT_TYPE) {
-			t = "Gray triangle: This statement is an informal comment.";
+			t = wiki.getGUIText("acewiki_statementtooltip_comment");
 		} else if (type == EMPTY_TYPE) {
-			t = "Click here to add a sentence or comment.";
+			t = wiki.getGUIText("acewiki_statementtooltip_empty");
 		}
 		return t;
 	}

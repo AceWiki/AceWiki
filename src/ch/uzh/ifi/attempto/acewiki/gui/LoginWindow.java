@@ -61,7 +61,7 @@ public class LoginWindow extends WindowPane implements ActionListener {
 	public LoginWindow(Wiki wiki) {
 		this.wiki = wiki;
 		
-		setTitle("Login");
+		setTitle(wiki.getGUIText("acewiki_userwindow_logintitle"));
 		setTitleFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		setModal(true);
 		setWidth(new Extent(470));
@@ -83,19 +83,19 @@ public class LoginWindow extends WindowPane implements ActionListener {
 		GridLayoutData layout1 = new GridLayoutData();
 		layout1.setAlignment(new Alignment(Alignment.LEFT, Alignment.TOP));
 		messageColumn.setLayoutData(layout1);
-		Label label = new Label("Enter your username and password:");
+		Label label = new Label(wiki.getGUIText("acewiki_userwindow_loginmessage"));
 		label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		messageColumn.add(label);
 		messageColumn.add(new VSpace());
 		
 		Grid formGrid = new Grid(2);
 		formGrid.setInsets(new Insets(10, 10, 10, 0));
-		formGrid.add(new SolidLabel("username:", Font.ITALIC));
+		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_username"), Font.ITALIC));
 		formGrid.add(usernameField);
 		usernameField.setText(wiki.getCookie("lastusername"));
-		formGrid.add(new SolidLabel("password:", Font.ITALIC));
+		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_password"), Font.ITALIC));
 		formGrid.add(passwordField);
-		formGrid.add(new SolidLabel("stay logged in:", Font.ITALIC));
+		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_stayloggedin"), Font.ITALIC));
 		stayLoggedInCheckBox.setSelected(!wiki.getCookie("stayloggedin").equals("false"));
 		formGrid.add(stayLoggedInCheckBox);
 		messageColumn.add(formGrid);
@@ -105,12 +105,12 @@ public class LoginWindow extends WindowPane implements ActionListener {
 		Row buttonBar = new Row();
 		buttonBar.setCellSpacing(new Extent(10));
 		buttonBar.setInsets(new Insets(0, 0, 0, 10));
-		buttonBar.add(new GeneralButton("Login", this, 80));
+		buttonBar.add(new GeneralButton(wiki.getGUIText("acewiki_userwindow_loginbutton"), this, 80));
 		if (wiki.isUserRegistrationOpen()) {
-			buttonBar.add(new GeneralButton("Register...", this, 80));
+			buttonBar.add(new GeneralButton(wiki.getGUIText("acewiki_userwindow_registerwindowbutton"), this, 80));
 		}
 		if (!wiki.isLoginRequiredForViewing()) {
-			buttonBar.add(new GeneralButton("Cancel", this, 80));
+			buttonBar.add(new GeneralButton("general_action_cancel", this, 80));
 		}
 		GridLayoutData layout2 = new GridLayoutData();
 		layout2.setAlignment(new Alignment(Alignment.CENTER, Alignment.BOTTOM));
@@ -131,11 +131,11 @@ public class LoginWindow extends WindowPane implements ActionListener {
 		String username = usernameField.getText();
 		String password = passwordField.getText();
 		boolean stayLoggedIn = stayLoggedInCheckBox.isSelected();
-		if ("Cancel".equals(e.getActionCommand())) {
+		if ("general_action_cancel".equals(e.getActionCommand())) {
 			wiki.log("logi", "login canceled");
 			setVisible(false);
 			wiki.removeWindow(this);
-		} else if ("Register...".equals(e.getActionCommand())) {
+		} else if ("acewiki_userwindow_registerwindowbutton".equals(e.getActionCommand())) {
 			wiki.log("logi", "pressed: register...");
 			wiki.showWindow(new RegisterWindow(username, password, stayLoggedIn, wiki));
 			wiki.removeWindow(this);
@@ -149,9 +149,9 @@ public class LoginWindow extends WindowPane implements ActionListener {
 			} else {
 				wiki.log("logi", "incorrect username or password for " + username);
 				wiki.showWindow(new MessageWindow(
-						"Error",
-						"Invalid username or password!",
-						"OK"
+						"acewiki_error_title",
+						"acewiki_error_login",
+						"general_action_ok"
 					));
 			}
 		}

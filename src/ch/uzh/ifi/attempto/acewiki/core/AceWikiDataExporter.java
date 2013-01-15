@@ -33,7 +33,7 @@ public class AceWikiDataExporter extends OntologyExporter {
 	}
 	
 	public String getName() {
-		return "AceWiki data file";
+		return "acewiki_export_datafile";
 	}
 	
 	public String getFileSuffix() {

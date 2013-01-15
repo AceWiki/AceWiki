@@ -48,69 +48,71 @@ public class AboutPage extends WikiPage implements ActionListener {
 
 		removeAll();
 
-		addTab("acewiki_specialpage_main", this);
-		addTab("acewiki_specialpage_index", this);
-		addTab("acewiki_specialpage_search", this);
-		addSelectedTab("acewiki_specialpage_about");
+		addTab("acewiki_page_main", this);
+		addTab("acewiki_page_index", this);
+		addTab("acewiki_page_search", this);
+		addSelectedTab("acewiki_page_about");
 		
-		add(new Title(w.getGUIText("acewiki_specialpage_about"), true));
+		add(new Title(w.getGUIText("acewiki_page_about"), true));
 		addHorizontalLine();
 		add(new VSpace(10));
-		
-		addHeadline("System");
-		NameValueTable table1 = new NameValueTable();
-		table1.setInsets(new Insets(10, 10, 10, 15));
-		add(table1);
 
-		addHeadline("Ontology");
-		NameValueTable table2 = new NameValueTable();
-		table2.setInsets(new Insets(10, 10, 10, 15));
-		add(table2);
+		NameValueTable table = new NameValueTable();
+		
+		addHeadline("acewiki_about_systemheading");
+		table = new NameValueTable();
+		table.setInsets(new Insets(10, 10, 10, 15));
+		table.addEntry(
+				w.getGUIText("acewiki_about_version"),
+				Wiki.getInfo("acewiki-version") + " (" + Wiki.getInfo("acewiki-release-stage") + ")"
+			);
+		table.addEntry(w.getGUIText("acewiki_about_builddate"), Wiki.getInfo("acewiki-build-date"));
+		add(table);
+		
+		addHeadline("acewiki_about_ontologyheading");
+		table = new NameValueTable();
+		table.setInsets(new Insets(10, 10, 10, 15));
+		table.addEntry(w.getGUIText("acewiki_about_ontologyname"), o.getName());
+		table.addEntry(w.getGUIText("acewiki_about_ontologysize"), o.getOntologyElements().size() + "");
+		table.addEntry(w.getGUIText("acewiki_about_ontologyuri"), o.getURI());
+		add(table);
 
-		addHeadline("Reasoner");
-		NameValueTable table3 = new NameValueTable();
-		table3.setInsets(new Insets(10, 10, 10, 15));
-		add(table3);
-
-		addHeadline("Users");
-		NameValueTable table4 = new NameValueTable();
-		table4.setInsets(new Insets(10, 10, 10, 15));
-		add(table4);
-		
-		add(new VSpace(20));
-		
-		table1.addEntry("AceWiki version", Wiki.getInfo("acewiki-version"));
-		table1.addEntry("AceWiki release stage", Wiki.getInfo("acewiki-release-stage"));
-		table1.addEntry("AceWiki build date", Wiki.getInfo("acewiki-build-date"));
-		
-		table2.addEntry("ontology name", o.getName());
-		table2.addEntry("number of ontology elements", o.getOntologyElements().size() + "");
-		table2.addEntry("ontology URI", o.getURI());
-		
+		addHeadline("acewiki_about_reasonerheading");
+		table = new NameValueTable();
+		table.setInsets(new Insets(10, 10, 10, 15));
 		AceWikiReasoner r = o.getReasoner();
-		table3.addEntry("reasoner type", r.getReasonerType());
-		table3.addEntry("reasoner name", r.getReasonerName());
-		table3.addEntry("reasoner version", r.getReasonerVersion());
+		table.addEntry(w.getGUIText("acewiki_about_reasonertype"), r.getReasonerType());
+		table.addEntry(w.getGUIText("acewiki_about_reasonername"), r.getReasonerName());
+		table.addEntry(w.getGUIText("acewiki_about_reasonerversion"), r.getReasonerVersion());
 		Map<String, String> info = r.getInfo();
 		if (info != null) {
 			for (String s : info.keySet()) {
-				table3.addEntry(s, info.get(s));
+				table.addEntry(s, info.get(s));
 			}
 		}
+		add(table);
+
+		addHeadline("acewiki_about_usersheading");
+		table = new NameValueTable();
+		table.setInsets(new Insets(10, 10, 10, 15));
+		String yes = w.getGUIText("acewiki_about_yes");
+		String no = w.getGUIText("acewiki_about_no");
+		table.addEntry(w.getGUIText("acewiki_about_usersnumber"), w.getUserBase().getUserCount() + "");
+		table.addEntry(w.getGUIText("acewiki_about_loginenabled"), (w.isLoginEnabled() ? yes : no));
+		table.addEntry(w.getGUIText("acewiki_about_loginforview"), (w.isLoginRequiredForViewing() ? yes : no));
+		table.addEntry(w.getGUIText("acewiki_about_loginforedit"), (w.isLoginRequiredForEditing() ? yes : no));
+		table.addEntry(w.getGUIText("acewiki_about_openregistr"), (w.isUserRegistrationOpen() ? yes : no));
+		add(table);
 		
-		table4.addEntry("number of registered users", w.getUserBase().getUserCount() + "");
-		table4.addEntry("login enabled", (w.isLoginEnabled() ? "yes" : "no"));
-		table4.addEntry("login required for viewing", (w.isLoginRequiredForViewing() ? "yes" : "no"));
-		table4.addEntry("login required for editing", (w.isLoginRequiredForEditing() ? "yes" : "no"));
-		table4.addEntry("open user registration", (w.isUserRegistrationOpen() ? "yes" : "no"));
+		add(new VSpace(20));
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if ("acewiki_specialpage_main".equals(e.getActionCommand())) {
+		if ("acewiki_page_main".equals(e.getActionCommand())) {
 			getWiki().showStartPage();
-		} else if ("acewiki_specialpage_index".equals(e.getActionCommand())) {
+		} else if ("acewiki_page_index".equals(e.getActionCommand())) {
 			getWiki().showIndexPage();
-		} else if ("acewiki_specialpage_search".equals(e.getActionCommand())) {
+		} else if ("acewiki_page_search".equals(e.getActionCommand())) {
 			getWiki().showSearchPage();
 		}
 	}

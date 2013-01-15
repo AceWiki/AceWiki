@@ -61,8 +61,8 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 		super(wiki);
 
 		if (!(ontologyElement instanceof DummyOntologyElement)) {
-			addSelectedTab("Article");
-			addTab("References", this);
+			addSelectedTab("acewiki_page_article");
+			addTab("acewiki_page_references", this);
 			title = new Title(getHeading(ontologyElement), ontologyElement.getType(), this);
 		} else {
 			title = new Title("", true, null, null);
@@ -71,8 +71,8 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 		add(title);
 		addHorizontalLine();
 
-		dropDown.addMenuEntry("Add Sentence...", "Add a new sentence here");
-		dropDown.addMenuEntry("Add Comment...", "Add a new comment here");
+		dropDown.addMenuEntry("acewiki_statementmenu_addsent", "acewiki_statementmenu_addsenttooltip");
+		dropDown.addMenuEntry("acewiki_statementmenu_addcomm", "acewiki_statementmenu_addcommtooltip");
 
 		textColumn.setInsets(new Insets(10, 20, 0, 50));
 		textColumn.setCellSpacing(new Extent(2));
@@ -131,7 +131,7 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 		}
 
 		if (getArticle().getStatements().size() == 0) {
-			textColumn.add(new SolidLabel("(article is empty)", Font.ITALIC, 10));
+			textColumn.add(new SolidLabel(getWiki().getGUIText("acewiki_article_empty"), Font.ITALIC, 10));
 		}
 
 		if (!getWiki().isReadOnly()) {
@@ -175,21 +175,21 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("Add Sentence...")) {
+		if (e.getActionCommand().equals("acewiki_statementmenu_addsent")) {
 			getWiki().log("page", "dropdown: add sentence");
 			if (!getWiki().isEditable()) {
 				getWiki().showLoginWindow();
 			} else {
 				getWiki().showWindow(SentenceEditorHandler.generateCreationWindow(null, this));
 			}
-		} else if (e.getActionCommand().equals("Add Comment...")) {
+		} else if (e.getActionCommand().equals("acewiki_statementmenu_addcomm")) {
 			getWiki().log("page", "dropdown: add comment");
 			if (!getWiki().isEditable()) {
 				getWiki().showLoginWindow();
 			} else {
 				getWiki().showWindow(CommentEditorHandler.generateCreationWindow(null, this));
 			}
-		} else if ("References".equals(e.getActionCommand())) {
+		} else if ("acewiki_page_references".equals(e.getActionCommand())) {
 			log("page", "pressed: references");
 			getWiki().showPage(new ReferencesPage(this));
 		} else if (e.getSource() == title) {

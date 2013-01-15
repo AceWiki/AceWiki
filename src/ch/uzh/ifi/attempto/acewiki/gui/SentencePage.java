@@ -48,7 +48,7 @@ public class SentencePage extends WikiPage {
 		super(wiki);
 		this.sentence = sentence;
 		
-		addSelectedTab("Sentence");
+		addSelectedTab("acewiki_page_sentence");
 		
 		String t = LanguageUtils.getPrettyPrinted(sentence.getText(wiki.getLanguage()));
 		add(new Title(t, false));
@@ -60,7 +60,7 @@ public class SentencePage extends WikiPage {
 		if (l == null || l.isEmpty()) {
 			Column col = new Column();
 			col.setInsets(new Insets(10, 5, 5, 15));
-			col.add(new SolidLabel("(no detail information available)", Font.ITALIC, 10));
+			col.add(new SolidLabel(wiki.getGUIText("acewiki_details_empty"), Font.ITALIC, 10));
 			add(col);
 		} else {
 			for (SentenceDetail si : l) {

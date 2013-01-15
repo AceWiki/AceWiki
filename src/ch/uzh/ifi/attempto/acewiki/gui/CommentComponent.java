@@ -77,11 +77,11 @@ public class CommentComponent extends Column implements ActionListener {
 	private void update() {
 		statementMenu = new StatementMenu(StatementMenu.COMMENT_TYPE, wiki, this);
 		if (!wiki.isReadOnly()) {
-			statementMenu.addMenuEntry("Edit...", "Edit this comment");
-			statementMenu.addMenuEntry("Delete", "Delete this comment from the article");
+			statementMenu.addMenuEntry("acewiki_statementmenu_edit", "acewiki_statementmenu_editcommtooltip");
+			statementMenu.addMenuEntry("acewiki_statementmenu_delete", "acewiki_statementmenu_delcommtooltip");
 			statementMenu.addMenuSeparator();
-			statementMenu.addMenuEntry("Add Sentence...", "Add a new sentence here");
-			statementMenu.addMenuEntry("Add Comment...", "Add a new comment here");
+			statementMenu.addMenuEntry("acewiki_statementmenu_addsent", "acewiki_statementmenu_addsenttooltip");
+			statementMenu.addMenuEntry("acewiki_statementmenu_addcomm", "acewiki_statementmenu_addcommtooltip");
 		}
 		RowLayoutData layout = new RowLayoutData();
 		layout.setAlignment(new Alignment(Alignment.CENTER, Alignment.TOP));
@@ -110,7 +110,7 @@ public class CommentComponent extends Column implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("Edit...")) {
+		if (e.getActionCommand().equals("acewiki_statementmenu_edit")) {
 			wiki.log("page", "dropdown: edit comment: " + comment.getText());
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
@@ -120,7 +120,7 @@ public class CommentComponent extends Column implements ActionListener {
 						(ArticlePage) hostPage
 						));
 			}
-		} else if (e.getActionCommand().equals("Add Sentence...")) {
+		} else if (e.getActionCommand().equals("acewiki_statementmenu_addsent")) {
 			wiki.log("page", "dropdown: add sentence");
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
@@ -130,7 +130,7 @@ public class CommentComponent extends Column implements ActionListener {
 						(ArticlePage) hostPage
 						));
 			}
-		} else if (e.getActionCommand().equals("Add Comment...")) {
+		} else if (e.getActionCommand().equals("acewiki_statementmenu_addcomm")) {
 			wiki.log("page", "dropdown: add comment");
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
@@ -140,20 +140,20 @@ public class CommentComponent extends Column implements ActionListener {
 						(ArticlePage) hostPage
 						));
 			}
-		} else if (e.getActionCommand().equals("Delete")) {
-			wiki.log("page", "dropdown: delete sentence: " + comment.getText());
+		} else if (e.getActionCommand().equals("acewiki_statementmenu_delete")) {
+			wiki.log("page", "dropdown: delete comment: " + comment.getText());
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
 			} else {
 				wiki.showWindow(new MessageWindow(
-						"Delete",
-						"Do you really want to delete this comment?",
+						"acewiki_message_delstatementtitle",
+						"acewiki_message_delcomment",
 						null,
 						this,
-						"Yes", "No"
+						"general_action_yes", "general_action_no"
 						));
 			}
-		} else if (e.getSource() instanceof MessageWindow && e.getActionCommand().equals("Yes")) {
+		} else if (e.getSource() instanceof MessageWindow && e.getActionCommand().equals("general_action_yes")) {
 			wiki.log("page", "dropdown: delete confirmed: " + comment.getText());
 			comment.getArticle().remove(comment);
 			wiki.update();

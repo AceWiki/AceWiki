@@ -66,7 +66,7 @@ public class SentenceEditorHandler implements ActionListener {
 				this
 			);
 		LanguageHandler lh = wiki.getLanguageHandler();
-		editorWindow = new PreditorWindow("Sentence Editor", lh.getPredictiveParser(), wiki.getLocale());
+		editorWindow = new PreditorWindow(wiki.getGUIText("acewiki_preditor_title"), lh.getPredictiveParser());
 		editorWindow.setMenuCreator(menuCreator);
 		editorWindow.setLogger(wiki.getLogger());
 		editorWindow.addActionListener(this);
@@ -136,16 +136,16 @@ public class SentenceEditorHandler implements ActionListener {
 			} else if (c.equals("OK")) {
 				wiki.log("edit", "error: unfinished sentences");
 				MessageWindow mw = new MessageWindow(
-						"Error",
-						"There are unfinished sentences.",
+						"acewiki_error_title",
+						"acewiki_error_unfinishedsent",
 						editorWindow,
-						"OK"
+						"general_action_ok"
 					);
 				page.getWiki().showWindow(mw);
 			}
 		} else if (src == editorWindow && c.matches("Cancel|Close|Escape")) {
 			wiki.removeWindow(editorWindow);
-		} else if (src == messageWindow && c.equals("Close")) {
+		} else if (src == messageWindow && c.equals("general_action_close")) {
 			checked = 0;
 		} else if (src == messageWindow && suggestion != null) {
 			Sentence s = suggestion.getSentence(c);
@@ -167,7 +167,7 @@ public class SentenceEditorHandler implements ActionListener {
 			suggestion = wiki.getLanguageHandler().getSuggestion(newSentences.get(checked));
 			if (suggestion != null) {
 				messageWindow = new MessageWindow(
-						"Suggestion",
+						"acewiki_message_suggestiontitle",
 						suggestion.getMessage(),
 						editorWindow,
 						this,
@@ -208,10 +208,9 @@ public class SentenceEditorHandler implements ActionListener {
 				if (inconsistent) {
 					wiki.showWindow(
 						new MessageWindow(
-							"Conflict",
-							"The sentence is in conflict with the current knowledge. For that " +
-								"reason, it cannot be added to the knowledge base.",
-							"OK"
+							"acewiki_message_conflicttitle",
+							"acewiki_message_conflict",
+							"general_action_ok"
 						)
 					);
 				}
@@ -223,19 +222,11 @@ public class SentenceEditorHandler implements ActionListener {
 			
 		};
 		
-		if (edit) {
-			wiki.enqueueStrongAsyncTask(
-					"Updating",
-					"The knowledge base is being updated...",
-					task
-				);
-		} else {
-			wiki.enqueueStrongAsyncTask(
-					"Updating",
-					"The sentence is being added to the knowledge base...",
-					task
-				);
-		}
+		wiki.enqueueStrongAsyncTask(
+				"acewiki_message_updatetitle",
+				"acewiki_message_update",
+				task
+			);
 		
 		wiki.removeWindow(editorWindow);
 	}

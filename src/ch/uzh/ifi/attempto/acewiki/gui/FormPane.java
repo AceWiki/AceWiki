@@ -105,16 +105,14 @@ public class FormPane extends WordEditorForm {
 		if (element != null) {
 			this.locked = true;
 			if (wiki.isReadOnly()) {
-				addButton("Close");
+				setButtons("general_action_close");
 			} else {
-				addButton("Unlock");
-				addButton("Close");
+				setButtons("general_action_unlock", "general_action_close");
 			}
 		} else {
 			element = wiki.getOntology().getEngine().createOntologyElement(type);
 			this.locked = false;
-			addButton("OK");
-			addButton("Cancel");
+			setButtons("general_action_ok", "general_action_cancel");
 		}
 		this.element = element;
 		
@@ -177,10 +175,11 @@ public class FormPane extends WordEditorForm {
 	}
 	
 	private void unlock() {
-		removeAllButtons();
-		addButton("Delete");
-		addButton("Change");
-		addButton("Cancel");
+		setButtons(
+				"acewiki_wordeditor_deletebutton",
+				"acewiki_wordeditor_changebutton",
+				"general_action_cancel"
+			);
 		for (Component c : getFormElements()) {
 			c.setEnabled(true);
 		}
@@ -196,21 +195,20 @@ public class FormPane extends WordEditorForm {
 		if (!references.isEmpty()) {
 			wiki.log("page", "error: cannot delete article with references");
 			wiki.showWindow(new MessageWindow(
-					"Error",
-					"This word cannot be deleted, because other articles refer to it.",
+					"acewiki_error_title",
+					"acewiki_error_delref",
 					getParentWindow(),
 					(ActionListener) null,
-					"OK"
+					"general_action_ok"
 				));
 		} else {
 			wiki.log("page", "delete confirmation");
 			delConfirmWindow = new MessageWindow(
-					"Delete",
-					"Do you really want to delete this word and all the content of its article?",
+					"acewiki_message_delwordtitle",
+					"acewiki_message_delword",
 					getParentWindow(),
 					this,
-					"Yes",
-					"No"
+					"general_action_yes", "general_action_no"
 				);
 			wiki.showWindow(delConfirmWindow);
 		}
@@ -244,30 +242,35 @@ public class FormPane extends WordEditorForm {
 			getActionListener().actionPerformed(new ActionEvent(te, ""));
 		} catch (InvalidWordException ex) {
 			wiki.log("edit", "invalid word: " + ex.getMessage());
-			wiki.showWindow(new MessageWindow("Error", ex.getMessage(), getParentWindow(), "OK"));
+			wiki.showWindow(new MessageWindow(
+					"acewiki_error_title",
+					ex.getMessage(),
+					getParentWindow(),
+					"general_action_ok"
+				));
 		}
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		String c = e.getActionCommand();
 		if (e.getSource() == delConfirmWindow) {
-			if ("Yes".equals(c)) {
+			if ("general_action_yes".equals(c)) {
 				delete();
 				wiki.removeWindow(getParentWindow());
 			}
-		} else if ("Cancel".equals(c) || "Close".equals(c)) {
+		} else if ("general_action_cancel".equals(c) || "general_action_close".equals(c)) {
 			wiki.removeWindow(getParentWindow());
-		} else if ("OK".equals(c)) {
+		} else if ("general_action_ok".equals(c)) {
 			saveOrShowError();
-		} else if ("Unlock".equals(c)) {
+		} else if ("general_action_unlock".equals(c)) {
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
 			} else {
 				unlock();
 			}
-		} else if ("Change".equals(c)) {
+		} else if ("acewiki_wordeditor_changebutton".equals(c)) {
 			saveOrShowError();
-		} else if ("Delete".equals(c)) {
+		} else if ("acewiki_wordeditor_deletebutton".equals(c)) {
 			prepareDelete();
 		}
 	}

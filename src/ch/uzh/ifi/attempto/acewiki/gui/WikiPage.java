@@ -126,14 +126,7 @@ public abstract class WikiPage extends Column {
 	 * @param actionListener The actionlistener.
 	 */
 	protected void addTab(String text, ActionListener actionListener) {
-		String tabName = getWiki().getGUIText(text);
-		SmallButton b;
-		if (tabName == null) {
-			b = new SmallButton(text, actionListener);
-		} else {
-			b = new SmallButton(tabName, text, actionListener);
-		}
-		tabRow.add(b);
+		tabRow.add(new SmallButton(text, actionListener));
 		tabRow.add(new HSpace(8));
 		tabRow.add(createTabSeparator());
 		tabRow.add(new HSpace(8));
@@ -149,13 +142,7 @@ public abstract class WikiPage extends Column {
 	 * @param text Either a text key or the text itself.
 	 */
 	protected void addSelectedTab(String text) {
-		String tabName = getWiki().getGUIText(text);
-		SmallButton b;
-		if (tabName == null) {
-			b = new SmallButton(text, null);
-		} else {
-			b = new SmallButton(tabName, text, null);
-		}
+		SmallButton b = new SmallButton(text, null);
 		b.setEnabled(false);
 		tabRow.add(b);
 		tabRow.add(new HSpace(8));
@@ -190,7 +177,7 @@ public abstract class WikiPage extends Column {
 	/**
 	 * Adds a headline to the page content.
 	 * 
-	 * @param text The headline text.
+	 * @param text The headline text (or the text key for localization).
 	 */
 	protected void addHeadline(String text) {
 		addHeadline(text, null);
@@ -199,14 +186,14 @@ public abstract class WikiPage extends Column {
 	/**
 	 * Adds a headline to the page content. The component is shown after the headline text.
 	 * 
-	 * @param text The headline text.
-	 * @param comp 
+	 * @param text The headline text (or the text key for localization).
+	 * @param comp The component.
 	 */
 	protected void addHeadline(String text, Component comp) {
 		Row headline = new Row();
 		headline.setInsets(new Insets(10, 10, 10, 0));
 		headline.setCellSpacing(new Extent(5));
-		Label title = new Label(text);
+		Label title = new Label(wiki.getGUIText(text));
 		title.setFont(new Font(Style.fontTypeface, Font.ITALIC | Font.UNDERLINE, new Extent(13)));
 		title.setLineWrap(false);
 		headline.add(title);

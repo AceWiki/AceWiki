@@ -94,7 +94,6 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 	private PredictiveParser parser;
 	private List<ActionListener> actionListeners = new ArrayList<ActionListener>();
 	private Logger logger;
-	private Locale locale;
 	
 	private MenuBlockManager menuBlockManager;
 	private MenuBlock enlargedMenuBlock;
@@ -119,12 +118,10 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 	 * @param title The title of the window.
 	 * @param parser The predictive parser to be used. Do not modify this object while the
 	 *     preditor window is active!
-	 * @param locale The locale.
 	 */
-	public PreditorWindow(String title, PredictiveParser parser, Locale locale) {
+	public PreditorWindow(String title, PredictiveParser parser) {
 		this.parser = parser;
 		this.menuBlockManager = new MenuBlockManager(this);
-		this.locale = locale;
 		
 		addWindowPaneListener(this);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -202,26 +199,14 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 		buttonBar.setAlignment(new Alignment(Alignment.RIGHT, Alignment.TOP));
 		buttonBar.setInsets(new Insets(10, 10, 10, 0));
 		buttonBar.setCellSpacing(new Extent(5));
-		okButton = new GeneralButton(getLocalized("general_button_ok"), this, 80);
+		okButton = new GeneralButton(getLocalized("general_action_ok"), this, 80);
 		buttonBar.add(okButton);
-		cancelButton = new GeneralButton(getLocalized("general_button_cancel"), this, 80);
+		cancelButton = new GeneralButton(getLocalized("general_action_cancel"), this, 80);
 		buttonBar.add(cancelButton);
 		grid.setRowHeight(3, new Extent(30));
 		grid.add(buttonBar);
 		
 		update();
-	}
-	
-
-	/**
-	 * Creates a new predictive editor window using the given predictive parser.
-	 * 
-	 * @param title The title of the window.
-	 * @param parser The predictive parser to be used. Do not modify this object while the
-	 *     preditor window is active!
-	 */
-	public PreditorWindow(String title, PredictiveParser parser) {
-		this(title, parser, null);
 	}
 	
 	/**
@@ -645,13 +630,6 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 	public PredictiveParser getPredictiveParser() {
 		return parser;
 	}
-
-	/**
-	 * Returns the locale.
-	 */
-	public Locale getLocale() {
-		return locale;
-	}
 	
 	/**
 	 * Returns a localized string.
@@ -661,6 +639,10 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 	 */
 	protected String getLocalized(String key) {
 		return LocaleResources.getString(getLocale(), key);
+	}
+	
+	public Locale getLocale() {
+		return ApplicationInstance.getActive().getLocale();
 	}
 	
 	public void windowPaneClosing(WindowPaneEvent e) {

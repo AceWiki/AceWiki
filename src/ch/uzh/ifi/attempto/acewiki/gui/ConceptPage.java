@@ -14,6 +14,7 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui;
 
+import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Color;
 import nextapp.echo.app.event.ActionEvent;
 import ch.uzh.ifi.attempto.acewiki.Task;
@@ -21,6 +22,7 @@ import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.echocomp.EchoThread;
 
 /**
  * This class stands for an article page showing the article of a concept. At the
@@ -44,8 +46,8 @@ public class ConceptPage extends ArticlePage {
 		super(wiki, concept);
 		this.concept = concept;
 		
-		addTab("Individuals", this);
-		addTab("Hierarchy", this);
+		addTab("acewiki_page_individuals", this);
+		addTab("acewiki_page_hierarchy", this);
 	}
 	
 	public OntologyElement getOntologyElement() {
@@ -54,9 +56,9 @@ public class ConceptPage extends ArticlePage {
 
 	public void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);
-		if ("Individuals".equals(e.getActionCommand())) {
+		if ("acewiki_page_individuals".equals(e.getActionCommand())) {
 			getWiki().showPage(new IndividualsPage(this));
-		} else if ("Hierarchy".equals(e.getActionCommand())) {
+		} else if ("acewiki_page_hierarchy".equals(e.getActionCommand())) {
 			getWiki().showPage(new HierarchyPage(this));
 		}
 	}
@@ -66,7 +68,12 @@ public class ConceptPage extends ArticlePage {
 		
 		getTitle().setText(getHeading(concept));
 		
-		Thread thread = new Thread() {
+		EchoThread thread = new EchoThread() {
+			
+			public ApplicationInstance getApplication() {
+				return getWiki().getApplication();
+			}
+			
 			public void run() {
 				synchronized (getWiki().getApplication()) {
 					getWiki().enqueueWeakAsyncTask(new Task() {
@@ -92,6 +99,7 @@ public class ConceptPage extends ArticlePage {
 					} catch (InterruptedException ex) {}
 				}
 			}
+			
 		};
 		thread.setPriority(Thread.MIN_PRIORITY);
 		thread.start();

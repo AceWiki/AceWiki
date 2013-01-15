@@ -14,6 +14,7 @@
 
 package ch.uzh.ifi.attempto.echocomp;
 
+import ch.uzh.ifi.attempto.base.LocaleResources;
 import nextapp.echo.app.Alignment;
 import nextapp.echo.app.Button;
 import nextapp.echo.app.Color;
@@ -34,15 +35,16 @@ public class SmallButton extends Button {
 	/**
 	 * Creates a new small button.
 	 * 
-	 * @param text The button text.
-	 * @param actionCommand The action command.
+	 * @param s Either the text key for localization or the actual button text.
 	 * @param actionListener The action-listener of the button.
 	 * @param size The size of the text.
 	 */
-	public SmallButton(String text, String actionCommand, ActionListener actionListener, int size) {
-		super(text);
+	public SmallButton(String s, ActionListener actionListener, int size) {
+		String text = LocaleResources.getString(getLocale(), s);
+		if (text == null) text = s;
+		setText(text);
 		
-		setActionCommand(actionCommand);
+		setActionCommand(s);
 		addActionListener(actionListener);
 		
 		setHeight(new Extent(size + 4));
@@ -63,35 +65,13 @@ public class SmallButton extends Button {
 	}
 	
 	/**
-	 * Creates a new small button.
-	 * 
-	 * @param text The button text.
-	 * @param actionCommand The action command.
-	 * @param actionListener The action-listener of the button.
-	 */
-	public SmallButton(String text, String actionCommand, ActionListener actionListener) {
-		this(text, actionCommand, actionListener, 10);
-	}
-	
-	/**
-	 * Creates a new small button.
-	 * 
-	 * @param text The button text.
-	 * @param actionListener The action-listener of the button.
-	 * @param size The size of the text.
-	 */
-	public SmallButton(String text, ActionListener actionListener, int size) {
-		this(text, text, actionListener, size);
-	}
-	
-	/**
 	 * Creates a new small button with text size 10.
 	 * 
-	 * @param text The button text.
+	 * @param s Either the text key for localization or the actual button text.
 	 * @param actionListener The action-listener of the button.
 	 */
-	public SmallButton(String text, ActionListener actionListener) {
-		this(text, text, actionListener, 10);
+	public SmallButton(String s, ActionListener actionListener) {
+		this(s, actionListener, 10);
 	}
 
 }

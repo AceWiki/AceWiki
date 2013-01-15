@@ -14,6 +14,10 @@
 
 package ch.uzh.ifi.attempto.echocomp;
 
+import java.util.Locale;
+
+import ch.uzh.ifi.attempto.base.LocaleResources;
+
 import nextapp.echo.app.Alignment;
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Column;
@@ -44,9 +48,9 @@ public class MessageWindow extends GeneralWindow implements ActionListener {
 	/**
 	 * Creates a new message window.
 	 * 
-	 * @param title The title of the window.
+	 * @param title The title of the window (or text key for localization).
 	 * @param image The image to be displayed above the text.
-	 * @param message The message text.
+	 * @param message The message text (or text key for localization).
 	 * @param parent The parent window.
 	 * @param actionListener The action-listener.
 	 * @param options A list of options each represented by a button in the message window.
@@ -54,7 +58,7 @@ public class MessageWindow extends GeneralWindow implements ActionListener {
 	public MessageWindow(String title, ResourceImageReference image, String message,
 			WindowPane parent, ActionListener actionListener, String... options) {
 		this.actionListener = actionListener;
-		setTitle(title);
+		setTitle(localize(title));
 		setTitleFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		setModal(true);
 		setWidth(new Extent(420));
@@ -89,7 +93,7 @@ public class MessageWindow extends GeneralWindow implements ActionListener {
 			iconMessageColumn.add(new VSpace(5));
 		}
 
-		Label label = new Label(message);
+		Label label = new Label(localize(message));
 		label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		iconMessageColumn.add(label);
 		grid.add(iconMessageColumn);
@@ -116,8 +120,8 @@ public class MessageWindow extends GeneralWindow implements ActionListener {
 	/**
 	 * Creates a new message window.
 	 * 
-	 * @param title The title of the window.
-	 * @param message The message text.
+	 * @param title The title of the window (or text key for localization).
+	 * @param message The message text (or text key for localization).
 	 * @param parent The parent window.
 	 * @param actionListener The action-listener.
 	 * @param options A list of options each represented by a button in the message window.
@@ -130,8 +134,8 @@ public class MessageWindow extends GeneralWindow implements ActionListener {
 	/**
 	 * Creates a new message window.
 	 * 
-	 * @param title The title of the window.
-	 * @param message The message text.
+	 * @param title The title of the window (or text key for localization).
+	 * @param message The message text (or text key for localization).
 	 * @param parent The parent window.
 	 * @param options A list of options each represented by a button in the message window.
 	 */
@@ -142,8 +146,8 @@ public class MessageWindow extends GeneralWindow implements ActionListener {
 	/**
 	 * Creates a new message window.
 	 * 
-	 * @param title The title of the window.
-	 * @param message The message text.
+	 * @param title The title of the window (or text key for localization).
+	 * @param message The message text (or text key for localization).
 	 * @param options A list of options each represented by a button in the message window.
 	 */
 	public MessageWindow(String title, String message, String... options) {
@@ -155,6 +159,13 @@ public class MessageWindow extends GeneralWindow implements ActionListener {
 		if (actionListener != null) {
 			actionListener.actionPerformed(new ActionEvent(this, e.getActionCommand()));
 		}
+	}
+	
+	private String localize(String s) {
+		Locale locale = ApplicationInstance.getActive().getLocale();
+		String text = LocaleResources.getString(locale, s);
+		if (text == null) text = s;
+		return text;
 	}
 
 }

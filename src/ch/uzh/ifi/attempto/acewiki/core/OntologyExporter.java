@@ -69,7 +69,7 @@ public abstract class OntologyExporter {
 	public abstract boolean isApplicable();
 	
 	/**
-	 * Returns the name of this exporter as shown to the user.
+	 * Returns the name of this exporter as shown to the user, or a text key for localization.
 	 * 
 	 * @return The name of this exporter.
 	 */

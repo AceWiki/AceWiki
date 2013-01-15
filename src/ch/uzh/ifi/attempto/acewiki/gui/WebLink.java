@@ -14,6 +14,7 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui;
 
+import ch.uzh.ifi.attempto.echocomp.EchoThread;
 import ch.uzh.ifi.attempto.echocomp.Style;
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Button;
@@ -94,7 +95,8 @@ public class WebLink extends Button implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		ApplicationInstance.getActive().enqueueCommand(new BrowserRedirectCommand(url));
+		ApplicationInstance app = EchoThread.getActiveApplication();
+		app.enqueueCommand(new BrowserRedirectCommand(url));
 	}
 
 }

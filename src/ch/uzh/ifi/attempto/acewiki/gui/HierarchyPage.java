@@ -47,8 +47,7 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 	private static final int pageSize = 25;
 	
 	private ConceptPage page;
-	private RecalcIcon upRecalcIcon = new RecalcIcon("This list is being updated.");
-	private RecalcIcon downRecalcIcon = new RecalcIcon("This list is being updated.");
+	private RecalcIcon upRecalcIcon, downRecalcIcon;
 	private Title title;
 
 	private Column upHierarchyColumn = new Column();
@@ -65,24 +64,26 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 		super(page.getWiki());
 		this.page = page;
 		
-		addTab("Article", this);
-		addTab("References", this);
-		addTab("Individuals", this);
-		addSelectedTab("Hierarchy");
+		addTab("acewiki_page_article", this);
+		addTab("acewiki_page_references", this);
+		addTab("acewiki_page_individuals", this);
+		addSelectedTab("acewiki_page_hierarchy");
 		
 		OntologyElement oe = page.getOntologyElement();
-		title = new Title(getHeading(oe), "- Hierarchy", oe.getType(), this);
+		title = new Title(getHeading(oe), "- " + getWiki().getGUIText("acewiki_page_hierarchy"), oe.getType(), this);
 		add(title);
 		addHorizontalLine();
 		add(new VSpace(12));
-		
+
+		upRecalcIcon = new RecalcIcon(page.getWiki().getGUIText("acewiki_list_updating"));
 		upRecalcIcon.setVisible(false);
-		addHeadline("Upward", upRecalcIcon);
+		addHeadline("acewiki_hierarchy_upheading", upRecalcIcon);
 		add(new VSpace(5));
 		add(upHierarchyColumn);
-		
+
+		downRecalcIcon = new RecalcIcon(page.getWiki().getGUIText("acewiki_list_updating"));
 		downRecalcIcon.setVisible(false);
-		addHeadline("Downward", downRecalcIcon);
+		addHeadline("acewiki_hierarchy_downheading", downRecalcIcon);
 		add(new VSpace(5));
 		add(downHierarchyColumn);
 	}
@@ -141,13 +142,13 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if ("Article".equals(e.getActionCommand())) {
+		if ("acewiki_page_article".equals(e.getActionCommand())) {
 			log("page", "pressed: article");
 			getWiki().showPage(page);
-		} else if ("References".equals(e.getActionCommand())) {
+		} else if ("acewiki_page_references".equals(e.getActionCommand())) {
 			log("page", "pressed: references");
 			getWiki().showPage(new ReferencesPage(page));
-		} else if ("Individuals".equals(e.getActionCommand())) {
+		} else if ("acewiki_page_individuals".equals(e.getActionCommand())) {
 			log("page", "pressed: individuals");
 			getWiki().showPage(new IndividualsPage(page));
 		} else if (e.getSource() == title) {
@@ -182,7 +183,7 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 		
 		public HierarchyComponent(boolean up, boolean cached) {
 			this.up = up;
-			indexBar = new IndexBar("Page:", 0, this);
+			indexBar = new IndexBar(0, this);
 			add(indexBar);
 			column.setInsets(new Insets(10, 2, 5, 10));
 			column.setCellSpacing(new Extent(2));
@@ -224,13 +225,13 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 		private void updatePage() {
 			column.removeAll();
 			
-			String t;
+			String message;
 			int chosenPage;
 			if (up) {
-				t = "upward";
+				message = page.getWiki().getGUIText("acewiki_hierarchy_upempty");
 				chosenPage = upChosenPage;
 			} else {
-				t = "downward";
+				message = page.getWiki().getGUIText("acewiki_hierarchy_downempty");
 				chosenPage = downChosenPage;
 			}
 			
@@ -240,7 +241,7 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 			} else {
 				if (sentences.size() == 0) {
 					indexBar.setVisible(false);
-					column.add(new SolidLabel("(" + t + " hierarchy is empty)", Font.ITALIC, 10));
+					column.add(new SolidLabel(message, Font.ITALIC, 10));
 				} else {
 					int i = ((sentences.size()-1) / pageSize) + 1;
 					if (chosenPage > i) chosenPage = 0;

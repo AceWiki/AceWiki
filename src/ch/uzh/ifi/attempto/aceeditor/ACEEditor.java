@@ -37,6 +37,7 @@ import nextapp.echo.webcontainer.command.BrowserRedirectCommand;
 import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.chartparser.ChartParser;
+import ch.uzh.ifi.attempto.echocomp.EchoThread;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.echocomp.TextAreaWindow;
 import ch.uzh.ifi.attempto.echocomp.UploadWindow;
@@ -289,7 +290,7 @@ public class ACEEditor extends Window implements ActionListener {
 					"OK"
 				));
 		} else if (c.equals("Attempto Website")) {
-			ApplicationInstance.getActive().enqueueCommand(
+			getApplication().enqueueCommand(
 					new BrowserRedirectCommand("http://attempto.ifi.uzh.ch")
 				);
 		} else if (c.equals("Open Text...")) {
@@ -646,6 +647,10 @@ public class ACEEditor extends Window implements ActionListener {
 		}
 
 		return properties.getProperty(key);
+	}
+	
+	private ApplicationInstance getApplication() {
+		return EchoThread.getActiveApplication();
 	}
 
 }

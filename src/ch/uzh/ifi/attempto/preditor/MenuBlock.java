@@ -30,6 +30,7 @@ import nextapp.echo.app.Row;
 import nextapp.echo.app.TaskQueueHandle;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
+import ch.uzh.ifi.attempto.echocomp.EchoThread;
 import ch.uzh.ifi.attempto.echocomp.Style;
 import echopoint.ContainerEx;
 import echopoint.able.Scrollable;
@@ -166,7 +167,12 @@ class MenuBlock extends Column implements ActionListener {
 		if (progress >= items.size()) return;
 		if (this.state != state) return;
 
-		Thread thread = new Thread() {
+		EchoThread thread = new EchoThread() {
+			
+			public ApplicationInstance getApplication() {
+				return app;
+			}
+			
 			public void run() {
 				final Component c = createNextMenuComponent();
 				

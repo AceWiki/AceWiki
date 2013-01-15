@@ -67,31 +67,31 @@ public class SearchPage extends WikiPage implements ActionListener {
 	protected void doUpdate() {
 		removeAll();
 	
-		addTab("acewiki_specialpage_main", this);
-		addTab("acewiki_specialpage_index", this);
-		addSelectedTab("acewiki_specialpage_search");
-		addTab("acewiki_specialpage_about", this);
+		addTab("acewiki_page_main", this);
+		addTab("acewiki_page_index", this);
+		addSelectedTab("acewiki_page_search");
+		addTab("acewiki_page_about", this);
 
-		add(new Title(getWiki().getGUIText("acewiki_specialpage_search"), true));
+		add(new Title(getWiki().getGUIText("acewiki_page_search"), true));
 		addHorizontalLine();
 		add(new VSpace(15));
 		
-		addHeadline("Search word");
+		addHeadline("acewiki_search_heading");
 		add(new VSpace(10));
 		
 		Row textFieldRow = new Row();
 		textFieldRow.setInsets(new Insets(10, 0));
 		textFieldRow.setCellSpacing(new Extent(5));
 		textFieldRow.add(textField);
-		textFieldRow.add(new GeneralButton("Search", this));
+		textFieldRow.add(new GeneralButton("acewiki_search_button", this));
 		add(textFieldRow);
 		
 		add(new VSpace(15));
 		
-		addHeadline("Results");
+		addHeadline("acewiki_search_resultsheading");
 		add(new VSpace(10));
 		
-		indexBar = new IndexBar("Page:", 0, this);
+		indexBar = new IndexBar(0, this);
 		add(indexBar);
 		
 		resultColumn.setInsets(new Insets(10, 2, 5, 20));
@@ -103,7 +103,7 @@ public class SearchPage extends WikiPage implements ActionListener {
 		resultColumn.removeAll();
 		if (textField.getText().length() == 0) {
 			indexBar.setVisible(false);
-			resultColumn.add(new SolidLabel("(enter a search text)", Font.ITALIC, 10));
+			resultColumn.add(new SolidLabel(getWiki().getGUIText("acewiki_search_nosearchtext"), Font.ITALIC, 10));
 			return;
 		}
 		
@@ -112,7 +112,7 @@ public class SearchPage extends WikiPage implements ActionListener {
 		
 		if (searchResult.size() == 0) {
 			indexBar.setVisible(false);
-			resultColumn.add(new SolidLabel("(nothing found)", Font.ITALIC, 10));
+			resultColumn.add(new SolidLabel(getWiki().getGUIText("acewiki_list_empty"), Font.ITALIC, 10));
 		} else {
 			int i = ((searchResult.size()-1) / pageSize) + 1;
 			if (chosenPage > i) chosenPage = 0;
@@ -140,11 +140,11 @@ public class SearchPage extends WikiPage implements ActionListener {
 			chosenPage = Integer.parseInt(e.getActionCommand()) - 1;
 			log("page", "pressed: page " + (chosenPage+1));
 			updatePage();
-		} else if ("acewiki_specialpage_main".equals(e.getActionCommand())) {
+		} else if ("acewiki_page_main".equals(e.getActionCommand())) {
 			getWiki().showStartPage();
-		} else if ("acewiki_specialpage_index".equals(e.getActionCommand())) {
+		} else if ("acewiki_page_index".equals(e.getActionCommand())) {
 			getWiki().showIndexPage();
-		} else if ("acewiki_specialpage_about".equals(e.getActionCommand())) {
+		} else if ("acewiki_page_about".equals(e.getActionCommand())) {
 			getWiki().showAboutPage();
 		} else {
 			log("page", "search for " + textField.getText());

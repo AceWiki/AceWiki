@@ -24,6 +24,7 @@ import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.layout.RowLayoutData;
+import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiEngine;
 import ch.uzh.ifi.attempto.acewiki.core.Article;
@@ -50,22 +51,7 @@ public class SentenceComponent extends Column implements ActionListener {
 
 	private static final long serialVersionUID = -540135972060005725L;
 
-	// TODO: move this to a central place (and allow it to be localized)
-	private static final String YES = "Yes";
-
-	private static final String ACTION_EDIT = "Edit...";
-	private static final String ACTION_ADD_SENTENCE = "Add Sentence...";
-	private static final String ACTION_ADD_COMMENT = "Add Comment...";
-	private static final String ACTION_REASSERT = "Reassert";
-	private static final String ACTION_RETRACT = "Retract";
-	private static final String ACTION_SHOW_DETAILS = "Show Details";
 	private static final String ACTION_SHOW_TRANSLATIONS = "Show Translations";
-
-	private static final SentenceAction actionDelete = new SentenceAction(
-			"Delete",
-			"Delete this sentence from the article",
-			"Do you really want to delete this sentence?",
-			"The sentence is being removed from the knowledge base...");
 
 	// TODO: this is GF-specific, in normal AceWiki these actions do not make sense
 	private static final SentenceAction actionGenSentence = new SentenceAction(
@@ -80,16 +66,15 @@ public class SentenceComponent extends Column implements ActionListener {
 			"Do you really want to reparse this sentence?");
 
 	private static final ImmutableSet<String> EDIT_ACTIONS = new ImmutableSet.Builder<String>()
-			.add(ACTION_EDIT)
-			.add(ACTION_ADD_SENTENCE)
-			.add(ACTION_ADD_COMMENT)
-			.add(ACTION_REASSERT)
-			.add(ACTION_RETRACT)
-			.add(actionDelete.getTitle())
+			.add("acewiki_statementmenu_edit")
+			.add("acewiki_statementmenu_addsent")
+			.add("acewiki_statementmenu_addcomm")
+			.add("acewiki_statementmenu_reassert")
+			.add("acewiki_statementmenu_retract")
+			.add("acewiki_statementmenu_delete")
 			.add(actionGenSentence.getTitle())
 			.add(actionReparse.getTitle())
 			.build();
-
 
 
 	private Sentence sentence;
@@ -111,7 +96,7 @@ public class SentenceComponent extends Column implements ActionListener {
 		this.sentence = sentence;
 		this.hostPage = hostPage;
 		this.wiki = hostPage.getWiki();
-		this.recalcIcon = new RecalcIcon("The answer to this question is being updated.");
+		this.recalcIcon = new RecalcIcon(wiki.getGUIText("acewiki_answer_recalctooltip"));
 		update();
 	}
 
@@ -127,19 +112,19 @@ public class SentenceComponent extends Column implements ActionListener {
 		}
 
 		if (!wiki.isReadOnly() && !sentence.isImmutable()) {
-			dropDown.addMenuEntry(ACTION_EDIT, "Edit this sentence");
+			dropDown.addMenuEntry("acewiki_statementmenu_edit", "acewiki_statementmenu_editsenttooltip");
 			if (sentence.isReasonable()) {
 				if (sentence.isIntegrated()) {
-					dropDown.addMenuEntry(ACTION_RETRACT, "Retract this sentence from the knowledge base");
+					dropDown.addMenuEntry("acewiki_statementmenu_retract", "acewiki_statementmenu_retracttooltip");
 				} else {
-					dropDown.addMenuEntry(ACTION_REASSERT, "Reassert this sentence into the knowledge base");
+					dropDown.addMenuEntry("acewiki_statementmenu_reassert", "acewiki_statementmenu_reasserttooltip");
 				}
 			}
-			dropDown.addMenuEntry(actionDelete.getTitle(), actionDelete.getDesc());
+			dropDown.addMenuEntry("acewiki_statementmenu_delete", "acewiki_statementmenu_delsenttooltip");
 			dropDown.addMenuEntry(actionReparse.getTitle(), actionReparse.getDesc());
 		}
 
-		dropDown.addMenuEntry(ACTION_SHOW_DETAILS, "Show the details of this sentence");
+		dropDown.addMenuEntry("acewiki_statementmenu_details", "acewiki_statementmenu_detailstooltip");
 
 		if (sentence instanceof MultilingualSentence) {
 			dropDown.addMenuEntry(ACTION_SHOW_TRANSLATIONS, "Show the translations of this sentence");
@@ -148,8 +133,8 @@ public class SentenceComponent extends Column implements ActionListener {
 
 		if (!wiki.isReadOnly() && hostPage instanceof ArticlePage) {
 			dropDown.addMenuSeparator();
-			dropDown.addMenuEntry(ACTION_ADD_SENTENCE, "Add a new sentence here");
-			dropDown.addMenuEntry(ACTION_ADD_COMMENT, "Add a new comment here");
+			dropDown.addMenuEntry("acewiki_statementmenu_addsent", "acewiki_statementmenu_addsenttooltip");
+			dropDown.addMenuEntry("acewiki_statementmenu_addcomm", "acewiki_statementmenu_addcommtooltip");
 		}
 
 
@@ -191,27 +176,33 @@ public class SentenceComponent extends Column implements ActionListener {
 			return;
 		}
 
-		if (ACTION_EDIT.equals(actionCommand)) {
+		if ("acewiki_statementmenu_edit".equals(actionCommand)) {
 			log("dropdown: edit sentence:");
 			OntologyElement el = sentence.getArticle().getOntologyElement();
 			ArticlePage page = ArticlePage.create(el, wiki);
 			wiki.showPage(page);
 			wiki.showWindow(SentenceEditorHandler.generateEditWindow(sentence, page));
-		} else if (ACTION_ADD_SENTENCE.equals(actionCommand)) {
+		} else if ("acewiki_statementmenu_addsent".equals(actionCommand)) {
 			log("dropdown: add sentence");
 			wiki.showWindow(SentenceEditorHandler.generateCreationWindow(
 					sentence,
 					(ArticlePage) hostPage
 					));
-		} else if (ACTION_ADD_COMMENT.equals(actionCommand)) {
+		} else if ("acewiki_statementmenu_addcomm".equals(actionCommand)) {
 			log("dropdown: add comment");
 			wiki.showWindow(CommentEditorHandler.generateCreationWindow(
 					sentence,
 					(ArticlePage) hostPage
 					));
-		} else if (actionDelete.hasTitle(actionCommand)) {
+		} else if ("acewiki_statementmenu_delete".equals(actionCommand)) {
 			log("dropdown: delete sentence:");
-			wiki.showWindow(actionDelete.getYesNoDialog(null, this));
+			wiki.showWindow(new MessageWindow(
+					"acewiki_message_delstatementtitle",
+					"acewiki_message_delsentence",
+					null,
+					this,
+					"general_action_yes", "general_action_no"
+				));
 		} else if (actionGenSentence.hasTitle(actionCommand)) {
 			final AceWikiEngine engine = wiki.getEngine();
 			if (engine instanceof GFEngine) {
@@ -249,48 +240,48 @@ public class SentenceComponent extends Column implements ActionListener {
 
 				});
 			}
-		} else if (ACTION_REASSERT.equals(actionCommand)) {
+		} else if ("acewiki_statementmenu_reassert".equals(actionCommand)) {
 			log("dropdown: reassert:");
 			try {
 				wiki.getOntology().reassert(sentence);
 			} catch (InconsistencyException ex) {
 				wiki.showWindow(new MessageWindow(
-						"Conflict",
-						"The sentence is in conflict with the current knowledge. For that " +
-								"reason, it cannot be added to the knowledge base.",
-								"OK"
-						));
+						"acewiki_message_conflicttitle",
+						"acewiki_message_conflict",
+						"general_action_ok"
+					));
 			}
 			if (sentence.isIntegrated()) {
 				update();
 				hostPage.update();
 			}
-		} else if (ACTION_RETRACT.equals(actionCommand)) {
+		} else if ("acewiki_statementmenu_retract".equals(actionCommand)) {
 			log("dropdown: retract:");
 			wiki.getOntology().retract(sentence);
 			update();
 			hostPage.update();
-		} else if (ACTION_SHOW_DETAILS.equals(actionCommand)) {
+		} else if ("acewiki_statementmenu_details".equals(actionCommand)) {
 			log("dropdown: details sentence:");
 			wiki.showPage(new SentencePage(wiki, sentence));
 		} else if (ACTION_SHOW_TRANSLATIONS.equals(actionCommand)) {
 			log("dropdown: translations sentence:");
 			wiki.showPage(new TranslationsPage(wiki, (MultilingualSentence) sentence));
-		} else if (e.getSource() instanceof MessageWindow && actionCommand.equals(YES)) {
-
-			// TODO: move this code closer to the respective actions
-			MessageWindow window = (MessageWindow) e.getSource();
-
-			if (actionDelete.hasTitle(window.getTitle())) {
-				log("dropdown: delete confirmed:");
-
-				actionDelete.performAction(wiki, new Executable() {
-					@Override
-					public void execute() {
+		} else if (e.getSource() instanceof MessageWindow && actionCommand.equals("general_action_yes")) {
+			log("dropdown: delete confirmed:");
+			
+			wiki.enqueueStrongAsyncTask(
+				wiki.getGUIText("acewiki_message_updatetitle"),
+				wiki.getGUIText("acewiki_message_update"),
+				new Task() {
+					public void run() {
 						sentence.getArticle().remove(sentence);
 					}
-				});
-			}
+					public void updateGUI() {
+						wiki.update();
+						wiki.refresh();
+					}
+				}
+			);
 		}
 	}
 

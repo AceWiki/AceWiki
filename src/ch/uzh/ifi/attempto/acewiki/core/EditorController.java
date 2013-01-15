@@ -33,7 +33,7 @@ public class EditorController {
 	private Map<String, String> menuGroupsForCat = new HashMap<String, String>();
 	private Map<String, Integer> colorShifts = new HashMap<String, Integer>();
 	private String[] autocompleteTokens = new String[] {};
-	private String defaultMenuGroup = "word";
+	private String defaultMenuGroup = "";
 	
 	/**
 	 * Adds a menu group. The order of the method-calls define the order in which the menu groups
