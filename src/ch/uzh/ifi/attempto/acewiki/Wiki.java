@@ -880,7 +880,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			log("edit", "new word: " + te.getOntologyElement().getWord());
 			showPage(te.getOntologyElement());
 		} else if (languageButtons.contains(src)) {
-			switchLanguage(((SmallButton) src).getText());
+			switchLanguage(engine.getLanguages()[languageButtons.indexOf(src)]);
 		}
 	}
 
