@@ -28,6 +28,10 @@ import ch.uzh.ifi.attempto.base.LocaleResources;
 public abstract class AbstractLanguageHandler implements LanguageHandler {
 
 	private Map<String, LexiconChanger> lexiconChangers = new HashMap<String, LexiconChanger>();
+	
+	public String getLanguageName() {
+		return getLanguage();
+	}
 
 	public Locale getLocale() {
 		return LocaleResources.defaultLocale;

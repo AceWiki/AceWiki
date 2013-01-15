@@ -408,7 +408,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			sideCol.add(label);
 			
 			for (String lang : engine.getLanguages()) {
-				SmallButton b = new SmallButton(lang, this, 12);
+				String n = engine.getLanguageHandler(lang).getLanguageName();
+				SmallButton b = new SmallButton(n, this, 12);
 				if (lang.equals(language)) b.setEnabled(false);
 				languageButtons.add(b);
 				sideCol.add(new ListItem(b));
