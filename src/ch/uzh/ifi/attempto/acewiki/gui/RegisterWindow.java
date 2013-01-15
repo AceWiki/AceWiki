@@ -73,7 +73,7 @@ public class RegisterWindow extends WindowPane implements ActionListener {
 		setTitle(wiki.getGUIText("acewiki_userwindow_registertitle"));
 		setTitleFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		setModal(true);
-		setWidth(new Extent(470));
+		setWidth(new Extent(500));
 		setHeight(new Extent(290));
 		setResizable(false);
 		setMovable(true);
@@ -84,8 +84,8 @@ public class RegisterWindow extends WindowPane implements ActionListener {
 		wiki.log("logi", "registration window");
 
 		Grid mainGrid = new Grid(1);
-		mainGrid.setInsets(new Insets(10, 10, 10, 0));
-		mainGrid.setColumnWidth(0, new Extent(450));
+		mainGrid.setInsets(new Insets(10, 10, 0, 0));
+		mainGrid.setColumnWidth(0, new Extent(480));
 		mainGrid.setRowHeight(0, new Extent(200));
 		
 		Column messageColumn = new Column();
@@ -98,7 +98,7 @@ public class RegisterWindow extends WindowPane implements ActionListener {
 		messageColumn.add(new VSpace());
 		
 		Grid formGrid = new Grid(2);
-		formGrid.setInsets(new Insets(10, 10, 10, 0));
+		formGrid.setInsets(new Insets(10, 10, 0, 0));
 		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_username"), Font.ITALIC));
 		formGrid.add(usernameField);
 		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_email"), Font.ITALIC));
@@ -116,8 +116,8 @@ public class RegisterWindow extends WindowPane implements ActionListener {
 		Row buttonBar = new Row();
 		buttonBar.setCellSpacing(new Extent(10));
 		buttonBar.setInsets(new Insets(0, 0, 0, 10));
-		buttonBar.add(new GeneralButton("acewiki_userwindow_registerbutton", this, 80));
-		buttonBar.add(new GeneralButton("general_action_cancel", this, 80));
+		buttonBar.add(new GeneralButton("acewiki_userwindow_registerbutton", this, 100));
+		buttonBar.add(new GeneralButton("general_action_cancel", this, 100));
 		GridLayoutData layout2 = new GridLayoutData();
 		layout2.setAlignment(new Alignment(Alignment.CENTER, Alignment.BOTTOM));
 		buttonBar.setLayoutData(layout2);

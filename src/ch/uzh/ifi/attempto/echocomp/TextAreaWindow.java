@@ -65,10 +65,10 @@ public class TextAreaWindow extends WindowPane implements ActionListener {
 		buttonBar.setAlignment(new Alignment(Alignment.RIGHT, Alignment.CENTER));
 		buttonBar.setInsets(new Insets(0, 0, 10, 0));
 		buttonBar.setCellSpacing(new Extent(5));
-		GeneralButton okButton = new GeneralButton("general_action_ok", this, 80);
+		GeneralButton okButton = new GeneralButton("general_action_ok", this, 100);
 		okButton.setActionCommand("OK");
 		buttonBar.add(okButton);
-		GeneralButton cancelButton = new GeneralButton("general_action_cancel", this, 80);
+		GeneralButton cancelButton = new GeneralButton("general_action_cancel", this, 100);
 		cancelButton.setActionCommand("Cancel");
 		buttonBar.add(cancelButton);
 		mainColumn.add(buttonBar);

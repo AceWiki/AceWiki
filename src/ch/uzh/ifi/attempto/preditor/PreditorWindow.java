@@ -156,10 +156,10 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 		textAreaButtonBar.setAlignment(new Alignment(Alignment.RIGHT, Alignment.CENTER));
 		textAreaButtonBar.setInsets(new Insets(0, 5, 10, 0));
 		textAreaButtonBar.setCellSpacing(new Extent(5));
-		clearButton = new GeneralButton(getLocalized("preditor_button_clear"), this, 80);
+		clearButton = new GeneralButton(getLocalized("preditor_button_clear"), this, 100);
 		clearButton.setVisible(false);
 		textAreaButtonBar.add(clearButton);
-		deleteButton = new GeneralButton(getLocalized("preditor_button_delete"), this, 80);
+		deleteButton = new GeneralButton(getLocalized("preditor_button_delete"), this, 100);
 		textAreaButtonBar.add(deleteButton);
 		textColumn.add(textAreaButtonBar);
 		
@@ -199,9 +199,9 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 		buttonBar.setAlignment(new Alignment(Alignment.RIGHT, Alignment.TOP));
 		buttonBar.setInsets(new Insets(10, 10, 10, 0));
 		buttonBar.setCellSpacing(new Extent(5));
-		okButton = new GeneralButton(getLocalized("general_action_ok"), this, 80);
+		okButton = new GeneralButton(getLocalized("general_action_ok"), this, 100);
 		buttonBar.add(okButton);
-		cancelButton = new GeneralButton(getLocalized("general_action_cancel"), this, 80);
+		cancelButton = new GeneralButton(getLocalized("general_action_cancel"), this, 100);
 		buttonBar.add(cancelButton);
 		grid.setRowHeight(3, new Extent(30));
 		grid.add(buttonBar);
