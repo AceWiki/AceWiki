@@ -37,6 +37,7 @@ import ch.uzh.ifi.attempto.base.TextOperator;
 public class GFHandler extends AbstractLanguageHandler {
 
 	private final String mLanguage;
+	private String mLanguageName;
 	private final Locale mLocale;
 	private final EditorController mEditorController = new EditorController();
 	private final GFGrammar mGfGrammar;
@@ -59,13 +60,29 @@ public class GFHandler extends AbstractLanguageHandler {
 
 		if (mLanguage.endsWith("Ger")) {
 			mLocale = new Locale("de", "DE");
+			mLanguageName = LocaleResources.getString(mLocale, "general_language_this");
+		} else if (mLanguage.endsWith("Eng")) {
+			mLocale = new Locale("en", "US");
+			mLanguageName = LocaleResources.getString(mLocale, "general_language_this");
+		} else if (mLanguage.endsWith("Ace")) {
+			mLocale = new Locale("en", "US");
+			mLanguageName = "ACE";
 		} else {
 			mLocale = LocaleResources.defaultLocale;
+			mLanguageName = mLanguage;
+		}
+
+		if (mLanguageName != mLanguage && mLanguage.startsWith("Disamb")) {
+			mLanguageName += " (disamb.)";
 		}
 	}
 
 	public String getLanguage() {
 		return mLanguage;
+	}
+
+	public String getLanguageName() {
+		return mLanguageName;
 	}
 
 	public Locale getLocale() {
