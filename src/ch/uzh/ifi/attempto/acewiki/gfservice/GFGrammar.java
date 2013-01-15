@@ -69,6 +69,7 @@ public class GFGrammar {
 
 	private GfServiceResultGrammar mGfServiceResultGrammar;
 
+	// Cache for the categories and functions, and their relations
 	private final Map<String, Set<String>> mCacheCatProducers = Maps.newHashMap();
 	private final Map<String, Set<String>> mCacheCatConsumers = Maps.newHashMap();
 
@@ -174,7 +175,8 @@ public class GFGrammar {
 	 */
 	public Set<String> complete(String cat, List<String> tokens, String language) throws GfServiceException {
 		// Remove the last argument if this behavior turns out to be confusing
-		GfServiceResultComplete result = mGfService.complete(cat, getCompletionInput(tokens), language, null, 15);
+		// Removed it (was 15), it seemed to be buggy in some cases.
+		GfServiceResultComplete result = mGfService.complete(cat, getCompletionInput(tokens), language, null);
 		return result.getCompletions(language);
 	}
 
@@ -248,6 +250,10 @@ public class GFGrammar {
 		}
 		if (result != null && result.isSuccess()) {
 			refreshGrammarInfo();
+			// Clear the cat/fun cache because the grammar has changed and
+			// the cache needs to be rebuilt.
+			mCacheCatProducers.clear();
+			mCacheCatConsumers.clear();
 		}
 		return result;
 	}

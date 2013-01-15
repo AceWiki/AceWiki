@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import ch.uzh.ifi.attempto.acewiki.aceowl.ProperNameChanger;
 import ch.uzh.ifi.attempto.acewiki.core.AbstractLanguageHandler;
 import ch.uzh.ifi.attempto.acewiki.core.EditorController;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
@@ -56,7 +55,6 @@ public class GFHandler extends AbstractLanguageHandler {
 
 		setLexiconChanger(TypeArticle.INTERNAL_TYPE, new ArticleChanger());
 		setLexiconChanger(TypeGfModule.INTERNAL_TYPE, new GfModuleChanger());
-		setLexiconChanger(GFEngine.TYPE_TEST, new ProperNameChanger());
 
 		if (mLanguage.endsWith("Ger")) {
 			mLocale = new Locale("de", "DE");

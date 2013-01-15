@@ -60,9 +60,9 @@ public class SentenceComponent extends Column implements ActionListener {
 			"",
 			"A new sentence is being randomly generated...");
 
-	private static final SentenceAction actionReparse = new SentenceAction(
-			"Reparse",
-			"Reparse this sentence",
+	private static final SentenceAction actionReanalyze = new SentenceAction(
+			"Reanalyze",
+			"Reanalyze this sentence",
 			"Do you really want to reparse this sentence?");
 
 	private static final ImmutableSet<String> EDIT_ACTIONS = new ImmutableSet.Builder<String>()
@@ -73,7 +73,7 @@ public class SentenceComponent extends Column implements ActionListener {
 			.add("acewiki_statementmenu_retract")
 			.add("acewiki_statementmenu_delete")
 			.add(actionGenSentence.getTitle())
-			.add(actionReparse.getTitle())
+			.add(actionReanalyze.getTitle())
 			.build();
 
 
@@ -121,7 +121,7 @@ public class SentenceComponent extends Column implements ActionListener {
 				}
 			}
 			dropDown.addMenuEntry("acewiki_statementmenu_delete", "acewiki_statementmenu_delsenttooltip");
-			dropDown.addMenuEntry(actionReparse.getTitle(), actionReparse.getDesc());
+			dropDown.addMenuEntry(actionReanalyze.getTitle(), actionReanalyze.getDesc());
 		}
 
 		dropDown.addMenuEntry("acewiki_statementmenu_details", "acewiki_statementmenu_detailstooltip");
@@ -220,12 +220,12 @@ public class SentenceComponent extends Column implements ActionListener {
 				});
 			}
 		}
-		else if (actionReparse.hasTitle(actionCommand)) {
+		else if (actionReanalyze.hasTitle(actionCommand)) {
 			final AceWikiEngine engine = wiki.getEngine();
 			if (engine instanceof GFEngine) {
 				log("dropdown: reparse sentence:");
 
-				actionReparse.performAction(wiki, new Executable() {
+				actionReanalyze.performAction(wiki, new Executable() {
 
 					@Override
 					public void execute() {

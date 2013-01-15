@@ -19,7 +19,6 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
-import ch.uzh.ifi.attempto.acewiki.aceowl.ProperNameIndividual;
 import ch.uzh.ifi.attempto.acewiki.core.AbstractAceWikiEngine;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
@@ -40,9 +39,6 @@ public class GFEngine extends AbstractAceWikiEngine {
 	// TODO: support the creation of dynamic queries
 	// public static final String TYPE_QUERY = "query";
 
-	// TODO: remove this
-	public static final String TYPE_TEST = "test";
-
 	private Map<String, GFHandler> languageHandlers = new HashMap<String, GFHandler>();
 
 	// TODO: implement a reasoner that does ACE reasoning if ACE is
@@ -55,7 +51,7 @@ public class GFEngine extends AbstractAceWikiEngine {
 	 * Creates a new GF-based AceWiki engine.
 	 */
 	public GFEngine() {
-		setLexicalTypes(TypeArticle.INTERNAL_TYPE, TypeGfModule.INTERNAL_TYPE, TYPE_TEST);
+		setLexicalTypes(TypeArticle.INTERNAL_TYPE, TypeGfModule.INTERNAL_TYPE);
 	}
 
 	public void init(Ontology ontology) {
@@ -106,14 +102,11 @@ public class GFEngine extends AbstractAceWikiEngine {
 		return reasoner;
 	}
 
-	// TODO: return sensible objects
 	public OntologyElement createOntologyElement(String type) {
 		if (TypeArticle.hasType(type)) {
 			return new TypeArticle();
 		} else if (TypeGfModule.hasType(type)) {
 			return new TypeGfModule();
-		} else if (type.equals(TYPE_TEST)) {
-			return new ProperNameIndividual();
 		}
 		return null;
 	}
