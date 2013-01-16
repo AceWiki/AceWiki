@@ -56,11 +56,15 @@ public class GFHandler extends AbstractLanguageHandler {
 		setLexiconChanger(TypeArticle.INTERNAL_TYPE, new ArticleChanger());
 		setLexiconChanger(TypeGfModule.INTERNAL_TYPE, new GfModuleChanger());
 
+		// TODO generalize:
 		if (mLanguage.endsWith("Ger")) {
 			mLocale = new Locale("de", "DE");
 			mLanguageName = LocaleResources.getString(mLocale, "general_language_this");
 		} else if (mLanguage.endsWith("Eng")) {
 			mLocale = new Locale("en", "US");
+			mLanguageName = LocaleResources.getString(mLocale, "general_language_this");
+		} else if (mLanguage.endsWith("Spa")) {
+			mLocale = new Locale("es", "ES");
 			mLanguageName = LocaleResources.getString(mLocale, "general_language_this");
 		} else if (mLanguage.endsWith("Ace")) {
 			mLocale = new Locale("en", "US");
