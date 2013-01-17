@@ -24,11 +24,11 @@
 	<classpathentry kind="lib" path="lib/Echo3_FileTransfer_Receiver.jar"/>
 	<classpathentry kind="lib" path="lib/Echo3_FileTransfer_WebContainer.jar"/>
 	<classpathentry kind="lib" path="lib/xstream-1.3.1.jar"/>
-	<classpathentry kind="lib" path="lib/JPGF.final.jar"/>
 	<classpathentry kind="lib" path="lib/commons-codec-1.5.jar"/>
 	<classpathentry kind="lib" path="lib/httpclient-4.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/httpcore-4.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/guava-11.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-api-1.6.6.jar"/>
+	<classpathentry kind="lib" path="lib/gf-java-0.8.1.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

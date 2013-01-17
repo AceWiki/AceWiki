@@ -14,6 +14,8 @@
 
 package ch.uzh.ifi.attempto.acewiki.gf;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +23,7 @@ import ch.uzh.ifi.attempto.acewiki.core.AbstractAceWikiEngine;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.DummyReasoner;
+import ch.uzh.ifi.attempto.acewiki.core.GeneralTopic;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageHandler;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
@@ -28,32 +31,50 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 
 /**
- * This is an AceWiki engine using GF (Grammatical Framework).
+ * This AceWiki engine uses a GF (Grammatical Framework) grammar.
  * 
- * @author Tobias Kuhn
+ * @author Kaarel Kaljurand
  */
 public class GFEngine extends AbstractAceWikiEngine {
-	
+
+	// TODO: support the creation of dynamic queries
+	// public static final String TYPE_QUERY = "query";
+
 	private Map<String, GFHandler> languageHandlers = new HashMap<String, GFHandler>();
+
+	// TODO: implement a reasoner that does ACE reasoning if ACE is
+	// one of the languages
 	private AceWikiReasoner reasoner = new DummyReasoner();
+
 	private GFGrammar gfGrammar;
-	private Ontology ontology;
-	
+
 	/**
 	 * Creates a new GF-based AceWiki engine.
 	 */
 	public GFEngine() {
+		setLexicalTypes(GeneralTopic.NORMAL_TYPE);
 	}
 
 	public void init(Ontology ontology) {
-		this.ontology = ontology;
+
+		URI serviceUri;
+		try {
+			serviceUri = new URI(ontology.getParameter("service_uri"));
+		} catch (URISyntaxException e) {
+			throw new RuntimeException(e);
+		}
+
+		// Note: start_cat can be null, in this case the default start category is used
 		gfGrammar = new GFGrammar(
-				ontology.getParameter("pgf_file"),
-				getLanguages()[0]
-			);
+				serviceUri,
+				ontology.getParameter("pgf_name"),
+				ontology.getParameter("start_cat")
+				);
+
 		super.init(ontology);
 	}
-	
+
+
 	public LanguageHandler getLanguageHandler(String language) {
 		GFHandler lh = languageHandlers.get(language);
 		if (lh == null) {
@@ -63,10 +84,12 @@ public class GFEngine extends AbstractAceWikiEngine {
 		return lh;
 	}
 
+
 	public String[] getLanguages() {
-		return ontology.getParameter("languages").split(",");
+		return gfGrammar.getLanguages().toArray(new String[0]);
 	}
-	
+
+
 	/**
 	 * Returns the grammar object.
 	 * 
@@ -75,25 +98,41 @@ public class GFEngine extends AbstractAceWikiEngine {
 	public GFGrammar getGFGrammar() {
 		return gfGrammar;
 	}
-	
+
 	public AceWikiReasoner getReasoner() {
 		return reasoner;
 	}
 
 	public OntologyElement createOntologyElement(String type) {
-		// TODO
+		if (GeneralTopic.NORMAL_TYPE.equals(type)) {
+			return GeneralTopic.makeNormal("");
+		} else if (TypeGfModule.hasType(type)) {
+			return new TypeGfModule();
+		}
 		return null;
 	}
-	
+
+
+	/**
+	 * TODO: the serialization format should be:
+	 * lang:text:tree1|tree2|...|treeN
+	 * This is more robust, e.g. if the tree cannot be linearized anymore
+	 * because grammar was refactored then we could try to parse the
+	 * sentence. Also the sentence could be shown if the tree
+	 * has multiple variant lins.
+	 */
 	public Sentence createSentence(String serialized) {
-		return new GFDeclaration(gfGrammar.deserialize(serialized), gfGrammar);
+		// TODO: set the lang-argument to non-null
+		return new GFDeclaration(GFGrammar.deserialize(serialized), null, gfGrammar);
 	}
-	
+
+
 	public Sentence createAssignmentSentence(Individual ind, Concept concept) {
 		// TODO
 		return null;
 	}
-	
+
+
 	public Sentence createHierarchySentence(Concept subConcept, Concept superConcept) {
 		// TODO
 		return null;

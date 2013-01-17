@@ -19,27 +19,27 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.grammaticalframework.parser.ParseState;
+import com.google.common.base.Joiner;
 
 import ch.uzh.ifi.attempto.base.ConcreteOption;
 import ch.uzh.ifi.attempto.base.NextTokenOptions;
 import ch.uzh.ifi.attempto.base.PredictiveParser;
 import ch.uzh.ifi.attempto.base.SimpleConcreteOption;
 import ch.uzh.ifi.attempto.base.SimpleNextTokenOptions;
+import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 
 /**
  * This is a predictive parser connecting to the JPGF implementation of GF.
  * 
- * @author Tobias Kuhn
+ * @author Kaarel Kaljurand
  */
 public class GFPredictiveParser implements PredictiveParser {
-	
+
 	private List<String> tokens = new ArrayList<String>();
-	private ParseState parseState;
 	private NextTokenOptions nextTokenOptions;
 	private GFGrammar gfGrammar;
 	private String language;
-	
+
 	/**
 	 * Creates a new parser object for the given language.
 	 * 
@@ -51,77 +51,87 @@ public class GFPredictiveParser implements PredictiveParser {
 		this.language = language;
 		update();
 	}
-	
-	private ParseState getParseState() {
-		if (parseState == null) {
-			parseState = gfGrammar.parse(getTokensArray(), language);
-		}
-		return parseState;
-	}
-	
+
+
 	private void update() {
 		// lazy parsing
-		parseState = null;
 		nextTokenOptions = null;
 	}
-	
+
 	public void addToken(String token) {
 		tokens.add(token);
 		update();
 	}
-	
+
 	public void addTokens(List<String> tokens) {
 		this.tokens.addAll(tokens);
 		update();
 	}
-	
+
 	public void removeToken() {
 		tokens.remove(tokens.size()-1);
 		update();
 	}
-	
+
 	public void removeAllTokens() {
 		tokens.clear();
 		update();
 	}
-	
+
 	public void setTokens(List<String> tokens) {
 		this.tokens.clear();
 		this.tokens.addAll(tokens);
 		update();
 	}
-	
+
 	public List<String> getTokens() {
 		return tokens;
 	}
-	
-	private String[] getTokensArray() {
-		return tokens.toArray(new String[] {});
-	}
-	
+
 	public int getTokenCount() {
 		return tokens.size();
 	}
-	
+
 	public NextTokenOptions getNextTokenOptions() {
 		if (nextTokenOptions == null) {
 			Set<ConcreteOption> options = new HashSet<ConcreteOption>();
-			for (String s : getParseState().predict()) {
-				options.add(new SimpleConcreteOption(s));
+			try {
+				Set<String> completions = gfGrammar.complete(tokens, language);
+				for (String s : completions) {
+					options.add(new SimpleConcreteOption(s));
+				}
+				nextTokenOptions = new SimpleNextTokenOptions(options);
+			} catch (GfServiceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			nextTokenOptions = new SimpleNextTokenOptions(options);
 		}
 		return nextTokenOptions;
 	}
-	
+
 	public boolean isPossibleNextToken(String token) {
 		return getNextTokenOptions().containsToken(token);
 	}
-	
+
+
+	/**
+	 * <p>TODO: one should distinguish between "complete" and "parsable".
+	 * E.g. an ACE text is never complete, because one can always add another
+	 * sentence creating another ACE text. An incomplete ACE can be parsable
+	 * though, e.g. a one-sentence ACE text.</p>
+	 *
+	 * @return <code>true</code> iff the current text is parsable
+	 */
 	public boolean isComplete() {
-		return getParseState().getTrees().length > 0;
+		try {
+			return ! gfGrammar.parse(Joiner.on(" ").join(tokens), language).isEmpty();
+		} catch (GfServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
-	
+
 	public int getReference() {
 		return -1;
 	}

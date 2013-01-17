@@ -14,6 +14,8 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui;
 
+import java.awt.Font;
+
 import nextapp.echo.app.Column;
 import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
@@ -25,6 +27,7 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
+import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 
 /**
@@ -98,6 +101,11 @@ public class SentenceComponent extends Column implements ActionListener {
 		sentenceRow.add(dropDown);
 		sentenceRow.add(new HSpace(5));
 		sentenceRow.add(new TextRow(sentence.getTextElements(wiki.getLanguage()), wiki, isRed));
+		sentenceRow.add(new HSpace(5));
+		// If the sentence is ambiguous then show the number of trees
+		if (sentence.getNumberOfParseTrees() > 1) {
+			sentenceRow.add(new Label("(" + sentence.getNumberOfParseTrees() + ")", Font.BOLD));
+		}
 		sentenceRow.add(new HSpace(5));
 		sentenceRow.add(recalcIcon);
 		recalcIcon.setVisible(false);
