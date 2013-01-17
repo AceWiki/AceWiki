@@ -25,12 +25,13 @@ import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Article;
 import ch.uzh.ifi.attempto.acewiki.core.Comment;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
-import ch.uzh.ifi.attempto.acewiki.core.DummyOntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.GeneralTopic;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Relation;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
+import ch.uzh.ifi.attempto.acewiki.core.TopicElement;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 
 /**
@@ -55,8 +56,8 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 	 */
 	protected ArticlePage(Wiki wiki, OntologyElement ontologyElement) {
 		super(wiki);
-		
-		if (!(ontologyElement instanceof DummyOntologyElement)) {
+
+		if (!(ontologyElement.getInternalType().equals(GeneralTopic.MAINPAGE_TYPE))) {
 			addSelectedTab("acewiki_page_article");
 			addTab("acewiki_page_references", this);
 			title = new Title(getHeading(ontologyElement), ontologyElement.getType(), this);
@@ -89,8 +90,12 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 			return new ConceptPage((Concept) oe, wiki);
 		} else if (oe instanceof Relation) {
 			return new RelationPage((Relation) oe, wiki);
-		} else if (oe instanceof DummyOntologyElement) {
-			return new StartPage(wiki);
+		} else if (oe instanceof TopicElement) {
+			if (oe.getInternalType().equals(GeneralTopic.MAINPAGE_TYPE)) {
+				return new StartPage(wiki);
+			} else {
+				return new GeneralPage((TopicElement) oe, wiki);
+			}
 		}
 		return null;
 	}
