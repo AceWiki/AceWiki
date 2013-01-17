@@ -58,8 +58,6 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 		super(wiki);
 
 		if (!(ontologyElement.getInternalType().equals(GeneralTopic.MAINPAGE_TYPE))) {
-			addSelectedTab("acewiki_page_article");
-			addTab("acewiki_page_references", this);
 			title = new Title(getHeading(ontologyElement), ontologyElement.getType(), this);
 		} else {
 			title = new Title("", true, null, null);
@@ -117,6 +115,14 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 	}
 
 	protected void doUpdate() {
+		removeAllTabs();
+		addSelectedTab("acewiki_page_article");
+		addTab("acewiki_page_references", this);
+
+		updateTextColumn();
+	}
+
+	protected void updateTextColumn() {
 		textColumn.removeAll();
 
 		for (Statement s : getArticle().getStatements()) {

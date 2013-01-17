@@ -47,9 +47,7 @@ public class SentencePage extends WikiPage {
 	public SentencePage(Wiki wiki, Sentence sentence) {
 		super(wiki);
 		this.sentence = sentence;
-		
-		addSelectedTab("acewiki_page_sentence");
-		
+
 		String t = LanguageUtils.getPrettyPrinted(sentence.getText(wiki.getLanguage()));
 		add(new Title(t, false));
 		addHorizontalLine();
@@ -72,6 +70,11 @@ public class SentencePage extends WikiPage {
 			}
 		}
 		
+	}
+
+	protected void doUpdate() {
+		removeAllTabs();
+		addSelectedTab("acewiki_page_sentence");
 	}
 
 	public boolean equals(Object obj) {

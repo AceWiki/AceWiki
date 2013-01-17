@@ -41,8 +41,8 @@ public class StartPage extends ArticlePage {
 	}
 
 	protected void doUpdate() {
-		super.doUpdate();
-		
+		updateTextColumn();
+
 		removeAllTabs();
 		getTitle().setText(getWiki().getGUIText("acewiki_page_main"));
 		addSelectedTab("acewiki_page_main");

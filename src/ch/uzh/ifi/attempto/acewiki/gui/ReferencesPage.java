@@ -61,16 +61,6 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 		super(page.getWiki());
 		this.page = page;
 		
-		addTab("acewiki_page_article", this);
-		addSelectedTab("acewiki_page_references");
-		if (page instanceof ConceptPage) {
-			addTab("acewiki_page_individuals", this);
-			addTab("acewiki_page_hierarchy", this);
-		}
-		if (page instanceof IndividualPage) {
-			addTab("acewiki_page_assignments", this);
-		}
-		
 		OntologyElement oe = page.getOntologyElement();
 		title = new Title(getHeading(oe), "- " + getWiki().getGUIText("acewiki_page_references"), oe.getType(), this);
 		add(title);
@@ -86,6 +76,17 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 	}
 	
 	protected void doUpdate() {
+		removeAllTabs();
+		addTab("acewiki_page_article", this);
+		addSelectedTab("acewiki_page_references");
+		if (page instanceof ConceptPage) {
+			addTab("acewiki_page_individuals", this);
+			addTab("acewiki_page_hierarchy", this);
+		}
+		if (page instanceof IndividualPage) {
+			addTab("acewiki_page_assignments", this);
+		}
+
 		title.setText(getHeading(page.getOntologyElement()));
 		referenceColumn.removeAll();
 		List<OntologyElement> ontologyElements = getWiki().getOntologyElements();

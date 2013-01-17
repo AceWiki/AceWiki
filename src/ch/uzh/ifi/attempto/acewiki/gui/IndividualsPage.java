@@ -60,12 +60,7 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 	public IndividualsPage(ConceptPage page) {
 		super(page.getWiki());
 		this.page = page;
-		
-		addTab("acewiki_page_article", this);
-		addTab("acewiki_page_references", this);
-		addSelectedTab("acewiki_page_individuals");
-		addTab("acewiki_page_hierarchy", this);
-		
+
 		OntologyElement oe = page.getOntologyElement();
 		title = new Title(getHeading(oe), "- " + getWiki().getGUIText("acewiki_page_individuals"), oe.getType(), this);
 		add(title);
@@ -75,6 +70,12 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 	}
 	
 	protected void doUpdate() {
+		removeAllTabs();
+		addTab("acewiki_page_article", this);
+		addTab("acewiki_page_references", this);
+		addSelectedTab("acewiki_page_individuals");
+		addTab("acewiki_page_hierarchy", this);
+
 		title.setText(getHeading(page.getOntologyElement()));
 		individualsColumn.removeAll();
 		

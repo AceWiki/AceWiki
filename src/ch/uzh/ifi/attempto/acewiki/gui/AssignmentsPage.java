@@ -60,11 +60,7 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 	public AssignmentsPage(IndividualPage page) {
 		super(page.getWiki());
 		this.page = page;
-		
-		addTab("acewiki_page_article", this);
-		addTab("acewiki_page_references", this);
-		addSelectedTab("acewiki_page_assignments");
-		
+
 		OntologyElement oe = page.getOntologyElement();
 		title = new Title(getHeading(oe), "- " + getWiki().getGUIText("acewiki_page_assignments"), oe.getType(), this);
 		add(title);
@@ -73,6 +69,11 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 	}
 	
 	protected void doUpdate() {
+		removeAllTabs();
+		addTab("acewiki_page_article", this);
+		addTab("acewiki_page_references", this);
+		addSelectedTab("acewiki_page_assignments");
+
 		title.setText(getHeading(page.getOntologyElement()));
 		assignmentsColumn.removeAll();
 		
