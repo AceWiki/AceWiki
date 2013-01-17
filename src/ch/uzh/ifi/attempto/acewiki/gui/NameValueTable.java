@@ -30,9 +30,9 @@ import nextapp.echo.app.Insets;
 public class NameValueTable extends Column {
 
 	private static final long serialVersionUID = -5329037871133296963L;
-	
+
 	private Grid grid;
-	
+
 	/**
 	 * Creates a new table.
 	 */
@@ -43,7 +43,7 @@ public class NameValueTable extends Column {
 		grid.setBackground(new Color(240, 240, 240));
 		add(grid);
 	}
-	
+
 	/**
 	 * Adds the name/value pair to the table. The value is displayed in italics.
 	 * 
@@ -54,7 +54,8 @@ public class NameValueTable extends Column {
 		grid.add(new SolidLabel(name, Font.ITALIC + Font.BOLD, 11));
 		grid.add(new SolidLabel(value, Font.ITALIC));
 	}
-	
+
+
 	/**
 	 * Adds the name/value pair to the table. The value is supposed to be an ACE phrase and is for
 	 * that reason displayed in normal font (non-italics).
@@ -66,7 +67,7 @@ public class NameValueTable extends Column {
 		grid.add(new SolidLabel(name, Font.ITALIC + Font.BOLD, 11));
 		grid.add(new SolidLabel(aceValue));
 	}
-	
+
 	/**
 	 * Removes all entries.
 	 */

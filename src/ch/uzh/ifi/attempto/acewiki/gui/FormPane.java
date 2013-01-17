@@ -115,7 +115,8 @@ public class FormPane extends WordEditorForm {
 			setButtons("general_action_ok", "general_action_cancel");
 		}
 		this.element = element;
-		
+
+		// TODO: maybe check for null
 		lexiconChanger = wiki.getLanguageHandler().getLexiconChanger(type);
 		setTitle(element.getType());
 		setExplanationComponent(lexiconChanger.getDescription());

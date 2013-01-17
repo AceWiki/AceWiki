@@ -39,11 +39,11 @@ public class SentenceComponent extends Column implements ActionListener {
 	private Sentence sentence;
 	private Wiki wiki;
 	private WikiPage hostPage;
-	
+
 	private Row sentenceRow = new Row();
 	private StatementMenu dropDown;
 	private RecalcIcon recalcIcon;
-	
+
 	/**
 	 * Creates a new sentence component. The host page is the page that contains the text row
 	 * (which is not necessarily the owner page of the sentence).
@@ -58,7 +58,7 @@ public class SentenceComponent extends Column implements ActionListener {
 		this.recalcIcon = new RecalcIcon(wiki.getGUIText("acewiki_answer_recalctooltip"));
 		update();
 	}
-	
+
 	private void update() {
 		if (sentence.isImmutable()) {
 			dropDown = new StatementMenu(StatementMenu.INFERRED_TYPE, wiki, this);
@@ -69,7 +69,7 @@ public class SentenceComponent extends Column implements ActionListener {
 		} else {
 			dropDown = new StatementMenu(StatementMenu.NOREASONING_TYPE, wiki, this);
 		}
-		
+
 		if (!wiki.isReadOnly() && !sentence.isImmutable()) {
 			dropDown.addMenuEntry("acewiki_statementmenu_edit", "acewiki_statementmenu_editsenttooltip");
 			if (sentence.isReasonable()) {
@@ -89,10 +89,10 @@ public class SentenceComponent extends Column implements ActionListener {
 			dropDown.addMenuEntry("acewiki_statementmenu_addsent", "acewiki_statementmenu_addsenttooltip");
 			dropDown.addMenuEntry("acewiki_statementmenu_addcomm", "acewiki_statementmenu_addcommtooltip");
 		}
-		
-		
+
+
 		boolean isRed = !sentence.isIntegrated() && !sentence.isImmutable() && !(sentence instanceof Question);
-		
+
 		removeAll();
 		sentenceRow.removeAll();
 		sentenceRow.add(dropDown);
@@ -103,7 +103,7 @@ public class SentenceComponent extends Column implements ActionListener {
 		recalcIcon.setVisible(false);
 		sentenceRow.add(new HSpace(5));
 		add(sentenceRow);
-		
+
 		// Question Answering:
 		if (sentence instanceof Question && hostPage instanceof ArticlePage) {
 			add(new AnswerList(wiki, (Question) sentence, recalcIcon));
@@ -203,7 +203,7 @@ public class SentenceComponent extends Column implements ActionListener {
 			);
 		}
 	}
-	
+
 	private void log(String text) {
 		if (text.endsWith(":")) {
 			text += " " + sentence.getText(wiki.getEngine().getLanguages()[0]);
