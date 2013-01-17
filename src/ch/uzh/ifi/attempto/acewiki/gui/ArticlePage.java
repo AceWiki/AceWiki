@@ -32,8 +32,8 @@ import ch.uzh.ifi.attempto.acewiki.core.Relation;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.core.TopicElement;
-import ch.uzh.ifi.attempto.acewiki.gfservice.GfModulePage;
-import ch.uzh.ifi.attempto.acewiki.gfservice.TypeGfModule;
+import ch.uzh.ifi.attempto.acewiki.gf.GfModulePage;
+import ch.uzh.ifi.attempto.acewiki.gf.TypeGfModule;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 
 /**

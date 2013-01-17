@@ -1,4 +1,4 @@
-package ch.uzh.ifi.attempto.acewiki.gfservice;
+package ch.uzh.ifi.attempto.acewiki.gf;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

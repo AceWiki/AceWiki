@@ -57,7 +57,7 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.acewiki.core.StatementTableExporter;
 import ch.uzh.ifi.attempto.acewiki.core.User;
 import ch.uzh.ifi.attempto.acewiki.core.UserBase;
-import ch.uzh.ifi.attempto.acewiki.gfservice.GFEngine;
+import ch.uzh.ifi.attempto.acewiki.gf.GFEngine;
 import ch.uzh.ifi.attempto.acewiki.gui.AboutPage;
 import ch.uzh.ifi.attempto.acewiki.gui.ArticlePage;
 import ch.uzh.ifi.attempto.acewiki.gui.ExportWindow;

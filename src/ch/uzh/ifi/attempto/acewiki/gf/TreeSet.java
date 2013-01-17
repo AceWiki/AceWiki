@@ -1,4 +1,4 @@
-package ch.uzh.ifi.attempto.acewiki.gfservice;
+package ch.uzh.ifi.attempto.acewiki.gf;
 
 import java.util.Set;
 
