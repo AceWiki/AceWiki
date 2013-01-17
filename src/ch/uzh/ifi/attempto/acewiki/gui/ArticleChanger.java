@@ -12,7 +12,7 @@
 // You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
 // not, see http://www.gnu.org/licenses/.
 
-package ch.uzh.ifi.attempto.acewiki.gfservice;
+package ch.uzh.ifi.attempto.acewiki.gui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +26,6 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 /**
  * This class is used to modify or create pages that do not have
  * an ontological type.
- * 
- * TODO: move this class to a more general place
  * 
  * @author Kaarel Kaljurand
  */
