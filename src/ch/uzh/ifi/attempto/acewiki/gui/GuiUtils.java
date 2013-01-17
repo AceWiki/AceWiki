@@ -1,6 +1,5 @@
 package ch.uzh.ifi.attempto.acewiki.gui;
 
-import nextapp.echo.app.Color;
 import nextapp.echo.app.Component;
 import nextapp.echo.app.Font;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
@@ -9,8 +8,6 @@ import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 
 // TODO: merge this class with some other class (see e.g. echocomp)
 public class GuiUtils {
-
-	public static final Color COLOR_GF_MODULE = new Color(102, 153, 0);
 
 	/**
 	 * Returns a link or a label, depending on if the given

@@ -1,23 +1,23 @@
 package ch.uzh.ifi.attempto.acewiki.gfservice;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nextapp.echo.app.Column;
 import nextapp.echo.app.Font;
 import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiEngine;
 import ch.uzh.ifi.attempto.acewiki.core.Comment;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.gui.ArticlePage;
-import ch.uzh.ifi.attempto.acewiki.gui.GfModuleComponent;
-import ch.uzh.ifi.attempto.acewiki.gui.GuiUtils;
 import ch.uzh.ifi.attempto.acewiki.gui.StatementMenu;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
+import ch.uzh.ifi.attempto.echocomp.Style;
 import ch.uzh.ifi.attempto.gfservice.GfModule;
 import ch.uzh.ifi.attempto.gfservice.GfParseResult;
 import ch.uzh.ifi.attempto.gfservice.GfServiceException;
@@ -46,7 +46,7 @@ public class GfModulePage extends ArticlePage {
 		} else {
 			mEngine = null;
 		}
-		getTitle().setColor(GuiUtils.COLOR_GF_MODULE);
+		getTitle().setColor(Style.specialForeground);
 		addTab(ACTION_MAKE, this);
 	}
 

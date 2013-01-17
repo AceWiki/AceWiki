@@ -1,4 +1,4 @@
-package ch.uzh.ifi.attempto.acewiki.gui;
+package ch.uzh.ifi.attempto.acewiki.gfservice;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +15,11 @@ import nextapp.echo.app.layout.RowLayoutData;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Comment;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.gui.ArticlePage;
+import ch.uzh.ifi.attempto.acewiki.gui.CommentEditorHandler;
+import ch.uzh.ifi.attempto.acewiki.gui.StatementMenu;
+import ch.uzh.ifi.attempto.acewiki.gui.WikiLink;
+import ch.uzh.ifi.attempto.acewiki.gui.WikiPage;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;

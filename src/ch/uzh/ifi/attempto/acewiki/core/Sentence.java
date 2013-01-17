@@ -20,9 +20,8 @@ import ch.uzh.ifi.attempto.base.MultiTextContainer;
 import ch.uzh.ifi.attempto.base.TextElement;
 
 /**
- * This interface represents a tree set (= a potentially ambiguous sentence)
- * and covers declarative as well as interrogative tree sets. It can be viewed
- * in different languages.
+ * This interface represents a potentially ambiguous sentence and covers declarative
+ * as well as interrogative tree sets. It can be viewed in different languages.
  * 
  * @author Tobias Kuhn
  * @author Kaarel Kaljurand

@@ -29,92 +29,97 @@ import nextapp.echo.app.serial.StyleSheetLoader;
  * @author Tobias Kuhn
  */
 public class Style {
-    
+	
 	private Style() {}  // no instances allowed
 	
 	private static final HashMap<String, ResourceImageReference> images =
 		new HashMap<String, ResourceImageReference>();
-    
-    static {
-        try {
-            styleSheet = StyleSheetLoader.load(
-            		"ch/uzh/ifi/attempto/echocomp/style/Default.stylesheet.xml",
-            		Thread.currentThread().getContextClassLoader()
-            	);
-        } catch (SerialException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
+	
+	static {
+		try {
+			styleSheet = StyleSheetLoader.load(
+					"ch/uzh/ifi/attempto/echocomp/style/Default.stylesheet.xml",
+					Thread.currentThread().getContextClassLoader()
+				);
+		} catch (SerialException ex) {
+			throw new RuntimeException(ex);
+		}
+	}
 	
 	/**
 	 * The style sheet containing the shadows for internal windows.
 	 */
-    public static StyleSheet styleSheet;
-    
-    /**
-     * The light background color.
-     */
-    public static Color lightBackground = new Color(190, 190, 255);
+	public static StyleSheet styleSheet;
+	
+	/**
+	 * The light background color.
+	 */
+	public static Color lightBackground = new Color(190, 190, 255);
 
-    /**
-     * The medium background color.
-     */
-    public static Color mediumBackground = new Color(160, 160, 255);
+	/**
+	 * The medium background color.
+	 */
+	public static Color mediumBackground = new Color(160, 160, 255);
 
-    /**
-     * The dark background color.
-     */
-    public static Color darkBackground = new Color(60, 60, 220);
-    
-    /**
-     * The color for shaded background areas.
-     */
-    public static Color shadedBackground = new Color(240, 240, 240);
-    
-    /**
-     * The light foreground color.
-     */
-    public static Color lightForeground = new Color(255, 255, 255);
-    
-    /**
-     * The medium foreground color.
-     */
-    public static Color mediumForeground = new Color(60, 60, 220);
-    
-    /**
-     * The dark foreground color.
-     */
-    public static Color darkForeground = new Color(0, 0, 0);
-    
-    /**
-     * The light color for disabled components
-     */
-    public static Color lightDisabled = new Color(220, 220, 220);
-    
-    /**
-     * The dark color for disabled components
-     */
-    public static Color darkDisabled = new Color(100, 100, 100);
-    
-    /**
-     * The color for the title background of internal windows.
-     */
-    public static Color windowTitleBackground = new Color(110, 110, 210);
-    
-    /**
-     * The font typeface.
-     */
-    public static Font.Typeface fontTypeface = Font.VERDANA;
-    
-    /**
-     * This method is used to modify a given color by keeping its brightness and saturation. A
+	/**
+	 * The dark background color.
+	 */
+	public static Color darkBackground = new Color(60, 60, 220);
+	
+	/**
+	 * The color for shaded background areas.
+	 */
+	public static Color shadedBackground = new Color(240, 240, 240);
+	
+	/**
+	 * The light foreground color.
+	 */
+	public static Color lightForeground = new Color(255, 255, 255);
+	
+	/**
+	 * The medium foreground color.
+	 */
+	public static Color mediumForeground = new Color(60, 60, 220);
+	
+	/**
+	 * The dark foreground color.
+	 */
+	public static Color darkForeground = new Color(0, 0, 0);
+
+	/**
+	 * Foreground color for special elements.
+	 */
+	public static Color specialForeground = new Color(102, 153, 0);
+
+	/**
+	 * The light color for disabled components
+	 */
+	public static Color lightDisabled = new Color(220, 220, 220);
+	
+	/**
+	 * The dark color for disabled components
+	 */
+	public static Color darkDisabled = new Color(100, 100, 100);
+	
+	/**
+	 * The color for the title background of internal windows.
+	 */
+	public static Color windowTitleBackground = new Color(110, 110, 210);
+	
+	/**
+	 * The font typeface.
+	 */
+	public static Font.Typeface fontTypeface = Font.VERDANA;
+	
+	/**
+	 * This method is used to modify a given color by keeping its brightness and saturation. A
 	 * shift value of 120, for example, means a shift by 120 "degrees" towards violet. A shift of
 	 * 360 is a full rotation and result in the original color.
-     * 
-     * @param c The original color.
-     * @param colorShift The color shift value.
-     * @return The modified color.
-     */
+	 * 
+	 * @param c The original color.
+	 * @param colorShift The color shift value.
+	 * @return The modified color.
+	 */
 	public static Color shiftColor(Color c, int colorShift) {
 		if (colorShift >= 240) {
 			c = new Color(c.getGreen(), c.getBlue(), c.getRed());
