@@ -27,6 +27,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 /**
  * This class implements persistent storage features for AceWiki data on the basis of a simple file
  * and folder based system.
@@ -34,12 +38,14 @@ import java.util.Map;
  * @author Tobias Kuhn
  */
 public class FileBasedStorage implements AceWikiStorage {
-	
+
+	final Logger logger = LoggerFactory.getLogger(FileBasedStorage.class);
+
 	private final HashMap<String, Ontology> ontologies = new HashMap<String, Ontology>();
 	private final Map<String, UserBase> userBases = new HashMap<String, UserBase>();
 	private String dir;
 	private final List<Ontology> incompleteOntologies = new ArrayList<Ontology>();
-	
+
 	/**
 	 * Creates a new storage object.
 	 * 
@@ -50,7 +56,7 @@ public class FileBasedStorage implements AceWikiStorage {
 		File d = new File(dir);
 		if (!d.exists()) d.mkdir();
 	}
-	
+
 	/**
 	 * Returns the ontology with the given name (or creates an empty ontology if the ontology
 	 * cannot be found). A parameter map is used for ontology parameters. When the ontology with
@@ -78,7 +84,7 @@ public class FileBasedStorage implements AceWikiStorage {
 		}
 		return loadOntology(name, parameters);
 	}
-	
+
 	private synchronized Ontology loadOntology(String name, Map<String, String> parameters) {
 		if (ontologies.get(name) != null) {
 			return ontologies.get(name);
@@ -88,6 +94,8 @@ public class FileBasedStorage implements AceWikiStorage {
 		ontologies.put(name, ontology);
 		ontology.log("loading ontology");
 		System.err.println("Loading '" + name + "'");
+		logger.info("Loading: '{}'", name);
+
 		File dataDir = new File(dir + "/" + name);
 		File dataFile = new File(dir + "/" + name + ".acewikidata");
 		if (dataDir.exists()) {
@@ -164,18 +172,18 @@ public class FileBasedStorage implements AceWikiStorage {
 			save(oe);
 		}
 		pb2.complete();
-		
+
 		if (ontology.get(0) == null) {
 			OntologyElement mainPage = new DummyOntologyElement("mainpage", "Main Page");
 			mainPage.initId(0);
 			ontology.register(mainPage);
 		}
-		
+
 		ontology.getReasoner().load();
-		
+
 		return ontology;
 	}
-	
+
 	/**
 	 * Loads an ontology element from its serialized form.
 	 * 
@@ -199,13 +207,13 @@ public class FileBasedStorage implements AceWikiStorage {
 			String serializedWords = lines.remove(0).substring("words:".length());
 			ontology.change(oe, serializedWords);
 		}
-		
+
 		// Dummy ontology element for the main page article:
 		if (type.equals("mainpage")) {
 			id = 0;
 			oe = new DummyOntologyElement("mainpage", "Main Page");
 		}
-		
+
 		if (oe != null) {
 			oe.initOntology(ontology);
 			oe.initArticle(loadArticle(lines, oe));
@@ -216,7 +224,7 @@ public class FileBasedStorage implements AceWikiStorage {
 		}
 		return;
 	}
-	
+
 	private static Article loadArticle(List<String> lines, OntologyElement element) {
 		Article a = new Article(element);
 		List<Statement> statements = new ArrayList<Statement>();
@@ -232,7 +240,7 @@ public class FileBasedStorage implements AceWikiStorage {
 		a.initStatements(statements);
 		return a;
 	}
-	
+
 	/**
 	 * Loads a statement from a serialized form.
 	 * 
@@ -243,7 +251,7 @@ public class FileBasedStorage implements AceWikiStorage {
 	private static Statement loadStatement(String serializedStatement, Article article) {
 		if (serializedStatement.length() < 2) return null;
 		String s = serializedStatement.substring(2);
-		
+
 		Ontology ontology = article.getOntology();
 		StatementFactory statementFactory = ontology.getStatementFactory();
 		if (serializedStatement.startsWith("| ")) {
@@ -258,25 +266,25 @@ public class FileBasedStorage implements AceWikiStorage {
 			String t = s.replaceAll("~n", "\n").replaceAll("~t", "~");
 			return statementFactory.createComment(t, article);
 		}
-		
+
 		return null;
 	}
-	
+
 	public synchronized void save(OntologyElement oe) {
 		Ontology o = oe.getOntology();
 		String name = o.getName();
-		
+
 		// Ontology elements of incomplete ontologies are not saved at this point:
 		if (incompleteOntologies.contains(o)) return;
-		
+
 		if (!(new File(dir)).exists()) (new File(dir)).mkdir();
 		if (!(new File(dir + "/" + name)).exists()) (new File(dir + "/" + name)).mkdir();
-		
+
 		if (!o.contains(oe)) {
 			(new File(dir + "/" + name + "/" + oe.getId())).delete();
 			return;
 		}
-		
+
 		try {
 			FileOutputStream out = new FileOutputStream(dir + "/" + name + "/" + oe.getId());
 			out.write(serialize(oe).getBytes("UTF-8"));
@@ -285,7 +293,7 @@ public class FileBasedStorage implements AceWikiStorage {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Serializes the given ontology element as a string.
 	 * 
@@ -312,7 +320,7 @@ public class FileBasedStorage implements AceWikiStorage {
 		}
 		return s;
 	}
-	
+
 	/**
 	 * Serializes the given list of ontology elements according to the AceWiki data format.
 	 * 
@@ -326,7 +334,7 @@ public class FileBasedStorage implements AceWikiStorage {
 		}
 		return s;
 	}
-	
+
 	public UserBase getUserBase(Ontology ontology) {
 		UserBase userBase = userBases.get(ontology.getName());
 		if (userBase == null) {
@@ -344,7 +352,7 @@ public class FileBasedStorage implements AceWikiStorage {
 		}
 		return userBase;
 	}
-	
+
 	private static User loadUser(UserBase userBase, File file) {
 		try {
 			long id = new Long(file.getName());
@@ -381,7 +389,7 @@ public class FileBasedStorage implements AceWikiStorage {
 		}
 		return null;
 	}
-	
+
 	public void save(User user) {
 		try {
 			String n = user.getUserBase().getOntology().getName();
@@ -389,14 +397,14 @@ public class FileBasedStorage implements AceWikiStorage {
 			if (!d.exists()) d.mkdir();
 			FileOutputStream out = new FileOutputStream(
 					new File(dir + "/" + n + ".users" + "/" + user.getId())
-				);
+					);
 			out.write(serialize(user).getBytes("UTF-8"));
 			out.close();
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	private static String serialize(User user) {
 		String ud = "";
 		List<String> keys = user.getUserDataKeys();

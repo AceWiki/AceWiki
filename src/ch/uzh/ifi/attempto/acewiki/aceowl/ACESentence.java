@@ -183,8 +183,8 @@ public abstract class ACESentence extends MonolingualSentence implements OWLSent
 						ProperNameIndividual ind = (ProperNameIndividual) oe;
 						if (ind.hasDefiniteArticle(wordId-1) && textContainer.getTextElementsCount() > 0) {
 							String precedingText = textContainer.
-							getTextElement(textContainer.getTextElementsCount()-1).
-							getText();
+									getTextElement(textContainer.getTextElementsCount()-1).
+									getText();
 							if (precedingText.equals("the") || precedingText.equals("The")) {
 								textContainer.removeLastElement();
 								wordId--;
@@ -277,23 +277,23 @@ public abstract class ACESentence extends MonolingualSentence implements OWLSent
 					OWLXML,
 					OWLFSSPP,
 					DRSPP
-				);
+					);
 		}
 		MessageContainer mc = parserResult.getMessageContainer();
 		String owlxml = parserResult.get(OWLXML);
 
 		isOWLSWRL =
-			(mc.getMessages("owl").size() == 0) &&
-			(owlxml.length() > 0);
+				(mc.getMessages("owl").size() == 0) &&
+				(owlxml.length() > 0);
 
 		isOWL = isOWLSWRL &&
-			(owlxml.indexOf("<swrl:Imp>") < 0) &&
-			(owlxml.indexOf("<DLSafeRule>") < 0);
+				(owlxml.indexOf("<swrl:Imp>") < 0) &&
+				(owlxml.indexOf("<DLSafeRule>") < 0);
 
 		if (isOWL && reasoner.getGlobalRestrictionsPolicy().equals("no_chains")) {
 			reasonable =
-				(owlxml.indexOf("<TransitiveObjectProperty>") < 0) &&
-				(owlxml.indexOf("<ObjectPropertyChain>") < 0);
+					(owlxml.indexOf("<TransitiveObjectProperty>") < 0) &&
+					(owlxml.indexOf("<ObjectPropertyChain>") < 0);
 		} else {
 			reasonable = isOWL;
 		}
@@ -304,7 +304,7 @@ public abstract class ACESentence extends MonolingualSentence implements OWLSent
 			try {
 				owlOntology = ontologyManager.loadOntologyFromOntologyDocument(
 						new StringDocumentSource(owlxml)
-					);
+						);
 				if (owlOntology.isEmpty()) {
 					reasonable = false;
 					isOWL = false;
@@ -376,24 +376,24 @@ public abstract class ACESentence extends MonolingualSentence implements OWLSent
 		l.add(new SentenceDetail(
 				"Paraphrase",
 				StringEscapeUtils.escapeHtml(getParserResult().get(PARAPHRASE1))
-			));
+				));
 		l.add(new SentenceDetail(
 				"Syntax Boxes",
 				SyntaxBoxes.getBoxesHtml(getParserResult())
-			));
+				));
 		l.add(new SentenceDetail(
 				"Syntax Tree",
 				"<pre>" + getParserResult().get(SYNTAXPP) + "</pre>"
-			));
+				));
 		l.add(new SentenceDetail(
 				"Logical representation",
 				"<i><pre>" + StringEscapeUtils.escapeHtml(getParserResult().get(DRSPP)) + "</pre></i>"
-			));
+				));
 		if (isOWLSWRL()) {
 			l.add(new SentenceDetail(
 					"OWL",
 					"<i><pre>" + StringEscapeUtils.escapeHtml(getPrettyOWL()) + "</pre></i>"
-				));
+					));
 		}
 		return l;
 	}

@@ -23,9 +23,10 @@ import ch.uzh.ifi.attempto.base.TextOperator;
  * This class is a partial implementation of a sentence.
  * 
  * @author Tobias Kuhn
+ * @author Kaarel Kaljurand
  */
 public abstract class AbstractSentence extends AbstractStatement implements Sentence {
-	
+
 	private boolean integrated = false;
 
 	public List<TextElement> getTextElements(String language) {
@@ -35,11 +36,11 @@ public abstract class AbstractSentence extends AbstractStatement implements Sent
 	public boolean isIntegrated() {
 		return integrated;
 	}
-	
+
 	public void setIntegrated(boolean integrated) {
 		this.integrated = integrated;
 	}
-	
+
 	public boolean isImmutable() {
 		return getArticle() == null;
 	}

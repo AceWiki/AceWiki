@@ -157,7 +157,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	Wiki(Backend backend, Map<String, String> parameters, int sessionID) {
 		this.parameters = parameters;
 
-        storage = backend.getStorage();
+		storage = backend.getStorage();
 		ontology = backend.getOntology();
 		engine = ontology.getEngine();
 		
@@ -865,7 +865,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 					null,
 					this,
 					"general_action_yes", "general_action_no"
-				));
+					));
 		} else if (src == userButton) {
 			if (user == null) {
 				showLoginWindow();
@@ -1006,8 +1006,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 
 	private ContainerContext getContainerContext() {
 		return (ContainerContext) application.getContextProperty(
-			ContainerContext.CONTEXT_PROPERTY_NAME
-		);
+				ContainerContext.CONTEXT_PROPERTY_NAME
+				);
 	}
 
 	/**
@@ -1094,12 +1094,12 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 */
 	public void enqueueStrongAsyncTask(String title, String message, Task task) {
 		waitWindow = new MessageWindow(
-			title,
-			new ResourceImageReference("ch/uzh/ifi/attempto/acewiki/gui/img/wait.gif"),
-			message,
-			null,
-			null
-		);
+				title,
+				new ResourceImageReference("ch/uzh/ifi/attempto/acewiki/gui/img/wait.gif"),
+				message,
+				null,
+				null
+				);
 		waitWindow.setClosable(false);
 		showWindow(waitWindow);
 

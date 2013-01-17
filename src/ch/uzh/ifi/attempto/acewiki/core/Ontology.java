@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.google.common.collect.Iterables;
+
 import ch.uzh.ifi.attempto.base.Logger;
 
 /**
@@ -29,22 +31,22 @@ import ch.uzh.ifi.attempto.base.Logger;
  * @author Tobias Kuhn
  */
 public class Ontology {
-	
+
 	private AceWikiEngine engine;
 	private CachingReasoner reasoner;
 	private StatementFactory statementFactory;
 	private AceWikiStorage storage;
 	private Logger logger;
-	
+
 	private Map<Long, OntologyElement> idIndex = new TreeMap<Long, OntologyElement>();
-	
+
 	private final String name;
 	private final String baseURI;
 	private long idCount = 0;
 	private long stateID = 0;
-	
+
 	private Map<String, String> parameters;
-	
+
 	/**
 	 * Creates a new empty ontology with the given name and parameters.
 	 * 
@@ -55,14 +57,14 @@ public class Ontology {
 		this.name = name.toString();  // null value throws an exception
 		this.parameters = parameters;
 		this.storage = storage;
-		
+
 		logger = new Logger(parameters.get("context:logdir") + "/" + name, "onto", 0);
-		
+
 		engine = AbstractAceWikiEngine.createLanguageEngine(this);
 		reasoner = new CachingReasoner(engine.getReasoner());
 		reasoner.init(this);
 		statementFactory = new StatementFactory(this);
-		
+
 		String b = getParameter("baseuri");
 		if (b == null || b.equals("")) {
 			baseURI = "http://attempto.ifi.uzh.ch/acewiki/default/";
@@ -74,7 +76,7 @@ public class Ontology {
 			}
 		}
 	}
-	
+
 	/**
 	 * Returns the AceWiki engine.
 	 * 
@@ -83,7 +85,7 @@ public class Ontology {
 	public AceWikiEngine getEngine() {
 		return engine;
 	}
-	
+
 	/**
 	 * Returns the reasoner object in the form of a caching reasoner.
 	 * 
@@ -92,7 +94,7 @@ public class Ontology {
 	public CachingReasoner getReasoner() {
 		return reasoner;
 	}
-	
+
 	/**
 	 * Returns the statement factory.
 	 * 
@@ -101,7 +103,7 @@ public class Ontology {
 	public StatementFactory getStatementFactory() {
 		return statementFactory;
 	}
-	
+
 	/**
 	 * Returns the storage object.
 	 * 
@@ -110,7 +112,7 @@ public class Ontology {
 	public AceWikiStorage getStorage() {
 		return storage;
 	}
-	
+
 	/**
 	 * Registers the given ontology element.
 	 * 
@@ -122,24 +124,24 @@ public class Ontology {
 			throw new RuntimeException("Registration failed: Element is already registered.");
 		}
 		element.initOntology(this);
-		
+
 		log("register: " + element);
 		stateID++;
-		
+
 		if (element.getId() == -1) {
 			element.initId(nextId());
 		}
 		idIndex.put(element.getId(), element);
 		if (element.getId() > idCount) idCount = element.getId();
-		
+
 		engine.getWordIndex().elementAdded(element);
-		
+
 		getReasoner().loadElement(element);
 		getReasoner().flushElements();
-		
+
 		getStorage().save(element);
 	}
-	
+
 	/**
 	 * Removes the given ontology element from the ontology.
 	 * 
@@ -150,22 +152,22 @@ public class Ontology {
 			log("error: unknown element");
 			return;
 		}
-		
+
 		log("remove: " + element.getWord());
 		stateID++;
-		
+
 		engine.getWordIndex().elementRemoved(element);
-		
+
 		idIndex.remove(element.getId());
 		for (Sentence s : element.getArticle().getSentences()) {
 			retractSentence(s);
 		}
 		storage.save(element);
-		
+
 		getReasoner().unloadElement(element);
 		getReasoner().flushElements();
 	}
-	
+
 	/**
 	 * Changes the word forms of the given ontology element.
 	 * 
@@ -184,7 +186,7 @@ public class Ontology {
 			element.setWords(serializedWords);
 		}
 	}
-	
+
 	/**
 	 * Returns all the sentences that use the given ontology element.
 	 * 
@@ -202,7 +204,7 @@ public class Ontology {
 		}
 		return list;
 	}
-	
+
 	/**
 	 * Returns the ontology element with the given name, or null if there is no such element.
 	 * 
@@ -212,7 +214,7 @@ public class Ontology {
 	public synchronized OntologyElement getElement(String name) {
 		return engine.getWordIndex().getElement(name);
 	}
-	
+
 	/**
 	 * Returns the ontology element with the given id, or null if there is no such element.
 	 * 
@@ -222,7 +224,7 @@ public class Ontology {
 	public synchronized OntologyElement get(long id) {
 		return idIndex.get(id);
 	}
-	
+
 	/**
 	 * Returns all ontology elements. The list is a copy of the internal list.
 	 * 
@@ -231,7 +233,21 @@ public class Ontology {
 	public synchronized List<OntologyElement> getOntologyElements() {
 		return new ArrayList<OntologyElement>(idIndex.values());
 	}
-	
+
+
+	/**
+	 * Returns all instances of class <code>type</code> in the current list of ontology elements.
+	 * The returned iterable has elements whose class is <code>type</code> or a subclass of <code>type</code>.
+	 * The returned iterable's iterator does not support <code>remove()</code>.
+	 *
+	 * @param type the type of ontology elements desired
+	 * @return an unmodifiable iterable containing all the ontology elements that are of the requested type
+	 */
+	public synchronized <T> Iterable<T> getOntologyElements(Class<T> type) {
+		return Iterables.filter(idIndex.values(), type);
+	}
+
+
 	/**
 	 * Returns true if the given ontology element is contained by the ontology (identity check).
 	 * 
@@ -241,7 +257,7 @@ public class Ontology {
 	public synchronized boolean contains(OntologyElement ontologyElement) {
 		return idIndex.containsValue(ontologyElement);
 	}
-	
+
 	/**
 	 * Returns the name of the ontology.
 	 * 
@@ -250,7 +266,7 @@ public class Ontology {
 	public String getName() {
 		return name;
 	}
-	
+
 	/**
 	 * Returns the URI of the ontology (baseURI + name).
 	 * 
@@ -259,7 +275,7 @@ public class Ontology {
 	public String getURI() {
 		return baseURI + name;
 	}
-	
+
 	/**
 	 * Refreshes the given ontology element. All sentences that use the ontology element are
 	 * updated.
@@ -278,7 +294,7 @@ public class Ontology {
 		}
 		storage.save(element);
 	}
-	
+
 	/**
 	 * Commits the sentence. This means that it is added to the reasoner.
 	 * 
@@ -287,14 +303,14 @@ public class Ontology {
 	 */
 	protected synchronized void commitSentence(Sentence sentence) throws InconsistencyException {
 		if (sentence == null || sentence.isIntegrated()) return;
-		
+
 		if (!sentence.isReasonable()) {
 			sentence.setIntegrated(true);
 			return;
 		}
-		
+
 		log("commit sentence");
-		
+
 		try {
 			getReasoner().loadSentence(sentence);
 		} catch (InconsistencyException ex) {
@@ -308,18 +324,18 @@ public class Ontology {
 			getReasoner().unloadSentence(sentence);
 			return;
 		}
-		
+
 		if (!getReasoner().isConsistent()) {
 			log("not consistent!");
 			getReasoner().unloadSentence(sentence);
 			throw new InconsistencyException();
 		}
-		
+
 		log("consistent!");
 		sentence.setIntegrated(true);
 		stateID++;
 	}
-	
+
 	/**
 	 * This method tries to reassert a sentence that is not yet integrated.
 	 * 
@@ -330,7 +346,7 @@ public class Ontology {
 		commitSentence(sentence);
 		getStorage().save(sentence.getArticle().getOntologyElement());
 	}
-	
+
 	/**
 	 * Retracts the sentence. This means that the sentence is removed from the reasoner.
 	 * 
@@ -338,17 +354,17 @@ public class Ontology {
 	 */
 	protected synchronized void retractSentence(Sentence sentence) {
 		if (
-			sentence == null ||
-			!sentence.isIntegrated() ||
-			!sentence.isReasonable()
-		) return;
-		
+				sentence == null ||
+				!sentence.isIntegrated() ||
+				!sentence.isReasonable()
+				) return;
+
 		log("retract sentence");
 		stateID++;
 		getReasoner().unloadSentence(sentence);
 		sentence.setIntegrated(false);
 	}
-	
+
 	/**
 	 * This method retracts an integrated sentence so that it is still part of the wiki
 	 * article but does not participate in reasoning anymore.
@@ -359,7 +375,7 @@ public class Ontology {
 		retractSentence(sentence);
 		getStorage().save(sentence.getArticle().getOntologyElement());
 	}
-	
+
 	/**
 	 * Writes a log entry.
 	 * 
@@ -368,11 +384,11 @@ public class Ontology {
 	public void log(String text) {
 		logger.log("onto", text);
 	}
-	
+
 	private long nextId() {
 		return ++idCount;
 	}
-	
+
 	/**
 	 * Returns the state id of the ontology. This id increases each time the ontology changes (more
 	 * precisely: each time the part of the ontology that participates in reasoning changes). This
@@ -383,7 +399,7 @@ public class Ontology {
 	public long getStateID() {
 		return stateID;
 	}
-	
+
 	/**
 	 * Returns a parameter value.
 	 * 
@@ -393,5 +409,5 @@ public class Ontology {
 	public String getParameter(String name) {
 		return parameters.get(name);
 	}
-	
+
 }

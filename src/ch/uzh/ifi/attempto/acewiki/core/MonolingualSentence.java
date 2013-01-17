@@ -26,7 +26,7 @@ import ch.uzh.ifi.attempto.base.TextOperator;
  * @author Tobias Kuhn
  */
 public abstract class MonolingualSentence extends AbstractSentence {
-	
+
 	/**
 	 * Initializes a new sentence.
 	 */
@@ -39,7 +39,7 @@ public abstract class MonolingualSentence extends AbstractSentence {
 	 * @return A token list.
 	 */
 	public abstract List<TextElement> getTextElements();
-	
+
 	public final List<TextElement> getTextElements(String language) {
 		return getTextElements();
 	}
@@ -54,7 +54,7 @@ public abstract class MonolingualSentence extends AbstractSentence {
 	public final MultiTextContainer getTextContainer(String language) {
 		return getTextContainer();
 	}
-	
+
 	/**
 	 * Returns the text of this sentence in the only available language.
 	 * 
@@ -70,11 +70,11 @@ public abstract class MonolingualSentence extends AbstractSentence {
 	 * @return A list of sentence details.
 	 */
 	public abstract List<SentenceDetail> getDetails();
-	
+
 	public final List<SentenceDetail> getDetails(String language) {
 		return getDetails();
 	}
-	
+
 	/**
 	 * Returns the text operator for the given language.
 	 * 

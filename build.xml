@@ -26,9 +26,6 @@
         <copy todir="classes/ch/uzh/ifi/attempto/acewiki/gui/img">
             <fileset dir="src/ch/uzh/ifi/attempto/acewiki/gui/img"/>
         </copy>
-        <copy todir="classes">
-            <fileset dir="src" includes="**.properties"/>
-        </copy>
         <copy todir="classes/ch/uzh/ifi/attempto/acewiki/gf">
             <fileset dir="src/ch/uzh/ifi/attempto/acewiki/gf" includes="*.pgf"/>
         </copy>
