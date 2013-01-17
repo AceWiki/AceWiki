@@ -94,7 +94,7 @@ public class WikiLink extends Button implements ActionListener {
 			setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		} else if (ontologyElement instanceof TechnicalElement) {
 			setFont(new Font(Font.MONOSPACE, Font.PLAIN, new Extent(12)));
-			setForeground(new Color(102, 153, 0));
+			setForeground(Style.specialForeground);
 		} else {
 			setFont(new Font(Style.fontTypeface, Font.PLAIN, new Extent(13)));
 		}

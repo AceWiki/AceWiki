@@ -20,8 +20,8 @@ import ch.uzh.ifi.attempto.base.MultiTextContainer;
 import ch.uzh.ifi.attempto.base.TextElement;
 
 /**
- * This interface represents a sentence in the given controlled natural language. It includes
- * declarative sentences as well as questions.
+ * This interface represents a potentially ambiguous sentence and covers declarative
+ * as well as interrogative tree sets. It can be viewed in different languages.
  * 
  * @author Tobias Kuhn
  * @author Kaarel Kaljurand
