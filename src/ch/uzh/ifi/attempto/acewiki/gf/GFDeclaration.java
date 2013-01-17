@@ -24,6 +24,7 @@ import ch.uzh.ifi.attempto.acewiki.core.AbstractSentence;
 import ch.uzh.ifi.attempto.acewiki.core.Declaration;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceDetail;
+import ch.uzh.ifi.attempto.base.MultiTextContainer;
 import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.base.TextElement;
 
@@ -61,7 +62,7 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 		parseState = getGFGrammar().parse(text, language);
 	}
 	
-	protected TextContainer getTextContainer(String language) {
+	public MultiTextContainer getTextContainer(String language) {
 		TextContainer tc = textContainers.get(language);
 		if (tc == null) {
 			tc = new TextContainer();
@@ -70,7 +71,7 @@ public class GFDeclaration extends AbstractSentence implements Declaration {
 			}
 			textContainers.put(language, tc);
 		}
-		return tc;
+		return new MultiTextContainer(tc);
 	}
 	
 	public List<TextElement> getTextElements(String language) {

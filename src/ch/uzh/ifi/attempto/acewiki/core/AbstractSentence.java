@@ -14,7 +14,8 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
-import ch.uzh.ifi.attempto.base.TextContainer;
+import java.util.List;
+
 import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.base.TextOperator;
 
@@ -26,7 +27,11 @@ import ch.uzh.ifi.attempto.base.TextOperator;
 public abstract class AbstractSentence extends AbstractStatement implements Sentence {
 	
 	private boolean integrated = false;
-	
+
+	public List<TextElement> getTextElements(String language) {
+		return getTextContainer(language).getTextElements();
+	}
+
 	public boolean isIntegrated() {
 		return integrated;
 	}
@@ -38,20 +43,16 @@ public abstract class AbstractSentence extends AbstractStatement implements Sent
 	public boolean isImmutable() {
 		return getArticle() == null;
 	}
-	
-	/**
-	 * Returns a text container with the text of this sentence in the given language.
-	 * 
-	 * @param language The language.
-	 * @return The text container.
-	 */
-	protected abstract TextContainer getTextContainer(String language);
-	
+
+	public int getNumberOfParseTrees() {
+		return 1;
+	}
+
 	public String getText(String language) {
 		String t = "";
 		TextElement prev = null;
 		TextOperator textOperator = getTextOperator(language);
-		for (TextElement te : getTextContainer(language).getTextElements()) {
+		for (TextElement te : getTextElements(language)) {
 			String glue = "";
 			if (prev != null) {
 				glue = textOperator.getGlue(prev, te);

@@ -52,6 +52,7 @@ import ch.uzh.ifi.attempto.ape.LexiconEntry;
 import ch.uzh.ifi.attempto.ape.MessageContainer;
 import ch.uzh.ifi.attempto.ape.SyntaxBoxes;
 import ch.uzh.ifi.attempto.base.APE;
+import ch.uzh.ifi.attempto.base.MultiTextContainer;
 import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.base.TextElement;
 
@@ -127,11 +128,11 @@ public abstract class ACESentence extends MonolingualSentence implements OWLSent
 		return list;
 	}
 
-	protected TextContainer getTextContainer() {
+	public MultiTextContainer getTextContainer() {
 		if (textContainer == null) {
 			tokenize();
 		}
-		return textContainer;
+		return new MultiTextContainer(textContainer);
 	}
 
 	private void tokenize() {

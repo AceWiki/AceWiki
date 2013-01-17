@@ -16,7 +16,7 @@ package ch.uzh.ifi.attempto.acewiki.core;
 
 import java.util.List;
 
-import ch.uzh.ifi.attempto.base.TextContainer;
+import ch.uzh.ifi.attempto.base.MultiTextContainer;
 import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.base.TextOperator;
 
@@ -49,9 +49,9 @@ public abstract class MonolingualSentence extends AbstractSentence {
 	 * 
 	 * @return The text container.
 	 */
-	protected abstract TextContainer getTextContainer();
+	public abstract MultiTextContainer getTextContainer();
 
-	protected final TextContainer getTextContainer(String language) {
+	public final MultiTextContainer getTextContainer(String language) {
 		return getTextContainer();
 	}
 	

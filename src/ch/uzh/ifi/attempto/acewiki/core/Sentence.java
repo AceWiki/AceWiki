@@ -16,6 +16,7 @@ package ch.uzh.ifi.attempto.acewiki.core;
 
 import java.util.List;
 
+import ch.uzh.ifi.attempto.base.MultiTextContainer;
 import ch.uzh.ifi.attempto.base.TextElement;
 
 /**
@@ -28,13 +29,22 @@ public interface Sentence extends Statement {
 	
 	/**
 	 * Returns a list of text elements that represent the tokens of this sentence in the given
-	 * language.
+	 * language (the first one if there are multiple text variants).
 	 * 
 	 * @param language The language.
 	 * @return A token list.
 	 */
 	public List<TextElement> getTextElements(String language);
-	
+
+	/**
+	 * Returns a text container with the text of this sentence (possibly in multiple variants)
+	 * in the given language.
+	 * 
+	 * @param language The language.
+	 * @return The multi-text container.
+	 */
+	public MultiTextContainer getTextContainer(String language);
+
 	/**
 	 * Returns true if this sentence can participate in reasoning.
 	 * 
@@ -86,5 +96,11 @@ public interface Sentence extends Statement {
 	 * @return A list of sentence details.
 	 */
 	public List<SentenceDetail> getDetails(String language);
+
+	/**
+	 * @return number of parse trees
+	 */
+	// TODO find better name
+	public int getNumberOfParseTrees();
 
 }
