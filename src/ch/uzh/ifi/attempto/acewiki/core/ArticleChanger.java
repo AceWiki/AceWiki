@@ -12,16 +12,11 @@
 // You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
 // not, see http://www.gnu.org/licenses/.
 
-package ch.uzh.ifi.attempto.acewiki.gui;
+package ch.uzh.ifi.attempto.acewiki.core;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.uzh.ifi.attempto.acewiki.core.InvalidWordException;
-import ch.uzh.ifi.attempto.acewiki.core.LexiconChanger;
-import ch.uzh.ifi.attempto.acewiki.core.LexiconDetail;
-import ch.uzh.ifi.attempto.acewiki.core.Ontology;
-import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 
 /**
  * This class is used to modify or create pages that do not have

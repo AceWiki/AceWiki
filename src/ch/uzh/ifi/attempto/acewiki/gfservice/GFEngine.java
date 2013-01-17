@@ -28,7 +28,7 @@ import ch.uzh.ifi.attempto.acewiki.core.LanguageHandler;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
-import ch.uzh.ifi.attempto.acewiki.gui.TypeArticle;
+import ch.uzh.ifi.attempto.acewiki.core.TypeArticle;
 
 /**
  * This AceWiki engine uses a GF (Grammatical Framework) grammar.

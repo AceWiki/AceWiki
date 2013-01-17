@@ -12,9 +12,8 @@
 // You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
 // not, see http://www.gnu.org/licenses/.
 
-package ch.uzh.ifi.attempto.acewiki.gui;
+package ch.uzh.ifi.attempto.acewiki.core;
 
-import ch.uzh.ifi.attempto.acewiki.core.AbstractOntologyElement;
 
 /**
  * Article that does not represent an (OWL) ontology element.
