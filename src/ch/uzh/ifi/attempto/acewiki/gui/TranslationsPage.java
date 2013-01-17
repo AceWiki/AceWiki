@@ -2,8 +2,6 @@ package ch.uzh.ifi.attempto.acewiki.gui;
 
 import java.util.List;
 
-import com.google.common.collect.ImmutableSet;
-
 import nextapp.echo.app.Column;
 import nextapp.echo.app.Font;
 import nextapp.echo.app.Insets;
@@ -33,7 +31,7 @@ public class TranslationsPage extends WikiPage {
 		addHorizontalLine();
 		add(new VSpace(15));
 
-		List<SentenceDetail> l = sentence.getLins(ImmutableSet.of(wiki.getLanguage()));
+		List<SentenceDetail> l = sentence.getTranslations(wiki.getLanguage());
 
 		if (l == null || l.isEmpty()) {
 			Column col = new Column();

@@ -14,11 +14,8 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
-import java.util.Set;
+import java.util.List;
 
-import com.google.common.collect.ImmutableSet;
-
-import ch.uzh.ifi.attempto.base.TextContainerSet;
 import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.base.TextOperator;
 
@@ -31,6 +28,10 @@ import ch.uzh.ifi.attempto.base.TextOperator;
 public abstract class AbstractSentence extends AbstractStatement implements Sentence {
 
 	private boolean integrated = false;
+
+	public List<TextElement> getTextElements(String language) {
+		return getTextContainer(language).getTextElements();
+	}
 
 	public boolean isIntegrated() {
 		return integrated;
@@ -48,25 +49,11 @@ public abstract class AbstractSentence extends AbstractStatement implements Sent
 		return 1;
 	}
 
-	// TODO: we return an empty set for now, this method
-	// should not be called for monolingual sentences anyway
-	public Set<String> getParseTrees() {
-		return ImmutableSet.of();
-	}
-
-	/**
-	 * Returns a text container with the text of this sentence in the given language.
-	 * 
-	 * @param language The language.
-	 * @return The text container.
-	 */
-	public abstract TextContainerSet getTextContainerSet(String language);
-
 	public String getText(String language) {
 		String t = "";
 		TextElement prev = null;
 		TextOperator textOperator = getTextOperator(language);
-		for (TextElement te : getTextContainerSet(language).getTextElements()) {
+		for (TextElement te : getTextElements(language)) {
 			String glue = "";
 			if (prev != null) {
 				glue = textOperator.getGlue(prev, te);

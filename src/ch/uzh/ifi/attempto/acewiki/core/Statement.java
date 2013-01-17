@@ -46,7 +46,8 @@ public interface Statement {
 	public Article getArticle();
 	
 	/**
-	 * Returns the text of this statement in the given language.
+	 * Returns the text of this statement in the given language (the first one if there are
+	 * multiple variants).
 	 * 
 	 * @param language The language.
 	 * @return The text.

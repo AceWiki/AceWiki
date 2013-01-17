@@ -25,19 +25,19 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ch.uzh.ifi.attempto.acewiki.core.Declaration;
+import ch.uzh.ifi.attempto.acewiki.core.MultilingualSentence;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.SentenceDetail;
+import ch.uzh.ifi.attempto.base.MultiTextContainer;
+import ch.uzh.ifi.attempto.base.TextContainer;
+import ch.uzh.ifi.attempto.base.TextElement;
+import ch.uzh.ifi.attempto.gfservice.GfServiceException;
+
 import com.google.common.base.Joiner;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
-
-import ch.uzh.ifi.attempto.acewiki.core.MultilingualSentence;
-import ch.uzh.ifi.attempto.acewiki.core.Declaration;
-import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
-import ch.uzh.ifi.attempto.acewiki.core.SentenceDetail;
-import ch.uzh.ifi.attempto.base.TextContainer;
-import ch.uzh.ifi.attempto.base.TextContainerSet;
-import ch.uzh.ifi.attempto.base.TextElement;
-import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 
 /**
  * This class represents a declaration statement for the GF AceWiki engine.
@@ -60,7 +60,7 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	private final GFGrammar mGfGrammar;
 
 	// maps a language identifier to the set of linearizations (text containers) in this language
-	private final Map<String, TextContainerSet> textContainers = new HashMap<String, TextContainerSet>();
+	private final Map<String, MultiTextContainer> textContainers = new HashMap<String, MultiTextContainer>();
 
 	private TreeSet mTreeSet;
 	private final String mLang;
@@ -110,10 +110,10 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 		}
 	}
 
-	public TextContainerSet getTextContainerSet(String language) {
-		TextContainerSet tcs = textContainers.get(language);
+	public MultiTextContainer getTextContainer(String language) {
+		MultiTextContainer mtc = textContainers.get(language);
 		Set<String> seen = Sets.newHashSet();
-		if (tcs == null) {
+		if (mtc == null) {
 			Set<TextContainer> tmp = new HashSet<TextContainer>();
 			for (String tree : mTreeSet.getTrees()) {
 				Set<String> lins = getLins(tree, language);
@@ -143,20 +143,11 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 					tmp.add(tc);
 				}
 			}
-			tcs = new TextContainerSet(tmp);
-			textContainers.put(language, tcs);
+			mtc = new MultiTextContainer(tmp);
+			textContainers.put(language, mtc);
 		}
-		return tcs;
+		return mtc;
 	}
-
-
-	/**
-	 * @deprecated
-	 */
-	public List<TextElement> getTextElements(String language) {
-		return getTextContainerSet(language).getTextElements();
-	}
-
 
 	/**
 	 * TODO
@@ -191,8 +182,8 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	}
 
 
-	public List<SentenceDetail> getLins(Set<String> excludeLangs) {
-		return formatTranslations(mGfGrammar, mTreeSet, excludeLangs);
+	public List<SentenceDetail> getTranslations(String currentLanguage) {
+		return formatTranslations(mGfGrammar, mTreeSet, currentLanguage);
 	}
 
 
@@ -307,7 +298,7 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	/*
 	 * TODO: highlight the linearization that is in the language mLang
 	 */
-	private List<SentenceDetail> formatTranslations(GFGrammar grammar, TreeSet parseState, Set<String> excludeLangs) {
+	private List<SentenceDetail> formatTranslations(GFGrammar grammar, TreeSet parseState, String currentLanguage) {
 		Multimap<String, Set<String>> mm = HashMultimap.create();
 
 		// Creating the map:
@@ -324,7 +315,7 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 			if (m == null) continue;
 
 			for (String lang : m.keySet()) {
-				if (! excludeLangs.contains(lang)) {
+				if (! currentLanguage.equals(lang)) {
 					mm.put(lang, m.get(lang));
 				}
 			}

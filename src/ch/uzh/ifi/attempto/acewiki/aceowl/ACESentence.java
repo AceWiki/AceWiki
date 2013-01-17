@@ -52,8 +52,8 @@ import ch.uzh.ifi.attempto.ape.LexiconEntry;
 import ch.uzh.ifi.attempto.ape.MessageContainer;
 import ch.uzh.ifi.attempto.ape.SyntaxBoxes;
 import ch.uzh.ifi.attempto.base.APE;
+import ch.uzh.ifi.attempto.base.MultiTextContainer;
 import ch.uzh.ifi.attempto.base.TextContainer;
-import ch.uzh.ifi.attempto.base.TextContainerSet;
 import ch.uzh.ifi.attempto.base.TextElement;
 
 /**
@@ -99,7 +99,7 @@ public abstract class ACESentence extends MonolingualSentence implements OWLSent
 	public List<TextElement> getTextElements() {
 		List<TextElement> list = new ArrayList<TextElement>();
 		// TODO: this should be done in a different way
-		for (TextElement e : getTextContainerSet().getTextElements()) {
+		for (TextElement e : getTextContainer().getTextElements()) {
 			if (e instanceof OntologyTextElement) {
 				OntologyTextElement ote = (OntologyTextElement) e;
 				OntologyElement oe = ote.getOntologyElement();
@@ -128,11 +128,11 @@ public abstract class ACESentence extends MonolingualSentence implements OWLSent
 		return list;
 	}
 
-	public TextContainerSet getTextContainerSet() {
+	public MultiTextContainer getTextContainer() {
 		if (textContainer == null) {
 			tokenize();
 		}
-		return new TextContainerSet(textContainer);
+		return new MultiTextContainer(textContainer);
 	}
 
 	private void tokenize() {
@@ -258,7 +258,7 @@ public abstract class ACESentence extends MonolingualSentence implements OWLSent
 			ape.setURI(getOntology().getURI());
 			ape.setClexEnabled(false);
 			Lexicon lexicon = new Lexicon();
-			for (TextElement te : getTextContainerSet().getTextElements()) {
+			for (TextElement te : getTextContainer().getTextElements()) {
 				if (te instanceof OntologyTextElement) {
 					OntologyElement oe = ((OntologyTextElement) te).getOntologyElement();
 					if (oe instanceof ACEOWLOntoElement) {
@@ -347,7 +347,7 @@ public abstract class ACESentence extends MonolingualSentence implements OWLSent
 	}
 
 	public boolean contains(OntologyElement e) {
-		for (TextElement t : getTextContainerSet().getTextElements()) {
+		for (TextElement t : getTextContainer().getTextElements()) {
 			if (t instanceof OntologyTextElement) {
 				if (e == ((OntologyTextElement) t).getOntologyElement()) return true;
 			}
@@ -357,7 +357,7 @@ public abstract class ACESentence extends MonolingualSentence implements OWLSent
 
 	public String serialize() {
 		String s = "";
-		for (TextElement te : getTextContainerSet().getTextElements()) {
+		for (TextElement te : getTextContainer().getTextElements()) {
 			if (te instanceof OntologyTextElement) {
 				OntologyTextElement ot = (OntologyTextElement) te;
 				s += ot.getPreText();

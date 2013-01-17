@@ -19,8 +19,8 @@ import nextapp.echo.app.Column;
 import nextapp.echo.app.Row;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
+import ch.uzh.ifi.attempto.base.MultiTextContainer;
 import ch.uzh.ifi.attempto.base.TextContainer;
-import ch.uzh.ifi.attempto.base.TextContainerSet;
 import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
@@ -39,17 +39,17 @@ public class TextRow extends Column {
 	 * Constructs a column of text rows, where each row corresponds to
 	 * an element of the given set of text containers.
 	 * 
-	 * @param textContainerSet Set of text containers.
+	 * @param textContainers Set of text containers.
 	 * @param wiki The wiki object.
 	 * @param isRed true if the text color should be red.
 	 */
 	// TODO: maybe apply the color to the complete column, not individually to each label
-	public TextRow(TextContainerSet textContainerSet, Wiki wiki, boolean isRed) {
+	public TextRow(MultiTextContainer textContainers, Wiki wiki, boolean isRed) {
 		Color color = Color.BLACK;
 		if (isRed) {
 			color = new Color(180, 0, 0);
 		}
-		for (TextContainer tc : textContainerSet) {
+		for (TextContainer tc : textContainers) {
 			Row row = new Row();
 			TextElement prev = null;
 			for (TextElement e : tc.getTextElements()) {
@@ -81,12 +81,12 @@ public class TextRow extends Column {
 	 * @param textContainerSet Set of text containers.
 	 * @param wiki The wiki object.
 	 */
-	public TextRow(TextContainerSet textContainerSet, Wiki wiki) {
-		this(textContainerSet, wiki, false);
+	public TextRow(MultiTextContainer textContainers, Wiki wiki) {
+		this(textContainers, wiki, false);
 	}
 
 	public TextRow(TextContainer textContainer, Wiki wiki) {
-		this(new TextContainerSet(textContainer), wiki, false);
+		this(new MultiTextContainer(textContainer), wiki, false);
 	}
 
 }

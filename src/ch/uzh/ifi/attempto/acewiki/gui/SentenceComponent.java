@@ -144,7 +144,7 @@ public class SentenceComponent extends Column implements ActionListener {
 		sentenceRow.removeAll();
 		sentenceRow.add(dropDown);
 		sentenceRow.add(new HSpace(5));
-		sentenceRow.add(new TextRow(sentence.getTextContainerSet(wiki.getLanguage()), wiki, isRed));
+		sentenceRow.add(new TextRow(sentence.getTextContainer(wiki.getLanguage()), wiki, isRed));
 		sentenceRow.add(new HSpace(5));
 		// If the sentence is ambiguous then show the number of trees
 		if (sentence.getNumberOfParseTrees() > 1) {
@@ -229,7 +229,7 @@ public class SentenceComponent extends Column implements ActionListener {
 
 					@Override
 					public void execute() {
-						TreeSet parseState = new TreeSet(sentence.getParseTrees());
+						TreeSet parseState = new TreeSet(((GFDeclaration) sentence).getParseTrees());
 						GFGrammar grammar = ((GFEngine) engine).getGFGrammar();
 						GFDeclaration gfDecl = new GFDeclaration(parseState, wiki.getLanguage(), grammar);
 						Article article = sentence.getArticle();
