@@ -31,6 +31,7 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Relation;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
+import ch.uzh.ifi.attempto.acewiki.core.TopicElement;
 import ch.uzh.ifi.attempto.acewiki.gfservice.GfModulePage;
 import ch.uzh.ifi.attempto.acewiki.gfservice.TypeGfModule;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
@@ -91,11 +92,11 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 			return new ConceptPage((Concept) oe, wiki);
 		} else if (oe instanceof Relation) {
 			return new RelationPage((Relation) oe, wiki);
-		} else if (oe instanceof GeneralTopic) {
+		} else if (oe instanceof TopicElement) {
 			if (oe.getInternalType().equals(GeneralTopic.MAINPAGE_TYPE)) {
 				return new StartPage(wiki);
 			} else {
-				return new GeneralPage(oe, wiki);
+				return new GeneralPage((TopicElement) oe, wiki);
 			}
 		} else if (oe instanceof TypeGfModule) {
 			return new GfModulePage(oe, wiki);

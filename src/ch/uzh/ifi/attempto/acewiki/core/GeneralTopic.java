@@ -28,7 +28,14 @@ import ch.uzh.ifi.attempto.echocomp.EchoThread;
  */
 public class GeneralTopic extends AbstractOntologyElement implements TopicElement {
 
+	/**
+	 * The main page type.
+	 */
 	public static final String MAINPAGE_TYPE = "mainpage";
+
+	/**
+	 * All other topics have this type.
+	 */
 	public static final String NORMAL_TYPE = "article";
 
 	private final String type;

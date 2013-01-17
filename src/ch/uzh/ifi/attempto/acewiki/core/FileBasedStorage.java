@@ -207,8 +207,8 @@ public class FileBasedStorage implements AceWikiStorage {
 		}
 
 		if (oe != null) {
-			if (!lines.get(0).startsWith("words:")) {
-				System.err.println("Missing 'words' for ontology element");
+			if (lines.size() == 0 || !lines.get(0).startsWith("words:")) {
+				System.err.println("Missing 'words' for ontology element: " + oe);
 			} else {
 				String serializedWords = lines.remove(0).substring("words:".length());
 				ontology.change(oe, serializedWords);
