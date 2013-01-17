@@ -16,8 +16,7 @@ package ch.uzh.ifi.attempto.acewiki.core;
 
 /**
  * This class represents an ontology element. Such ontology elements include individuals, concepts
- * and relations. Each ontology element corresponds to a word which has one or more word forms.
- * Word forms are identified by a number (the word form id).
+ * and relations, and meta-elements such as topics.
  * 
  * @author Tobias Kuhn
  */

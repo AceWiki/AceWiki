@@ -174,7 +174,7 @@ public class FileBasedStorage implements AceWikiStorage {
 		pb2.complete();
 
 		if (ontology.get(0) == null) {
-			OntologyElement mainPage = new DummyOntologyElement("mainpage", "Main Page");
+			OntologyElement mainPage = GeneralTopic.makeMain("acewiki_page_main");
 			mainPage.initId(0);
 			ontology.register(mainPage);
 		}
@@ -199,19 +199,20 @@ public class FileBasedStorage implements AceWikiStorage {
 		}
 		String type = lines.remove(0).substring("type:".length());
 		OntologyElement oe = ontology.getEngine().createOntologyElement(type);
-		if (oe != null) {
-			if (!lines.get(0).startsWith("words:")) {
-				System.err.println("Cannot read ontology element (missing 'words')");
-				return;
-			}
-			String serializedWords = lines.remove(0).substring("words:".length());
-			ontology.change(oe, serializedWords);
-		}
 
 		// Dummy ontology element for the main page article:
-		if (type.equals("mainpage")) {
+		if (type.equals(GeneralTopic.MAINPAGE_TYPE)) {
 			id = 0;
-			oe = new DummyOntologyElement("mainpage", "Main Page");
+			oe = GeneralTopic.makeMain("acewiki_page_main");
+		}
+
+		if (oe != null) {
+			if (!lines.get(0).startsWith("words:")) {
+				System.err.println("Missing 'words' for ontology element");
+			} else {
+				String serializedWords = lines.remove(0).substring("words:".length());
+				ontology.change(oe, serializedWords);
+			}
 		}
 
 		if (oe != null) {

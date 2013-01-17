@@ -19,12 +19,12 @@ import java.util.List;
 import java.util.Locale;
 
 import ch.uzh.ifi.attempto.acewiki.core.AbstractLanguageHandler;
-import ch.uzh.ifi.attempto.acewiki.core.ArticleChanger;
 import ch.uzh.ifi.attempto.acewiki.core.EditorController;
+import ch.uzh.ifi.attempto.acewiki.core.GeneralTopic;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceSuggestion;
-import ch.uzh.ifi.attempto.acewiki.core.TypeArticle;
+import ch.uzh.ifi.attempto.acewiki.core.TopicChanger;
 import ch.uzh.ifi.attempto.base.LocaleResources;
 import ch.uzh.ifi.attempto.base.PredictiveParser;
 import ch.uzh.ifi.attempto.base.TextContainer;
@@ -55,7 +55,7 @@ public class GFHandler extends AbstractLanguageHandler {
 		mLanguage = language;
 		mGfGrammar = gfGrammar;
 
-		setLexiconChanger(TypeArticle.INTERNAL_TYPE, new ArticleChanger());
+		setLexiconChanger(GeneralTopic.NORMAL_TYPE, new TopicChanger());
 		setLexiconChanger(TypeGfModule.INTERNAL_TYPE, new GfModuleChanger());
 
 		// TODO generalize:

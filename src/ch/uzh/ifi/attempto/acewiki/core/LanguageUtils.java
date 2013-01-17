@@ -77,9 +77,9 @@ public class LanguageUtils {
 	private static class OntologyElementsComparator implements Comparator<OntologyElement> {
 
 		public int compare(OntologyElement o1, OntologyElement o2) {
-			if (o1 instanceof DummyOntologyElement && !(o2 instanceof DummyOntologyElement)) {
+			if (o1 instanceof GeneralTopic && !(o2 instanceof GeneralTopic)) {
 				return -1;
-			} else if (!(o1 instanceof DummyOntologyElement) && o2 instanceof DummyOntologyElement) {
+			} else if (!(o1 instanceof GeneralTopic) && o2 instanceof GeneralTopic) {
 				return 1;
 			} else {
 				return o1.getHeadwords()[0].compareToIgnoreCase(o2.getHeadwords()[0]);

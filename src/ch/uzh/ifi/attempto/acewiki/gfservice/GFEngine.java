@@ -23,12 +23,12 @@ import ch.uzh.ifi.attempto.acewiki.core.AbstractAceWikiEngine;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.DummyReasoner;
+import ch.uzh.ifi.attempto.acewiki.core.GeneralTopic;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageHandler;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
-import ch.uzh.ifi.attempto.acewiki.core.TypeArticle;
 
 /**
  * This AceWiki engine uses a GF (Grammatical Framework) grammar.
@@ -52,7 +52,7 @@ public class GFEngine extends AbstractAceWikiEngine {
 	 * Creates a new GF-based AceWiki engine.
 	 */
 	public GFEngine() {
-		setLexicalTypes(TypeArticle.INTERNAL_TYPE, TypeGfModule.INTERNAL_TYPE);
+		setLexicalTypes(GeneralTopic.NORMAL_TYPE, TypeGfModule.INTERNAL_TYPE);
 	}
 
 	public void init(Ontology ontology) {
@@ -104,8 +104,8 @@ public class GFEngine extends AbstractAceWikiEngine {
 	}
 
 	public OntologyElement createOntologyElement(String type) {
-		if (TypeArticle.hasType(type)) {
-			return new TypeArticle();
+		if (GeneralTopic.NORMAL_TYPE.equals(type)) {
+			return GeneralTopic.makeNormal("");
 		} else if (TypeGfModule.hasType(type)) {
 			return new TypeGfModule();
 		}

@@ -15,13 +15,14 @@
 package ch.uzh.ifi.attempto.acewiki.gfservice;
 
 import ch.uzh.ifi.attempto.acewiki.core.AbstractOntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.TechnicalElement;
 
 /**
  * Page that represents a GF grammar module
  *
  * @author Kaarel Kaljurand
  */
-public class TypeGfModule extends AbstractOntologyElement {
+public class TypeGfModule extends AbstractOntologyElement implements TechnicalElement {
 
 	public static final String TYPE = "GF Module";
 	public static final String INTERNAL_TYPE = "gfmodule";

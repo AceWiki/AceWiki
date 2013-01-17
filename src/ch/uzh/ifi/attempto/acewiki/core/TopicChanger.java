@@ -17,34 +17,39 @@ package ch.uzh.ifi.attempto.acewiki.core;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
- * This class is used to modify or create pages that do not have
- * an ontological type.
+ * This class is used to modify or create topics.
  * 
  * @author Kaarel Kaljurand
+ * @author Tobias Kuhn
  */
-public class ArticleChanger implements LexiconChanger {
+public class TopicChanger implements LexiconChanger {
 
 	public String getDescription() {
 		return "Every article is a sequence of statements and comments.";
 	}
 
 	public List<LexiconDetail> getDetails(OntologyElement el) {
-		TypeArticle concept = (TypeArticle) el;
+		GeneralTopic topic = (GeneralTopic) el;
 		List<LexiconDetail> l = new ArrayList<LexiconDetail>();
 		l.add(new LexiconDetail(
 				"Name of the article",
 				"",
-				concept.getWord(0)
+				topic.getWord()
 				));
 		return l;
 	}
 
 	public void save(OntologyElement el, int wordNumber, List<Object> newValues, Ontology ontology)
 			throws InvalidWordException {
-		TypeArticle concept = (TypeArticle) el;
-		ontology.change(concept, newValues.get(0).toString());
+		GeneralTopic topic = (GeneralTopic) el;
+		String word = (String) newValues.get(0);
+		OntologyElement oe = ontology.getElement(word);
+		if (oe != null && oe != topic) {
+			throw new InvalidWordException("The word '" + word + "' is already used. " +
+				"Please use a different one.");
+		}
+		ontology.change(topic, newValues.get(0).toString());
 	}
 
 }
