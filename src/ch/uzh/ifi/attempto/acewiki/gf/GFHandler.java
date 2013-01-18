@@ -103,6 +103,9 @@ public class GFHandler extends AbstractLanguageHandler {
 			languageName += " (disamb.)"; // TODO: make the "disamb." localizable
 		}
 
+		// Capitalize first letter:
+		languageName = languageName.substring(0, 1).toUpperCase() + languageName.substring(1);
+
 		mLocale = locale;
 		mLanguageName = languageName;
 	}
