@@ -29,9 +29,11 @@ import ch.uzh.ifi.attempto.acewiki.core.Declaration;
 import ch.uzh.ifi.attempto.acewiki.core.MultilingualSentence;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceDetail;
+import ch.uzh.ifi.attempto.base.DefaultTextOperator;
 import ch.uzh.ifi.attempto.base.MultiTextContainer;
 import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.base.TextElement;
+import ch.uzh.ifi.attempto.base.TextOperator;
 import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 
 import com.google.common.base.Joiner;
@@ -104,6 +106,12 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 		mLang = lang;
 		try {
 			mTreeSet = new TreeSet(getGFGrammar().parse(text, lang));
+			if (mTreeSet.size() == 0) {
+				// TODO this should be done properly; see GfTextOperator
+				// If parsing fails: first char to lower case
+				text = DefaultTextOperator.firstCharToLowerCase(text);
+				mTreeSet = new TreeSet(getGFGrammar().parse(text, lang));
+			}
 		} catch (GfServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -136,8 +144,9 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 					// TODO: limitation: we only work with the first linearization
 					String lin = lins.iterator().next();
 					seen.add(lin);
-					TextContainer tc = new TextContainer();
-					for (String s : GFGrammar.GF_TOKEN_SPLITTER.split(lin)) {
+					TextOperator to = getTextOperator(language);
+					TextContainer tc = new TextContainer(to);
+					for (String s : to.splitIntoTokens(lin)) {
 						tc.addElement(new TextElement(s));
 					}
 					tmp.add(tc);
