@@ -60,9 +60,8 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 	public ReferencesPage(ArticlePage page) {
 		super(page.getWiki());
 		this.page = page;
-		
-		OntologyElement oe = page.getOntologyElement();
-		title = new Title(getHeading(oe), "- " + getWiki().getGUIText("acewiki_page_references"), oe.getType(), this);
+
+		title = new Title("", "", "", this);
 		add(title);
 		addHorizontalLine();
 		add(new VSpace(18));
@@ -88,6 +87,8 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 		}
 
 		title.setText(getHeading(page.getOntologyElement()));
+		title.setPostTitle("- " + getWiki().getGUIText("acewiki_page_references"));
+		title.setTooltip(page.getOntologyElement().getType());
 		referenceColumn.removeAll();
 		List<OntologyElement> ontologyElements = getWiki().getOntologyElements();
 		sentences = new ArrayList<Sentence>();

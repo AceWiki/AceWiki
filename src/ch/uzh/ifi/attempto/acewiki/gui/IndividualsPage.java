@@ -27,10 +27,9 @@ import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Task;
+import ch.uzh.ifi.attempto.acewiki.core.CachingReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
-import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
-import ch.uzh.ifi.attempto.acewiki.core.CachingReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.StatementFactory;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
@@ -61,8 +60,7 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 		super(page.getWiki());
 		this.page = page;
 
-		OntologyElement oe = page.getOntologyElement();
-		title = new Title(getHeading(oe), "- " + getWiki().getGUIText("acewiki_page_individuals"), oe.getType(), this);
+		title = new Title("", "", "", this);
 		add(title);
 		addHorizontalLine();
 		
@@ -76,7 +74,11 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 		addSelectedTab("acewiki_page_individuals");
 		addTab("acewiki_page_hierarchy", this);
 
-		title.setText(getHeading(page.getOntologyElement()));
+		Concept c = (Concept) page.getOntologyElement();
+
+		title.setText(getHeading(c));
+		title.setPostTitle("- " + getWiki().getGUIText("acewiki_page_individuals"));
+		title.setTooltip(c.getType());
 		individualsColumn.removeAll();
 		
 		final Column waitComp = new Column();
@@ -85,7 +87,7 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 
 		CachingReasoner cr = getWiki().getOntology().getReasoner();
 		
-		if (cr.areCachedIndividualsUpToDate((Concept) page.getOntologyElement())) {
+		if (cr.areCachedIndividualsUpToDate(c)) {
 			individualsColumn.add(new VSpace(18));
 			individualsColumn.add(new IndividualsComponent(true));
 		} else {

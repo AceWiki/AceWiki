@@ -28,7 +28,6 @@ import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.core.CachingReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
-import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.StatementFactory;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
@@ -64,8 +63,7 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 		super(page.getWiki());
 		this.page = page;
 
-		OntologyElement oe = page.getOntologyElement();
-		title = new Title(getHeading(oe), "- " + getWiki().getGUIText("acewiki_page_hierarchy"), oe.getType(), this);
+		title = new Title("", "", "", this);
 		add(title);
 		addHorizontalLine();
 		add(new VSpace(12));
@@ -90,11 +88,14 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 		addTab("acewiki_page_individuals", this);
 		addSelectedTab("acewiki_page_hierarchy");
 
-		title.setText(getHeading(page.getOntologyElement()));
+		Concept c = (Concept) page.getOntologyElement();
+
+		title.setText(getHeading(c));
+		title.setPostTitle("- " + getWiki().getGUIText("acewiki_page_hierarchy"));
+		title.setTooltip(c.getType());
 		upHierarchyColumn.removeAll();
 		downHierarchyColumn.removeAll();
-		
-		Concept c = (Concept) page.getOntologyElement();
+
 		CachingReasoner cr = getWiki().getOntology().getReasoner();
 		
 		if (cr.areCachedSuperConceptsUpToDate(c)) {

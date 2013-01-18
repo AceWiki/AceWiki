@@ -34,11 +34,13 @@ import ch.uzh.ifi.attempto.echocomp.Style;
  * 
  * @author Tobias Kuhn
  */
+// TODO improve this class
 public class Title extends Row implements ActionListener {
 	
 	private static final long serialVersionUID = 7797492687936611323L;
 	
 	private Component titleComp;
+	private SolidLabel postTitleLabel;
 	private ActionListener actionListener;
 	
 	/**
@@ -73,7 +75,7 @@ public class Title extends Row implements ActionListener {
 		}
 		titleComp.setFont(new Font(Style.fontTypeface, Font.PLAIN, new Extent(20)));
 		row.add(titleComp);
-		SolidLabel postTitleLabel = new SolidLabel(postTitle);
+		postTitleLabel = new SolidLabel(postTitle);
 		postTitleLabel.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(20)));
 		postTitleLabel.setForeground(Color.DARKGRAY);
 		RowLayoutData layout = new RowLayoutData();
@@ -168,6 +170,30 @@ public class Title extends Row implements ActionListener {
 			((Label) titleComp).setText(text);
 		} else if (titleComp instanceof Button) {
 			((Button) titleComp).setText(text);
+		}
+	}
+
+	/**
+	 * Sets the text of the second part of the title in gray.
+	 * 
+	 * @param text The new text.
+	 */
+	public void setPostTitle(String text) {
+		if (postTitleLabel != null) {
+			postTitleLabel.setText(text);
+		}
+	}
+
+	/**
+	 * Sets the tooltip text for the title.
+	 * 
+	 * @param tooltip The new text.
+	 */
+	public void setTooltip(String tooltip) {
+		if (titleComp instanceof Label) {
+			((Label) titleComp).setToolTipText(tooltip);
+		} else if (titleComp instanceof Button) {
+			((Button) titleComp).setToolTipText(tooltip);
 		}
 	}
 	
