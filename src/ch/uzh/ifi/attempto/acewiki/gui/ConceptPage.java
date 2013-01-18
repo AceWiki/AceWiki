@@ -45,9 +45,6 @@ public class ConceptPage extends ArticlePage {
 	protected ConceptPage(Concept concept, Wiki wiki) {
 		super(wiki, concept);
 		this.concept = concept;
-		
-		addTab("acewiki_page_individuals", this);
-		addTab("acewiki_page_hierarchy", this);
 	}
 	
 	public OntologyElement getOntologyElement() {
@@ -65,7 +62,10 @@ public class ConceptPage extends ArticlePage {
 	
 	protected void doUpdate() {
 		super.doUpdate();
-		
+
+		addTab("acewiki_page_individuals", this);
+		addTab("acewiki_page_hierarchy", this);
+
 		getTitle().setText(getHeading(concept));
 		
 		EchoThread thread = new EchoThread() {

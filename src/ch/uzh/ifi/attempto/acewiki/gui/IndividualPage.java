@@ -40,8 +40,6 @@ public class IndividualPage extends ArticlePage {
 	public IndividualPage(Individual ind, Wiki wiki) {
 		super(wiki, ind);
 		this.ind = ind;
-		
-		addTab("acewiki_page_assignments", this);
 	}
 	
 	public OntologyElement getOntologyElement() {
@@ -57,7 +55,9 @@ public class IndividualPage extends ArticlePage {
 	
 	protected void doUpdate() {
 		super.doUpdate();
-		
+
+		addTab("acewiki_page_assignments", this);
+
 		getTitle().setText(getHeading(ind));
 	}
 
