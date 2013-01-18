@@ -49,6 +49,8 @@ import ch.uzh.ifi.attempto.gfservice.gfwebservice.GfWebStorage;
  */
 public class GFGrammar {
 
+	public final static String PREFIX_DISAMB = "Disamb";
+
 	// Note that true can remove (always removes?) lins
 	// which are not available in all the concretes,
 	// i.e. if you add a lin then you need to add it too all the concretes
@@ -281,10 +283,16 @@ public class GFGrammar {
 			return false;
 		}
 		String grammarName = mGfServiceResultGrammar.getName();
+
 		return (
 				moduleName.startsWith(grammarName) &&
 				moduleName.length() >= grammarName.length() + 3 &&
-				Character.isUpperCase(moduleName.charAt(grammarName.length())));
+				Character.isUpperCase(moduleName.charAt(grammarName.length()))
+				||
+				moduleName.startsWith(PREFIX_DISAMB + grammarName) &&
+				moduleName.length() >= PREFIX_DISAMB.length() + grammarName.length() + 3 &&
+				Character.isUpperCase(moduleName.charAt(PREFIX_DISAMB.length() + grammarName.length()))
+				);
 	}
 
 

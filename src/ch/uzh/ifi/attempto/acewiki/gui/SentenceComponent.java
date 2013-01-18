@@ -14,18 +14,30 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui;
 
-import java.awt.Font;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 
+import nextapp.echo.app.Alignment;
 import nextapp.echo.app.Column;
+import nextapp.echo.app.Font;
 import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
+import nextapp.echo.app.layout.RowLayoutData;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
+import ch.uzh.ifi.attempto.acewiki.core.AceWikiEngine;
+import ch.uzh.ifi.attempto.acewiki.core.Article;
 import ch.uzh.ifi.attempto.acewiki.core.InconsistencyException;
+import ch.uzh.ifi.attempto.acewiki.core.MultilingualSentence;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
+import ch.uzh.ifi.attempto.acewiki.core.Statement;
+import ch.uzh.ifi.attempto.acewiki.gf.GFDeclaration;
+import ch.uzh.ifi.attempto.acewiki.gf.GFEngine;
+import ch.uzh.ifi.attempto.acewiki.gf.GFGrammar;
+import ch.uzh.ifi.attempto.acewiki.gf.TreeSet;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
@@ -38,7 +50,33 @@ import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 public class SentenceComponent extends Column implements ActionListener {
 
 	private static final long serialVersionUID = -540135972060005725L;
-	
+
+	private static final String ACTION_SHOW_TRANSLATIONS = "Show Translations";
+
+	// TODO: this is GF-specific, in normal AceWiki these actions do not make sense
+	private static final SentenceAction actionGenSentence = new SentenceAction(
+			"Generate Sentence",
+			"Generate a new sentence here",
+			"",
+			"A new sentence is being randomly generated...");
+
+	private static final SentenceAction actionReanalyze = new SentenceAction(
+			"Reanalyze",
+			"Reanalyze this sentence",
+			"Do you really want to reparse this sentence?");
+
+	private static final ImmutableSet<String> EDIT_ACTIONS = new ImmutableSet.Builder<String>()
+			.add("acewiki_statementmenu_edit")
+			.add("acewiki_statementmenu_addsent")
+			.add("acewiki_statementmenu_addcomm")
+			.add("acewiki_statementmenu_reassert")
+			.add("acewiki_statementmenu_retract")
+			.add("acewiki_statementmenu_delete")
+			.add(actionGenSentence.getTitle())
+			.add(actionReanalyze.getTitle())
+			.build();
+
+
 	private Sentence sentence;
 	private Wiki wiki;
 	private WikiPage hostPage;
@@ -83,10 +121,16 @@ public class SentenceComponent extends Column implements ActionListener {
 				}
 			}
 			dropDown.addMenuEntry("acewiki_statementmenu_delete", "acewiki_statementmenu_delsenttooltip");
+			dropDown.addMenuEntry(actionReanalyze.getTitle(), actionReanalyze.getDesc());
 		}
 
 		dropDown.addMenuEntry("acewiki_statementmenu_details", "acewiki_statementmenu_detailstooltip");
-		
+
+		if (sentence instanceof MultilingualSentence) {
+			dropDown.addMenuEntry(ACTION_SHOW_TRANSLATIONS, "Show the translations of this sentence");
+			dropDown.addMenuEntry(actionGenSentence.getTitle(), actionGenSentence.getDesc());
+		}
+
 		if (!wiki.isReadOnly() && hostPage instanceof ArticlePage) {
 			dropDown.addMenuSeparator();
 			dropDown.addMenuEntry("acewiki_statementmenu_addsent", "acewiki_statementmenu_addsenttooltip");
@@ -100,7 +144,7 @@ public class SentenceComponent extends Column implements ActionListener {
 		sentenceRow.removeAll();
 		sentenceRow.add(dropDown);
 		sentenceRow.add(new HSpace(5));
-		sentenceRow.add(new TextRow(sentence.getTextElements(wiki.getLanguage()), wiki, isRed));
+		sentenceRow.add(new TextRow(sentence.getTextContainer(wiki.getLanguage()), wiki, isRed));
 		sentenceRow.add(new HSpace(5));
 		// If the sentence is ambiguous then show the number of trees
 		if (sentence.getNumberOfParseTrees() > 1) {
@@ -110,6 +154,12 @@ public class SentenceComponent extends Column implements ActionListener {
 		sentenceRow.add(recalcIcon);
 		recalcIcon.setVisible(false);
 		sentenceRow.add(new HSpace(5));
+
+		// Move to triangle to the top left of the row
+		RowLayoutData rowLayoutData = new RowLayoutData();
+		rowLayoutData.setAlignment(new Alignment(Alignment.LEFT, Alignment.TOP));
+		dropDown.setLayoutData(rowLayoutData);
+
 		add(sentenceRow);
 
 		// Question Answering:
@@ -119,81 +169,104 @@ public class SentenceComponent extends Column implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("acewiki_statementmenu_edit")) {
+		String actionCommand = e.getActionCommand();
+
+		if (!wiki.isEditable() && EDIT_ACTIONS.contains(actionCommand)) {
+			wiki.showLoginWindow();
+			return;
+		}
+
+		if ("acewiki_statementmenu_edit".equals(actionCommand)) {
 			log("dropdown: edit sentence:");
-			if (!wiki.isEditable()) {
-				wiki.showLoginWindow();
-			} else {
-				OntologyElement el = sentence.getArticle().getOntologyElement();
-				ArticlePage page = ArticlePage.create(el, wiki);
-				wiki.showPage(page);
-				wiki.showWindow(SentenceEditorHandler.generateEditWindow(sentence, page));
-			}
-		} else if (e.getActionCommand().equals("acewiki_statementmenu_addsent")) {
+			OntologyElement el = sentence.getArticle().getOntologyElement();
+			ArticlePage page = ArticlePage.create(el, wiki);
+			wiki.showPage(page);
+			wiki.showWindow(SentenceEditorHandler.generateEditWindow(sentence, page));
+		} else if ("acewiki_statementmenu_addsent".equals(actionCommand)) {
 			log("dropdown: add sentence");
-			if (!wiki.isEditable()) {
-				wiki.showLoginWindow();
-			} else {
-				wiki.showWindow(SentenceEditorHandler.generateCreationWindow(
-						sentence,
-						(ArticlePage) hostPage
+			wiki.showWindow(SentenceEditorHandler.generateCreationWindow(
+					sentence,
+					(ArticlePage) hostPage
 					));
-			}
-		} else if (e.getActionCommand().equals("acewiki_statementmenu_addcomm")) {
+		} else if ("acewiki_statementmenu_addcomm".equals(actionCommand)) {
 			log("dropdown: add comment");
-			if (!wiki.isEditable()) {
-				wiki.showLoginWindow();
-			} else {
-				wiki.showWindow(CommentEditorHandler.generateCreationWindow(
-						sentence,
-						(ArticlePage) hostPage
+			wiki.showWindow(CommentEditorHandler.generateCreationWindow(
+					sentence,
+					(ArticlePage) hostPage
 					));
-			}
-		} else if (e.getActionCommand().equals("acewiki_statementmenu_delete")) {
+		} else if ("acewiki_statementmenu_delete".equals(actionCommand)) {
 			log("dropdown: delete sentence:");
-			if (!wiki.isEditable()) {
-				wiki.showLoginWindow();
-			} else {
+			wiki.showWindow(new MessageWindow(
+					"acewiki_message_delstatementtitle",
+					"acewiki_message_delsentence",
+					null,
+					this,
+					"general_action_yes", "general_action_no"
+				));
+		} else if (actionGenSentence.hasTitle(actionCommand)) {
+			final AceWikiEngine engine = wiki.getEngine();
+			if (engine instanceof GFEngine) {
+				actionGenSentence.performAction(wiki, new Executable() {
+
+					@Override
+					public void execute() {
+						GFDeclaration gfDecl = new GFDeclaration(wiki.getLanguage(), ((GFEngine) engine).getGFGrammar());
+						Article article = sentence.getArticle();
+						// TODO: understand better why the init-call is needed
+						gfDecl.init(article.getOntology(), article);
+						article.add(sentence, ImmutableList.of((Statement) gfDecl));
+					}
+
+				});
+			}
+		}
+		else if (actionReanalyze.hasTitle(actionCommand)) {
+			final AceWikiEngine engine = wiki.getEngine();
+			if (engine instanceof GFEngine) {
+				log("dropdown: reparse sentence:");
+
+				actionReanalyze.performAction(wiki, new Executable() {
+
+					@Override
+					public void execute() {
+						TreeSet parseState = new TreeSet(((GFDeclaration) sentence).getParseTrees());
+						GFGrammar grammar = ((GFEngine) engine).getGFGrammar();
+						GFDeclaration gfDecl = new GFDeclaration(parseState, wiki.getLanguage(), grammar);
+						Article article = sentence.getArticle();
+						// TODO: understand better why the init-call is needed
+						gfDecl.init(article.getOntology(), article);
+						article.edit(sentence, ImmutableList.of((Statement) gfDecl));
+					}
+
+				});
+			}
+		} else if ("acewiki_statementmenu_reassert".equals(actionCommand)) {
+			log("dropdown: reassert:");
+			try {
+				wiki.getOntology().reassert(sentence);
+			} catch (InconsistencyException ex) {
 				wiki.showWindow(new MessageWindow(
-						"acewiki_message_delstatementtitle",
-						"acewiki_message_delsentence",
-						null,
-						this,
-						"general_action_yes", "general_action_no"
+						"acewiki_message_conflicttitle",
+						"acewiki_message_conflict",
+						"general_action_ok"
 					));
 			}
-		} else if (e.getActionCommand().equals("acewiki_statementmenu_reassert")) {
-			log("dropdown: reassert:");
-			if (!wiki.isEditable()) {
-				wiki.showLoginWindow();
-			} else {
-				try {
-					wiki.getOntology().reassert(sentence);
-				} catch (InconsistencyException ex) {
-					wiki.showWindow(new MessageWindow(
-							"acewiki_message_conflicttitle",
-							"acewiki_message_conflict",
-							"general_action_ok"
-						));
-				}
-				if (sentence.isIntegrated()) {
-					update();
-					hostPage.update();
-				}
-			}
-		} else if (e.getActionCommand().equals("acewiki_statementmenu_retract")) {
-			log("dropdown: retract:");
-			if (!wiki.isEditable()) {
-				wiki.showLoginWindow();
-			} else {
-				wiki.getOntology().retract(sentence);
+			if (sentence.isIntegrated()) {
 				update();
 				hostPage.update();
 			}
-		} else if (e.getActionCommand().equals("acewiki_statementmenu_details")) {
+		} else if ("acewiki_statementmenu_retract".equals(actionCommand)) {
+			log("dropdown: retract:");
+			wiki.getOntology().retract(sentence);
+			update();
+			hostPage.update();
+		} else if ("acewiki_statementmenu_details".equals(actionCommand)) {
 			log("dropdown: details sentence:");
 			wiki.showPage(new SentencePage(wiki, sentence));
-		} else if (e.getSource() instanceof MessageWindow && e.getActionCommand().equals("general_action_yes")) {
+		} else if (ACTION_SHOW_TRANSLATIONS.equals(actionCommand)) {
+			log("dropdown: translations sentence:");
+			wiki.showPage(new TranslationsPage(wiki, (MultilingualSentence) sentence));
+		} else if (e.getSource() instanceof MessageWindow && actionCommand.equals("general_action_yes")) {
 			log("dropdown: delete confirmed:");
 			
 			wiki.enqueueStrongAsyncTask(

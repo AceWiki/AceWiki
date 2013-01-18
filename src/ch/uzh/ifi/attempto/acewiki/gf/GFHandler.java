@@ -1,5 +1,5 @@
 // This file is part of AceWiki.
-// Copyright 2008-2012, AceWiki developers.
+// Copyright 2008-2013, AceWiki developers.
 // 
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
@@ -17,6 +17,9 @@ package ch.uzh.ifi.attempto.acewiki.gf;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
+
+import com.google.common.collect.ImmutableMap;
 
 import ch.uzh.ifi.attempto.acewiki.core.AbstractLanguageHandler;
 import ch.uzh.ifi.attempto.acewiki.core.EditorController;
@@ -37,8 +40,24 @@ import ch.uzh.ifi.attempto.echocomp.LocaleResources;
  */
 public class GFHandler extends AbstractLanguageHandler {
 
+	// This map is here to override the Java Locale-constructor.
+	// Note that we need to provide also the country code for the UI localization to work,
+	// TODO maybe this can be made more flexible.
+	public static final ImmutableMap<String, Locale> ISO3_TO_LOCALE =
+			new ImmutableMap.Builder<String, Locale>()
+			.put("Dut", new Locale("nl"))
+			.put("Eng", new Locale("en", "US"))
+			.put("Est", new Locale("et"))
+			.put("Fin", new Locale("fi"))
+			.put("Fre", new Locale("fr"))
+			.put("Ger", new Locale("de", "DE"))
+			.put("Ron", new Locale("ro"))
+			.put("Spa", new Locale("es", "ES"))
+			.put("Tha", new Locale("th"))
+			.build();
+
 	private final String mLanguage;
-	private String mLanguageName;
+	private final String mLanguageName;
 	private final Locale mLocale;
 	private final EditorController mEditorController = new EditorController();
 	private final GFGrammar mGfGrammar;
@@ -58,28 +77,39 @@ public class GFHandler extends AbstractLanguageHandler {
 		setLexiconChanger(GeneralTopic.NORMAL_TYPE, new TopicChanger());
 		setLexiconChanger(TypeGfModule.INTERNAL_TYPE, new GfModuleChanger());
 
-		// TODO generalize:
-		if (mLanguage.endsWith("Ger")) {
-			mLocale = new Locale("de", "DE");
-			mLanguageName = LocaleResources.getString(mLocale, "general_language_this");
-		} else if (mLanguage.endsWith("Eng")) {
-			mLocale = new Locale("en", "US");
-			mLanguageName = LocaleResources.getString(mLocale, "general_language_this");
-		} else if (mLanguage.endsWith("Spa")) {
-			mLocale = new Locale("es", "ES");
-			mLanguageName = LocaleResources.getString(mLocale, "general_language_this");
-		} else if (mLanguage.endsWith("Ace")) {
-			mLocale = new Locale("en", "US");
-			mLanguageName = "ACE";
-		} else {
-			mLocale = LocaleResources.defaultLocale;
-			mLanguageName = mLanguage;
+		Locale locale = guessLocale(language, gfGrammar);
+		String languageName = getLocaleDisplayLanguage(locale);
+
+		// Some ACE-specific overriding
+		if (mLanguage.endsWith("Ace")) {
+			languageName = "ACE";
+			if (locale != null) locale = ISO3_TO_LOCALE.get("Eng");
+		} else if (mLanguage.endsWith("Ape")) {
+			languageName = "ACE+lex";
+			if (locale != null) locale = ISO3_TO_LOCALE.get("Eng");
 		}
 
-		if (mLanguageName != mLanguage && mLanguage.startsWith("Disamb")) {
-			mLanguageName += " (disamb.)";
+		if (locale == null) {
+			locale = LocaleResources.defaultLocale;
 		}
+
+		if (languageName == null) {
+			languageName = mLanguage;
+		}
+
+		// Support for disambiguation languages (as in MOLTO Phrasebook),
+		// which have a name in the form "DisambPhrasebookEng".
+		if (languageName != mLanguage && mLanguage.startsWith(GFGrammar.PREFIX_DISAMB)) {
+			languageName += " (disamb.)"; // TODO: make the "disamb." localizable
+		}
+
+		// Capitalize first letter:
+		languageName = languageName.substring(0, 1).toUpperCase() + languageName.substring(1);
+
+		mLocale = locale;
+		mLanguageName = languageName;
 	}
+
 
 	public String getLanguage() {
 		return mLanguage;
@@ -130,5 +160,48 @@ public class GFHandler extends AbstractLanguageHandler {
 		}
 		 */
 		return null;
+	}
+
+
+	/**
+	 * Determines the locale on the basis of the concrete language and the grammar.
+	 */
+	private static Locale guessLocale(String language, GFGrammar grammar) {
+		// The grammar can explicitly define the locale, if it does then we use this locale.
+		Set<String> locales = grammar.getGrammar().getLanguages().get(language);
+		if (! locales.isEmpty()) {
+			// For some reason the locale set can contain more than one element,
+			// we just take the first one.
+			String code = locales.iterator().next();
+			// TODO we currently remove the country code, as the Locale-constructor
+			// does not handle it properly (sometimes?)
+			Locale locale = new Locale(code.replaceAll("[-_].*", ""));
+			if (locale != null && locale.toString().length() > 0) {
+				return locale;
+			}
+		}
+
+		// Otherwise we guess the locale on the basis of the concrete language name
+		int len = language.length();
+		if (len >= 3) {
+			String iso3 = language.substring(len-3, len);
+			Locale locale = ISO3_TO_LOCALE.get(iso3);
+			if (locale == null) {
+				locale = new Locale(iso3);
+			}
+			if (locale != null && locale.toString().length() > 0) {
+				return locale;
+			}
+		}
+		// Guessing failed, return null
+		return null;
+	}
+
+
+	private static String getLocaleDisplayLanguage(Locale locale) {
+		if (locale == null) {
+			return null;
+		}
+		return locale.getDisplayLanguage(locale);
 	}
 }

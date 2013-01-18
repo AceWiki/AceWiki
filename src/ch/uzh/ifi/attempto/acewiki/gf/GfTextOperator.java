@@ -14,11 +14,7 @@
 
 package ch.uzh.ifi.attempto.acewiki.gf;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import com.google.common.base.Splitter;
-import com.google.common.collect.Iterables;
 
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
@@ -34,6 +30,8 @@ import ch.uzh.ifi.attempto.base.TextElement;
  *
  * @author Kaarel Kaljurand
  */
+// Some quick and dirty hack to show sentences in a nice way. (Tobias)
+// TODO Do this properly (using GF features)
 public class GfTextOperator extends DefaultTextOperator {
 
 	private static final String SPACE = " ";
@@ -65,14 +63,20 @@ public class GfTextOperator extends DefaultTextOperator {
 			return GF_BIND_PRETTY;
 		}
 		 */
+		if (preceding == null) {
+			return firstCharToUpperCase(text);
+		}
 		return text;
 	}
 
 
 	public List<String> splitIntoTokens(String text) {
+		/*
 		List<String> tokens = new ArrayList<String>();
 		Iterables.addAll(tokens, Splitter.on(SPACE).omitEmptyStrings().split(text));
 		return tokens;
+		 */
+		return super.splitIntoTokens(text);
 	}
 
 
@@ -87,7 +91,7 @@ public class GfTextOperator extends DefaultTextOperator {
 			return EMPTY;
 		}
 		 */
-		return SPACE;
+		return super.getGlue(left, right);
 	}
 
 

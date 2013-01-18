@@ -57,10 +57,12 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.acewiki.core.StatementTableExporter;
 import ch.uzh.ifi.attempto.acewiki.core.User;
 import ch.uzh.ifi.attempto.acewiki.core.UserBase;
+import ch.uzh.ifi.attempto.acewiki.gf.GFEngine;
 import ch.uzh.ifi.attempto.acewiki.gui.AboutPage;
 import ch.uzh.ifi.attempto.acewiki.gui.ArticlePage;
 import ch.uzh.ifi.attempto.acewiki.gui.ExportWindow;
 import ch.uzh.ifi.attempto.acewiki.gui.FormPane;
+import ch.uzh.ifi.attempto.acewiki.gui.GrammarPage;
 import ch.uzh.ifi.attempto.acewiki.gui.IconButton;
 import ch.uzh.ifi.attempto.acewiki.gui.IndexPage;
 import ch.uzh.ifi.attempto.acewiki.gui.ListItem;
@@ -89,12 +91,16 @@ import echopoint.externalevent.ExternalEventListener;
 import echopoint.externalevent.ExternalEventMonitor;
 
 /**
- * This class represents an AceWiki wiki instance (including its graphical user interface). There
- * is such a wiki object for every wiki user.
+ * This class represents an AceWiki wiki instance (including its graphical user interface).
+ * There is such a wiki object for every wiki user.
+ * The actions handled by this class refer to the wiki as a whole.
  *
  * @author Tobias Kuhn
+ * @author Kaarel Kaljurand
  */
 public class Wiki implements ActionListener, ExternalEventListener {
+
+	public static final String LABEL_ABOUT_GRAMMAR = "About Grammar";
 
 	private static final long serialVersionUID = 2777443689044226043L;
 
@@ -123,7 +129,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 
 	private SmallButton homeButton, indexButton, searchButton2, aboutButton, randomButton,
 		newButton, exportButton;
-	
+
+	private final SmallButton aboutGrammarButton = new SmallButton(LABEL_ABOUT_GRAMMAR, this, 12);
+
 	private List<SmallButton> languageButtons;
 
 	private StartPage startPage;
@@ -396,6 +404,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			sideCol.add(new ListItem(newButton));
 		}
 		sideCol.add(new ListItem(exportButton));
+
+		sideCol.add(new VSpace(10));
+		sideCol.add(new ListItem(aboutGrammarButton));
 
 		languageButtons = new ArrayList<SmallButton>();
 
@@ -712,6 +723,16 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	}
 
 	/**
+	 * Show the about grammar page.
+	 */
+	public void showAboutGrammarPage() {
+		if (engine instanceof GFEngine) {
+			GFEngine gfEngine = (GFEngine) engine;
+			showPage(new GrammarPage(this, gfEngine.getGFGrammar()));
+		}
+	}
+
+	/**
 	 * Returns the ontology;
 	 *
 	 * @return The ontology.
@@ -818,6 +839,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		} else if (src == aboutButton) {
 			log("page", "pressed: about");
 			showAboutPage();
+		} else if (src == aboutGrammarButton) {
+			log("page", "pressed: about grammar");
+			showAboutGrammarPage();
 		} else if (src == homeButton) {
 			log("page", "pressed: main page");
 			showStartPage();

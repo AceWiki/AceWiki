@@ -16,7 +16,10 @@ package ch.uzh.ifi.attempto.acewiki.gf;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ch.uzh.ifi.attempto.acewiki.core.AbstractAceWikiEngine;
@@ -41,13 +44,15 @@ public class GFEngine extends AbstractAceWikiEngine {
 
 	private Map<String, GFHandler> languageHandlers = new HashMap<String, GFHandler>();
 
+	private String[] languages;
+
 	private GFGrammar gfGrammar;
 
 	/**
 	 * Creates a new GF-based AceWiki engine.
 	 */
 	public GFEngine() {
-		setLexicalTypes(GeneralTopic.NORMAL_TYPE);
+		setLexicalTypes(GeneralTopic.NORMAL_TYPE, TypeGfModule.INTERNAL_TYPE);
 	}
 
 	public void init(Ontology ontology) {
@@ -66,6 +71,21 @@ public class GFEngine extends AbstractAceWikiEngine {
 				ontology.getParameter("start_cat")
 				);
 
+		// Sort languages alphabetically according to displayed language name:
+		List<String> languageNames = new ArrayList<>();
+		Map<String,String> languageMap = new HashMap<>();
+		for (String l : gfGrammar.getLanguages()) {
+			String n = getLanguageHandler(l).getLanguageName();
+			languageNames.add(n);
+			languageMap.put(n, l);
+		}
+		Collections.sort(languageNames);
+		languages = new String[languageNames.size()];
+		int i = 0;
+		for (String l : languageNames) {
+			languages[i++] = languageMap.get(l);
+		}
+
 		super.init(ontology);
 	}
 
@@ -81,7 +101,7 @@ public class GFEngine extends AbstractAceWikiEngine {
 
 
 	public String[] getLanguages() {
-		return gfGrammar.getLanguages().toArray(new String[0]);
+		return languages;
 	}
 
 
