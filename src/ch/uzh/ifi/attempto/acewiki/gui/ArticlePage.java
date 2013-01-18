@@ -179,14 +179,14 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("acewiki_statementmenu_addsent")) {
-			getWiki().log("page", "dropdown: add sentence");
+			log("page", "dropdown: add sentence");
 			if (!getWiki().isEditable()) {
 				getWiki().showLoginWindow();
 			} else {
 				getWiki().showWindow(SentenceEditorHandler.generateCreationWindow(null, this));
 			}
 		} else if (e.getActionCommand().equals("acewiki_statementmenu_addcomm")) {
-			getWiki().log("page", "dropdown: add comment");
+			log("page", "dropdown: add comment");
 			if (!getWiki().isEditable()) {
 				getWiki().showLoginWindow();
 			} else {

@@ -38,6 +38,7 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.acewiki.core.Relation;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
+import ch.uzh.ifi.attempto.acewiki.core.TopicElement;
 import ch.uzh.ifi.attempto.echocomp.CheckBox;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
@@ -103,7 +104,7 @@ public class FormPane extends WordEditorForm {
 		this.wordNumber = wordNumber;
 		this.wiki = wiki;
 		if (element != null) {
-			this.locked = true;
+			locked = true;
 			if (wiki.isReadOnly()) {
 				setButtons("general_action_close");
 			} else {
@@ -111,7 +112,7 @@ public class FormPane extends WordEditorForm {
 			}
 		} else {
 			element = wiki.getOntology().getEngine().createOntologyElement(type);
-			this.locked = false;
+			locked = false;
 			setButtons("general_action_ok", "general_action_cancel");
 		}
 		this.element = element;
@@ -140,6 +141,7 @@ public class FormPane extends WordEditorForm {
 			formElement.setEnabled(!locked);
 			addRow(d.getName(), formElement, d.getDescription(), required);
 		}
+
 	}
 	
 	private void setExplanationComponent(String text) {
@@ -150,6 +152,8 @@ public class FormPane extends WordEditorForm {
 			imageRef = Wiki.getImage("concept.png");
 		} else if (element instanceof Relation) {
 			imageRef = Wiki.getImage("relation.png");
+		} else if (element instanceof TopicElement) {
+			imageRef = Wiki.getImage("topic.png");
 		}
 		Grid explanationComp = new Grid(2);
 		explanationComp.setRowHeight(0, new Extent(110));

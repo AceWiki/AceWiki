@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import ch.uzh.ifi.attempto.base.LocaleResources;
+import ch.uzh.ifi.attempto.echocomp.LocaleResources;
 
 /**
  * This is a partial implementation of a language handler.

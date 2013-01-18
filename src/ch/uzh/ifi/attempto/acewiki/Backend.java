@@ -19,7 +19,7 @@ import java.util.Map;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiStorage;
 import ch.uzh.ifi.attempto.acewiki.core.FileBasedStorage;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
-import ch.uzh.ifi.attempto.base.LocaleResources;
+import ch.uzh.ifi.attempto.echocomp.LocaleResources;
 
 /**
  * This class is used as the backend of an AceWiki.

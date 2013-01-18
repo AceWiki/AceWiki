@@ -70,11 +70,11 @@ import ch.uzh.ifi.attempto.acewiki.gui.StartPage;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.acewiki.gui.UserWindow;
 import ch.uzh.ifi.attempto.acewiki.gui.WikiPage;
-import ch.uzh.ifi.attempto.base.LocaleResources;
 import ch.uzh.ifi.attempto.base.Logger;
 import ch.uzh.ifi.attempto.echocomp.EchoThread;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.Label;
+import ch.uzh.ifi.attempto.echocomp.LocaleResources;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.echocomp.SmallButton;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
@@ -1184,7 +1184,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * @return The localized string.
 	 */
 	public String getGUIText(String key) {
-		String text = LocaleResources.getString(getLocale(), key);
+		String text = LocaleResources.getString(key);
 		if (text == null) text = key;
 		return text;
 	}

@@ -67,7 +67,7 @@ public abstract class WikiPage extends Column {
 	public final void update() {
 		if (isExpired()) {
 			removeAll();
-			add(new ErrorPage(wiki, "This article does no longer exist."));
+			add(new ErrorPage(wiki, wiki.getGUIText("acewiki_error_deletedpage")));
 		} else {
 			doUpdate();
 		}

@@ -12,7 +12,7 @@
 // You should have received a copy of the GNU Lesser General Public License along with AceWiki. If
 // not, see http://www.gnu.org/licenses/.
 
-package ch.uzh.ifi.attempto.base;
+package ch.uzh.ifi.attempto.echocomp;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +21,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+
 
 /**
  * With this class, the text resources of different locales can be accessed.
@@ -71,15 +72,17 @@ public class LocaleResources {
 	}
 
 	/**
-	 * Returns a localized text for the default locale.
+	 * Returns a localized text for the current locale.
 	 * 
 	 * @param key The key of the text item.
 	 * @return The localized string.
 	 */
 	public static String getString(String key) {
-		return getString(defaultLocale, key);
+		Locale locale = EchoThread.getActiveApplication().getLocale();
+		if (locale == null) locale = defaultLocale;
+		return getString(locale, key);
 	}
-	
+
 	private static String getResourceString(Locale l, String key) {
 		String s = null;
 		for (String n : baseNames) {

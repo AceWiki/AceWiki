@@ -14,10 +14,7 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
-import java.util.Locale;
-
-import ch.uzh.ifi.attempto.base.LocaleResources;
-import ch.uzh.ifi.attempto.echocomp.EchoThread;
+import ch.uzh.ifi.attempto.echocomp.LocaleResources;
 
 /**
  * This class represents a topic ontology element, which cannot be part of ontological statements
@@ -90,7 +87,7 @@ public class GeneralTopic extends AbstractOntologyElement implements TopicElemen
 	}
 	
 	public String getType() {
-		return "Topic";
+		return LocaleResources.getString("acewiki_ontoelement_topic");
 	}
 	
 	public String getInternalType() {
@@ -98,8 +95,7 @@ public class GeneralTopic extends AbstractOntologyElement implements TopicElemen
 	}
 
 	private String getLocalized(String s) {
-		Locale locale = EchoThread.getActiveApplication().getLocale();
-		String l = LocaleResources.getString(locale, s);
+		String l = LocaleResources.getString(s);
 		if (l == null) l = s;
 		return l;
 	}

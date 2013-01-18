@@ -37,7 +37,6 @@ import nextapp.echo.app.event.WindowPaneListener;
 import nextapp.echo.app.layout.GridLayoutData;
 import ch.uzh.ifi.attempto.base.ConcreteOption;
 import ch.uzh.ifi.attempto.base.DefaultTextOperator;
-import ch.uzh.ifi.attempto.base.LocaleResources;
 import ch.uzh.ifi.attempto.base.Logger;
 import ch.uzh.ifi.attempto.base.NextTokenOptions;
 import ch.uzh.ifi.attempto.base.PredictiveParser;
@@ -46,6 +45,7 @@ import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.base.TextOperator;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.Label;
+import ch.uzh.ifi.attempto.echocomp.LocaleResources;
 import ch.uzh.ifi.attempto.echocomp.Style;
 import ch.uzh.ifi.attempto.echocomp.TabSensitiveTextField;
 import ch.uzh.ifi.attempto.echocomp.TextField;
@@ -147,7 +147,7 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 		
 		Column textFieldColumn = new Column();
 		textFieldColumn.setCellSpacing(new Extent(1));
-		Label textFieldLabel = new Label("text", Font.ITALIC, 11);
+		Label textFieldLabel = new Label(getLocalized("preditor_textfield_label"), Font.ITALIC, 11);
 		textFieldColumn.add(textFieldLabel);
 		
 		textField = new TabSensitiveTextField(this);
@@ -620,11 +620,7 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 	 * @return The text.
 	 */
 	protected String getLocalized(String key) {
-		return LocaleResources.getString(getLocale(), key);
-	}
-	
-	public Locale getLocale() {
-		return ApplicationInstance.getActive().getLocale();
+		return LocaleResources.getString(key);
 	}
 	
 	public void windowPaneClosing(WindowPaneEvent e) {

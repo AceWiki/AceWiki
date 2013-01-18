@@ -16,7 +16,6 @@ package ch.uzh.ifi.attempto.echocomp;
 
 import java.util.Locale;
 
-import ch.uzh.ifi.attempto.base.LocaleResources;
 
 import nextapp.echo.app.Alignment;
 import nextapp.echo.app.ApplicationInstance;
@@ -162,8 +161,7 @@ public class MessageWindow extends GeneralWindow implements ActionListener {
 	}
 	
 	private String localize(String s) {
-		Locale locale = ApplicationInstance.getActive().getLocale();
-		String text = LocaleResources.getString(locale, s);
+		String text = LocaleResources.getString(s);
 		if (text == null) text = s;
 		return text;
 	}

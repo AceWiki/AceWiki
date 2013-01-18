@@ -17,6 +17,8 @@ package ch.uzh.ifi.attempto.acewiki.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.uzh.ifi.attempto.echocomp.LocaleResources;
+
 /**
  * This class is used to modify or create topics.
  * 
@@ -26,15 +28,15 @@ import java.util.List;
 public class TopicChanger implements LexiconChanger {
 
 	public String getDescription() {
-		return "Every article is a sequence of statements and comments.";
+		return LocaleResources.getString("acewiki_ontoelement_topicdesc");
 	}
 
 	public List<LexiconDetail> getDetails(OntologyElement el) {
 		GeneralTopic topic = (GeneralTopic) el;
 		List<LexiconDetail> l = new ArrayList<LexiconDetail>();
 		l.add(new LexiconDetail(
-				"Name of the article",
-				"",
+				LocaleResources.getString("acewiki_ontoelement_topicname"),
+				LocaleResources.getString("acewiki_ontoelement_topiceg"),
 				topic.getWord()
 				));
 		return l;
@@ -46,8 +48,7 @@ public class TopicChanger implements LexiconChanger {
 		String word = (String) newValues.get(0);
 		OntologyElement oe = ontology.getElement(word);
 		if (oe != null && oe != topic) {
-			throw new InvalidWordException("The word '" + word + "' is already used. " +
-				"Please use a different one.");
+			throw new InvalidWordException(LocaleResources.getString("acewiki_error_wordexists"));
 		}
 		ontology.change(topic, newValues.get(0).toString());
 	}

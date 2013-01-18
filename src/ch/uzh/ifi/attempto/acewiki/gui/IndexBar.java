@@ -15,7 +15,6 @@
 package ch.uzh.ifi.attempto.acewiki.gui;
 
 import java.awt.Font;
-import java.util.Locale;
 
 import nextapp.echo.app.Border;
 import nextapp.echo.app.Color;
@@ -25,8 +24,7 @@ import nextapp.echo.app.Insets;
 import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
-import ch.uzh.ifi.attempto.base.LocaleResources;
-import ch.uzh.ifi.attempto.echocomp.EchoThread;
+import ch.uzh.ifi.attempto.echocomp.LocaleResources;
 import ch.uzh.ifi.attempto.echocomp.SmallButton;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 
@@ -61,7 +59,7 @@ public class IndexBar extends Column implements ActionListener {
 	 * @param actionListener The actionlistener.
 	 */
 	public IndexBar(ActionListener actionListener) {
-		init(LocaleResources.getString(getLocale(), "acewiki_list_firstletter"));
+		init(LocaleResources.getString("acewiki_list_firstletter"));
 		this.actionListener = actionListener;
 		setLetters();
 	}
@@ -73,7 +71,7 @@ public class IndexBar extends Column implements ActionListener {
 	 * @param actionListener The actionlistener.
 	 */
 	public IndexBar(int n, ActionListener actionListener) {
-		init(LocaleResources.getString(getLocale(), "acewiki_list_page"));
+		init(LocaleResources.getString("acewiki_list_page"));
 		this.actionListener = actionListener;
 		setNumbers(n);
 	}
@@ -133,10 +131,6 @@ public class IndexBar extends Column implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		setActiveButton((SmallButton) e.getSource());
 		actionListener.actionPerformed(new ActionEvent(this, e.getActionCommand()));
-	}
-	
-	public Locale getLocale() {
-		return EchoThread.getActiveApplication().getLocale();
 	}
 
 }

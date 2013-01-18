@@ -16,7 +16,6 @@ package ch.uzh.ifi.attempto.echocomp;
 
 import java.util.Locale;
 
-import ch.uzh.ifi.attempto.base.LocaleResources;
 
 import nextapp.echo.app.Alignment;
 import nextapp.echo.app.ApplicationInstance;
@@ -45,7 +44,7 @@ public class GeneralButton extends Button {
 	 * @param width The button width.
 	 */
 	public GeneralButton(String s, ActionListener actionListener, int width) {
-		String text = LocaleResources.getString(getLocale(), s);
+		String text = LocaleResources.getString(s);
 		if (text == null) text = s;
 		setText(text);
 		if (width > 0) setWidth(new Extent(width));
@@ -89,10 +88,6 @@ public class GeneralButton extends Button {
 		} else {
 			setBackground(null);
 		}
-	}
-	
-	public Locale getLocale() {
-		return ApplicationInstance.getActive().getLocale();
 	}
 
 }
