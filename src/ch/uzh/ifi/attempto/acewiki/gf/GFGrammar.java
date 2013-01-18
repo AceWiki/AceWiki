@@ -49,7 +49,9 @@ import ch.uzh.ifi.attempto.gfservice.gfwebservice.GfWebStorage;
  */
 public class GFGrammar {
 
+	// Some naming conventions
 	public final static String PREFIX_DISAMB = "Disamb";
+	public final static String SUFFIX_APE = "Ape";
 
 	// Note that true can remove (always removes?) lins
 	// which are not available in all the concretes,
@@ -107,6 +109,15 @@ public class GFGrammar {
 			return Collections.emptySet();
 		}
 		return mGfServiceResultGrammar.getLanguages().keySet();
+	}
+
+
+	/**
+	 * @param grammar GF grammar
+	 * @return {@code true} iff the given grammar contains a concrete language with suffix SUFFIX_APE
+	 */
+	public boolean isAceCompatible() {
+		return getLanguages().contains(mGfServiceResultGrammar.getName() + SUFFIX_APE);
 	}
 
 

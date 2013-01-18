@@ -14,6 +14,11 @@
 
 package ch.uzh.ifi.attempto.acewiki.gf;
 
+import static ch.uzh.ifi.attempto.ape.OutputType.DRSPP;
+import static ch.uzh.ifi.attempto.ape.OutputType.OWLFSSPP;
+import static ch.uzh.ifi.attempto.ape.OutputType.OWLXML;
+import static ch.uzh.ifi.attempto.ape.OutputType.PARAPHRASE1;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -29,6 +34,10 @@ import ch.uzh.ifi.attempto.acewiki.core.Declaration;
 import ch.uzh.ifi.attempto.acewiki.core.MultilingualSentence;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceDetail;
+import ch.uzh.ifi.attempto.ape.ACEParser;
+import ch.uzh.ifi.attempto.ape.ACEParserResult;
+import ch.uzh.ifi.attempto.ape.ACEText;
+import ch.uzh.ifi.attempto.base.APE;
 import ch.uzh.ifi.attempto.base.DefaultTextOperator;
 import ch.uzh.ifi.attempto.base.MultiTextContainer;
 import ch.uzh.ifi.attempto.base.TextContainer;
@@ -183,6 +192,10 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	public List<SentenceDetail> getDetails(String lang) {
 		List<SentenceDetail> l = new ArrayList<SentenceDetail>();
 
+		if (mGfGrammar.isAceCompatible()) {
+			l.addAll(getSemantics());
+		}
+
 		for (String tree : mTreeSet.getTrees()) {
 			l.addAll(formatTree(mGfGrammar, tree, lang));
 		}
@@ -225,6 +238,55 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	 */
 	public GFGrammar getGFGrammar() {
 		return mGfGrammar;
+	}
+
+
+	// Return some of the APE analysis of this tree set, assuming it is a singleton.
+	// The APE analysis is obtained by first linearizing the tree in "Ape".
+	// This only works if the wiki is ACE-based.
+	//
+	// TODO: experimental
+	private List<SentenceDetail> getSemantics() {
+		List<SentenceDetail> l = new ArrayList<SentenceDetail>();
+
+		String tree = mTreeSet.getTree();
+
+		if (tree == null) {
+			if (mTreeSet.size() == 0) {
+				l.add(new SentenceDetail("ERROR", "Statement is not well-formed"));
+			} else if (mTreeSet.size() > 1) {
+				l.add(new SentenceDetail("ERROR", "Statement is ambiguous and therefore it cannot be assigned semantics"));
+			}
+			return l;
+		}
+
+		Set<String> lins = null;
+		String targetLang = mGfGrammar.getGrammar().getName() + GFGrammar.SUFFIX_APE;
+		try {
+			lins = mGfGrammar.linearize(tree, targetLang);
+		} catch (GfServiceException e) {
+			l.add(new SentenceDetail("ERROR in translation to " + targetLang, "<pre>" + e.getMessage() + "</pre>"));
+			return l;
+		}
+
+		if (lins == null || lins.size() != 1) {
+			l.add(new SentenceDetail("ERROR", "Bad linearization"));
+			return l;
+		}
+
+		ACEText acetext = new ACEText(lins.iterator().next());
+
+		ACEParserResult parserResult = parse(acetext, getOntology().getURI());
+
+		l.add(new SentenceDetail("ACE", "<pre>" + acetext.getText() + "</pre>"));
+		l.add(new SentenceDetail("Lexicon", "<pre>" + Joiner.on('\n').join(acetext.getLexicon().getEntries()) + "</pre>"));
+		l.add(new SentenceDetail("ACE (paraphrase)", "<pre>" + parserResult.get(PARAPHRASE1) + "</pre>"));
+		l.add(new SentenceDetail("DRS", "<pre>" + parserResult.get(DRSPP) + "</pre>"));
+		l.add(new SentenceDetail("OWL", "<pre>" + parserResult.get(OWLFSSPP) + "</pre>"));
+		l.add(new SentenceDetail("Messages",
+				"<pre>" + Joiner.on('\n').join(parserResult.getMessageContainer().getMessages()) + "</pre>"));
+
+		return l;
 	}
 
 
@@ -358,6 +420,28 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 			// TODO find out what happened, i.e.
 			// why was the tree not supported by the grammar.
 			return null;
+		}
+	}
+
+
+	/**
+	 * This was taken from:
+	 * ch.uzh.ifi.attempto.acewiki.aceowl.ACESentence
+	 */
+	private static ACEParserResult parse(ACEText acetext, String uri) {
+		ACEParser ape = APE.getParser();
+		synchronized (ape) {
+			ape.setURI(uri);
+			ape.setClexEnabled(false);
+
+			return ape.getMultiOutput(
+					acetext.getText(),
+					acetext.getLexicon(),
+					PARAPHRASE1,
+					OWLXML,
+					OWLFSSPP,
+					DRSPP
+					);
 		}
 	}
 
