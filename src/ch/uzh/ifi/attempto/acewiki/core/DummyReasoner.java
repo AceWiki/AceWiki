@@ -24,7 +24,7 @@ import java.util.Map;
  * 
  * @author Tobias Kuhn
  */
-public class DummyReasoner implements AceWikiReasoner {
+class DummyReasoner implements AceWikiReasoner {
 
 	public void init(Ontology ontology) {
 	}
@@ -38,7 +38,7 @@ public class DummyReasoner implements AceWikiReasoner {
 	}
 	
 	public String getReasonerType() {
-		return "No reasoner";
+		return "Dummy reasoner";
 	}
 	
 	public Map<String, String> getInfo() {

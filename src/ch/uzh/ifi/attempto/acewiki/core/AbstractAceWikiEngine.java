@@ -78,7 +78,9 @@ public abstract class AbstractAceWikiEngine implements AceWikiEngine {
 		for (String language : getLanguages()) {
 			getLanguageHandler(language).init(ontology);
 		}
-		getReasoner().init(ontology);
+		if (getReasoner() != null) {
+			getReasoner().init(ontology);
+		}
 	}
 
 	/**

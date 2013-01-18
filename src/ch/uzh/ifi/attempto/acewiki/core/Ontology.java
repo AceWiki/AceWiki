@@ -61,7 +61,11 @@ public class Ontology {
 		logger = new Logger(parameters.get("context:logdir") + "/" + name, "onto", 0);
 
 		engine = AbstractAceWikiEngine.createLanguageEngine(this);
-		reasoner = new CachingReasoner(engine.getReasoner());
+		if (engine.getReasoner() == null) {
+			reasoner = new CachingReasoner(new DummyReasoner());
+		} else {
+			reasoner = new CachingReasoner(engine.getReasoner());
+		}
 		reasoner.init(this);
 		statementFactory = new StatementFactory(this);
 

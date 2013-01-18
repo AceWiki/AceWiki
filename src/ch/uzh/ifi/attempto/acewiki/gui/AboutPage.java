@@ -77,20 +77,22 @@ public class AboutPage extends WikiPage implements ActionListener {
 		table.addEntry(w.getGUIText("acewiki_about_ontologyuri"), o.getURI());
 		add(table);
 
-		addHeadline("acewiki_about_reasonerheading");
-		table = new NameValueTable();
-		table.setInsets(new Insets(10, 10, 10, 15));
-		AceWikiReasoner r = o.getReasoner();
-		table.addEntry(w.getGUIText("acewiki_about_reasonertype"), r.getReasonerType());
-		table.addEntry(w.getGUIText("acewiki_about_reasonername"), r.getReasonerName());
-		table.addEntry(w.getGUIText("acewiki_about_reasonerversion"), r.getReasonerVersion());
-		Map<String, String> info = r.getInfo();
-		if (info != null) {
-			for (String s : info.keySet()) {
-				table.addEntry(s, info.get(s));
+		AceWikiReasoner r = getWiki().getEngine().getReasoner();
+		if (r != null) {
+			addHeadline("acewiki_about_reasonerheading");
+			table = new NameValueTable();
+			table.setInsets(new Insets(10, 10, 10, 15));
+			table.addEntry(w.getGUIText("acewiki_about_reasonertype"), r.getReasonerType());
+			table.addEntry(w.getGUIText("acewiki_about_reasonername"), r.getReasonerName());
+			table.addEntry(w.getGUIText("acewiki_about_reasonerversion"), r.getReasonerVersion());
+			Map<String, String> info = r.getInfo();
+			if (info != null) {
+				for (String s : info.keySet()) {
+					table.addEntry(s, info.get(s));
+				}
 			}
+			add(table);
 		}
-		add(table);
 
 		addHeadline("acewiki_about_usersheading");
 		table = new NameValueTable();

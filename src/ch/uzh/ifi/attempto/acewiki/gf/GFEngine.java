@@ -22,7 +22,6 @@ import java.util.Map;
 import ch.uzh.ifi.attempto.acewiki.core.AbstractAceWikiEngine;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
-import ch.uzh.ifi.attempto.acewiki.core.DummyReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.GeneralTopic;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageHandler;
@@ -41,10 +40,6 @@ public class GFEngine extends AbstractAceWikiEngine {
 	// public static final String TYPE_QUERY = "query";
 
 	private Map<String, GFHandler> languageHandlers = new HashMap<String, GFHandler>();
-
-	// TODO: implement a reasoner that does ACE reasoning if ACE is
-	// one of the languages
-	private AceWikiReasoner reasoner = new DummyReasoner();
 
 	private GFGrammar gfGrammar;
 
@@ -99,8 +94,10 @@ public class GFEngine extends AbstractAceWikiEngine {
 		return gfGrammar;
 	}
 
+	// TODO: implement a reasoner that does ACE reasoning if ACE is
+	// one of the languages
 	public AceWikiReasoner getReasoner() {
-		return reasoner;
+		return null;
 	}
 
 	public OntologyElement createOntologyElement(String type) {

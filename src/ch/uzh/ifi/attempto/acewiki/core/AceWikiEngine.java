@@ -54,7 +54,7 @@ public interface AceWikiEngine {
 	public String[] getLexicalTypes();
 	
 	/**
-	 * Returns the reasoner.
+	 * Returns the reasoner, or null if reasoning is not supported.
 	 * 
 	 * @return The reasoner.
 	 */
