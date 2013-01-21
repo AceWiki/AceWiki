@@ -55,6 +55,7 @@ public class SentenceComponent extends Column implements ActionListener {
 	private Row sentenceRow = new Row();
 	private StatementMenu dropDown;
 	private RecalcIcon recalcIcon;
+	private SmallButton variantsButton;
 
 	/**
 	 * Creates a new sentence component. The host page is the page that contains the text row
@@ -94,6 +95,10 @@ public class SentenceComponent extends Column implements ActionListener {
 			dropDown.addMenuEntry("acewiki_statementmenu_delete", "acewiki_statementmenu_delsenttooltip");
 		}
 
+		if (sentence.getTextContainer(wiki.getLanguage()).size() > 1) {
+			dropDown.addMenuEntry("acewiki_statementmenu_disambig", "acewiki_statementmenu_disambigtooltip");
+		}
+
 		dropDown.addMenuEntry("acewiki_statementmenu_details", "acewiki_statementmenu_detailstooltip");
 
 		if (wiki.isMultilingual()) {
@@ -118,9 +123,8 @@ public class SentenceComponent extends Column implements ActionListener {
 		if (v > 1) {
 			// The sentence has more than one variant
 			sentenceRow.add(new HSpace(10));
-			// TODO show disambiguation window on clicking this button
 			String t = wiki.getGUIText("acewiki_statement_variants");
-			sentenceRow.add(new SmallButton("(" + v + " " + t + ")", this));
+			sentenceRow.add(variantsButton = new SmallButton("(" + v + " " + t + ")", this));
 		}
 		sentenceRow.add(new HSpace(5));
 		sentenceRow.add(recalcIcon);
@@ -136,6 +140,7 @@ public class SentenceComponent extends Column implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		String c = e.getActionCommand();
+		Object src = e.getSource();
 
 		if (!wiki.isEditable() && EDIT_ACTIONS.contains(c)) {
 			wiki.showLoginWindow();
@@ -195,7 +200,10 @@ public class SentenceComponent extends Column implements ActionListener {
 		} else if ("acewiki_statementmenu_transl".equals(c)) {
 			log("dropdown: translations sentence:");
 			wiki.showPage(new TranslationsPage(wiki, sentence));
-		} else if (e.getSource() instanceof MessageWindow && "general_action_yes".equals(c)) {
+		} else if ("acewiki_statementmenu_disambig".equals(c) || src == variantsButton) {
+			log("dropdown: disambiguate:");
+			wiki.showWindow(new DisambigWindow(sentence, wiki));
+		} else if (src instanceof MessageWindow && "general_action_yes".equals(c)) {
 			log("dropdown: delete confirmed:");
 			
 			wiki.enqueueStrongAsyncTask(

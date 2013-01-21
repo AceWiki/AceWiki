@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class DefaultTextOperator implements TextOperator {
 
-	private static final String puncuationChars = ".,:;?!";
+	public static final String punctuationChars = ".,:;?!";
 	
 	public TextElement createTextElement(String text) {
 		return new TextElement(text);
@@ -36,7 +36,7 @@ public class DefaultTextOperator implements TextOperator {
 	}
 
 	public List<String> splitIntoTokens(String text) {
-		for (char c : puncuationChars.toCharArray()) {
+		for (char c : punctuationChars.toCharArray()) {
 			text = text.replaceAll("\\" + c + "\\s", " " + c + " ");
 			text = text.replaceAll("\\" + c + "$", " " + c);
 		}
@@ -53,7 +53,7 @@ public class DefaultTextOperator implements TextOperator {
 	}
 
 	public static boolean isPunctuationChar(String c) {
-		return c.matches("[" + puncuationChars + "]");
+		return c.matches("[" + punctuationChars + "]");
 	}
 
 	public static String firstCharToUpperCase(String s) {

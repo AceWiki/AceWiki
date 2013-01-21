@@ -102,7 +102,7 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	 */
 	public GFDeclaration(String text, String lang, GFGrammar gfGrammar) {
 		// TODO: quick and ugly hack to be able to move on
-		text = text.replaceAll("([\\.?!])", " $1");
+		text = text.replaceAll("([" + DefaultTextOperator.punctuationChars + "])(\\s|$)", " $1$2");
 		mGfGrammar = gfGrammar;
 		mLang = lang;
 		try {

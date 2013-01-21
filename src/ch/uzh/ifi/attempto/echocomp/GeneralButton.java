@@ -14,11 +14,7 @@
 
 package ch.uzh.ifi.attempto.echocomp;
 
-import java.util.Locale;
-
-
 import nextapp.echo.app.Alignment;
-import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Border;
 import nextapp.echo.app.Button;
 import nextapp.echo.app.Color;
