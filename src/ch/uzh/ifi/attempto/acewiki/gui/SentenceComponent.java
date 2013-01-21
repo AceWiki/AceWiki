@@ -14,9 +14,6 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-
 import nextapp.echo.app.Alignment;
 import nextapp.echo.app.Column;
 import nextapp.echo.app.Font;
@@ -29,7 +26,6 @@ import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiEngine;
 import ch.uzh.ifi.attempto.acewiki.core.Article;
 import ch.uzh.ifi.attempto.acewiki.core.InconsistencyException;
-import ch.uzh.ifi.attempto.acewiki.core.MultilingualSentence;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
@@ -42,6 +38,9 @@ import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+
 /**
  * This class represents a sentence component consisting of a drop down menu and the sentence text.
  * 
@@ -50,8 +49,6 @@ import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 public class SentenceComponent extends Column implements ActionListener {
 
 	private static final long serialVersionUID = -540135972060005725L;
-
-	private static final String ACTION_SHOW_TRANSLATIONS = "Show Translations";
 
 	// TODO: this is GF-specific, in normal AceWiki these actions do not make sense
 	private static final SentenceAction actionGenSentence = new SentenceAction(
@@ -125,8 +122,8 @@ public class SentenceComponent extends Column implements ActionListener {
 
 		dropDown.addMenuEntry("acewiki_statementmenu_details", "acewiki_statementmenu_detailstooltip");
 
-		if (sentence instanceof MultilingualSentence) {
-			dropDown.addMenuEntry(ACTION_SHOW_TRANSLATIONS, "Show the translations of this sentence");
+		if (wiki.isMultilingual()) {
+			dropDown.addMenuEntry("acewiki_statementmenu_transl", "acewiki_statementmenu_transltooltip");
 			dropDown.addMenuEntry(actionGenSentence.getTitle(), actionGenSentence.getDesc());
 		}
 
@@ -262,9 +259,9 @@ public class SentenceComponent extends Column implements ActionListener {
 		} else if ("acewiki_statementmenu_details".equals(c)) {
 			log("dropdown: details sentence:");
 			wiki.showPage(new SentencePage(wiki, sentence));
-		} else if (ACTION_SHOW_TRANSLATIONS.equals(c)) {
+		} else if ("acewiki_statementmenu_transl".equals(c)) {
 			log("dropdown: translations sentence:");
-			wiki.showPage(new TranslationsPage(wiki, (MultilingualSentence) sentence));
+			wiki.showPage(new TranslationsPage(wiki, sentence));
 		} else if (e.getSource() instanceof MessageWindow && "general_action_yes".equals(c)) {
 			log("dropdown: delete confirmed:");
 			
