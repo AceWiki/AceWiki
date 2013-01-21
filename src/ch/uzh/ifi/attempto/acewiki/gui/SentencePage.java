@@ -19,6 +19,8 @@ import java.util.List;
 import nextapp.echo.app.Column;
 import nextapp.echo.app.Font;
 import nextapp.echo.app.Insets;
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
@@ -32,7 +34,7 @@ import echopoint.DirectHtml;
  * 
  * @author Tobias Kuhn
  */
-public class SentencePage extends WikiPage {
+public class SentencePage extends WikiPage implements ActionListener {
 
 	private static final long serialVersionUID = -1550505465878272821L;
 
@@ -54,6 +56,9 @@ public class SentencePage extends WikiPage {
 
 		removeAllTabs();
 		addSelectedTab("acewiki_page_sentence");
+		if (getWiki().isMultilingual()) {
+			addTab("acewiki_page_translations", this);
+		}
 
 		String t = LanguageUtils.getPrettyPrinted(sentence.getText(getWiki().getLanguage()));
 		add(new Title(t, false));
@@ -75,6 +80,12 @@ public class SentencePage extends WikiPage {
 				infoColumn.add(new DirectHtml(si.getRichText()));
 				add(infoColumn);
 			}
+		}
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		if ("acewiki_page_translations".equals(e.getActionCommand())) {
+			getWiki().showPage(new TranslationsPage(getWiki(), sentence));
 		}
 	}
 
