@@ -1,5 +1,5 @@
 // This file is part of AceWiki.
-// Copyright 2008-2012, AceWiki developers.
+// Copyright 2008-2013, AceWiki developers.
 //
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
@@ -14,11 +14,11 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui;
 
-import java.util.Map.Entry;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 
@@ -32,8 +32,6 @@ import ch.uzh.ifi.attempto.gfservice.GfServiceResultGrammar;
 
 
 public class GrammarPage extends AbstractNavigationPage implements ActionListener {
-
-	final Logger logger = LoggerFactory.getLogger(GrammarPage.class);
 
 	private static final long serialVersionUID = -2031690219932377941L;
 	private static final Joiner JOINER_SPACE = Joiner.on(' ');
@@ -58,7 +56,7 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 		table1.setInsets(new Insets(10, 10, 10, 15));
 		add(table1);
 
-		addHeadline("Languages");
+		addHeadline("Top-level modules");
 		table2 = new CompTable();
 		table2.setInsets(new Insets(10, 10, 10, 15));
 		add(table2);
@@ -85,16 +83,19 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 		table3.clear();
 		table4.clear();
 
+		Map<String, Set<String>> langs = mInfo.getLanguages();
 		table1.addEntry("Name", GuiUtils.getNameComponent(mWiki, mInfo.getName()));
 		table1.addEntry("Startcat", mInfo.getStartcat());
-		table1.addEntry("Functions", JOINER_COMMA.join(mInfo.getFunctions()));
+		table1.addEntry("Categories", mInfo.getCategories().size() + "");
+		table1.addEntry("Functions", mInfo.getFunctions().size() + "");
+		table1.addEntry("Languages", langs.keySet().size() + "");
 
-		for (Entry<String, Set<String>> entry : mInfo.getLanguages().entrySet()) {
-			table2.addEntry(GuiUtils.getNameComponent(mWiki, entry.getKey()), JOINER_SPACE.join(entry.getValue()));
+		for (String lang : asSortedList(langs.keySet())) {
+			table2.addEntry(GuiUtils.getNameComponent(mWiki, lang), JOINER_SPACE.join(langs.get(lang)));
 		}
 
 		try {
-			for (String cat : mInfo.getCategories()) {
+			for (String cat : asSortedList(mInfo.getCategories())) {
 				table3.addEntry(cat, JOINER_COMMA.join(mGrammar.getProducers(cat)));
 				table4.addEntry(cat, JOINER_COMMA.join(mGrammar.getConsumers(cat)));
 			}
@@ -117,6 +118,14 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 	@Override
 	public boolean isSelected(String tabName) {
 		return TAB_ABOUT_GRAMMAR.equals(tabName);
+	}
+
+
+	// TODO: move to Utils
+	public static <T extends Comparable<? super T>> List<T> asSortedList(Collection<T> c) {
+		List<T> list = new ArrayList<T>(c);
+		java.util.Collections.sort(list);
+		return list;
 	}
 
 }
