@@ -410,7 +410,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 
 		languageButtons = new ArrayList<SmallButton>();
 
-		if (engine.getLanguages().length > 1 && isLanguageSwitchingEnabled()) {
+		if (isMultilingual() && isLanguageSwitchingEnabled()) {
 			// show language switcher
 
 			sideCol.add(new VSpace(10));
@@ -1088,6 +1088,15 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 */
 	public LanguageHandler getLanguageHandler() {
 		return engine.getLanguageHandler(language);
+	}
+
+	/**
+	 * Returns whether the wiki is multilingual, i.e. has more than one language.
+	 * 
+	 * @return true if multilingual.
+	 */
+	public boolean isMultilingual() {
+		return engine.getLanguages().length > 1;
 	}
 
 	/**

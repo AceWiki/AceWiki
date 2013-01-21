@@ -204,11 +204,6 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	}
 
 
-	public List<SentenceDetail> getTranslations(String currentLanguage) {
-		return formatTranslations(mGfGrammar, mTreeSet, currentLanguage);
-	}
-
-
 	public boolean isReasonable() {
 		return true;
 	}
