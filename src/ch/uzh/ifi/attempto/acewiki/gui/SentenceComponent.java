@@ -14,9 +14,10 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui;
 
-import java.awt.Font;
+import com.google.common.collect.ImmutableSet;
 
 import nextapp.echo.app.Column;
+import nextapp.echo.app.Font;
 import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
@@ -38,6 +39,15 @@ import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 public class SentenceComponent extends Column implements ActionListener {
 
 	private static final long serialVersionUID = -540135972060005725L;
+
+	private static final ImmutableSet<String> EDIT_ACTIONS = new ImmutableSet.Builder<String>()
+			.add("acewiki_statementmenu_edit")
+			.add("acewiki_statementmenu_addsent")
+			.add("acewiki_statementmenu_addcomm")
+			.add("acewiki_statementmenu_reassert")
+			.add("acewiki_statementmenu_retract")
+			.add("acewiki_statementmenu_delete")
+			.build();
 	
 	private Sentence sentence;
 	private Wiki wiki;
@@ -75,7 +85,7 @@ public class SentenceComponent extends Column implements ActionListener {
 
 		if (!wiki.isReadOnly() && !sentence.isImmutable()) {
 			dropDown.addMenuEntry("acewiki_statementmenu_edit", "acewiki_statementmenu_editsenttooltip");
-			if (sentence.isReasonable()) {
+			if (wiki.getEngine().getReasoner() != null && sentence.isReasonable()) {
 				if (sentence.isIntegrated()) {
 					dropDown.addMenuEntry("acewiki_statementmenu_retract", "acewiki_statementmenu_retracttooltip");
 				} else {
@@ -119,81 +129,64 @@ public class SentenceComponent extends Column implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("acewiki_statementmenu_edit")) {
+		String c = e.getActionCommand();
+
+		if (!wiki.isEditable() && EDIT_ACTIONS.contains(c)) {
+			wiki.showLoginWindow();
+			return;
+		}
+
+		if ("acewiki_statementmenu_edit".equals(c)) {
 			log("dropdown: edit sentence:");
-			if (!wiki.isEditable()) {
-				wiki.showLoginWindow();
-			} else {
-				OntologyElement el = sentence.getArticle().getOntologyElement();
-				ArticlePage page = ArticlePage.create(el, wiki);
-				wiki.showPage(page);
-				wiki.showWindow(SentenceEditorHandler.generateEditWindow(sentence, page));
-			}
-		} else if (e.getActionCommand().equals("acewiki_statementmenu_addsent")) {
+			OntologyElement el = sentence.getArticle().getOntologyElement();
+			ArticlePage page = ArticlePage.create(el, wiki);
+			wiki.showPage(page);
+			wiki.showWindow(SentenceEditorHandler.generateEditWindow(sentence, page));
+		} else if ("acewiki_statementmenu_addsent".equals(c)) {
 			log("dropdown: add sentence");
-			if (!wiki.isEditable()) {
-				wiki.showLoginWindow();
-			} else {
-				wiki.showWindow(SentenceEditorHandler.generateCreationWindow(
-						sentence,
-						(ArticlePage) hostPage
+			wiki.showWindow(SentenceEditorHandler.generateCreationWindow(
+					sentence,
+					(ArticlePage) hostPage
 					));
-			}
-		} else if (e.getActionCommand().equals("acewiki_statementmenu_addcomm")) {
+		} else if ("acewiki_statementmenu_addcomm".equals(c)) {
 			log("dropdown: add comment");
-			if (!wiki.isEditable()) {
-				wiki.showLoginWindow();
-			} else {
-				wiki.showWindow(CommentEditorHandler.generateCreationWindow(
-						sentence,
-						(ArticlePage) hostPage
+			wiki.showWindow(CommentEditorHandler.generateCreationWindow(
+					sentence,
+					(ArticlePage) hostPage
 					));
-			}
-		} else if (e.getActionCommand().equals("acewiki_statementmenu_delete")) {
+		} else if ("acewiki_statementmenu_delete".equals(c)) {
 			log("dropdown: delete sentence:");
-			if (!wiki.isEditable()) {
-				wiki.showLoginWindow();
-			} else {
-				wiki.showWindow(new MessageWindow(
-						"acewiki_message_delstatementtitle",
-						"acewiki_message_delsentence",
-						null,
-						this,
-						"general_action_yes", "general_action_no"
+			wiki.showWindow(new MessageWindow(
+					"acewiki_message_delstatementtitle",
+					"acewiki_message_delsentence",
+					null,
+					this,
+					"general_action_yes", "general_action_no"
 					));
-			}
-		} else if (e.getActionCommand().equals("acewiki_statementmenu_reassert")) {
+		} else if ("acewiki_statementmenu_reassert".equals(c)) {
 			log("dropdown: reassert:");
-			if (!wiki.isEditable()) {
-				wiki.showLoginWindow();
-			} else {
-				try {
-					wiki.getOntology().reassert(sentence);
-				} catch (InconsistencyException ex) {
-					wiki.showWindow(new MessageWindow(
-							"acewiki_message_conflicttitle",
-							"acewiki_message_conflict",
-							"general_action_ok"
+			try {
+				wiki.getOntology().reassert(sentence);
+			} catch (InconsistencyException ex) {
+				wiki.showWindow(new MessageWindow(
+						"acewiki_message_conflicttitle",
+						"acewiki_message_conflict",
+						"general_action_ok"
 						));
-				}
-				if (sentence.isIntegrated()) {
-					update();
-					hostPage.update();
-				}
 			}
-		} else if (e.getActionCommand().equals("acewiki_statementmenu_retract")) {
-			log("dropdown: retract:");
-			if (!wiki.isEditable()) {
-				wiki.showLoginWindow();
-			} else {
-				wiki.getOntology().retract(sentence);
+			if (sentence.isIntegrated()) {
 				update();
 				hostPage.update();
 			}
-		} else if (e.getActionCommand().equals("acewiki_statementmenu_details")) {
+		} else if ("acewiki_statementmenu_retract".equals(c)) {
+			log("dropdown: retract:");
+			wiki.getOntology().retract(sentence);
+			update();
+			hostPage.update();
+		} else if ("acewiki_statementmenu_details".equals(c)) {
 			log("dropdown: details sentence:");
 			wiki.showPage(new SentencePage(wiki, sentence));
-		} else if (e.getSource() instanceof MessageWindow && e.getActionCommand().equals("general_action_yes")) {
+		} else if (e.getSource() instanceof MessageWindow && "general_action_yes".equals(c)) {
 			log("dropdown: delete confirmed:");
 			
 			wiki.enqueueStrongAsyncTask(
