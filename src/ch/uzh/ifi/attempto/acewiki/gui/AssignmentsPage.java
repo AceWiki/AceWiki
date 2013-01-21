@@ -29,7 +29,6 @@ import ch.uzh.ifi.attempto.acewiki.core.CachingReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
-import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.StatementFactory;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
@@ -61,8 +60,7 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 		super(page.getWiki());
 		this.page = page;
 
-		OntologyElement oe = page.getOntologyElement();
-		title = new Title(getHeading(oe), "- " + getWiki().getGUIText("acewiki_page_assignments"), oe.getType(), this);
+		title = new Title("", "", "", this);
 		add(title);
 		addHorizontalLine();
 		add(assignmentsColumn);
@@ -74,7 +72,11 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 		addTab("acewiki_page_references", this);
 		addSelectedTab("acewiki_page_assignments");
 
-		title.setText(getHeading(page.getOntologyElement()));
+		Individual ind = (Individual) page.getOntologyElement();
+
+		title.setText(getHeading(ind));
+		title.setPostTitle("- " + getWiki().getGUIText("acewiki_page_assignments"));
+		title.setTooltip(ind.getType());
 		assignmentsColumn.removeAll();
 		
 		final Column waitComp = new Column();
@@ -83,7 +85,7 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 		
 		CachingReasoner cr = getWiki().getOntology().getReasoner();
 		
-		if (cr.areCachedConceptsUpToDate((Individual) page.getOntologyElement())) {
+		if (cr.areCachedConceptsUpToDate(ind)) {
 			assignmentsColumn.add(new VSpace(18));
 			assignmentsColumn.add(new AssignmentsComponent(true));
 		} else {

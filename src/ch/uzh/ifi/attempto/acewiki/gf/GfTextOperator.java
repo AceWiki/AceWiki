@@ -34,10 +34,10 @@ import ch.uzh.ifi.attempto.base.TextElement;
 // TODO Do this properly (using GF features)
 public class GfTextOperator extends DefaultTextOperator {
 
-	private static final String SPACE = " ";
+	//private static final String SPACE = " ";
 	private static final String EMPTY = "";
 	private static final String GF_BIND = "&+";
-	private static final String GF_BIND_PRETTY = "·";
+	//private static final String GF_BIND_PRETTY = "·";
 
 	private Ontology mOntology;
 
@@ -58,11 +58,10 @@ public class GfTextOperator extends DefaultTextOperator {
 
 	public String getTextInContext(TextElement textElement, String preceding, String following) {
 		String text = textElement.getOriginalText();
-		/*
 		if (GF_BIND.equals(text)) {
-			return GF_BIND_PRETTY;
+			return EMPTY;
+			//return GF_BIND_PRETTY;
 		}
-		 */
 		if (preceding == null) {
 			return firstCharToUpperCase(text);
 		}
@@ -81,11 +80,10 @@ public class GfTextOperator extends DefaultTextOperator {
 
 
 	public String getGlue(TextElement left, TextElement right) {
-		/*
-		// TODO: getOriginalText()
-		if (GF_BIND.equals(right.getText()) || GF_BIND.equals(left.getText()) {
+		if (GF_BIND.equals(right.getOriginalText()) || GF_BIND.equals(left.getOriginalText())) {
 			return EMPTY;
 		}
+		/*
 		// TODO: might not always be correct to glue these
 		if (right.getText().matches("[.?!,;:]")) {
 			return EMPTY;

@@ -47,18 +47,25 @@ public class SentencePage extends WikiPage {
 	public SentencePage(Wiki wiki, Sentence sentence) {
 		super(wiki);
 		this.sentence = sentence;
+	}
 
-		String t = LanguageUtils.getPrettyPrinted(sentence.getText(wiki.getLanguage()));
+	protected void doUpdate() {
+		removeAll();
+
+		removeAllTabs();
+		addSelectedTab("acewiki_page_sentence");
+
+		String t = LanguageUtils.getPrettyPrinted(sentence.getText(getWiki().getLanguage()));
 		add(new Title(t, false));
 		addHorizontalLine();
 		add(new VSpace(15));
 		
-		List<SentenceDetail> l = sentence.getDetails(wiki.getLanguage());
+		List<SentenceDetail> l = sentence.getDetails(getWiki().getLanguage());
 		
 		if (l == null || l.isEmpty()) {
 			Column col = new Column();
 			col.setInsets(new Insets(10, 5, 5, 15));
-			col.add(new SolidLabel(wiki.getGUIText("acewiki_details_empty"), Font.ITALIC, 10));
+			col.add(new SolidLabel(getWiki().getGUIText("acewiki_details_empty"), Font.ITALIC, 10));
 			add(col);
 		} else {
 			for (SentenceDetail si : l) {
@@ -69,12 +76,6 @@ public class SentencePage extends WikiPage {
 				add(infoColumn);
 			}
 		}
-		
-	}
-
-	protected void doUpdate() {
-		removeAllTabs();
-		addSelectedTab("acewiki_page_sentence");
 	}
 
 	public boolean equals(Object obj) {

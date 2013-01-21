@@ -76,7 +76,6 @@ public class SentenceComponent extends Column implements ActionListener {
 			.add(actionReanalyze.getTitle())
 			.build();
 
-
 	private Sentence sentence;
 	private Wiki wiki;
 	private WikiPage hostPage;
@@ -113,7 +112,7 @@ public class SentenceComponent extends Column implements ActionListener {
 
 		if (!wiki.isReadOnly() && !sentence.isImmutable()) {
 			dropDown.addMenuEntry("acewiki_statementmenu_edit", "acewiki_statementmenu_editsenttooltip");
-			if (sentence.isReasonable()) {
+			if (wiki.getEngine().getReasoner() != null && sentence.isReasonable()) {
 				if (sentence.isIntegrated()) {
 					dropDown.addMenuEntry("acewiki_statementmenu_retract", "acewiki_statementmenu_retracttooltip");
 				} else {
@@ -169,32 +168,32 @@ public class SentenceComponent extends Column implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		String actionCommand = e.getActionCommand();
+		String c = e.getActionCommand();
 
-		if (!wiki.isEditable() && EDIT_ACTIONS.contains(actionCommand)) {
+		if (!wiki.isEditable() && EDIT_ACTIONS.contains(c)) {
 			wiki.showLoginWindow();
 			return;
 		}
 
-		if ("acewiki_statementmenu_edit".equals(actionCommand)) {
+		if ("acewiki_statementmenu_edit".equals(c)) {
 			log("dropdown: edit sentence:");
 			OntologyElement el = sentence.getArticle().getOntologyElement();
 			ArticlePage page = ArticlePage.create(el, wiki);
 			wiki.showPage(page);
 			wiki.showWindow(SentenceEditorHandler.generateEditWindow(sentence, page));
-		} else if ("acewiki_statementmenu_addsent".equals(actionCommand)) {
+		} else if ("acewiki_statementmenu_addsent".equals(c)) {
 			log("dropdown: add sentence");
 			wiki.showWindow(SentenceEditorHandler.generateCreationWindow(
 					sentence,
 					(ArticlePage) hostPage
 					));
-		} else if ("acewiki_statementmenu_addcomm".equals(actionCommand)) {
+		} else if ("acewiki_statementmenu_addcomm".equals(c)) {
 			log("dropdown: add comment");
 			wiki.showWindow(CommentEditorHandler.generateCreationWindow(
 					sentence,
 					(ArticlePage) hostPage
 					));
-		} else if ("acewiki_statementmenu_delete".equals(actionCommand)) {
+		} else if ("acewiki_statementmenu_delete".equals(c)) {
 			log("dropdown: delete sentence:");
 			wiki.showWindow(new MessageWindow(
 					"acewiki_message_delstatementtitle",
@@ -203,7 +202,7 @@ public class SentenceComponent extends Column implements ActionListener {
 					this,
 					"general_action_yes", "general_action_no"
 				));
-		} else if (actionGenSentence.hasTitle(actionCommand)) {
+		} else if (actionGenSentence.hasTitle(c)) {
 			final AceWikiEngine engine = wiki.getEngine();
 			if (engine instanceof GFEngine) {
 				actionGenSentence.performAction(wiki, new Executable() {
@@ -220,7 +219,7 @@ public class SentenceComponent extends Column implements ActionListener {
 				});
 			}
 		}
-		else if (actionReanalyze.hasTitle(actionCommand)) {
+		else if (actionReanalyze.hasTitle(c)) {
 			final AceWikiEngine engine = wiki.getEngine();
 			if (engine instanceof GFEngine) {
 				log("dropdown: reparse sentence:");
@@ -240,7 +239,7 @@ public class SentenceComponent extends Column implements ActionListener {
 
 				});
 			}
-		} else if ("acewiki_statementmenu_reassert".equals(actionCommand)) {
+		} else if ("acewiki_statementmenu_reassert".equals(c)) {
 			log("dropdown: reassert:");
 			try {
 				wiki.getOntology().reassert(sentence);
@@ -249,24 +248,24 @@ public class SentenceComponent extends Column implements ActionListener {
 						"acewiki_message_conflicttitle",
 						"acewiki_message_conflict",
 						"general_action_ok"
-					));
+						));
 			}
 			if (sentence.isIntegrated()) {
 				update();
 				hostPage.update();
 			}
-		} else if ("acewiki_statementmenu_retract".equals(actionCommand)) {
+		} else if ("acewiki_statementmenu_retract".equals(c)) {
 			log("dropdown: retract:");
 			wiki.getOntology().retract(sentence);
 			update();
 			hostPage.update();
-		} else if ("acewiki_statementmenu_details".equals(actionCommand)) {
+		} else if ("acewiki_statementmenu_details".equals(c)) {
 			log("dropdown: details sentence:");
 			wiki.showPage(new SentencePage(wiki, sentence));
-		} else if (ACTION_SHOW_TRANSLATIONS.equals(actionCommand)) {
+		} else if (ACTION_SHOW_TRANSLATIONS.equals(c)) {
 			log("dropdown: translations sentence:");
 			wiki.showPage(new TranslationsPage(wiki, (MultilingualSentence) sentence));
-		} else if (e.getSource() instanceof MessageWindow && actionCommand.equals("general_action_yes")) {
+		} else if (e.getSource() instanceof MessageWindow && "general_action_yes".equals(c)) {
 			log("dropdown: delete confirmed:");
 			
 			wiki.enqueueStrongAsyncTask(
