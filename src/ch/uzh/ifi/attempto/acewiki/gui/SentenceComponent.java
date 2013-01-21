@@ -14,8 +14,6 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui;
 
-import com.google.common.collect.ImmutableSet;
-
 import nextapp.echo.app.Column;
 import nextapp.echo.app.Font;
 import nextapp.echo.app.Row;
@@ -30,6 +28,8 @@ import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
+
+import com.google.common.collect.ImmutableSet;
 
 /**
  * This class represents a sentence component consisting of a drop down menu and the sentence text.
@@ -96,7 +96,11 @@ public class SentenceComponent extends Column implements ActionListener {
 		}
 
 		dropDown.addMenuEntry("acewiki_statementmenu_details", "acewiki_statementmenu_detailstooltip");
-		
+
+		if (wiki.isMultilingual()) {
+			dropDown.addMenuEntry("acewiki_statementmenu_transl", "acewiki_statementmenu_transltooltip");
+		}
+
 		if (!wiki.isReadOnly() && hostPage instanceof ArticlePage) {
 			dropDown.addMenuSeparator();
 			dropDown.addMenuEntry("acewiki_statementmenu_addsent", "acewiki_statementmenu_addsenttooltip");
@@ -186,6 +190,9 @@ public class SentenceComponent extends Column implements ActionListener {
 		} else if ("acewiki_statementmenu_details".equals(c)) {
 			log("dropdown: details sentence:");
 			wiki.showPage(new SentencePage(wiki, sentence));
+		} else if ("acewiki_statementmenu_transl".equals(c)) {
+			log("dropdown: translations sentence:");
+			wiki.showPage(new TranslationsPage(wiki, sentence));
 		} else if (e.getSource() instanceof MessageWindow && "general_action_yes".equals(c)) {
 			log("dropdown: delete confirmed:");
 			
