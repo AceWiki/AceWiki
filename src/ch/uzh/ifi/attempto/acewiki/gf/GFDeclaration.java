@@ -34,6 +34,7 @@ import ch.uzh.ifi.attempto.base.MultiTextContainer;
 import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.base.TextOperator;
+import ch.uzh.ifi.attempto.echocomp.LocaleResources;
 import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 
 import com.google.common.base.Joiner;
@@ -183,9 +184,10 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	public List<SentenceDetail> getDetails(String lang) {
 		List<SentenceDetail> l = new ArrayList<SentenceDetail>();
 
-		for (String tree : mTreeSet.getTrees()) {
-			l.addAll(formatTree(mGfGrammar, tree, lang));
-		}
+//		for (String tree : mTreeSet.getTrees()) {
+//			l.addAll(formatTree(mGfGrammar, tree, lang));
+//		}
+		l.addAll(formatTree(mGfGrammar, lang));
 
 		return l;
 	}
@@ -251,7 +253,7 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 
 
 	private String getImg(String dataUri) {
-		return "<img src=\"" + dataUri + "\"/>";
+		return "<a href=\"" + dataUri + "\"><img src=\"" + dataUri + "\" style=\"max-height:500px\"/></a>";
 	}
 
 
@@ -265,35 +267,41 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	}
 
 
-	private List<SentenceDetail> formatTree(GFGrammar grammar, String tree, String lang) {
+	private List<SentenceDetail> formatTree(GFGrammar grammar, String lang) {
+		String tree = mTreeSet.getTrees().iterator().next();
 		List<SentenceDetail> l = new ArrayList<SentenceDetail>();
-		l.add(new SentenceDetail(
-				"Tree (ASCII)",
-				"<pre>" + tree + "</pre>"
-				));
-		l.add(new SentenceDetail("Tree (diagram)", getAbstrtreeAsHtml(tree)));
-		l.add(new SentenceDetail("Parsetree for " + lang, getParsetreeAsHtml(tree, lang)));
-		try {
-			Map<String, Set<String>> m = grammar.linearize(tree);
-			StringBuilder sb = new StringBuilder();
-			sb.append("<ul>");
-			for (String key : m.keySet()) {
-				if (key.equals(lang)) {
-					sb.append("<li style='background-color: yellow'><b>" + key + "</b>: " + m.get(key) + "</li>");
-				} else {
-					sb.append("<li><b>" + key + "</b>: " + m.get(key) + "</li>");
-				}
-			}
-			sb.append("</ul>");
-			l.add(new SentenceDetail(
-					"Translations",
-					sb.toString()
-					));
-		} catch (GfServiceException e) {
-			l.add(getError(tree, lang, "linearization failed: " + e.getMessage()));
+		l.add(new SentenceDetail("acewiki_details_syntree", getParsetreeAsHtml(tree, lang)));
+		String plainTrees = "";
+		for (String s : mTreeSet.getTrees()) {
+			if (plainTrees.length() > 0) plainTrees += "\n";
+			plainTrees += s;
 		}
-
-		l.add(new SentenceDetail("Word alignment", getAlignmentAsHtml(tree)));
+		l.add(new SentenceDetail(
+				LocaleResources.getString("acewiki_details_internal") + " (ASCII)",
+				"<pre>" + plainTrees + "</pre>"
+				));
+		l.add(new SentenceDetail("acewiki_details_internal", getAbstrtreeAsHtml(tree)));
+//		try {
+//			Map<String, Set<String>> m = grammar.linearize(tree);
+//			StringBuilder sb = new StringBuilder();
+//			sb.append("<ul>");
+//			for (String key : m.keySet()) {
+//				if (key.equals(lang)) {
+//					sb.append("<li style='background-color: yellow'><b>" + key + "</b>: " + m.get(key) + "</li>");
+//				} else {
+//					sb.append("<li><b>" + key + "</b>: " + m.get(key) + "</li>");
+//				}
+//			}
+//			sb.append("</ul>");
+//			l.add(new SentenceDetail(
+//					"Translations",
+//					sb.toString()
+//					));
+//		} catch (GfServiceException e) {
+//			l.add(getError(tree, lang, "linearization failed: " + e.getMessage()));
+//		}
+//
+//		l.add(new SentenceDetail("Word alignment", getAlignmentAsHtml(tree)));
 
 		return l;
 	}

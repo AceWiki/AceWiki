@@ -15,7 +15,6 @@
 package ch.uzh.ifi.attempto.acewiki.gui;
 
 import nextapp.echo.app.Column;
-import nextapp.echo.app.Font;
 import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
@@ -26,8 +25,8 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
-import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
+import ch.uzh.ifi.attempto.echocomp.SmallButton;
 
 import com.google.common.collect.ImmutableSet;
 
@@ -115,10 +114,13 @@ public class SentenceComponent extends Column implements ActionListener {
 		sentenceRow.add(dropDown);
 		sentenceRow.add(new HSpace(5));
 		sentenceRow.add(new TextRow(sentence.getTextElements(wiki.getLanguage()), wiki, isRed));
-		sentenceRow.add(new HSpace(5));
-		// If the sentence is ambiguous then show the number of trees
-		if (sentence.getNumberOfParseTrees() > 1) {
-			sentenceRow.add(new Label("(" + sentence.getNumberOfParseTrees() + ")", Font.BOLD));
+		int v = sentence.getTextContainer(wiki.getLanguage()).size();
+		if (v > 1) {
+			// The sentence has more than one variant
+			sentenceRow.add(new HSpace(10));
+			// TODO show disambiguation window on clicking this button
+			String t = wiki.getGUIText("acewiki_statement_variants");
+			sentenceRow.add(new SmallButton("(" + v + " " + t + ")", this));
 		}
 		sentenceRow.add(new HSpace(5));
 		sentenceRow.add(recalcIcon);

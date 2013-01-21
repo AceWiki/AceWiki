@@ -25,6 +25,8 @@ import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceDetail;
+import ch.uzh.ifi.attempto.base.MultiTextContainer;
+import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
 import echopoint.DirectHtml;
@@ -66,20 +68,36 @@ public class SentencePage extends WikiPage implements ActionListener {
 		add(new VSpace(15));
 		
 		List<SentenceDetail> l = sentence.getDetails(getWiki().getLanguage());
-		
-		if (l == null || l.isEmpty()) {
-			Column col = new Column();
-			col.setInsets(new Insets(10, 5, 5, 15));
-			col.add(new SolidLabel(getWiki().getGUIText("acewiki_details_empty"), Font.ITALIC, 10));
-			add(col);
-		} else {
+		MultiTextContainer mtc = sentence.getTextContainer(getWiki().getLanguage());
+		boolean empty = true;
+
+		if (mtc.size() > 1) {
+			empty = false;
+			addHeadline("acewiki_details_variants");
+			Column infoColumn = new Column();
+			infoColumn.setInsets(new Insets(10, 10, 5, 15));
+			for (TextContainer tc : mtc) {
+				infoColumn.add(new SolidLabel(tc.getText()));
+			}
+			add(infoColumn);
+		}
+
+		if (l != null) {
 			for (SentenceDetail si : l) {
+				empty = false;
 				addHeadline(si.getName());
 				Column infoColumn = new Column();
 				infoColumn.setInsets(new Insets(10, 5, 5, 15));
 				infoColumn.add(new DirectHtml(si.getRichText()));
 				add(infoColumn);
 			}
+		}
+
+		if (empty) {
+			Column col = new Column();
+			col.setInsets(new Insets(10, 5, 5, 15));
+			col.add(new SolidLabel(getWiki().getGUIText("acewiki_details_empty"), Font.ITALIC, 10));
+			add(col);
 		}
 	}
 
