@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ch.uzh.ifi.attempto.acewiki.core.Declaration;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageHandler;
 import ch.uzh.ifi.attempto.acewiki.core.MultilingualSentence;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceDetail;
@@ -97,21 +98,23 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	 * TODO: the input text should probably be in the form of a token list
 	 * 
 	 * @param text The declaration text.
-	 * @param language The language.
+	 * @param lh The language handler.
 	 * @param gfGrammar The grammar object.
 	 */
-	public GFDeclaration(String text, String lang, GFGrammar gfGrammar) {
-		// TODO: quick and ugly hack to be able to move on
-		text = text.replaceAll("([" + DefaultTextOperator.punctuationChars + "])(\\s|$)", " $1$2");
+	public GFDeclaration(String text, LanguageHandler lh, GFGrammar gfGrammar) {
+		String tokenText = "";
+		for (String t : lh.getTextOperator().splitIntoTokens(text)) {
+			tokenText += t + " ";
+		}
 		mGfGrammar = gfGrammar;
-		mLang = lang;
+		mLang = lh.getLanguage();
 		try {
-			mTreeSet = new TreeSet(getGFGrammar().parse(text, lang));
+			mTreeSet = new TreeSet(getGFGrammar().parse(tokenText, mLang));
 			if (mTreeSet.size() == 0) {
 				// TODO this should be done properly; see GfTextOperator
 				// If parsing fails: first char to lower case
-				text = DefaultTextOperator.firstCharToLowerCase(text);
-				mTreeSet = new TreeSet(getGFGrammar().parse(text, lang));
+				tokenText = DefaultTextOperator.firstCharToLowerCase(tokenText);
+				mTreeSet = new TreeSet(getGFGrammar().parse(tokenText, mLang));
 			}
 		} catch (GfServiceException e) {
 			// TODO Auto-generated catch block

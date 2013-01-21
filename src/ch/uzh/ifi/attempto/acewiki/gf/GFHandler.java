@@ -133,7 +133,7 @@ public class GFHandler extends AbstractLanguageHandler {
 
 	public List<Sentence> extractSentences(TextContainer tc, PredictiveParser parser) {
 		List<Sentence> l = new ArrayList<Sentence>();
-		l.add(new GFDeclaration(tc.getText(), mLanguage, mGfGrammar));
+		l.add(new GFDeclaration(tc.getText(), this, mGfGrammar));
 		return l;
 	}
 
