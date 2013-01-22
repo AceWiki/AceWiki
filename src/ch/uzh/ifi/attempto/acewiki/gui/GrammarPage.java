@@ -23,15 +23,24 @@ import java.util.Set;
 import com.google.common.base.Joiner;
 
 import nextapp.echo.app.Insets;
+import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
+import ch.uzh.ifi.attempto.acewiki.core.Article;
+import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.gf.GFGrammar;
+import ch.uzh.ifi.attempto.acewiki.gf.TypeGfModule;
+import ch.uzh.ifi.attempto.echocomp.TextAreaWindow;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
+import ch.uzh.ifi.attempto.gfservice.GfModule;
 import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultGrammar;
 
 
 public class GrammarPage extends AbstractNavigationPage implements ActionListener {
+
+	// TODO: localize
+	private static final String ACTION_GRAMMAR_PUSH = "acewiki_action_grammar_push";
 
 	private static final long serialVersionUID = -2031690219932377941L;
 	private static final Joiner JOINER_SPACE = Joiner.on(' ');
@@ -72,6 +81,18 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 		add(table4);
 
 		add(new VSpace(20));
+
+		// TODO: this should not be a tab,
+		// and this should be visible only in an "admin" mode
+		addTab(ACTION_GRAMMAR_PUSH, this);
+	}
+
+
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		if (ACTION_GRAMMAR_PUSH.equals(e.getActionCommand())) {
+			actionGrammarPush();
+		}
 	}
 
 	protected void doUpdate() {
@@ -121,11 +142,55 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 	}
 
 
+	// TODO: visual progress monitor
+	private void actionGrammarPush() {
+		StringBuilder sb = new StringBuilder();
+		int countEmpty = 0;
+		int countOk = 0;
+		int countErr = 0;
+		for (TypeGfModule module : mWiki.getOntology().getOntologyElements(TypeGfModule.class)) {
+			sb.append(module.getWord());
+			sb.append(": ");
+			String content = getModuleContent(module.getArticle());
+			if (content == null) {
+				countEmpty++;
+				sb.append("EMPTY");
+			} else {
+				try {
+					mGrammar.upload(new GfModule(module.getWord(), content));
+					sb.append("OK");
+					countOk++;
+				} catch (GfServiceException e) {
+					sb.append("FAIL\n");
+					sb.append(e.getMessage());
+					countErr++;
+				}
+			}
+			sb.append("\n\n");
+		}
+		TextAreaWindow resultsWindow = new TextAreaWindow(ACTION_GRAMMAR_PUSH + " " + countOk + "/" + countEmpty + "/" + countErr, this);
+		resultsWindow.setText(sb.toString());
+		mWiki.showWindow(resultsWindow);
+	}
+
+
 	// TODO: move to Utils
 	public static <T extends Comparable<? super T>> List<T> asSortedList(Collection<T> c) {
 		List<T> list = new ArrayList<T>(c);
 		java.util.Collections.sort(list);
 		return list;
+	}
+
+
+	private static String getModuleContent(Article article) {
+		if (article == null) {
+			return null;
+		}
+		List<Statement> statements = article.getStatements();
+		if (statements == null || statements.isEmpty()) {
+			return null;
+		}
+		return statements.iterator().next().getText(null);
 	}
 
 }

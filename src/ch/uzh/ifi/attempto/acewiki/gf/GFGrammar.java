@@ -241,6 +241,14 @@ public class GFGrammar {
 
 
 	/**
+	 * Uploads the given GF module to the server.
+	 */
+	public void upload(GfModule module) throws GfServiceException {
+		mGfStorage.upload(mDir, module);
+	}
+
+
+	/**
 	 * Updates the grammar based on the given GF module, which is either
 	 * a new component of the grammar or which has undergone modifications
 	 * and needs to be reintegrated.
