@@ -38,6 +38,7 @@ import ch.uzh.ifi.attempto.gfservice.GfServiceResultParse;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultRandom;
 import ch.uzh.ifi.attempto.gfservice.GfStorage;
 import ch.uzh.ifi.attempto.gfservice.GfStorageResult;
+import ch.uzh.ifi.attempto.gfservice.GfStorageResultLs;
 import ch.uzh.ifi.attempto.gfservice.gfwebservice.GfWebService;
 import ch.uzh.ifi.attempto.gfservice.gfwebservice.GfWebStorage;
 
@@ -52,6 +53,7 @@ public class GFGrammar {
 	// Some naming conventions
 	public final static String PREFIX_DISAMB = "Disamb";
 	public final static String SUFFIX_APE = "Ape";
+	public final static String EXTENSION_GF = ".gf";
 
 	// Note that true can remove (always removes?) lins
 	// which are not available in all the concretes,
@@ -245,6 +247,17 @@ public class GFGrammar {
 	 */
 	public void upload(GfModule module) throws GfServiceException {
 		mGfStorage.upload(mDir, module);
+	}
+
+
+	public Set<String> ls(String extension) throws GfServiceException {
+		GfStorageResultLs result = mGfStorage.ls(mDir, extension);
+		return result.getFilenames();
+	}
+
+
+	public String downloadAsString(String filename) throws GfServiceException {
+		return mGfStorage.downloadAsString(mDir, filename);
 	}
 
 

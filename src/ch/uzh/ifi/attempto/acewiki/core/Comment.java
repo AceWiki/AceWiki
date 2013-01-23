@@ -27,7 +27,7 @@ public class Comment extends AbstractStatement {
 	 * 
 	 * @param text The comment text.
 	 */
-	protected Comment(String text) {
+	public Comment(String text) {
 		this.text = text;
 	}
 	

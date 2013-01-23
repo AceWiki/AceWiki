@@ -27,6 +27,9 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Article;
+import ch.uzh.ifi.attempto.acewiki.core.Comment;
+import ch.uzh.ifi.attempto.acewiki.core.Ontology;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.gf.GFGrammar;
 import ch.uzh.ifi.attempto.acewiki.gf.TypeGfModule;
@@ -41,6 +44,7 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 
 	// TODO: localize
 	private static final String ACTION_GRAMMAR_PUSH = "acewiki_action_grammar_push";
+	private static final String ACTION_GRAMMAR_PULL = "acewiki_action_grammar_pull";
 
 	private static final long serialVersionUID = -2031690219932377941L;
 	private static final Joiner JOINER_SPACE = Joiner.on(' ');
@@ -85,6 +89,7 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 		// TODO: this should not be a tab,
 		// and this should be visible only in an "admin" mode
 		addTab(ACTION_GRAMMAR_PUSH, this);
+		addTab(ACTION_GRAMMAR_PULL, this);
 	}
 
 
@@ -92,6 +97,8 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 		super.actionPerformed(e);
 		if (ACTION_GRAMMAR_PUSH.equals(e.getActionCommand())) {
 			actionGrammarPush();
+		} else if (ACTION_GRAMMAR_PULL.equals(e.getActionCommand())) {
+			actionGrammarPull();
 		}
 	}
 
@@ -174,6 +181,74 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 	}
 
 
+	private void actionGrammarPull() {
+		StringBuilder sb = new StringBuilder();
+		int countFile = 0; // larger or equal to countOld + countNew
+		int countOld = 0;
+		int countNew = 0;
+		int countClash = 0;
+		int countChanged = 0; // larger or equal to countNew
+		Ontology ont = mWiki.getOntology();
+
+		try {
+			// Iterate over the list GF source files
+			for (String filename : mGrammar.ls(GFGrammar.EXTENSION_GF)) {
+				countFile++;
+				String moduleName = filename.substring(0, filename.length() - GFGrammar.EXTENSION_GF.length());
+				sb.append(moduleName);
+				sb.append(':');
+				OntologyElement el = ont.getElement(moduleName);
+
+				if (el != null && ! (el instanceof TypeGfModule)) {
+					// TODO: name clash, this would be avoided if we had namespaces
+					// for different types of pages
+					sb.append(" NAME CLASH\n");
+					countClash++;
+					continue;
+				}
+
+				String newContent = mGrammar.downloadAsString(filename);
+				String oldContent = null;
+
+				if (el == null) {
+					el = new TypeGfModule();
+					// TODO: verify that this is correct
+					el.setWords(moduleName);
+					ont.register(el);
+					countNew++;
+					sb.append(" CREATED");
+				} else {
+					countOld++;
+					oldContent = getModuleContent(el.getArticle());
+				}
+
+				if (! newContent.equals(oldContent)) {
+					replaceModuleContent(el.getArticle(), newContent);
+					countChanged++;
+					sb.append(" UPDATED");
+				}
+				sb.append("\n\n");
+			}
+		} catch (GfServiceException e) {
+			sb.append(e.getMessage());
+		}
+
+		sb.append("----\n\n");
+		sb.append("Downloaded: " + countFile);
+		sb.append('\n');
+		sb.append("New files: " + countNew);
+		sb.append('\n');
+		sb.append("Changed old files: " + (countChanged - countNew));
+		sb.append('\n');
+		sb.append("Name clashes: " + countClash);
+		sb.append('\n');
+		TextAreaWindow resultsWindow = new TextAreaWindow(ACTION_GRAMMAR_PULL + " " +
+				countFile + "/" + countOld + "/" + countChanged + "/" + countNew, this);
+		resultsWindow.setText(sb.toString());
+		mWiki.showWindow(resultsWindow);
+	}
+
+
 	// TODO: move to Utils
 	public static <T extends Comparable<? super T>> List<T> asSortedList(Collection<T> c) {
 		List<T> list = new ArrayList<T>(c);
@@ -182,6 +257,8 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 	}
 
 
+	// TODO: the following methods assume that a GF module is an article
+	// which contains at most one Comment whose text is the module's GF source.
 	private static String getModuleContent(Article article) {
 		if (article == null) {
 			return null;
@@ -190,7 +267,19 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 		if (statements == null || statements.isEmpty()) {
 			return null;
 		}
-		return statements.iterator().next().getText(null);
+		return statements.get(0).getText(null);
+	}
+
+
+	private static void replaceModuleContent(Article article, String newContent) {
+		Statement newStatement = new Comment(newContent);
+		newStatement.init(article.getOntology(), article); // TODO: verify that this is correct
+		List<Statement> statements = article.getStatements();
+		if (statements == null || statements.isEmpty()) {
+			article.add(null, newStatement);
+		} else {
+			article.edit(statements.get(0), newStatement);
+		}
 	}
 
 }
