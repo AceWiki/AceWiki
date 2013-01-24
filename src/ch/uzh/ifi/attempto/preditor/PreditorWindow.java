@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import nextapp.echo.app.Alignment;
-import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Border;
 import nextapp.echo.app.Color;
 import nextapp.echo.app.Column;
@@ -42,6 +41,7 @@ import ch.uzh.ifi.attempto.base.PredictiveParser;
 import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.base.TextOperator;
+import ch.uzh.ifi.attempto.echocomp.EchoThread;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.LocaleResources;
@@ -337,7 +337,7 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 			menuBlockArea.add(menuBlockManager.createGUI());
 		}
 		textField.setEnabled(menuBlockManager.getMenuBlockCount() > 0 || !textField.getText().equals(""));
-		ApplicationInstance.getActive().setFocusedComponent(textField);
+		EchoThread.getActiveApplication().setFocusedComponent(textField);
 		clearButton.setEnabled(getTokenCount() > 0);
 		deleteButton.setEnabled(getTokenCount() > 0);
 	}

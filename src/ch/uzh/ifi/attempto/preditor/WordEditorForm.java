@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nextapp.echo.app.Alignment;
-import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Border;
 import nextapp.echo.app.Color;
 import nextapp.echo.app.Column;
@@ -33,6 +32,7 @@ import nextapp.echo.app.WindowPane;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.layout.GridLayoutData;
+import ch.uzh.ifi.attempto.echocomp.EchoThread;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
@@ -259,7 +259,7 @@ public class WordEditorForm extends ContentPane implements ActionListener {
 		if (c instanceof TextField) {
 			TextField tf = (TextField) c;
 			if (tf.isEnabled()) {
-				ApplicationInstance.getActive().setFocusedComponent(tf);
+				EchoThread.getActiveApplication().setFocusedComponent(tf);
 				return true;
 			} else {
 				return false;

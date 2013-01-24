@@ -15,7 +15,6 @@
 package ch.uzh.ifi.attempto.echocomp;
 
 import nextapp.echo.app.Alignment;
-import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Column;
 import nextapp.echo.app.Extent;
 import nextapp.echo.app.Font;
@@ -101,7 +100,7 @@ public class MessageWindow extends GeneralWindow implements ActionListener {
 			buttonBar.add(new GeneralButton(s, this, 100));
 		}
 		if (options.length == 1) {
-			ApplicationInstance.getActive().setFocusedComponent(buttonBar.getComponent(0));
+			EchoThread.getActiveApplication().setFocusedComponent(buttonBar.getComponent(0));
 		}
 		GridLayoutData layout2 = new GridLayoutData();
 		layout2.setAlignment(new Alignment(Alignment.CENTER, Alignment.BOTTOM));

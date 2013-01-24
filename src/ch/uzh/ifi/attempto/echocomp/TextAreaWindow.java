@@ -76,6 +76,8 @@ public class TextAreaWindow extends WindowPane implements ActionListener {
 		add(mainColumn);
 		
 		setSize(450, 300);
+
+		EchoThread.getActiveApplication().setFocusedComponent(textArea);
 	}
 	
 	/**
