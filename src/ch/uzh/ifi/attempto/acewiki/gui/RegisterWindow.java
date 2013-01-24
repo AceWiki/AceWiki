@@ -103,7 +103,7 @@ public class RegisterWindow extends WindowPane implements ActionListener {
 		formGrid.add(usernameField);
 		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_email"), Font.ITALIC));
 		formGrid.add(emailField);
-		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_username"), Font.ITALIC));
+		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_password"), Font.ITALIC));
 		formGrid.add(passwordField);
 		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_retypepassword"), Font.ITALIC));
 		formGrid.add(retypePasswordField);
