@@ -157,7 +157,7 @@ public class DisambigWindow extends WindowPane implements ActionListener {
 			}
 			if (selected == null) {
 				wiki.showWindow(new MessageWindow(
-						"acewiki_error_choosetitle",
+						"acewiki_error_title",
 						"acewiki_error_choose",
 						this,
 						"general_action_ok"
