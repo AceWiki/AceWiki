@@ -276,12 +276,11 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 		l.add(new SentenceDetail("acewiki_details_syntree", getParsetreeAsHtml(tree, lang)));
 		String plainTrees = "";
 		for (String s : mTreeSet.getTrees()) {
-			if (plainTrees.length() > 0) plainTrees += "\n";
-			plainTrees += s;
+			plainTrees += "<p><code>" + s + "</code></p>";
 		}
 		l.add(new SentenceDetail(
 				LocaleResources.getString("acewiki_details_internal") + " (ASCII)",
-				"<pre>" + plainTrees + "</pre>"
+				plainTrees
 				));
 		l.add(new SentenceDetail("acewiki_details_internal", getAbstrtreeAsHtml(tree)));
 //		try {
