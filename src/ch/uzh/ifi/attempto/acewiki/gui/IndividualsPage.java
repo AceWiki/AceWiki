@@ -32,6 +32,7 @@ import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.StatementFactory;
+import ch.uzh.ifi.attempto.echocomp.LocaleResources;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
 
@@ -174,7 +175,7 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 				
 				Comparator<Individual> comparator = new Comparator<Individual>() {
 					public int compare(Individual o1, Individual o2) {
-						return o1.getWord(3).compareToIgnoreCase(o2.getWord(3));
+						return LocaleResources.getCollator().compare(o1.getWord(3), o2.getWord(3));
 					}
 				};
 				

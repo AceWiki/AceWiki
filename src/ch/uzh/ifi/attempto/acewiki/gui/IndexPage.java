@@ -28,6 +28,7 @@ import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.echocomp.LocaleResources;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
 
@@ -119,7 +120,7 @@ public class IndexPage extends WikiPage implements ActionListener {
 		indexColumn.removeAll();
 		
 		List<String> indexWords = new ArrayList<String>(entries.keySet());
-		Collections.sort(indexWords, String.CASE_INSENSITIVE_ORDER);
+		Collections.sort(indexWords, LocaleResources.getCollator());
 		
 		numberIndexBar.setVisible(entries.size() > pageSize);
 		

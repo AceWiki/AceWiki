@@ -14,6 +14,7 @@
 
 package ch.uzh.ifi.attempto.echocomp;
 
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+
+import nextapp.echo.app.ApplicationInstance;
 
 
 /**
@@ -78,9 +81,29 @@ public class LocaleResources {
 	 * @return The localized string.
 	 */
 	public static String getString(String key) {
-		Locale locale = EchoThread.getActiveApplication().getLocale();
-		if (locale == null) locale = defaultLocale;
-		return getString(locale, key);
+		return getString(getLocale(), key);
+	}
+
+	/**
+	 * Returns the locale of the current application instance.
+	 * 
+	 * @return The locale.
+	 */
+	public static Locale getLocale() {
+		ApplicationInstance app = EchoThread.getActiveApplication();
+		if (app == null) return defaultLocale;
+		Locale locale = app.getLocale();
+		if (locale == null) return defaultLocale;
+		return locale;
+	}
+
+	/**
+	 * Returns a collator for the current locale.
+	 * 
+	 * @return The collator.
+	 */
+	public static Collator getCollator() {
+		return Collator.getInstance(getLocale());
 	}
 
 	private static String getResourceString(Locale l, String key) {
