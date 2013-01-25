@@ -17,11 +17,9 @@ package ch.uzh.ifi.attempto.preditor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import nextapp.echo.app.Alignment;
-import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Border;
 import nextapp.echo.app.Color;
 import nextapp.echo.app.Column;
@@ -43,6 +41,7 @@ import ch.uzh.ifi.attempto.base.PredictiveParser;
 import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.base.TextOperator;
+import ch.uzh.ifi.attempto.echocomp.EchoThread;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.LocaleResources;
@@ -64,24 +63,6 @@ import echopoint.DirectHtml;
 public class PreditorWindow extends nextapp.echo.app.WindowPane implements ActionListener, WindowPaneListener {
 	
 	private static final long serialVersionUID = -7815494421993305554L;
-
-	private static final boolean IS_RESIZABLE = false; // true does not work yet
-	private static final int REF_WIDTH = 753;
-	private static final int REF_WIDTH_GRID = 730;
-	private static final int REF_WIDTH_TEXT = 708;
-	private static final int REF_HEIGHT = 524;
-	private static final int REF_HEIGHT_MENU = 240;
-	private static final int REF_HEIGHT_MENU2 = 275;
-
-	private static final float SCALE_WIDTH = 0.8f; // TODO: values below 0.8 do not work yet
-	private static final float SCALE_HEIGHT = 1f; // TODO: values below 1 do not work yet
-	private static final int WIDTH = Math.round(REF_WIDTH * SCALE_WIDTH);
-	private static final int HEIGHT = Math.round(REF_HEIGHT * SCALE_HEIGHT);
-	private static final int WIDTH_GRID = Math.round(REF_WIDTH_GRID * SCALE_WIDTH);
-	private static final int WIDTH_TEXT = Math.round(REF_WIDTH_TEXT * SCALE_WIDTH);
-	private static final int WIDTH_MENU = WIDTH_TEXT;
-	private static final int HEIGHT_MENU = Math.round(REF_HEIGHT_MENU * SCALE_HEIGHT);
-	private static final int HEIGHT_MENU2 = Math.round(REF_HEIGHT_MENU2 * SCALE_HEIGHT);
 	
 	static {
 		LocaleResources.loadBundle("ch/uzh/ifi/attempto/echocomp/text");
@@ -128,14 +109,14 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 		setModal(true);
 		setTitle(title);
 		setTitleFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
-		setWidth(new Extent(WIDTH));
-		setHeight(new Extent(HEIGHT));
-		setResizable(IS_RESIZABLE);
+		setWidth(new Extent(753));
+		setHeight(new Extent(524));
+		setResizable(false);
 		setTitleBackground(Style.windowTitleBackground);
 		setStyleName("Default");
 		
 		Grid grid = new Grid(1);
-		grid.setColumnWidth(0, new Extent(WIDTH_GRID));
+		grid.setColumnWidth(0, new Extent(730));
 		add(grid);
 		
 		GridLayoutData layout = new GridLayoutData();
@@ -169,7 +150,7 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 		textFieldColumn.add(textFieldLabel);
 		
 		textField = new TabSensitiveTextField(this);
-		textField.setWidth(new Extent(WIDTH_TEXT));
+		textField.setWidth(new Extent(708));
 		textField.setDisabledBackground(Style.lightDisabled);
 		Row textFieldRow = new Row();
 		textFieldRow.add(textField);
@@ -192,7 +173,7 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 		
 		menuBlockArea = new Column();
 		menuBlockArea.setInsets(new Insets(10, 15, 0, 0));
-		grid.setRowHeight(2, new Extent(HEIGHT_MENU2));
+		grid.setRowHeight(2, new Extent(275));
 		grid.add(menuBlockArea);
 		
 		Row buttonBar = new Row();
@@ -348,7 +329,7 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 			// One enlarged menu block
 			MenuBlockContent mbc = enlargedMenuBlock.getContent();
 			int cs = menuCreator.getColorShift(mbc.getName());
-			enlargedMenuBlock = new MenuBlock(WIDTH_MENU, HEIGHT_MENU, cs, this);
+			enlargedMenuBlock = new MenuBlock(708, 240, cs, this);
 			enlargedMenuBlock.setContent(mbc);
 			enlargedMenuBlock.setEnlarged(true);
 			menuBlockArea.add(enlargedMenuBlock);
@@ -356,7 +337,7 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 			menuBlockArea.add(menuBlockManager.createGUI());
 		}
 		textField.setEnabled(menuBlockManager.getMenuBlockCount() > 0 || !textField.getText().equals(""));
-		ApplicationInstance.getActive().setFocusedComponent(textField);
+		EchoThread.getActiveApplication().setFocusedComponent(textField);
 		clearButton.setEnabled(getTokenCount() > 0);
 		deleteButton.setEnabled(getTokenCount() > 0);
 	}
