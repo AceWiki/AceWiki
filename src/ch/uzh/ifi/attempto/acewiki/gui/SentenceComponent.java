@@ -196,7 +196,7 @@ public class SentenceComponent extends Column implements ActionListener {
 			hostPage.update();
 		} else if ("acewiki_statementmenu_details".equals(c)) {
 			log("dropdown: details sentence:");
-			wiki.showPage(new SentencePage(wiki, sentence));
+			wiki.showPage(new DetailsPage(wiki, sentence));
 		} else if ("acewiki_statementmenu_transl".equals(c)) {
 			log("dropdown: translations sentence:");
 			wiki.showPage(new TranslationsPage(wiki, sentence));

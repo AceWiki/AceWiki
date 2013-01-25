@@ -185,6 +185,7 @@ public class AlternativesWindow extends WindowPane implements ActionListener {
 			StatementFactory sf = wiki.getOntology().getStatementFactory();
 			Sentence newSentence = sf.extractSentences(lh, tc, null, sentence.getArticle()).get(0);
 			sentence.getArticle().edit(sentence, newSentence);
+			wiki.updateStatement(sentence, newSentence);
 
 			wiki.refresh();
 			setVisible(false);

@@ -95,6 +95,7 @@ public class CommentEditorHandler implements ActionListener {
 				.createComment(textAreaWindow.getText(), article);
 			if (edit) {
 				article.edit(statement, comment);
+				page.getWiki().updateStatement(statement, comment);
 			} else {
 				article.add(statement, comment);
 			}
