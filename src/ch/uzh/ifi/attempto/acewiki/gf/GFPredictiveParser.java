@@ -15,6 +15,7 @@
 package ch.uzh.ifi.attempto.acewiki.gf;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -98,7 +99,11 @@ public class GFPredictiveParser implements PredictiveParser {
 			try {
 				Set<String> completions = gfGrammar.complete(tokens, language);
 				for (String s : completions) {
-					for (String c : gfGrammar.getTokenToCats(language).get(s)) {
+					Collection<String> cats = gfGrammar.getTokenToCats(language).get(s);
+					if (cats.size() == 0) {
+						options.add(new SimpleConcreteOption(s));
+					}
+					for (String c : cats) {
 						options.add(new SimpleConcreteOption(s, c));
 					}
 				}
