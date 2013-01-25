@@ -23,6 +23,9 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.HashMultimap;
@@ -54,6 +57,10 @@ import ch.uzh.ifi.attempto.gfservice.gfwebservice.GfWebStorage;
  * @author Kaarel Kaljurand
  */
 public class GFGrammar {
+
+	public final static int LINEARIZE_ALL_QUERY_LIMIT = 200;
+
+	private final Logger mLogger = LoggerFactory.getLogger(GFGrammar.class);
 
 	// Some naming conventions
 	public final static String PREFIX_DISAMB = "Disamb";
@@ -404,13 +411,24 @@ public class GFGrammar {
 	 */
 	private void refreshLangToTokenToCats() throws GfServiceException {
 		refreshCats();
-		langToTokenToCats.clear();
 		// Collect together all the consumer functions.
 		// TODO We are not interested in their linearizations, at least for the time begin.
 		Set<String> funsAllConsumers = Sets.newHashSet();
 		for (Entry<String, Set<String>> entry : mCacheCatConsumers.entrySet()) {
 			funsAllConsumers.addAll(entry.getValue());
 		}
+
+		int countAllFuns = mGfServiceResultGrammar.getFunctions().size();
+		int countIgnoreFuns = funsAllConsumers.size();
+
+		mLogger.info("All funs: {}, (ignored) consumer funs: {}", countAllFuns, countIgnoreFuns);
+		if (countAllFuns - countIgnoreFuns > LINEARIZE_ALL_QUERY_LIMIT) {
+			mLogger.warn("Refusing to build preditor cache, as there are too many producer-only funs. " +
+					"Increase LINEARIZE_ALL_QUERY_LIMIT if its current value {} is too low.", LINEARIZE_ALL_QUERY_LIMIT);
+			return;
+		}
+
+		langToTokenToCats.clear();
 		// Iterate over all the categories that have producer functions
 		for (Entry<String, Set<String>> entry : mCacheCatProducers.entrySet()) {
 			String cat = entry.getKey();

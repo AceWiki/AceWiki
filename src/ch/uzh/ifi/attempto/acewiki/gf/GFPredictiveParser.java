@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.Multimap;
 
 import ch.uzh.ifi.attempto.base.ConcreteOption;
 import ch.uzh.ifi.attempto.base.NextTokenOptions;
@@ -97,14 +98,20 @@ public class GFPredictiveParser implements PredictiveParser {
 		if (nextTokenOptions == null) {
 			Set<ConcreteOption> options = new HashSet<ConcreteOption>();
 			try {
+				Multimap<String, String> tokenToCats = gfGrammar.getTokenToCats(language);
 				Set<String> completions = gfGrammar.complete(tokens, language);
 				for (String s : completions) {
-					Collection<String> cats = gfGrammar.getTokenToCats(language).get(s);
-					if (cats.size() == 0) {
+					if (tokenToCats == null) {
 						options.add(new SimpleConcreteOption(s));
-					}
-					for (String c : cats) {
-						options.add(new SimpleConcreteOption(s, c));
+					} else {
+						Collection<String> cats = tokenToCats.get(s);
+						if (cats.isEmpty()) {
+							options.add(new SimpleConcreteOption(s));
+						} else {
+							for (String c : cats) {
+								options.add(new SimpleConcreteOption(s, c));
+							}
+						}
 					}
 				}
 				nextTokenOptions = new SimpleNextTokenOptions(options);
