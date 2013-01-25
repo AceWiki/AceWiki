@@ -119,12 +119,12 @@ public class SentenceComponent extends Column implements ActionListener {
 		sentenceRow.add(dropDown);
 		sentenceRow.add(new HSpace(5));
 		sentenceRow.add(new TextRow(sentence.getTextElements(wiki.getLanguage()), wiki, isRed));
-		int v = sentence.getTextContainer(wiki.getLanguage()).size();
-		if (v > 1) {
+		int a = sentence.getTextContainer(wiki.getLanguage()).size();
+		if (a > 1) {
 			// The sentence has more than one alternative
 			sentenceRow.add(new HSpace(10));
 			String t = wiki.getGUIText("acewiki_statement_alternatives");
-			sentenceRow.add(alternativesButton = new SmallButton("(" + v + " " + t + ")", this));
+			sentenceRow.add(alternativesButton = new SmallButton("(" + a + " " + t + ")", this));
 		}
 		sentenceRow.add(new HSpace(5));
 		sentenceRow.add(recalcIcon);

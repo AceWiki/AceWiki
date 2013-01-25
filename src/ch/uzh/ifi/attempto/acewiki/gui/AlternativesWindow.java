@@ -55,6 +55,7 @@ public class AlternativesWindow extends WindowPane implements ActionListener {
 	private static final long serialVersionUID = 6519074999256404080L;
 
 	private Sentence sentence;
+	private String language;
 	private Wiki wiki;
 	private ButtonGroup buttonGroup = new ButtonGroup();
 	private List<RadioButton> radioButtons = new ArrayList<>();
@@ -62,11 +63,13 @@ public class AlternativesWindow extends WindowPane implements ActionListener {
 	/**
 	 * Creates a new alternatives window for the given sentence.
 	 * 
-	 * @param sentence The ambiguous sentence.
+	 * @param sentence The sentence.
+	 * @param language The language for which the alternatives should be shown.
 	 * @param wiki The wiki object.
 	 */
-	public AlternativesWindow(Sentence sentence, Wiki wiki) {
+	public AlternativesWindow(Sentence sentence, String language, Wiki wiki) {
 		this.sentence = sentence;
+		this.language = language;
 		this.wiki = wiki;
 		
 		setTitle(wiki.getGUIText("acewiki_alternativeswindow_title"));
@@ -113,7 +116,7 @@ public class AlternativesWindow extends WindowPane implements ActionListener {
 		alternativesContainer.setHeight(new Extent(180));
 		Grid alternativesGrid = new Grid(2);
 		alternativesGrid.setColumnWidth(0, new Extent(25));
-		for (TextContainer tc : sentence.getTextContainer(wiki.getLanguage())) {
+		for (TextContainer tc : sentence.getTextContainer(language)) {
 			RadioButton rb = new RadioButton(buttonGroup);
 			rb.setLayoutData(layout1);
 			radioButtons.add(rb);
@@ -137,6 +140,16 @@ public class AlternativesWindow extends WindowPane implements ActionListener {
 		grid.add(buttonBar);
 
 		add(grid);
+	}
+
+	/**
+	 * Creates a new alternatives window for the given sentence and the language of the wiki.
+	 * 
+	 * @param sentence The sentence.
+	 * @param wiki The wiki object.
+	 */
+	public AlternativesWindow(Sentence sentence, Wiki wiki) {
+		this(sentence, wiki.getLanguage(), wiki);
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -165,12 +178,14 @@ public class AlternativesWindow extends WindowPane implements ActionListener {
 				return;
 			}
 			int i = radioButtons.indexOf(selected);
-			String l = wiki.getLanguage();
-			LanguageHandler lh = wiki.getEngine().getLanguageHandler(l);
-			TextContainer tc = sentence.getTextContainer(l).get(i);
+
+			// TODO There should be a cleaner way to do this:
+			LanguageHandler lh = wiki.getEngine().getLanguageHandler(language);
+			TextContainer tc = sentence.getTextContainer(language).get(i);
 			StatementFactory sf = wiki.getOntology().getStatementFactory();
 			Sentence newSentence = sf.extractSentences(lh, tc, null, sentence.getArticle()).get(0);
 			sentence.getArticle().edit(sentence, newSentence);
+
 			wiki.refresh();
 			setVisible(false);
 		}

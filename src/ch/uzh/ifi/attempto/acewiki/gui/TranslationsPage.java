@@ -8,7 +8,9 @@ import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiEngine;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
+import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.Label;
+import ch.uzh.ifi.attempto.echocomp.SmallButton;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
 
 public class TranslationsPage extends WikiPage implements ActionListener {
@@ -42,13 +44,28 @@ public class TranslationsPage extends WikiPage implements ActionListener {
 			Row r = new Row();
 			r.setInsets(new Insets(10, 5, 5, 5));
 			r.add(new Label(mSentence.getText(l)));
+			int a = mSentence.getTextContainer(l).size();
+			if (a > 1) {
+				// The sentence has more than one alternative
+				r.add(new HSpace(10));
+				String s = getWiki().getGUIText("acewiki_statement_alternatives");
+				SmallButton b = new SmallButton("(" + a + " " + s + ")", this);
+				b.setActionCommand(l);
+				r.add(b);
+			}
 			add(r);
 		}
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if ("acewiki_page_sentence".equals(e.getActionCommand())) {
+		String c = e.getActionCommand();
+		Object src = e.getSource();
+
+		if ("acewiki_page_sentence".equals(c)) {
 			getWiki().showPage(new SentencePage(getWiki(), mSentence));
+		} else if (src instanceof SmallButton) {
+			String lang = ((SmallButton) src).getActionCommand();
+			getWiki().showWindow(new AlternativesWindow(mSentence, lang, getWiki()));
 		}
 	}
 
