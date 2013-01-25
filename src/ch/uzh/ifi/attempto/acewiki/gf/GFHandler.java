@@ -108,6 +108,22 @@ public class GFHandler extends AbstractLanguageHandler {
 
 		mLocale = locale;
 		mLanguageName = languageName;
+
+		mEditorController.setDefaultMenuGroup("function word");
+
+		mEditorController.addMenuGroup("function word", 0);
+		mEditorController.addMenuGroup("proper name", 60);
+		mEditorController.addMenuGroup("variable", 120);
+		mEditorController.addMenuGroup("noun", 180);
+		mEditorController.addMenuGroup("verb", 240);
+
+		mEditorController.addPlainCategory("PN", "proper name");
+		mEditorController.addPlainCategory("Dig", "digit");
+		mEditorController.addPlainCategory("Var", "variable");
+		mEditorController.addPlainCategory("CN", "noun");
+		mEditorController.addPlainCategory("V2", "verb");
+
+		mEditorController.setAutocompleteTokens(".", "?");
 	}
 
 

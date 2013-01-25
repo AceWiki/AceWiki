@@ -98,7 +98,9 @@ public class GFPredictiveParser implements PredictiveParser {
 			try {
 				Set<String> completions = gfGrammar.complete(tokens, language);
 				for (String s : completions) {
-					options.add(new SimpleConcreteOption(s));
+					for (String c : gfGrammar.getTokenToCats(language).get(s)) {
+						options.add(new SimpleConcreteOption(s, c));
+					}
 				}
 				nextTokenOptions = new SimpleNextTokenOptions(options);
 			} catch (GfServiceException e) {
