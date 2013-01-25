@@ -46,11 +46,11 @@ import echopoint.ContainerEx;
 import echopoint.able.Scrollable;
 
 /**
- * This window shows different variants of a sentence and allows the user to disambiguate.
+ * This window shows different alternatives of a sentence and allows the user to choose from them.
  * 
  * @author Tobias Kuhn
  */
-public class DisambigWindow extends WindowPane implements ActionListener {
+public class AlternativesWindow extends WindowPane implements ActionListener {
 
 	private static final long serialVersionUID = 6519074999256404080L;
 
@@ -60,20 +60,20 @@ public class DisambigWindow extends WindowPane implements ActionListener {
 	private List<RadioButton> radioButtons = new ArrayList<>();
 
 	/**
-	 * Creates a new disambiguation window for the given sentence.
+	 * Creates a new alternatives window for the given sentence.
 	 * 
 	 * @param sentence The ambiguous sentence.
 	 * @param wiki The wiki object.
 	 */
-	public DisambigWindow(Sentence sentence, Wiki wiki) {
+	public AlternativesWindow(Sentence sentence, Wiki wiki) {
 		this.sentence = sentence;
 		this.wiki = wiki;
 		
-		setTitle(wiki.getGUIText("acewiki_disambigwindow_title"));
+		setTitle(wiki.getGUIText("acewiki_alternativeswindow_title"));
 		setTitleFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		setModal(true);
-		setWidth(new Extent(620));
-		setHeight(new Extent(305));
+		setWidth(new Extent(770));
+		setHeight(new Extent(347));
 		setResizable(false);
 		setMovable(true);
 		setTitleBackground(Style.windowTitleBackground);
@@ -84,7 +84,7 @@ public class DisambigWindow extends WindowPane implements ActionListener {
 			private static final long serialVersionUID = -3897741327122083261L;
 
 			public void windowPaneClosing(WindowPaneEvent e) {
-				actionPerformed(new ActionEvent(DisambigWindow.this, "general_action_close"));
+				actionPerformed(new ActionEvent(AlternativesWindow.this, "general_action_close"));
 			}
 
 		});
@@ -94,42 +94,42 @@ public class DisambigWindow extends WindowPane implements ActionListener {
 
 		Grid grid = new Grid(1);
 		grid.setInsets(new Insets(10, 10, 0, 0));
-		grid.setColumnWidth(0, new Extent(600));
-		grid.setRowHeight(0, new Extent(40));
-		grid.setRowHeight(1, new Extent(160));
+		grid.setColumnWidth(0, new Extent(750));
+		grid.setRowHeight(0, new Extent(55));
+		grid.setRowHeight(1, new Extent(200));
 
 		Column messageColumn = new Column();
 		messageColumn.setLayoutData(layout1);
 
-		Label label = new Label(wiki.getGUIText("acewiki_disambigwindow_message"));
+		Label label = new Label(wiki.getGUIText("acewiki_alternativeswindow_message"));
 		label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		messageColumn.add(label);
 		messageColumn.add(new VSpace());
 		grid.add(messageColumn);
 
-		ContainerEx variantsContainer = new ContainerEx();
-		variantsContainer.setScrollBarPolicy(Scrollable.AUTO);
-		variantsContainer.setWidth(new Extent(580));
-		variantsContainer.setHeight(new Extent(140));
-		Grid variantsGrid = new Grid(2);
-		variantsGrid.setColumnWidth(0, new Extent(25));
+		ContainerEx alternativesContainer = new ContainerEx();
+		alternativesContainer.setScrollBarPolicy(Scrollable.AUTO);
+		alternativesContainer.setWidth(new Extent(730));
+		alternativesContainer.setHeight(new Extent(180));
+		Grid alternativesGrid = new Grid(2);
+		alternativesGrid.setColumnWidth(0, new Extent(25));
 		for (TextContainer tc : sentence.getTextContainer(wiki.getLanguage())) {
 			RadioButton rb = new RadioButton(buttonGroup);
 			rb.setLayoutData(layout1);
 			radioButtons.add(rb);
-			variantsGrid.add(rb);
+			alternativesGrid.add(rb);
 			Column c = new Column();
-			c.setInsets(new Insets(0, 0, 0, 5));
+			c.setInsets(new Insets(0, 0, 5, 5));
 			c.add(new Label(tc.getText()));
-			variantsGrid.add(c);
+			alternativesGrid.add(c);
 		}
-		variantsContainer.add(variantsGrid);
-		variantsContainer.setLayoutData(layout1);
-		grid.add(variantsContainer);
+		alternativesContainer.add(alternativesGrid);
+		alternativesContainer.setLayoutData(layout1);
+		grid.add(alternativesContainer);
 
 		Row buttonBar = new Row();
 		buttonBar.setCellSpacing(new Extent(10));
-		buttonBar.add(new GeneralButton("acewiki_disambigwindow_button", this, 100));
+		buttonBar.add(new GeneralButton("acewiki_alternativeswindow_button", this, 100));
 		buttonBar.add(new GeneralButton("general_action_close", this, 100));
 		GridLayoutData layout2 = new GridLayoutData();
 		layout2.setAlignment(new Alignment(Alignment.CENTER, Alignment.TOP));
@@ -143,7 +143,7 @@ public class DisambigWindow extends WindowPane implements ActionListener {
 		String c = e.getActionCommand();
 		if ("general_action_close".equals(c)) {
 			setVisible(false);
-		} else if ("acewiki_disambigwindow_button".equals(c)) {
+		} else if ("acewiki_alternativeswindow_button".equals(c)) {
 			if (!wiki.isEditable()) {
 				wiki.showLoginWindow();
 				return;

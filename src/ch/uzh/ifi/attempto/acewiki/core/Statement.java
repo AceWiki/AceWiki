@@ -47,7 +47,7 @@ public interface Statement {
 	
 	/**
 	 * Returns the text of this statement in the given language (the first one if there are
-	 * multiple variants).
+	 * multiple alternatives).
 	 * 
 	 * @param language The language.
 	 * @return The text.

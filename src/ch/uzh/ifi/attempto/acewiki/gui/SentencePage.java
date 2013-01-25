@@ -73,7 +73,7 @@ public class SentencePage extends WikiPage implements ActionListener {
 
 		if (mtc.size() > 1) {
 			empty = false;
-			addHeadline("acewiki_details_variants");
+			addHeadline("acewiki_details_alternatives");
 			Column infoColumn = new Column();
 			infoColumn.setInsets(new Insets(10, 10, 5, 15));
 			for (TextContainer tc : mtc) {

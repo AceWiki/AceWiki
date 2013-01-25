@@ -30,7 +30,7 @@ public interface Sentence extends Statement {
 
 	/**
 	 * Returns a list of text elements that represent the tokens of this sentence in the given
-	 * language (the first one if there are multiple text variants).
+	 * language (the first one if there are multiple alternatives).
 	 * 
 	 * @param language The language.
 	 * @return A token list.
@@ -38,8 +38,8 @@ public interface Sentence extends Statement {
 	public List<TextElement> getTextElements(String language);
 
 	/**
-	 * Returns a text container with the text of this sentence (possibly in multiple variants)
-	 * in the given language.
+	 * Returns a text container with the text of this sentence (possibly with alternatives) in the
+	 * given language.
 	 * 
 	 * @param language The language.
 	 * @return The multi-text container.

@@ -21,8 +21,8 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 
 /**
- * This class represents a text that can have multiple variants (all in the same language).
- * Multiple variants can arise when the internal representation is ambiguous.
+ * This class represents a text that can have multiple alternatives (all in the same language).
+ * Multiple alternatives can arise when the internal representation is ambiguous.
  * 
  * @author Kaarel Kaljurand
  * @author Tobias Kuhn
@@ -34,7 +34,7 @@ public class MultiTextContainer implements Iterable<TextContainer> {
 	/**
 	 * Generates a new multi-text container.
 	 * 
-	 * @param textContainers The text containers, each representing a variant.
+	 * @param textContainers The text containers, each representing an alternative.
 	 */
 	public MultiTextContainer(TextContainer... textContainers) {
 		mTextContainerList = ImmutableList.copyOf(textContainers);
@@ -46,7 +46,7 @@ public class MultiTextContainer implements Iterable<TextContainer> {
 	/**
 	 * Generates a new multi-text container.
 	 * 
-	 * @param textContainers The text containers, each representing a variant.
+	 * @param textContainers The text containers, each representing an alternative.
 	 */
 	public MultiTextContainer(Collection<TextContainer> textContainers) {
 		mTextContainerList = ImmutableList.copyOf(textContainers);
@@ -56,7 +56,7 @@ public class MultiTextContainer implements Iterable<TextContainer> {
 	}
 
 	/**
-	 * Returns the text elements of the first variant.
+	 * Returns the text elements of the first alternative.
 	 * 
 	 * @return The text elements.
 	 */
@@ -65,19 +65,19 @@ public class MultiTextContainer implements Iterable<TextContainer> {
 	}
 
 	/**
-	 * Returns the text container for the given variant.
+	 * Returns the text container for the given alternative.
 	 * 
-	 * @param index The index of the variant.
-	 * @return The text container for the variant.
+	 * @param index The index of the alternative.
+	 * @return The text container for the alternative.
 	 */
 	public TextContainer get(int index) {
 		return mTextContainerList.get(index);
 	}
 
 	/**
-	 * Returns the number of variants.
+	 * Returns the number of alternatives.
 	 * 
-	 * @return The number of variants.
+	 * @return The number of alternatives.
 	 */
 	public int size() {
 		return mTextContainerList.size();

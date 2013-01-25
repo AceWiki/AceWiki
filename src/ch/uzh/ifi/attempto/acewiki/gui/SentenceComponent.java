@@ -55,7 +55,7 @@ public class SentenceComponent extends Column implements ActionListener {
 	private Row sentenceRow = new Row();
 	private StatementMenu dropDown;
 	private RecalcIcon recalcIcon;
-	private SmallButton variantsButton;
+	private SmallButton alternativesButton;
 
 	/**
 	 * Creates a new sentence component. The host page is the page that contains the text row
@@ -96,7 +96,7 @@ public class SentenceComponent extends Column implements ActionListener {
 		}
 
 		if (sentence.getTextContainer(wiki.getLanguage()).size() > 1) {
-			dropDown.addMenuEntry("acewiki_statementmenu_disambig", "acewiki_statementmenu_disambigtooltip");
+			dropDown.addMenuEntry("acewiki_statementmenu_alternatives", "acewiki_statementmenu_alternativestooltip");
 		}
 
 		dropDown.addMenuEntry("acewiki_statementmenu_details", "acewiki_statementmenu_detailstooltip");
@@ -121,10 +121,10 @@ public class SentenceComponent extends Column implements ActionListener {
 		sentenceRow.add(new TextRow(sentence.getTextElements(wiki.getLanguage()), wiki, isRed));
 		int v = sentence.getTextContainer(wiki.getLanguage()).size();
 		if (v > 1) {
-			// The sentence has more than one variant
+			// The sentence has more than one alternative
 			sentenceRow.add(new HSpace(10));
-			String t = wiki.getGUIText("acewiki_statement_variants");
-			sentenceRow.add(variantsButton = new SmallButton("(" + v + " " + t + ")", this));
+			String t = wiki.getGUIText("acewiki_statement_alternatives");
+			sentenceRow.add(alternativesButton = new SmallButton("(" + v + " " + t + ")", this));
 		}
 		sentenceRow.add(new HSpace(5));
 		sentenceRow.add(recalcIcon);
@@ -200,9 +200,9 @@ public class SentenceComponent extends Column implements ActionListener {
 		} else if ("acewiki_statementmenu_transl".equals(c)) {
 			log("dropdown: translations sentence:");
 			wiki.showPage(new TranslationsPage(wiki, sentence));
-		} else if ("acewiki_statementmenu_disambig".equals(c) || src == variantsButton) {
-			log("dropdown: disambiguate:");
-			wiki.showWindow(new DisambigWindow(sentence, wiki));
+		} else if ("acewiki_statementmenu_alternatives".equals(c) || src == alternativesButton) {
+			log("dropdown: alternatives:");
+			wiki.showWindow(new AlternativesWindow(sentence, wiki));
 		} else if (src instanceof MessageWindow && "general_action_yes".equals(c)) {
 			log("dropdown: delete confirmed:");
 			
