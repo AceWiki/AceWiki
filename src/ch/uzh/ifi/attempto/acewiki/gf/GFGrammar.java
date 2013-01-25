@@ -18,13 +18,17 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Sets;
 
 import ch.uzh.ifi.attempto.gfservice.GfModule;
 import ch.uzh.ifi.attempto.gfservice.GfParseResult;
@@ -34,6 +38,7 @@ import ch.uzh.ifi.attempto.gfservice.GfServiceResultBrowse;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultComplete;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultGrammar;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultLinearize;
+import ch.uzh.ifi.attempto.gfservice.GfServiceResultLinearizeAll;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultParse;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultRandom;
 import ch.uzh.ifi.attempto.gfservice.GfStorage;
@@ -79,6 +84,8 @@ public class GFGrammar {
 	private final Map<String, Set<String>> mCacheCatProducers = Maps.newHashMap();
 	private final Map<String, Set<String>> mCacheCatConsumers = Maps.newHashMap();
 
+	private final Map<String, Multimap<String, String>> langToTokenToCats = Maps.newHashMap();
+
 
 	/**
 	 * Creates a new GF grammar object.
@@ -91,6 +98,7 @@ public class GFGrammar {
 
 		try {
 			refreshGrammarInfo();
+			refreshLangToTokenToCats();
 		} catch (GfServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -226,14 +234,19 @@ public class GFGrammar {
 	}
 
 
+	public Multimap<String, String> getTokenToCats(String language) throws GfServiceException {
+		return langToTokenToCats.get(language);
+	}
+
+
 	/**
-	 * Serializes a given parse state.
+	 * Serializes a given tree set.
 	 *
-	 * @param parseState The parse state.
+	 * @param treeSet set of GF trees
 	 * @return The serialization.
 	 */
-	public static String serialize(TreeSet parseState) {
-		return Joiner.on(GF_TREE_SEPARATOR).join(parseState.getTrees());
+	public static String serialize(TreeSet treeSet) {
+		return Joiner.on(GF_TREE_SEPARATOR).join(treeSet.getTrees());
 	}
 
 
@@ -288,6 +301,7 @@ public class GFGrammar {
 			// the cache needs to be rebuilt.
 			mCacheCatProducers.clear();
 			mCacheCatConsumers.clear();
+			refreshLangToTokenToCats();
 		}
 		return result;
 	}
@@ -362,5 +376,69 @@ public class GFGrammar {
 			return producers;
 		}
 		return consumers;
+	}
+
+
+	/**
+	 * TODO: this should be done with a single webservice call, but
+	 * GF-Java should support it first.
+	 * Also: remove addResultBrowse
+	 */
+	private void refreshCats() throws GfServiceException {
+		mCacheCatProducers.clear();
+		mCacheCatConsumers.clear();
+		for (String cat : mGfServiceResultGrammar.getCategories()) {
+			GfServiceResultBrowse result = mGfService.browse(cat);
+			mCacheCatProducers.put(cat, result.getProducers());
+			mCacheCatConsumers.put(cat, result.getConsumers());
+		}
+	}
+
+
+	/**
+	 * <p>Creates a structure from which you can look up the categories of tokens.</p>
+	 *
+	 * <pre>
+	 * language -> token -> categories
+	 * </pre>
+	 */
+	private void refreshLangToTokenToCats() throws GfServiceException {
+		refreshCats();
+		langToTokenToCats.clear();
+		// Collect together all the consumer functions.
+		// TODO We are not interested in their linearizations, at least for the time begin.
+		Set<String> funsAllConsumers = Sets.newHashSet();
+		for (Entry<String, Set<String>> entry : mCacheCatConsumers.entrySet()) {
+			funsAllConsumers.addAll(entry.getValue());
+		}
+		// Iterate over all the categories that have producer functions
+		for (Entry<String, Set<String>> entry : mCacheCatProducers.entrySet()) {
+			String cat = entry.getKey();
+			// For each category look at its producers
+			for (String f : entry.getValue()) {
+				// If this function is also a consumer, then throw it out
+				if (funsAllConsumers.contains(f)) {
+					continue;
+				}
+				// Otherwise get all of its linearizations in all the languages.
+				// This includes all the wordforms and variants, because the linearization
+				// is likely to be a complex record that holds many strings.
+				GfServiceResultLinearizeAll result = mGfService.linearizeAll(f, null);
+				Map<String, Set<String>> langToTokens = result.getTexts();
+				for (Entry<String, Set<String>> entry2 : langToTokens.entrySet()) {
+					String lang = entry2.getKey();
+					Multimap<String, String> tokenToCats = langToTokenToCats.get(lang);
+					// If we haven't seen this language before then create a new hash table entry for it
+					if (tokenToCats == null) {
+						tokenToCats = HashMultimap.create();
+						langToTokenToCats.put(lang, tokenToCats);
+					}
+					// Store each token together with its category
+					for (String tok : entry2.getValue()) {
+						tokenToCats.put(tok, cat);
+					}
+				}
+			}
+		}
 	}
 }
