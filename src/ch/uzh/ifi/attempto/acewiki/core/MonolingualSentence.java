@@ -71,7 +71,7 @@ public abstract class MonolingualSentence extends AbstractSentence {
 	 */
 	public abstract List<SentenceDetail> getDetails();
 
-	public final List<SentenceDetail> getDetails(String language) {
+	public final List<SentenceDetail> getDetails(String language, int index) {
 		return getDetails();
 	}
 

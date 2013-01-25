@@ -25,8 +25,6 @@ import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceDetail;
-import ch.uzh.ifi.attempto.base.MultiTextContainer;
-import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
 import echopoint.DirectHtml;
@@ -39,6 +37,9 @@ import echopoint.DirectHtml;
 public class DetailsPage extends SentencePage implements ActionListener {
 
 	private static final long serialVersionUID = -1550505465878272821L;
+
+	private int selectedIndex = 0;
+	private IndexBar indexBar;
 
 	/**
 	 * Creates a new details page.
@@ -64,20 +65,16 @@ public class DetailsPage extends SentencePage implements ActionListener {
 		addHorizontalLine();
 		add(new VSpace(15));
 		
-		List<SentenceDetail> l = sentence.getDetails(getWiki().getLanguage());
-		MultiTextContainer mtc = sentence.getTextContainer(getWiki().getLanguage());
-		boolean empty = true;
-
-		if (mtc.size() > 1) {
-			empty = false;
-			addHeadline("acewiki_details_alternatives");
-			Column infoColumn = new Column();
-			infoColumn.setInsets(new Insets(10, 10, 5, 15));
-			for (TextContainer tc : mtc) {
-				infoColumn.add(new SolidLabel(tc.getText()));
-			}
-			add(infoColumn);
+		int n = sentence.getNumberOfRepresentations();
+		if (n > 1) {
+			indexBar = new IndexBar(n, "acewiki_details_representation", this);
+			indexBar.setActiveButton(selectedIndex);
+			add(indexBar);
+			add(new VSpace(10));
 		}
+		
+		List<SentenceDetail> l = sentence.getDetails(getWiki().getLanguage(), selectedIndex);
+		boolean empty = true;
 
 		if (l != null) {
 			for (SentenceDetail si : l) {
@@ -99,8 +96,14 @@ public class DetailsPage extends SentencePage implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if ("acewiki_page_translations".equals(e.getActionCommand())) {
+		String c = e.getActionCommand();
+		Object src = e.getSource();
+
+		if ("acewiki_page_translations".equals(c)) {
 			getWiki().showPage(new TranslationsPage(getWiki(), sentence));
+		} else if (src == indexBar) {
+			selectedIndex = Integer.parseInt(e.getActionCommand()) - 1;
+			update();
 		}
 	}
 

@@ -91,17 +91,20 @@ public interface Sentence extends Statement {
 	public boolean isImmutable();
 
 	/**
-	 * Returns a list of sentence details in the given language.
+	 * Returns a list of sentence details in the given language and for the given representation.
 	 * 
 	 * @param language The language.
+	 * @param index The index of the representation.
 	 * @return A list of sentence details.
 	 */
-	public List<SentenceDetail> getDetails(String language);
+	public List<SentenceDetail> getDetails(String language, int index);
 
 	/**
-	 * @return number of parse trees
+	 * Returns the number of internal representations. A value larger than 1 indicates internal
+	 * ambiguity.
+	 * 
+	 * @return The number of internal representations.
 	 */
-	// TODO find better name
-	public int getNumberOfParseTrees();
+	public int getNumberOfRepresentations();
 
 }

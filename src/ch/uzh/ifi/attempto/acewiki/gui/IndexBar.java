@@ -68,12 +68,25 @@ public class IndexBar extends Column implements ActionListener {
 	 * Creates a new index bar showing numbers from 1 to the specified number.
 	 * 
 	 * @param n The last number to be shown.
+	 * @param text The text of text key for the label.
+	 * @param actionListener The actionlistener.
+	 */
+	public IndexBar(int n, String text, ActionListener actionListener) {
+		String l = LocaleResources.getString(text);
+		if (l == null) l = text;
+		init(l);
+		this.actionListener = actionListener;
+		setNumbers(n);
+	}
+	
+	/**
+	 * Creates a new index bar showing numbers from 1 to the specified number.
+	 * 
+	 * @param n The last number to be shown.
 	 * @param actionListener The actionlistener.
 	 */
 	public IndexBar(int n, ActionListener actionListener) {
-		init(LocaleResources.getString("acewiki_list_page"));
-		this.actionListener = actionListener;
-		setNumbers(n);
+		this(n, "acewiki_list_page", actionListener);
 	}
 	
 	/**
