@@ -374,7 +374,7 @@ public abstract class ACESentence extends MonolingualSentence implements OWLSent
 	public List<SentenceDetail> getDetails() {
 		List<SentenceDetail> l = new ArrayList<SentenceDetail>();
 		l.add(new SentenceDetail(
-				"Paraphrase",
+				"acewiki_details_paraphrase",
 				StringEscapeUtils.escapeHtml(getParserResult().get(PARAPHRASE1))
 				));
 		l.add(new SentenceDetail(
@@ -382,11 +382,11 @@ public abstract class ACESentence extends MonolingualSentence implements OWLSent
 				SyntaxBoxes.getBoxesHtml(getParserResult())
 				));
 		l.add(new SentenceDetail(
-				"Syntax Tree",
+				"acewiki_details_syntree",
 				"<pre>" + getParserResult().get(SYNTAXPP) + "</pre>"
 				));
 		l.add(new SentenceDetail(
-				"Logical representation",
+				"acewiki_details_internal",
 				"<i><pre>" + StringEscapeUtils.escapeHtml(getParserResult().get(DRSPP)) + "</pre></i>"
 				));
 		if (isOWLSWRL()) {

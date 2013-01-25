@@ -71,7 +71,7 @@ class MenuBlock extends Column implements ActionListener {
 		this.width = width;
 		this.height = height;
 		this.colorShift = colorShift % 360;
-		this.app = ApplicationInstance.getActive();
+		this.app = EchoThread.getActiveApplication();
 		this.taskQueue = app.createTaskQueue();
 		this.preditor = preditor;
 		

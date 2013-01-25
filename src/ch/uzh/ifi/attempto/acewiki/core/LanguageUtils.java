@@ -18,6 +18,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import ch.uzh.ifi.attempto.echocomp.LocaleResources;
+
 /**
  * This utility class contains static methods for general tasks on the language level.
  * 
@@ -82,7 +84,9 @@ public class LanguageUtils {
 			} else if (!(o1 instanceof GeneralTopic) && o2 instanceof GeneralTopic) {
 				return 1;
 			} else {
-				return o1.getHeadwords()[0].compareToIgnoreCase(o2.getHeadwords()[0]);
+				String s1 = o1.getHeadwords()[0];
+				String s2 = o2.getHeadwords()[0];
+				return LocaleResources.getCollator().compare(s1, s2);
 			}
 		}
 		

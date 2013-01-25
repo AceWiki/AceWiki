@@ -54,6 +54,8 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyExportManager;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyExporter;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
+import ch.uzh.ifi.attempto.acewiki.core.Sentence;
+import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.core.StatementTableExporter;
 import ch.uzh.ifi.attempto.acewiki.core.User;
 import ch.uzh.ifi.attempto.acewiki.core.UserBase;
@@ -68,6 +70,7 @@ import ch.uzh.ifi.attempto.acewiki.gui.IndexPage;
 import ch.uzh.ifi.attempto.acewiki.gui.ListItem;
 import ch.uzh.ifi.attempto.acewiki.gui.LoginWindow;
 import ch.uzh.ifi.attempto.acewiki.gui.SearchPage;
+import ch.uzh.ifi.attempto.acewiki.gui.SentencePage;
 import ch.uzh.ifi.attempto.acewiki.gui.StartPage;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.acewiki.gui.UserWindow;
@@ -801,6 +804,31 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		}
 		if (stack.size() > 0 && currentPage.equals(stack.peek())) {
 			stack.pop();
+		}
+	}
+
+	public void updateStatement(Statement oldStatement, List<Statement> newStatements) {
+		Statement newStatement = null;
+		if (newStatements.size() == 1) {
+			newStatement = newStatements.get(0);
+		}
+		updateStatement(oldStatement, newStatement);
+	}
+
+	public void updateStatement(Statement oldStatement, Statement newStatement) {
+		if (!(newStatement instanceof Sentence)) return;
+		Sentence newSentence = (Sentence) newStatement;
+
+		List<WikiPage> pages = new ArrayList<>();
+		pages.addAll(history);
+		pages.add(currentPage);
+		pages.addAll(forward);
+		for (WikiPage page : pages) {
+			if (!(page instanceof SentencePage)) continue;
+			SentencePage sp = (SentencePage) page;
+			if (sp.getSentence() == oldStatement) {
+				sp.setSentence(newSentence);
+			}
 		}
 	}
 

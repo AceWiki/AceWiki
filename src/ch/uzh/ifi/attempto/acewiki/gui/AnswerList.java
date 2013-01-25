@@ -107,7 +107,7 @@ class AnswerList extends Column {
 			// Non-empty answer
 			for (AnswerElement ae : answer) {
 				TextContainer tc = ae.getAnswerText();
-				column.add(new ListItem(new TextRow(tc, wiki)));
+				column.add(new ListItem(new TextRow(tc.getTextElements(), wiki)));
 			}
 		} else {
 			// Empty answer

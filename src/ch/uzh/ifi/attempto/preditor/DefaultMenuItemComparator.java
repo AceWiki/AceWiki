@@ -14,9 +14,12 @@
 
 package ch.uzh.ifi.attempto.preditor;
 
+import java.text.Collator;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
+
+import ch.uzh.ifi.attempto.echocomp.LocaleResources;
 
 /**
  * This class represents the default comparator to sort menu items in the menus of the predictive
@@ -28,11 +31,13 @@ import java.util.Set;
 public class DefaultMenuItemComparator implements Comparator<MenuItem> {
 	
 	private Set<String> prefixes = new HashSet<String>();
+	private Collator collator;
 	
 	/**
 	 * Creates a new default comparator for menu items.
 	 */
 	public DefaultMenuItemComparator() {
+		collator = LocaleResources.getCollator();
 		prefixes.add("the ");
 		prefixes.add("The ");
 		prefixes.add("a ");
@@ -61,7 +66,7 @@ public class DefaultMenuItemComparator implements Comparator<MenuItem> {
 		
 		// Special menu items are not examined further:
 		if (m1 instanceof SpecialMenuItem && m2 instanceof SpecialMenuItem) {
-			return s1.compareToIgnoreCase(s2);
+			return collator.compare(s1, s2);
 		}
 		
 		// Certain prefixes are ignored for comparison:
@@ -101,11 +106,11 @@ public class DefaultMenuItemComparator implements Comparator<MenuItem> {
 			} catch (NumberFormatException ex) {}
 			comp = i1 - i2;
 		} else {
-			comp = s1.compareToIgnoreCase(s2);
+			comp = collator.compare(s1, s2);
 		}
 		
 		if (comp == 0) {
-			return p1.compareToIgnoreCase(p2);
+			return collator.compare(p1, p2);
 		} else {
 			return comp;
 		}

@@ -193,7 +193,9 @@ public class SentenceEditorHandler implements ActionListener {
 				try {
 					if (edit) {
 						wiki.log("edit", "sentence updated: " + textContainer.getText());
-						a.edit(statement, new ArrayList<Statement>(newSentences));
+						List<Statement> l = new ArrayList<Statement>(newSentences);
+						a.edit(statement, l);
+						wiki.updateStatement(statement, l);
 					} else {
 						wiki.log("edit", "sentence created: " + textContainer.getText());
 						a.add(statement, new ArrayList<Statement>(newSentences));

@@ -14,6 +14,7 @@
 
 package ch.uzh.ifi.attempto.acewiki.gf;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
@@ -75,7 +76,18 @@ public class GfTextOperator extends DefaultTextOperator {
 		Iterables.addAll(tokens, Splitter.on(SPACE).omitEmptyStrings().split(text));
 		return tokens;
 		 */
-		return super.splitIntoTokens(text);
+		List<String> preTokens = super.splitIntoTokens(text);
+		List<String> tokens = new ArrayList<>();
+		for (String t : preTokens) {
+			if (t.matches("[0-9]+")) {
+				for (int i = 0 ; i < t.length() ; i++) {
+					tokens.add(t.substring(i, i+1));
+				}
+			} else {
+				tokens.add(t);
+			}
+		}
+		return tokens;
 	}
 
 
@@ -83,12 +95,9 @@ public class GfTextOperator extends DefaultTextOperator {
 		if (GF_BIND.equals(right.getOriginalText()) || GF_BIND.equals(left.getOriginalText())) {
 			return EMPTY;
 		}
-		/*
-		// TODO: might not always be correct to glue these
-		if (right.getText().matches("[.?!,;:]")) {
+		if (right.getText().matches("[0-9]") && left.getText().matches("[0-9]")) {
 			return EMPTY;
 		}
-		 */
 		return super.getGlue(left, right);
 	}
 

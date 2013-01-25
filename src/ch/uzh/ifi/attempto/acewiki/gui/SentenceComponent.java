@@ -16,7 +16,6 @@ package ch.uzh.ifi.attempto.acewiki.gui;
 
 import nextapp.echo.app.Alignment;
 import nextapp.echo.app.Column;
-import nextapp.echo.app.Font;
 import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
@@ -33,10 +32,10 @@ import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.gf.GFDeclaration;
 import ch.uzh.ifi.attempto.acewiki.gf.GFEngine;
 import ch.uzh.ifi.attempto.acewiki.gf.GFGrammar;
-import ch.uzh.ifi.attempto.acewiki.gf.TreeSet;
+import ch.uzh.ifi.attempto.acewiki.gf.TreeList;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
-import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
+import ch.uzh.ifi.attempto.echocomp.SmallButton;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -80,6 +79,7 @@ public class SentenceComponent extends Column implements ActionListener {
 	private Row sentenceRow = new Row();
 	private StatementMenu dropDown;
 	private RecalcIcon recalcIcon;
+	private SmallButton alternativesButton;
 
 	/**
 	 * Creates a new sentence component. The host page is the page that contains the text row
@@ -120,6 +120,10 @@ public class SentenceComponent extends Column implements ActionListener {
 			dropDown.addMenuEntry(actionReanalyze.getTitle(), actionReanalyze.getDesc());
 		}
 
+		if (sentence.getTextContainer(wiki.getLanguage()).size() > 1) {
+			dropDown.addMenuEntry("acewiki_statementmenu_alternatives", "acewiki_statementmenu_alternativestooltip");
+		}
+
 		dropDown.addMenuEntry("acewiki_statementmenu_details", "acewiki_statementmenu_detailstooltip");
 
 		if (wiki.isMultilingual()) {
@@ -140,11 +144,13 @@ public class SentenceComponent extends Column implements ActionListener {
 		sentenceRow.removeAll();
 		sentenceRow.add(dropDown);
 		sentenceRow.add(new HSpace(5));
-		sentenceRow.add(new TextRow(sentence.getTextContainer(wiki.getLanguage()), wiki, isRed));
-		sentenceRow.add(new HSpace(5));
-		// If the sentence is ambiguous then show the number of trees
-		if (sentence.getNumberOfParseTrees() > 1) {
-			sentenceRow.add(new Label("(" + sentence.getNumberOfParseTrees() + ")", Font.BOLD));
+		sentenceRow.add(new TextRow(sentence.getTextElements(wiki.getLanguage()), wiki, isRed));
+		int a = sentence.getTextContainer(wiki.getLanguage()).size();
+		if (a > 1) {
+			// The sentence has more than one alternative
+			sentenceRow.add(new HSpace(10));
+			String t = wiki.getGUIText("acewiki_statement_alternatives");
+			sentenceRow.add(alternativesButton = new SmallButton("(" + a + " " + t + ")", this));
 		}
 		sentenceRow.add(new HSpace(5));
 		sentenceRow.add(recalcIcon);
@@ -166,6 +172,7 @@ public class SentenceComponent extends Column implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		String c = e.getActionCommand();
+		Object src = e.getSource();
 
 		if (!wiki.isEditable() && EDIT_ACTIONS.contains(c)) {
 			wiki.showLoginWindow();
@@ -225,7 +232,7 @@ public class SentenceComponent extends Column implements ActionListener {
 
 					@Override
 					public void execute() {
-						TreeSet parseState = new TreeSet(((GFDeclaration) sentence).getParseTrees());
+						TreeList parseState = new TreeList(((GFDeclaration) sentence).getParseTrees());
 						GFGrammar grammar = ((GFEngine) engine).getGFGrammar();
 						GFDeclaration gfDecl = new GFDeclaration(parseState, wiki.getLanguage(), grammar);
 						Article article = sentence.getArticle();
@@ -258,11 +265,14 @@ public class SentenceComponent extends Column implements ActionListener {
 			hostPage.update();
 		} else if ("acewiki_statementmenu_details".equals(c)) {
 			log("dropdown: details sentence:");
-			wiki.showPage(new SentencePage(wiki, sentence));
+			wiki.showPage(new DetailsPage(wiki, sentence));
 		} else if ("acewiki_statementmenu_transl".equals(c)) {
 			log("dropdown: translations sentence:");
 			wiki.showPage(new TranslationsPage(wiki, sentence));
-		} else if (e.getSource() instanceof MessageWindow && "general_action_yes".equals(c)) {
+		} else if ("acewiki_statementmenu_alternatives".equals(c) || src == alternativesButton) {
+			log("dropdown: alternatives:");
+			wiki.showWindow(new AlternativesWindow(sentence, wiki));
+		} else if (src instanceof MessageWindow && "general_action_yes".equals(c)) {
 			log("dropdown: delete confirmed:");
 			
 			wiki.enqueueStrongAsyncTask(

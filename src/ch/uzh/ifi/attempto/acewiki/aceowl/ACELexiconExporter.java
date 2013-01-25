@@ -22,6 +22,7 @@ import java.util.List;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyExporter;
 import ch.uzh.ifi.attempto.ape.LexiconEntry;
+import ch.uzh.ifi.attempto.echocomp.LocaleResources;
 
 /**
  * This exporter generates a lexicon file in the ACE lexicon format containing all the words used
@@ -42,7 +43,7 @@ public class ACELexiconExporter extends OntologyExporter {
 				}
 			}
 		}
-		Collections.sort(lexiconEntries, String.CASE_INSENSITIVE_ORDER);
+		Collections.sort(lexiconEntries, LocaleResources.getCollator());
 		for (String s : lexiconEntries) {
 			write(s + ".\n");
 		}

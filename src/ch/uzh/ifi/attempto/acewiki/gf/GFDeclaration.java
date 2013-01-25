@@ -22,7 +22,6 @@ import static ch.uzh.ifi.attempto.ape.OutputType.PARAPHRASE1;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -31,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ch.uzh.ifi.attempto.acewiki.core.Declaration;
+import ch.uzh.ifi.attempto.acewiki.core.LanguageHandler;
 import ch.uzh.ifi.attempto.acewiki.core.MultilingualSentence;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceDetail;
@@ -43,6 +43,7 @@ import ch.uzh.ifi.attempto.base.MultiTextContainer;
 import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.base.TextOperator;
+import ch.uzh.ifi.attempto.echocomp.LocaleResources;
 import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 
 import com.google.common.base.Joiner;
@@ -73,14 +74,14 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	// maps a language identifier to the set of linearizations (text containers) in this language
 	private final Map<String, MultiTextContainer> textContainers = new HashMap<String, MultiTextContainer>();
 
-	private TreeSet mTreeSet;
+	private TreeList mTreeSet;
 	private final String mLang;
 
 	public GFDeclaration(String lang, GFGrammar gfGrammar) {
 		mGfGrammar = gfGrammar;
 		mLang = lang;
 		try {
-			mTreeSet = new TreeSet(gfGrammar.random());
+			mTreeSet = new TreeList(gfGrammar.random());
 		} catch (GfServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -93,7 +94,7 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	 * @param treeSet The tree set.
 	 * @param gfGrammar The grammar object.
 	 */
-	public GFDeclaration(TreeSet treeSet, String lang, GFGrammar gfGrammar) {
+	public GFDeclaration(TreeList treeSet, String lang, GFGrammar gfGrammar) {
 		mTreeSet = treeSet;
 		mGfGrammar = gfGrammar;
 		mLang = lang;
@@ -105,21 +106,23 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	 * TODO: the input text should probably be in the form of a token list
 	 * 
 	 * @param text The declaration text.
-	 * @param language The language.
+	 * @param lh The language handler.
 	 * @param gfGrammar The grammar object.
 	 */
-	public GFDeclaration(String text, String lang, GFGrammar gfGrammar) {
-		// TODO: quick and ugly hack to be able to move on
-		text = text.replaceAll("([\\.?!])", " $1");
+	public GFDeclaration(String text, LanguageHandler lh, GFGrammar gfGrammar) {
+		String tokenText = "";
+		for (String t : lh.getTextOperator().splitIntoTokens(text)) {
+			tokenText += t + " ";
+		}
 		mGfGrammar = gfGrammar;
-		mLang = lang;
+		mLang = lh.getLanguage();
 		try {
-			mTreeSet = new TreeSet(getGFGrammar().parse(text, lang));
+			mTreeSet = new TreeList(getGFGrammar().parse(tokenText, mLang));
 			if (mTreeSet.size() == 0) {
 				// TODO this should be done properly; see GfTextOperator
 				// If parsing fails: first char to lower case
-				text = DefaultTextOperator.firstCharToLowerCase(text);
-				mTreeSet = new TreeSet(getGFGrammar().parse(text, lang));
+				tokenText = DefaultTextOperator.firstCharToLowerCase(tokenText);
+				mTreeSet = new TreeList(getGFGrammar().parse(tokenText, mLang));
 			}
 		} catch (GfServiceException e) {
 			// TODO Auto-generated catch block
@@ -131,7 +134,7 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 		MultiTextContainer mtc = textContainers.get(language);
 		Set<String> seen = Sets.newHashSet();
 		if (mtc == null) {
-			Set<TextContainer> tmp = new HashSet<TextContainer>();
+			List<TextContainer> tmp = new ArrayList<>();
 			for (String tree : mTreeSet.getTrees()) {
 				Set<String> lins = getLins(tree, language);
 
@@ -189,16 +192,17 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	 *
 	 * TODO: everything should be hyperlinked.
 	 */
-	public List<SentenceDetail> getDetails(String lang) {
+	public List<SentenceDetail> getDetails(String lang, int index) {
 		List<SentenceDetail> l = new ArrayList<SentenceDetail>();
 
 		if (mGfGrammar.isAceCompatible()) {
 			l.addAll(getSemantics());
 		}
 
-		for (String tree : mTreeSet.getTrees()) {
-			l.addAll(formatTree(mGfGrammar, tree, lang));
-		}
+//		for (String tree : mTreeSet.getTrees()) {
+//			l.addAll(formatTree(mGfGrammar, tree, lang));
+//		}
+		l.addAll(formatTree(mGfGrammar, lang, index));
 
 		return l;
 	}
@@ -209,12 +213,12 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	}
 
 
-	public int getNumberOfParseTrees() {
+	public int getNumberOfRepresentations() {
 		return mTreeSet.size();
 	}
 
 
-	public Set<String> getParseTrees() {
+	public List<String> getParseTrees() {
 		return mTreeSet.getTrees();
 	}
 
@@ -313,7 +317,7 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 
 
 	private String getImg(String dataUri) {
-		return "<img src=\"" + dataUri + "\"/>";
+		return "<a href=\"" + dataUri + "\"><img src=\"" + dataUri + "\" style=\"max-height:500px\"/></a>";
 	}
 
 
@@ -327,35 +331,36 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	}
 
 
-	private List<SentenceDetail> formatTree(GFGrammar grammar, String tree, String lang) {
+	private List<SentenceDetail> formatTree(GFGrammar grammar, String lang, int index) {
+		String tree = mTreeSet.getTrees().get(index);
 		List<SentenceDetail> l = new ArrayList<SentenceDetail>();
+		l.add(new SentenceDetail("acewiki_details_syntree", getParsetreeAsHtml(tree, lang)));
 		l.add(new SentenceDetail(
-				"Tree (ASCII)",
-				"<pre>" + tree + "</pre>"
+				LocaleResources.getString("acewiki_details_internal") + " (ASCII)",
+				"<p><code>" + tree + "</code></p>"
 				));
-		l.add(new SentenceDetail("Tree (diagram)", getAbstrtreeAsHtml(tree)));
-		l.add(new SentenceDetail("Parsetree for " + lang, getParsetreeAsHtml(tree, lang)));
-		try {
-			Map<String, Set<String>> m = grammar.linearize(tree);
-			StringBuilder sb = new StringBuilder();
-			sb.append("<ul>");
-			for (String key : m.keySet()) {
-				if (key.equals(lang)) {
-					sb.append("<li style='background-color: yellow'><b>" + key + "</b>: " + m.get(key) + "</li>");
-				} else {
-					sb.append("<li><b>" + key + "</b>: " + m.get(key) + "</li>");
-				}
-			}
-			sb.append("</ul>");
-			l.add(new SentenceDetail(
-					"Translations",
-					sb.toString()
-					));
-		} catch (GfServiceException e) {
-			l.add(getError(tree, lang, "linearization failed: " + e.getMessage()));
-		}
-
-		l.add(new SentenceDetail("Word alignment", getAlignmentAsHtml(tree)));
+		l.add(new SentenceDetail("acewiki_details_internal", getAbstrtreeAsHtml(tree)));
+//		try {
+//			Map<String, Set<String>> m = grammar.linearize(tree);
+//			StringBuilder sb = new StringBuilder();
+//			sb.append("<ul>");
+//			for (String key : m.keySet()) {
+//				if (key.equals(lang)) {
+//					sb.append("<li style='background-color: yellow'><b>" + key + "</b>: " + m.get(key) + "</li>");
+//				} else {
+//					sb.append("<li><b>" + key + "</b>: " + m.get(key) + "</li>");
+//				}
+//			}
+//			sb.append("</ul>");
+//			l.add(new SentenceDetail(
+//					"Translations",
+//					sb.toString()
+//					));
+//		} catch (GfServiceException e) {
+//			l.add(getError(tree, lang, "linearization failed: " + e.getMessage()));
+//		}
+//
+//		l.add(new SentenceDetail("Word alignment", getAlignmentAsHtml(tree)));
 
 		return l;
 	}
@@ -364,7 +369,7 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	/*
 	 * TODO: highlight the linearization that is in the language mLang
 	 */
-	private List<SentenceDetail> formatTranslations(GFGrammar grammar, TreeSet parseState, String currentLanguage) {
+	private List<SentenceDetail> formatTranslations(GFGrammar grammar, TreeList parseState, String currentLanguage) {
 		Multimap<String, Set<String>> mm = HashMultimap.create();
 
 		// Creating the map:

@@ -1,22 +1,22 @@
 package ch.uzh.ifi.attempto.acewiki.gf;
 
-import java.util.Set;
+import java.util.List;
 
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableList;
 
-public class TreeSet {
+public class TreeList {
 
-	private final ImmutableSet<String> mTrees;
+	private final ImmutableList<String> mTrees;
 
-	public TreeSet(Iterable<String> trees) {
-		mTrees = ImmutableSet.copyOf(trees);
+	public TreeList(Iterable<String> trees) {
+		mTrees = ImmutableList.copyOf(trees);
 	}
 
-	public TreeSet(String tree) {
-		mTrees = ImmutableSet.of(tree);
+	public TreeList(String tree) {
+		mTrees = ImmutableList.of(tree);
 	}
 
-	public Set<String> getTrees() {
+	public List<String> getTrees() {
 		return mTrees;
 	}
 

@@ -45,7 +45,7 @@ public abstract class AbstractSentence extends AbstractStatement implements Sent
 		return getArticle() == null;
 	}
 
-	public int getNumberOfParseTrees() {
+	public int getNumberOfRepresentations() {
 		return 1;
 	}
 
