@@ -37,7 +37,7 @@ import ch.uzh.ifi.attempto.gfservice.GfModule;
 import ch.uzh.ifi.attempto.gfservice.GfParseResult;
 import ch.uzh.ifi.attempto.gfservice.GfService;
 import ch.uzh.ifi.attempto.gfservice.GfServiceException;
-import ch.uzh.ifi.attempto.gfservice.GfServiceResultBrowse;
+import ch.uzh.ifi.attempto.gfservice.GfServiceResultBrowseAll;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultComplete;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultGrammar;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultLinearize;
@@ -86,10 +86,7 @@ public class GFGrammar {
 	private final String mDir;
 
 	private GfServiceResultGrammar mGfServiceResultGrammar;
-
-	// Cache for the categories and functions, and their relations
-	private final Map<String, Set<String>> mCacheCatProducers = Maps.newHashMap();
-	private final Map<String, Set<String>> mCacheCatConsumers = Maps.newHashMap();
+	private GfServiceResultBrowseAll mGfServiceResultBrowseAll;
 
 	private final Map<String, Multimap<String, String>> langToTokenToCats = Maps.newHashMap();
 
@@ -223,21 +220,13 @@ public class GFGrammar {
 	}
 
 
-	public Set<String> getProducers(String cat) throws GfServiceException {
-		Set<String> producers = mCacheCatProducers.get(cat);
-		if (producers == null) {
-			producers = addResultBrowse(cat, true);
-		}
-		return producers;
+	public Set<String> getProducers(String cat) {
+		return mGfServiceResultBrowseAll.getProducers(cat);
 	}
 
 
-	public Set<String> getConsumers(String cat) throws GfServiceException {
-		Set<String> consumers = mCacheCatConsumers.get(cat);
-		if (consumers == null) {
-			consumers = addResultBrowse(cat, false);
-		}
-		return consumers;
+	public Set<String> getConsumers(String cat) {
+		return mGfServiceResultBrowseAll.getProducers(cat);
 	}
 
 
@@ -304,10 +293,6 @@ public class GFGrammar {
 		}
 		if (result != null && result.isSuccess()) {
 			refreshGrammarInfo();
-			// Clear the cat/fun cache because the grammar has changed and
-			// the cache needs to be rebuilt.
-			mCacheCatProducers.clear();
-			mCacheCatConsumers.clear();
 			refreshLangToTokenToCats();
 		}
 		return result;
@@ -370,35 +355,7 @@ public class GFGrammar {
 
 	private void refreshGrammarInfo() throws GfServiceException {
 		mGfServiceResultGrammar = mGfService.grammar();
-	}
-
-
-	private Set<String> addResultBrowse(String cat, boolean returnProducers) throws GfServiceException {
-		GfServiceResultBrowse result = mGfService.browse(cat);
-		Set<String> producers = result.getProducers();
-		Set<String> consumers = result.getConsumers();
-		mCacheCatProducers.put(cat, producers);
-		mCacheCatConsumers.put(cat, consumers);
-		if (returnProducers) {
-			return producers;
-		}
-		return consumers;
-	}
-
-
-	/**
-	 * TODO: this should be done with a single webservice call, but
-	 * GF-Java should support it first.
-	 * Also: remove addResultBrowse
-	 */
-	private void refreshCats() throws GfServiceException {
-		mCacheCatProducers.clear();
-		mCacheCatConsumers.clear();
-		for (String cat : mGfServiceResultGrammar.getCategories()) {
-			GfServiceResultBrowse result = mGfService.browse(cat);
-			mCacheCatProducers.put(cat, result.getProducers());
-			mCacheCatConsumers.put(cat, result.getConsumers());
-		}
+		mGfServiceResultBrowseAll = mGfService.browseAll();
 	}
 
 
@@ -410,12 +367,12 @@ public class GFGrammar {
 	 * </pre>
 	 */
 	private void refreshLangToTokenToCats() throws GfServiceException {
-		refreshCats();
 		// Collect together all the consumer functions.
 		// TODO We are not interested in their linearizations, at least for the time begin.
 		Set<String> funsAllConsumers = Sets.newHashSet();
-		for (Entry<String, Set<String>> entry : mCacheCatConsumers.entrySet()) {
-			funsAllConsumers.addAll(entry.getValue());
+		Set<String> cats = mGfServiceResultBrowseAll.getCategories();
+		for (String cat : cats) {
+			funsAllConsumers.addAll(mGfServiceResultBrowseAll.getConsumers(cat));
 		}
 
 		int countAllFuns = mGfServiceResultGrammar.getFunctions().size();
@@ -430,10 +387,9 @@ public class GFGrammar {
 
 		langToTokenToCats.clear();
 		// Iterate over all the categories that have producer functions
-		for (Entry<String, Set<String>> entry : mCacheCatProducers.entrySet()) {
-			String cat = entry.getKey();
+		for (String cat : cats) {
 			// For each category look at its producers
-			for (String f : entry.getValue()) {
+			for (String f : mGfServiceResultBrowseAll.getProducers(cat)) {
 				// If this function is also a consumer, then throw it out
 				if (funsAllConsumers.contains(f)) {
 					continue;

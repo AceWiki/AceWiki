@@ -45,6 +45,7 @@ import ch.uzh.ifi.attempto.gfservice.GfServiceResultGrammar;
 public class GrammarPage extends AbstractNavigationPage implements ActionListener {
 
 	// TODO: localize
+	private static final boolean ADMIN_MODE = false;
 	private static final String ACTION_GRAMMAR_PUSH = "acewiki_action_grammar_push";
 	private static final String ACTION_GRAMMAR_PULL = "acewiki_action_grammar_pull";
 
@@ -96,10 +97,12 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 
 		add(new VSpace(20));
 
-		// TODO: this should not be a tab,
-		// and this should be visible only in an "admin" mode
-		addTab(ACTION_GRAMMAR_PUSH, this);
-		addTab(ACTION_GRAMMAR_PULL, this);
+		// TODO: these should be buttons (not tabs) as they do not open a new page
+		// TODO: admin mode should be a runtime thing
+		if (ADMIN_MODE) {
+			addTab(ACTION_GRAMMAR_PUSH, this);
+			addTab(ACTION_GRAMMAR_PULL, this);
+		}
 	}
 
 
@@ -133,14 +136,9 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 			table2.addEntry(GuiUtils.getNameComponent(mWiki, lang), JOINER_SPACE.join(langs.get(lang)));
 		}
 
-		try {
-			for (String cat : asSortedList(mInfo.getCategories())) {
-				table3.addEntry(cat, JOINER_COMMA.join(mGrammar.getProducers(cat)));
-				table4.addEntry(cat, JOINER_COMMA.join(mGrammar.getConsumers(cat)));
-			}
-		} catch (GfServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		for (String cat : asSortedList(mInfo.getCategories())) {
+			table3.addEntry(cat, JOINER_COMMA.join(mGrammar.getProducers(cat)));
+			table4.addEntry(cat, JOINER_COMMA.join(mGrammar.getConsumers(cat)));
 		}
 
 
