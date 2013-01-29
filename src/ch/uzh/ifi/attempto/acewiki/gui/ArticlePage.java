@@ -45,7 +45,7 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 	private static final long serialVersionUID = -297830105047433502L;
 
 	private Column textColumn = new Column();
-	private StatementMenu dropDown = new StatementMenu(StatementMenu.EMPTY_TYPE, getWiki(), this);
+	private StatementMenu dropDown;
 	private Title title;
 
 	/**
@@ -65,9 +65,6 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 
 		add(title);
 		addHorizontalLine();
-
-		dropDown.addMenuEntry("acewiki_statementmenu_addsent", "acewiki_statementmenu_addsenttooltip");
-		dropDown.addMenuEntry("acewiki_statementmenu_addcomm", "acewiki_statementmenu_addcommtooltip");
 
 		textColumn.setInsets(new Insets(10, 20, 0, 50));
 		textColumn.setCellSpacing(new Extent(2));
@@ -123,6 +120,10 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 	}
 
 	protected void updateTextColumn() {
+		dropDown = new StatementMenu(StatementMenu.EMPTY_TYPE, getWiki(), this);
+		dropDown.addMenuEntry("acewiki_statementmenu_addsent", "acewiki_statementmenu_addsenttooltip");
+		dropDown.addMenuEntry("acewiki_statementmenu_addcomm", "acewiki_statementmenu_addcommtooltip");
+
 		textColumn.removeAll();
 
 		for (Statement s : getArticle().getStatements()) {
