@@ -50,7 +50,8 @@ public class TranslationsPage extends SentencePage implements ActionListener {
 
 		AceWikiEngine e = getWiki().getEngine();
 		for (String l : e.getLanguages()) {
-			if (l.equals(getWiki().getLanguage())) continue;
+			// Uncomment to hide current language:
+			//if (l.equals(getWiki().getLanguage())) continue;
 			addHeadline(e.getLanguageHandler(l).getLanguageName());
 			Row r = new Row();
 			r.setInsets(new Insets(10, 5, 5, 5));
