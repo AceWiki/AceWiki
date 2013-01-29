@@ -126,7 +126,7 @@ public class StatementMenu extends Row implements ActionListener {
 		Button menuEntry = new Button(wiki.getGUIText(text));
 		menuEntry.setActionCommand(text);
 		menuEntry.setHeight(new Extent(16));
-		menuEntry.setWidth(new Extent(140));
+		menuEntry.setWidth(new Extent(180));
 		menuEntry.setBackground(Style.mediumBackground);
 		menuEntry.setForeground(Style.darkForeground);
 		menuEntry.setRolloverEnabled(true);
