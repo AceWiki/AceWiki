@@ -41,7 +41,6 @@ import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.echocomp.RadioButton;
 import ch.uzh.ifi.attempto.echocomp.Style;
-import ch.uzh.ifi.attempto.echocomp.VSpace;
 import echopoint.ContainerEx;
 import echopoint.able.Scrollable;
 
@@ -76,7 +75,7 @@ public class AlternativesWindow extends WindowPane implements ActionListener {
 		setTitleFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		setModal(true);
 		setWidth(new Extent(770));
-		setHeight(new Extent(347));
+		setHeight(new Extent(357));
 		setResizable(false);
 		setMovable(true);
 		setTitleBackground(Style.windowTitleBackground);
@@ -98,7 +97,7 @@ public class AlternativesWindow extends WindowPane implements ActionListener {
 		Grid grid = new Grid(1);
 		grid.setInsets(new Insets(10, 10, 0, 0));
 		grid.setColumnWidth(0, new Extent(750));
-		grid.setRowHeight(0, new Extent(55));
+		grid.setRowHeight(0, new Extent(65));
 		grid.setRowHeight(1, new Extent(200));
 
 		Column messageColumn = new Column();
@@ -107,7 +106,6 @@ public class AlternativesWindow extends WindowPane implements ActionListener {
 		Label label = new Label(wiki.getGUIText("acewiki_alternativeswindow_message"));
 		label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		messageColumn.add(label);
-		messageColumn.add(new VSpace());
 		grid.add(messageColumn);
 
 		ContainerEx alternativesContainer = new ContainerEx();
