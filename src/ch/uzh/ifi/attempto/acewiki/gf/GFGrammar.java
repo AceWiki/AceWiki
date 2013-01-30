@@ -26,11 +26,13 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Functions;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 
 import ch.uzh.ifi.attempto.gfservice.GfModule;
@@ -89,6 +91,7 @@ public class GFGrammar {
 	private GfServiceResultBrowseAll mGfServiceResultBrowseAll;
 
 	private final Map<String, Multimap<String, String>> langToTokenToCats = Maps.newHashMap();
+	private final Map<String, Integer> mCatToSize = Maps.newHashMap();
 
 
 	/**
@@ -227,6 +230,21 @@ public class GFGrammar {
 
 	public Set<String> getConsumers(String cat) {
 		return mGfServiceResultBrowseAll.getProducers(cat);
+	}
+
+
+	public String getCategoryName(String cat, String language) {
+		return mGfServiceResultBrowseAll.getCategoryName(cat, language);
+	}
+
+
+	/**
+	 * <p>Returns the {@code k} largest categories in the order of size.
+	 * The size is in terms of the number of producer functions that are
+	 * not consumer functions.</p>
+	 */
+	public List<String> getLargestCategories(int k) {
+		return Ordering.natural().onResultOf(Functions.forMap(mCatToSize)).greatestOf(mCatToSize.keySet(), k);
 	}
 
 
@@ -386,14 +404,18 @@ public class GFGrammar {
 		}
 
 		langToTokenToCats.clear();
+		mCatToSize.clear();
 		// Iterate over all the categories that have producer functions
 		for (String cat : cats) {
+			mCatToSize.put(cat, 0);
 			// For each category look at its producers
 			for (String f : mGfServiceResultBrowseAll.getProducers(cat)) {
 				// If this function is also a consumer, then throw it out
 				if (funsAllConsumers.contains(f)) {
 					continue;
 				}
+				// Increment the counter of producers that are not consumers for this category
+				mCatToSize.put(cat, mCatToSize.get(cat) + 1);
 				// Otherwise get all of its linearizations in all the languages.
 				// This includes all the wordforms and variants, because the linearization
 				// is likely to be a complex record that holds many strings.

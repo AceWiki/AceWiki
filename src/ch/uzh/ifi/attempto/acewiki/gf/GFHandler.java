@@ -59,10 +59,16 @@ public class GFHandler extends AbstractLanguageHandler {
 	private final String mLanguage;
 	private final String mLanguageName;
 	private final Locale mLocale;
-	private final EditorController mEditorController = new EditorController();
 	private final GFGrammar mGfGrammar;
 
 	private TextOperator mTextOperator;
+
+	// We use an editor controller which shows the largest categories in the
+	// grammar and labels them in a language sensitive way.
+	// TODO: we currently do not update that editor controller, even though
+	// the sizes and labels of the categories can change since the grammar is
+	// editable in the general case.
+	private final EditorController mEditorController;
 
 	/**
 	 * Creates a new GF handler for the given language.
@@ -108,22 +114,7 @@ public class GFHandler extends AbstractLanguageHandler {
 
 		mLocale = locale;
 		mLanguageName = languageName;
-
-		mEditorController.setDefaultMenuGroup("function word");
-
-		mEditorController.addMenuGroup("function word", 0);
-		mEditorController.addMenuGroup("proper name", 60);
-		mEditorController.addMenuGroup("variable", 120);
-		mEditorController.addMenuGroup("noun", 180);
-		mEditorController.addMenuGroup("verb", 240);
-
-		mEditorController.addPlainCategory("PN", "proper name");
-		mEditorController.addPlainCategory("Dig", "digit");
-		mEditorController.addPlainCategory("Var", "variable");
-		mEditorController.addPlainCategory("CN", "noun");
-		mEditorController.addPlainCategory("V2", "verb");
-
-		mEditorController.setAutocompleteTokens(".", "?");
+		mEditorController = GfEditorControllerFactory.createFromCats(mGfGrammar, mLanguage);
 	}
 
 
