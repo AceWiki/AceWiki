@@ -96,8 +96,8 @@ public class WordEditorForm extends ContentPane implements ActionListener {
 		buttonBar.setCellSpacing(new Extent(5));
 		grid.add(buttonBar);
 		
-		addButton("OK");
-		addButton("Cancel");
+		addButton("general_action_ok");
+		addButton("general_action_cancel");
 		
 		borderCol.add(grid);
 		add(borderCol);
@@ -191,6 +191,7 @@ public class WordEditorForm extends ContentPane implements ActionListener {
 			TextField tf = (TextField) formElement;
 			tf.setWidth(new Extent(parentWindow.getWidth().getValue()-223));
 			tf.setActionCommand("OK");
+			tf.addActionListener(this);
 		}
 		grid.add(formElement);
 		if (required) {

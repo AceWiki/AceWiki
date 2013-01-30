@@ -127,7 +127,7 @@ public class FormPane extends WordEditorForm {
 			Object value = d.getValue();
 			boolean required = d.isRequired();
 			if (value instanceof String) {
-				TextField textField = new TextField(this);
+				TextField textField = new TextField();
 				textField.setText(LanguageUtils.getPrettyPrinted((String) value));
 				formElement = textField;
 			} else if (value instanceof Boolean) {
@@ -265,7 +265,7 @@ public class FormPane extends WordEditorForm {
 			}
 		} else if ("general_action_cancel".equals(c) || "general_action_close".equals(c)) {
 			wiki.removeWindow(getParentWindow());
-		} else if ("general_action_ok".equals(c)) {
+		} else if ("general_action_ok".equals(c) || "OK".equals(c)) {
 			saveOrShowError();
 		} else if ("general_action_unlock".equals(c)) {
 			if (!wiki.isEditable()) {

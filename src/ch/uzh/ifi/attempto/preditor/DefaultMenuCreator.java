@@ -34,7 +34,7 @@ public class DefaultMenuCreator implements MenuCreator {
 	private Map<String, Integer> colors = new HashMap<String, Integer>();
 
 	public MenuEntry createMenuEntry(ConcreteOption option) {
-		return new MenuEntry(option, "word");
+		return new MenuEntry(option, "");
 	}
 	
 	public List<SpecialMenuItem> createSpecialMenuItems(NextTokenOptions options) {
