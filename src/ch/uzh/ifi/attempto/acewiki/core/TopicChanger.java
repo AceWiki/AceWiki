@@ -50,6 +50,9 @@ public class TopicChanger implements LexiconChanger {
 		if (oe != null && oe != topic) {
 			throw new InvalidWordException(LocaleResources.getString("acewiki_error_wordexists"));
 		}
+		if (word.isEmpty()) {
+			throw new InvalidWordException(LocaleResources.getString("acewiki_error_emptyrequiredfield"));
+		}
 		ontology.change(topic, newValues.get(0).toString());
 	}
 
