@@ -206,15 +206,25 @@ public class GfModulePage extends ArticlePage {
 	}
 
 
-	// TODO: preserve the correct space
 	private Component markupText(String text) {
+		StringBuilder sb = new StringBuilder();
 		Row row = new Row();
 		for (String s : modifyText(text).split("~b")) {
-			CommentPart cp = new CommentPart(s);
-			if (cp.getText().startsWith(" ")) row.add(new HSpace());
-			row.add(cp.getComponent());
-			if (cp.getText().endsWith(" ")) row.add(new HSpace());
+			// Check if the element is in the ontology
+			OntologyElement oe = mWiki.getOntology().getElement(s);
+			if (oe == null) {
+				sb.append(s);
+			} else {
+				if (sb.length() > 0) {
+					row.add(makePlainText(sb.toString()));
+					sb.setLength(0);
+				}
+				row.add(new HSpace());
+				row.add(new WikiLink(oe, s, mWiki, false));
+				row.add(new HSpace());
+			}
 		}
+		if (sb.length() > 0) row.add(makePlainText(sb.toString()));
 		return row;
 	}
 
@@ -236,32 +246,5 @@ public class GfModulePage extends ArticlePage {
 		label.setForeground(new Color(120, 120, 120));
 		label.setFont(new Font(Font.MONOSPACE, Font.PLAIN, new Extent(12)));
 		return label;
-	}
-
-
-	private class CommentPart extends Component {
-
-		private static final long serialVersionUID = 7211562413768166347L;
-		private Component comp;
-		private String text;
-
-		public CommentPart(String s) {
-			// Check if the element is in the ontology
-			OntologyElement oe = mWiki.getOntology().getElement(s);
-			if (oe == null) {
-				comp = makePlainText(s);
-			} else {
-				comp = new WikiLink(oe, s, mWiki, false);
-			}
-			text = s;
-		}
-
-		public Component getComponent() {
-			return comp;
-		}
-
-		public String getText() {
-			return text;
-		}
 	}
 }
