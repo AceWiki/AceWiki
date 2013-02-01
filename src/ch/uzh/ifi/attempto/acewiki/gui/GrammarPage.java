@@ -298,7 +298,7 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 	}
 
 
-	private static void replaceModuleContent(Article article, String newContent) {
+	public static void replaceModuleContent(Article article, String newContent) {
 		Statement newStatement = new Comment(newContent);
 		newStatement.init(article.getOntology(), article); // TODO: verify that this is correct
 		List<Statement> statements = article.getStatements();
