@@ -52,6 +52,8 @@ public class GfModulePage extends ArticlePage {
 	private final GFEngine mEngine;
 	private final Wiki mWiki;
 
+	private Column mColumnModuleContent;
+
 	public GfModulePage(OntologyElement element, Wiki wiki) {
 		super(wiki, element);
 		mElement = element;
@@ -114,7 +116,8 @@ public class GfModulePage extends ArticlePage {
 			GrammarPage.replaceModuleContent(getArticle(), makeDefaulContent());
 			grammarContent = getGrammarContent();
 		}
-		textColumn.add(getGfModuleColumn(grammarContent.getText()));
+		mColumnModuleContent = getGfModuleColumn(grammarContent.getText());
+		textColumn.add(mColumnModuleContent);
 
 		getTitle().setText(mElement.getWord());
 	}
@@ -153,10 +156,19 @@ public class GfModulePage extends ArticlePage {
 					getWiki().showWindow(new MessageWindow(
 							"Syntax error at line:column = " + result.getLocation(),
 							result.getResultCode()));
+					String line = result.getLocation().split(":")[0];
+					highlightSyntaxError(Integer.parseInt(line));
 				}
 			} catch (GfServiceException e) {
 				mLogger.info("parse: GfServiceException: '{}'", e.getMessage());
 			}
+		}
+	}
+
+
+	private void highlightSyntaxError(int nth1) {
+		if (mColumnModuleContent != null && nth1 <= mColumnModuleContent.getComponentCount()) {
+			mColumnModuleContent.getComponent(nth1 - 1).setBackground(Color.PINK); // TODO: improve color
 		}
 	}
 
