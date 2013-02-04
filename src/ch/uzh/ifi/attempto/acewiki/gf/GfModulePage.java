@@ -19,7 +19,8 @@ import ch.uzh.ifi.attempto.acewiki.core.Comment;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.gui.ArticlePage;
-import ch.uzh.ifi.attempto.acewiki.gui.CommentEditorHandler;
+import ch.uzh.ifi.attempto.acewiki.gui.EditorDialog;
+import ch.uzh.ifi.attempto.acewiki.gui.Executable;
 import ch.uzh.ifi.attempto.acewiki.gui.GrammarPage;
 import ch.uzh.ifi.attempto.acewiki.gui.WikiLink;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
@@ -85,14 +86,23 @@ public class GfModulePage extends ArticlePage {
 			if (!getWiki().isEditable()) {
 				getWiki().showLoginWindow();
 			} else {
-				mWiki.showWindow(CommentEditorHandler.generateEditWindow(getGrammarContent(), (ArticlePage) this));
-				// TODO: register callback to trigger parse() if editor is finished
+				EditorDialog.Builder editor = new EditorDialog.Builder(getGrammarContent(), this)
+				.setTitle("GF Module Editor")
+				.setSize(600, 600)
+				.setFont(new Font(Font.MONOSPACE, Font.PLAIN, new Extent(12)))
+				.setPositiveButton(new Executable() {
+					@Override
+					public void execute() {
+						parse(false);
+					}
+				});
+				mWiki.showWindow(editor.create());
 			}
 		} else if (ACTION_CHECK.equals(e.getActionCommand())) {
 			if (!getWiki().isEditable()) {
 				getWiki().showLoginWindow();
 			} else {
-				parse();
+				parse(true);
 			}
 		}
 	}
@@ -130,9 +140,9 @@ public class GfModulePage extends ArticlePage {
 				GfStorageResult result = mEngine.getGFGrammar().integrateGfModule(getGfModule());
 
 				if (result.isSuccess()) {
-					getWiki().showWindow(new MessageWindow("OK", "Grammar rebuilt successfully"));
+					mWiki.showWindow(new MessageWindow("OK", "Grammar rebuilt successfully"));
 				} else {
-					getWiki().showWindow(new MessageWindow(result.getResultCode(),
+					mWiki.showWindow(new MessageWindow(result.getResultCode(),
 							result.getMessage() + " (" + result.getCommand() + ")"));
 				}
 			} catch (GfServiceException e) {
@@ -142,18 +152,19 @@ public class GfModulePage extends ArticlePage {
 	}
 
 
-	private void parse() {
+	private void parse(boolean popupOnSuccess) {
 		// TODO: this blocks, do it in the background
 		if (hasContent()) {
 			try {
 				GfParseResult result = mEngine.getGFGrammar().parseGfModule(getGfModule());
 				if (result.isSuccess()) {
-					getWiki().showWindow(new MessageWindow("OK", "There are no syntax errors."));
-				}
-				else {
+					if (popupOnSuccess) {
+						mWiki.showWindow(new MessageWindow("OK", "There are no syntax errors."));
+					}
+				} else {
 					// Pop up error message
 					mLogger.info("parse: GfParseResult: '{}'", result);
-					getWiki().showWindow(new MessageWindow(
+					mWiki.showWindow(new MessageWindow(
 							"Syntax error at line:column = " + result.getLocation(),
 							result.getResultCode()));
 					String line = result.getLocation().split(":")[0];
