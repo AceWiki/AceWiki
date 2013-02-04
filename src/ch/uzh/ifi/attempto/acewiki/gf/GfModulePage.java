@@ -52,7 +52,7 @@ public class GfModulePage extends ArticlePage {
 	private final GFEngine mEngine;
 	private final Wiki mWiki;
 
-	private Column mColumnModuleContent;
+	private Row mFormattedModuleContent;
 
 	public GfModulePage(OntologyElement element, Wiki wiki) {
 		super(wiki, element);
@@ -116,8 +116,8 @@ public class GfModulePage extends ArticlePage {
 			GrammarPage.replaceModuleContent(getArticle(), makeDefaulContent());
 			grammarContent = getGrammarContent();
 		}
-		mColumnModuleContent = getGfModuleColumn(grammarContent.getText());
-		textColumn.add(mColumnModuleContent);
+		mFormattedModuleContent = getGfModuleColumn(grammarContent.getText());
+		textColumn.add(mFormattedModuleContent);
 
 		getTitle().setText(mElement.getWord());
 	}
@@ -167,8 +167,10 @@ public class GfModulePage extends ArticlePage {
 
 
 	private void highlightSyntaxError(int nth1) {
-		if (mColumnModuleContent != null && nth1 <= mColumnModuleContent.getComponentCount()) {
-			mColumnModuleContent.getComponent(nth1 - 1).setBackground(Color.PINK); // TODO: improve color
+		if (mFormattedModuleContent != null &&
+				mFormattedModuleContent.getComponent(0) != null &&
+				nth1 <= mFormattedModuleContent.getComponent(0).getComponentCount()) {
+			mFormattedModuleContent.getComponent(0).getComponent(nth1 - 1).setBackground(Color.PINK);
 		}
 	}
 
@@ -202,23 +204,29 @@ public class GfModulePage extends ArticlePage {
 	}
 
 
-	private Column getGfModuleColumn(String text) {
-		Column c = new Column();
+	private Row getGfModuleColumn(String text) {
+		Column colNumbers = new Column();
+		Column colLines = new Column();
 		int lineNumber = 0;
 		for (String s : text.split("\\n")) {
 			lineNumber++;
-			Row r = new Row();
-			r.add(new VSpace(17));
-			r.add(makeLineNumber(lineNumber));
-			r.add(new HSpace(20));
-			r.add(markupText(s));
-			c.add(r);
+			Row rowNumber = new Row();
+			rowNumber.add(makeLineNumber(lineNumber));
+			colNumbers.add(rowNumber);
+
+			Row rowLine = new Row();
+			rowLine.add(markupLine(s));
+			colLines.add(rowLine);
 		}
-		return c;
+		Row row = new Row();
+		row.add(colNumbers);
+		row.add(new HSpace(20));
+		row.add(colLines);
+		return row;
 	}
 
 
-	private Component markupText(String text) {
+	private Component markupLine(String text) {
 		StringBuilder sb = new StringBuilder();
 		Row row = new Row();
 		for (String s : modifyText(text).split("~b")) {
@@ -236,7 +244,7 @@ public class GfModulePage extends ArticlePage {
 				row.add(new HSpace());
 			}
 		}
-		if (sb.length() > 0) row.add(makePlainText(sb.toString()));
+		row.add(makePlainText(sb.toString()));
 		return row;
 	}
 
@@ -245,18 +253,27 @@ public class GfModulePage extends ArticlePage {
 		return text;
 	}
 
-	private static SolidLabel makePlainText(String s) {
+	/**
+	 * Turns the given string into a label.
+	 * Empty strings also get a representation, otherwise they would not create a row.
+	 */
+	private static Component makePlainText(String s) {
+		if (s.isEmpty()) {
+			s = "\u00A0";
+		}
 		SolidLabel label = new SolidLabel(s, Font.PLAIN);
 		label.setForeground(Style.darkForeground);
 		label.setFont(new Font(Font.MONOSPACE, Font.PLAIN, new Extent(12)));
+		label.setFormatWhitespace(true); // TODO: maybe this should be part of any SolidLabel
 		return label;
 	}
 
 
 	private static SolidLabel makeLineNumber(int lineNumber) {
-		SolidLabel label = new SolidLabel(String.format("%04d", lineNumber), Font.PLAIN);
+		SolidLabel label = new SolidLabel(String.format("%4d", lineNumber), Font.PLAIN);
 		label.setForeground(new Color(120, 120, 120));
 		label.setFont(new Font(Font.MONOSPACE, Font.PLAIN, new Extent(12)));
+		label.setFormatWhitespace(true); // TODO: maybe this should be part of any SolidLabel
 		return label;
 	}
 }
