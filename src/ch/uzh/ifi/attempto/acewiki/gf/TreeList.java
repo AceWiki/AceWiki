@@ -24,8 +24,8 @@ public class TreeList {
 	 * @return the single member if the set is singleton, otherwise return {@code null}
 	 */
 	public String getTree() {
-		if (size() == 1) {
-			return mTrees.iterator().next();
+		if (mTrees.size() == 1) {
+			return mTrees.get(0);
 		}
 		return null;
 	}

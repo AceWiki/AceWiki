@@ -80,6 +80,9 @@ public class GFGrammar {
 
 	private final static int GF_PARSE_LIMIT = 10;
 
+	public final static Joiner GF_TREE_JOINER = Joiner.on(GF_TREE_SEPARATOR);
+	public final static Joiner GF_TOKEN_JOINER = Joiner.on(GF_TOKEN_SEPARATOR);
+	public final static Splitter GF_TREE_SPLITTER = Splitter.on(GF_TREE_SEPARATOR);
 	public final static Splitter GF_TOKEN_SPLITTER = Splitter.on(GF_TOKEN_SEPARATOR);
 
 	private final GfService mGfService;
@@ -91,6 +94,9 @@ public class GFGrammar {
 	private GfServiceResultBrowseAll mGfServiceResultBrowseAll;
 
 	private final Map<String, Multimap<String, String>> langToTokenToCats = Maps.newHashMap();
+
+	// TODO: could use a Multiset instead but there does not seem to be a
+	// short way to get out k-largest elements.
 	private final Map<String, Integer> mCatToSize = Maps.newHashMap();
 
 
@@ -170,7 +176,7 @@ public class GFGrammar {
 	 * @return The parse state.
 	 */
 	public static TreeList deserialize(String serialized) {
-		return new TreeList(Splitter.on(GF_TREE_SEPARATOR).split(serialized));
+		return new TreeList(GF_TREE_SPLITTER.split(serialized));
 	}
 
 
@@ -260,7 +266,7 @@ public class GFGrammar {
 	 * @return The serialization.
 	 */
 	public static String serialize(TreeList parseState) {
-		return Joiner.on(GF_TREE_SEPARATOR).join(parseState.getTrees());
+		return GF_TREE_JOINER.join(parseState.getTrees());
 	}
 
 
@@ -367,7 +373,7 @@ public class GFGrammar {
 		if (tokens.isEmpty()) {
 			return "";
 		}
-		return Joiner.on(GF_TOKEN_SEPARATOR).join(tokens) + GF_TOKEN_SEPARATOR;
+		return GF_TOKEN_JOINER.join(tokens) + GF_TOKEN_SEPARATOR;
 	}
 
 
