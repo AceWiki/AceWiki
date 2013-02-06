@@ -27,12 +27,10 @@ import nextapp.echo.app.Insets;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
-import ch.uzh.ifi.attempto.acewiki.core.Article;
-import ch.uzh.ifi.attempto.acewiki.core.Comment;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
-import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.gf.GFGrammar;
+import ch.uzh.ifi.attempto.acewiki.gf.GfModulePage;
 import ch.uzh.ifi.attempto.acewiki.gf.TypeGfModule;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.TextAreaWindow;
@@ -185,7 +183,7 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 		for (TypeGfModule module : mWiki.getOntology().getOntologyElements(TypeGfModule.class)) {
 			sb.append(module.getWord());
 			sb.append(": ");
-			String content = getModuleContent(module.getArticle());
+			String content = GfModulePage.getModuleContent(module.getArticle()).getText();
 			if (content == null) {
 				countEmpty++;
 				sb.append("EMPTY");
@@ -246,11 +244,11 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 					sb.append(" CREATED");
 				} else {
 					countOld++;
-					oldContent = getModuleContent(el.getArticle());
+					oldContent = GfModulePage.getModuleContent(el.getArticle()).getText();
 				}
 
 				if (! newContent.equals(oldContent)) {
-					replaceModuleContent(el.getArticle(), newContent);
+					GfModulePage.replaceModuleContent(el.getArticle(), newContent);
 					countChanged++;
 					sb.append(" UPDATED");
 				}
@@ -281,32 +279,6 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 		List<T> list = new ArrayList<T>(c);
 		java.util.Collections.sort(list);
 		return list;
-	}
-
-
-	// TODO: the following methods assume that a GF module is an article
-	// which contains at most one Comment whose text is the module's GF source.
-	private static String getModuleContent(Article article) {
-		if (article == null) {
-			return null;
-		}
-		List<Statement> statements = article.getStatements();
-		if (statements == null || statements.isEmpty()) {
-			return null;
-		}
-		return statements.get(0).getText(null);
-	}
-
-
-	public static void replaceModuleContent(Article article, String newContent) {
-		Statement newStatement = new Comment(newContent);
-		newStatement.init(article.getOntology(), article); // TODO: verify that this is correct
-		List<Statement> statements = article.getStatements();
-		if (statements == null || statements.isEmpty()) {
-			article.add(null, newStatement);
-		} else {
-			article.edit(statements.get(0), newStatement);
-		}
 	}
 
 }

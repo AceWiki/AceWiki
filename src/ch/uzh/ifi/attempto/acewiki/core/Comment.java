@@ -14,14 +14,20 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
+import java.util.Set;
+
+import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
+
 /**
  * This class represents a comment that is a part of an article. A comment must have
  * an ontology element as owner.
  */
 public class Comment extends AbstractStatement {
-	
+
 	private final String text;
-	
+
 	/**
 	 * Creates a new comment.
 	 * 
@@ -30,12 +36,13 @@ public class Comment extends AbstractStatement {
 	public Comment(String text) {
 		this.text = text;
 	}
-	
+
+
 	public String getText(String language) {
 		// Comments are not multilingual at this point
 		return text;
 	}
-	
+
 	/**
 	 * Returns the (language-independent) text of this comment.
 	 * 
@@ -44,9 +51,35 @@ public class Comment extends AbstractStatement {
 	public String getText() {
 		return text;
 	}
-	
+
 	public String serialize() {
 		return text.replaceAll("~", "~t").replaceAll("\\n", "~n");
+	}
+
+
+	public Set<OntologyElement> getReferencedElements() {
+		return ImmutableSet.copyOf(makeReferencedElements(text));
+	}
+
+
+	private Set<OntologyElement> makeReferencedElements(String text) {
+		Set<OntologyElement> set = Sets.newHashSet();
+		Ontology ont = getOntology();
+		if (ont == null) {
+			return set;
+		}
+		for (String s : tokenizeText(text)) {
+			OntologyElement oe = ont.getElement(s);
+			if (oe != null) {
+				set.add(oe);
+			}
+		}
+		return set;
+	}
+
+
+	public static Iterable<String> tokenizeText(String text) {
+		return Splitter.on("~b").split(text.replaceAll("([a-zA-Z0-9_-]+)", "~b$1~b"));
 	}
 
 }

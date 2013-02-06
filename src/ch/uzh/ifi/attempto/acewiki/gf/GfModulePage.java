@@ -7,21 +7,25 @@ import nextapp.echo.app.Column;
 import nextapp.echo.app.Component;
 import nextapp.echo.app.Extent;
 import nextapp.echo.app.Font;
+import nextapp.echo.app.Grid;
+import nextapp.echo.app.Insets;
 import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Splitter;
+
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiEngine;
+import ch.uzh.ifi.attempto.acewiki.core.Article;
 import ch.uzh.ifi.attempto.acewiki.core.Comment;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.gui.ArticlePage;
 import ch.uzh.ifi.attempto.acewiki.gui.EditorDialog;
 import ch.uzh.ifi.attempto.acewiki.gui.Executable;
-import ch.uzh.ifi.attempto.acewiki.gui.GrammarPage;
 import ch.uzh.ifi.attempto.acewiki.gui.WikiLink;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
@@ -48,6 +52,8 @@ public class GfModulePage extends ArticlePage {
 	private static final String ACTION_EDIT = "Edit module";
 	private static final String ACTION_CHECK = "Check module";
 	private static final String ACTION_MAKE = "Rebuild grammar";
+
+	public final static Splitter SPLITTER_NL = Splitter.on('\n');
 
 	private final OntologyElement mElement;
 	private final GFEngine mEngine;
@@ -86,7 +92,7 @@ public class GfModulePage extends ArticlePage {
 			if (!getWiki().isEditable()) {
 				getWiki().showLoginWindow();
 			} else {
-				EditorDialog.Builder editor = new EditorDialog.Builder(getGrammarContent(), this)
+				EditorDialog.Builder editor = new EditorDialog.Builder(getModuleContent(), this)
 				.setTitle("GF Module Editor")
 				.setSize(600, 600)
 				.setFont(new Font(Font.MONOSPACE, Font.PLAIN, new Extent(12)))
@@ -112,19 +118,29 @@ public class GfModulePage extends ArticlePage {
 		Column textColumn = getTextColumn();
 		textColumn.removeAll();
 
-		Row buttonRow = new Row();
-		buttonRow.add(new GeneralButton(ACTION_EDIT, this));
-		buttonRow.add(new HSpace(8));
-		buttonRow.add(new GeneralButton(ACTION_CHECK, this));
-		buttonRow.add(new HSpace(8));
-		buttonRow.add(new GeneralButton(ACTION_MAKE, this));
-		buttonRow.add(new VSpace(40));
-		textColumn.add(buttonRow);
+		Grid referencesGrid = new Grid(5);
+		referencesGrid.setInsets(new Insets(4, 2, 8, 2));
+		for (TypeGfModule oe : mWiki.getOntology().getOntologyElements(TypeGfModule.class)) {
+			if (oe != mElement && isReferencingElement(oe, mElement)) {
+				referencesGrid.add(new WikiLink(oe, oe.getWord(), mWiki, false));
+			}
+		}
 
-		Comment grammarContent = getGrammarContent();
-		if (grammarContent == null) {
-			GrammarPage.replaceModuleContent(getArticle(), makeDefaulContent());
-			grammarContent = getGrammarContent();
+		Row buttonRow = new Row();
+		buttonRow.setCellSpacing(new Extent(10));
+		buttonRow.add(new GeneralButton(ACTION_EDIT, this));
+		buttonRow.add(new GeneralButton(ACTION_CHECK, this));
+		buttonRow.add(new GeneralButton(ACTION_MAKE, this));
+
+		textColumn.add(referencesGrid);
+		textColumn.add(new VSpace(20));
+		textColumn.add(buttonRow);
+		textColumn.add(new VSpace(20));
+
+		Comment grammarContent = getModuleContent();
+		if (grammarContent == null || grammarContent.getText().isEmpty()) {
+			replaceModuleContent(getArticle(), makeDefaulContent());
+			grammarContent = getModuleContent();
 		}
 		mFormattedModuleContent = getGfModuleColumn(grammarContent.getText());
 		textColumn.add(mFormattedModuleContent);
@@ -187,12 +203,17 @@ public class GfModulePage extends ArticlePage {
 
 
 	private GfModule getGfModule() {
-		return new GfModule(getName(), getGrammarContent().getText());
+		return new GfModule(getName(), getModuleContent().getText());
 	}
 
 
 	private boolean hasContent() {
-		return getGrammarContent() != null;
+		return getModuleContent() != null;
+	}
+
+
+	private Comment getModuleContent() {
+		return getModuleContent(getArticle());
 	}
 
 
@@ -202,16 +223,7 @@ public class GfModulePage extends ArticlePage {
 
 
 	private String makeDefaulContent() {
-		return "resource " + mElement.getWord() + " = {\n\n\t\n}";
-	}
-
-
-	private Comment getGrammarContent() {
-		List<Statement> statements = getArticle().getStatements();
-		if (statements == null || statements.isEmpty() || ! (statements.get(0) instanceof Comment)) {
-			return null;
-		}
-		return (Comment) statements.get(0);
+		return "resource " + mElement.getWord() + " = {\n\n}";
 	}
 
 
@@ -219,7 +231,7 @@ public class GfModulePage extends ArticlePage {
 		Column colNumbers = new Column();
 		Column colLines = new Column();
 		int lineNumber = 0;
-		for (String s : text.split("\\n")) {
+		for (String s : SPLITTER_NL.split(text)) {
 			lineNumber++;
 			Row rowNumber = new Row();
 			rowNumber.add(makeLineNumber(lineNumber));
@@ -240,9 +252,9 @@ public class GfModulePage extends ArticlePage {
 	private Component markupLine(String text) {
 		StringBuilder sb = new StringBuilder();
 		Row row = new Row();
-		for (String s : modifyText(text).split("~b")) {
+		for (String s : Comment.tokenizeText(text)) {
 			// Check if the element is in the ontology
-			OntologyElement oe = mWiki.getOntology().getElement(s);
+			OntologyElement oe = mWiki.getOntology().getElement(s); // TODO: reuse the references set rom the statement
 			if (oe == null) {
 				sb.append(s);
 			} else {
@@ -259,10 +271,6 @@ public class GfModulePage extends ArticlePage {
 		return row;
 	}
 
-	private String modifyText(String text) {
-		text = text.replaceAll("([a-zA-Z0-9_-]+)", "~b$1~b");
-		return text;
-	}
 
 	/**
 	 * Turns the given string into a label.
@@ -286,5 +294,38 @@ public class GfModulePage extends ArticlePage {
 		label.setFont(new Font(Font.MONOSPACE, Font.PLAIN, new Extent(12)));
 		label.setFormatWhitespace(true); // TODO: maybe this should be part of any SolidLabel
 		return label;
+	}
+
+
+	private static boolean isReferencingElement(OntologyElement oe1, OntologyElement oe2) {
+		for (Statement statement : oe1.getArticle().getStatements()) {
+			if (statement instanceof Comment &&
+					((Comment) statement).getReferencedElements().contains(oe2)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+	// TODO: the following methods assume that a GF module is an article
+	// which contains at most one Comment whose text is the module's GF source.
+	public static Comment getModuleContent(Article article) {
+		List<Statement> statements = article.getStatements();
+		if (statements == null || statements.isEmpty() || ! (statements.get(0) instanceof Comment)) {
+			return null;
+		}
+		return (Comment) statements.get(0);
+	}
+
+	public static void replaceModuleContent(Article article, String newContent) {
+		Statement newStatement = new Comment(newContent);
+		newStatement.init(article.getOntology(), article);
+		List<Statement> statements = article.getStatements();
+		if (statements == null || statements.isEmpty()) {
+			article.add(null, newStatement);
+		} else {
+			article.edit(statements.get(0), newStatement);
+		}
 	}
 }
