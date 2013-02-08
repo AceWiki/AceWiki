@@ -21,17 +21,24 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Sets;
 
+import nextapp.echo.app.Extent;
 import nextapp.echo.app.Insets;
+import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.User;
 import ch.uzh.ifi.attempto.acewiki.gf.GFGrammar;
 import ch.uzh.ifi.attempto.acewiki.gf.GfModulePage;
 import ch.uzh.ifi.attempto.acewiki.gf.TypeGfModule;
+import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.TextAreaWindow;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
@@ -43,13 +50,14 @@ import ch.uzh.ifi.attempto.gfservice.GfServiceResultGrammar;
 public class GrammarPage extends AbstractNavigationPage implements ActionListener {
 
 	// TODO: localize
-	private static final boolean ADMIN_MODE = false;
 	private static final String ACTION_GRAMMAR_PUSH = "acewiki_action_grammar_push";
 	private static final String ACTION_GRAMMAR_PULL = "acewiki_action_grammar_pull";
 
+	private static final Insets INSETS = new Insets(10, 10, 10, 15);
 	private static final long serialVersionUID = -2031690219932377941L;
 	private static final Joiner JOINER_SPACE = Joiner.on(' ');
 	private static final Joiner JOINER_COMMA = Joiner.on(", ");
+	private static final Splitter SPLITTER_RIGHTS = Splitter.on(",").omitEmptyStrings().trimResults();
 	private final CompTable table1, table2, table3, table4;
 	private final CompTable mTableTokens;
 	private final Label mTableTokensLabel = new Label();
@@ -68,39 +76,56 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 		addHorizontalLine();
 		add(new VSpace(10));
 
+		// If the user has "all" the "rights" then show the grammar push/pull buttons.
+		// The rights can be granted by manually editing the users' file and adding a line a la:
+		// rights:all,some,delete_user,edit_grammar
+
+		User user = mWiki.getUser();
+		if (user != null) {
+			// The user has certain rights.
+			Set<String> hasRights = ImmutableSet.copyOf(SPLITTER_RIGHTS.split(user.getUserData("rights")));
+			// In order to push/pull the grammar she needs at least 1 of the following rights:
+			Set<String> needsRightsSome = ImmutableSet.of("all", "grammar_refresh");
+			if (! Sets.intersection(hasRights, needsRightsSome).isEmpty()) {
+				Row buttonRow = new Row();
+				buttonRow.setCellSpacing(new Extent(10));
+				buttonRow.setInsets(INSETS);
+				buttonRow.add(new GeneralButton(ACTION_GRAMMAR_PUSH, this));
+				buttonRow.add(new GeneralButton(ACTION_GRAMMAR_PULL, this));
+				add(buttonRow);
+				add(new VSpace(10));
+			}
+		}
+
 		table1 = new CompTable();
-		table1.setInsets(new Insets(10, 10, 10, 15));
+		table1.setInsets(INSETS);
 		add(table1);
 
 		addHeadline("Top-level modules");
 		table2 = new CompTable();
-		table2.setInsets(new Insets(10, 10, 10, 15));
+		table2.setInsets(INSETS);
 		add(table2);
 
 		addHeadline("Categories and producer functions");
 		table3 = new CompTable();
-		table3.setInsets(new Insets(10, 10, 10, 15));
+		table3.setInsets(INSETS);
 		add(table3);
 
 		addHeadline("Categories and consumer functions");
 		table4 = new CompTable();
-		table4.setInsets(new Insets(10, 10, 10, 15));
+		table4.setInsets(INSETS);
 		add(table4);
 
-		addHeadline("Tokens and their categories for language " + mWiki.getLanguage());
-		add(mTableTokensLabel);
+		addHeadline("Tokens and their categories in " + mWiki.getLanguage());
+		Row textRow = new Row();
+		textRow.setInsets(INSETS);
+		textRow.add(mTableTokensLabel);
+		add(textRow);
 		mTableTokens = new CompTable();
-		mTableTokens.setInsets(new Insets(10, 10, 10, 15));
+		mTableTokens.setInsets(INSETS);
 		add(mTableTokens);
 
 		add(new VSpace(20));
-
-		// TODO: these should be buttons (not tabs) as they do not open a new page
-		// TODO: admin mode should be a runtime thing
-		if (ADMIN_MODE) {
-			addTab(ACTION_GRAMMAR_PUSH, this);
-			addTab(ACTION_GRAMMAR_PULL, this);
-		}
 	}
 
 
