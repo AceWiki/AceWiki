@@ -188,12 +188,15 @@ public class GFHandler extends AbstractLanguageHandler {
 			}
 		}
 
-		// Otherwise we guess the locale on the basis of the concrete language name
+		// Otherwise we guess the locale on the basis of the concrete language name.
+		// We assume that the name contains the language information in the last 3 chars.
+		// If this 3-letter sequence is not found in our map, then we assume it is
+		// a 3-letter ISO language code (capitalized).
 		int len = language.length();
 		if (len >= 3) {
 			String iso3 = language.substring(len-3, len);
 			Locale locale = ISO3_TO_LOCALE.get(iso3);
-			if (locale == null) {
+			if (locale == null && Character.isUpperCase(iso3.charAt(0))) {
 				locale = new Locale(iso3);
 			}
 			if (locale != null && locale.toString().length() > 0) {
