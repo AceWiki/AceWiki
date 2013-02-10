@@ -235,7 +235,7 @@ public class GFGrammar {
 
 
 	public Set<String> getConsumers(String cat) {
-		return mGfServiceResultBrowseAll.getProducers(cat);
+		return mGfServiceResultBrowseAll.getConsumers(cat);
 	}
 
 
@@ -396,7 +396,7 @@ public class GFGrammar {
 		Set<String> funsAllConsumers = Sets.newHashSet();
 		Set<String> cats = mGfServiceResultBrowseAll.getCategories();
 		for (String cat : cats) {
-			funsAllConsumers.addAll(mGfServiceResultBrowseAll.getConsumers(cat));
+			funsAllConsumers.addAll(getConsumers(cat));
 		}
 
 		int countAllFuns = mGfServiceResultGrammar.getFunctions().size();
@@ -415,7 +415,7 @@ public class GFGrammar {
 		for (String cat : cats) {
 			mCatToSize.put(cat, 0);
 			// For each category look at its producers
-			for (String f : mGfServiceResultBrowseAll.getProducers(cat)) {
+			for (String f : getProducers(cat)) {
 				// If this function is also a consumer, then throw it out
 				if (funsAllConsumers.contains(f)) {
 					continue;
