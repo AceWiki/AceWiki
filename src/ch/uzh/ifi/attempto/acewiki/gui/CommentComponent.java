@@ -77,11 +77,15 @@ public class CommentComponent extends Column implements ActionListener {
 	private void update() {
 		statementMenu = new StatementMenu(StatementMenu.COMMENT_TYPE, wiki, this);
 		if (!wiki.isReadOnly()) {
-			statementMenu.addMenuEntry("acewiki_statementmenu_edit", "acewiki_statementmenu_editcommtooltip");
-			statementMenu.addMenuEntry("acewiki_statementmenu_delete", "acewiki_statementmenu_delcommtooltip");
-			statementMenu.addMenuSeparator();
+			if (wiki.isCommentingEnabled()) {
+				statementMenu.addMenuEntry("acewiki_statementmenu_edit", "acewiki_statementmenu_editcommtooltip");
+				statementMenu.addMenuEntry("acewiki_statementmenu_delete", "acewiki_statementmenu_delcommtooltip");
+				statementMenu.addMenuSeparator();
+			}
 			statementMenu.addMenuEntry("acewiki_statementmenu_addsent", "acewiki_statementmenu_addsenttooltip");
-			statementMenu.addMenuEntry("acewiki_statementmenu_addcomm", "acewiki_statementmenu_addcommtooltip");
+			if (wiki.isCommentingEnabled()) {
+				statementMenu.addMenuEntry("acewiki_statementmenu_addcomm", "acewiki_statementmenu_addcommtooltip");
+			}
 		}
 		RowLayoutData layout = new RowLayoutData();
 		layout.setAlignment(new Alignment(Alignment.CENTER, Alignment.TOP));

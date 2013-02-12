@@ -569,6 +569,25 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	}
 
 	/**
+	 * Returns true if comment feature is enabled.
+	 * 
+	 * @return true if enabled.
+	 */
+	public boolean isCommentingEnabled() {
+		String s = getParameter("comments");
+		return (s == null || s.equals("on"));
+	}
+
+	/**
+	 * Returns true if comments are disabled and hidden.
+	 * 
+	 * @return true if hidden.
+	 */
+	public boolean isCommentHidingEnabled() {
+		return "hide".equals(getParameter("comments"));
+	}
+
+	/**
 	 * Shows the window.
 	 *
 	 * @param window The window to be shown.
