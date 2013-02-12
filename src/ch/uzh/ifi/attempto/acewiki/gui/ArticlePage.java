@@ -122,14 +122,16 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 	protected void updateTextColumn() {
 		dropDown = new StatementMenu(StatementMenu.EMPTY_TYPE, getWiki(), this);
 		dropDown.addMenuEntry("acewiki_statementmenu_addsent", "acewiki_statementmenu_addsenttooltip");
-		dropDown.addMenuEntry("acewiki_statementmenu_addcomm", "acewiki_statementmenu_addcommtooltip");
+		if (getWiki().isCommentingEnabled()) {
+			dropDown.addMenuEntry("acewiki_statementmenu_addcomm", "acewiki_statementmenu_addcommtooltip");
+		}
 
 		textColumn.removeAll();
 
 		for (Statement s : getArticle().getStatements()) {
 			if (s instanceof Sentence) {
 				textColumn.add(new SentenceComponent((Sentence) s, this));
-			} else if (s instanceof Comment) {
+			} else if (s instanceof Comment && !getWiki().isCommentHidingEnabled()) {
 				textColumn.add(new CommentComponent((Comment) s, this));
 			}
 		}

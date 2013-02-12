@@ -269,6 +269,16 @@
       <param-value>off</param-value>
     </init-param>
 
+    <!--
+      The parameter 'comments' can be used to disable and hide comments (value 'hide') or to make
+      them readonly ('readonly'). In readonly mode, existing comments are shown but cannot be
+      changed or deleted, and no new comments can be created. Default is 'on'.
+    -->
+    <init-param>
+      <param-name>comments</param-name>
+      <param-value>on</param-value>
+    </init-param>
+
   </servlet>
 
   <!--

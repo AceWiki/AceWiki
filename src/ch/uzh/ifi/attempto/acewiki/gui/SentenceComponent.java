@@ -108,7 +108,9 @@ public class SentenceComponent extends Column implements ActionListener {
 		if (!wiki.isReadOnly() && hostPage instanceof ArticlePage) {
 			dropDown.addMenuSeparator();
 			dropDown.addMenuEntry("acewiki_statementmenu_addsent", "acewiki_statementmenu_addsenttooltip");
-			dropDown.addMenuEntry("acewiki_statementmenu_addcomm", "acewiki_statementmenu_addcommtooltip");
+			if (wiki.isCommentingEnabled()) {
+				dropDown.addMenuEntry("acewiki_statementmenu_addcomm", "acewiki_statementmenu_addcommtooltip");
+			}
 		}
 
 
