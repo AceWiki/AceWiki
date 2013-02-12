@@ -59,10 +59,16 @@ public class GFHandler extends AbstractLanguageHandler {
 	private final String mLanguage;
 	private final String mLanguageName;
 	private final Locale mLocale;
-	private final EditorController mEditorController = new EditorController();
 	private final GFGrammar mGfGrammar;
 
 	private TextOperator mTextOperator;
+
+	// We use an editor controller which shows the largest categories in the
+	// grammar and labels them in a language sensitive way.
+	// TODO: we currently do not update that editor controller, even though
+	// the sizes and labels of the categories can change since the grammar is
+	// editable in the general case.
+	private final EditorController mEditorController;
 
 	/**
 	 * Creates a new GF handler for the given language.
@@ -108,6 +114,7 @@ public class GFHandler extends AbstractLanguageHandler {
 
 		mLocale = locale;
 		mLanguageName = languageName;
+		mEditorController = GfEditorControllerFactory.createFromCats(mGfGrammar, mLanguage);
 	}
 
 
@@ -181,12 +188,15 @@ public class GFHandler extends AbstractLanguageHandler {
 			}
 		}
 
-		// Otherwise we guess the locale on the basis of the concrete language name
+		// Otherwise we guess the locale on the basis of the concrete language name.
+		// We assume that the name contains the language information in the last 3 chars.
+		// If this 3-letter sequence is not found in our map, then we assume it is
+		// a 3-letter ISO language code (capitalized).
 		int len = language.length();
 		if (len >= 3) {
 			String iso3 = language.substring(len-3, len);
 			Locale locale = ISO3_TO_LOCALE.get(iso3);
-			if (locale == null) {
+			if (locale == null && Character.isUpperCase(iso3.charAt(0))) {
 				locale = new Locale(iso3);
 			}
 			if (locale != null && locale.toString().length() > 0) {

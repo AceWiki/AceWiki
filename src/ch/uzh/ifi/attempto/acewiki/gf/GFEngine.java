@@ -52,7 +52,7 @@ public class GFEngine extends AbstractAceWikiEngine {
 	 * Creates a new GF-based AceWiki engine.
 	 */
 	public GFEngine() {
-		setLexicalTypes(GeneralTopic.NORMAL_TYPE);
+		setLexicalTypes(GeneralTopic.NORMAL_TYPE, TypeGfModule.INTERNAL_TYPE);
 	}
 
 	public void init(Ontology ontology) {

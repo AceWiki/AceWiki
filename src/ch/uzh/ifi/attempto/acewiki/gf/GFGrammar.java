@@ -18,26 +18,37 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Functions;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
 
 import ch.uzh.ifi.attempto.gfservice.GfModule;
 import ch.uzh.ifi.attempto.gfservice.GfParseResult;
 import ch.uzh.ifi.attempto.gfservice.GfService;
 import ch.uzh.ifi.attempto.gfservice.GfServiceException;
-import ch.uzh.ifi.attempto.gfservice.GfServiceResultBrowse;
+import ch.uzh.ifi.attempto.gfservice.GfServiceResultBrowseAll;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultComplete;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultGrammar;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultLinearize;
+import ch.uzh.ifi.attempto.gfservice.GfServiceResultLinearizeAll;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultParse;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultRandom;
 import ch.uzh.ifi.attempto.gfservice.GfStorage;
 import ch.uzh.ifi.attempto.gfservice.GfStorageResult;
+import ch.uzh.ifi.attempto.gfservice.GfStorageResultLs;
 import ch.uzh.ifi.attempto.gfservice.gfwebservice.GfWebService;
 import ch.uzh.ifi.attempto.gfservice.gfwebservice.GfWebStorage;
 
@@ -49,7 +60,14 @@ import ch.uzh.ifi.attempto.gfservice.gfwebservice.GfWebStorage;
  */
 public class GFGrammar {
 
+	public final static int LINEARIZE_ALL_QUERY_LIMIT = 200;
+
+	private final Logger mLogger = LoggerFactory.getLogger(GFGrammar.class);
+
+	// Some naming conventions
 	public final static String PREFIX_DISAMB = "Disamb";
+	public final static String SUFFIX_APE = "Ape";
+	public final static String EXTENSION_GF = ".gf";
 
 	// Note that true can remove (always removes?) lins
 	// which are not available in all the concretes,
@@ -62,6 +80,9 @@ public class GFGrammar {
 
 	private final static int GF_PARSE_LIMIT = 10;
 
+	public final static Joiner GF_TREE_JOINER = Joiner.on(GF_TREE_SEPARATOR);
+	public final static Joiner GF_TOKEN_JOINER = Joiner.on(GF_TOKEN_SEPARATOR);
+	public final static Splitter GF_TREE_SPLITTER = Splitter.on(GF_TREE_SEPARATOR);
 	public final static Splitter GF_TOKEN_SPLITTER = Splitter.on(GF_TOKEN_SEPARATOR);
 
 	private final GfService mGfService;
@@ -70,10 +91,13 @@ public class GFGrammar {
 	private final String mDir;
 
 	private GfServiceResultGrammar mGfServiceResultGrammar;
+	private GfServiceResultBrowseAll mGfServiceResultBrowseAll;
 
-	// Cache for the categories and functions, and their relations
-	private final Map<String, Set<String>> mCacheCatProducers = Maps.newHashMap();
-	private final Map<String, Set<String>> mCacheCatConsumers = Maps.newHashMap();
+	private final Map<String, Multimap<String, String>> langToTokenToCats = Maps.newHashMap();
+
+	// TODO: could use a Multiset instead but there does not seem to be a
+	// short way to get out k-largest elements.
+	private final Map<String, Integer> mCatToSize = Maps.newHashMap();
 
 
 	/**
@@ -87,6 +111,7 @@ public class GFGrammar {
 
 		try {
 			refreshGrammarInfo();
+			refreshLangToTokenToCats();
 		} catch (GfServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -107,6 +132,15 @@ public class GFGrammar {
 			return Collections.emptySet();
 		}
 		return mGfServiceResultGrammar.getLanguages().keySet();
+	}
+
+
+	/**
+	 * @param grammar GF grammar
+	 * @return {@code true} iff the given grammar contains a concrete language with suffix SUFFIX_APE
+	 */
+	public boolean isAceCompatible() {
+		return getLanguages().contains(mGfServiceResultGrammar.getName() + SUFFIX_APE);
 	}
 
 
@@ -142,7 +176,7 @@ public class GFGrammar {
 	 * @return The parse state.
 	 */
 	public static TreeList deserialize(String serialized) {
-		return new TreeList(Splitter.on(GF_TREE_SEPARATOR).split(serialized));
+		return new TreeList(GF_TREE_SPLITTER.split(serialized));
 	}
 
 
@@ -195,37 +229,68 @@ public class GFGrammar {
 	}
 
 
-	public Set<String> getProducers(String cat) throws GfServiceException {
-		Set<String> producers = mCacheCatProducers.get(cat);
-		if (producers == null) {
-			producers = addResultBrowse(cat, true);
-		}
-		return producers;
+	public Set<String> getProducers(String cat) {
+		return mGfServiceResultBrowseAll.getProducers(cat);
 	}
 
 
-	public Set<String> getConsumers(String cat) throws GfServiceException {
-		Set<String> consumers = mCacheCatConsumers.get(cat);
-		if (consumers == null) {
-			consumers = addResultBrowse(cat, false);
-		}
-		return consumers;
+	public Set<String> getConsumers(String cat) {
+		return mGfServiceResultBrowseAll.getConsumers(cat);
+	}
+
+
+	public String getCategoryName(String cat, String language) {
+		return mGfServiceResultBrowseAll.getCategoryName(cat, language);
 	}
 
 
 	/**
-	 * Serializes a given parse state.
+	 * <p>Returns the {@code k} largest categories in the order of size.
+	 * The size is in terms of the number of producer functions that are
+	 * not consumer functions.</p>
+	 */
+	public List<String> getLargestCategories(int k) {
+		return Ordering.natural().onResultOf(Functions.forMap(mCatToSize)).greatestOf(mCatToSize.keySet(), k);
+	}
+
+
+	public Multimap<String, String> getTokenToCats(String language) throws GfServiceException {
+		return langToTokenToCats.get(language);
+	}
+
+
+	/**
+	 * Serializes a given tree set.
 	 *
-	 * @param parseState The parse state.
+	 * @param treeSet set of GF trees
 	 * @return The serialization.
 	 */
 	public static String serialize(TreeList parseState) {
-		return Joiner.on(GF_TREE_SEPARATOR).join(parseState.getTrees());
+		return GF_TREE_JOINER.join(parseState.getTrees());
 	}
 
 
 	public GfParseResult parseGfModule(GfModule gfModule) throws GfServiceException {
 		return mGfStorage.parse(gfModule);
+	}
+
+
+	/**
+	 * Uploads the given GF module to the server.
+	 */
+	public void upload(GfModule module) throws GfServiceException {
+		mGfStorage.upload(mDir, module);
+	}
+
+
+	public Set<String> ls(String extension) throws GfServiceException {
+		GfStorageResultLs result = mGfStorage.ls(mDir, extension);
+		return result.getFilenames();
+	}
+
+
+	public String downloadAsString(String filename) throws GfServiceException {
+		return mGfStorage.downloadAsString(mDir, filename);
 	}
 
 
@@ -252,10 +317,7 @@ public class GFGrammar {
 		}
 		if (result != null && result.isSuccess()) {
 			refreshGrammarInfo();
-			// Clear the cat/fun cache because the grammar has changed and
-			// the cache needs to be rebuilt.
-			mCacheCatProducers.clear();
-			mCacheCatConsumers.clear();
+			refreshLangToTokenToCats();
 		}
 		return result;
 	}
@@ -311,24 +373,74 @@ public class GFGrammar {
 		if (tokens.isEmpty()) {
 			return "";
 		}
-		return Joiner.on(GF_TOKEN_SEPARATOR).join(tokens) + GF_TOKEN_SEPARATOR;
+		return GF_TOKEN_JOINER.join(tokens) + GF_TOKEN_SEPARATOR;
 	}
 
 
 	private void refreshGrammarInfo() throws GfServiceException {
 		mGfServiceResultGrammar = mGfService.grammar();
+		mGfServiceResultBrowseAll = mGfService.browseAll();
 	}
 
 
-	private Set<String> addResultBrowse(String cat, boolean returnProducers) throws GfServiceException {
-		GfServiceResultBrowse result = mGfService.browse(cat);
-		Set<String> producers = result.getProducers();
-		Set<String> consumers = result.getConsumers();
-		mCacheCatProducers.put(cat, producers);
-		mCacheCatConsumers.put(cat, consumers);
-		if (returnProducers) {
-			return producers;
+	/**
+	 * <p>Creates a structure from which you can look up the categories of tokens.</p>
+	 *
+	 * <pre>
+	 * language -> token -> categories
+	 * </pre>
+	 */
+	private void refreshLangToTokenToCats() throws GfServiceException {
+		// Collect together all the consumer functions.
+		// TODO We are not interested in their linearizations, at least for the time begin.
+		Set<String> funsAllConsumers = Sets.newHashSet();
+		Set<String> cats = mGfServiceResultBrowseAll.getCategories();
+		for (String cat : cats) {
+			funsAllConsumers.addAll(getConsumers(cat));
 		}
-		return consumers;
+
+		int countAllFuns = mGfServiceResultGrammar.getFunctions().size();
+		int countIgnoreFuns = funsAllConsumers.size();
+
+		mLogger.info("All funs: {}, (ignored) consumer funs: {}", countAllFuns, countIgnoreFuns);
+		if (countAllFuns - countIgnoreFuns > LINEARIZE_ALL_QUERY_LIMIT) {
+			mLogger.warn("Refusing to build preditor cache, as there are too many producer-only funs. " +
+					"Increase LINEARIZE_ALL_QUERY_LIMIT if its current value {} is too low.", LINEARIZE_ALL_QUERY_LIMIT);
+			return;
+		}
+
+		langToTokenToCats.clear();
+		mCatToSize.clear();
+		// Iterate over all the categories that have producer functions
+		for (String cat : cats) {
+			mCatToSize.put(cat, 0);
+			// For each category look at its producers
+			for (String f : getProducers(cat)) {
+				// If this function is also a consumer, then throw it out
+				if (funsAllConsumers.contains(f)) {
+					continue;
+				}
+				// Increment the counter of producers that are not consumers for this category
+				mCatToSize.put(cat, mCatToSize.get(cat) + 1);
+				// Otherwise get all of its linearizations in all the languages.
+				// This includes all the wordforms and variants, because the linearization
+				// is likely to be a complex record that holds many strings.
+				GfServiceResultLinearizeAll result = mGfService.linearizeAll(f, null);
+				Map<String, Set<String>> langToTokens = result.getTexts();
+				for (Entry<String, Set<String>> entry2 : langToTokens.entrySet()) {
+					String lang = entry2.getKey();
+					Multimap<String, String> tokenToCats = langToTokenToCats.get(lang);
+					// If we haven't seen this language before then create a new hash table entry for it
+					if (tokenToCats == null) {
+						tokenToCats = HashMultimap.create();
+						langToTokenToCats.put(lang, tokenToCats);
+					}
+					// Store each token together with its category
+					for (String tok : entry2.getValue()) {
+						tokenToCats.put(tok, cat);
+					}
+				}
+			}
+		}
 	}
 }

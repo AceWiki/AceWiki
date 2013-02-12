@@ -20,6 +20,16 @@ public class TreeList {
 		return mTrees;
 	}
 
+	/**
+	 * @return the single member if the set is singleton, otherwise return {@code null}
+	 */
+	public String getTree() {
+		if (mTrees.size() == 1) {
+			return mTrees.get(0);
+		}
+		return null;
+	}
+
 	public int size() {
 		return mTrees.size();
 	}
