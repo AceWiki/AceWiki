@@ -23,21 +23,16 @@ import nextapp.echo.app.layout.RowLayoutData;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiEngine;
-import ch.uzh.ifi.attempto.acewiki.core.Article;
 import ch.uzh.ifi.attempto.acewiki.core.InconsistencyException;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
-import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.gf.GFDeclaration;
 import ch.uzh.ifi.attempto.acewiki.gf.GFEngine;
-import ch.uzh.ifi.attempto.acewiki.gf.GFGrammar;
-import ch.uzh.ifi.attempto.acewiki.gf.TreeList;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.echocomp.SmallButton;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 
 /**
@@ -49,17 +44,11 @@ public class SentenceComponent extends Column implements ActionListener {
 
 	private static final long serialVersionUID = -540135972060005725L;
 
-	// TODO: this is GF-specific, in normal AceWiki these actions do not make sense
-	private static final SentenceAction actionGenSentence = new SentenceAction(
-			"Generate Sentence",
-			"Generate a new sentence here",
-			"",
-			"A new sentence is being randomly generated...");
-
+	// TODO: this applies to wikis with editable grammars
 	private static final SentenceAction actionReanalyze = new SentenceAction(
 			"Reanalyze",
 			"Reanalyze this sentence",
-			"Do you really want to reparse this sentence?");
+			"Do you really want to reanalyze this sentence?");
 
 	private static final ImmutableSet<String> EDIT_ACTIONS = new ImmutableSet.Builder<String>()
 			.add("acewiki_statementmenu_edit")
@@ -68,7 +57,6 @@ public class SentenceComponent extends Column implements ActionListener {
 			.add("acewiki_statementmenu_reassert")
 			.add("acewiki_statementmenu_retract")
 			.add("acewiki_statementmenu_delete")
-			.add(actionGenSentence.getTitle())
 			.add(actionReanalyze.getTitle())
 			.build();
 
@@ -128,7 +116,6 @@ public class SentenceComponent extends Column implements ActionListener {
 
 		if (wiki.isMultilingual()) {
 			dropDown.addMenuEntry("acewiki_statementmenu_transl", "acewiki_statementmenu_transltooltip");
-			dropDown.addMenuEntry(actionGenSentence.getTitle(), actionGenSentence.getDesc());
 		}
 
 		if (!wiki.isReadOnly() && hostPage instanceof ArticlePage) {
@@ -207,43 +194,15 @@ public class SentenceComponent extends Column implements ActionListener {
 					null,
 					this,
 					"general_action_yes", "general_action_no"
-				));
-		} else if (actionGenSentence.hasTitle(c)) {
+					));
+		} else if (actionReanalyze.hasTitle(c)) {
 			final AceWikiEngine engine = wiki.getEngine();
 			if (engine instanceof GFEngine) {
-				actionGenSentence.performAction(wiki, new Executable() {
-
-					@Override
-					public void execute() {
-						GFDeclaration gfDecl = new GFDeclaration(wiki.getLanguage(), ((GFEngine) engine).getGFGrammar());
-						Article article = sentence.getArticle();
-						// TODO: understand better why the init-call is needed
-						gfDecl.init(article.getOntology(), article);
-						article.add(sentence, ImmutableList.of((Statement) gfDecl));
-					}
-
-				});
-			}
-		}
-		else if (actionReanalyze.hasTitle(c)) {
-			final AceWikiEngine engine = wiki.getEngine();
-			if (engine instanceof GFEngine) {
-				log("dropdown: reparse sentence:");
-
-				actionReanalyze.performAction(wiki, new Executable() {
-
-					@Override
-					public void execute() {
-						TreeList parseState = new TreeList(((GFDeclaration) sentence).getParseTrees());
-						GFGrammar grammar = ((GFEngine) engine).getGFGrammar();
-						GFDeclaration gfDecl = new GFDeclaration(parseState, wiki.getLanguage(), grammar);
-						Article article = sentence.getArticle();
-						// TODO: understand better why the init-call is needed
-						gfDecl.init(article.getOntology(), article);
-						article.edit(sentence, ImmutableList.of((Statement) gfDecl));
-					}
-
-				});
+				log("dropdown: " + actionReanalyze.getTitle());
+				// "Reanalyze" means that we clear the current linearization
+				// and call refresh which triggers a new linearization.
+				((GFDeclaration) sentence).removeTextContainer(wiki.getLanguage());
+				wiki.refresh();
 			}
 		} else if ("acewiki_statementmenu_reassert".equals(c)) {
 			log("dropdown: reassert:");
@@ -276,20 +235,20 @@ public class SentenceComponent extends Column implements ActionListener {
 			wiki.showWindow(new AlternativesWindow(sentence, wiki));
 		} else if (src instanceof MessageWindow && "general_action_yes".equals(c)) {
 			log("dropdown: delete confirmed:");
-			
+
 			wiki.enqueueStrongAsyncTask(
-				wiki.getGUIText("acewiki_message_updatetitle"),
-				wiki.getGUIText("acewiki_message_update"),
-				new Task() {
-					public void run() {
-						sentence.getArticle().remove(sentence);
+					wiki.getGUIText("acewiki_message_updatetitle"),
+					wiki.getGUIText("acewiki_message_update"),
+					new Task() {
+						public void run() {
+							sentence.getArticle().remove(sentence);
+						}
+						public void updateGUI() {
+							wiki.update();
+							wiki.refresh();
+						}
 					}
-					public void updateGUI() {
-						wiki.update();
-						wiki.refresh();
-					}
-				}
-			);
+					);
 		}
 	}
 

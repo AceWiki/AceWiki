@@ -130,17 +130,8 @@ public class GFEngine extends AbstractAceWikiEngine {
 	}
 
 
-	/**
-	 * TODO: the serialization format should be:
-	 * lang:text:tree1|tree2|...|treeN
-	 * This is more robust, e.g. if the tree cannot be linearized anymore
-	 * because grammar was refactored then we could try to parse the
-	 * sentence. Also the sentence could be shown if the tree
-	 * has multiple variant lins.
-	 */
 	public Sentence createSentence(String serialized) {
-		// TODO: set the lang-argument to non-null
-		return new GFDeclaration(GFGrammar.deserialize(serialized), null, gfGrammar);
+		return new GFDeclaration(gfGrammar, GFGrammar.deserialize(serialized));
 	}
 
 
