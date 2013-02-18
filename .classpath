@@ -28,7 +28,7 @@
 	<classpathentry kind="lib" path="lib/httpclient-4.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/httpcore-4.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/guava-11.0.1.jar"/>
-	<classpathentry kind="lib" path="lib/slf4j-api-1.6.6.jar"/>
 	<classpathentry kind="lib" path="lib/gf-java-0.8.1.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.7.2.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

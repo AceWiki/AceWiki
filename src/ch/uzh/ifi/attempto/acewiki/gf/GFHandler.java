@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.collect.ImmutableMap;
 
 import ch.uzh.ifi.attempto.acewiki.core.AbstractLanguageHandler;
@@ -55,6 +58,8 @@ public class GFHandler extends AbstractLanguageHandler {
 			.put("Spa", new Locale("es", "ES"))
 			.put("Tha", new Locale("th"))
 			.build();
+
+	private final Logger mLogger = LoggerFactory.getLogger(GFHandler.class);
 
 	private final String mLanguage;
 	private final String mLanguageName;
@@ -115,6 +120,8 @@ public class GFHandler extends AbstractLanguageHandler {
 		mLocale = locale;
 		mLanguageName = languageName;
 		mEditorController = GfEditorControllerFactory.createFromCats(mGfGrammar, mLanguage);
+
+		mLogger.info("Locale: {} -> {} -> {}", language, mLocale, mLanguageName);
 	}
 
 
