@@ -22,6 +22,8 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import ch.uzh.ifi.attempto.acewiki.core.AbstractLanguageHandler;
@@ -58,6 +60,8 @@ public class GFHandler extends AbstractLanguageHandler {
 			.put("Spa", new Locale("es", "ES"))
 			.put("Tha", new Locale("th"))
 			.build();
+
+	private static final Splitter LOCALE_SPLITTER = Splitter.onPattern("[-_]").trimResults().omitEmptyStrings();
 
 	private final Logger mLogger = LoggerFactory.getLogger(GFHandler.class);
 
@@ -188,9 +192,14 @@ public class GFHandler extends AbstractLanguageHandler {
 			// For some reason the locale set can contain more than one element,
 			// we just take the first one.
 			String code = locales.iterator().next();
-			// TODO we currently remove the country code, as the Locale-constructor
-			// does not handle it properly (sometimes?)
-			Locale locale = new Locale(code.replaceAll("[-_].*", ""));
+			Locale locale = null;
+
+			List<String> localeSplits = ImmutableList.copyOf(LOCALE_SPLITTER.split(code));
+			switch (localeSplits.size()) {
+			case 1: locale = new Locale(localeSplits.get(0)); break;
+			case 2: locale = new Locale(localeSplits.get(0), localeSplits.get(1)); break;
+			case 3: locale = new Locale(localeSplits.get(0), localeSplits.get(1), localeSplits.get(2)); break;
+			}
 			if (locale != null && locale.toString().length() > 0) {
 				return locale;
 			}
