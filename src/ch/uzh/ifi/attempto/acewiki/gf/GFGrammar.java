@@ -30,6 +30,7 @@ import com.google.common.base.Functions;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
@@ -77,12 +78,15 @@ public class GFGrammar {
 
 	private final static char GF_TOKEN_SEPARATOR = ' ';
 	private final static char GF_TREE_SEPARATOR = '|';
+	private final static String GF_SERIALIZATION_SEPARATOR = "||";
 
 	private final static int GF_PARSE_LIMIT = 10;
 
 	public final static Joiner GF_TREE_JOINER = Joiner.on(GF_TREE_SEPARATOR);
+	public final static Joiner GF_SERIALIZATION_JOINER = Joiner.on(GF_SERIALIZATION_SEPARATOR).useForNull("");
 	public final static Joiner GF_TOKEN_JOINER = Joiner.on(GF_TOKEN_SEPARATOR);
-	public final static Splitter GF_TREE_SPLITTER = Splitter.on(GF_TREE_SEPARATOR);
+	public final static Splitter GF_TREE_SPLITTER = Splitter.on(GF_TREE_SEPARATOR).omitEmptyStrings();
+	public final static Splitter GF_SERIALIZATION_SPLITTER = Splitter.on(GF_SERIALIZATION_SEPARATOR);
 	public final static Splitter GF_TOKEN_SPLITTER = Splitter.on(GF_TOKEN_SEPARATOR);
 
 	private final GfService mGfService;
@@ -170,13 +174,44 @@ public class GFGrammar {
 
 
 	/**
-	 * Deserializes a serialized representation into a parse state.
+	 * Serializes the GF wiki entry, given as 3 components:
+	 *   - language (e.g. GeographyEng)
+	 *   - sentence as string (e.g. "Germany is a country .")
+	 *   - set of corresponding trees
 	 *
-	 * @param serialized The serialized representation
-	 * @return The parse state.
+	 * The format is:
+	 *
+	 *  lang||text||tree1|tree2|...|treeN
+	 *
+	 * This is more robust, e.g. if the tree cannot be linearized anymore
+	 * because grammar was refactored then we could try to parse the
+	 * sentence. Also the sentence could be shown if the tree
+	 * has multiple variant lins.
 	 */
-	public static TreeList deserialize(String serialized) {
-		return new TreeList(GF_TREE_SPLITTER.split(serialized));
+	public static String serialize(GfWikiEntry entry) {
+		return GF_SERIALIZATION_JOINER.join(
+				entry.getLanguage(),
+				entry.getText(),
+				GF_TREE_JOINER.join(entry.getTrees().getTrees()));
+	}
+
+
+	/**
+	 * Deserializes a GF wiki entry.
+	 */
+	public static GfWikiEntry deserialize(String serialized) {
+		List<String> splitsAsList = ImmutableList.copyOf(GF_SERIALIZATION_SPLITTER.split(serialized));
+		if (splitsAsList.size() == 1) {
+			// deprecated form, containing just the trees
+			return new GfWikiEntry(new TreeList(GF_TREE_SPLITTER.split(serialized)));
+		} else if (splitsAsList.size() == 3) {
+			Iterable<String> trees = GF_TREE_SPLITTER.split(splitsAsList.get(2));
+			return new GfWikiEntry(
+					splitsAsList.get(0),
+					splitsAsList.get(1),
+					new TreeList(trees));
+		}
+		throw new RuntimeException("Syntax error: " + serialized);
 	}
 
 
@@ -256,17 +291,6 @@ public class GFGrammar {
 
 	public Multimap<String, String> getTokenToCats(String language) throws GfServiceException {
 		return langToTokenToCats.get(language);
-	}
-
-
-	/**
-	 * Serializes a given tree set.
-	 *
-	 * @param treeSet set of GF trees
-	 * @return The serialization.
-	 */
-	public static String serialize(TreeList parseState) {
-		return GF_TREE_JOINER.join(parseState.getTrees());
 	}
 
 

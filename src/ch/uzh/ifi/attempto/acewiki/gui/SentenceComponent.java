@@ -207,20 +207,20 @@ public class SentenceComponent extends Column implements ActionListener {
 			wiki.showWindow(new AlternativesWindow(sentence, wiki));
 		} else if (src instanceof MessageWindow && "general_action_yes".equals(c)) {
 			log("dropdown: delete confirmed:");
-			
+
 			wiki.enqueueStrongAsyncTask(
-				wiki.getGUIText("acewiki_message_updatetitle"),
-				wiki.getGUIText("acewiki_message_update"),
-				new Task() {
-					public void run() {
-						sentence.getArticle().remove(sentence);
+					wiki.getGUIText("acewiki_message_updatetitle"),
+					wiki.getGUIText("acewiki_message_update"),
+					new Task() {
+						public void run() {
+							sentence.getArticle().remove(sentence);
+						}
+						public void updateGUI() {
+							wiki.update();
+							wiki.refresh();
+						}
 					}
-					public void updateGUI() {
-						wiki.update();
-						wiki.refresh();
-					}
-				}
-			);
+					);
 		}
 	}
 

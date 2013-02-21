@@ -4,12 +4,18 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 
+/**
+ * Non-empty ordered set of Strings.
+ */
 public class TreeList {
 
 	private final ImmutableList<String> mTrees;
 
 	public TreeList(Iterable<String> trees) {
 		mTrees = ImmutableList.copyOf(trees);
+		if (mTrees.isEmpty()) {
+			throw new IllegalArgumentException("Empty tree set");
+		}
 	}
 
 	public TreeList(String tree) {

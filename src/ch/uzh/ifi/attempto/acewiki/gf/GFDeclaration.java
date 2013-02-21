@@ -29,7 +29,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ch.uzh.ifi.attempto.acewiki.core.Declaration;
-import ch.uzh.ifi.attempto.acewiki.core.LanguageHandler;
 import ch.uzh.ifi.attempto.acewiki.core.MultilingualSentence;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceDetail;
@@ -46,6 +45,7 @@ import ch.uzh.ifi.attempto.echocomp.LocaleResources;
 import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 
 /**
@@ -53,117 +53,117 @@ import com.google.common.collect.Sets;
  * The "declaration" is a tree set that can be linearized into multiple
  * languages.
  *
- * TODO: store also the language in whose context this declaration (treeset) was created,
- * knowing this can be useful in certain situations
- *
  * TODO: move the HTML-formatting out of this class
  * 
  * @author Kaarel Kaljurand
  */
 public class GFDeclaration extends MultilingualSentence implements Declaration {
 
-	final Logger logger = LoggerFactory.getLogger(GFDeclaration.class);
+	final Logger mLogger = LoggerFactory.getLogger(GFDeclaration.class);
 
 	private final GFGrammar mGfGrammar;
+	private final GfWikiEntry mGfWikiEntry;
+
+	// Use the original input in the text container
+	// TODO: this is a hack
+	private boolean mUseOriginal = true;
 
 	// maps a language identifier to the set of linearizations (text containers) in this language
 	private final Map<String, MultiTextContainer> textContainers = new HashMap<String, MultiTextContainer>();
 
-	private TreeList mTreeSet;
-	private final String mLang;
-
-	public GFDeclaration(String lang, GFGrammar gfGrammar) {
-		mGfGrammar = gfGrammar;
-		mLang = lang;
-		try {
-			mTreeSet = new TreeList(gfGrammar.random());
-		} catch (GfServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 
 	/**
-	 * Creates a new GF declaration object from a parse state.
-	 * 
-	 * @param treeSet The tree set.
-	 * @param gfGrammar The grammar object.
+	 * Creates a declaration from an existing wiki entry (from the storage).
+	 * Each wiki entry is tagged with the language in which the entry was created.
+	 * Each wiki entry also contains the original text that was used to create the
+	 * trees. In case the trees can not be linearized (because the grammar has changed)
+	 * then we try to parse the original text instead (which might also fail).
 	 */
-	public GFDeclaration(TreeList treeSet, String lang, GFGrammar gfGrammar) {
-		mTreeSet = treeSet;
-		mGfGrammar = gfGrammar;
-		mLang = lang;
+	public GFDeclaration(GFGrammar grammar, GfWikiEntry entry) {
+		mGfGrammar = grammar;
+
+		boolean isParseable = (entry.getLanguage() != null && entry.getText() != null);
+
+		if (isParseable && hasBadTrees(entry.getLanguage(), entry.getTrees())) {
+			mGfWikiEntry = createGfWikiEntry(grammar, entry.getLanguage(), entry.getText());
+		} else {
+			mGfWikiEntry = entry;
+		}
 	}
 
+
 	/**
-	 * Creates a new GF declaration object from a text in a given language.
-	 *
-	 * TODO: the input text should probably be in the form of a token list
-	 * 
-	 * @param text The declaration text.
-	 * @param lh The language handler.
-	 * @param gfGrammar The grammar object.
+	 * Creates a declaration object from the given text.
+	 * The text will be parsed to get the trees.
 	 */
-	public GFDeclaration(String text, LanguageHandler lh, GFGrammar gfGrammar) {
-		String tokenText = "";
-		for (String t : lh.getTextOperator().splitIntoTokens(text)) {
-			tokenText += t + " ";
-		}
-		mGfGrammar = gfGrammar;
-		mLang = lh.getLanguage();
-		try {
-			mTreeSet = new TreeList(getGFGrammar().parse(tokenText, mLang));
-			if (mTreeSet.size() == 0) {
-				// TODO this should be done properly; see GfTextOperator
-				// If parsing fails: first char to lower case
-				tokenText = DefaultTextOperator.firstCharToLowerCase(tokenText);
-				mTreeSet = new TreeList(getGFGrammar().parse(tokenText, mLang));
-			}
-		} catch (GfServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public GFDeclaration(GFGrammar grammar, String language, String text) {
+		mGfGrammar = grammar;
+		mGfWikiEntry = createGfWikiEntry(grammar, language, text);
 	}
+
+
+	/**
+	 * TODO: this is temporary. Also not that it does not have effect on the
+	 * original input as this is always taken from mGfWikiEntry.getText()
+	 */
+	public void removeTextContainer(String language) {
+		textContainers.put(language, null);
+		mUseOriginal = false;
+	}
+
 
 	public MultiTextContainer getTextContainer(String language) {
 		MultiTextContainer mtc = textContainers.get(language);
 		if (mtc == null) {
 			List<TextContainer> tmp = new ArrayList<>();
-			Set<String> seen = Sets.newHashSet();
-			for (String tree : mTreeSet.getTrees()) {
-				Set<String> lins = getLins(tree, language);
+			TextOperator to = getTextOperator(language);
 
-				if (lins == null) {
-					logger.info("getTextContainerSet: null {}: {}", language, tree);
-					// TODO do it properly
-					TextContainer tc = new TextContainer();
-					tc.addElement(new TextElement("-NULL-"));
-					tmp.add(tc);
-				} else if (lins.isEmpty()) {
-					logger.info("getTextContainerSet: 0 els {}: {}", language, tree);
-					// TODO do it properly
-					TextContainer tc = new TextContainer();
-					tc.addElement(new TextElement("-EMPTY-"));
-					tmp.add(tc);
-				} else if (seen.contains(lins.iterator().next())) {
-					// Don't show the same linearization twice
-				} else {
-					// TODO: limitation: we only work with the first linearization
-					String lin = lins.iterator().next();
-					seen.add(lin);
-					TextOperator to = getTextOperator(language);
-					TextContainer tc = new TextContainer(to);
-					for (String s : to.splitIntoTokens(lin)) {
-						tc.addElement(new TextElement(s));
+			// If the text is requested in the original language (i.e. in which the entry was first created)
+			// then we return the original text. The benefit is that we do not need to make a call
+			// to the linearizer. Also, there is no danger that the original text would be replaced by a variant
+			// (e.g. "does not -> doesn't") which would be confusing.
+			if (mUseOriginal && language.equals(mGfWikiEntry.getLanguage()) && mGfWikiEntry.getText() != null) {
+				tmp = ImmutableList.of(makeTextContainer(to, mGfWikiEntry.getText()));
+			} else {
+				Set<String> seen = Sets.newHashSet();
+				for (String tree : mGfWikiEntry.getTrees().getTrees()) {
+					Set<String> lins = getLins(tree, language);
+					if (lins == null) {
+						mLogger.info("getTextContainerSet: null {}: {}", language, tree);
+						// TODO do it properly
+						tmp.add(new TextContainer(new TextElement("-NULL-")));
+					} else if (lins.isEmpty()) {
+						mLogger.info("getTextContainerSet: 0 els {}: {}", language, tree);
+						// TODO do it properly
+						tmp.add(new TextContainer(new TextElement("-EMPTY-")));
+					} else if (seen.contains(lins.iterator().next())) {
+						// Don't show the same linearization twice
+					} else {
+						// TODO: limitation: we only work with the first linearization
+						String lin = lins.iterator().next();
+						seen.add(lin);
+						tmp.add(makeTextContainer(to, lin));
 					}
-					tmp.add(tc);
 				}
+			}
+			if (tmp.isEmpty()) {
+				tmp.add(new TextContainer(new TextElement("-SYNTAX ERROR-")));
 			}
 			mtc = new MultiTextContainer(tmp);
 			textContainers.put(language, mtc);
 		}
 		return mtc;
 	}
+
+
+	private TextContainer makeTextContainer(TextOperator to, String str) {
+		TextContainer tc = new TextContainer(to);
+		for (String s : to.splitIntoTokens(str)) {
+			tc.addElement(new TextElement(s));
+		}
+		return tc;
+	}
+
 
 	/**
 	 * TODO
@@ -206,12 +206,12 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 
 
 	public int getNumberOfRepresentations() {
-		return mTreeSet.size();
+		return mGfWikiEntry.getTrees().size();
 	}
 
 
 	public List<String> getParseTrees() {
-		return mTreeSet.getTrees();
+		return mGfWikiEntry.getTrees().getTrees();
 	}
 
 
@@ -219,7 +219,7 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	}
 
 	public String serialize() {
-		return GFGrammar.serialize(mTreeSet);
+		return GFGrammar.serialize(mGfWikiEntry);
 	}
 
 	/**
@@ -240,12 +240,12 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	private List<SentenceDetail> getSemantics() {
 		List<SentenceDetail> l = new ArrayList<SentenceDetail>();
 
-		String tree = mTreeSet.getTree();
+		String tree = mGfWikiEntry.getTrees().getTree();
 
 		if (tree == null) {
-			if (mTreeSet.size() == 0) {
+			if (mGfWikiEntry.getTrees().size() == 0) {
 				l.add(new SentenceDetail("ERROR", "Statement is not well-formed"));
-			} else if (mTreeSet.size() > 1) {
+			} else if (mGfWikiEntry.getTrees().size() > 1) {
 				l.add(new SentenceDetail("ERROR", "Statement is ambiguous and therefore it cannot be assigned semantics"));
 			}
 			return l;
@@ -310,7 +310,7 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 
 
 	private List<SentenceDetail> formatTree(GFGrammar grammar, String lang, int index) {
-		String tree = mTreeSet.getTrees().get(index);
+		String tree = mGfWikiEntry.getTrees().getTrees().get(index);
 		List<SentenceDetail> l = new ArrayList<SentenceDetail>();
 		l.add(new SentenceDetail("acewiki_details_syntree", getParsetreeAsHtml(tree, lang)));
 		l.add(new SentenceDetail(
@@ -331,6 +331,35 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 			// TODO find out what happened, i.e.
 			// why was the tree not supported by the grammar.
 			return null;
+		}
+	}
+
+	private boolean hasBadTrees(String language, TreeList treeList) {
+		for (String tree : treeList.getTrees()) {
+			Set<String> lins = getLins(tree, language);
+			if (lins == null || lins.isEmpty()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+	private static GfWikiEntry createGfWikiEntry(GFGrammar grammar, String language, String text) {
+		try {
+			Set<String> trees = grammar.parse(text, language);
+			if (trees == null) {
+				throw new RuntimeException("No such language: " + language);
+			}
+			if (trees.isEmpty()) {
+				// TODO this should be done properly; see GfTextOperator
+				// If parsing fails: first char to lower case
+				text = DefaultTextOperator.firstCharToLowerCase(text);
+				trees = grammar.parse(text, language);
+			}
+			return new GfWikiEntry(language, text, new TreeList(trees));
+		} catch (GfServiceException e) {
+			throw new RuntimeException(e.getMessage());
 		}
 	}
 
