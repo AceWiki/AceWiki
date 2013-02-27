@@ -61,7 +61,7 @@ import ch.uzh.ifi.attempto.gfservice.gfwebservice.GfWebStorage;
  */
 public class GFGrammar {
 
-	public final static int LINEARIZE_ALL_QUERY_LIMIT = 200;
+	public final static int LINEARIZE_ALL_QUERY_LIMIT = 600;
 
 	private final Logger mLogger = LoggerFactory.getLogger(GFGrammar.class);
 
