@@ -68,8 +68,13 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	// TODO: this is a hack
 	private boolean mUseOriginal = true;
 
-	// maps a language identifier to the set of linearizations (text containers) in this language
-	private final Map<String, MultiTextContainer> textContainers = new HashMap<String, MultiTextContainer>();
+	// Maps a language identifier to the set of linearizations (text containers) in this language
+	private final Map<String, MultiTextContainer> textContainers = new HashMap<>();
+	
+	// Maps a tree to the set of linearizations for each language.
+	// ie. Map<Tree, Map<Language, Set<Linearization>>>
+	// Lazy initialized as tree linearizations are requested, but done for all languages at once - performance reasons.
+	private final Map<String, Map<String, Set<String>>> treeLinearizations = new HashMap<>();
 
 
 	/**
@@ -322,16 +327,22 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	}
 
 
-	// TODO: linearize into all the languages at once for better
-	// performance
 	private Set<String> getLins(String tree, String language) {
-		try {
-			return getGFGrammar().linearize(tree, language);
-		} catch (GfServiceException e) {
-			// TODO find out what happened, i.e.
-			// why was the tree not supported by the grammar.
-			return null;
+		// Linearization of a single tree to all possible languages.
+		Map<String, Set<String>> tl = treeLinearizations.get(tree);
+		
+		if (tl == null) {
+			try {
+				tl = getGFGrammar().linearize(tree);
+				treeLinearizations.put(tree, tl);
+			} catch (GfServiceException e) {
+				// TODO find out what happened, i.e.
+				// why was the tree not supported by the grammar.
+				return null;
+			}
 		}
+		
+		return tl.get(language);
 	}
 
 	private boolean hasBadTrees(String language, TreeList treeList) {
