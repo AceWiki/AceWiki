@@ -43,9 +43,9 @@ import ch.uzh.ifi.attempto.gfservice.GfStorageResult;
  *
  * @author Kaarel Kaljurand
  */
-public class GFModulePage extends ArticlePage {
+public class GfModulePage extends ArticlePage {
 
-	private final Logger mLogger = LoggerFactory.getLogger(GFModulePage.class);
+	private final Logger mLogger = LoggerFactory.getLogger(GfModulePage.class);
 
 	private static final long serialVersionUID = -5592272938081004472L;
 
@@ -56,19 +56,19 @@ public class GFModulePage extends ArticlePage {
 	public final static Splitter SPLITTER_NL = Splitter.on('\n');
 
 	private final OntologyElement mElement;
-	private final GFEngine mEngine;
+	private final GfEngine mEngine;
 	private final Wiki mWiki;
 
 	private Row mFormattedModuleContent;
 
-	public GFModulePage(OntologyElement element, Wiki wiki) {
+	public GfModulePage(OntologyElement element, Wiki wiki) {
 		super(wiki, element);
 		mElement = element;
 		mWiki = wiki;
 
 		AceWikiEngine engine = getArticle().getOntology().getEngine();
-		if (engine instanceof GFEngine) {
-			mEngine = (GFEngine) engine;
+		if (engine instanceof GfEngine) {
+			mEngine = (GfEngine) engine;
 		} else {
 			mEngine = null;
 		}
@@ -151,9 +151,9 @@ public class GFModulePage extends ArticlePage {
 
 	private void integrate() {
 		// TODO: this blocks, do it in the background
-		if (mEngine.getGFGrammar().isGrammarEditable() && hasContent()) {
+		if (mEngine.getGfGrammar().isGrammarEditable() && hasContent()) {
 			try {
-				GfStorageResult result = mEngine.getGFGrammar().integrateGfModule(getGfModule());
+				GfStorageResult result = mEngine.getGfGrammar().integrateGfModule(getGfModule());
 
 				if (result.isSuccess()) {
 					mWiki.showWindow(new MessageWindow("OK", "Grammar rebuilt successfully"));
@@ -172,7 +172,7 @@ public class GFModulePage extends ArticlePage {
 		// TODO: this blocks, do it in the background
 		if (hasContent()) {
 			try {
-				GfParseResult result = mEngine.getGFGrammar().parseGfModule(getGfModule());
+				GfParseResult result = mEngine.getGfGrammar().parseGfModule(getGfModule());
 				if (result.isSuccess()) {
 					if (popupOnSuccess) {
 						mWiki.showWindow(new MessageWindow("OK", "There are no syntax errors."));

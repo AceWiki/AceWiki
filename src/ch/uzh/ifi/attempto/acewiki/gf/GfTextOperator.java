@@ -33,7 +33,7 @@ import ch.uzh.ifi.attempto.base.TextElement;
  */
 // Some quick and dirty hack to show sentences in a nice way. (Tobias)
 // TODO Do this properly (using GF features)
-public class GFTextOperator extends DefaultTextOperator {
+public class GfTextOperator extends DefaultTextOperator {
 
 	//private static final String SPACE = " ";
 	private static final String EMPTY = "";
@@ -43,7 +43,7 @@ public class GFTextOperator extends DefaultTextOperator {
 	private Ontology mOntology;
 
 
-	public GFTextOperator(Ontology ontology) {
+	public GfTextOperator(Ontology ontology) {
 		mOntology = ontology;
 	}
 

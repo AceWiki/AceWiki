@@ -57,12 +57,12 @@ import com.google.common.collect.Sets;
  * 
  * @author Kaarel Kaljurand
  */
-public class GFDeclaration extends MultilingualSentence implements Declaration {
+public class GfDeclaration extends MultilingualSentence implements Declaration {
 
-	final Logger mLogger = LoggerFactory.getLogger(GFDeclaration.class);
+	final Logger mLogger = LoggerFactory.getLogger(GfDeclaration.class);
 
-	private final GFGrammar mGfGrammar;
-	private final GFWikiEntry mGFWikiEntry;
+	private final GfGrammar mGfGrammar;
+	private final GfWikiEntry mGfWikiEntry;
 
 	// Use the original input in the text container
 	// TODO: this is a hack
@@ -84,15 +84,15 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	 * trees. In case the trees can not be linearized (because the grammar has changed)
 	 * then we try to parse the original text instead (which might also fail).
 	 */
-	public GFDeclaration(GFGrammar grammar, GFWikiEntry entry) {
+	public GfDeclaration(GfGrammar grammar, GfWikiEntry entry) {
 		mGfGrammar = grammar;
 
 		boolean isParseable = (entry.getLanguage() != null && entry.getText() != null);
 
 		if (isParseable && hasBadTrees(entry.getLanguage(), entry.getTrees())) {
-			mGFWikiEntry = createGFWikiEntry(grammar, entry.getLanguage(), entry.getText());
+			mGfWikiEntry = createGfWikiEntry(grammar, entry.getLanguage(), entry.getText());
 		} else {
-			mGFWikiEntry = entry;
+			mGfWikiEntry = entry;
 		}
 	}
 
@@ -101,15 +101,15 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	 * Creates a declaration object from the given text.
 	 * The text will be parsed to get the trees.
 	 */
-	public GFDeclaration(GFGrammar grammar, String language, String text) {
+	public GfDeclaration(GfGrammar grammar, String language, String text) {
 		mGfGrammar = grammar;
-		mGFWikiEntry = createGFWikiEntry(grammar, language, text);
+		mGfWikiEntry = createGfWikiEntry(grammar, language, text);
 	}
 
 
 	/**
 	 * TODO: this is temporary. Also not that it does not have effect on the
-	 * original input as this is always taken from mGFWikiEntry.getText()
+	 * original input as this is always taken from mGfWikiEntry.getText()
 	 */
 	public void removeTextContainer(String language) {
 		textContainers.put(language, null);
@@ -127,11 +127,11 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 			// then we return the original text. The benefit is that we do not need to make a call
 			// to the linearizer. Also, there is no danger that the original text would be replaced by a variant
 			// (e.g. "does not -> doesn't") which would be confusing.
-			if (mUseOriginal && language.equals(mGFWikiEntry.getLanguage()) && mGFWikiEntry.getText() != null) {
-				tmp = ImmutableList.of(makeTextContainer(to, mGFWikiEntry.getText()));
+			if (mUseOriginal && language.equals(mGfWikiEntry.getLanguage()) && mGfWikiEntry.getText() != null) {
+				tmp = ImmutableList.of(makeTextContainer(to, mGfWikiEntry.getText()));
 			} else {
 				Set<String> seen = Sets.newHashSet();
-				for (String tree : mGFWikiEntry.getTrees().getTrees()) {
+				for (String tree : mGfWikiEntry.getTrees().getTrees()) {
 					Set<String> lins = getLins(tree, language);
 					if (lins == null) {
 						mLogger.info("getTextContainerSet: null {}: {}", language, tree);
@@ -211,12 +211,12 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 
 
 	public int getNumberOfRepresentations() {
-		return mGFWikiEntry.getTrees().size();
+		return mGfWikiEntry.getTrees().size();
 	}
 
 
 	public List<String> getParseTrees() {
-		return mGFWikiEntry.getTrees().getTrees();
+		return mGfWikiEntry.getTrees().getTrees();
 	}
 
 
@@ -224,7 +224,7 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	}
 
 	public String serialize() {
-		return GFGrammar.serialize(mGFWikiEntry);
+		return GfGrammar.serialize(mGfWikiEntry);
 	}
 
 	/**
@@ -232,7 +232,7 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	 * 
 	 * @return The grammar object.
 	 */
-	private GFGrammar getGFGrammar() {
+	private GfGrammar getGfGrammar() {
 		return mGfGrammar;
 	}
 
@@ -245,19 +245,19 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	private List<SentenceDetail> getSemantics() {
 		List<SentenceDetail> l = new ArrayList<SentenceDetail>();
 
-		String tree = mGFWikiEntry.getTrees().getTree();
+		String tree = mGfWikiEntry.getTrees().getTree();
 
 		if (tree == null) {
-			if (mGFWikiEntry.getTrees().size() == 0) {
+			if (mGfWikiEntry.getTrees().size() == 0) {
 				l.add(new SentenceDetail("ERROR", "Statement is not well-formed"));
-			} else if (mGFWikiEntry.getTrees().size() > 1) {
+			} else if (mGfWikiEntry.getTrees().size() > 1) {
 				l.add(new SentenceDetail("ERROR", "Statement is ambiguous and therefore it cannot be assigned semantics"));
 			}
 			return l;
 		}
 
 		Set<String> lins = null;
-		String targetLang = mGfGrammar.getGrammar().getName() + GFGrammar.SUFFIX_APE;
+		String targetLang = mGfGrammar.getGrammar().getName() + GfGrammar.SUFFIX_APE;
 		try {
 			lins = mGfGrammar.linearize(tree, targetLang);
 		} catch (GfServiceException e) {
@@ -288,7 +288,7 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 
 	private String getAbstrtreeAsHtml(String tree) {
 		try {
-			return getImg(getGFGrammar().abstrtree(tree));
+			return getImg(getGfGrammar().abstrtree(tree));
 		} catch (GfServiceException e) {
 			return getError(e);
 		}
@@ -297,7 +297,7 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 
 	private String getParsetreeAsHtml(String tree, String language) {
 		try {
-			return getImg(getGFGrammar().parsetree(tree, language));
+			return getImg(getGfGrammar().parsetree(tree, language));
 		} catch (GfServiceException e) {
 			return getError(e);
 		}
@@ -314,8 +314,8 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	}
 
 
-	private List<SentenceDetail> formatTree(GFGrammar grammar, String lang, int index) {
-		String tree = mGFWikiEntry.getTrees().getTrees().get(index);
+	private List<SentenceDetail> formatTree(GfGrammar grammar, String lang, int index) {
+		String tree = mGfWikiEntry.getTrees().getTrees().get(index);
 		List<SentenceDetail> l = new ArrayList<SentenceDetail>();
 		l.add(new SentenceDetail("acewiki_details_syntree", getParsetreeAsHtml(tree, lang)));
 		l.add(new SentenceDetail(
@@ -333,11 +333,12 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 		
 		if (tl == null) {
 			try {
-				tl = getGFGrammar().linearize(tree);
+				tl = getGfGrammar().linearize(tree);
 				treeLinearizations.put(tree, tl);
 			} catch (GfServiceException e) {
 				// TODO find out what happened, i.e.
 				// why was the tree not supported by the grammar.
+				mLogger.warn("tree not supported by the grammar - {}: {}", language, tree);
 				return null;
 			}
 		}
@@ -356,19 +357,19 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	}
 
 
-	private static GFWikiEntry createGFWikiEntry(GFGrammar grammar, String language, String text) {
+	private static GfWikiEntry createGfWikiEntry(GfGrammar grammar, String language, String text) {
 		try {
 			Set<String> trees = grammar.parse(text, language);
 			if (trees == null) {
 				throw new RuntimeException("No such language: " + language);
 			}
 			if (trees.isEmpty()) {
-				// TODO this should be done properly; see GFTextOperator
+				// TODO this should be done properly; see GfTextOperator
 				// If parsing fails: first char to lower case
 				text = DefaultTextOperator.firstCharToLowerCase(text);
 				trees = grammar.parse(text, language);
 			}
-			return new GFWikiEntry(language, text, new TreeList(trees));
+			return new GfWikiEntry(language, text, new TreeList(trees));
 		} catch (GfServiceException e) {
 			throw new RuntimeException(e.getMessage());
 		}

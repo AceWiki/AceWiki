@@ -2,7 +2,7 @@ package ch.uzh.ifi.attempto.acewiki.gf;
 
 import ch.uzh.ifi.attempto.acewiki.core.EditorController;
 
-public class GFEditorControllerFactory {
+public class GfEditorControllerFactory {
 
 	public static final int MAX_MENU_GROUP_COUNT = 7;
 
@@ -12,7 +12,7 @@ public class GFEditorControllerFactory {
 	 * show (other tokens go into the default category) and the category
 	 * labels which respect the current language.</p>
 	 */
-	public static EditorController createFromCats(GFGrammar grammar, String language) {
+	public static EditorController createFromCats(GfGrammar grammar, String language) {
 		EditorController ec = new EditorController();
 		int shift = 0;
 		int menuGroupCount = 1;
