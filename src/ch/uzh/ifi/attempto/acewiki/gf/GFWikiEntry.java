@@ -2,19 +2,19 @@ package ch.uzh.ifi.attempto.acewiki.gf;
 
 import com.google.common.base.Strings;
 
-public class GfWikiEntry {
+public class GFWikiEntry {
 
 	final private String mLanguage;
 	final private String mText;
 	final private TreeList mTrees;
 
-	public GfWikiEntry(String language, String text, TreeList trees) {
+	public GFWikiEntry(String language, String text, TreeList trees) {
 		mLanguage = Strings.emptyToNull(language);
 		mText = Strings.emptyToNull(text);
 		mTrees = trees;
 	}
 
-	public GfWikiEntry(TreeList trees) {
+	public GFWikiEntry(TreeList trees) {
 		this(null, null, trees);
 	}
 

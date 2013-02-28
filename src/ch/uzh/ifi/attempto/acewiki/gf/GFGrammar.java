@@ -188,7 +188,7 @@ public class GFGrammar {
 	 * sentence. Also the sentence could be shown if the tree
 	 * has multiple variant lins.
 	 */
-	public static String serialize(GfWikiEntry entry) {
+	public static String serialize(GFWikiEntry entry) {
 		return GF_SERIALIZATION_JOINER.join(
 				entry.getLanguage(),
 				entry.getText(),
@@ -199,14 +199,14 @@ public class GFGrammar {
 	/**
 	 * Deserializes a GF wiki entry.
 	 */
-	public static GfWikiEntry deserialize(String serialized) {
+	public static GFWikiEntry deserialize(String serialized) {
 		List<String> splitsAsList = ImmutableList.copyOf(GF_SERIALIZATION_SPLITTER.split(serialized));
 		if (splitsAsList.size() == 1) {
 			// deprecated form, containing just the trees
-			return new GfWikiEntry(new TreeList(GF_TREE_SPLITTER.split(serialized)));
+			return new GFWikiEntry(new TreeList(GF_TREE_SPLITTER.split(serialized)));
 		} else if (splitsAsList.size() == 3) {
 			Iterable<String> trees = GF_TREE_SPLITTER.split(splitsAsList.get(2));
-			return new GfWikiEntry(
+			return new GFWikiEntry(
 					splitsAsList.get(0),
 					splitsAsList.get(1),
 					new TreeList(trees));

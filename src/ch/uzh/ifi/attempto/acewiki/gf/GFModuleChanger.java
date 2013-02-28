@@ -31,7 +31,7 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
  * 
  * @author Kaarel Kaljurand
  */
-public class GfModuleChanger implements LexiconChanger {
+public class GFModuleChanger implements LexiconChanger {
 
 	public String getDescription() {
 		return "Every GF grammar module is a component in a GF grammar and is of type abstract, concrete, resource, ...";

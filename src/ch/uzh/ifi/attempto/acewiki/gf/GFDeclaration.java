@@ -62,7 +62,7 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	final Logger mLogger = LoggerFactory.getLogger(GFDeclaration.class);
 
 	private final GFGrammar mGfGrammar;
-	private final GfWikiEntry mGfWikiEntry;
+	private final GFWikiEntry mGFWikiEntry;
 
 	// Use the original input in the text container
 	// TODO: this is a hack
@@ -79,15 +79,15 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	 * trees. In case the trees can not be linearized (because the grammar has changed)
 	 * then we try to parse the original text instead (which might also fail).
 	 */
-	public GFDeclaration(GFGrammar grammar, GfWikiEntry entry) {
+	public GFDeclaration(GFGrammar grammar, GFWikiEntry entry) {
 		mGfGrammar = grammar;
 
 		boolean isParseable = (entry.getLanguage() != null && entry.getText() != null);
 
 		if (isParseable && hasBadTrees(entry.getLanguage(), entry.getTrees())) {
-			mGfWikiEntry = createGfWikiEntry(grammar, entry.getLanguage(), entry.getText());
+			mGFWikiEntry = createGFWikiEntry(grammar, entry.getLanguage(), entry.getText());
 		} else {
-			mGfWikiEntry = entry;
+			mGFWikiEntry = entry;
 		}
 	}
 
@@ -98,13 +98,13 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	 */
 	public GFDeclaration(GFGrammar grammar, String language, String text) {
 		mGfGrammar = grammar;
-		mGfWikiEntry = createGfWikiEntry(grammar, language, text);
+		mGFWikiEntry = createGFWikiEntry(grammar, language, text);
 	}
 
 
 	/**
 	 * TODO: this is temporary. Also not that it does not have effect on the
-	 * original input as this is always taken from mGfWikiEntry.getText()
+	 * original input as this is always taken from mGFWikiEntry.getText()
 	 */
 	public void removeTextContainer(String language) {
 		textContainers.put(language, null);
@@ -122,11 +122,11 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 			// then we return the original text. The benefit is that we do not need to make a call
 			// to the linearizer. Also, there is no danger that the original text would be replaced by a variant
 			// (e.g. "does not -> doesn't") which would be confusing.
-			if (mUseOriginal && language.equals(mGfWikiEntry.getLanguage()) && mGfWikiEntry.getText() != null) {
-				tmp = ImmutableList.of(makeTextContainer(to, mGfWikiEntry.getText()));
+			if (mUseOriginal && language.equals(mGFWikiEntry.getLanguage()) && mGFWikiEntry.getText() != null) {
+				tmp = ImmutableList.of(makeTextContainer(to, mGFWikiEntry.getText()));
 			} else {
 				Set<String> seen = Sets.newHashSet();
-				for (String tree : mGfWikiEntry.getTrees().getTrees()) {
+				for (String tree : mGFWikiEntry.getTrees().getTrees()) {
 					Set<String> lins = getLins(tree, language);
 					if (lins == null) {
 						mLogger.info("getTextContainerSet: null {}: {}", language, tree);
@@ -206,12 +206,12 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 
 
 	public int getNumberOfRepresentations() {
-		return mGfWikiEntry.getTrees().size();
+		return mGFWikiEntry.getTrees().size();
 	}
 
 
 	public List<String> getParseTrees() {
-		return mGfWikiEntry.getTrees().getTrees();
+		return mGFWikiEntry.getTrees().getTrees();
 	}
 
 
@@ -219,7 +219,7 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	}
 
 	public String serialize() {
-		return GFGrammar.serialize(mGfWikiEntry);
+		return GFGrammar.serialize(mGFWikiEntry);
 	}
 
 	/**
@@ -240,12 +240,12 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	private List<SentenceDetail> getSemantics() {
 		List<SentenceDetail> l = new ArrayList<SentenceDetail>();
 
-		String tree = mGfWikiEntry.getTrees().getTree();
+		String tree = mGFWikiEntry.getTrees().getTree();
 
 		if (tree == null) {
-			if (mGfWikiEntry.getTrees().size() == 0) {
+			if (mGFWikiEntry.getTrees().size() == 0) {
 				l.add(new SentenceDetail("ERROR", "Statement is not well-formed"));
-			} else if (mGfWikiEntry.getTrees().size() > 1) {
+			} else if (mGFWikiEntry.getTrees().size() > 1) {
 				l.add(new SentenceDetail("ERROR", "Statement is ambiguous and therefore it cannot be assigned semantics"));
 			}
 			return l;
@@ -310,7 +310,7 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 
 
 	private List<SentenceDetail> formatTree(GFGrammar grammar, String lang, int index) {
-		String tree = mGfWikiEntry.getTrees().getTrees().get(index);
+		String tree = mGFWikiEntry.getTrees().getTrees().get(index);
 		List<SentenceDetail> l = new ArrayList<SentenceDetail>();
 		l.add(new SentenceDetail("acewiki_details_syntree", getParsetreeAsHtml(tree, lang)));
 		l.add(new SentenceDetail(
@@ -345,19 +345,19 @@ public class GFDeclaration extends MultilingualSentence implements Declaration {
 	}
 
 
-	private static GfWikiEntry createGfWikiEntry(GFGrammar grammar, String language, String text) {
+	private static GFWikiEntry createGFWikiEntry(GFGrammar grammar, String language, String text) {
 		try {
 			Set<String> trees = grammar.parse(text, language);
 			if (trees == null) {
 				throw new RuntimeException("No such language: " + language);
 			}
 			if (trees.isEmpty()) {
-				// TODO this should be done properly; see GfTextOperator
+				// TODO this should be done properly; see GFTextOperator
 				// If parsing fails: first char to lower case
 				text = DefaultTextOperator.firstCharToLowerCase(text);
 				trees = grammar.parse(text, language);
 			}
-			return new GfWikiEntry(language, text, new TreeList(trees));
+			return new GFWikiEntry(language, text, new TreeList(trees));
 		} catch (GfServiceException e) {
 			throw new RuntimeException(e.getMessage());
 		}

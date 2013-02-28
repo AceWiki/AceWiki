@@ -43,9 +43,9 @@ import ch.uzh.ifi.attempto.gfservice.GfStorageResult;
  *
  * @author Kaarel Kaljurand
  */
-public class GfModulePage extends ArticlePage {
+public class GFModulePage extends ArticlePage {
 
-	private final Logger mLogger = LoggerFactory.getLogger(GfModulePage.class);
+	private final Logger mLogger = LoggerFactory.getLogger(GFModulePage.class);
 
 	private static final long serialVersionUID = -5592272938081004472L;
 
@@ -61,7 +61,7 @@ public class GfModulePage extends ArticlePage {
 
 	private Row mFormattedModuleContent;
 
-	public GfModulePage(OntologyElement element, Wiki wiki) {
+	public GFModulePage(OntologyElement element, Wiki wiki) {
 		super(wiki, element);
 		mElement = element;
 		mWiki = wiki;

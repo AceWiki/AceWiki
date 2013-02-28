@@ -90,7 +90,7 @@ public class GFHandler extends AbstractLanguageHandler {
 		mGfGrammar = gfGrammar;
 
 		setLexiconChanger(GeneralTopic.NORMAL_TYPE, new TopicChanger());
-		setLexiconChanger(TypeGfModule.INTERNAL_TYPE, new GfModuleChanger());
+		setLexiconChanger(TypeGfModule.INTERNAL_TYPE, new GFModuleChanger());
 
 		Locale locale = guessLocale(language, gfGrammar);
 		String languageName = getLocaleDisplayLanguage(locale);
@@ -123,7 +123,7 @@ public class GFHandler extends AbstractLanguageHandler {
 
 		mLocale = locale;
 		mLanguageName = languageName;
-		mEditorController = GfEditorControllerFactory.createFromCats(mGfGrammar, mLanguage);
+		mEditorController = GFEditorControllerFactory.createFromCats(mGfGrammar, mLanguage);
 
 		mLogger.info("Locale: {} -> {} -> {}", language, mLocale, mLanguageName);
 	}
@@ -142,7 +142,7 @@ public class GFHandler extends AbstractLanguageHandler {
 	}
 
 	public void init(Ontology ontology) {
-		mTextOperator = new GfTextOperator(ontology);
+		mTextOperator = new GFTextOperator(ontology);
 	}
 
 	public TextOperator getTextOperator() {

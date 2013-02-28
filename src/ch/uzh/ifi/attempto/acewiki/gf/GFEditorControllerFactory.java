@@ -2,7 +2,7 @@ package ch.uzh.ifi.attempto.acewiki.gf;
 
 import ch.uzh.ifi.attempto.acewiki.core.EditorController;
 
-public class GfEditorControllerFactory {
+public class GFEditorControllerFactory {
 
 	public static final int MAX_MENU_GROUP_COUNT = 7;
 
