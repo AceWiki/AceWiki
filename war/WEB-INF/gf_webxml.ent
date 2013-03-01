@@ -5,7 +5,7 @@
     <load-on-startup>1</load-on-startup>
     <init-param>
       <param-name>engine_class</param-name>
-      <param-value>ch.uzh.ifi.attempto.acewiki.gf.GFEngine</param-value>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gf.GfEngine</param-value>
     </init-param>
     <init-param>
       <param-name>pgf_name</param-name>
@@ -80,7 +80,7 @@
     <load-on-startup>1</load-on-startup>
     <init-param>
       <param-name>engine_class</param-name>
-      <param-value>ch.uzh.ifi.attempto.acewiki.gf.GFEngine</param-value>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gf.GfEngine</param-value>
     </init-param>
     <init-param>
       <param-name>pgf_name</param-name>
