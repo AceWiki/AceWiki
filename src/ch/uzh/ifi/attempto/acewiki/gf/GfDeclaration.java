@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import ch.uzh.ifi.attempto.acewiki.core.Declaration;
 import ch.uzh.ifi.attempto.acewiki.core.MultilingualSentence;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.PrettyTextElement;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceDetail;
 import ch.uzh.ifi.attempto.ape.ACEParser;
 import ch.uzh.ifi.attempto.ape.ACEParserResult;
@@ -164,7 +165,7 @@ public class GfDeclaration extends MultilingualSentence implements Declaration {
 	private TextContainer makeTextContainer(TextOperator to, String str) {
 		TextContainer tc = new TextContainer(to);
 		for (String s : to.splitIntoTokens(str)) {
-			tc.addElement(new TextElement(s));
+			tc.addElement(new PrettyTextElement(s));
 		}
 		return tc;
 	}

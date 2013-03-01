@@ -150,7 +150,7 @@ public class GfHandler extends AbstractLanguageHandler {
 	}
 
 	public List<Sentence> extractSentences(TextContainer tc, PredictiveParser parser) {
-		String tokenText = GfGrammar.GF_TOKEN_JOINER.join(getTextOperator().splitIntoTokens(tc.getText()));
+		String tokenText = GfGrammar.GF_TOKEN_JOINER.join(tc.getTokens());
 		List<Sentence> l = new ArrayList<Sentence>();
 		l.add(new GfDeclaration(mGfGrammar, mLanguage, tokenText));
 		return l;
