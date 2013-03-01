@@ -590,6 +590,17 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		return getEngine().getReasoner() != null;
 	}
 
+	public boolean isDetailsPageEnabled() {
+		return !"off".equals(getParameter("details_page"));
+	}
+
+	public boolean isTranslationsPageEnabled() {
+		if (isMultilingual()) {
+			return !"off".equals(getParameter("translations_page"));
+		}
+		return false;
+	}
+
 	/**
 	 * Shows the window.
 	 *
