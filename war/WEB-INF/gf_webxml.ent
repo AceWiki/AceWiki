@@ -98,6 +98,10 @@
       <param-name>ontology</param-name>
       <param-value>tmp__gfse.1391129840__TestAttempto</param-value>
     </init-param>
+    <init-param>
+      <param-name>retractreassert</param-name>
+      <param-value>on</param-value>
+    </init-param>
   </servlet>
   <servlet-mapping>
     <servlet-name>/tmp/gfse.1391129840/TestAttempto.pgf</servlet-name>
