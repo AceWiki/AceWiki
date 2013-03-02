@@ -36,6 +36,13 @@
       <param-name>ontology</param-name>
       <param-value>gf__Phrasebook</param-value>
     </init-param>
+    <!--  Set this is to a large number (~200 in case of Phrasebook) in order to have
+          multicategory predictive editing. It's a bit heavy on the GF server, so set it
+          only for deployment. -->
+    <init-param>
+      <param-name>linearize_all_query_limit</param-name>
+      <param-value>12</param-value>
+    </init-param>
   </servlet>
   <servlet-mapping>
     <servlet-name>gf__Phrasebook</servlet-name>

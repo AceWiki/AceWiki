@@ -15,6 +15,7 @@
 package ch.uzh.ifi.attempto.acewiki.gf;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 
+import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.gfservice.GfModule;
 import ch.uzh.ifi.attempto.gfservice.GfParseResult;
 import ch.uzh.ifi.attempto.gfservice.GfService;
@@ -61,7 +63,7 @@ import ch.uzh.ifi.attempto.gfservice.gfwebservice.GfWebStorage;
  */
 public class GfGrammar {
 
-	public final static int LINEARIZE_ALL_QUERY_LIMIT = 200;
+	private final int LINEARIZE_ALL_QUERY_LIMIT;
 
 	private final Logger mLogger = LoggerFactory.getLogger(GfGrammar.class);
 
@@ -103,15 +105,21 @@ public class GfGrammar {
 	// short way to get out k-largest elements.
 	private final Map<String, Integer> mCatToSize = Maps.newHashMap();
 
+	public GfGrammar(Ontology ontology) {
+		URI serviceUri;
+		try {
+			serviceUri = new URI(ontology.getParameter("service_uri"));
+		} catch (URISyntaxException e) {
+			throw new RuntimeException(e);
+		}
 
-	/**
-	 * Creates a new GF grammar object.
-	 */
-	public GfGrammar(URI serviceUri, String pgfName, String cat) {
+		String pgfName = ontology.getParameter("pgf_name");
 		mGfService = new GfWebService(serviceUri, pgfName);
 		mGfStorage = new GfWebStorage(serviceUri);
-		mCat = cat;
+		// Note: start_cat can be null, in this case the default start category is used
+		mCat = ontology.getParameter("start_cat");
 		mDir = getDir(pgfName);
+		LINEARIZE_ALL_QUERY_LIMIT = ontology.getParameterAsInt("linearize_all_query_limit");
 
 		try {
 			refreshGrammarInfo();

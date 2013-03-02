@@ -414,4 +414,19 @@ public class Ontology {
 		return parameters.get(name);
 	}
 
+
+	/**
+	 * Returns that parameter value as an integer, if it is
+	 * parseable as an integer, otherwise returns 0.
+	 */
+	public int getParameterAsInt(String name) {
+		String valueAsStr = getParameter(name);
+		if (valueAsStr != null) {
+			try {
+				return Integer.parseInt(valueAsStr);
+			} catch (NumberFormatException e) {};
+		}
+		return 0;
+	}
+
 }

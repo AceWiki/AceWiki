@@ -14,8 +14,6 @@
 
 package ch.uzh.ifi.attempto.acewiki.gf;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -56,20 +54,7 @@ public class GfEngine extends AbstractAceWikiEngine {
 	}
 
 	public void init(Ontology ontology) {
-
-		URI serviceUri;
-		try {
-			serviceUri = new URI(ontology.getParameter("service_uri"));
-		} catch (URISyntaxException e) {
-			throw new RuntimeException(e);
-		}
-
-		// Note: start_cat can be null, in this case the default start category is used
-		gfGrammar = new GfGrammar(
-				serviceUri,
-				ontology.getParameter("pgf_name"),
-				ontology.getParameter("start_cat")
-				);
+		gfGrammar = new GfGrammar(ontology);
 
 		// Sort languages alphabetically according to displayed language name:
 		List<String> languageNames = new ArrayList<>();
