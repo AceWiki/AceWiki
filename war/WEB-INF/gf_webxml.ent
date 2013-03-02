@@ -57,6 +57,11 @@
       <param-name>backend</param-name>
       <param-value>gf__Phrasebook</param-value>
     </init-param>
+    <!--
+        Default content language, the UI language is guessed on the basis of it.
+        The grammar must contain at least one language, so if this parameter is
+        missing then the "first" language in the grammar is assumed.
+    -->
     <init-param>
       <param-name>language</param-name>
       <param-value>PhrasebookGer</param-value>
@@ -136,10 +141,6 @@
       <param-name>language</param-name>
       <param-value>TestAttemptoSpa</param-value>
     </init-param>
-    <init-param>
-      <param-name>title</param-name>
-      <param-value>Multilingual ACE wiki</param-value>
-    </init-param>
   </servlet>
   <servlet-mapping>
     <servlet-name>gf__TestAttempto__main</servlet-name>
@@ -189,10 +190,6 @@
     <init-param>
       <param-name>backend</param-name>
       <param-value>gf__Geography</param-value>
-    </init-param>
-    <init-param>
-      <param-name>language</param-name>
-      <param-value>GeographyAce</param-value>
     </init-param>
     <init-param>
       <param-name>title</param-name>

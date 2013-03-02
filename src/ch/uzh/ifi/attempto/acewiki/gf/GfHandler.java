@@ -188,7 +188,7 @@ public class GfHandler extends AbstractLanguageHandler {
 	private static Locale guessLocale(String language, GfGrammar grammar) {
 		// The grammar can explicitly define the locale, if it does then we use this locale.
 		Set<String> locales = grammar.getGrammar().getLanguages().get(language);
-		if (! locales.isEmpty()) {
+		if (locales != null && ! locales.isEmpty()) {
 			// For some reason the locale set can contain more than one element,
 			// we just take the first one.
 			String code = locales.iterator().next();
