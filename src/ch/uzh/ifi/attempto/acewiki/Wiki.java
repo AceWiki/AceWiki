@@ -59,7 +59,7 @@ import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.core.StatementTableExporter;
 import ch.uzh.ifi.attempto.acewiki.core.User;
 import ch.uzh.ifi.attempto.acewiki.core.UserBase;
-import ch.uzh.ifi.attempto.acewiki.gf.GFEngine;
+import ch.uzh.ifi.attempto.acewiki.gf.GfEngine;
 import ch.uzh.ifi.attempto.acewiki.gui.AboutPage;
 import ch.uzh.ifi.attempto.acewiki.gui.ArticlePage;
 import ch.uzh.ifi.attempto.acewiki.gui.ExportWindow;
@@ -125,13 +125,13 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private Row loginBackground;
 
 	private IconButton backButton, forwardButton, refreshButton, userButton, logoutButton,
-		searchButton;
+	searchButton;
 
 	private TextField searchTextField = new TextField(170, this);
 	private Label userLabel;
 
 	private SmallButton homeButton, indexButton, searchButton2, aboutButton, randomButton,
-		newButton, exportButton;
+	newButton, exportButton;
 
 	private final SmallButton aboutGrammarButton = new SmallButton(LABEL_ABOUT_GRAMMAR, this, 12);
 
@@ -161,7 +161,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	/**
 	 * Creates a new wiki instance.
 	 *
-     * @param backend The backend object.
+	 * @param backend The backend object.
 	 * @param parameters A set of parameters in the form of name/value pairs.
 	 * @param sessionID The session id.
 	 */
@@ -171,7 +171,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		storage = backend.getStorage();
 		ontology = backend.getOntology();
 		engine = ontology.getEngine();
-		
+
 		logger = new Logger(getParameter("context:logdir") + "/" + ontology.getName(), "anon", sessionID);
 		application = (AceWikiApp) EchoThread.getActiveApplication();
 		taskQueue = application.createTaskQueue();
@@ -197,10 +197,10 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		ontologyExportManager.addExporter(new LexiconTableExporter());
 		ontologyExportManager.addExporter(new StatementTableExporter());
 		ontologyExportManager.addExporter(new AceWikiDataExporter());
-		
+
 		userLabel = new SolidLabel(getGUIText("acewiki_anonymoususer_name"), Font.ITALIC);
 		userLabel.setForeground(Color.DARKGRAY);
-		
+
 		buildContentPane();
 
 		logoutButton.setVisible(false);
@@ -237,7 +237,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		// This thread checks regularly for pending tasks and executes them. Strong tasks take
 		// precedence over weak ones.
 		EchoThread asyncThread = new EchoThread() {
-			
+
 			public ApplicationInstance getApplication() {
 				return application;
 			}
@@ -281,10 +281,10 @@ public class Wiki implements ActionListener, ExternalEventListener {
 
 		update();
 	}
-	
+
 	private void buildContentPane() {
 		if (loginBackground != null) return;
-		
+
 		contentPane.removeAll();
 
 		SplitPane splitPane1 = new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM);
@@ -338,13 +338,13 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		wikiPane = new SplitPane(
 				SplitPane.ORIENTATION_HORIZONTAL_LEFT_RIGHT,
 				new Extent(145)
-			);
+				);
 		wikiPane.setSeparatorHeight(new Extent(0));
 
 		SplitPane sideBar = new SplitPane(
 				SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM,
 				new Extent(170)
-			);
+				);
 		sideBar.setSeparatorHeight(new Extent(0));
 		sideBar.setBackground(Style.shadedBackground);
 		Column iconCol = new Column();
@@ -353,7 +353,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 
 		Label logo = new Label(new ResourceImageReference(
 				"ch/uzh/ifi/attempto/acewiki/gui/img/AceWikiLogoSmall.png"
-			));
+				));
 		iconCol.add(logo);
 
 		iconCol.add(new VSpace(10));
@@ -376,9 +376,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			rolabel.setLayoutData(layout);
 			iconCol.add(rolabel);
 		}
-		
+
 		sideBar.add(iconCol);
-		
+
 		Column sideCol = new Column();
 		sideCol.setInsets(new Insets(10, 0, 0, 10));
 		sideCol.setCellSpacing(new Extent(1));
@@ -420,7 +420,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			label = new SolidLabel(getGUIText("acewiki_sidemenu_languages"), Font.ITALIC);
 			label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
 			sideCol.add(label);
-			
+
 			for (String lang : engine.getLanguages()) {
 				String n = engine.getLanguageHandler(lang).getLanguageName();
 				SmallButton b = new SmallButton(n, this, 12);
@@ -773,9 +773,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * Show the about grammar page.
 	 */
 	public void showAboutGrammarPage() {
-		if (engine instanceof GFEngine) {
-			GFEngine gfEngine = (GFEngine) engine;
-			showPage(new GrammarPage(this, gfEngine.getGFGrammar()));
+		if (engine instanceof GfEngine) {
+			GfEngine gfEngine = (GfEngine) engine;
+			showPage(new GrammarPage(this, gfEngine.getGfGrammar()));
 		}
 	}
 
@@ -1134,7 +1134,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		// for locale testing:
 		//return new Locale("de", "DE");
 	}
-	
+
 	/**
 	 * Switches to another language.
 	 * 
@@ -1152,7 +1152,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		update();
 		refresh();
 	}
-	
+
 	/**
 	 * Returns the language handler.
 	 *
@@ -1293,7 +1293,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		if (text == null) text = key;
 		return text;
 	}
-	
+
 	private String getURLParameterValue(String name) {
 		String v = null;
 		try {

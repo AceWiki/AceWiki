@@ -27,8 +27,8 @@ import ch.uzh.ifi.attempto.acewiki.core.InconsistencyException;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
-import ch.uzh.ifi.attempto.acewiki.gf.GFDeclaration;
-import ch.uzh.ifi.attempto.acewiki.gf.GFEngine;
+import ch.uzh.ifi.attempto.acewiki.gf.GfDeclaration;
+import ch.uzh.ifi.attempto.acewiki.gf.GfEngine;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.echocomp.SmallButton;
@@ -199,11 +199,11 @@ public class SentenceComponent extends Column implements ActionListener {
 					));
 		} else if (actionReanalyze.hasTitle(c)) {
 			final AceWikiEngine engine = wiki.getEngine();
-			if (engine instanceof GFEngine) {
+			if (engine instanceof GfEngine) {
 				log("dropdown: " + actionReanalyze.getTitle());
 				// "Reanalyze" means that we clear the current linearization
 				// and call refresh which triggers a new linearization.
-				((GFDeclaration) sentence).removeTextContainer(wiki.getLanguage());
+				((GfDeclaration) sentence).removeTextContainer(wiki.getLanguage());
 				wiki.refresh();
 			}
 		} else if ("acewiki_statementmenu_reassert".equals(c)) {

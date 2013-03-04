@@ -35,7 +35,7 @@ import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.User;
-import ch.uzh.ifi.attempto.acewiki.gf.GFGrammar;
+import ch.uzh.ifi.attempto.acewiki.gf.GfGrammar;
 import ch.uzh.ifi.attempto.acewiki.gf.GfModulePage;
 import ch.uzh.ifi.attempto.acewiki.gf.TypeGfModule;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
@@ -61,11 +61,11 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 	private final CompTable table1, table2, table3, table4;
 	private final CompTable mTableTokens;
 	private final Label mTableTokensLabel = new Label();
-	private final GFGrammar mGrammar;
+	private final GfGrammar mGrammar;
 	private final GfServiceResultGrammar mInfo;
 	private final Wiki mWiki;
 
-	public GrammarPage(Wiki wiki, GFGrammar grammar) {
+	public GrammarPage(Wiki wiki, GfGrammar grammar) {
 		super(wiki);
 		mWiki = wiki;
 
@@ -242,9 +242,9 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 
 		try {
 			// Iterate over the list GF source files
-			for (String filename : mGrammar.ls(GFGrammar.EXTENSION_GF)) {
+			for (String filename : mGrammar.ls(GfGrammar.EXTENSION_GF)) {
 				countFile++;
-				String moduleName = filename.substring(0, filename.length() - GFGrammar.EXTENSION_GF.length());
+				String moduleName = filename.substring(0, filename.length() - GfGrammar.EXTENSION_GF.length());
 				sb.append(moduleName);
 				sb.append(':');
 				OntologyElement el = ont.getElement(moduleName);
