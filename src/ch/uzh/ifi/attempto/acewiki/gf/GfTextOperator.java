@@ -20,6 +20,7 @@ import java.util.List;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
+import ch.uzh.ifi.attempto.acewiki.core.PrettyTextElement;
 import ch.uzh.ifi.attempto.base.DefaultTextOperator;
 import ch.uzh.ifi.attempto.base.TextElement;
 
@@ -51,7 +52,7 @@ public class GfTextOperator extends DefaultTextOperator {
 	public TextElement createTextElement(String text) {
 		OntologyTextElement ote = createOntologyTextElement(text);
 		if (ote == null) {
-			return new TextElement(text);
+			return new PrettyTextElement(text);
 		}
 		return ote;
 	}

@@ -588,6 +588,31 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	}
 
 	/**
+	 * Returns true if retract/reassert actions on sentences are enabled.
+	 * 
+	 * @return true if enabled.
+	 */
+	public boolean isRetractReassertEnabled() {
+		if ("on".equals(getParameter("retractreassert"))) {
+			return true;
+		} else if ("off".equals(getParameter("retractreassert"))) {
+			return false;
+		}
+		return getEngine().getReasoner() != null;
+	}
+
+	public boolean isDetailsPageEnabled() {
+		return !"off".equals(getParameter("details_page"));
+	}
+
+	public boolean isTranslationsPageEnabled() {
+		if (isMultilingual()) {
+			return !"off".equals(getParameter("translations_page"));
+		}
+		return false;
+	}
+
+	/**
 	 * Shows the window.
 	 *
 	 * @param window The window to be shown.

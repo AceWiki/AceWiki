@@ -43,7 +43,7 @@ import ch.uzh.ifi.attempto.echocomp.LocaleResources;
  * 
  * @author Kaarel Kaljurand
  */
-public class GFHandler extends AbstractLanguageHandler {
+public class GfHandler extends AbstractLanguageHandler {
 
 	// This map is here to override the Java Locale-constructor.
 	// Note that we need to provide also the country code for the UI localization to work,
@@ -63,12 +63,12 @@ public class GFHandler extends AbstractLanguageHandler {
 
 	private static final Splitter LOCALE_SPLITTER = Splitter.onPattern("[-_]").trimResults().omitEmptyStrings();
 
-	private final Logger mLogger = LoggerFactory.getLogger(GFHandler.class);
+	private final Logger mLogger = LoggerFactory.getLogger(GfHandler.class);
 
 	private final String mLanguage;
 	private final String mLanguageName;
 	private final Locale mLocale;
-	private final GFGrammar mGfGrammar;
+	private final GfGrammar mGfGrammar;
 
 	private TextOperator mTextOperator;
 
@@ -85,7 +85,7 @@ public class GFHandler extends AbstractLanguageHandler {
 	 * @param language The name of the language.
 	 * @param gfGrammar The grammar object.
 	 */
-	public GFHandler(String language, GFGrammar gfGrammar) {
+	public GfHandler(String language, GfGrammar gfGrammar) {
 		mLanguage = language;
 		mGfGrammar = gfGrammar;
 
@@ -114,7 +114,7 @@ public class GFHandler extends AbstractLanguageHandler {
 
 		// Support for disambiguation languages (as in MOLTO Phrasebook),
 		// which have a name in the form "DisambPhrasebookEng".
-		if (languageName != mLanguage && mLanguage.startsWith(GFGrammar.PREFIX_DISAMB)) {
+		if (languageName != mLanguage && mLanguage.startsWith(GfGrammar.PREFIX_DISAMB)) {
 			languageName += " (disamb.)"; // TODO: make the "disamb." localizable
 		}
 
@@ -150,14 +150,14 @@ public class GFHandler extends AbstractLanguageHandler {
 	}
 
 	public List<Sentence> extractSentences(TextContainer tc, PredictiveParser parser) {
-		String tokenText = GFGrammar.GF_TOKEN_JOINER.join(getTextOperator().splitIntoTokens(tc.getText()));
+		String tokenText = GfGrammar.GF_TOKEN_JOINER.join(tc.getTokens());
 		List<Sentence> l = new ArrayList<Sentence>();
-		l.add(new GFDeclaration(mGfGrammar, mLanguage, tokenText));
+		l.add(new GfDeclaration(mGfGrammar, mLanguage, tokenText));
 		return l;
 	}
 
 	public PredictiveParser getPredictiveParser() {
-		return new GFPredictiveParser(mGfGrammar, mLanguage);
+		return new GfPredictiveParser(mGfGrammar, mLanguage);
 	}
 
 	public EditorController getEditorController() {
@@ -185,10 +185,10 @@ public class GFHandler extends AbstractLanguageHandler {
 	/**
 	 * Determines the locale on the basis of the concrete language and the grammar.
 	 */
-	private static Locale guessLocale(String language, GFGrammar grammar) {
+	private static Locale guessLocale(String language, GfGrammar grammar) {
 		// The grammar can explicitly define the locale, if it does then we use this locale.
 		Set<String> locales = grammar.getGrammar().getLanguages().get(language);
-		if (! locales.isEmpty()) {
+		if (locales != null && ! locales.isEmpty()) {
 			// For some reason the locale set can contain more than one element,
 			// we just take the first one.
 			String code = locales.iterator().next();

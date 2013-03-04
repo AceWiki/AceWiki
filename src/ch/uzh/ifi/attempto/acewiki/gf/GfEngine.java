@@ -14,8 +14,6 @@
 
 package ch.uzh.ifi.attempto.acewiki.gf;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -37,39 +35,26 @@ import ch.uzh.ifi.attempto.acewiki.core.Sentence;
  * 
  * @author Kaarel Kaljurand
  */
-public class GFEngine extends AbstractAceWikiEngine {
+public class GfEngine extends AbstractAceWikiEngine {
 
 	// TODO: support the creation of dynamic queries
 	// public static final String TYPE_QUERY = "query";
 
-	private Map<String, GFHandler> languageHandlers = new HashMap<String, GFHandler>();
+	private Map<String, GfHandler> languageHandlers = new HashMap<String, GfHandler>();
 
 	private String[] languages;
 
-	private GFGrammar gfGrammar;
+	private GfGrammar gfGrammar;
 
 	/**
 	 * Creates a new GF-based AceWiki engine.
 	 */
-	public GFEngine() {
+	public GfEngine() {
 		setLexicalTypes(GeneralTopic.NORMAL_TYPE, TypeGfModule.INTERNAL_TYPE);
 	}
 
 	public void init(Ontology ontology) {
-
-		URI serviceUri;
-		try {
-			serviceUri = new URI(ontology.getParameter("service_uri"));
-		} catch (URISyntaxException e) {
-			throw new RuntimeException(e);
-		}
-
-		// Note: start_cat can be null, in this case the default start category is used
-		gfGrammar = new GFGrammar(
-				serviceUri,
-				ontology.getParameter("pgf_name"),
-				ontology.getParameter("start_cat")
-				);
+		gfGrammar = new GfGrammar(ontology);
 
 		// Sort languages alphabetically according to displayed language name:
 		List<String> languageNames = new ArrayList<>();
@@ -91,9 +76,9 @@ public class GFEngine extends AbstractAceWikiEngine {
 
 
 	public LanguageHandler getLanguageHandler(String language) {
-		GFHandler lh = languageHandlers.get(language);
+		GfHandler lh = languageHandlers.get(language);
 		if (lh == null) {
-			lh = new GFHandler(language, gfGrammar);
+			lh = new GfHandler(language, gfGrammar);
 			languageHandlers.put(language, lh);
 		}
 		return lh;
@@ -110,7 +95,7 @@ public class GFEngine extends AbstractAceWikiEngine {
 	 * 
 	 * @return The grammar object.
 	 */
-	public GFGrammar getGFGrammar() {
+	public GfGrammar getGfGrammar() {
 		return gfGrammar;
 	}
 
@@ -131,7 +116,7 @@ public class GFEngine extends AbstractAceWikiEngine {
 
 
 	public Sentence createSentence(String serialized) {
-		return new GFDeclaration(gfGrammar, GFGrammar.deserialize(serialized));
+		return new GfDeclaration(gfGrammar, GfGrammar.deserialize(serialized));
 	}
 
 

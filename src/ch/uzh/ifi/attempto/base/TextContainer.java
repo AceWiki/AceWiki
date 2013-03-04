@@ -150,7 +150,20 @@ public class TextContainer {
 		}
 		return text;
 	}
-	
+
+	/**
+	 * Returns the tokens as a list of strings.
+	 * 
+	 * @return The tokens.
+	 */
+	public List<String> getTokens() {
+		List<String> tokens = new ArrayList<>();
+		for (TextElement te : getTextElements()) {
+			tokens.add(te.getOriginalText());
+		}
+		return tokens;
+	}
+
 	/**
 	 * Sets the text operator.
 	 * 

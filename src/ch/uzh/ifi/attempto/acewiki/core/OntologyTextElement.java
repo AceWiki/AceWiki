@@ -14,7 +14,6 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
-import ch.uzh.ifi.attempto.base.TextElement;
 
 /**
  * This class represents a text element that links to an ontology element. The text of
@@ -23,7 +22,7 @@ import ch.uzh.ifi.attempto.base.TextElement;
  * @author Tobias Kuhn
  */
 // TODO Get rid of pre and post texts.
-public class OntologyTextElement extends TextElement {
+public class OntologyTextElement extends PrettyTextElement {
 	
 	private OntologyElement ontologyElement;
 	private int wordNumber;
@@ -42,22 +41,6 @@ public class OntologyTextElement extends TextElement {
 		}
 		this.ontologyElement = element;
 		this.wordNumber = wordNumber;
-	}
-
-	/**
-	 * Returns the text of this text element in its plain form where underscores are not
-	 * replaces by blanks.
-	 * 
-	 * @return The plain text.
-	 */
-	public String getUnderscoredText() {
-		return super.getText();
-	}
-	
-	public String getText() {
-		String t = super.getText();
-		if (t == null) return null;
-		return LanguageUtils.getPrettyPrinted(t);
 	}
 	
 	public String getOriginalText() {

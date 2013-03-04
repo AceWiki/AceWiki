@@ -35,11 +35,11 @@ import ch.uzh.ifi.attempto.gfservice.GfServiceException;
  * 
  * @author Kaarel Kaljurand
  */
-public class GFPredictiveParser implements PredictiveParser {
+public class GfPredictiveParser implements PredictiveParser {
 
 	private List<String> tokens = new ArrayList<String>();
 	private NextTokenOptions nextTokenOptions;
-	private GFGrammar gfGrammar;
+	private GfGrammar gfGrammar;
 	private String language;
 
 	/**
@@ -48,7 +48,7 @@ public class GFPredictiveParser implements PredictiveParser {
 	 * @param gfGrammar The grammar object.
 	 * @param language The language.
 	 */
-	public GFPredictiveParser(GFGrammar gfGrammar, String language) {
+	public GfPredictiveParser(GfGrammar gfGrammar, String language) {
 		this.gfGrammar = gfGrammar;
 		this.language = language;
 		update();

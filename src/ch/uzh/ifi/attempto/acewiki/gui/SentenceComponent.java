@@ -97,7 +97,7 @@ public class SentenceComponent extends Column implements ActionListener {
 
 		if (!wiki.isReadOnly() && !sentence.isImmutable()) {
 			dropDown.addMenuEntry("acewiki_statementmenu_edit", "acewiki_statementmenu_editsenttooltip");
-			if (wiki.getEngine().getReasoner() != null && sentence.isReasonable()) {
+			if (wiki.isRetractReassertEnabled() && sentence.isReasonable()) {
 				if (sentence.isIntegrated()) {
 					dropDown.addMenuEntry("acewiki_statementmenu_retract", "acewiki_statementmenu_retracttooltip");
 				} else {
@@ -112,9 +112,11 @@ public class SentenceComponent extends Column implements ActionListener {
 			dropDown.addMenuEntry("acewiki_statementmenu_alternatives", "acewiki_statementmenu_alternativestooltip");
 		}
 
-		dropDown.addMenuEntry("acewiki_statementmenu_details", "acewiki_statementmenu_detailstooltip");
+		if (wiki.isDetailsPageEnabled()) {
+			dropDown.addMenuEntry("acewiki_statementmenu_details", "acewiki_statementmenu_detailstooltip");
+		}
 
-		if (wiki.isMultilingual()) {
+		if (wiki.isTranslationsPageEnabled()) {
 			dropDown.addMenuEntry("acewiki_statementmenu_transl", "acewiki_statementmenu_transltooltip");
 		}
 

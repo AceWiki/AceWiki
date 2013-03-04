@@ -12,7 +12,7 @@ public class GfEditorControllerFactory {
 	 * show (other tokens go into the default category) and the category
 	 * labels which respect the current language.</p>
 	 */
-	public static EditorController createFromCats(GFGrammar grammar, String language) {
+	public static EditorController createFromCats(GfGrammar grammar, String language) {
 		EditorController ec = new EditorController();
 		int shift = 0;
 		int menuGroupCount = 1;

@@ -1,11 +1,20 @@
+  <!--
+    Naming convention:
+      gf__Geography: both the backend servlet and the data directory (ontology)
+      gf__Geography__main: AceWiki servlet
+      /GF/Geography/main: user-visible URL
+    In order to distinguish between different grammars the "gf__Geography"
+    might also need to include the full grammar path (/tmp/gfse.123456789/).
+    The full path of the grammar should normally not be carried over to the URL.
+  -->
 
   <servlet>
-    <servlet-name>/grammars/Phrasebook.pgf</servlet-name>
+    <servlet-name>gf__Phrasebook</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
     <init-param>
       <param-name>engine_class</param-name>
-      <param-value>ch.uzh.ifi.attempto.acewiki.gf.GFEngine</param-value>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gf.GfEngine</param-value>
     </init-param>
     <init-param>
       <param-name>pgf_name</param-name>
@@ -25,25 +34,37 @@
     </init-param>
     <init-param>
       <param-name>ontology</param-name>
-      <param-value>grammars__Phrasebook</param-value>
+      <param-value>gf__Phrasebook</param-value>
+    </init-param>
+    <!--  Set this is to a large number (~200 in case of Phrasebook) in order to have
+          multicategory predictive editing. It's a bit heavy on the GF server, so set it
+          only for deployment. -->
+    <init-param>
+      <param-name>linearize_all_query_limit</param-name>
+      <param-value>12</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>/grammars/Phrasebook.pgf</servlet-name>
-    <url-pattern>/grammars/Phrasebook.pgf</url-pattern>
+    <servlet-name>gf__Phrasebook</servlet-name>
+    <url-pattern>/GF/Phrasebook</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>/grammars/Phrasebook.pgf/Phrasebook</servlet-name>
+    <servlet-name>gf__Phrasebook__main</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>/grammars/Phrasebook.pgf</param-value>
+      <param-value>gf__Phrasebook</param-value>
     </init-param>
+    <!--
+        Default content language, the UI language is guessed on the basis of it.
+        The grammar must contain at least one language, so if this parameter is
+        missing then the "first" language in the grammar is assumed.
+    -->
     <init-param>
       <param-name>language</param-name>
-      <param-value>PhrasebookEng</param-value>
+      <param-value>PhrasebookGer</param-value>
     </init-param>
     <init-param>
       <param-name>title</param-name>
@@ -51,8 +72,8 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>/grammars/Phrasebook.pgf/Phrasebook</servlet-name>
-    <url-pattern>/grammars/Phrasebook.pgf/Phrasebook/</url-pattern>
+    <servlet-name>gf__Phrasebook__main</servlet-name>
+    <url-pattern>/GF/Phrasebook/main</url-pattern>
   </servlet-mapping>
 
   <!--
@@ -67,20 +88,20 @@
 
       python copy_gf_to_data.py \
                -s http://cloud.grammaticalframework.org:80 \
-               -d /tmp/gfse.1391129840/ \
+               -d /tmp/gfse.123456789/ \
                -e "gf" \
-               -o path_to_acewiki_data/data/tmp__gfse.1391129840__TestAttempto/
+               -o path_to_acewiki_data/data/gf__Grammar/
 
       where the out-directory name matches the ontology-parameter.
   -->
 
   <servlet>
-    <servlet-name>/tmp/gfse.1391129840/TestAttempto.pgf</servlet-name>
+    <servlet-name>gf__TestAttempto</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
     <init-param>
       <param-name>engine_class</param-name>
-      <param-value>ch.uzh.ifi.attempto.acewiki.gf.GFEngine</param-value>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gf.GfEngine</param-value>
     </init-param>
     <init-param>
       <param-name>pgf_name</param-name>
@@ -96,33 +117,86 @@
     </init-param>
     <init-param>
       <param-name>ontology</param-name>
-      <param-value>tmp__gfse.1391129840__TestAttempto</param-value>
+      <param-value>gf__TestAttempto</param-value>
+    </init-param>
+    <init-param>
+      <param-name>retractreassert</param-name>
+      <param-value>on</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>/tmp/gfse.1391129840/TestAttempto.pgf</servlet-name>
-    <url-pattern>/tmp/gfse.1391129840/TestAttempto.pgf</url-pattern>
+    <servlet-name>gf__TestAttempto</servlet-name>
+    <url-pattern>/GF/TestAttempto</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>/tmp/gfse.1391129840/TestAttempto.pgf/TestAttempto</servlet-name>
+    <servlet-name>gf__TestAttempto__main</servlet-name>
     <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
     <init-param>
       <param-name>backend</param-name>
-      <param-value>/tmp/gfse.1391129840/TestAttempto.pgf</param-value>
+      <param-value>gf__TestAttempto</param-value>
     </init-param>
     <init-param>
       <param-name>language</param-name>
-      <param-value>TestAttemptoAce</param-value>
-    </init-param>
-    <init-param>
-      <param-name>title</param-name>
-      <param-value>Multilingual ACE wiki</param-value>
+      <param-value>TestAttemptoSpa</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>/tmp/gfse.1391129840/TestAttempto.pgf/TestAttempto</servlet-name>
-    <url-pattern>/tmp/gfse.1391129840/TestAttempto.pgf/TestAttempto/</url-pattern>
+    <servlet-name>gf__TestAttempto__main</servlet-name>
+    <url-pattern>/GF/TestAttempto/main</url-pattern>
   </servlet-mapping>
 
+
+  <!-- Geography -->
+  <servlet>
+    <servlet-name>gf__Geography</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>engine_class</param-name>
+      <param-value>ch.uzh.ifi.attempto.acewiki.gf.GfEngine</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pgf_name</param-name>
+      <param-value>/tmp/gfse.528744594/Geography.pgf</param-value>
+    </init-param>
+    <init-param>
+      <param-name>start_cat</param-name>
+      <param-value>ACEText</param-value>
+    </init-param>
+    <init-param>
+      <param-name>service_uri</param-name>
+      <param-value>http://cloud.grammaticalframework.org:80</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>gf__Geography</param-value>
+    </init-param>
+    <init-param>
+      <param-name>retractreassert</param-name>
+      <param-value>on</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>gf__Geography</servlet-name>
+    <url-pattern>/GF/Geography</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>gf__Geography__main</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>gf__Geography</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>European Geography</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>gf__Geography__main</servlet-name>
+    <url-pattern>/GF/Geography/main</url-pattern>
+  </servlet-mapping>
