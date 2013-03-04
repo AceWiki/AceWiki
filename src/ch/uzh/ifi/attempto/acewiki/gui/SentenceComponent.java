@@ -22,13 +22,10 @@ import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.layout.RowLayoutData;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
-import ch.uzh.ifi.attempto.acewiki.core.AceWikiEngine;
 import ch.uzh.ifi.attempto.acewiki.core.InconsistencyException;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
-import ch.uzh.ifi.attempto.acewiki.gf.GfDeclaration;
-import ch.uzh.ifi.attempto.acewiki.gf.GfEngine;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.echocomp.SmallButton;
@@ -44,12 +41,6 @@ public class SentenceComponent extends Column implements ActionListener {
 
 	private static final long serialVersionUID = -540135972060005725L;
 
-	// TODO: this applies to wikis with editable grammars
-	private static final SentenceAction actionReanalyze = new SentenceAction(
-			"Reanalyze",
-			"Reanalyze this sentence",
-			"Do you really want to reanalyze this sentence?");
-
 	private static final ImmutableSet<String> EDIT_ACTIONS = new ImmutableSet.Builder<String>()
 			.add("acewiki_statementmenu_edit")
 			.add("acewiki_statementmenu_addsent")
@@ -57,7 +48,6 @@ public class SentenceComponent extends Column implements ActionListener {
 			.add("acewiki_statementmenu_reassert")
 			.add("acewiki_statementmenu_retract")
 			.add("acewiki_statementmenu_delete")
-			.add(actionReanalyze.getTitle())
 			.build();
 
 	private Sentence sentence;
@@ -105,7 +95,6 @@ public class SentenceComponent extends Column implements ActionListener {
 				}
 			}
 			dropDown.addMenuEntry("acewiki_statementmenu_delete", "acewiki_statementmenu_delsenttooltip");
-			dropDown.addMenuEntry(actionReanalyze.getTitle(), actionReanalyze.getDesc());
 		}
 
 		if (sentence.getTextContainer(wiki.getLanguage()).size() > 1) {
@@ -148,7 +137,7 @@ public class SentenceComponent extends Column implements ActionListener {
 		recalcIcon.setVisible(false);
 		sentenceRow.add(new HSpace(5));
 
-		// Move to triangle to the top left of the row
+		// Move the triangle to the top left of the row
 		RowLayoutData rowLayoutData = new RowLayoutData();
 		rowLayoutData.setAlignment(new Alignment(Alignment.LEFT, Alignment.TOP));
 		dropDown.setLayoutData(rowLayoutData);
@@ -197,15 +186,6 @@ public class SentenceComponent extends Column implements ActionListener {
 					this,
 					"general_action_yes", "general_action_no"
 					));
-		} else if (actionReanalyze.hasTitle(c)) {
-			final AceWikiEngine engine = wiki.getEngine();
-			if (engine instanceof GfEngine) {
-				log("dropdown: " + actionReanalyze.getTitle());
-				// "Reanalyze" means that we clear the current linearization
-				// and call refresh which triggers a new linearization.
-				((GfDeclaration) sentence).removeTextContainer(wiki.getLanguage());
-				wiki.refresh();
-			}
 		} else if ("acewiki_statementmenu_reassert".equals(c)) {
 			log("dropdown: reassert:");
 			try {
