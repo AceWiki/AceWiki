@@ -46,6 +46,7 @@ import ch.uzh.ifi.attempto.gfservice.GfModule;
 import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultGrammar;
 
+// TODO Get rid of gf package dependency or move to gf package
 
 public class GrammarPage extends AbstractNavigationPage implements ActionListener {
 

@@ -93,6 +93,8 @@ import echopoint.externalevent.ExternalEvent;
 import echopoint.externalevent.ExternalEventListener;
 import echopoint.externalevent.ExternalEventMonitor;
 
+// TODO Get rid of gf package dependency
+
 /**
  * This class represents an AceWiki wiki instance (including its graphical user interface).
  * There is such a wiki object for every wiki user.

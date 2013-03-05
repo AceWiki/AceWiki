@@ -36,6 +36,8 @@ import ch.uzh.ifi.attempto.acewiki.gf.GfModulePage;
 import ch.uzh.ifi.attempto.acewiki.gf.TypeGfModule;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 
+// TODO Get rid of gf package dependency
+
 /**
  * This class stands for a wiki page that represents an ontology element and shows the
  * article of this ontology element.

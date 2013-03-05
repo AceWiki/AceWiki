@@ -46,6 +46,8 @@ import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.echocomp.TextField;
 import ch.uzh.ifi.attempto.preditor.WordEditorForm;
 
+// TODO Get rid of gf package dependency
+
 /**
  * This class describes the basic structure for forms to create and modify words (represented by
  * ontology elements).
