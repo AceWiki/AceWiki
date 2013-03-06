@@ -157,6 +157,7 @@ public class GfModulePage extends ArticlePage {
 
 				if (result.isSuccess()) {
 					mWiki.showWindow(new MessageWindow("OK", "Grammar rebuilt successfully"));
+					GfWikiUtils.clearAllLinearizations(mWiki.getOntology());
 				} else {
 					mWiki.showWindow(new MessageWindow(result.getResultCode(),
 							result.getMessage() + " (" + result.getCommand() + ")"));
@@ -254,7 +255,7 @@ public class GfModulePage extends ArticlePage {
 		Row row = new Row();
 		for (String s : Comment.tokenizeText(text)) {
 			// Check if the element is in the ontology
-			OntologyElement oe = mWiki.getOntology().getElement(s); // TODO: reuse the references set rom the statement
+			OntologyElement oe = mWiki.getOntology().getElement(s); // TODO: reuse the references set from the statement
 			if (oe == null) {
 				sb.append(s);
 			} else {
