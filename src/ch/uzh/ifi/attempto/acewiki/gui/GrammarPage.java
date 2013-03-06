@@ -53,6 +53,7 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 	// TODO: localize
 	private static final String ACTION_GRAMMAR_PUSH = "acewiki_action_grammar_push";
 	private static final String ACTION_GRAMMAR_PULL = "acewiki_action_grammar_pull";
+	private static final String ACTION_GRAMMAR_RM_GFO = "acewiki_action_grammar_rm_gfo";
 
 	private static final Insets INSETS = new Insets(10, 10, 10, 15);
 	private static final long serialVersionUID = -2031690219932377941L;
@@ -93,6 +94,7 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 				buttonRow.setInsets(INSETS);
 				buttonRow.add(new GeneralButton(ACTION_GRAMMAR_PUSH, this));
 				buttonRow.add(new GeneralButton(ACTION_GRAMMAR_PULL, this));
+				buttonRow.add(new GeneralButton(ACTION_GRAMMAR_RM_GFO, this));
 				add(buttonRow);
 				add(new VSpace(10));
 			}
@@ -132,12 +134,16 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 
 	public void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);
-		if (ACTION_GRAMMAR_PUSH.equals(e.getActionCommand())) {
+		String actionCommand = e.getActionCommand();
+		if (ACTION_GRAMMAR_PUSH.equals(actionCommand)) {
 			actionGrammarPush();
-		} else if (ACTION_GRAMMAR_PULL.equals(e.getActionCommand())) {
+		} else if (ACTION_GRAMMAR_PULL.equals(actionCommand)) {
 			actionGrammarPull();
+		} else if (ACTION_GRAMMAR_RM_GFO.equals(actionCommand)) {
+			actionGrammarRmGfo();
 		}
 	}
+
 
 	protected void doUpdate() {
 		if (mInfo == null) {
@@ -295,6 +301,21 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 		sb.append('\n');
 		TextAreaWindow resultsWindow = new TextAreaWindow(ACTION_GRAMMAR_PULL + " " +
 				countFile + "/" + countOld + "/" + countChanged + "/" + countNew, this);
+		resultsWindow.setText(sb.toString());
+		mWiki.showWindow(resultsWindow);
+	}
+
+
+	private void actionGrammarRmGfo() {
+		StringBuilder sb = new StringBuilder();
+		try {
+			int numberOfFilesDeleted = mGrammar.rmGfo();
+			sb.append("Successfully deleted " + numberOfFilesDeleted + " gfo-file(s)");
+		} catch (GfServiceException e) {
+			sb.append(e.getMessage());
+		}
+
+		TextAreaWindow resultsWindow = new TextAreaWindow(ACTION_GRAMMAR_RM_GFO, this);
 		resultsWindow.setText(sb.toString());
 		mWiki.showWindow(resultsWindow);
 	}
