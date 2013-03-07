@@ -71,6 +71,7 @@ public class GfGrammar {
 	public final static String PREFIX_DISAMB = "Disamb";
 	public final static String SUFFIX_APE = "Ape";
 	public final static String EXTENSION_GF = ".gf";
+	public final static String EXTENSION_GFO = ".gfo";
 
 	// Note that true can remove (always removes?) lins
 	// which are not available in all the concretes,
@@ -318,6 +319,21 @@ public class GfGrammar {
 	public Set<String> ls(String extension) throws GfServiceException {
 		GfStorageResultLs result = mGfStorage.ls(mDir, extension);
 		return result.getFilenames();
+	}
+
+
+	public void rm(String path) throws GfServiceException {
+		mGfStorage.rm(mDir, path);
+	}
+
+
+	public int rmGfo() throws GfServiceException {
+		int count = 0;
+		for (String path : ls(EXTENSION_GFO)) {
+			mGfStorage.rm(mDir, path);
+			count++;
+		}
+		return count;
 	}
 
 
