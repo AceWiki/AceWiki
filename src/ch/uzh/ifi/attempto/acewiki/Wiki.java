@@ -410,8 +410,10 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		}
 		sideCol.add(new ListItem(exportButton));
 
-		sideCol.add(new VSpace(10));
-		sideCol.add(new ListItem(aboutGrammarButton));
+		if (getEngine() instanceof GfEngine) {
+			sideCol.add(new VSpace(10));
+			sideCol.add(new ListItem(aboutGrammarButton));
+		}
 
 		languageButtons = new ArrayList<SmallButton>();
 
