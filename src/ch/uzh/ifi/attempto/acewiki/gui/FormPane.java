@@ -39,11 +39,14 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
 import ch.uzh.ifi.attempto.acewiki.core.Relation;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.TopicElement;
+import ch.uzh.ifi.attempto.acewiki.gf.TypeGfModule;
 import ch.uzh.ifi.attempto.echocomp.CheckBox;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.echocomp.TextField;
 import ch.uzh.ifi.attempto.preditor.WordEditorForm;
+
+// TODO Get rid of gf package dependency
 
 /**
  * This class describes the basic structure for forms to create and modify words (represented by
@@ -154,6 +157,8 @@ public class FormPane extends WordEditorForm {
 			imageRef = Wiki.getImage("relation.png");
 		} else if (element instanceof TopicElement) {
 			imageRef = Wiki.getImage("topic.png");
+		} else if (element instanceof TypeGfModule) {
+			imageRef = Wiki.getImage("gfmodule.png");
 		}
 		Grid explanationComp = new Grid(2);
 		explanationComp.setRowHeight(0, new Extent(110));

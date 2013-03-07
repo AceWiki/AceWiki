@@ -47,7 +47,7 @@ public class SentenceComponent extends Column implements ActionListener {
 			.add("acewiki_statementmenu_retract")
 			.add("acewiki_statementmenu_delete")
 			.build();
-	
+
 	private Sentence sentence;
 	private Wiki wiki;
 	private WikiPage hostPage;

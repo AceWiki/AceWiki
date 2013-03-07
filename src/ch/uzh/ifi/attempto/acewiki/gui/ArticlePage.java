@@ -32,7 +32,11 @@ import ch.uzh.ifi.attempto.acewiki.core.Relation;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.core.TopicElement;
+import ch.uzh.ifi.attempto.acewiki.gf.GfModulePage;
+import ch.uzh.ifi.attempto.acewiki.gf.TypeGfModule;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
+
+// TODO Get rid of gf package dependency
 
 /**
  * This class stands for a wiki page that represents an ontology element and shows the
@@ -91,6 +95,8 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 			} else {
 				return new GeneralPage((TopicElement) oe, wiki);
 			}
+		} else if (oe instanceof TypeGfModule) {
+			return new GfModulePage(oe, wiki);
 		}
 		return null;
 	}
