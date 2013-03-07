@@ -64,7 +64,7 @@ public class GfTextOperator extends DefaultTextOperator {
 			return EMPTY;
 			//return GF_BIND_PRETTY;
 		}
-		if (preceding == null) {
+		if (preceding == null || preceding.matches("[.?!]")) {
 			return firstCharToUpperCase(text);
 		}
 		return text;

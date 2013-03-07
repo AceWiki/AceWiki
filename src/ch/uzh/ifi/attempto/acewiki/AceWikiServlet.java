@@ -35,7 +35,7 @@ import ch.uzh.ifi.attempto.base.Logger;
  * See the <a href="{@docRoot}/README.txt">README file</a> and the
  * <a href="{@docRoot}/web.xml">web.xml example file</a>.
  *<p>
- * An APE should be accessibe for the server, either directly installed on local or using socket
+ * An APE should be accessible for the server, either directly installed on local or using socket
  * or web service. See the documentation of {@link APE} for more information.
  *<p>
  * For larger ontologies it might be necessary to adjust the stack and heap size, for example by

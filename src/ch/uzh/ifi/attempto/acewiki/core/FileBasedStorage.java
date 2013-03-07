@@ -231,7 +231,19 @@ public class FileBasedStorage implements AceWikiStorage {
 		List<Statement> statements = new ArrayList<Statement>();
 		while (!lines.isEmpty()) {
 			String l = lines.remove(0);
-			Statement statement = loadStatement(l, a);
+			Statement statement = null;
+			// If loading of a statement causes an exception then we ignore this statement
+			// (but print it out along with the exception message)
+			// and continue loading the other statements.
+			// TODO The statement will be removed from the underlying storage, which
+			// is maybe a bad thing? Then again, the storage represents only the current
+			// state of the wiki and one should have a history/backup anyway.
+			// TODO A better option might be to turn such sentences into comments, so that users could fix them.
+			try {
+				statement = loadStatement(l, a);
+			} catch (Exception e) {
+				System.err.println(e);
+			}
 			if (statement == null) {
 				log.warn("Cannot read statement: {}", l);
 			} else {

@@ -71,7 +71,7 @@ public class GfDeclaration extends MultilingualSentence implements Declaration {
 
 	// Maps a language identifier to the set of linearizations (text containers) in this language
 	private final Map<String, MultiTextContainer> textContainers = new HashMap<>();
-	
+
 	// Maps a tree to the set of linearizations for each language.
 	// ie. Map<Tree, Map<Language, Set<Linearization>>>
 	// Lazy initialized as tree linearizations are requested, but done for all languages at once - performance reasons.
@@ -109,11 +109,12 @@ public class GfDeclaration extends MultilingualSentence implements Declaration {
 
 
 	/**
-	 * TODO: this is temporary. Also not that it does not have effect on the
+	 * TODO: this is temporary. Also note that it does not have effect on the
 	 * original input as this is always taken from mGfWikiEntry.getText()
 	 */
-	public void removeTextContainer(String language) {
-		textContainers.put(language, null);
+	public void clearLinearizations() {
+		textContainers.clear();
+		treeLinearizations.clear();
 		mUseOriginal = false;
 	}
 
@@ -331,7 +332,7 @@ public class GfDeclaration extends MultilingualSentence implements Declaration {
 	private Set<String> getLins(String tree, String language) {
 		// Linearization of a single tree to all possible languages.
 		Map<String, Set<String>> tl = treeLinearizations.get(tree);
-		
+
 		if (tl == null) {
 			try {
 				tl = getGfGrammar().linearize(tree);
@@ -343,7 +344,7 @@ public class GfDeclaration extends MultilingualSentence implements Declaration {
 				return null;
 			}
 		}
-		
+
 		return tl.get(language);
 	}
 

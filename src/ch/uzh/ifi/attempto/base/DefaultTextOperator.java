@@ -26,6 +26,7 @@ import java.util.List;
 public class DefaultTextOperator implements TextOperator {
 
 	public static final String punctuationChars = ".,:;?!";
+	public static final String leftPunctuationChars = "¿¡";
 	
 	public TextElement createTextElement(String text) {
 		return new TextElement(text);
@@ -48,12 +49,18 @@ public class DefaultTextOperator implements TextOperator {
 	public String getGlue(TextElement left, TextElement right) {
 		if (isPunctuationChar(right.getText())) {
 			return "";
+		} else if (isLeftPunctuationChar(left.getText())) {
+			return "";
 		}
 		return " ";
 	}
 
 	public static boolean isPunctuationChar(String c) {
 		return c.matches("[" + punctuationChars + "]");
+	}
+
+	public static boolean isLeftPunctuationChar(String c) {
+		return c.matches("[" + leftPunctuationChars + "]");
 	}
 
 	public static String firstCharToUpperCase(String s) {
