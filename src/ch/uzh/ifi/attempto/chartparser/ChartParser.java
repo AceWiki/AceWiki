@@ -32,6 +32,8 @@ import ch.uzh.ifi.attempto.base.PredictiveParser;
  */
 public class ChartParser implements PredictiveParser {
 	
+	private final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(this.getClass());
+	
 	private final Grammar grammar;
 	private final String startCategoryName;
 	private final Nonterminal[] context;
@@ -124,7 +126,7 @@ public class ChartParser implements PredictiveParser {
 		for (LexicalRule lexRule : lexRules) {
 			Edge edge = new Edge(tokens.size(), lexRule.deepCopy());
 			chart.addEdge(edge);
-			if (debug) log("SCANNER: " + edge + "\n");
+			if (debug) log.debug("SCANNER: {}", edge);
 		}
 		
 		runParsingSteps();
@@ -132,9 +134,8 @@ public class ChartParser implements PredictiveParser {
 		// add the token to the list of tokens:
 		tokens.add(token);
 		if (debug) {
-			log("ADD TOKEN: " + token + "\nTOKEN LIST:");
-			for (String t : tokens) log(" " + t);
-			log("\n");
+			log.debug("ADD TOKEN: {}", token);
+			log.debug("TOKEN LIST: {}", tokens);
 		}
 		options.add(null);
 		backwardReferences.add(new ArrayList<FeatureMap>());
@@ -161,14 +162,13 @@ public class ChartParser implements PredictiveParser {
 		updateConcreteOptions(tokens.size());
 		recalculateParseTree = true;
 		if (debug) {
-			log("REMOVE LAST TOKEN.\nTOKEN LIST:");
-			for (String t : tokens) log(" " + t);
-			log("\n");
+			log.debug("REMOVE LAST TOKEN.");
+			log.debug("TOKEN LIST: {}", tokens);
 		}
 	}
 	
 	public void removeAllTokens() {
-		if (debug) log("REMOVE ALL TOKENS.\n");
+		if (debug) log.debug("REMOVE ALL TOKENS");
 		tokens.clear();
 		options.clear();
 		options.add(null);
@@ -479,7 +479,7 @@ public class ChartParser implements PredictiveParser {
 		}
 		if (debug) {
 			for (CPAbstractOption o : aOptions) {
-				log("LOOKING FORWARD: " + o + "\n");
+				log.debug("LOOKING FORWARD: {}", o);
 			}
 		}
 		
@@ -529,7 +529,7 @@ public class ChartParser implements PredictiveParser {
 		for (GrammarRule rule : grammar.rulesByHeadName(startCategoryName)) {
 			Edge edge = new Edge(0, rule.deepCopy(), context);
 			chart.addEdge(edge);
-			if (debug) log("INIT: " + rule + "  --->  " + edge + "\n");
+			if (debug) log.debug("INIT: {}  --->  {}", rule, edge);
 		}
 	}
 	
@@ -586,7 +586,7 @@ public class ChartParser implements PredictiveParser {
 			if (category == null) continue;
 			if (category instanceof Terminal) continue;
 			if (category.isSpecialCategory()) continue;
-			if (debug) log("PREDICTION FOR CATEGORY: " + category + "\n");
+			if (debug) log.debug("PREDICTION FOR CATEGORY: {}", category);
 			
 			for (GrammarRule rule : grammar.rulesByHeadName(category.getName())) {
 				try {
@@ -596,7 +596,7 @@ public class ChartParser implements PredictiveParser {
 					edgeC.getNextActive().unify(ruleC.getHead());
 					Edge edge = new Edge(tokens.size(), ruleC, edgeC.getCombinedAnteList());
 					boolean isNewEdge = chart.addEdge(edge);
-					if (debug) log("PREDICT (" + (isNewEdge ? "NEW" : "KNOWN") + "): " + rule + "  --->  " + edge + "\n");
+					if (debug) log.debug("PREDICT ({}): {}  --->  {}", (isNewEdge ? "NEW" : "KNOWN"), rule, edge);
 				} catch (UnificationFailedException ex) {
 					continue;
 				}
@@ -618,7 +618,7 @@ public class ChartParser implements PredictiveParser {
 			
 			Edge passiveEdge = l1.get(i1);
 			if (passiveEdge.isActive()) continue;
-			if (debug) log("COMPLETION FOR EDGE: " + passiveEdge + "\n");
+			if (debug) log.debug("COMPLETION FOR EDGE: {}", passiveEdge);
 
 			List<Edge> l2 = chart.getEdgesByEndPos(passiveEdge.getStartPos());
 			int start;
@@ -656,7 +656,7 @@ public class ChartParser implements PredictiveParser {
 					}
 					edgeC.step(tokens.size(), passiveEdgeC);
 					boolean isNewEdge = chart.addEdge(edgeC);
-					if (debug) log("COMPLETE (" + (isNewEdge ? "NEW" : "KNOWN") + "): " + edge + "  --->  " + edgeC + "\n");
+					if (debug) log.debug("COMPLETE ({}): {}  --->  {}", (isNewEdge ? "NEW" : "KNOWN"), edge, edgeC);
 				} catch (UnificationFailedException ex) {
 					continue;
 				}
@@ -745,12 +745,12 @@ public class ChartParser implements PredictiveParser {
 			}
 			
 			if (newEdges.isEmpty()) {
-				if (debug) log("CANNOT RESOLVE: " + edge + "\n");
+				if (debug) log.debug("CANNOT RESOLVE: {}", edge);
 			}
 			for (Edge newEdge : newEdges) {
 				newEdge.step();
 				boolean isNewEdge = chart.addEdge(newEdge);
-				if (debug) log("RESOLVE (" + (isNewEdge ? "NEW" : "KNOWN") + "): " + edge + "  --->  " + newEdge + "\n");
+				if (debug) log.debug("RESOLVE ({}): {}  --->  {}", (isNewEdge ? "NEW" : "KNOWN"), edge, newEdge);
 			}
 		}
 		progressTable.put("resolution", l1.size());
@@ -763,9 +763,4 @@ public class ChartParser implements PredictiveParser {
 		}
 		return listCopy;
 	}
-	
-	private void log(String text) {
-		System.err.print(text);
-	}
-
 }

@@ -53,6 +53,8 @@ class TextEntry extends Column implements ActionListener {
 
 	private static final String imgpath = "ch/uzh/ifi/attempto/echocomp/style/";
 
+	private final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(this.getClass());
+	
     private ACEParser aceParser;
 
 	private Map<String,ResultItem> resultItems = new HashMap<String,ResultItem>();
@@ -390,7 +392,7 @@ class TextEntry extends Column implements ActionListener {
 
 			for (Message m : parserResult.getMessageContainer().getErrorMessages()) {
 				if (!m.getType().equals("owl")) {
-					System.err.println(m.toString());
+					log.warn(m.toString());
 				}
 			}
 

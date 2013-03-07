@@ -28,6 +28,8 @@ class Word {
 	
 	private String wordForm, symbol, entry;
 	private Preterminal category;
+	
+	private final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(this.getClass());
 
 	/**
 	 * Generates a new word on the basis of a lexicon entry according to the ACE lexicon
@@ -46,7 +48,7 @@ class Word {
 			readFeatures(lexiconEntry.replaceFirst("^[a-z_]+\\('?[A-Za-z0-9-_]+'?,\\s*'?[A-Za-z0-9-_]+'?(.*)\\)\\.\\s*", "$1"));
 			category.setFeature("text", wordForm);
 		} else if (!lexiconEntry.equals("") && !lexiconEntry.matches("\\s*%.*")) {
-			System.err.println("WARNING: Invalid lexicon entry: " + lexiconEntry);
+			log.warn("Invalid lexicon entry: {}", lexiconEntry);
 		}
 	}
 

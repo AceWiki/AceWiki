@@ -334,7 +334,8 @@ public abstract class ACESentence extends MonolingualSentence implements OWLSent
 		}
 		//String messages = mc.toString();
 		//if (messages.length() > 0) {
-		//	System.err.println("Parser messages: " + messages);
+		//  final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(this.getClass());
+		//	log.info(org.slf4j.MarkerFactory.getMarker("stderr"), "Parser messages: {}", messages);
 		//}
 	}
 

@@ -27,10 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-
 /**
  * This class implements persistent storage features for AceWiki data on the basis of a simple file
  * and folder based system.
@@ -39,7 +35,7 @@ import org.slf4j.LoggerFactory;
  */
 public class FileBasedStorage implements AceWikiStorage {
 
-	final Logger logger = LoggerFactory.getLogger(FileBasedStorage.class);
+	private final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(this.getClass());
 
 	private final HashMap<String, Ontology> ontologies = new HashMap<String, Ontology>();
 	private final Map<String, UserBase> userBases = new HashMap<String, UserBase>();
@@ -94,7 +90,7 @@ public class FileBasedStorage implements AceWikiStorage {
 		ontologies.put(name, ontology);
 		ontology.log("loading ontology");
 		System.err.println("Loading '" + name + "'");
-		logger.info("Loading: '{}'", name);
+		log.info("Loading: '{}'", name);
 
 		File dataDir = new File(dir + "/" + name);
 		File dataFile = new File(dir + "/" + name + ".acewikidata");
@@ -192,9 +188,11 @@ public class FileBasedStorage implements AceWikiStorage {
 	 * @param ontology The ontology at which the ontology element should be registered.
 	 */
 	private static void loadOntologyElement(String serializedElement, long id, Ontology ontology) {
+		final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FileBasedStorage.class);
+		
 		List<String> lines = new ArrayList<String>(Arrays.asList(serializedElement.split("\n")));
 		if (lines.size() == 0 || !lines.get(0).startsWith("type:")) {
-			System.err.println("Cannot read ontology element (missing 'type')");
+			log.warn("Cannot read ontology element (missing 'type')");
 			return;
 		}
 		String type = lines.remove(0).substring("type:".length());
@@ -208,7 +206,7 @@ public class FileBasedStorage implements AceWikiStorage {
 
 		if (oe != null) {
 			if (lines.size() == 0 || !lines.get(0).startsWith("words:")) {
-				System.err.println("Missing 'words' for ontology element: " + oe);
+				log.warn("Missing 'words' for ontology element: {}", oe);
 			} else {
 				String serializedWords = lines.remove(0).substring("words:".length());
 				ontology.change(oe, serializedWords);
@@ -221,19 +219,21 @@ public class FileBasedStorage implements AceWikiStorage {
 			oe.initId(id);
 			ontology.register(oe);
 		} else {
-			System.err.println("Failed to load ontology element with id " + id);
+			log.warn("Failed to load ontology element with id {}", id);
 		}
 		return;
 	}
 
 	private static Article loadArticle(List<String> lines, OntologyElement element) {
+		final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FileBasedStorage.class);
+		
 		Article a = new Article(element);
 		List<Statement> statements = new ArrayList<Statement>();
 		while (!lines.isEmpty()) {
 			String l = lines.remove(0);
 			Statement statement = loadStatement(l, a);
 			if (statement == null) {
-				System.err.println("Cannot read statement: " + l);
+				log.warn("Cannot read statement: {}", l);
 			} else {
 				statements.add(statement);
 			}
@@ -355,6 +355,8 @@ public class FileBasedStorage implements AceWikiStorage {
 	}
 
 	private static User loadUser(UserBase userBase, File file) {
+		final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FileBasedStorage.class);
+		
 		try {
 			long id = new Long(file.getName());
 			FileInputStream in = new FileInputStream(file);
@@ -364,7 +366,7 @@ public class FileBasedStorage implements AceWikiStorage {
 			String s = new String(bytes, "UTF-8");
 			String[] lines = s.split("\n");
 			if (lines.length < 2 || !lines[0].startsWith("name:") || !lines[1].startsWith("pw:")) {
-				System.err.println("Invalid user file: " + id);
+				log.warn("Invalid user file: {}", id);
 				return null;
 			}
 			String name = lines[0].substring("name:".length());
@@ -384,9 +386,9 @@ public class FileBasedStorage implements AceWikiStorage {
 			}
 			return new User(id, name, pw, userdata, userBase);
 		} catch (NumberFormatException ex) {
-			System.err.println("ignoring user file: " + file.getName());
+			log.warn("ignoring user file: {}", file.getName());
 		} catch (IOException ex) {
-			System.err.println("cannot read user file: " + file.getName());
+			log.warn("cannot read user file: {}", file.getName());
 		}
 		return null;
 	}

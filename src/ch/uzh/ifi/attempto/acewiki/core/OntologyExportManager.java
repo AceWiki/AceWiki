@@ -23,6 +23,7 @@ import java.util.List;
  * @author Tobias Kuhn
  */
 public class OntologyExportManager {
+	private final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(this.getClass());
 	
 	private List<OntologyExporter> exporters = new ArrayList<OntologyExporter>();
 	private Ontology ontology;
@@ -46,7 +47,7 @@ public class OntologyExportManager {
 		if (exporter.isApplicable()) {
 			exporters.add(exporter);
 		} else {
-			System.err.println("Ignoring non-applicable exporter: " + exporter.getName());
+			log.warn("Ignoring non-applicable exporter: {}", exporter.getName());
 		}
 	}
 	

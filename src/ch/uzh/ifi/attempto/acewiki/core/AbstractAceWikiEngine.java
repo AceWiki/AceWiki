@@ -34,6 +34,8 @@ public abstract class AbstractAceWikiEngine implements AceWikiEngine {
 	 * @return The AceWiki engine.
 	 */
 	static AceWikiEngine createLanguageEngine(Ontology ontology) {
+		final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AbstractAceWikiEngine.class);
+		
 		String n = ontology.getParameter("engine_class");
 		Object loadedObj = null;
 		ClassLoader classLoader = AbstractAceWikiEngine.class.getClassLoader();
@@ -43,10 +45,10 @@ public abstract class AbstractAceWikiEngine implements AceWikiEngine {
 		    	loadedObj = classLoader.loadClass(n).newInstance();
 		    } catch (ClassNotFoundException ex) {
 		        ontology.log("Engine class not found: " + n);
-		        System.err.println("Engine class not found: " + n);
+		        log.error("Engine class not found: {}", n);
 		    } catch (Exception ex) {
 		        ontology.log("Failed to load engine object: " + n);
-		        System.err.println("Failed to load engine object: " + n);
+		        log.error("Failed to load engine object: {}", n);
 		        ex.printStackTrace();
 		    }
 		}
