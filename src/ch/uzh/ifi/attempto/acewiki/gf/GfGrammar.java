@@ -483,12 +483,37 @@ public class GfGrammar {
 						tokenToCats = HashMultimap.create();
 						langToTokenToCats.put(lang, tokenToCats);
 					}
-					// Store each token together with its category
-					for (String tok : entry2.getValue()) {
-						tokenToCats.put(tok, cat);
+					// Store each linearization together with its category.
+					// The linearization is represented by its "most important" token.
+					for (String lin : entry2.getValue()) {
+						String indexToken = getIndexToken(lin);
+						if (indexToken != null) {
+							tokenToCats.put(indexToken, cat);
+						}
 					}
 				}
 			}
 		}
+	}
+
+
+	/**
+	 * It does not make sense to index linearizations which contain multiple tokens
+	 * or which are empty strings, as these cannot be matched during (single token)
+	 * lookahead editing. If there are multiple tokens in the given linearization, e.g.
+	 * the + Atlantic_Ocean, des + Atlantischen_Ozeans, Atlandi_Ookean + &+ + il;
+	 * then we return the longest token (picking the last one in case there are several).
+	 * TODO: this is a hack while we're waiting for a cleaner solution.
+	 */
+	private static String getIndexToken(String lin) {
+		int max = 0;
+		String returnTok = null;
+		for (String tok : GF_TOKEN_SPLITTER.omitEmptyStrings().split(lin)) {
+			if (tok.length() >= max) {
+				max = tok.length();
+				returnTok = tok;
+			}
+		}
+		return returnTok;
 	}
 }
