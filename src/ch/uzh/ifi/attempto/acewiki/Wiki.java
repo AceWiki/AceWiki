@@ -105,8 +105,6 @@ import echopoint.externalevent.ExternalEventMonitor;
  */
 public class Wiki implements ActionListener, ExternalEventListener {
 
-	public static final String LABEL_ABOUT_GRAMMAR = "About Grammar";
-
 	private static final long serialVersionUID = 2777443689044226043L;
 
 	private Map<String, String> parameters;
@@ -135,7 +133,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private SmallButton homeButton, indexButton, searchButton2, aboutButton, randomButton,
 	newButton, exportButton;
 
-	private final SmallButton aboutGrammarButton = new SmallButton(LABEL_ABOUT_GRAMMAR, this, 12);
+	private SmallButton aboutGrammarButton;
 
 	private List<SmallButton> languageButtons;
 
@@ -411,6 +409,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		sideCol.add(new ListItem(exportButton));
 
 		if (getEngine() instanceof GfEngine) {
+			aboutGrammarButton = new SmallButton(getGUIText("acewiki_page_about_grammar"), this, 12);
 			sideCol.add(new VSpace(10));
 			sideCol.add(new ListItem(aboutGrammarButton));
 		}
