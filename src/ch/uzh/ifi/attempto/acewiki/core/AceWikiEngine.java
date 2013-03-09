@@ -43,6 +43,8 @@ public interface AceWikiEngine {
 	 * means that at least one language must be returned.
 	 * 
 	 * @return An array of language names.
+	 *
+	 * TODO: return List<String>?
 	 */
 	public String[] getLanguages();
 	

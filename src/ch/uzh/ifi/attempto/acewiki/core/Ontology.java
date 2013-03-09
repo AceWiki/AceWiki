@@ -17,8 +17,11 @@ package ch.uzh.ifi.attempto.acewiki.core;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 
 import ch.uzh.ifi.attempto.base.Logger;
@@ -427,6 +430,22 @@ public class Ontology {
 			} catch (NumberFormatException e) {};
 		}
 		return 0;
+	}
+
+
+	/**
+	 * Returns the web.xml parameter interpreted as a set of {@code String}s.
+	 * Elements must be comma-separated and whitespace is ignored.
+	 *
+	 * @param paramName The parameter name.
+	 * @return The value of the parameter.
+	 */
+	public Set<String> getParameterAsSetOfString(String paramName) {
+		String valueAsStr = getParameter(paramName);
+		if (valueAsStr == null) {
+			return ImmutableSet.of();
+		}
+		return ImmutableSet.copyOf(Splitter.on(',').omitEmptyStrings().trimResults().split(valueAsStr));
 	}
 
 }

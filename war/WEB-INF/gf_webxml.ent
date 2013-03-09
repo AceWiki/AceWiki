@@ -177,6 +177,10 @@
       <param-name>retractreassert</param-name>
       <param-value>on</param-value>
     </init-param>
+    <init-param>
+      <param-name>hidden_languages</param-name>
+      <param-value>GeographyApe, GeographySpa</param-value>
+    </init-param>
   </servlet>
   <servlet-mapping>
     <servlet-name>gf__Geography</servlet-name>

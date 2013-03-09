@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ch.uzh.ifi.attempto.acewiki.core.AbstractAceWikiEngine;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiReasoner;
@@ -56,13 +57,17 @@ public class GfEngine extends AbstractAceWikiEngine {
 	public void init(Ontology ontology) {
 		gfGrammar = new GfGrammar(ontology);
 
+		Set<String> hiddenLanguages = ontology.getParameterAsSetOfString(GfParameters.HIDDEN_LANGUAGES);
+
 		// Sort languages alphabetically according to displayed language name:
 		List<String> languageNames = new ArrayList<>();
 		Map<String,String> languageMap = new HashMap<>();
 		for (String l : gfGrammar.getLanguages()) {
-			String n = getLanguageHandler(l).getLanguageName();
-			languageNames.add(n);
-			languageMap.put(n, l);
+			if (! hiddenLanguages.contains(l)) {
+				String n = getLanguageHandler(l).getLanguageName();
+				languageNames.add(n);
+				languageMap.put(n, l);
+			}
 		}
 		Collections.sort(languageNames);
 		languages = new String[languageNames.size()];
