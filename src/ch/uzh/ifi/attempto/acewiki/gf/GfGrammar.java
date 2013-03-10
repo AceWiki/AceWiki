@@ -63,6 +63,9 @@ import ch.uzh.ifi.attempto.gfservice.gfwebservice.GfWebStorage;
  */
 public class GfGrammar {
 
+	// TODO: let the user configure the size of the ambiguity
+	public final static int GF_PARSE_LIMIT = 10;
+
 	private final int LINEARIZE_ALL_QUERY_LIMIT;
 
 	private final Logger mLogger = LoggerFactory.getLogger(GfGrammar.class);
@@ -82,8 +85,6 @@ public class GfGrammar {
 	private final static char GF_TOKEN_SEPARATOR = ' ';
 	private final static char GF_TREE_SEPARATOR = '|';
 	private final static String GF_SERIALIZATION_SEPARATOR = "||";
-
-	private final static int GF_PARSE_LIMIT = 10;
 
 	public final static Joiner GF_TREE_JOINER = Joiner.on(GF_TREE_SEPARATOR);
 	public final static Joiner GF_SERIALIZATION_JOINER = Joiner.on(GF_SERIALIZATION_SEPARATOR).useForNull("");

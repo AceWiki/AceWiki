@@ -119,6 +119,18 @@ public class GfDeclaration extends MultilingualSentence implements Declaration {
 	}
 
 
+	/**
+	 * Maps this declaration to its visual representation in the given language.
+	 * The declaration is a set of trees.
+	 * Each tree can in principle have multiple linearizations (variants), but we currently
+	 * consider only the first (canonical) variant.
+	 * We have to handle the following:
+	 *   - the linearization fails (e.g. tree is malformed)
+	 *   - a tree has an empty set of linearizations
+	 *   - a linearization is an empty string
+	 *   - a lineariation repeats
+	 *   - the user wants to see what he/she originally entered not a rewrite into the canonical variant
+	 */
 	public MultiTextContainer getTextContainer(String language) {
 		MultiTextContainer mtc = textContainers.get(language);
 		if (mtc == null) {
@@ -136,25 +148,26 @@ public class GfDeclaration extends MultilingualSentence implements Declaration {
 				for (String tree : mGfWikiEntry.getTrees().getTrees()) {
 					Set<String> lins = getLins(tree, language);
 					if (lins == null) {
-						mLogger.info("getTextContainerSet: null {}: {}", language, tree);
+						mLogger.info("getTextContainer: null {}: {}", language, tree);
 						// TODO do it properly
-						tmp.add(new TextContainer(new TextElement("-NULL-")));
+						tmp.add(new TextContainer(new TextElement("-NULL-" + tree)));
 					} else if (lins.isEmpty()) {
-						mLogger.info("getTextContainerSet: 0 els {}: {}", language, tree);
+						mLogger.info("getTextContainer: empty {}: {}", language, tree);
 						// TODO do it properly
-						tmp.add(new TextContainer(new TextElement("-EMPTY-")));
-					} else if (seen.contains(lins.iterator().next())) {
-						// Don't show the same linearization twice
+						tmp.add(new TextContainer(new TextElement("-EMPTY-" + tree)));
 					} else {
-						// TODO: limitation: we only work with the first linearization
 						String lin = lins.iterator().next();
-						seen.add(lin);
-						tmp.add(makeTextContainer(to, lin));
+						if (lin.isEmpty() || seen.contains(lin)) {
+							// Don't show an empty lin and the same lin twice
+						} else {
+							seen.add(lin);
+							tmp.add(makeTextContainer(to, lin));
+						}
 					}
 				}
 			}
 			if (tmp.isEmpty()) {
-				tmp.add(new TextContainer(new TextElement("-SYNTAX ERROR-")));
+				tmp.add(new TextContainer(new TextElement("-NO_LINEARIZATION_FOUND-")));
 			}
 			mtc = new MultiTextContainer(tmp);
 			textContainers.put(language, mtc);
