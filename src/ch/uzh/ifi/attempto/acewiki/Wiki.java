@@ -135,7 +135,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private SmallButton homeButton, indexButton, searchButton2, aboutButton, randomButton,
 	newButton, exportButton;
 
-	private SmallButton aboutGrammarButton;
+	private SmallButton grammarButton;
 
 	private List<SmallButton> languageButtons;
 
@@ -396,11 +396,15 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		indexButton = new SmallButton(getGUIText("acewiki_page_index"), this, 12);
 		searchButton2 = new SmallButton(getGUIText("acewiki_page_search"), this, 12);
 		aboutButton = new SmallButton(getGUIText("acewiki_page_about"), this, 12);
+		grammarButton = new SmallButton(getGUIText("acewiki_page_grammar"), this, 12);
 		randomButton = new SmallButton(getGUIText("acewiki_page_random"), this, 12);
 		sideCol.add(new ListItem(homeButton));
 		sideCol.add(new ListItem(indexButton));
 		sideCol.add(new ListItem(searchButton2));
 		sideCol.add(new ListItem(aboutButton));
+		if (getEngine() instanceof GfEngine) {
+			sideCol.add(new ListItem(grammarButton));
+		}
 		sideCol.add(new ListItem(randomButton));
 
 		sideCol.add(new VSpace(10));
@@ -413,12 +417,6 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			sideCol.add(new ListItem(newButton));
 		}
 		sideCol.add(new ListItem(exportButton));
-
-		if (getEngine() instanceof GfEngine) {
-			aboutGrammarButton = new SmallButton(getGUIText("acewiki_page_about_grammar"), this, 12);
-			sideCol.add(new VSpace(10));
-			sideCol.add(new ListItem(aboutGrammarButton));
-		}
 
 		languageButtons = new ArrayList<SmallButton>();
 
@@ -920,7 +918,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		} else if (src == aboutButton) {
 			log("page", "pressed: about");
 			showAboutPage();
-		} else if (src == aboutGrammarButton) {
+		} else if (src == grammarButton) {
 			log("page", "pressed: about grammar");
 			showAboutGrammarPage();
 		} else if (src == homeButton) {

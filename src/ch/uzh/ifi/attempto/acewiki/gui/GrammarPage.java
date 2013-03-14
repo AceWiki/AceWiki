@@ -68,7 +68,7 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 	private final Wiki mWiki;
 
 	public GrammarPage(Wiki wiki, GfGrammar grammar) {
-		super(wiki);
+		super(wiki, TAB_GRAMMAR);
 		mWiki = wiki;
 
 		mGrammar = grammar;
@@ -146,6 +146,8 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 
 
 	protected void doUpdate() {
+		super.doUpdate();
+
 		if (mInfo == null) {
 			return;
 		}
@@ -198,11 +200,6 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 
 	public String toString() {
 		return "-GRAMMAR-";
-	}
-
-	@Override
-	public boolean isSelected(String tabName) {
-		return TAB_ABOUT_GRAMMAR.equals(tabName);
 	}
 
 
