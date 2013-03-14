@@ -14,10 +14,9 @@
 
 package ch.uzh.ifi.attempto.acewiki;
 
-import java.util.Map;
-
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Window;
+import ch.uzh.ifi.attempto.acewiki.core.AceWikiConfig;
 import ch.uzh.ifi.attempto.echocomp.Style;
 
 /**
@@ -25,7 +24,7 @@ import ch.uzh.ifi.attempto.echocomp.Style;
  *
  * @author Tobias Kuhn
  */
-class AceWikiApp extends ApplicationInstance {
+public class AceWikiApp extends ApplicationInstance {
 
 	private static final long serialVersionUID = -2038165609406790355L;
 	
@@ -46,7 +45,7 @@ class AceWikiApp extends ApplicationInstance {
 
 	private static int sessionID = 1;
 
-	private Map<String, String> parameters;
+	private AceWikiConfig config;
 	private Wiki wiki;
 	private Window window;
     private Backend backend;
@@ -55,21 +54,21 @@ class AceWikiApp extends ApplicationInstance {
 	 * Creates a new AceWiki application instance.
 	 *
      * @param backend The backend object contains ontology of the wiki.
-	 * @param parameters A set of parameters in the form of name/value pairs.
+	 * @param config The configuration object.
 	 */
-	public AceWikiApp(Backend backend, Map<String, String> parameters) {
+	public AceWikiApp(Backend backend, AceWikiConfig config) {
         this.backend = backend;
-		this.parameters = parameters;
+		this.config = config;
 	}
 
 	public Window init() {
 		setStyleSheet(Style.styleSheet);
 		window = new Window();
-		wiki = new Wiki(backend, parameters, sessionID++);
+		wiki = new Wiki(backend, config, sessionID++);
 		wiki.log("syst", "start session");
 
 		// Show login window if required:
-		if (wiki.isLoginRequiredForViewing()) {
+		if (config.isLoginRequiredForViewing()) {
 			wiki.showLoginWindow();
 		}
 		window.setContent(wiki.getContentPane());
@@ -89,9 +88,9 @@ class AceWikiApp extends ApplicationInstance {
 	 */
 	public void logout() {
 		wiki.dispose();
-		wiki = new Wiki(backend, parameters, sessionID++);
+		wiki = new Wiki(backend, config, sessionID++);
 		wiki.log("syst", "start session");
-		if (wiki.isLoginRequiredForViewing()) {
+		if (config.isLoginRequiredForViewing()) {
 			wiki.showLoginWindow();
 		}
 		window.setContent(wiki.getContentPane());
@@ -104,6 +103,10 @@ class AceWikiApp extends ApplicationInstance {
 	 */
 	public Wiki getWiki() {
 		return wiki;
+	}
+
+	public AceWikiConfig getConfig() {
+		return config;
 	}
 
 }

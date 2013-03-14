@@ -90,7 +90,7 @@ public class IndexPage extends WikiPage implements ActionListener {
 		indexColumn.removeAll();
 		
 		entries.clear();
-		boolean gi = getWiki().isGrammarIntegrationEnabled();
+		boolean gi = getWiki().getConfig().isGrammarIntegrationEnabled();
 		for (OntologyElement e : getWiki().getOntologyElements()) {
 			if (!gi && e instanceof TechnicalElement) {
 				continue;

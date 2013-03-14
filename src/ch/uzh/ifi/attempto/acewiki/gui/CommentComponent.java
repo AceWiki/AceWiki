@@ -77,14 +77,14 @@ public class CommentComponent extends Column implements ActionListener {
 
 	private void update() {
 		statementMenu = new StatementMenu(StatementMenu.COMMENT_TYPE, wiki, this);
-		if (!wiki.isReadOnly()) {
-			if (wiki.isCommentingEnabled()) {
+		if (!wiki.getConfig().isReadOnly()) {
+			if (wiki.getConfig().isCommentingEnabled()) {
 				statementMenu.addMenuEntry("acewiki_statementmenu_edit", "acewiki_statementmenu_editcommtooltip");
 				statementMenu.addMenuEntry("acewiki_statementmenu_delete", "acewiki_statementmenu_delcommtooltip");
 				statementMenu.addMenuSeparator();
 			}
 			statementMenu.addMenuEntry("acewiki_statementmenu_addsent", "acewiki_statementmenu_addsenttooltip");
-			if (wiki.isCommentingEnabled()) {
+			if (wiki.getConfig().isCommentingEnabled()) {
 				statementMenu.addMenuEntry("acewiki_statementmenu_addcomm", "acewiki_statementmenu_addcommtooltip");
 			}
 		}
@@ -220,7 +220,7 @@ public class CommentComponent extends Column implements ActionListener {
 				if (te instanceof OntologyTextElement) {
 					OntologyTextElement ote = (OntologyTextElement) te;
 					OntologyElement oe = ote.getOntologyElement();
-					if (wiki.isGrammarIntegrationEnabled() || !(oe instanceof TechnicalElement)) {
+					if (wiki.getConfig().isGrammarIntegrationEnabled() || !(oe instanceof TechnicalElement)) {
 						String t = LanguageUtils.getPrettyPrinted(oe.getWord(ote.getWordNumber()));
 						comp = new WikiLink(oe, t, wiki, false);
 						text = name;

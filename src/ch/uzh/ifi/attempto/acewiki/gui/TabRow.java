@@ -65,7 +65,7 @@ public class TabRow extends Row implements ActionListener {
 			TAB_SENTENCE, TAB_TRANSLATIONS);
 
 	public static TabRow getMainTabRow(String selectedTab, Wiki wiki) {
-		if (wiki.isGrammarIntegrationEnabled()) {
+		if (wiki.getConfig().isGrammarIntegrationEnabled()) {
 			return new TabRow(TABS_MAIN_ADVANCED, selectedTab, wiki);
 		} else {
 			return new TabRow(TABS_MAIN_SIMPLE, selectedTab, wiki);
@@ -85,7 +85,7 @@ public class TabRow extends Row implements ActionListener {
 	}
 
 	public static TabRow getSentenceTabRow(Sentence sentence, String selectedTab, Wiki wiki) {
-		if (wiki.isMultilingual() && wiki.isTranslationsPageEnabled()) {
+		if (wiki.isMultilingual() && wiki.isTranslationsPageActivated()) {
 			return new TabRow(TABS_SENTENCE_TRANSLATIONS, selectedTab, sentence, wiki);
 		} else {
 			return new TabRow(TABS_SENTENCE_PLAIN, selectedTab, sentence, wiki);

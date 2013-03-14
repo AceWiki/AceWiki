@@ -130,6 +130,7 @@ public class WordEditorWindow extends WindowPane implements TabSelectionListener
 	 * @param form The form to be shown in a new tab.
 	 */
 	public void addTab(WordEditorForm form) {
+		if (form.isHidden()) return;
 		TabPaneLayoutData layout = new TabPaneLayoutData();
 		layout.setTitle(form.getTitle());
 		form.setLayoutData(layout);

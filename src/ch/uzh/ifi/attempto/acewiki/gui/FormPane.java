@@ -105,7 +105,7 @@ public class FormPane extends WordEditorForm {
 		this.wiki = wiki;
 		if (element != null) {
 			locked = true;
-			if (wiki.isReadOnly()) {
+			if (wiki.getConfig().isReadOnly()) {
 				setButtons("general_action_close");
 			} else {
 				setButtons("general_action_unlock", "general_action_close");
@@ -117,8 +117,11 @@ public class FormPane extends WordEditorForm {
 		}
 		this.element = element;
 
-		// TODO: maybe check for null
 		lexiconChanger = wiki.getLanguageHandler().getLexiconChanger(type);
+		if (lexiconChanger == null) {
+			setHidden(true);
+			return;
+		}
 		setTitle(element.getType());
 		setExplanationComponent(lexiconChanger.getDescription());
 		
@@ -181,7 +184,7 @@ public class FormPane extends WordEditorForm {
 	public boolean isLocked() {
 		return locked;
 	}
-	
+
 	private void unlock() {
 		setButtons(
 				"acewiki_wordeditor_deletebutton",

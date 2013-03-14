@@ -83,9 +83,9 @@ public class SentenceComponent extends Column implements ActionListener {
 			dropDown = new StatementMenu(StatementMenu.NOREASONING_TYPE, wiki, this);
 		}
 
-		if (!wiki.isReadOnly() && !sentence.isImmutable()) {
+		if (!wiki.getConfig().isReadOnly() && !sentence.isImmutable()) {
 			dropDown.addMenuEntry("acewiki_statementmenu_edit", "acewiki_statementmenu_editsenttooltip");
-			if (wiki.isRetractReassertEnabled() && sentence.isReasonable()) {
+			if (wiki.isRetractReassertActivated() && sentence.isReasonable()) {
 				if (sentence.isIntegrated()) {
 					dropDown.addMenuEntry("acewiki_statementmenu_retract", "acewiki_statementmenu_retracttooltip");
 				} else {
@@ -99,18 +99,18 @@ public class SentenceComponent extends Column implements ActionListener {
 			dropDown.addMenuEntry("acewiki_statementmenu_alternatives", "acewiki_statementmenu_alternativestooltip");
 		}
 
-		if (wiki.isDetailsPageEnabled()) {
+		if (wiki.getConfig().isDetailsPageEnabled()) {
 			dropDown.addMenuEntry("acewiki_statementmenu_details", "acewiki_statementmenu_detailstooltip");
 		}
 
-		if (wiki.isTranslationsPageEnabled()) {
+		if (wiki.isTranslationsPageActivated()) {
 			dropDown.addMenuEntry("acewiki_statementmenu_transl", "acewiki_statementmenu_transltooltip");
 		}
 
-		if (!wiki.isReadOnly() && hostPage instanceof ArticlePage) {
+		if (!wiki.getConfig().isReadOnly() && hostPage instanceof ArticlePage) {
 			dropDown.addMenuSeparator();
 			dropDown.addMenuEntry("acewiki_statementmenu_addsent", "acewiki_statementmenu_addsenttooltip");
-			if (wiki.isCommentingEnabled()) {
+			if (wiki.getConfig().isCommentingEnabled()) {
 				dropDown.addMenuEntry("acewiki_statementmenu_addcomm", "acewiki_statementmenu_addcommtooltip");
 			}
 		}

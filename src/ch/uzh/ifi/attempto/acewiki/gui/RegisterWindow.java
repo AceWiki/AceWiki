@@ -77,7 +77,7 @@ public class RegisterWindow extends WindowPane implements ActionListener {
 		setHeight(new Extent(290));
 		setResizable(false);
 		setMovable(true);
-		setClosable(!wiki.isLoginRequiredForViewing());
+		setClosable(!wiki.getConfig().isLoginRequiredForViewing());
 		setTitleBackground(Style.windowTitleBackground);
 		setStyleName("Default");
 		
@@ -139,7 +139,7 @@ public class RegisterWindow extends WindowPane implements ActionListener {
 			wiki.log("logi", "registration canceled");
 			setVisible(false);
 			wiki.removeWindow(this);
-			if (wiki.isLoginRequiredForViewing()) {
+			if (wiki.getConfig().isLoginRequiredForViewing()) {
 				wiki.showLoginWindow();
 			}
 		} else {

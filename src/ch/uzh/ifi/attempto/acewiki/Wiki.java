@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Stack;
@@ -44,6 +43,7 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.layout.ColumnLayoutData;
 import nextapp.echo.webcontainer.ContainerContext;
+import ch.uzh.ifi.attempto.acewiki.core.AceWikiConfig;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiDataExporter;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiEngine;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiStorage;
@@ -107,7 +107,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 
 	private static final long serialVersionUID = 2777443689044226043L;
 
-	private Map<String, String> parameters;
+	private AceWikiConfig config;
 
 	private final Ontology ontology;
 	private final AceWikiEngine engine;
@@ -164,11 +164,11 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * Creates a new wiki instance.
 	 *
 	 * @param backend The backend object.
-	 * @param parameters A set of parameters in the form of name/value pairs.
+	 * @param config The configuration object.
 	 * @param sessionId The session id.
 	 */
-	Wiki(Backend backend, Map<String, String> parameters, int sessionId) {
-		this.parameters = parameters;
+	Wiki(Backend backend, AceWikiConfig config, int sessionId) {
+		this.config = config;
 
 		storage = backend.getStorage();
 		ontology = backend.getOntology();
@@ -178,16 +178,16 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		org.slf4j.MDC.put("username", "anon");
 		org.slf4j.MDC.put("sessionId", String.valueOf(sessionId));
 		// TODO(uvictor): remove logger
-		logger = new Logger(getParameter("context:logdir") + "/" + ontology.getName(), "anon", sessionId);
+		logger = new Logger(config.getParameter("context:logdir") + "/" + ontology.getName(), "anon", sessionId);
 		application = (AceWikiApp) EchoThread.getActiveApplication();
 		taskQueue = application.createTaskQueue();
 
-		language = getParameter("language");
+		language = config.getParameter("language");
 		if (language == null || language.equals("")) {
 			language = engine.getLanguages()[0];
 		}
 
-		if (isLanguageSwitchingEnabled()) {
+		if (config.isLanguageSwitchingEnabled()) {
 			String showLang = getURLParameterValue("showlang");
 			if (showLang != null && Arrays.asList(engine.getLanguages()).contains(showLang)) {
 				language = showLang;
@@ -214,7 +214,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		startPage = new StartPage(this);
 
 		// auto login
-		if (isLoginEnabled()) {
+		if (config.isLoginEnabled()) {
 			String userName = getCookie("lastusername");
 			boolean stayLoggedIn = getCookie("stayloggedin").equals("true");
 			if (getUserBase().containsUser(userName) && stayLoggedIn) {
@@ -323,7 +323,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		userRow.add(new HSpace(3));
 		userRow.add(userLabel);
 		userRow.add(logoutButton);
-		userRow.setVisible(isLoginEnabled());
+		userRow.setVisible(config.isLoginEnabled());
 		navigationButtons.add(userRow);
 
 		ContentPane menuBar = new ContentPane();
@@ -367,7 +367,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		ColumnLayoutData layout = new ColumnLayoutData();
 		layout.setAlignment(Alignment.ALIGN_CENTER);
 
-		String title = getParameter("title");
+		String title = config.getParameter("title");
 		if (title != null && title.length() > 0) {
 			Label titleLabel = new Label(title, Font.ITALIC, 14);
 			iconCol.add(titleLabel);
@@ -375,7 +375,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			iconCol.add(new VSpace(5));
 		}
 
-		if (isReadOnly()) {
+		if (config.isReadOnly()) {
 			String s = "— " + getGUIText("acewiki_state_readonly") + " —";
 			SolidLabel rolabel = new SolidLabel(s, Font.ITALIC);
 			rolabel.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(10)));
@@ -402,7 +402,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		sideCol.add(new ListItem(indexButton));
 		sideCol.add(new ListItem(searchButton2));
 		sideCol.add(new ListItem(aboutButton));
-		if (isGrammarIntegrationEnabled()) {
+		if (config.isGrammarIntegrationEnabled()) {
 			sideCol.add(new ListItem(grammarButton));
 		}
 		sideCol.add(new ListItem(randomButton));
@@ -413,14 +413,14 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		sideCol.add(label);
 		newButton = new SmallButton(getGUIText("acewiki_action_new"), this, 12);
 		exportButton = new SmallButton(getGUIText("acewiki_action_export"), this, 12);
-		if (!isReadOnly() && getEngine().getLexicalTypes().length > 0) {
+		if (!config.isReadOnly() && getEngine().getLexicalTypes().length > 0) {
 			sideCol.add(new ListItem(newButton));
 		}
 		sideCol.add(new ListItem(exportButton));
 
 		languageButtons = new ArrayList<SmallButton>();
 
-		if (isMultilingual() && isLanguageSwitchingEnabled()) {
+		if (isMultilingual() && config.isLanguageSwitchingEnabled()) {
 			// show language switcher
 
 			sideCol.add(new VSpace(10));
@@ -496,55 +496,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		return application;
 	}
 
-	/**
-	 * Returns the value of the given parameter. These parameters are defined in the web.xml file
-	 * of the web application.
-	 *
-	 * @param paramName The parameter name.
-	 * @return The value of the parameter.
-	 */
-	public String getParameter(String paramName) {
-		return parameters.get(paramName);
-	}
-
-	/**
-	 * Returns whether the login features are enabled.
-	 *
-	 * @return true if login is enabled.
-	 */
-	public boolean isLoginEnabled() {
-		return "yes".equals(getParameter("login"));
-	}
-
-	/**
-	 * Returns whether login is required for viewing the wiki data.
-	 *
-	 * @return true if login is required for viewing.
-	 */
-	public boolean isLoginRequiredForViewing() {
-		if (!isLoginEnabled()) return false;
-		return "yes".equals(getParameter("login_required"));
-	}
-
-	/**
-	 * Returns whether login is required for editing the wiki data.
-	 *
-	 * @return true if login is required for editing.
-	 */
-	public boolean isLoginRequiredForEditing() {
-		if (!isLoginEnabled()) return false;
-		if (isLoginRequiredForViewing()) return true;
-		return "edit".equals(getParameter("login_required"));
-	}
-
-	/**
-	 * Returns whether the user registration is open to everyone.
-	 *
-	 * @return true if the user registration is open.
-	 */
-	public boolean isUserRegistrationOpen() {
-		if (!isLoginEnabled()) return false;
-		return !"no".equals(getParameter("register"));
+	public AceWikiConfig getConfig() {
+		return config;
 	}
 
 	/**
@@ -554,73 +507,20 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * @return true if the wiki is editable.
 	 */
 	public boolean isEditable() {
-		return (user != null || !isLoginRequiredForEditing());
+		return (user != null || !config.isLoginRequiredForEditing());
 	}
 
-	/**
-	 * Returns true if this wiki is set to be read-only.
-	 *
-	 * @return true if this wiki is read-only.
-	 */
-	public boolean isReadOnly() {
-		return "on".equals(parameters.get("readonly"));
-	}
-
-	/**
-	 * Returns true if language switching is enabled.
-	 * 
-	 * @return true if language switching is enabled.
-	 */
-	public boolean isLanguageSwitchingEnabled() {
-		return !"off".equals(getParameter("language_switching"));
-	}
-
-	/**
-	 * Returns true if comment feature is enabled.
-	 * 
-	 * @return true if enabled.
-	 */
-	public boolean isCommentingEnabled() {
-		String s = getParameter("comments");
-		return (s == null || s.equals("on"));
-	}
-
-	/**
-	 * Returns true if comments are disabled and hidden.
-	 * 
-	 * @return true if hidden.
-	 */
-	public boolean isCommentHidingEnabled() {
-		return "hide".equals(getParameter("comments"));
-	}
-
-	/**
-	 * Returns true if retract/reassert actions on sentences are enabled.
-	 * 
-	 * @return true if enabled.
-	 */
-	public boolean isRetractReassertEnabled() {
-		if ("on".equals(getParameter("retractreassert"))) {
-			return true;
-		} else if ("off".equals(getParameter("retractreassert"))) {
-			return false;
+	public boolean isRetractReassertActivated() {
+		if (!config.hasParameter("retractreassert")) {
+			return getEngine().getReasoner() != null;
+		} else {
+			return config.isRetractReassertEnabled();
 		}
-		return getEngine().getReasoner() != null;
 	}
 
-	public boolean isDetailsPageEnabled() {
-		return !"off".equals(getParameter("details_page"));
-	}
-
-	public boolean isTranslationsPageEnabled() {
-		if (isMultilingual()) {
-			return !"off".equals(getParameter("translations_page"));
-		}
-		return false;
-	}
-
-	public boolean isGrammarIntegrationEnabled() {
-		return "on".equals(getParameter("grammar_integration"));
+	public boolean isTranslationsPageActivated() {
+		if (!isMultilingual()) return false;
+		return config.isTranslationsPageEnabled();
 	}
 
 	/**
@@ -687,14 +587,14 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * Shows the login window.
 	 */
 	public void showLoginWindow() {
-		if (isLoginRequiredForViewing()) {
+		if (config.isLoginRequiredForViewing()) {
 			getContentPane().removeAll();
 			loginBackground = new Row();
 			loginBackground.setInsets(new Insets(10, 10));
 			loginBackground.setCellSpacing(new Extent(30));
 			Label loginBgLogo = new Label(getImage("AceWikiLogoSmall.png"));
 			loginBackground.add(loginBgLogo);
-			loginBackground.add(new Title(getParameter("title"), true));
+			loginBackground.add(new Title(config.getParameter("title"), true));
 			getContentPane().add(loginBackground);
 			getContentPane().setBackground(new Color(230, 230, 230));
 		}

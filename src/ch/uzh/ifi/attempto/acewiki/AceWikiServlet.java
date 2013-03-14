@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.webcontainer.WebContainerServlet;
+import ch.uzh.ifi.attempto.acewiki.core.AceWikiConfig;
 import ch.uzh.ifi.attempto.base.APE;
 import ch.uzh.ifi.attempto.base.Logger;
 
@@ -52,9 +53,9 @@ public class AceWikiServlet extends WebContainerServlet {
 	private final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(this.getClass());
 	// TODO(uvictor): remove logger
 	private Logger logger;
-    private Backend backend;
-    private Map<String, String> parameters;
-    private String backendName;
+	private Backend backend;
+	private AceWikiConfig appConfig;
+	private String backendName;
 
 	/**
 	 * Creates a new AceWiki servlet object.
@@ -62,67 +63,69 @@ public class AceWikiServlet extends WebContainerServlet {
 	public AceWikiServlet() {
 	}
 
-    /**
-     * Init the AceWiki servlet, get its Backend from ServletContext according
-     * to its config in web.xml or create backend if no 'backend' parameter
-     * exist.
-     *
-     * @param config servlet config.
-     */
-    public void init(ServletConfig config) throws ServletException {
-        parameters = getInitParameters(config);
+	/**
+	 * Init the AceWiki servlet, get its Backend from ServletContext according
+	 * to its config in web.xml or create backend if no 'backend' parameter
+	 * exist.
+	 *
+	 * @param config servlet config.
+	 */
+	public void init(ServletConfig config) throws ServletException {
+		Map<String, String> parameters = getInitParameters(config);
 
-        // TODO(uvictor): check if we have conflicting MDC puts (multiple logged classes in the same thread)
-        org.slf4j.MDC.put("module", "syst");
-        org.slf4j.MDC.put("username", "syst");
-        // TODO(uvictor): is it ok not specifying the sessionId at all? (slf4j doesn't forces us to)
-        org.slf4j.MDC.put("sessionId", "0");
-        org.slf4j.MDC.put("type", "appl");
-        if (logger == null) {
-            logger = new Logger(parameters.get("context:logdir") + "/syst", "syst", 0);
+		// TODO(uvictor): check if we have conflicting MDC puts (multiple logged classes in the same thread)
+		org.slf4j.MDC.put("module", "syst");
+		org.slf4j.MDC.put("username", "syst");
+		// TODO(uvictor): is it ok not specifying the sessionId at all? (slf4j doesn't forces us to)
+		org.slf4j.MDC.put("sessionId", "0");
+		org.slf4j.MDC.put("type", "appl");
+		if (logger == null) {
+			logger = new Logger(parameters.get("context:logdir") + "/syst", "syst", 0);
 		}
 
-        backendName = config.getInitParameter("backend");
+		backendName = config.getInitParameter("backend");
 
-        if (backendName != null) {
-        	log.info("use backend: {}", backendName);
-            logger.log("appl", "use backend: " + backendName);
+		if (backendName != null) {
+			log.info("use backend: {}", backendName);
+			logger.log("appl", "use backend: " + backendName);
 
-            while (true) {
-                backend = (Backend) config.getServletContext().getAttribute(backendName);
+			while (true) {
+				backend = (Backend) config.getServletContext().getAttribute(backendName);
 
-                if (backend != null) break;
-                try {
-                    Thread.sleep(1000);
-                }
-                catch (InterruptedException e) {
-                    break;
-                }
-            }
+				if (backend != null) break;
+				try {
+					Thread.sleep(1000);
+				}
+				catch (InterruptedException e) {
+					break;
+				}
+			}
 
-            // merge backend parameters
-            Map<String, String> p = parameters;
-            parameters = new HashMap<String,String>();
-            parameters.putAll(backend.getParameters());
-            parameters.putAll(p);
-        } else {
-        	log.info("create backend");
-            logger.log("appl", "create backend");
+			// merge backend parameters
+			Map<String, String> p = parameters;
+			parameters = new HashMap<String,String>();
+			parameters.putAll(backend.getParameters());
+			parameters.putAll(p);
+		} else {
+			log.info("create backend");
+			logger.log("appl", "create backend");
 
-            APE.setParameters(parameters);
+			APE.setParameters(parameters);
 
-            backend = new Backend(parameters);
-        }
+			backend = new Backend(parameters);
+		}
 
-        super.init(config);
-    }
+		appConfig = new AceWikiConfig(parameters);
+
+		super.init(config);
+	}
 
 	public ApplicationInstance newApplicationInstance() {
 		org.slf4j.MDC.put("type", "appl");
-		log.info("new application instance: {}", parameters.get("ontology"));
-		logger.log("appl", "new application instance: " + parameters.get("ontology"));
+		log.info("new application instance: {}", appConfig.getParameter("ontology"));
+		logger.log("appl", "new application instance: " + appConfig.getParameter("ontology"));
 
-		return new AceWikiApp(backend, parameters);
+		return new AceWikiApp(backend, appConfig);
 	}
 
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws
@@ -164,34 +167,34 @@ public class AceWikiServlet extends WebContainerServlet {
 		}
 	}
 
-    @SuppressWarnings("rawtypes")
-    static Map<String, String> getInitParameters(ServletConfig config) {
-        Map<String, String> initParameters = new HashMap<String, String>();
-        Enumeration paramEnum = config.getInitParameterNames();
-        while (paramEnum.hasMoreElements()) {
-            String n = paramEnum.nextElement().toString();
-            initParameters.put(n, config.getInitParameter(n));
-        }
-        Enumeration contextParamEnum = config.getServletContext().getInitParameterNames();
-        while (contextParamEnum.hasMoreElements()) {
-            String n = contextParamEnum.nextElement().toString();
-            initParameters.put("context:" + n, config.getServletContext().getInitParameter(n));
-        }
+	@SuppressWarnings("rawtypes")
+	static Map<String, String> getInitParameters(ServletConfig config) {
+		Map<String, String> initParameters = new HashMap<String, String>();
+		Enumeration paramEnum = config.getInitParameterNames();
+		while (paramEnum.hasMoreElements()) {
+			String n = paramEnum.nextElement().toString();
+			initParameters.put(n, config.getInitParameter(n));
+		}
+		Enumeration contextParamEnum = config.getServletContext().getInitParameterNames();
+		while (contextParamEnum.hasMoreElements()) {
+			String n = contextParamEnum.nextElement().toString();
+			initParameters.put("context:" + n, config.getServletContext().getInitParameter(n));
+		}
 
-        // Set default parameters:
-        if (initParameters.get("context:apecommand") == null) {
-        	initParameters.put("context:apecommand", "ape.exe");
-        }
+		// Set default parameters:
+		if (initParameters.get("context:apecommand") == null) {
+			initParameters.put("context:apecommand", "ape.exe");
+		}
 
-        if (initParameters.get("context:logdir") == null) {
-        	initParameters.put("context:logdir", "logs");
-        }
+		if (initParameters.get("context:logdir") == null) {
+			initParameters.put("context:logdir", "logs");
+		}
 
-        if (initParameters.get("context:datadir") == null) {
-        	initParameters.put("context:datadir", "data");
-        }
-        
-        return initParameters;
-    }
+		if (initParameters.get("context:datadir") == null) {
+			initParameters.put("context:datadir", "data");
+		}
+		
+		return initParameters;
+	}
 
 }

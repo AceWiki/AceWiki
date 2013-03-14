@@ -68,7 +68,7 @@ public class LoginWindow extends WindowPane implements ActionListener {
 		setHeight(new Extent(240));
 		setResizable(false);
 		setMovable(true);
-		setClosable(!wiki.isLoginRequiredForViewing());
+		setClosable(!wiki.getConfig().isLoginRequiredForViewing());
 		setTitleBackground(Style.windowTitleBackground);
 		setStyleName("Default");
 		
@@ -106,10 +106,10 @@ public class LoginWindow extends WindowPane implements ActionListener {
 		buttonBar.setCellSpacing(new Extent(10));
 		buttonBar.setInsets(new Insets(0, 0, 0, 10));
 		buttonBar.add(new GeneralButton("acewiki_userwindow_loginbutton", this, 100));
-		if (wiki.isUserRegistrationOpen()) {
+		if (wiki.getConfig().isUserRegistrationOpen()) {
 			buttonBar.add(new GeneralButton("acewiki_userwindow_registerwindowbutton", this, 100));
 		}
-		if (!wiki.isLoginRequiredForViewing()) {
+		if (!wiki.getConfig().isLoginRequiredForViewing()) {
 			buttonBar.add(new GeneralButton("general_action_cancel", this, 100));
 		}
 		GridLayoutData layout2 = new GridLayoutData();

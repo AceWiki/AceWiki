@@ -56,6 +56,7 @@ public class WordEditorForm extends ContentPane implements ActionListener {
 	private Row explanationRow;
 	private List<Component> formElements = new ArrayList<Component>();
 	private List<Component> requiredFormElements = new ArrayList<Component>();
+	private boolean hidden;
 	
 	/**
 	 * Creates a new word editor form.
@@ -248,7 +249,15 @@ public class WordEditorForm extends ContentPane implements ActionListener {
 		}
 		return textContents;
 	}
-	
+
+	public boolean isHidden() {
+		return hidden;
+	}
+
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
+	}
+
 	/**
 	 * This method sets the focus on the first enabled text field of this form.
 	 */

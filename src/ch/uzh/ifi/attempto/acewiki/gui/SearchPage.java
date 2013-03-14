@@ -108,7 +108,7 @@ public class SearchPage extends WikiPage implements ActionListener {
 		
 		WordIndex index = getWiki().getEngine().getWordIndex();
 		searchResult = new ArrayList<>();
-		boolean gi = getWiki().isGrammarIntegrationEnabled();
+		boolean gi = getWiki().getConfig().isGrammarIntegrationEnabled();
 		for (OntologyElement oe : index.searchForElements(textField.getText())) {
 			if (!gi && oe instanceof TechnicalElement) continue;
 			searchResult.add(oe);

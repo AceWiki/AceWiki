@@ -26,9 +26,12 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
+import ch.uzh.ifi.attempto.acewiki.AceWikiApp;
 import ch.uzh.ifi.attempto.acewiki.core.AbstractLanguageHandler;
+import ch.uzh.ifi.attempto.acewiki.core.AceWikiConfig;
 import ch.uzh.ifi.attempto.acewiki.core.EditorController;
 import ch.uzh.ifi.attempto.acewiki.core.GeneralTopic;
+import ch.uzh.ifi.attempto.acewiki.core.LexiconChanger;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceSuggestion;
@@ -36,6 +39,7 @@ import ch.uzh.ifi.attempto.acewiki.core.TopicChanger;
 import ch.uzh.ifi.attempto.base.PredictiveParser;
 import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.base.TextOperator;
+import ch.uzh.ifi.attempto.echocomp.EchoThread;
 import ch.uzh.ifi.attempto.echocomp.LocaleResources;
 
 /**
@@ -88,10 +92,6 @@ public class GfHandler extends AbstractLanguageHandler {
 	public GfHandler(String language, GfGrammar gfGrammar) {
 		mLanguage = language;
 		mGfGrammar = gfGrammar;
-
-		setLexiconChanger(GeneralTopic.NORMAL_TYPE, new TopicChanger());
-		// TODO: Only do this if grammar integration is enabled:
-		setLexiconChanger(TypeGfModule.INTERNAL_TYPE, new GfModuleChanger());
 
 		Locale locale = guessLocale(language, gfGrammar);
 		String languageName = getLocaleDisplayLanguage(locale);
@@ -182,6 +182,17 @@ public class GfHandler extends AbstractLanguageHandler {
 		return null;
 	}
 
+	public LexiconChanger getLexiconChanger(String type) {
+		if (type.equals(GeneralTopic.NORMAL_TYPE)) {
+			return new TopicChanger();
+		} else if (type.equals(TypeGfModule.INTERNAL_TYPE)) {
+			AceWikiConfig config = ((AceWikiApp) EchoThread.getActiveApplication()).getConfig();
+			if (config.isGrammarIntegrationEnabled()) {
+				return new GfModuleChanger();
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * Determines the locale on the basis of the concrete language and the grammar.

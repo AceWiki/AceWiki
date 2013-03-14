@@ -18,6 +18,7 @@ import java.util.Map;
 
 import nextapp.echo.app.Insets;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
+import ch.uzh.ifi.attempto.acewiki.core.AceWikiConfig;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
@@ -42,6 +43,7 @@ public class AboutPage extends WikiPage {
 	
 	protected void doUpdate() {
 		Wiki w = getWiki();
+		AceWikiConfig c = w.getConfig();
 		Ontology o = w.getOntology();
 
 		removeAll();
@@ -95,10 +97,10 @@ public class AboutPage extends WikiPage {
 		String yes = w.getGUIText("acewiki_about_yes");
 		String no = w.getGUIText("acewiki_about_no");
 		table.addEntry(w.getGUIText("acewiki_about_usersnumber"), w.getUserBase().getUserCount() + "");
-		table.addEntry(w.getGUIText("acewiki_about_loginenabled"), (w.isLoginEnabled() ? yes : no));
-		table.addEntry(w.getGUIText("acewiki_about_loginforview"), (w.isLoginRequiredForViewing() ? yes : no));
-		table.addEntry(w.getGUIText("acewiki_about_loginforedit"), (w.isLoginRequiredForEditing() ? yes : no));
-		table.addEntry(w.getGUIText("acewiki_about_openregistr"), (w.isUserRegistrationOpen() ? yes : no));
+		table.addEntry(w.getGUIText("acewiki_about_loginenabled"), (c.isLoginEnabled() ? yes : no));
+		table.addEntry(w.getGUIText("acewiki_about_loginforview"), (c.isLoginRequiredForViewing() ? yes : no));
+		table.addEntry(w.getGUIText("acewiki_about_loginforedit"), (c.isLoginRequiredForEditing() ? yes : no));
+		table.addEntry(w.getGUIText("acewiki_about_openregistr"), (c.isUserRegistrationOpen() ? yes : no));
 		add(table);
 		
 		add(new VSpace(20));
