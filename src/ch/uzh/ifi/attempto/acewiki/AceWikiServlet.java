@@ -49,6 +49,8 @@ public class AceWikiServlet extends WebContainerServlet {
 
 	private static final long serialVersionUID = -7342857942059126499L;
 
+	private final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(this.getClass());
+	// TODO(uvictor): remove logger
 	private Logger logger;
     private Backend backend;
     private Map<String, String> parameters;
@@ -70,6 +72,12 @@ public class AceWikiServlet extends WebContainerServlet {
     public void init(ServletConfig config) throws ServletException {
         parameters = getInitParameters(config);
 
+        // TODO(uvictor): check if we have conflicting MDC puts (multiple logged classes in the same thread)
+        org.slf4j.MDC.put("module", "syst");
+        org.slf4j.MDC.put("username", "syst");
+        // TODO(uvictor): is it ok not specifying the sessionId at all? (slf4j doesn't forces us to)
+        org.slf4j.MDC.put("sessionId", "0");
+        org.slf4j.MDC.put("type", "appl");
         if (logger == null) {
             logger = new Logger(parameters.get("context:logdir") + "/syst", "syst", 0);
 		}
@@ -77,6 +85,7 @@ public class AceWikiServlet extends WebContainerServlet {
         backendName = config.getInitParameter("backend");
 
         if (backendName != null) {
+        	log.info("use backend: {}", backendName);
             logger.log("appl", "use backend: " + backendName);
 
             while (true) {
@@ -97,6 +106,7 @@ public class AceWikiServlet extends WebContainerServlet {
             parameters.putAll(backend.getParameters());
             parameters.putAll(p);
         } else {
+        	log.info("create backend");
             logger.log("appl", "create backend");
 
             APE.setParameters(parameters);
@@ -108,6 +118,8 @@ public class AceWikiServlet extends WebContainerServlet {
     }
 
 	public ApplicationInstance newApplicationInstance() {
+		org.slf4j.MDC.put("type", "appl");
+		log.info("new application instance: {}", parameters.get("ontology"));
 		logger.log("appl", "new application instance: " + parameters.get("ontology"));
 
 		return new AceWikiApp(backend, parameters);
@@ -141,17 +153,11 @@ public class AceWikiServlet extends WebContainerServlet {
 			response.sendRedirect(response.encodeRedirectURL("."));
 		}
 
+		org.slf4j.MDC.put("type", "fail");
 		try {
 			super.process(request, response);
-		} catch (RuntimeException ex) {
-			logger.log("fail", "fatal error: " + ex);
-			ex.printStackTrace();
-			throw ex;
-		} catch (IOException ex) {
-			logger.log("fail", "fatal error: " + ex);
-			ex.printStackTrace();
-			throw ex;
-		} catch (ServletException ex) {
+		} catch (RuntimeException | IOException | ServletException ex) {
+			log.error("fatal error", ex);
 			logger.log("fail", "fatal error: " + ex);
 			ex.printStackTrace();
 			throw ex;

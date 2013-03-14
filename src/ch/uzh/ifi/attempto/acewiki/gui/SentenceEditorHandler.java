@@ -68,6 +68,9 @@ public class SentenceEditorHandler implements ActionListener {
 		LanguageHandler lh = wiki.getLanguageHandler();
 		editorWindow = new PreditorWindow(wiki.getGUIText("acewiki_preditor_title"), lh.getPredictiveParser());
 		editorWindow.setMenuCreator(menuCreator);
+		// TODO(uvictor): remove logger
+		// slf4j.MDC should exist once per thread and be accessible throughout the thread life and context.
+		// Check that slf4j.MDC indeed gets automatically propagated to editorWindow.
 		editorWindow.setLogger(wiki.getLogger());
 		editorWindow.addActionListener(this);
 		editorWindow.setTextOperator(lh.getTextOperator());

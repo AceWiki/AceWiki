@@ -74,6 +74,8 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 	private TextOperator textOperator;
 	private PredictiveParser parser;
 	private List<ActionListener> actionListeners = new ArrayList<ActionListener>();
+	private final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(this.getClass());
+	// TODO(uvictor): remove logger
 	private Logger logger;
 	
 	private MenuBlockManager menuBlockManager;
@@ -633,6 +635,8 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 		super.init();
 	}
 
+	// TODO(uvictor): investigate if we need to implement this method or if we are already in the right thread
+	// and have the right slf4j.MDC state.
 	/**
 	 * Sets the logger.
 	 * 
@@ -642,7 +646,10 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 		this.logger = logger;
 	}
 	
+	// TODO(uvictor): remove this method (after removing logger)
 	private void log(String text) {
+		org.slf4j.MDC.put("type", "pred");
+		log.info(text);
 		if (logger != null) {
 			logger.log("pred", text);
 		}

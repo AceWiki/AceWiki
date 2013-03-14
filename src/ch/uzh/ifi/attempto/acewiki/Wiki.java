@@ -120,6 +120,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private Column pageCol;
 	private ContentPane contentPane = new ContentPane();
 	private Row navigationButtons;
+	private final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(this.getClass());
+	// TODO(uvictor): remove logger
 	private Logger logger;
 	private SplitPane wikiPane;
 	private Row loginBackground;
@@ -163,16 +165,20 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 *
 	 * @param backend The backend object.
 	 * @param parameters A set of parameters in the form of name/value pairs.
-	 * @param sessionID The session id.
+	 * @param sessionId The session id.
 	 */
-	Wiki(Backend backend, Map<String, String> parameters, int sessionID) {
+	Wiki(Backend backend, Map<String, String> parameters, int sessionId) {
 		this.parameters = parameters;
 
 		storage = backend.getStorage();
 		ontology = backend.getOntology();
 		engine = ontology.getEngine();
 
-		logger = new Logger(getParameter("context:logdir") + "/" + ontology.getName(), "anon", sessionID);
+		org.slf4j.MDC.put("module", ontology.getName());
+		org.slf4j.MDC.put("username", "anon");
+		org.slf4j.MDC.put("sessionId", String.valueOf(sessionId));
+		// TODO(uvictor): remove logger
+		logger = new Logger(getParameter("context:logdir") + "/" + ontology.getName(), "anon", sessionId);
 		application = (AceWikiApp) EchoThread.getActiveApplication();
 		taskQueue = application.createTaskQueue();
 
@@ -442,7 +448,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		sideCol.add(externalEventMonitor);
 
 		//sideCol.add(new VSpace(20));
-		//sideCol.add(new ItalicLabel("Session ID: " + sessionID));
+		//sideCol.add(new ItalicLabel("Session ID: " + sessionId));
 
 		sideBar.add(sideCol);
 
@@ -995,6 +1001,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		}
 	}
 
+	// TODO(uvictor): remove this method (after removing logger)
 	/**
 	 * Writes the log entry to the log file.
 	 *
@@ -1002,6 +1009,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * @param text The text of the log entry.
 	 */
 	public void log(String type, String text) {
+		org.slf4j.MDC.put("type", type);
+		log.info(text);
+		// TODO(uvictor): remove logger
 		logger.log(type, text);
 	}
 
@@ -1052,6 +1062,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 */
 	private void setUser(User user) {
 		this.user = user;
+		org.slf4j.MDC.put("username", user.getName());
+		// TODO(uvictor): remove logger
 		logger.setUsername(user.getName());
 		userLabel.setForeground(Color.BLACK);
 		userLabel.setText(user.getName());
@@ -1174,6 +1186,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		return engine.getLanguages().length > 1;
 	}
 
+	// TODO(uvictor): remove logger
+	// We should not need to implement a substitute for this method as slf4j.MDC exists statically on a per-thread basis.
 	/**
 	 * Returns the logger object.
 	 *

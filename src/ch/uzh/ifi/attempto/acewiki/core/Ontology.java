@@ -39,6 +39,8 @@ public class Ontology {
 	private CachingReasoner reasoner;
 	private StatementFactory statementFactory;
 	private AceWikiStorage storage;
+	private final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(this.getClass());
+	// TODO(uvictor): remove logger
 	private Logger logger;
 
 	private Map<Long, OntologyElement> idIndex = new TreeMap<Long, OntologyElement>();
@@ -61,6 +63,13 @@ public class Ontology {
 		this.parameters = parameters;
 		this.storage = storage;
 
+		// TODO(uvictor): check if we have conflicting MDC puts (multiple logged classes in the same thread)
+		org.slf4j.MDC.put("module", name);
+		org.slf4j.MDC.put("username", "onto");
+		// TODO(uvictor): remove sessionId if it is not needed (slf4j doesn't need it explicitly)
+		org.slf4j.MDC.put("sessionId", "0");
+		org.slf4j.MDC.put("type", "onto");
+		// TODO(uvictor): remove logger
 		logger = new Logger(parameters.get("context:logdir") + "/" + name, "onto", 0);
 
 		engine = AbstractAceWikiEngine.createLanguageEngine(this);
@@ -383,12 +392,14 @@ public class Ontology {
 		getStorage().save(sentence.getArticle().getOntologyElement());
 	}
 
+	// TODO(uvictor): remove this method (after removing logger)
 	/**
 	 * Writes a log entry.
 	 * 
 	 * @param text Log text.
 	 */
 	public void log(String text) {
+		log.info(text);
 		logger.log("onto", text);
 	}
 
