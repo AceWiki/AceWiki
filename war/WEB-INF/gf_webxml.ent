@@ -43,6 +43,10 @@
       <param-name>linearize_all_query_limit</param-name>
       <param-value>12</param-value>
     </init-param>
+    <init-param>
+      <param-name>grammar_integration</param-name>
+      <param-value>on</param-value>
+    </init-param>
   </servlet>
   <servlet-mapping>
     <servlet-name>gf__Phrasebook</servlet-name>
@@ -123,6 +127,10 @@
       <param-name>retractreassert</param-name>
       <param-value>on</param-value>
     </init-param>
+    <init-param>
+      <param-name>grammar_integration</param-name>
+      <param-value>on</param-value>
+    </init-param>
   </servlet>
   <servlet-mapping>
     <servlet-name>gf__TestAttempto</servlet-name>
@@ -180,6 +188,10 @@
     <init-param>
       <param-name>hidden_languages</param-name>
       <param-value>GeographyApe, GeographySpa</param-value>
+    </init-param>
+    <init-param>
+      <param-name>grammar_integration</param-name>
+      <param-value>on</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>

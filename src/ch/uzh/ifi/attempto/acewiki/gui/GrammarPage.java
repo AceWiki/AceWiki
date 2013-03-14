@@ -40,6 +40,7 @@ import ch.uzh.ifi.attempto.acewiki.gf.GfModulePage;
 import ch.uzh.ifi.attempto.acewiki.gf.TypeGfModule;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.Label;
+import ch.uzh.ifi.attempto.echocomp.LocaleResources;
 import ch.uzh.ifi.attempto.echocomp.TextAreaWindow;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
 import ch.uzh.ifi.attempto.gfservice.GfModule;
@@ -66,6 +67,7 @@ public class GrammarPage extends WikiPage implements ActionListener {
 	private final GfGrammar mGrammar;
 	private final GfServiceResultGrammar mInfo;
 	private final Wiki mWiki;
+	private final Title title;
 
 	public GrammarPage(Wiki wiki, GfGrammar grammar) {
 		super(wiki);
@@ -74,7 +76,7 @@ public class GrammarPage extends WikiPage implements ActionListener {
 		mGrammar = grammar;
 		mInfo = grammar.getGrammar();
 
-		add(new Title("About grammar", true));
+		add(title = new Title("", true));
 		addHorizontalLine();
 		add(new VSpace(10));
 
@@ -146,6 +148,7 @@ public class GrammarPage extends WikiPage implements ActionListener {
 
 	protected void doUpdate() {
 		setTabRow(TabRow.getMainTabRow(TabRow.TAB_GRAMMAR, mWiki));
+		title.setText(LocaleResources.getString("acewiki_page_grammar"));
 
 		if (mInfo == null) {
 			return;

@@ -402,7 +402,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		sideCol.add(new ListItem(indexButton));
 		sideCol.add(new ListItem(searchButton2));
 		sideCol.add(new ListItem(aboutButton));
-		if (getEngine() instanceof GfEngine) {
+		if (isGrammarIntegrationEnabled()) {
 			sideCol.add(new ListItem(grammarButton));
 		}
 		sideCol.add(new ListItem(randomButton));
@@ -619,6 +619,10 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		return false;
 	}
 
+	public boolean isGrammarIntegrationEnabled() {
+		return "on".equals(getParameter("grammar_integration"));
+	}
+
 	/**
 	 * Shows the window.
 	 *
@@ -777,9 +781,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	}
 
 	/**
-	 * Show the about grammar page.
+	 * Show the grammar page.
 	 */
-	public void showAboutGrammarPage() {
+	public void showGrammarPage() {
 		if (engine instanceof GfEngine) {
 			GfEngine gfEngine = (GfEngine) engine;
 			showPage(new GrammarPage(this, gfEngine.getGfGrammar()));
@@ -920,7 +924,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			showAboutPage();
 		} else if (src == grammarButton) {
 			log("page", "pressed: about grammar");
-			showAboutGrammarPage();
+			showGrammarPage();
 		} else if (src == homeButton) {
 			log("page", "pressed: main page");
 			showStartPage();

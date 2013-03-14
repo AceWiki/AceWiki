@@ -14,6 +14,7 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nextapp.echo.app.Column;
@@ -25,6 +26,7 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.TechnicalElement;
 import ch.uzh.ifi.attempto.acewiki.core.WordIndex;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
@@ -105,7 +107,12 @@ public class SearchPage extends WikiPage implements ActionListener {
 		}
 		
 		WordIndex index = getWiki().getEngine().getWordIndex();
-		searchResult = index.searchForElements(textField.getText());
+		searchResult = new ArrayList<>();
+		boolean gi = getWiki().isGrammarIntegrationEnabled();
+		for (OntologyElement oe : index.searchForElements(textField.getText())) {
+			if (!gi && oe instanceof TechnicalElement) continue;
+			searchResult.add(oe);
+		}
 		
 		if (searchResult.size() == 0) {
 			indexBar.setVisible(false);

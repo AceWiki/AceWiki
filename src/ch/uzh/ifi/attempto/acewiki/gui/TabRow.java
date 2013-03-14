@@ -16,7 +16,6 @@ import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.TopicElement;
-import ch.uzh.ifi.attempto.acewiki.gf.GfEngine;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.SmallButton;
 
@@ -66,7 +65,7 @@ public class TabRow extends Row implements ActionListener {
 			TAB_SENTENCE, TAB_TRANSLATIONS);
 
 	public static TabRow getMainTabRow(String selectedTab, Wiki wiki) {
-		if (wiki.getEngine() instanceof GfEngine) {
+		if (wiki.isGrammarIntegrationEnabled()) {
 			return new TabRow(TABS_MAIN_ADVANCED, selectedTab, wiki);
 		} else {
 			return new TabRow(TABS_MAIN_SIMPLE, selectedTab, wiki);
@@ -86,7 +85,7 @@ public class TabRow extends Row implements ActionListener {
 	}
 
 	public static TabRow getSentenceTabRow(Sentence sentence, String selectedTab, Wiki wiki) {
-		if (wiki.isMultilingual()) {
+		if (wiki.isMultilingual() && wiki.isTranslationsPageEnabled()) {
 			return new TabRow(TABS_SENTENCE_TRANSLATIONS, selectedTab, sentence, wiki);
 		} else {
 			return new TabRow(TABS_SENTENCE_PLAIN, selectedTab, sentence, wiki);
@@ -165,7 +164,7 @@ public class TabRow extends Row implements ActionListener {
 		} else if (TAB_ABOUT.equals(c)) {
 			wiki.showAboutPage();
 		} else if (TAB_GRAMMAR.equals(c)) {
-			wiki.showAboutGrammarPage();
+			wiki.showGrammarPage();
 		} else if (TAB_ARTICLE.equals(c)) {
 			wiki.showPage((OntologyElement) object);
 		} else if (TAB_REFERENCES.equals(c)) {

@@ -90,6 +90,7 @@ public class GfHandler extends AbstractLanguageHandler {
 		mGfGrammar = gfGrammar;
 
 		setLexiconChanger(GeneralTopic.NORMAL_TYPE, new TopicChanger());
+		// TODO: Only do this if grammar integration is enabled:
 		setLexiconChanger(TypeGfModule.INTERNAL_TYPE, new GfModuleChanger());
 
 		Locale locale = guessLocale(language, gfGrammar);

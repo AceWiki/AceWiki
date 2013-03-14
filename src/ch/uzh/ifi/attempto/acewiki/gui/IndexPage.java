@@ -28,6 +28,7 @@ import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.TechnicalElement;
 import ch.uzh.ifi.attempto.echocomp.LocaleResources;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
@@ -89,7 +90,11 @@ public class IndexPage extends WikiPage implements ActionListener {
 		indexColumn.removeAll();
 		
 		entries.clear();
+		boolean gi = getWiki().isGrammarIntegrationEnabled();
 		for (OntologyElement e : getWiki().getOntologyElements()) {
+			if (!gi && e instanceof TechnicalElement) {
+				continue;
+			}
 			for (String indexWord : e.getHeadwords()) {
 				if (indexWord.toUpperCase().startsWith(chosenChar)) {
 					entries.put(indexWord, e);
