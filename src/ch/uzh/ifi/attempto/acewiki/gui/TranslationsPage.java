@@ -38,9 +38,7 @@ public class TranslationsPage extends SentencePage implements ActionListener {
 	protected void doUpdate() {
 		removeAll();
 
-		removeAllTabs();
-		addTab("acewiki_page_sentence", this);
-		addSelectedTab("acewiki_page_translations");
+		setTabRow(TabRow.getSentenceTabRow(sentence, TabRow.TAB_TRANSLATIONS, getWiki()));
 
 		String t = LanguageUtils.getPrettyPrinted(sentence.getText(getWiki().getLanguage()));
 		String p = "- " + getWiki().getGUIText("acewiki_page_translations");
@@ -70,12 +68,9 @@ public class TranslationsPage extends SentencePage implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		String c = e.getActionCommand();
 		Object src = e.getSource();
 
-		if ("acewiki_page_sentence".equals(c)) {
-			getWiki().showPage(new DetailsPage(getWiki(), sentence));
-		} else if (src instanceof SmallButton) {
+		if (src instanceof SmallButton) {
 			String lang = ((SmallButton) src).getActionCommand();
 			getWiki().showWindow(new AlternativesWindow(sentence, lang, getWiki()));
 		}

@@ -16,7 +16,6 @@ package ch.uzh.ifi.attempto.acewiki.gui;
 
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Color;
-import nextapp.echo.app.event.ActionEvent;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiReasoner;
@@ -50,21 +49,9 @@ public class ConceptPage extends ArticlePage {
 	public OntologyElement getOntologyElement() {
 		return concept;
 	}
-
-	public void actionPerformed(ActionEvent e) {
-		super.actionPerformed(e);
-		if ("acewiki_page_individuals".equals(e.getActionCommand())) {
-			getWiki().showPage(new IndividualsPage(this));
-		} else if ("acewiki_page_hierarchy".equals(e.getActionCommand())) {
-			getWiki().showPage(new HierarchyPage(this));
-		}
-	}
 	
 	protected void doUpdate() {
 		super.doUpdate();
-
-		addTab("acewiki_page_individuals", this);
-		addTab("acewiki_page_hierarchy", this);
 
 		getTitle().setText(getHeading(concept));
 		

@@ -67,10 +67,7 @@ public class IndexPage extends WikiPage implements ActionListener {
 
 		removeAll();
 
-		addTab("acewiki_page_main", this);
-		addSelectedTab("acewiki_page_index");
-		addTab("acewiki_page_search", this);
-		addTab("acewiki_page_about", this);
+		setTabRow(TabRow.getMainTabRow(TabRow.TAB_INDEX, getWiki()));
 
 		add(new Title(getWiki().getGUIText("acewiki_page_index"), true));
 		addHorizontalLine();
@@ -145,12 +142,6 @@ public class IndexPage extends WikiPage implements ActionListener {
 			chosenPage = Integer.parseInt(e.getActionCommand()) - 1;
 			log("page", "pressed: page " + (chosenPage+1));
 			updatePage();
-		} else if ("acewiki_page_main".equals(e.getActionCommand())) {
-			getWiki().showStartPage();
-		} else if ("acewiki_page_search".equals(e.getActionCommand())) {
-			getWiki().showSearchPage();
-		} else if ("acewiki_page_about".equals(e.getActionCommand())) {
-			getWiki().showAboutPage();
 		}
 	}
 	

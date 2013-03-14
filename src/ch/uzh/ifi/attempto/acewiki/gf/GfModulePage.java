@@ -26,6 +26,7 @@ import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.gui.ArticlePage;
 import ch.uzh.ifi.attempto.acewiki.gui.EditorDialog;
 import ch.uzh.ifi.attempto.acewiki.gui.Executable;
+import ch.uzh.ifi.attempto.acewiki.gui.TabRow;
 import ch.uzh.ifi.attempto.acewiki.gui.WikiLink;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
@@ -115,6 +116,8 @@ public class GfModulePage extends ArticlePage {
 
 
 	protected void doUpdate() {
+		setTabRow(TabRow.getEmptyTabRow());
+
 		Column textColumn = getTextColumn();
 		textColumn.removeAll();
 

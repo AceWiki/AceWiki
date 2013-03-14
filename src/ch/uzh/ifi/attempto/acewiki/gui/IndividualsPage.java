@@ -27,6 +27,7 @@ import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Task;
+import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.CachingReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
@@ -47,7 +48,7 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 
 	private static final int pageSize = 50;
 	
-	private ConceptPage page;
+	private Concept concept;
 	private Column individualsColumn = new Column();
 	private int chosenPage = 0;
 	private Title title;
@@ -57,9 +58,9 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 	 * 
 	 * @param page The main page that contains the article.
 	 */
-	public IndividualsPage(ConceptPage page) {
-		super(page.getWiki());
-		this.page = page;
+	public IndividualsPage(Concept concept, Wiki wiki) {
+		super(wiki);
+		this.concept = concept;
 
 		title = new Title("", "", "", this);
 		add(title);
@@ -69,17 +70,11 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 	}
 	
 	protected void doUpdate() {
-		removeAllTabs();
-		addTab("acewiki_page_article", this);
-		addTab("acewiki_page_references", this);
-		addSelectedTab("acewiki_page_individuals");
-		addTab("acewiki_page_hierarchy", this);
+		setTabRow(TabRow.getArticleTabRow(concept, TabRow.TAB_INDIVIDUALS, getWiki()));
 
-		Concept c = (Concept) page.getOntologyElement();
-
-		title.setText(getHeading(c));
+		title.setText(getHeading(concept));
 		title.setPostTitle("- " + getWiki().getGUIText("acewiki_page_individuals"));
-		title.setTooltip(c.getType());
+		title.setTooltip(concept.getType());
 		individualsColumn.removeAll();
 		
 		final Column waitComp = new Column();
@@ -88,14 +83,14 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 
 		CachingReasoner cr = getWiki().getOntology().getReasoner();
 		
-		if (cr.areCachedIndividualsUpToDate(c)) {
+		if (cr.areCachedIndividualsUpToDate(concept)) {
 			individualsColumn.add(new VSpace(18));
 			individualsColumn.add(new IndividualsComponent(true));
 		} else {
 			individualsColumn.add(new VSpace(4));
 			individualsColumn.add(waitComp);
 			individualsColumn.add(new IndividualsComponent(true));
-			page.getWiki().enqueueWeakAsyncTask(new Task() {
+			getWiki().enqueueWeakAsyncTask(new Task() {
 				
 				private IndividualsComponent delayedComp;
 				
@@ -114,33 +109,24 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if ("acewiki_page_article".equals(e.getActionCommand())) {
-			log("page", "pressed: article");
-			getWiki().showPage(page);
-		} else if ("acewiki_page_references".equals(e.getActionCommand())) {
-			log("page", "pressed: references");
-			getWiki().showPage(new ReferencesPage(page));
-		} else if ("acewiki_page_hierarchy".equals(e.getActionCommand())) {
-			log("page", "pressed: hierarchy");
-			getWiki().showPage(new HierarchyPage(page));
-		} else if (e.getSource() == title) {
-			getWiki().showEditorWindow(page.getOntologyElement());
+		if (e.getSource() == title) {
+			getWiki().showEditorWindow(concept);
 		}
 	}
 
 	public boolean equals(Object obj) {
 		if (obj instanceof IndividualsPage) {
-			return page.equals(((IndividualsPage) obj).page);
+			return concept.equals(((IndividualsPage) obj).concept);
 		}
 		return false;
 	}
 	
 	public boolean isExpired() {
-		return page.isExpired();
+		return !getWiki().getOntology().contains(concept);
 	}
 	
 	public String toString() {
-		return "-IND- " + page.getOntologyElement().getWord();
+		return "-IND- " + concept.getWord();
 	}
 	
 	
@@ -160,8 +146,7 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 			sentencesColumn.setInsets(new Insets(10, 2, 5, 20));
 			sentencesColumn.setCellSpacing(new Extent(2));
 			add(sentencesColumn);
-			
-			Concept concept = (Concept) page.getOntologyElement();
+
 			CachingReasoner cr = getWiki().getOntology().getReasoner();
 			List<Individual> individuals;
 			

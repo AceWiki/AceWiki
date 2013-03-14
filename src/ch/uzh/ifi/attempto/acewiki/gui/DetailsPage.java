@@ -54,11 +54,7 @@ public class DetailsPage extends SentencePage implements ActionListener {
 	protected void doUpdate() {
 		removeAll();
 
-		removeAllTabs();
-		addSelectedTab("acewiki_page_sentence");
-		if (getWiki().isMultilingual()) {
-			addTab("acewiki_page_translations", this);
-		}
+		setTabRow(TabRow.getSentenceTabRow(sentence, TabRow.TAB_SENTENCE, getWiki()));
 
 		String t = LanguageUtils.getPrettyPrinted(sentence.getText(getWiki().getLanguage()));
 		add(new Title(t, false));
@@ -96,12 +92,7 @@ public class DetailsPage extends SentencePage implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		String c = e.getActionCommand();
-		Object src = e.getSource();
-
-		if ("acewiki_page_translations".equals(c)) {
-			getWiki().showPage(new TranslationsPage(getWiki(), sentence));
-		} else if (src == indexBar) {
+		if (e.getSource() == indexBar) {
 			selectedIndex = Integer.parseInt(e.getActionCommand()) - 1;
 			update();
 		}

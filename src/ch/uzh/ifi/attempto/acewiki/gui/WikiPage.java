@@ -14,8 +14,6 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui;
 
-import nextapp.echo.app.Border;
-import nextapp.echo.app.Button;
 import nextapp.echo.app.Color;
 import nextapp.echo.app.Column;
 import nextapp.echo.app.Component;
@@ -23,13 +21,10 @@ import nextapp.echo.app.Extent;
 import nextapp.echo.app.Font;
 import nextapp.echo.app.Insets;
 import nextapp.echo.app.Row;
-import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
-import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.Label;
-import ch.uzh.ifi.attempto.echocomp.SmallButton;
 import ch.uzh.ifi.attempto.echocomp.Style;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
 
@@ -43,7 +38,7 @@ public abstract class WikiPage extends Column {
 	private static final long serialVersionUID = -1972548696966691981L;
 	
 	private Wiki wiki;
-	private Row tabRow;
+	private TabRow tabRow;
 	
 	/**
 	 * Initializes a new wiki page.
@@ -54,11 +49,6 @@ public abstract class WikiPage extends Column {
 		this.wiki = wiki;
 		
 		setInsets(new Insets(0, 0, 0, 40));
-		
-		tabRow = new Row();
-		tabRow.setInsets(new Insets(10, 0, 0, 0));
-		add(tabRow);
-		add(new VSpace(20));
 	}
 	
 	/**
@@ -109,56 +99,17 @@ public abstract class WikiPage extends Column {
 	
 	public void removeAll() {
 		super.removeAll();
-		tabRow.removeAll();
 	}
-	
-	/**
-	 * Removes all tabs in the tab row.
-	 */
-	public void removeAllTabs() {
-		tabRow.removeAll();
-	}
-	
-	/**
-	 * Adds a new tab to the tab row.
-	 * 
-	 * @param text Either a text key or the text itself.
-	 * @param actionListener The actionlistener.
-	 */
-	protected void addTab(String text, ActionListener actionListener) {
-		tabRow.add(new SmallButton(text, actionListener));
-		tabRow.add(new HSpace(8));
-		tabRow.add(createTabSeparator());
-		tabRow.add(new HSpace(8));
-		if (indexOf(tabRow) < 0) {
+
+	protected void setTabRow(TabRow tabRow) {
+		if (tabRow == null || indexOf(this.tabRow) < 0) {
 			add(tabRow, 0);
 			add(new VSpace(20), 1);
-		}
-	}
-	
-	/**
-	 * Adds a new tab to the tab row that is currently selected.
-	 * 
-	 * @param text Either a text key or the text itself.
-	 */
-	protected void addSelectedTab(String text) {
-		SmallButton b = new SmallButton(text, null);
-		b.setEnabled(false);
-		tabRow.add(b);
-		tabRow.add(new HSpace(8));
-		tabRow.add(createTabSeparator());
-		tabRow.add(new HSpace(8));
-		if (indexOf(tabRow) < 0) {
+		} else {
+			remove(this.tabRow);
 			add(tabRow, 0);
-			add(new VSpace(20), 1);
 		}
-	}
-	
-	private Button createTabSeparator() {
-		Button tabSeparator = new Button();
-		tabSeparator.setBorder(new Border(1, Color.DARKGRAY, Border.STYLE_SOLID));
-		tabSeparator.setHeight(new Extent(12));
-		return tabSeparator;
+		this.tabRow = tabRow;
 	}
 	
 	/**

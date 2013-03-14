@@ -48,7 +48,7 @@ import ch.uzh.ifi.attempto.gfservice.GfServiceResultGrammar;
 
 // TODO Get rid of gf package dependency or move to gf package
 
-public class GrammarPage extends AbstractNavigationPage implements ActionListener {
+public class GrammarPage extends WikiPage implements ActionListener {
 
 	// TODO: localize
 	private static final String ACTION_GRAMMAR_PUSH = "acewiki_action_grammar_push";
@@ -68,7 +68,7 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 	private final Wiki mWiki;
 
 	public GrammarPage(Wiki wiki, GfGrammar grammar) {
-		super(wiki, TAB_GRAMMAR);
+		super(wiki);
 		mWiki = wiki;
 
 		mGrammar = grammar;
@@ -133,7 +133,6 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 
 
 	public void actionPerformed(ActionEvent e) {
-		super.actionPerformed(e);
 		String actionCommand = e.getActionCommand();
 		if (ACTION_GRAMMAR_PUSH.equals(actionCommand)) {
 			actionGrammarPush();
@@ -146,7 +145,7 @@ public class GrammarPage extends AbstractNavigationPage implements ActionListene
 
 
 	protected void doUpdate() {
-		super.doUpdate();
+		setTabRow(TabRow.getMainTabRow(TabRow.TAB_GRAMMAR, mWiki));
 
 		if (mInfo == null) {
 			return;

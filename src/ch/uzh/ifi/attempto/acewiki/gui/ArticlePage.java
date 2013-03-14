@@ -118,10 +118,7 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 	}
 
 	protected void doUpdate() {
-		removeAllTabs();
-		addSelectedTab("acewiki_page_article");
-		addTab("acewiki_page_references", this);
-
+		setTabRow(TabRow.getArticleTabRow(getOntologyElement(), TabRow.TAB_ARTICLE, getWiki()));
 		updateTextColumn();
 	}
 
@@ -185,7 +182,6 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 		return dropDown;
 	}
 
-
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("acewiki_statementmenu_addsent")) {
 			log("page", "dropdown: add sentence");
@@ -201,9 +197,6 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 			} else {
 				getWiki().showWindow(CommentEditorHandler.generateCreationWindow(null, this));
 			}
-		} else if ("acewiki_page_references".equals(e.getActionCommand())) {
-			log("page", "pressed: references");
-			getWiki().showPage(new ReferencesPage(this));
 		} else if (e.getSource() == title) {
 			getWiki().showEditorWindow(getOntologyElement());
 		}

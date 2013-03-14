@@ -50,11 +50,7 @@ public class GeneralPage extends ArticlePage {
 	}
 
 	protected void doUpdate() {
-		removeAllTabs();
-		addSelectedTab("acewiki_page_article");
-
-		updateTextColumn();
-
+		super.doUpdate();
 		getTitle().setText(getHeading(mElement));
 	}
 

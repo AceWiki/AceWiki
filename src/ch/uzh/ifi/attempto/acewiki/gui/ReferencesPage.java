@@ -45,7 +45,7 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 
 	private static final int pageSize = 50;
 	
-	private ArticlePage page;
+	private OntologyElement ontologyElement;
 	private Column referenceColumn = new Column();
 	private IndexBar indexBar;
 	private List<Sentence> sentences;
@@ -54,12 +54,10 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 	
 	/**
 	 * Creates a new references page.
-	 * 
-	 * @param page The main page that contains the article.
 	 */
-	public ReferencesPage(ArticlePage page) {
-		super(page.getWiki());
-		this.page = page;
+	public ReferencesPage(OntologyElement ontologyElement, Wiki wiki) {
+		super(wiki);
+		this.ontologyElement = ontologyElement;
 
 		title = new Title("", "", "", this);
 		add(title);
@@ -75,28 +73,19 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 	}
 	
 	protected void doUpdate() {
-		removeAllTabs();
-		addTab("acewiki_page_article", this);
-		addSelectedTab("acewiki_page_references");
-		if (page instanceof ConceptPage) {
-			addTab("acewiki_page_individuals", this);
-			addTab("acewiki_page_hierarchy", this);
-		}
-		if (page instanceof IndividualPage) {
-			addTab("acewiki_page_assignments", this);
-		}
+		setTabRow(TabRow.getArticleTabRow(ontologyElement, TabRow.TAB_REFERENCES, getWiki()));
 
-		title.setText(getHeading(page.getOntologyElement()));
+		title.setText(getHeading(ontologyElement));
 		title.setPostTitle("- " + getWiki().getGUIText("acewiki_page_references"));
-		title.setTooltip(page.getOntologyElement().getType());
+		title.setTooltip(ontologyElement.getType());
 		referenceColumn.removeAll();
 		List<OntologyElement> ontologyElements = getWiki().getOntologyElements();
 		sentences = new ArrayList<Sentence>();
 		LanguageUtils.sortOntologyElements(ontologyElements);
 		for (OntologyElement oe : ontologyElements) {
-			if (oe == page.getOntologyElement()) continue;
+			if (oe == ontologyElement) continue;
 			for (Sentence s : oe.getArticle().getSentences()) {
-				if (s.contains(page.getOntologyElement())) {
+				if (s.contains(ontologyElement)) {
 					sentences.add(s);
 				}
 			}
@@ -152,41 +141,28 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		Wiki wiki = getWiki();
-		if ("acewiki_page_article".equals(e.getActionCommand())) {
-			log("page", "pressed: article");
-			wiki.showPage(page);
-		} else if ("acewiki_page_individuals".equals(e.getActionCommand())) {
-			log("page", "pressed: individuals");
-			wiki.showPage(new IndividualsPage((ConceptPage) page));
-		} else if ("acewiki_page_hierarchy".equals(e.getActionCommand())) {
-			log("page", "pressed: hierarchy");
-			wiki.showPage(new HierarchyPage((ConceptPage) page));
-		} else if ("acewiki_page_assignments".equals(e.getActionCommand())) {
-			log("page", "pressed: assignments");
-			wiki.showPage(new AssignmentsPage((IndividualPage) page));
-		} else if (e.getSource() == indexBar) {
+		if (e.getSource() == indexBar) {
 			chosenPage = Integer.parseInt(e.getActionCommand()) - 1;
 			log("page", "pressed: page " + (chosenPage+1));
 			updatePage();
 		} else if (e.getSource() == title) {
-			wiki.showEditorWindow(page.getOntologyElement());
+			getWiki().showEditorWindow(ontologyElement);
 		}
 	}
 
 	public boolean equals(Object obj) {
 		if (obj instanceof ReferencesPage) {
-			return page.equals(((ReferencesPage) obj).page);
+			return ontologyElement.equals(((ReferencesPage) obj).ontologyElement);
 		}
 		return false;
 	}
 	
 	public boolean isExpired() {
-		return page.isExpired();
+		return !getWiki().getOntology().contains(ontologyElement);
 	}
 	
 	public String toString() {
-		return "-REF- " + page.getOntologyElement().getWord();
+		return "-REF- " + ontologyElement.getWord();
 	}
 
 }

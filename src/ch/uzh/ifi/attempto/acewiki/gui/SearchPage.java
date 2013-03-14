@@ -66,11 +66,8 @@ public class SearchPage extends WikiPage implements ActionListener {
 	
 	protected void doUpdate() {
 		removeAll();
-	
-		addTab("acewiki_page_main", this);
-		addTab("acewiki_page_index", this);
-		addSelectedTab("acewiki_page_search");
-		addTab("acewiki_page_about", this);
+
+		setTabRow(TabRow.getMainTabRow(TabRow.TAB_SEARCH, getWiki()));
 
 		add(new Title(getWiki().getGUIText("acewiki_page_search"), true));
 		addHorizontalLine();
@@ -140,12 +137,6 @@ public class SearchPage extends WikiPage implements ActionListener {
 			chosenPage = Integer.parseInt(e.getActionCommand()) - 1;
 			log("page", "pressed: page " + (chosenPage+1));
 			updatePage();
-		} else if ("acewiki_page_main".equals(e.getActionCommand())) {
-			getWiki().showStartPage();
-		} else if ("acewiki_page_index".equals(e.getActionCommand())) {
-			getWiki().showIndexPage();
-		} else if ("acewiki_page_about".equals(e.getActionCommand())) {
-			getWiki().showAboutPage();
 		} else {
 			log("page", "search for " + textField.getText());
 			update();

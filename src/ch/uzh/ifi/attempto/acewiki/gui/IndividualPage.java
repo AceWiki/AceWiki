@@ -14,7 +14,6 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui;
 
-import nextapp.echo.app.event.ActionEvent;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
@@ -45,19 +44,9 @@ public class IndividualPage extends ArticlePage {
 	public OntologyElement getOntologyElement() {
 		return ind;
 	}
-
-	public void actionPerformed(ActionEvent e) {
-		super.actionPerformed(e);
-		if ("acewiki_page_assignments".equals(e.getActionCommand())) {
-			getWiki().showPage(new AssignmentsPage(this));
-		}
-	}
 	
 	protected void doUpdate() {
 		super.doUpdate();
-
-		addTab("acewiki_page_assignments", this);
-
 		getTitle().setText(getHeading(ind));
 	}
 

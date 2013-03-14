@@ -25,6 +25,7 @@ import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Task;
+import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.CachingReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
@@ -46,7 +47,7 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 
 	private static final int pageSize = 50;
 	
-	private IndividualPage page;
+	private Individual individual;
 	private Column assignmentsColumn = new Column();
 	private int chosenPage = 0;
 	private Title title;
@@ -56,9 +57,9 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 	 * 
 	 * @param page The main page that contains the article.
 	 */
-	public AssignmentsPage(IndividualPage page) {
-		super(page.getWiki());
-		this.page = page;
+	public AssignmentsPage(Individual individual, Wiki wiki) {
+		super(wiki);
+		this.individual = individual;
 
 		title = new Title("", "", "", this);
 		add(title);
@@ -67,16 +68,11 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 	}
 	
 	protected void doUpdate() {
-		removeAllTabs();
-		addTab("acewiki_page_article", this);
-		addTab("acewiki_page_references", this);
-		addSelectedTab("acewiki_page_assignments");
+		setTabRow(TabRow.getArticleTabRow(individual, TabRow.TAB_ASSIGNMENTS, getWiki()));
 
-		Individual ind = (Individual) page.getOntologyElement();
-
-		title.setText(getHeading(ind));
+		title.setText(getHeading(individual));
 		title.setPostTitle("- " + getWiki().getGUIText("acewiki_page_assignments"));
-		title.setTooltip(ind.getType());
+		title.setTooltip(individual.getType());
 		assignmentsColumn.removeAll();
 		
 		final Column waitComp = new Column();
@@ -85,14 +81,14 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 		
 		CachingReasoner cr = getWiki().getOntology().getReasoner();
 		
-		if (cr.areCachedConceptsUpToDate(ind)) {
+		if (cr.areCachedConceptsUpToDate(individual)) {
 			assignmentsColumn.add(new VSpace(18));
 			assignmentsColumn.add(new AssignmentsComponent(true));
 		} else {
 			assignmentsColumn.add(new VSpace(4));
 			assignmentsColumn.add(waitComp);
 			assignmentsColumn.add(new AssignmentsComponent(true));
-			page.getWiki().enqueueWeakAsyncTask(new Task() {
+			getWiki().enqueueWeakAsyncTask(new Task() {
 				
 				private AssignmentsComponent delayedComp;
 				
@@ -111,30 +107,24 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if ("acewiki_page_article".equals(e.getActionCommand())) {
-			log("page", "pressed: article");
-			getWiki().showPage(page);
-		} else if ("acewiki_page_references".equals(e.getActionCommand())) {
-			log("page", "pressed: references");
-			getWiki().showPage(new ReferencesPage(page));
-		} else if (e.getSource() == title) {
-			getWiki().showEditorWindow(page.getOntologyElement());
+		if (e.getSource() == title) {
+			getWiki().showEditorWindow(individual);
 		}
 	}
 
 	public boolean equals(Object obj) {
 		if (obj instanceof AssignmentsPage) {
-			return page.equals(((AssignmentsPage) obj).page);
+			return individual.equals(((AssignmentsPage) obj).individual);
 		}
 		return false;
 	}
 	
 	public boolean isExpired() {
-		return page.isExpired();
+		return !getWiki().getOntology().contains(individual);
 	}
 	
 	public String toString() {
-		return "-ASS- " + page.getOntologyElement().getWord();
+		return "-ASS- " + individual.getWord();
 	}
 	
 	
@@ -155,19 +145,18 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 			add(sentencesColumn);
 
 			CachingReasoner cr = getWiki().getOntology().getReasoner();
-			Individual ind = (Individual) page.getOntologyElement();
 			List<Concept> concepts;
 			if (cached) {
-				concepts = cr.getCachedConcepts(ind);
+				concepts = cr.getCachedConcepts(individual);
 			} else {
-				concepts = cr.getConcepts(ind);
+				concepts = cr.getConcepts(individual);
 			}
 			if (concepts != null) {
 				sentences = new ArrayList<Sentence>();
 				LanguageUtils.sortOntologyElements(concepts);
 				for (Concept c : concepts) {
 					StatementFactory sf = getWiki().getOntology().getStatementFactory();
-					sentences.add(sf.createAssignmentSentence(ind, c));
+					sentences.add(sf.createAssignmentSentence(individual, c));
 				}
 				if (sentences.size() == 0) {
 					indexBar.setVisible(false);

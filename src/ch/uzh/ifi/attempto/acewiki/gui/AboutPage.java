@@ -17,8 +17,6 @@ package ch.uzh.ifi.attempto.acewiki.gui;
 import java.util.Map;
 
 import nextapp.echo.app.Insets;
-import nextapp.echo.app.event.ActionEvent;
-import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
@@ -29,7 +27,7 @@ import ch.uzh.ifi.attempto.echocomp.VSpace;
  * 
  * @author Tobias Kuhn
  */
-public class AboutPage extends WikiPage implements ActionListener {
+public class AboutPage extends WikiPage {
 	
 	private static final long serialVersionUID = -5184590884798735077L;
 	
@@ -48,10 +46,7 @@ public class AboutPage extends WikiPage implements ActionListener {
 
 		removeAll();
 
-		addTab("acewiki_page_main", this);
-		addTab("acewiki_page_index", this);
-		addTab("acewiki_page_search", this);
-		addSelectedTab("acewiki_page_about");
+		setTabRow(TabRow.getMainTabRow(TabRow.TAB_ABOUT, getWiki()));
 		
 		add(new Title(w.getGUIText("acewiki_page_about"), true));
 		addHorizontalLine();
@@ -107,16 +102,6 @@ public class AboutPage extends WikiPage implements ActionListener {
 		add(table);
 		
 		add(new VSpace(20));
-	}
-
-	public void actionPerformed(ActionEvent e) {
-		if ("acewiki_page_main".equals(e.getActionCommand())) {
-			getWiki().showStartPage();
-		} else if ("acewiki_page_index".equals(e.getActionCommand())) {
-			getWiki().showIndexPage();
-		} else if ("acewiki_page_search".equals(e.getActionCommand())) {
-			getWiki().showSearchPage();
-		}
 	}
 
 	public boolean equals(Object obj) {

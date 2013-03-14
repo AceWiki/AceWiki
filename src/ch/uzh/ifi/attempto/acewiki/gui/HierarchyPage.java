@@ -25,6 +25,7 @@ import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Task;
+import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.CachingReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
@@ -45,7 +46,7 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 
 	private static final int pageSize = 25;
 	
-	private ConceptPage page;
+	private Concept concept;
 	private RecalcIcon upRecalcIcon, downRecalcIcon;
 	private Title title;
 
@@ -59,22 +60,22 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 	 * 
 	 * @param page The main page that contains the article.
 	 */
-	public HierarchyPage(ConceptPage page) {
-		super(page.getWiki());
-		this.page = page;
+	public HierarchyPage(Concept concept, Wiki wiki) {
+		super(wiki);
+		this.concept = concept;
 
 		title = new Title("", "", "", this);
 		add(title);
 		addHorizontalLine();
 		add(new VSpace(12));
 
-		upRecalcIcon = new RecalcIcon(page.getWiki().getGUIText("acewiki_list_updating"));
+		upRecalcIcon = new RecalcIcon(getWiki().getGUIText("acewiki_list_updating"));
 		upRecalcIcon.setVisible(false);
 		addHeadline("acewiki_hierarchy_upheading", upRecalcIcon);
 		add(new VSpace(5));
 		add(upHierarchyColumn);
 
-		downRecalcIcon = new RecalcIcon(page.getWiki().getGUIText("acewiki_list_updating"));
+		downRecalcIcon = new RecalcIcon(getWiki().getGUIText("acewiki_list_updating"));
 		downRecalcIcon.setVisible(false);
 		addHeadline("acewiki_hierarchy_downheading", downRecalcIcon);
 		add(new VSpace(5));
@@ -82,28 +83,22 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 	}
 	
 	protected void doUpdate() {
-		removeAllTabs();
-		addTab("acewiki_page_article", this);
-		addTab("acewiki_page_references", this);
-		addTab("acewiki_page_individuals", this);
-		addSelectedTab("acewiki_page_hierarchy");
+		setTabRow(TabRow.getArticleTabRow(concept, TabRow.TAB_HIERARCHY, getWiki()));
 
-		Concept c = (Concept) page.getOntologyElement();
-
-		title.setText(getHeading(c));
+		title.setText(getHeading(concept));
 		title.setPostTitle("- " + getWiki().getGUIText("acewiki_page_hierarchy"));
-		title.setTooltip(c.getType());
+		title.setTooltip(concept.getType());
 		upHierarchyColumn.removeAll();
 		downHierarchyColumn.removeAll();
 
 		CachingReasoner cr = getWiki().getOntology().getReasoner();
 		
-		if (cr.areCachedSuperConceptsUpToDate(c)) {
+		if (cr.areCachedSuperConceptsUpToDate(concept)) {
 			upHierarchyColumn.add(new HierarchyComponent(true, true));
 		} else {
 			upRecalcIcon.setVisible(true);
 			upHierarchyColumn.add(new HierarchyComponent(true, true));
-			page.getWiki().enqueueWeakAsyncTask(new Task() {
+			getWiki().enqueueWeakAsyncTask(new Task() {
 				
 				private HierarchyComponent delayedComp;
 				
@@ -120,12 +115,12 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 			});
 		}
 
-		if (cr.areCachedSuperConceptsUpToDate(c)) {
+		if (cr.areCachedSuperConceptsUpToDate(concept)) {
 			downHierarchyColumn.add(new HierarchyComponent(false, true));
 		} else {
 			downRecalcIcon.setVisible(true);
 			downHierarchyColumn.add(new HierarchyComponent(false, true));
-			page.getWiki().enqueueWeakAsyncTask(new Task() {
+			getWiki().enqueueWeakAsyncTask(new Task() {
 				
 				private HierarchyComponent delayedComp;
 				
@@ -144,33 +139,24 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if ("acewiki_page_article".equals(e.getActionCommand())) {
-			log("page", "pressed: article");
-			getWiki().showPage(page);
-		} else if ("acewiki_page_references".equals(e.getActionCommand())) {
-			log("page", "pressed: references");
-			getWiki().showPage(new ReferencesPage(page));
-		} else if ("acewiki_page_individuals".equals(e.getActionCommand())) {
-			log("page", "pressed: individuals");
-			getWiki().showPage(new IndividualsPage(page));
-		} else if (e.getSource() == title) {
-			getWiki().showEditorWindow(page.getOntologyElement());
+		if (e.getSource() == title) {
+			getWiki().showEditorWindow(concept);
 		}
 	}
 
 	public boolean equals(Object obj) {
 		if (obj instanceof HierarchyPage) {
-			return page.equals(((HierarchyPage) obj).page);
+			return concept.equals(((HierarchyPage) obj).concept);
 		}
 		return false;
 	}
 	
 	public boolean isExpired() {
-		return page.isExpired();
+		return !getWiki().getOntology().contains(concept);
 	}
 	
 	public String toString() {
-		return "-IND- " + page.getOntologyElement().getWord();
+		return "-IND- " + concept.getWord();
 	}
 
 	private class HierarchyComponent extends Column implements ActionListener {
@@ -190,8 +176,7 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 			column.setInsets(new Insets(10, 2, 5, 10));
 			column.setCellSpacing(new Extent(2));
 			add(column);
-			
-			Concept concept = (Concept) page.getOntologyElement();
+
 			CachingReasoner cr = getWiki().getOntology().getReasoner();
 			List<Concept> concepts;
 			
@@ -230,10 +215,10 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 			String message;
 			int chosenPage;
 			if (up) {
-				message = page.getWiki().getGUIText("acewiki_hierarchy_upempty");
+				message = getWiki().getGUIText("acewiki_hierarchy_upempty");
 				chosenPage = upChosenPage;
 			} else {
-				message = page.getWiki().getGUIText("acewiki_hierarchy_downempty");
+				message = getWiki().getGUIText("acewiki_hierarchy_downempty");
 				chosenPage = downChosenPage;
 			}
 			

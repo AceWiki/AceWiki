@@ -14,7 +14,6 @@
 
 package ch.uzh.ifi.attempto.acewiki.gui;
 
-import nextapp.echo.app.event.ActionEvent;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 
@@ -42,25 +41,10 @@ public class StartPage extends ArticlePage {
 
 	protected void doUpdate() {
 		updateTextColumn();
-
-		removeAllTabs();
+		setTabRow(TabRow.getMainTabRow(TabRow.TAB_MAIN, getWiki()));
 		getTitle().setText(getWiki().getGUIText("acewiki_page_main"));
-		addSelectedTab("acewiki_page_main");
-		addTab("acewiki_page_index", this);
-		addTab("acewiki_page_search", this);
-		addTab("acewiki_page_about", this);
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		super.actionPerformed(e);
-		if ("acewiki_page_index".equals(e.getActionCommand())) {
-			getWiki().showIndexPage();
-		} else if ("acewiki_page_search".equals(e.getActionCommand())) {
-			getWiki().showSearchPage();
-		} else if ("acewiki_page_about".equals(e.getActionCommand())) {
-			getWiki().showAboutPage();
-		}
-	}
 	
 	public OntologyElement getOntologyElement() {
 		return oe;
