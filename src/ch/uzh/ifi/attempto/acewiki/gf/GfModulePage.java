@@ -39,6 +39,8 @@ import ch.uzh.ifi.attempto.gfservice.GfParseResult;
 import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 import ch.uzh.ifi.attempto.gfservice.GfStorageResult;
 
+// TODO This class show be made general and moved to the gui package
+
 /**
  * TODO: localize strings
  *
