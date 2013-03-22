@@ -33,7 +33,7 @@ import ch.uzh.ifi.attempto.acewiki.core.Comment;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageUtils;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyTextElement;
-import ch.uzh.ifi.attempto.acewiki.core.TechnicalElement;
+import ch.uzh.ifi.attempto.acewiki.core.ModuleElement;
 import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
@@ -220,7 +220,7 @@ public class CommentComponent extends Column implements ActionListener {
 				if (te instanceof OntologyTextElement) {
 					OntologyTextElement ote = (OntologyTextElement) te;
 					OntologyElement oe = ote.getOntologyElement();
-					if (wiki.getConfig().isGrammarIntegrationEnabled() || !(oe instanceof TechnicalElement)) {
+					if (wiki.getConfig().isGrammarIntegrationEnabled() || !(oe instanceof ModuleElement)) {
 						String t = LanguageUtils.getPrettyPrinted(oe.getWord(ote.getWordNumber()));
 						comp = new WikiLink(oe, t, wiki, false);
 						text = name;

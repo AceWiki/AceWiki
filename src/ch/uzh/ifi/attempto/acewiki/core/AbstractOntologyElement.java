@@ -14,6 +14,7 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
+
 /**
  * This is a partial implementation of an ontology element.
  * 

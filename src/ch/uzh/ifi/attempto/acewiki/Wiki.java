@@ -59,7 +59,6 @@ import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.core.StatementTableExporter;
 import ch.uzh.ifi.attempto.acewiki.core.User;
 import ch.uzh.ifi.attempto.acewiki.core.UserBase;
-import ch.uzh.ifi.attempto.acewiki.gf.GfEngine;
 import ch.uzh.ifi.attempto.acewiki.gui.AboutPage;
 import ch.uzh.ifi.attempto.acewiki.gui.ArticlePage;
 import ch.uzh.ifi.attempto.acewiki.gui.ExportWindow;
@@ -93,7 +92,7 @@ import echopoint.externalevent.ExternalEvent;
 import echopoint.externalevent.ExternalEventListener;
 import echopoint.externalevent.ExternalEventMonitor;
 
-// TODO Get rid of gf package dependency
+// TODO Move this class to gui package?
 
 /**
  * This class represents an AceWiki wiki instance (including its graphical user interface).
@@ -684,10 +683,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * Show the grammar page.
 	 */
 	public void showGrammarPage() {
-		if (engine instanceof GfEngine) {
-			GfEngine gfEngine = (GfEngine) engine;
-			showPage(new GrammarPage(this, gfEngine.getGfGrammar()));
-		}
+		showPage(new GrammarPage(this));
 	}
 
 	/**

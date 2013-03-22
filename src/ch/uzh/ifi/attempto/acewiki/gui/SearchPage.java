@@ -26,7 +26,7 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
-import ch.uzh.ifi.attempto.acewiki.core.TechnicalElement;
+import ch.uzh.ifi.attempto.acewiki.core.ModuleElement;
 import ch.uzh.ifi.attempto.acewiki.core.WordIndex;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
@@ -110,7 +110,7 @@ public class SearchPage extends WikiPage implements ActionListener {
 		searchResult = new ArrayList<>();
 		boolean gi = getWiki().getConfig().isGrammarIntegrationEnabled();
 		for (OntologyElement oe : index.searchForElements(textField.getText())) {
-			if (!gi && oe instanceof TechnicalElement) continue;
+			if (!gi && oe instanceof ModuleElement) continue;
 			searchResult.add(oe);
 		}
 		

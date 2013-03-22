@@ -26,7 +26,7 @@ public abstract class AbstractAceWikiEngine implements AceWikiEngine {
 	
 	private static final String defaultEngineClassName
 			= "ch.uzh.ifi.attempto.acewiki.aceowl.ACEOWLEngine";
-	
+
 	/**
 	 * Creates the AceWiki engine for the given ontology.
 	 * 
@@ -75,8 +75,10 @@ public abstract class AbstractAceWikiEngine implements AceWikiEngine {
 	private List<OntologyExporter> exporters = new ArrayList<OntologyExporter>();
 	private String[] lexicalTypes = new String[] {};
 	private WordIndex wordIndex;
+	private Ontology ontology;
 	
 	public void init(Ontology ontology) {
+		this.ontology = ontology;
 		for (String language : getLanguages()) {
 			getLanguageHandler(language).init(ontology);
 		}
@@ -116,6 +118,10 @@ public abstract class AbstractAceWikiEngine implements AceWikiEngine {
 			wordIndex = new DefaultWordIndex();
 		}
 		return wordIndex;
+	}
+
+	public Ontology getOntology() {
+		return ontology;
 	}
 
 }

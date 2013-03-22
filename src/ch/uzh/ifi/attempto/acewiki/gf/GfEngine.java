@@ -114,7 +114,7 @@ public class GfEngine extends AbstractAceWikiEngine {
 		if (GeneralTopic.NORMAL_TYPE.equals(type)) {
 			return GeneralTopic.makeNormal("");
 		} else if (TypeGfModule.hasType(type)) {
-			return new TypeGfModule();
+			return new TypeGfModule(this);
 		}
 		return null;
 	}

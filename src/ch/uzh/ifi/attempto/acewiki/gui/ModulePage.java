@@ -1,6 +1,4 @@
-package ch.uzh.ifi.attempto.acewiki.gf;
-
-import java.util.List;
+package ch.uzh.ifi.attempto.acewiki.gui;
 
 import nextapp.echo.app.Color;
 import nextapp.echo.app.Column;
@@ -11,44 +9,28 @@ import nextapp.echo.app.Grid;
 import nextapp.echo.app.Insets;
 import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.base.Splitter;
-
 import ch.uzh.ifi.attempto.acewiki.Wiki;
-import ch.uzh.ifi.attempto.acewiki.core.AceWikiEngine;
-import ch.uzh.ifi.attempto.acewiki.core.Article;
 import ch.uzh.ifi.attempto.acewiki.core.Comment;
+import ch.uzh.ifi.attempto.acewiki.core.ModuleElement;
+import ch.uzh.ifi.attempto.acewiki.core.ModuleElement.InvalidSyntaxException;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
-import ch.uzh.ifi.attempto.acewiki.gui.ArticlePage;
-import ch.uzh.ifi.attempto.acewiki.gui.EditorDialog;
-import ch.uzh.ifi.attempto.acewiki.gui.Executable;
-import ch.uzh.ifi.attempto.acewiki.gui.TabRow;
-import ch.uzh.ifi.attempto.acewiki.gui.WikiLink;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.Style;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
-import ch.uzh.ifi.attempto.gfservice.GfModule;
-import ch.uzh.ifi.attempto.gfservice.GfParseResult;
-import ch.uzh.ifi.attempto.gfservice.GfServiceException;
-import ch.uzh.ifi.attempto.gfservice.GfStorageResult;
 
-// TODO This class show be made general and moved to the gui package
+import com.google.common.base.Splitter;
 
 /**
  * TODO: localize strings
  *
  * @author Kaarel Kaljurand
+ * @author Tobias Kuhn
  */
-public class GfModulePage extends ArticlePage {
-
-	private final Logger mLogger = LoggerFactory.getLogger(GfModulePage.class);
+public class ModulePage extends ArticlePage {
 
 	private static final long serialVersionUID = -5592272938081004472L;
 
@@ -58,23 +40,15 @@ public class GfModulePage extends ArticlePage {
 
 	public final static Splitter SPLITTER_NL = Splitter.on('\n');
 
-	private final OntologyElement mElement;
-	private final GfEngine mEngine;
+	private final ModuleElement mElement;
 	private final Wiki mWiki;
 
 	private Row mFormattedModuleContent;
 
-	public GfModulePage(OntologyElement element, Wiki wiki) {
+	public ModulePage(ModuleElement element, Wiki wiki) {
 		super(wiki, element);
 		mElement = element;
 		mWiki = wiki;
-
-		AceWikiEngine engine = getArticle().getOntology().getEngine();
-		if (engine instanceof GfEngine) {
-			mEngine = (GfEngine) engine;
-		} else {
-			mEngine = null;
-		}
 		getTitle().setColor(Style.specialForeground);
 	}
 
@@ -95,8 +69,8 @@ public class GfModulePage extends ArticlePage {
 			if (!getWiki().isEditable()) {
 				getWiki().showLoginWindow();
 			} else {
-				EditorDialog.Builder editor = new EditorDialog.Builder(getModuleContent(), this)
-				.setTitle("GF Module Editor")
+				EditorDialog.Builder editor = new EditorDialog.Builder(mElement.getModuleContent(), this)
+				.setTitle("Module Editor")
 				.setSize(600, 600)
 				.setFont(new Font(Font.MONOSPACE, Font.PLAIN, new Extent(12)))
 				.setPositiveButton(new Executable() {
@@ -125,7 +99,7 @@ public class GfModulePage extends ArticlePage {
 
 		Grid referencesGrid = new Grid(5);
 		referencesGrid.setInsets(new Insets(4, 2, 8, 2));
-		for (TypeGfModule oe : mWiki.getOntology().getOntologyElements(TypeGfModule.class)) {
+		for (ModuleElement oe : mWiki.getOntology().getOntologyElements(ModuleElement.class)) {
 			if (oe != mElement && isReferencingElement(oe, mElement)) {
 				referencesGrid.add(new WikiLink(oe, oe.getWord(), mWiki, false));
 			}
@@ -142,12 +116,12 @@ public class GfModulePage extends ArticlePage {
 		textColumn.add(buttonRow);
 		textColumn.add(new VSpace(20));
 
-		Comment grammarContent = getModuleContent();
+		Comment grammarContent = mElement.getModuleContent();
 		if (grammarContent == null || grammarContent.getText().isEmpty()) {
-			replaceModuleContent(getArticle(), makeDefaulContent());
-			grammarContent = getModuleContent();
+			mElement.replaceModuleContent(mElement.getDefaultContent());
+			grammarContent = mElement.getModuleContent();
 		}
-		mFormattedModuleContent = getGfModuleColumn(grammarContent.getText());
+		mFormattedModuleContent = getModuleColumn(grammarContent.getText());
 		textColumn.add(mFormattedModuleContent);
 
 		getTitle().setText(mElement.getWord());
@@ -156,45 +130,35 @@ public class GfModulePage extends ArticlePage {
 
 	private void integrate() {
 		// TODO: this blocks, do it in the background
-		if (mEngine.getGfGrammar().isGrammarEditable() && hasContent()) {
-			try {
-				GfStorageResult result = mEngine.getGfGrammar().integrateGfModule(getGfModule());
-
-				if (result.isSuccess()) {
-					mWiki.showWindow(new MessageWindow("OK", "Grammar rebuilt successfully"));
-					GfWikiUtils.clearAllLinearizations(mWiki.getOntology());
-				} else {
-					mWiki.showWindow(new MessageWindow(result.getResultCode(),
-							result.getMessage() + " (" + result.getCommand() + ")"));
-				}
-			} catch (GfServiceException e) {
-				mLogger.info("make: GfServiceException: '{}'", e.getMessage());
-			}
+		try {
+			mElement.integrate();
+		} catch (Exception ex) {
+			mWiki.showWindow(new MessageWindow("Error", ex.getMessage(), "OK"));
+			return;
 		}
+		mWiki.showWindow(new MessageWindow("Success", "Grammar rebuilt successfully", "OK"));
 	}
 
 
 	private void parse(boolean popupOnSuccess) {
 		// TODO: this blocks, do it in the background
-		if (hasContent()) {
-			try {
-				GfParseResult result = mEngine.getGfGrammar().parseGfModule(getGfModule());
-				if (result.isSuccess()) {
-					if (popupOnSuccess) {
-						mWiki.showWindow(new MessageWindow("OK", "There are no syntax errors."));
-					}
-				} else {
-					// Pop up error message
-					mLogger.info("parse: GfParseResult: '{}'", result);
-					mWiki.showWindow(new MessageWindow(
-							"Syntax error at line:column = " + result.getLocation(),
-							result.getResultCode()));
-					String line = result.getLocation().split(":")[0];
-					highlightSyntaxError(Integer.parseInt(line));
-				}
-			} catch (GfServiceException e) {
-				mLogger.info("parse: GfServiceException: '{}'", e.getMessage());
-			}
+		try {
+			mElement.parse();
+		} catch (InvalidSyntaxException ex) {
+			InvalidSyntaxException iex = (InvalidSyntaxException) ex;
+			Integer l = iex.getLine();
+			Integer c = iex.getColumn();
+			mWiki.showWindow(new MessageWindow("Syntax error",
+					"Syntax error at line/column = " + (l == null ? "?" : l) + "/" +
+							(c == null ? "?" : c) + ": " + ex.getMessage(), "OK"));
+			if (l != null) highlightSyntaxError(l);
+			return;
+		} catch (Exception ex) {
+			mWiki.showWindow(new MessageWindow("Error", ex.getMessage(), "OK"));
+			return;
+		}
+		if (popupOnSuccess) {
+			mWiki.showWindow(new MessageWindow("Success", "There are no syntax errors.", "OK"));
 		}
 	}
 
@@ -208,32 +172,7 @@ public class GfModulePage extends ArticlePage {
 	}
 
 
-	private GfModule getGfModule() {
-		return new GfModule(getName(), getModuleContent().getText());
-	}
-
-
-	private boolean hasContent() {
-		return getModuleContent() != null;
-	}
-
-
-	private Comment getModuleContent() {
-		return getModuleContent(getArticle());
-	}
-
-
-	private String getName() {
-		return mElement.getWord();
-	}
-
-
-	private String makeDefaulContent() {
-		return "resource " + mElement.getWord() + " = {\n\n}";
-	}
-
-
-	private Row getGfModuleColumn(String text) {
+	private Row getModuleColumn(String text) {
 		Column colNumbers = new Column();
 		Column colLines = new Column();
 		int lineNumber = 0;
@@ -313,25 +252,4 @@ public class GfModulePage extends ArticlePage {
 		return false;
 	}
 
-
-	// TODO: the following methods assume that a GF module is an article
-	// which contains at most one Comment whose text is the module's GF source.
-	public static Comment getModuleContent(Article article) {
-		List<Statement> statements = article.getStatements();
-		if (statements == null || statements.isEmpty() || ! (statements.get(0) instanceof Comment)) {
-			return null;
-		}
-		return (Comment) statements.get(0);
-	}
-
-	public static void replaceModuleContent(Article article, String newContent) {
-		Statement newStatement = new Comment(newContent);
-		newStatement.init(article.getOntology(), article);
-		List<Statement> statements = article.getStatements();
-		if (statements == null || statements.isEmpty()) {
-			article.add(null, newStatement);
-		} else {
-			article.edit(statements.get(0), newStatement);
-		}
-	}
 }

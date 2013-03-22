@@ -20,12 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.base.Joiner;
-import com.google.common.base.Splitter;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Sets;
-
 import nextapp.echo.app.Extent;
 import nextapp.echo.app.Insets;
 import nextapp.echo.app.Row;
@@ -35,8 +29,8 @@ import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.User;
+import ch.uzh.ifi.attempto.acewiki.gf.GfEngine;
 import ch.uzh.ifi.attempto.acewiki.gf.GfGrammar;
-import ch.uzh.ifi.attempto.acewiki.gf.GfModulePage;
 import ch.uzh.ifi.attempto.acewiki.gf.TypeGfModule;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.Label;
@@ -46,6 +40,12 @@ import ch.uzh.ifi.attempto.echocomp.VSpace;
 import ch.uzh.ifi.attempto.gfservice.GfModule;
 import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultGrammar;
+
+import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Sets;
 
 // TODO Get rid of gf package dependency or move to gf package
 
@@ -69,12 +69,12 @@ public class GrammarPage extends WikiPage implements ActionListener {
 	private final Wiki mWiki;
 	private final Title title;
 
-	public GrammarPage(Wiki wiki, GfGrammar grammar) {
+	public GrammarPage(Wiki wiki) {
 		super(wiki);
 		mWiki = wiki;
 
-		mGrammar = grammar;
-		mInfo = grammar.getGrammar();
+		mGrammar = ((GfEngine) wiki.getEngine()).getGfGrammar();
+		mInfo = mGrammar.getGrammar();
 
 		add(title = new Title("", true));
 		addHorizontalLine();
@@ -214,7 +214,7 @@ public class GrammarPage extends WikiPage implements ActionListener {
 		for (TypeGfModule module : mWiki.getOntology().getOntologyElements(TypeGfModule.class)) {
 			sb.append(module.getWord());
 			sb.append(": ");
-			String content = GfModulePage.getModuleContent(module.getArticle()).getText();
+			String content = module.getModuleContent().getText();
 			if (content == null) {
 				countEmpty++;
 				sb.append("EMPTY");
@@ -263,23 +263,24 @@ public class GrammarPage extends WikiPage implements ActionListener {
 					continue;
 				}
 
+				TypeGfModule module = (TypeGfModule) el;
 				String newContent = mGrammar.downloadAsString(filename);
 				String oldContent = null;
 
-				if (el == null) {
-					el = new TypeGfModule();
+				if (module == null) {
+					module = new TypeGfModule((GfEngine) mWiki.getEngine());
 					// TODO: verify that this is correct
-					el.setWords(moduleName);
-					ont.register(el);
+					module.setWords(moduleName);
+					ont.register(module);
 					countNew++;
 					sb.append(" CREATED");
 				} else {
 					countOld++;
-					oldContent = GfModulePage.getModuleContent(el.getArticle()).getText();
+					oldContent = module.getModuleContent().getText();
 				}
 
 				if (! newContent.equals(oldContent)) {
-					GfModulePage.replaceModuleContent(el.getArticle(), newContent);
+					module.replaceModuleContent(newContent);
 					countChanged++;
 					sb.append(" UPDATED");
 				}

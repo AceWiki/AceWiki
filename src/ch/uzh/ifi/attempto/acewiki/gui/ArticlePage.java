@@ -27,13 +27,12 @@ import ch.uzh.ifi.attempto.acewiki.core.Comment;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.GeneralTopic;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
+import ch.uzh.ifi.attempto.acewiki.core.ModuleElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Relation;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.core.TopicElement;
-import ch.uzh.ifi.attempto.acewiki.gf.GfModulePage;
-import ch.uzh.ifi.attempto.acewiki.gf.TypeGfModule;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 
 // TODO Get rid of gf package dependency
@@ -95,8 +94,8 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 			} else {
 				return new GeneralPage((TopicElement) oe, wiki);
 			}
-		} else if (oe instanceof TypeGfModule) {
-			return new GfModulePage(oe, wiki);
+		} else if (oe instanceof ModuleElement) {
+			return new ModulePage((ModuleElement) oe, wiki);
 		}
 		return null;
 	}

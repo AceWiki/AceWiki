@@ -14,35 +14,32 @@
 
 package ch.uzh.ifi.attempto.acewiki.gf;
 
-import ch.uzh.ifi.attempto.acewiki.core.AbstractOntologyElement;
-import ch.uzh.ifi.attempto.acewiki.core.TechnicalElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import ch.uzh.ifi.attempto.acewiki.core.AbstractModuleElement;
+import ch.uzh.ifi.attempto.acewiki.core.ModuleElement;
+import ch.uzh.ifi.attempto.gfservice.GfModule;
+import ch.uzh.ifi.attempto.gfservice.GfParseResult;
+import ch.uzh.ifi.attempto.gfservice.GfServiceException;
+import ch.uzh.ifi.attempto.gfservice.GfStorageResult;
 
 /**
  * Page that represents a GF grammar module
  *
  * @author Kaarel Kaljurand
  */
-public class TypeGfModule extends AbstractOntologyElement implements TechnicalElement {
+public class TypeGfModule extends AbstractModuleElement implements ModuleElement {
+
+	private final Logger mLogger = LoggerFactory.getLogger(TypeGfModule.class);
 
 	public static final String TYPE = "GF Module";
 	public static final String INTERNAL_TYPE = "gfmodule";
 
-	private String mWord = "";
+	private GfEngine mEngine;
 
-	public TypeGfModule() {
-	}
-
-	public String[] getWords() {
-		return new String[] {mWord};
-	}
-
-	public void setWords(String serializedWords) {
-		String[] words = serializedWords.split(";");
-		mWord = words[0];
-	}
-
-	public String serializeWords() {
-		return mWord + ";";
+	public TypeGfModule(GfEngine engine) {
+		mEngine = engine;
 	}
 
 	public String getIRISuffix() {
@@ -59,6 +56,58 @@ public class TypeGfModule extends AbstractOntologyElement implements TechnicalEl
 
 	public static boolean hasType(String type) {
 		return INTERNAL_TYPE.equals(type);
+	}
+
+	public void integrate() {
+		if (!hasContent()) return;
+		if (!mEngine.getGfGrammar().isGrammarEditable()) {
+			throw new RuntimeException("Grammar is not editable");
+		}
+		try {
+			GfStorageResult result = mEngine.getGfGrammar().integrateGfModule(getGfModule());
+
+			if (result.isSuccess()) {
+				GfWikiUtils.clearAllLinearizations(mEngine.getOntology());
+			} else {
+				throw new RuntimeException(result.getResultCode() + ": " +
+						result.getMessage() + " (" + result.getCommand() + ")");
+			}
+		} catch (GfServiceException ex) {
+			mLogger.info("make: GfServiceException: '{}'", ex.getMessage());
+			throw new RuntimeException(ex);
+		}
+	}
+
+	public void parse() throws InvalidSyntaxException {
+		if (!hasContent()) return;
+		try {
+			GfParseResult result = mEngine.getGfGrammar().parseGfModule(getGfModule());
+
+			if (!result.isSuccess()) {
+				mLogger.info("parse: GfParseResult: '{}'", result);
+				String[] pos = result.getLocation().split(":");
+				throw new InvalidSyntaxException(
+						"Syntax error at line:column = " + result.getLocation() + ": " +
+								result.getResultCode(),
+						Integer.parseInt(pos[0]),
+						Integer.parseInt(pos[1]));
+			}
+		} catch (GfServiceException ex) {
+			mLogger.info("parse: GfServiceException: '{}'", ex.getMessage());
+			throw new RuntimeException(ex);
+		}
+	}
+
+	private GfModule getGfModule() {
+		return new GfModule(getWord(), getModuleContent().getText());
+	}
+
+	private boolean hasContent() {
+		return getModuleContent() != null;
+	}
+
+	public String getDefaultContent() {
+		return "resource " + getWord() + " = {\n\n}";
 	}
 
 }
