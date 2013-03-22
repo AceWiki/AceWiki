@@ -58,8 +58,8 @@ public abstract class AbstractSentence extends AbstractStatement implements Sent
 			if (prev != null) {
 				glue = textOperator.getGlue(prev, te);
 			}
-			if (te instanceof OntologyTextElement) {
-				t += glue + ((OntologyTextElement) te).getUnderscoredText();
+			if (te instanceof PrettyTextElement) {
+				t += glue + ((PrettyTextElement) te).getUnderscoredText();
 			} else {
 				t += glue + te.getText();
 			}
