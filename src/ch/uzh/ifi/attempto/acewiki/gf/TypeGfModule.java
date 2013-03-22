@@ -87,8 +87,7 @@ public class TypeGfModule extends AbstractModuleElement implements ModuleElement
 				mLogger.info("parse: GfParseResult: '{}'", result);
 				String[] pos = result.getLocation().split(":");
 				throw new InvalidSyntaxException(
-						"Syntax error at line:column = " + result.getLocation() + ": " +
-								result.getResultCode(),
+						result.getResultCode(),
 						Integer.parseInt(pos[0]),
 						Integer.parseInt(pos[1]));
 			}

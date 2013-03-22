@@ -18,6 +18,7 @@ import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
+import ch.uzh.ifi.attempto.echocomp.SimpleErrorMessageWindow;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.Style;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
@@ -133,10 +134,10 @@ public class ModulePage extends ArticlePage {
 		try {
 			mElement.integrate();
 		} catch (Exception ex) {
-			mWiki.showWindow(new MessageWindow("Error", ex.getMessage(), "OK"));
+			mWiki.showWindow(new SimpleErrorMessageWindow("Error", ex.getMessage()));
 			return;
 		}
-		mWiki.showWindow(new MessageWindow("Success", "Grammar rebuilt successfully", "OK"));
+		mWiki.showWindow(new MessageWindow("Success", "Grammar rebuilt successfully"));
 	}
 
 
@@ -144,21 +145,20 @@ public class ModulePage extends ArticlePage {
 		// TODO: this blocks, do it in the background
 		try {
 			mElement.parse();
-		} catch (InvalidSyntaxException ex) {
-			InvalidSyntaxException iex = (InvalidSyntaxException) ex;
+		} catch (InvalidSyntaxException iex) {
 			Integer l = iex.getLine();
 			Integer c = iex.getColumn();
-			mWiki.showWindow(new MessageWindow("Syntax error",
-					"Syntax error at line/column = " + (l == null ? "?" : l) + "/" +
-							(c == null ? "?" : c) + ": " + ex.getMessage(), "OK"));
+			mWiki.showWindow(new SimpleErrorMessageWindow(
+					"Error at line/column = " + (l == null ? "?" : l) + "/" + (c == null ? "?" : c),
+					iex.getText()));
 			if (l != null) highlightSyntaxError(l);
 			return;
 		} catch (Exception ex) {
-			mWiki.showWindow(new MessageWindow("Error", ex.getMessage(), "OK"));
+			mWiki.showWindow(new SimpleErrorMessageWindow("Error", ex.getMessage()));
 			return;
 		}
 		if (popupOnSuccess) {
-			mWiki.showWindow(new MessageWindow("Success", "There are no syntax errors.", "OK"));
+			mWiki.showWindow(new MessageWindow("Success", "There are no syntax errors."));
 		}
 	}
 
