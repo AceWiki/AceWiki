@@ -32,6 +32,7 @@
         />
         <copy todir="classes">
             <fileset dir="src" includes="**/*.properties"/>
+            <fileset dir="src" includes="*.xml"/>
         </copy>
         <copy todir="classes/ch/uzh/ifi/attempto/echocomp">
             <fileset dir="src/ch/uzh/ifi/attempto/echocomp" includes="*.js"/>
@@ -128,6 +129,11 @@
             <fileset dir="lib/" includes="*.jar"/>
             <fileset dir="." includes="*.jar"/>
         </copy>
+        <mkdir dir="war/WEB-INF/classes"/>
+        <copy todir="war/WEB-INF/classes">
+            <fileset dir="classes" includes="*.properties"/>
+            <fileset dir="classes" includes="*.xml"/>
+        </copy>
         <delete file="acewiki.war"/>
         <jar
             destfile="acewiki.war"
@@ -141,7 +147,7 @@
             <attribute name="DynamicImport-Package" value="*" />
             <attribute name="Web-ContextPath" value="acewiki"/>
             <attribute name="Import-Package" value="javax.servlet,javax.servlet.http,org.w3c.dom,org.xml.sax,javax.xml.transform,javax.xml.transform.stream,javax.xml.transform.dom,javax.xml.parsers"/>
-            <attribute name="Bundle-ClassPath" value=".,WEB-INF/classes,WEB-INF/lib/slf4j-api-1.7.2.jar;WEB-INF/lib/slf4j-simple-1.7.2.jar,WEB-INF/lib/json_simple-1.1.jar,WEB-INF/lib/gf-java-0.8.1.jar,WEB-INF/lib/guava-11.0.1.jar,WEB-INF/lib/Echo3_App.jar,WEB-INF/lib/Echo3_Extras_App.jar,WEB-INF/lib/Echo3_Extras_WebContainer.jar,WEB-INF/lib/Echo3_FileTransfer_App.jar,WEB-INF/lib/Echo3_FileTransfer_Model.jar,WEB-INF/lib/Echo3_FileTransfer_Receiver.jar,WEB-INF/lib/Echo3_FileTransfer_WebContainer.jar,WEB-INF/lib/Echo3_WebContainer.jar,WEB-INF/lib/HermiT.jar,WEB-INF/lib/aterm-java-1.6.jar,WEB-INF/lib/attempto-aceeditor.jar,WEB-INF/lib/attempto-acewiki.jar,WEB-INF/lib/attempto-ape.jar,WEB-INF/lib/attempto-chartparser.jar,WEB-INF/lib/attempto-echo.jar,WEB-INF/lib/commons-codec-1.5.jar,WEB-INF/lib/commons-fileupload-1.2.1.jar,WEB-INF/lib/commons-lang-2.2.jar,WEB-INF/lib/commons-logging-1.1.jar,WEB-INF/lib/echopoint-3.0.0b5.jar,WEB-INF/lib/httpclient-4.1.1.jar,WEB-INF/lib/httpcore-4.1.1.jar,WEB-INF/lib/jdom.jar,WEB-INF/lib/owlapi-bin.jar,WEB-INF/lib/owllink-bin.jar,WEB-INF/lib/relaxngDatatype.jar,WEB-INF/lib/servlet-api.jar,WEB-INF/lib/xsdlib.jar,WEB-INF/lib/xstream-1.3.1.jar"/>
+            <attribute name="Bundle-ClassPath" value=".,WEB-INF/classes,WEB-INF/lib/slf4j-api-1.7.2.jar;WEB-INF/lib/logback-core-1.0.10.jar;WEB-INF/lib/logback-classic-1.0.10.jar,WEB-INF/lib/json_simple-1.1.jar,WEB-INF/lib/gf-java-0.8.1.jar,WEB-INF/lib/guava-11.0.1.jar,WEB-INF/lib/Echo3_App.jar,WEB-INF/lib/Echo3_Extras_App.jar,WEB-INF/lib/Echo3_Extras_WebContainer.jar,WEB-INF/lib/Echo3_FileTransfer_App.jar,WEB-INF/lib/Echo3_FileTransfer_Model.jar,WEB-INF/lib/Echo3_FileTransfer_Receiver.jar,WEB-INF/lib/Echo3_FileTransfer_WebContainer.jar,WEB-INF/lib/Echo3_WebContainer.jar,WEB-INF/lib/HermiT.jar,WEB-INF/lib/aterm-java-1.6.jar,WEB-INF/lib/attempto-aceeditor.jar,WEB-INF/lib/attempto-acewiki.jar,WEB-INF/lib/attempto-ape.jar,WEB-INF/lib/attempto-chartparser.jar,WEB-INF/lib/attempto-echo.jar,WEB-INF/lib/commons-codec-1.5.jar,WEB-INF/lib/commons-fileupload-1.2.1.jar,WEB-INF/lib/commons-lang-2.2.jar,WEB-INF/lib/commons-logging-1.1.jar,WEB-INF/lib/echopoint-3.0.0b5.jar,WEB-INF/lib/httpclient-4.1.1.jar,WEB-INF/lib/httpcore-4.1.1.jar,WEB-INF/lib/jdom.jar,WEB-INF/lib/owlapi-bin.jar,WEB-INF/lib/owllink-bin.jar,WEB-INF/lib/relaxngDatatype.jar,WEB-INF/lib/servlet-api.jar,WEB-INF/lib/xsdlib.jar,WEB-INF/lib/xstream-1.3.1.jar"/>
           </manifest>
         </jar>
     </target>
@@ -156,8 +162,13 @@
             <fileset dir="." includes="acewiki-*.zip"/>
         </delete>
         <delete dir="classes/ch/"/>
+        <delete>
+            <fileset dir="classes" includes="*.properties"/>
+            <fileset dir="classes" includes="*.xml"/>
+        </delete>
         <delete dir="docs/"/>
         <delete dir="war/WEB-INF/lib/"/>
+        <delete dir="war/WEB-INF/classes/"/>
     </target>
     
     <target name="buildeverything"

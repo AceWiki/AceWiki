@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+  <appender name="ROOT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%8r \(%d\) [%4X{sessionId}] '%X{username}' [%X{type}] %m%n</pattern>
+    </encoder>
+  </appender>
+  <root level="INFO">
+    <appender-ref ref="ROOT"/>
+  </root>
+
+  <appender name="SYST" class="ch.qos.logback.core.FileAppender">
+    <File>logs/new/syst.log</File>
+    <encoder>
+      <pattern>%t %8r \(%d\) [%4X{sessionId}] 'syst' [%X{type}] %m%n</pattern>
+    </encoder>
+  </appender>
+  <logger name="ch.uzh.ifi.attempto.acewiki.AceWikiServlet" additivity="false" level="INFO">
+    <appender-ref ref="SYST"/>
+  </logger>
+
+  <appender name="ONTO" class="ch.qos.logback.classic.sift.SiftingAppender">
+    <discriminator class="ch.qos.logback.classic.sift.MDCBasedDiscriminator">
+      <key>module</key>
+      <defaultValue>unknown-onto</defaultValue>
+    </discriminator>
+    <sift>
+      <appender name="ONTO-${module}" class="ch.qos.logback.core.FileAppender">
+        <File>logs/new/${module}.log</File>
+        <encoder>
+          <pattern>%t %8r \(%d\) [%4X{sessionId}] '%X{username}' [%X{type}] %m%n</pattern>
+        </encoder>
+      </appender>
+    </sift>
+  </appender>
+
+  <logger name="ch.uzh.ifi.attempto.acewiki.core.Ontology" additivity="false" level="INFO">
+    <appender-ref ref="ONTO"/>
+  </logger>
+  <logger name="ch.uzh.ifi.attempto.acewiki.Wiki" additivity="false" level="INFO">
+    <appender-ref ref="ONTO"/>
+  </logger>
+
+</configuration>
+

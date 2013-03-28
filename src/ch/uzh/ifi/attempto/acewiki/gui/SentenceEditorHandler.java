@@ -71,6 +71,7 @@ public class SentenceEditorHandler implements ActionListener {
 		// slf4j.MDC should exist once per thread and be accessible throughout the thread life and context.
 		// Check that slf4j.MDC indeed gets automatically propagated to editorWindow.
 		editorWindow.setLogger(wiki.getLogger());
+		editorWindow.setSlf4jLogger(wiki.getSlf4jLogger());
 		editorWindow.addActionListener(this);
 		editorWindow.setTextOperator(lh.getTextOperator());
 		

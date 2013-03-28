@@ -4,6 +4,7 @@ local
 /*.war
 /*.zip
 /*.jar
+/war/WEB-INF/classes
 /war/WEB-INF/lib
 /lib/pellet-*.jar
 /.settings

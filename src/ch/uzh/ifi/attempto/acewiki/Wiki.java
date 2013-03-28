@@ -1094,6 +1094,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	public Logger getLogger() {
 		return logger;
 	}
+	public org.slf4j.Logger getSlf4jLogger() {
+		return log;
+	}
 
 	/**
 	 * Runs the task without showing a wait window while it is executed.
