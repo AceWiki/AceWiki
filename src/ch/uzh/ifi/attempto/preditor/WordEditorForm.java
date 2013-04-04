@@ -35,6 +35,7 @@ import nextapp.echo.app.layout.GridLayoutData;
 import ch.uzh.ifi.attempto.echocomp.EchoThread;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.Label;
+import ch.uzh.ifi.attempto.echocomp.LocaleResources;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.TextField;
 
@@ -47,7 +48,12 @@ import ch.uzh.ifi.attempto.echocomp.TextField;
 public class WordEditorForm extends ContentPane implements ActionListener {
 
 	private static final long serialVersionUID = 5886665203518065212L;
-	
+
+	static {
+		LocaleResources.loadBundle("ch/uzh/ifi/attempto/echocomp/text");
+		LocaleResources.loadBundle("ch/uzh/ifi/attempto/preditor/text");
+	}
+
 	private ActionListener actionListener;
 	private WindowPane parentWindow;
 	private Row buttonBar;
@@ -88,7 +94,8 @@ public class WordEditorForm extends ContentPane implements ActionListener {
 		
 		Row footerRow = new Row();
 		footerRow.setInsets(new Insets(10, 0, 0, 0));
-		footerRow.add(new Label("* required field", Font.ITALIC, 11));
+		String l = "* " + LocaleResources.getString("preditor_wordeditor_required");
+		footerRow.add(new Label(l, Font.ITALIC, 11));
 		grid.add(footerRow);
 		
 		buttonBar = new Row();
