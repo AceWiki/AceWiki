@@ -594,6 +594,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			Label loginBgLogo = new Label(getImage("AceWikiLogoSmall.png"));
 			loginBackground.add(loginBgLogo);
 			loginBackground.add(new Title(config.getParameter("title"), true));
+			loginBackground.add(externalEventMonitor);
 			getContentPane().add(loginBackground);
 			getContentPane().setBackground(new Color(230, 230, 230));
 		}
