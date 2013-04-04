@@ -954,6 +954,11 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		return user;
 	}
 
+	public boolean hasUserRight(String right) {
+		if (user == null) return false;
+		return user.hasRight(right);
+	}
+
 	/**
 	 * Sets the user.
 	 *

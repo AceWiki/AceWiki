@@ -127,6 +127,11 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 		if (getWiki().getConfig().isCommentingEnabled()) {
 			dropDown.addMenuEntry("acewiki_statementmenu_addcomm", "acewiki_statementmenu_addcommtooltip");
 		}
+		if ("on".equals(getWiki().getConfig().getParameter("statement_shuffle_command")) &&
+				getWiki().hasUserRight("statement_shuffle")) {
+			dropDown.addMenuSeparator();
+			dropDown.addMenuEntry("Shuffle statements", "Shuffle the statements of this article");
+		}
 
 		textColumn.removeAll();
 
@@ -182,19 +187,28 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("acewiki_statementmenu_addsent")) {
+		String c = e.getActionCommand();
+		if (c.equals("acewiki_statementmenu_addsent")) {
 			log("page", "dropdown: add sentence");
 			if (!getWiki().isEditable()) {
 				getWiki().showLoginWindow();
 			} else {
 				getWiki().showWindow(SentenceEditorHandler.generateCreationWindow(null, this));
 			}
-		} else if (e.getActionCommand().equals("acewiki_statementmenu_addcomm")) {
+		} else if (c.equals("acewiki_statementmenu_addcomm")) {
 			log("page", "dropdown: add comment");
 			if (!getWiki().isEditable()) {
 				getWiki().showLoginWindow();
 			} else {
 				getWiki().showWindow(CommentEditorHandler.generateCreationWindow(null, this));
+			}
+		} else if (c.equals("Shuffle statements")) {
+			log("page", "dropdown: shuffle statements");
+			if (!getWiki().isEditable()) {
+				getWiki().showLoginWindow();
+			} else {
+				getArticle().shuffleStatements();
+				update();
 			}
 		} else if (e.getSource() == title) {
 			getWiki().showEditorWindow(getOntologyElement());

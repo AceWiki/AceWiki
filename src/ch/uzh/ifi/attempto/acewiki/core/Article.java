@@ -15,6 +15,7 @@
 package ch.uzh.ifi.attempto.acewiki.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
@@ -68,6 +69,11 @@ public class Article {
 	 */
 	public List<Statement> getStatements() {
 		return new ArrayList<Statement>(statements);
+	}
+	
+	public void shuffleStatements() {
+		Collections.shuffle(statements);
+		ontology.getStorage().save(element);
 	}
 	
 	/**

@@ -103,7 +103,6 @@ public class User {
 
 	public boolean hasRight(String right) {
 		Set<String> rights = getRights();
-		System.err.println(rights);
 		if (rights.contains("all")) return true;
 		return rights.contains(right);
 	}

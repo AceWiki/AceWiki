@@ -28,7 +28,6 @@ import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
-import ch.uzh.ifi.attempto.acewiki.core.User;
 import ch.uzh.ifi.attempto.acewiki.gf.GfEngine;
 import ch.uzh.ifi.attempto.acewiki.gf.GfGrammar;
 import ch.uzh.ifi.attempto.acewiki.gf.TypeGfModule;
@@ -76,18 +75,15 @@ public class GrammarPage extends WikiPage implements ActionListener {
 		addHorizontalLine();
 		add(new VSpace(10));
 
-		User user = mWiki.getUser();
-		if (user != null) {
-			if (user.hasRight("grammar_refresh")) {
-				Row buttonRow = new Row();
-				buttonRow.setCellSpacing(new Extent(10));
-				buttonRow.setInsets(INSETS);
-				buttonRow.add(new GeneralButton(ACTION_GRAMMAR_PUSH, this));
-				buttonRow.add(new GeneralButton(ACTION_GRAMMAR_PULL, this));
-				buttonRow.add(new GeneralButton(ACTION_GRAMMAR_RM_GFO, this));
-				add(buttonRow);
-				add(new VSpace(10));
-			}
+		if (mWiki.hasUserRight("grammar_refresh")) {
+			Row buttonRow = new Row();
+			buttonRow.setCellSpacing(new Extent(10));
+			buttonRow.setInsets(INSETS);
+			buttonRow.add(new GeneralButton(ACTION_GRAMMAR_PUSH, this));
+			buttonRow.add(new GeneralButton(ACTION_GRAMMAR_PULL, this));
+			buttonRow.add(new GeneralButton(ACTION_GRAMMAR_RM_GFO, this));
+			add(buttonRow);
+			add(new VSpace(10));
 		}
 
 		table1 = new CompTable();
