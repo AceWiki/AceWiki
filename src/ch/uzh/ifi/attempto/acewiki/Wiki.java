@@ -968,10 +968,13 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		userLabel.setText(user.getName());
 		logoutButton.setVisible(true);
 		if (loginBackground != null) {
+			loginBackground = null;
+			buildContentPane();
 			getContentPane().removeAll();
 			getContentPane().add(wikiPane);
 			getContentPane().setBackground(Color.WHITE);
-			loginBackground = null;
+			update();
+			refresh();
 		}
 		setCookie("lastusername", user.getName());
 	}
