@@ -42,10 +42,7 @@ import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultGrammar;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Splitter;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Sets;
 
 // TODO Get rid of gf package dependency or move to gf package
 
@@ -60,7 +57,6 @@ public class GrammarPage extends WikiPage implements ActionListener {
 	private static final long serialVersionUID = -2031690219932377941L;
 	private static final Joiner JOINER_SPACE = Joiner.on(' ');
 	private static final Joiner JOINER_COMMA = Joiner.on(", ");
-	private static final Splitter SPLITTER_RIGHTS = Splitter.on(",").omitEmptyStrings().trimResults();
 	private final CompTable table1, table2, table3, table4;
 	private final CompTable mTableTokens;
 	private final Label mTableTokensLabel = new Label();
@@ -80,17 +76,9 @@ public class GrammarPage extends WikiPage implements ActionListener {
 		addHorizontalLine();
 		add(new VSpace(10));
 
-		// If the user has "all" the "rights" then show the grammar push/pull buttons.
-		// The rights can be granted by manually editing the users' file and adding a line a la:
-		// rights:all,some,delete_user,edit_grammar
-
 		User user = mWiki.getUser();
 		if (user != null) {
-			// The user has certain rights.
-			Set<String> hasRights = ImmutableSet.copyOf(SPLITTER_RIGHTS.split(user.getUserData("rights")));
-			// In order to push/pull the grammar she needs at least 1 of the following rights:
-			Set<String> needsRightsSome = ImmutableSet.of("all", "grammar_refresh");
-			if (! Sets.intersection(hasRights, needsRightsSome).isEmpty()) {
+			if (user.hasRight("grammar_refresh")) {
 				Row buttonRow = new Row();
 				buttonRow.setCellSpacing(new Extent(10));
 				buttonRow.setInsets(INSETS);

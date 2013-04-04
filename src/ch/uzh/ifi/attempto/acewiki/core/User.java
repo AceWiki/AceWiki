@@ -18,6 +18,10 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableSet;
 
 /**
  * This class represents an AceWiki user.
@@ -25,6 +29,8 @@ import java.util.Map;
  * @author Tobias Kuhn
  */
 public class User {
+
+	private static final Splitter SPLITTER_RIGHTS = Splitter.on(",").omitEmptyStrings().trimResults();
 	
 	private final long id;
 	private String name;
@@ -87,6 +93,19 @@ public class User {
 	 */
 	public String getHashedPassword() {
 		return hashedPw;
+	}
+
+	// The rights can be granted by manually editing the users' file and adding a line a la:
+	// rights:all,some,delete_user,edit_grammar
+	public Set<String> getRights() {
+		return ImmutableSet.copyOf(SPLITTER_RIGHTS.split(getUserData("rights")));
+	}
+
+	public boolean hasRight(String right) {
+		Set<String> rights = getRights();
+		System.err.println(rights);
+		if (rights.contains("all")) return true;
+		return rights.contains(right);
 	}
 	
 	/**
