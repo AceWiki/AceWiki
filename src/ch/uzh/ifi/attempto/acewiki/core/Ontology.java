@@ -25,6 +25,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 
 import ch.uzh.ifi.attempto.base.Logger;
+import ch.uzh.ifi.attempto.base.LoggerContext;
 
 /**
  * This class represents an AceWiki ontology which consists of ontology element definitions and
@@ -39,6 +40,7 @@ public class Ontology {
 	private CachingReasoner reasoner;
 	private StatementFactory statementFactory;
 	private AceWikiStorage storage;
+	private LoggerContext loggerContext;
 	private final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(this.getClass());
 	// TODO(uvictor): remove logger
 	private Logger logger;
@@ -64,11 +66,7 @@ public class Ontology {
 		this.storage = storage;
 
 		// TODO(uvictor): check if we have conflicting MDC puts (multiple logged classes in the same thread)
-		org.slf4j.MDC.put("module", name);
-		org.slf4j.MDC.put("username", "onto");
-		// TODO(uvictor): remove sessionId if it is not needed (slf4j doesn't need it explicitly)
-		org.slf4j.MDC.put("sessionId", "0");
-		org.slf4j.MDC.put("type", "onto");
+		loggerContext = new LoggerContext(name, "onto", "0");
 		// TODO(uvictor): remove logger
 		logger = new Logger(parameters.get("context:logdir") + "/" + name, "onto", 0);
 
@@ -399,6 +397,8 @@ public class Ontology {
 	 * @param text Log text.
 	 */
 	public void log(String text) {
+		loggerContext.propagateWithinThread();
+		org.slf4j.MDC.put("type", "onto");
 		log.info(text);
 		logger.log("onto", text);
 	}

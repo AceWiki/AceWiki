@@ -36,6 +36,7 @@ import nextapp.echo.app.layout.GridLayoutData;
 import ch.uzh.ifi.attempto.base.ConcreteOption;
 import ch.uzh.ifi.attempto.base.DefaultTextOperator;
 import ch.uzh.ifi.attempto.base.Logger;
+import ch.uzh.ifi.attempto.base.LoggerContext;
 import ch.uzh.ifi.attempto.base.NextTokenOptions;
 import ch.uzh.ifi.attempto.base.PredictiveParser;
 import ch.uzh.ifi.attempto.base.TextContainer;
@@ -74,7 +75,8 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 	private TextOperator textOperator;
 	private PredictiveParser parser;
 	private List<ActionListener> actionListeners = new ArrayList<ActionListener>();
-	private org.slf4j.Logger log;
+	private LoggerContext loggerContext;
+	private final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(this.getClass());
 	// TODO(uvictor): remove logger
 	private Logger logger;
 	
@@ -645,14 +647,17 @@ public class PreditorWindow extends nextapp.echo.app.WindowPane implements Actio
 	public void setLogger(Logger logger) {
 		this.logger = logger;
 	}
-	public void setSlf4jLogger(org.slf4j.Logger log) {
-		this.log = log;
+	public void setLoggerContext(LoggerContext loggerContext) {
+		this.loggerContext = loggerContext;
 	}
 	
 	// TODO(uvictor): remove this method (after removing logger)
 	private void log(String text) {
-		org.slf4j.MDC.put("type", "pred");
-		log.info(text);
+		if (loggerContext != null) {
+			loggerContext.propagateWithinThread();
+			org.slf4j.MDC.put("type", "pred");
+			log.info(text);
+		}
 		if (logger != null) {
 			logger.log("pred", text);
 		}

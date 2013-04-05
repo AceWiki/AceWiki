@@ -75,6 +75,7 @@ import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.acewiki.gui.UserWindow;
 import ch.uzh.ifi.attempto.acewiki.gui.WikiPage;
 import ch.uzh.ifi.attempto.base.Logger;
+import ch.uzh.ifi.attempto.base.LoggerContext;
 import ch.uzh.ifi.attempto.echocomp.EchoThread;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.Label;
@@ -119,6 +120,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	private Column pageCol;
 	private ContentPane contentPane = new ContentPane();
 	private Row navigationButtons;
+	private final LoggerContext loggerContext;
 	private final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(this.getClass());
 	// TODO(uvictor): remove logger
 	private Logger logger;
@@ -173,9 +175,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		ontology = backend.getOntology();
 		engine = ontology.getEngine();
 
-		org.slf4j.MDC.put("module", ontology.getName());
-		org.slf4j.MDC.put("username", "anon");
-		org.slf4j.MDC.put("sessionId", String.valueOf(sessionId));
+		loggerContext = new LoggerContext(ontology.getName(), "anon", String.valueOf(sessionId));
+		loggerContext.propagateWithinThread();
 		// TODO(uvictor): remove logger
 		logger = new Logger(config.getParameter("context:logdir") + "/" + ontology.getName(), "anon", sessionId);
 		application = (AceWikiApp) EchoThread.getActiveApplication();
@@ -908,6 +909,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * @param text The text of the log entry.
 	 */
 	public void log(String type, String text) {
+		loggerContext.propagateWithinThread();
 		org.slf4j.MDC.put("type", type);
 		log.info(text);
 		// TODO(uvictor): remove logger
@@ -966,7 +968,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 */
 	private void setUser(User user) {
 		this.user = user;
-		org.slf4j.MDC.put("username", user.getName());
+		loggerContext.setUsername(user.getName());
 		// TODO(uvictor): remove logger
 		logger.setUsername(user.getName());
 		userLabel.setForeground(Color.BLACK);
@@ -1103,8 +1105,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	public Logger getLogger() {
 		return logger;
 	}
-	public org.slf4j.Logger getSlf4jLogger() {
-		return log;
+	public LoggerContext getLoggerContext() {
+		return loggerContext;
 	}
 
 	/**

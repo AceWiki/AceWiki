@@ -29,6 +29,7 @@ import nextapp.echo.webcontainer.WebContainerServlet;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiConfig;
 import ch.uzh.ifi.attempto.base.APE;
 import ch.uzh.ifi.attempto.base.Logger;
+import ch.uzh.ifi.attempto.base.LoggerContext;
 
 /**
  * This servlet class is used by the web server to start AceWiki.
@@ -51,6 +52,7 @@ public class AceWikiServlet extends WebContainerServlet {
 	private static final long serialVersionUID = -7342857942059126499L;
 
 	private final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(this.getClass());
+	private LoggerContext loggerContext;
 	// TODO(uvictor): remove logger
 	private Logger logger;
 	private Backend backend;
@@ -73,15 +75,14 @@ public class AceWikiServlet extends WebContainerServlet {
 	public void init(ServletConfig config) throws ServletException {
 		Map<String, String> parameters = getInitParameters(config);
 
-		// TODO(uvictor): check if we have conflicting MDC puts (multiple logged classes in the same thread)
-		org.slf4j.MDC.put("module", "syst");
-		org.slf4j.MDC.put("username", "syst");
-		// TODO(uvictor): is it ok not specifying the sessionId at all? (slf4j doesn't forces us to)
-		org.slf4j.MDC.put("sessionId", "0");
-		org.slf4j.MDC.put("type", "appl");
+		if (loggerContext == null) {
+			loggerContext = new LoggerContext("syst", "syst", "0");
+		}
 		if (logger == null) {
 			logger = new Logger(parameters.get("context:logdir") + "/syst", "syst", 0);
 		}
+		loggerContext.propagateWithinThread();
+		org.slf4j.MDC.put("type", "appl");
 
 		backendName = config.getInitParameter("backend");
 
@@ -121,6 +122,7 @@ public class AceWikiServlet extends WebContainerServlet {
 	}
 
 	public ApplicationInstance newApplicationInstance() {
+		loggerContext.propagateWithinThread();
 		org.slf4j.MDC.put("type", "appl");
 		log.info("new application instance: {}", appConfig.getParameter("ontology"));
 		logger.log("appl", "new application instance: " + appConfig.getParameter("ontology"));
@@ -160,6 +162,7 @@ public class AceWikiServlet extends WebContainerServlet {
 		try {
 			super.process(request, response);
 		} catch (RuntimeException | IOException | ServletException ex) {
+			loggerContext.propagateWithinThread();
 			log.error("fatal error", ex);
 			logger.log("fail", "fatal error: " + ex);
 			ex.printStackTrace();

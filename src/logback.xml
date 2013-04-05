@@ -3,7 +3,7 @@
 <configuration>
   <appender name="ROOT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
-      <pattern>%8r \(%d\) [%4X{sessionId}] '%X{username}' [%X{type}] %m%n</pattern>
+      <pattern>%13r \(%d\) [%4X{sessionId}] '%X{username}' [%X{type}] %m%n</pattern>
     </encoder>
   </appender>
   <root level="INFO">
@@ -13,7 +13,7 @@
   <appender name="SYST" class="ch.qos.logback.core.FileAppender">
     <File>logs/new/syst.log</File>
     <encoder>
-      <pattern>%t %8r \(%d\) [%4X{sessionId}] 'syst' [%X{type}] %m%n</pattern>
+      <pattern>%13r \(%d\) [%4X{sessionId}] 'syst' [%X{type}] %m%n</pattern>
     </encoder>
   </appender>
   <logger name="ch.uzh.ifi.attempto.acewiki.AceWikiServlet" additivity="false" level="INFO">
@@ -29,7 +29,7 @@
       <appender name="ONTO-${module}" class="ch.qos.logback.core.FileAppender">
         <File>logs/new/${module}.log</File>
         <encoder>
-          <pattern>%t %8r \(%d\) [%4X{sessionId}] '%X{username}' [%X{type}] %m%n</pattern>
+          <pattern>%13r \(%d\) [%4X{sessionId}] '%X{username}' [%X{type}] %m%n</pattern>
         </encoder>
       </appender>
     </sift>
@@ -39,6 +39,9 @@
     <appender-ref ref="ONTO"/>
   </logger>
   <logger name="ch.uzh.ifi.attempto.acewiki.Wiki" additivity="false" level="INFO">
+    <appender-ref ref="ONTO"/>
+  </logger>
+  <logger name="ch.uzh.ifi.attempto.preditor.PreditorWindow" additivity="false" level="INFO">
     <appender-ref ref="ONTO"/>
   </logger>
 
