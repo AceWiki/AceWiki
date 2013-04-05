@@ -28,6 +28,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ch.uzh.ifi.attempto.acewiki.core.Article;
 import ch.uzh.ifi.attempto.acewiki.core.Declaration;
 import ch.uzh.ifi.attempto.acewiki.core.MultilingualSentence;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
@@ -410,6 +411,13 @@ public class GfDeclaration extends MultilingualSentence implements Declaration {
 					DRSPP
 					);
 		}
+	}
+
+	public GfDeclaration copyFor(Article article) {
+		GfDeclaration c = new GfDeclaration(mGfGrammar, mGfWikiEntry);
+		c.init(getOntology(), article);
+		c.setIntegrated(isIntegrated());
+		return c;
 	}
 
 }

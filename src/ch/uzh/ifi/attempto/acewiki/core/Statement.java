@@ -61,4 +61,6 @@ public interface Statement {
 	 */
 	public String serialize();
 
+	public Statement copyFor(Article article);
+
 }

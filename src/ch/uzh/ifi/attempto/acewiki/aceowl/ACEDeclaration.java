@@ -14,6 +14,7 @@
 
 package ch.uzh.ifi.attempto.acewiki.aceowl;
 
+import ch.uzh.ifi.attempto.acewiki.core.Article;
 import ch.uzh.ifi.attempto.acewiki.core.Declaration;
 import ch.uzh.ifi.attempto.base.TextContainer;
 
@@ -40,6 +41,13 @@ public class ACEDeclaration extends ACESentence implements Declaration {
 	 */
 	public ACEDeclaration(TextContainer textContainer) {
 		super(textContainer);
+	}
+
+	public ACEDeclaration copyFor(Article article) {
+		ACEDeclaration c = new ACEDeclaration(serialize());
+		c.init(getOntology(), article);
+		c.setIntegrated(isIntegrated());
+		return c;
 	}
 
 }

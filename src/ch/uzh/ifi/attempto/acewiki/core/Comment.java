@@ -82,4 +82,10 @@ public class Comment extends AbstractStatement {
 		return Splitter.on("~b").split(text.replaceAll("([a-zA-Z0-9_-]+)", "~b$1~b"));
 	}
 
+	public Comment copyFor(Article article) {
+		Comment c = new Comment(text);
+		c.init(getOntology(), article);
+		return c;
+	}
+
 }

@@ -33,7 +33,9 @@ import ch.uzh.ifi.attempto.acewiki.core.Relation;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.core.TopicElement;
+import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
+import ch.uzh.ifi.attempto.echocomp.TextFieldWindow;
 
 // TODO Get rid of gf package dependency
 
@@ -127,10 +129,11 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 		if (getWiki().getConfig().isCommentingEnabled()) {
 			dropDown.addMenuEntry("acewiki_statementmenu_addcomm", "acewiki_statementmenu_addcommtooltip");
 		}
-		if ("on".equals(getWiki().getConfig().getParameter("statement_shuffle_command")) &&
-				getWiki().hasUserRight("statement_shuffle")) {
+		if ("on".equals(getWiki().getConfig().getParameter("advanced_commands")) &&
+				getWiki().hasUserRight("advanced_commands")) {
 			dropDown.addMenuSeparator();
 			dropDown.addMenuEntry("Shuffle statements", "Shuffle the statements of this article");
+			dropDown.addMenuEntry("Copy content from ...", "Copy the content from another article");
 		}
 
 		textColumn.removeAll();
@@ -188,6 +191,8 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		String c = e.getActionCommand();
+		Object src = e.getSource();
+		
 		if (c.equals("acewiki_statementmenu_addsent")) {
 			log("page", "dropdown: add sentence");
 			if (!getWiki().isEditable()) {
@@ -210,7 +215,27 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 				getArticle().shuffleStatements();
 				update();
 			}
-		} else if (e.getSource() == title) {
+		} else if (c.equals("Copy content from ...")) {
+			log("page", "dropdown: copy content");
+			if (!getWiki().isEditable()) {
+				getWiki().showLoginWindow();
+			} else {
+				getWiki().showWindow(new TextFieldWindow("Copy content", "From article:", this));
+			}
+		} else if (src instanceof TextFieldWindow) {
+			TextFieldWindow tfw = (TextFieldWindow) src;
+			if (tfw.getTitle().equals("Copy content") && c.equals("OK")) {
+				OntologyElement oe = getWiki().getOntology().getElement(tfw.getText());
+				if (oe == null) {
+					getWiki().showWindow(new MessageWindow("Error", "Element not found.", "OK"));
+				} else {
+					for (Statement st : oe.getArticle().getStatements()) {
+						getArticle().add(null, st.copyFor(getArticle()));
+					}
+					update();
+				}
+			}
+		} else if (src == title) {
 			getWiki().showEditorWindow(getOntologyElement());
 		}
 	}

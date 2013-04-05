@@ -21,6 +21,7 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectOneOf;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
+import ch.uzh.ifi.attempto.acewiki.core.Article;
 import ch.uzh.ifi.attempto.acewiki.owl.OWLQuestion;
 import ch.uzh.ifi.attempto.base.TextContainer;
 
@@ -99,6 +100,13 @@ public class ACEQuestion extends ACESentence implements OWLQuestion {
 	
 	public boolean isReasonable() {
 		return false;
+	}
+
+	public ACEQuestion copyFor(Article article) {
+		ACEQuestion c = new ACEQuestion(serialize());
+		c.init(getOntology(), article);
+		c.setIntegrated(isIntegrated());
+		return c;
 	}
 
 }
