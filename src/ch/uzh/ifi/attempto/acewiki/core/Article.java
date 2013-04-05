@@ -182,6 +182,17 @@ public class Article {
 		}
 	}
 	
+	public void addCopiedStatement(Statement followingStatement, Statement newStatement) {
+		if (statements.contains(followingStatement)) {
+			statements.add(statements.indexOf(followingStatement), newStatement);
+		} else {
+			if (followingStatement != null) {
+				log("error: statement is not around anymore");
+			}
+			statements.add(newStatement);
+		}
+	}
+	
 	private String getStatementsString(List<Statement> statements) {
 		String result = "";
 		for (Statement s : statements) {

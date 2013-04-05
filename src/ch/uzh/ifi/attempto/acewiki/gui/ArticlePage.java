@@ -37,8 +37,6 @@ import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.TextFieldWindow;
 
-// TODO Get rid of gf package dependency
-
 /**
  * This class stands for a wiki page that represents an ontology element and shows the
  * article of this ontology element.
@@ -230,7 +228,7 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 					getWiki().showWindow(new MessageWindow("Error", "Element not found.", "OK"));
 				} else {
 					for (Statement st : oe.getArticle().getStatements()) {
-						getArticle().add(null, st.copyFor(getArticle()));
+						getArticle().addCopiedStatement(null, st.copyFor(getArticle()));
 					}
 					update();
 				}
