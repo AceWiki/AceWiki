@@ -193,6 +193,7 @@ public class SentenceEditorHandler implements ActionListener {
 			boolean inconsistent = false;
 			
 			public void run() {
+				String loggingLanguage = a.getOntology().getLoggingLanguage();
 				try {
 					if (edit) {
 						org.slf4j.MDC.put("type", "edit");
@@ -201,8 +202,8 @@ public class SentenceEditorHandler implements ActionListener {
 						wiki.log("edit", "statement of " + a.getOntologyElement().getWord() + ": " +
 								statement.getText(wiki.getLanguage()) + " > " +
 								getSentencesString(newSentences, wiki.getLanguage()) +
-								"(" + statement.getText(getDefaultLanguage()) + " > " +
-								getSentencesString(newSentences, getDefaultLanguage()) + ")");
+								"(" + statement.getText(loggingLanguage) + " > " +
+								getSentencesString(newSentences, loggingLanguage) + ")");
 						
 						List<Statement> l = new ArrayList<Statement>(newSentences);
 						a.edit(statement, l);
@@ -213,7 +214,7 @@ public class SentenceEditorHandler implements ActionListener {
 						
 						wiki.log("edit", "statement of " + a.getOntologyElement().getWord() + ": " +
 								getSentencesString(newSentences, wiki.getLanguage()) +
-								"(" + getSentencesString(newSentences, getDefaultLanguage()) + ")");
+								"(" + getSentencesString(newSentences, loggingLanguage) + ")");
 
 						a.add(statement, new ArrayList<Statement>(newSentences));
 					}
@@ -229,11 +230,7 @@ public class SentenceEditorHandler implements ActionListener {
 				}
 				return result;
 			}
-			
-			private String getDefaultLanguage() {
-				return a.getOntology().getEngine().getLanguages()[0];
-			}
-			
+
 			public void updateGUI() {
 				page.update();
 				if (inconsistent) {

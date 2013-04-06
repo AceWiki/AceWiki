@@ -219,7 +219,7 @@ public class SentenceComponent extends Column implements ActionListener {
 							Article a = sentence.getArticle();
 							wiki.log("edit", "remove statement of " + a.getOntologyElement().getWord() + ": " +
 									sentence.getText(wiki.getLanguage()) +
-									" (" + sentence.getText(a.getOntology().getEngine().getLanguages()[0]) + ")");
+									" (" + sentence.getText(a.getOntology().getLoggingLanguage()) + ")");
 							
 							a.remove(sentence);
 						}
@@ -234,7 +234,7 @@ public class SentenceComponent extends Column implements ActionListener {
 
 	private void log(String text) {
 		if (text.endsWith(":")) {
-			text += " " + sentence.getText(wiki.getEngine().getLanguages()[0]);
+			text += " " + sentence.getText(wiki.getOntology().getLoggingLanguage());
 		}
 		wiki.log("page", text);
 	}

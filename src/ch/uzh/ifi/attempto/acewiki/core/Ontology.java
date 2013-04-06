@@ -459,4 +459,19 @@ public class Ontology {
 		return ImmutableSet.copyOf(Splitter.on(',').omitEmptyStrings().trimResults().split(valueAsStr));
 	}
 
+
+	/**
+	 * Returns the language that should be used to express the wiki sentences in the log.
+	 * In multilingual wikis this language should express the edited sentences
+	 * as clearly and readably as possible, i.e. it should be based on English
+	 * and avoid ambiguity. In ACE-based wikis, ACE is a good candidate.
+	 */
+	public String getLoggingLanguage() {
+		String loggingLanguage = getParameter("logging_language");
+		if (loggingLanguage == null) {
+			return getEngine().getLanguages()[0];
+		}
+		return loggingLanguage;
+	}
+
 }
