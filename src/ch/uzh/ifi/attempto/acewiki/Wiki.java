@@ -186,6 +186,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		if (language == null || language.equals("")) {
 			language = engine.getLanguages()[0];
 		}
+		log("syst", "language set to " + language);
 
 		if (config.isLanguageSwitchingEnabled()) {
 			String showLang = getURLParameterValue("showlang");
@@ -885,7 +886,9 @@ public class Wiki implements ActionListener, ExternalEventListener {
 			log("edit", "new word: " + te.getOntologyElement().getWord());
 			showPage(te.getOntologyElement());
 		} else if (languageButtons.contains(src)) {
-			switchLanguage(engine.getLanguages()[languageButtons.indexOf(src)]);
+			String language = engine.getLanguages()[languageButtons.indexOf(src)];
+			log("page", "pressed: " + language);
+			switchLanguage(language);
 		}
 	}
 
@@ -897,6 +900,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		}
 		p = e.getParameter("lang");
 		if (p != null &&Arrays.asList(engine.getLanguages()).contains(p)) {
+			log("syst", "external: lang to " + p);
 			switchLanguage(p);
 		}
 	}
@@ -1065,6 +1069,7 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * @param language The new language.
 	 */
 	public void switchLanguage(String language) {
+		log("syst", "change language to " + language);
 		this.language = language;
 		String[] languages = engine.getLanguages();
 		for (int i = 0 ; i < languages.length ; i++) {

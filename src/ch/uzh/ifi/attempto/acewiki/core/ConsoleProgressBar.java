@@ -14,8 +14,11 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
+// TODO(uvictor): this class is no longer used. Remove it?
 /**
  * This class shows a simple progress bar on the standard error channel.
+ * 
+ * @deprecated
  */
 class ConsoleProgressBar {
 	

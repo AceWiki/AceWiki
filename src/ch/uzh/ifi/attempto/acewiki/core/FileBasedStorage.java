@@ -89,16 +89,12 @@ public class FileBasedStorage implements AceWikiStorage {
 		incompleteOntologies.add(ontology);
 		ontologies.put(name, ontology);
 		ontology.log("loading ontology");
-		System.err.println("Loading '" + name + "'");
 		log.info("Loading: '{}'", name);
 
 		File dataDir = new File(dir + "/" + name);
 		File dataFile = new File(dir + "/" + name + ".acewikidata");
 		if (dataDir.exists()) {
-			System.err.print("Entities:   ");
-			ConsoleProgressBar pb1 = new ConsoleProgressBar(dataDir.listFiles().length);
 			for (File file : dataDir.listFiles()) {
-				pb1.addOne();
 				try {
 					long id = new Long(file.getName());
 					FileInputStream in = new FileInputStream(file);
@@ -113,18 +109,13 @@ public class FileBasedStorage implements AceWikiStorage {
 					ontology.log("cannot read file: " + file.getName());
 				}
 			}
-			pb1.complete();
 		} else if (dataFile.exists()) {
-			System.err.print("Entities:   ");
-			ConsoleProgressBar pb1 = null;
 			try {
 				BufferedReader in = new BufferedReader(new FileReader(dataFile));
-				pb1 = new ConsoleProgressBar(dataFile.length());
 				String s = "";
 				String line = in.readLine();
 				long id = -1;
 				while (line != null) {
-					pb1.add(line.length() + 1);
 					if (line.matches("\\s*")) {
 						// empty line
 						if (s.length() > 0) {
@@ -146,7 +137,6 @@ public class FileBasedStorage implements AceWikiStorage {
 			} catch (IOException ex) {
 				ontology.log("cannot read file: " + dataFile.getName());
 			}
-			if (pb1 != null) pb1.complete();
 		} else {
 			ontology.log("no data found; blank ontology is created");
 		}
@@ -154,11 +144,8 @@ public class FileBasedStorage implements AceWikiStorage {
 		incompleteOntologies.remove(ontology);
 
 		ontology.log("loading statements");
-		System.err.print("Statements: ");
 		List<OntologyElement> elements = ontology.getOntologyElements();
-		ConsoleProgressBar pb2 = new ConsoleProgressBar(elements.size());
 		for (OntologyElement oe : elements) {
-			pb2.addOne();
 			ontology.getReasoner().loadElement(oe);
 			for (Sentence s : oe.getArticle().getSentences()) {
 				if (s.isReasonable() && s.isIntegrated()) {
@@ -167,7 +154,6 @@ public class FileBasedStorage implements AceWikiStorage {
 			}
 			save(oe);
 		}
-		pb2.complete();
 
 		if (ontology.get(0) == null) {
 			OntologyElement mainPage = GeneralTopic.makeMain("acewiki_page_main");
@@ -242,7 +228,7 @@ public class FileBasedStorage implements AceWikiStorage {
 			try {
 				statement = loadStatement(l, a);
 			} catch (Exception e) {
-				System.err.println(e);
+				log.warn("Bad statement: ", e);
 			}
 			if (statement == null) {
 				log.warn("Cannot read statement: {}", l);

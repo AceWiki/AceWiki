@@ -20,6 +20,7 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import ch.uzh.ifi.attempto.acewiki.Task;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
+import ch.uzh.ifi.attempto.acewiki.core.Article;
 import ch.uzh.ifi.attempto.acewiki.core.InconsistencyException;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
@@ -215,7 +216,12 @@ public class SentenceComponent extends Column implements ActionListener {
 					wiki.getGUIText("acewiki_message_update"),
 					new Task() {
 						public void run() {
-							sentence.getArticle().remove(sentence);
+							Article a = sentence.getArticle();
+							wiki.log("edit", "remove statement of " + a.getOntologyElement().getWord() + ": " +
+									sentence.getText(wiki.getLanguage()) +
+									" (" + sentence.getText(a.getOntology().getEngine().getLanguages()[0]) + ")");
+							
+							a.remove(sentence);
 						}
 						public void updateGUI() {
 							wiki.update();

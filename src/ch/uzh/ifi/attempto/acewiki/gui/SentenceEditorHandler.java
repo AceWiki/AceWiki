@@ -44,6 +44,8 @@ public class SentenceEditorHandler implements ActionListener {
 	
 	private static final long serialVersionUID = -2083910385095284075L;
 	
+	// TODO(uvictor): revise/delete debugLogger
+	private final org.slf4j.Logger debugLogger =  org.slf4j.LoggerFactory.getLogger(this.getClass());
 	private PreditorWindow editorWindow;
 	private MessageWindow messageWindow;
 	private ArticlePage page;
@@ -193,17 +195,43 @@ public class SentenceEditorHandler implements ActionListener {
 			public void run() {
 				try {
 					if (edit) {
-						wiki.log("edit", "sentence updated: " + textContainer.getText());
+						org.slf4j.MDC.put("type", "edit");
+						debugLogger.debug("sentence updated: {}", textContainer.getText());
+						
+						wiki.log("edit", "statement of " + a.getOntologyElement().getWord() + ": " +
+								statement.getText(wiki.getLanguage()) + " > " +
+								getSentencesString(newSentences, wiki.getLanguage()) +
+								"(" + statement.getText(getDefaultLanguage()) + " > " +
+								getSentencesString(newSentences, getDefaultLanguage()) + ")");
+						
 						List<Statement> l = new ArrayList<Statement>(newSentences);
 						a.edit(statement, l);
 						wiki.updateStatement(statement, l);
 					} else {
-						wiki.log("edit", "sentence created: " + textContainer.getText());
+						org.slf4j.MDC.put("type", "edit");
+						debugLogger.debug("sentence created: {}", textContainer.getText());
+						
+						wiki.log("edit", "statement of " + a.getOntologyElement().getWord() + ": " +
+								getSentencesString(newSentences, wiki.getLanguage()) +
+								"(" + getSentencesString(newSentences, getDefaultLanguage()) + ")");
+
 						a.add(statement, new ArrayList<Statement>(newSentences));
 					}
 				} catch (InconsistencyException ex) {
 					inconsistent = true;
 				}
+			}
+			
+			private String getSentencesString(List<Sentence> sentences, String language) {
+				String result = "";
+				for (Sentence s : sentences) {
+					result += s.getText(language) + " ";
+				}
+				return result;
+			}
+			
+			private String getDefaultLanguage() {
+				return a.getOntology().getEngine().getLanguages()[0];
 			}
 			
 			public void updateGUI() {
