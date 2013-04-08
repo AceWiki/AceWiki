@@ -14,6 +14,7 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ch.uzh.ifi.attempto.base.PredictiveParser;
@@ -76,7 +77,15 @@ public class StatementFactory {
 		}
 		return l;
 	}
-	
+
+	public List<Sentence> autodisambiguate(List<Sentence> sentences) {
+		List<Sentence> out = new ArrayList<>();
+		for (Sentence s : sentences) {
+			out.add(s.unambiguousCopyFor(s.getArticle(), 0));
+		}
+		return out;
+	}
+
 	/**
 	 * Creates an assignment sentence.
 	 * 

@@ -135,6 +135,9 @@ public class SentenceEditorHandler implements ActionListener {
 						parser,
 						page.getArticle()
 					);
+				if (wiki.getConfig().isAutodisambiguationEnabled()) {
+					newSentences = o.getStatementFactory().autodisambiguate(newSentences);
+				}
 				checkSentence();
 			} else if (c.equals("OK")) {
 				wiki.log("edit", "error: unfinished sentences");

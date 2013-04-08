@@ -107,4 +107,6 @@ public interface Sentence extends Statement {
 	 */
 	public int getNumberOfRepresentations();
 
+	public Sentence unambiguousCopyFor(Article article, int index);
+
 }

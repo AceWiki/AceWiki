@@ -33,6 +33,7 @@ import ch.uzh.ifi.attempto.acewiki.core.Declaration;
 import ch.uzh.ifi.attempto.acewiki.core.MultilingualSentence;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.PrettyTextElement;
+import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceDetail;
 import ch.uzh.ifi.attempto.ape.ACEParser;
 import ch.uzh.ifi.attempto.ape.ACEParserResult;
@@ -418,6 +419,15 @@ public class GfDeclaration extends MultilingualSentence implements Declaration {
 		c.init(getOntology(), article);
 		c.setIntegrated(isIntegrated());
 		return c;
+	}
+
+	public Sentence unambiguousCopyFor(Article article, int index) {
+		List<String> trees = new ArrayList<>();
+		trees.add(mGfWikiEntry.getTrees().getTrees().get(0));
+		GfWikiEntry wikiEntry = new GfWikiEntry(mGfWikiEntry.getLanguage(), mGfWikiEntry.getText(), new TreeList(trees));
+		GfDeclaration d = new GfDeclaration(mGfGrammar, wikiEntry);
+		d.init(getOntology(), article);
+		return d;
 	}
 
 }

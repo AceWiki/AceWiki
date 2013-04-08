@@ -84,4 +84,11 @@ public abstract class MonolingualSentence extends AbstractSentence {
 		return getTextOperator("Default");
 	}
 
+	public Sentence unambiguousCopyFor(Article article, int index) {
+		if (index != 0) {
+			throw new RuntimeException("Illegal representation number: " + index);
+		}
+		return this;
+	}
+
 }

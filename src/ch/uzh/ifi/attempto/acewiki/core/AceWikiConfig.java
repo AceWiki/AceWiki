@@ -128,4 +128,8 @@ public class AceWikiConfig {
 		return "on".equals(getParameter("grammar_integration"));
 	}
 
+	public boolean isAutodisambiguationEnabled() {
+		return "on".equals(getParameter("autodisambiguation"));
+	}
+
 }
