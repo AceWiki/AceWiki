@@ -68,7 +68,7 @@ public class AceWikiApp extends ApplicationInstance {
 		wiki.log("syst", "start session");
 
 		// Show login window if required:
-		if (config.isLoginRequiredForViewing()) {
+		if (wiki.getUser() == null && config.isLoginRequiredForViewing()) {
 			wiki.showLoginWindow();
 		}
 		window.setContent(wiki.getContentPane());
