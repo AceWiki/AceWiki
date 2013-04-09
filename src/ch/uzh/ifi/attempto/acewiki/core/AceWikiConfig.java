@@ -96,7 +96,8 @@ public class AceWikiConfig {
 	 * @return true if enabled.
 	 */
 	public boolean isCommentingEnabled() {
-		if ("on".equals(getParameter("comments"))) return true;
+		if ("hide".equals(getParameter("comments"))) return false;
+		if (!"readonly".equals(getParameter("comments"))) return true;
 		User u = userProvider.getUser();
 		if (u != null && u.hasRight("write_comments")) return true;
 		return false;
