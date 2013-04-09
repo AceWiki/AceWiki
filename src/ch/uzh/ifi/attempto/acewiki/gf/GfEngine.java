@@ -51,6 +51,7 @@ public class GfEngine extends AbstractAceWikiEngine {
 	 * Creates a new GF-based AceWiki engine.
 	 */
 	public GfEngine() {
+		addExporter(new GfReportExporter());
 		setLexicalTypes(GeneralTopic.NORMAL_TYPE, TypeGfModule.INTERNAL_TYPE);
 	}
 

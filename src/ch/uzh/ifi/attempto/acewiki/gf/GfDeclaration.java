@@ -237,6 +237,11 @@ public class GfDeclaration extends MultilingualSentence implements Declaration {
 	}
 
 
+	public GfWikiEntry getGfWikiEntry() {
+		return mGfWikiEntry;
+	}
+
+
 	public void update() {
 	}
 
