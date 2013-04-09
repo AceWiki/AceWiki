@@ -6,9 +6,11 @@ import java.util.Map;
 public class AceWikiConfig {
 
 	private Map<String, String> parameters;
+	private UserProvider userProvider;
 
-	public AceWikiConfig(Map<String, String> parameters) {
+	public AceWikiConfig(Map<String, String> parameters, UserProvider userProvider) {
 		this.parameters = parameters;
+		this.userProvider = userProvider;
 	}
 
 	public Map<String, String> getParameters() {
@@ -94,8 +96,10 @@ public class AceWikiConfig {
 	 * @return true if enabled.
 	 */
 	public boolean isCommentingEnabled() {
-		String s = getParameter("comments");
-		return (s == null || s.equals("on"));
+		if ("on".equals(getParameter("comments"))) return true;
+		User u = userProvider.getUser();
+		if (u != null && u.hasRight("write_comments")) return true;
+		return false;
 	}
 
 	/**

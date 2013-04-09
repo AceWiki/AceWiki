@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Stack;
@@ -59,6 +60,7 @@ import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.core.StatementTableExporter;
 import ch.uzh.ifi.attempto.acewiki.core.User;
 import ch.uzh.ifi.attempto.acewiki.core.UserBase;
+import ch.uzh.ifi.attempto.acewiki.core.UserProvider;
 import ch.uzh.ifi.attempto.acewiki.gui.AboutPage;
 import ch.uzh.ifi.attempto.acewiki.gui.ArticlePage;
 import ch.uzh.ifi.attempto.acewiki.gui.ExportWindow;
@@ -103,7 +105,7 @@ import echopoint.externalevent.ExternalEventMonitor;
  * @author Tobias Kuhn
  * @author Kaarel Kaljurand
  */
-public class Wiki implements ActionListener, ExternalEventListener {
+public class Wiki implements UserProvider, ActionListener, ExternalEventListener {
 
 	private static final long serialVersionUID = 2777443689044226043L;
 
@@ -165,11 +167,11 @@ public class Wiki implements ActionListener, ExternalEventListener {
 	 * Creates a new wiki instance.
 	 *
 	 * @param backend The backend object.
-	 * @param config The configuration object.
+	 * @param parameters The configuration parameters.
 	 * @param sessionId The session id.
 	 */
-	Wiki(Backend backend, AceWikiConfig config, int sessionId) {
-		this.config = config;
+	Wiki(Backend backend, Map<String, String> parameters, int sessionId) {
+		this.config = new AceWikiConfig(parameters, this);
 
 		storage = backend.getStorage();
 		ontology = backend.getOntology();
@@ -939,6 +941,8 @@ public class Wiki implements ActionListener, ExternalEventListener {
 		user.setUserData("stayloggedintoken", stayloggedintoken);
 		setCookie("stayloggedintoken", stayloggedintoken);
 		setUser(user);
+		refresh();
+		update();
 	}
 
 	/**

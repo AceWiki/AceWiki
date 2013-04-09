@@ -14,6 +14,8 @@
 
 package ch.uzh.ifi.attempto.acewiki;
 
+import java.util.Map;
+
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Window;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiConfig;
@@ -45,7 +47,7 @@ public class AceWikiApp extends ApplicationInstance {
 
 	private static int sessionID = 1;
 
-	private AceWikiConfig config;
+	private Map<String, String> parameters;
 	private Wiki wiki;
 	private Window window;
     private Backend backend;
@@ -54,21 +56,21 @@ public class AceWikiApp extends ApplicationInstance {
 	 * Creates a new AceWiki application instance.
 	 *
      * @param backend The backend object contains ontology of the wiki.
-	 * @param config The configuration object.
+	 * @param parameters The configuration parameters.
 	 */
-	public AceWikiApp(Backend backend, AceWikiConfig config) {
+	public AceWikiApp(Backend backend, Map<String, String> parameters) {
         this.backend = backend;
-		this.config = config;
+		this.parameters = parameters;
 	}
 
 	public Window init() {
 		setStyleSheet(Style.styleSheet);
 		window = new Window();
-		wiki = new Wiki(backend, config, sessionID++);
+		wiki = new Wiki(backend, parameters, sessionID++);
 		wiki.log("syst", "start session");
 
 		// Show login window if required:
-		if (wiki.getUser() == null && config.isLoginRequiredForViewing()) {
+		if (wiki.getUser() == null && wiki.getConfig().isLoginRequiredForViewing()) {
 			wiki.showLoginWindow();
 		}
 		window.setContent(wiki.getContentPane());
@@ -88,9 +90,9 @@ public class AceWikiApp extends ApplicationInstance {
 	 */
 	public void logout() {
 		wiki.dispose();
-		wiki = new Wiki(backend, config, sessionID++);
+		wiki = new Wiki(backend, parameters, sessionID++);
 		wiki.log("syst", "start session");
-		if (config.isLoginRequiredForViewing()) {
+		if (wiki.getConfig().isLoginRequiredForViewing()) {
 			wiki.showLoginWindow();
 		}
 		window.setContent(wiki.getContentPane());
@@ -106,7 +108,7 @@ public class AceWikiApp extends ApplicationInstance {
 	}
 
 	public AceWikiConfig getConfig() {
-		return config;
+		return getWiki().getConfig();
 	}
 
 }

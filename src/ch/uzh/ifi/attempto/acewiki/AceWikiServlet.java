@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.webcontainer.WebContainerServlet;
-import ch.uzh.ifi.attempto.acewiki.core.AceWikiConfig;
 import ch.uzh.ifi.attempto.base.APE;
 import ch.uzh.ifi.attempto.base.Logger;
 import ch.uzh.ifi.attempto.base.LoggerContext;
@@ -56,7 +55,7 @@ public class AceWikiServlet extends WebContainerServlet {
 	// TODO(uvictor): remove logger
 	private Logger logger;
 	private Backend backend;
-	private AceWikiConfig appConfig;
+	private Map<String, String> parameters;
 	private String backendName;
 
 	/**
@@ -73,7 +72,7 @@ public class AceWikiServlet extends WebContainerServlet {
 	 * @param config servlet config.
 	 */
 	public void init(ServletConfig config) throws ServletException {
-		Map<String, String> parameters = getInitParameters(config);
+		parameters = getInitParameters(config);
 
 		if (loggerContext == null) {
 			loggerContext = new LoggerContext("syst", "syst", "0");
@@ -116,18 +115,16 @@ public class AceWikiServlet extends WebContainerServlet {
 			backend = new Backend(parameters);
 		}
 
-		appConfig = new AceWikiConfig(parameters);
-
 		super.init(config);
 	}
 
 	public ApplicationInstance newApplicationInstance() {
 		loggerContext.propagateWithinThread();
 		org.slf4j.MDC.put("type", "appl");
-		log.info("new application instance: {}", appConfig.getParameter("ontology"));
-		logger.log("appl", "new application instance: " + appConfig.getParameter("ontology"));
+		log.info("new application instance: {}", parameters.get("ontology"));
+		logger.log("appl", "new application instance: " + parameters.get("ontology"));
 
-		return new AceWikiApp(backend, appConfig);
+		return new AceWikiApp(backend, parameters);
 	}
 
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws
