@@ -213,7 +213,7 @@ public class GfDeclaration extends MultilingualSentence implements Declaration {
 		List<SentenceDetail> l = new ArrayList<SentenceDetail>();
 
 		if (mGfGrammar.isAceCompatible()) {
-			l.addAll(getSemantics());
+			l.addAll(getSemantics(index));
 		}
 
 		l.addAll(formatTree(mGfGrammar, lang, index));
@@ -254,22 +254,17 @@ public class GfDeclaration extends MultilingualSentence implements Declaration {
 	}
 
 
-	// Return some of the APE analysis of this tree set, assuming it is a singleton.
+	// Return some of the APE analysis of the tree at the given index.
 	// The APE analysis is obtained by first linearizing the tree in "Ape".
 	// This only works if the wiki is ACE-based.
 	//
 	// TODO: experimental
-	private List<SentenceDetail> getSemantics() {
+	private List<SentenceDetail> getSemantics(int index) {
+		String tree = mGfWikiEntry.getTrees().getTrees().get(index);
 		List<SentenceDetail> l = new ArrayList<SentenceDetail>();
 
-		String tree = mGfWikiEntry.getTrees().getTree();
-
 		if (tree == null) {
-			if (mGfWikiEntry.getTrees().size() == 0) {
-				l.add(new SentenceDetail("ERROR", "Statement is not well-formed"));
-			} else if (mGfWikiEntry.getTrees().size() > 1) {
-				l.add(new SentenceDetail("ERROR", "Statement is ambiguous and therefore it cannot be assigned semantics"));
-			}
+			l.add(new SentenceDetail("ERROR", "Statement is not well-formed"));
 			return l;
 		}
 
@@ -292,10 +287,10 @@ public class GfDeclaration extends MultilingualSentence implements Declaration {
 		ACEParserResult parserResult = parse(acetext, getOntology().getURI());
 
 		l.add(new SentenceDetail("ACE", "<pre>" + acetext.getText() + "</pre>"));
-		l.add(new SentenceDetail("Lexicon", "<pre>" + Joiner.on('\n').join(acetext.getLexicon().getEntries()) + "</pre>"));
 		l.add(new SentenceDetail("ACE (paraphrase)", "<pre>" + parserResult.get(PARAPHRASE1) + "</pre>"));
-		l.add(new SentenceDetail("DRS", "<pre>" + parserResult.get(DRSPP) + "</pre>"));
 		l.add(new SentenceDetail("OWL", "<pre>" + parserResult.get(OWLFSSPP) + "</pre>"));
+		l.add(new SentenceDetail("DRS", "<pre>" + parserResult.get(DRSPP) + "</pre>"));
+		l.add(new SentenceDetail("Lexicon", "<pre>" + Joiner.on('\n').join(acetext.getLexicon().getEntries()) + "</pre>"));
 		l.add(new SentenceDetail("Messages",
 				"<pre>" + Joiner.on('\n').join(parserResult.getMessageContainer().getMessages()) + "</pre>"));
 
