@@ -37,7 +37,7 @@ import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 public class GfReportExporter extends OntologyExporter {
 
 	private static final String MAX_INDENT = "\t\t\t\t\t";
-	private static final Joiner JOINER = Joiner.on("___");
+	private static final Joiner JOINER = Joiner.on("___").useForNull("NULL");
 
 	protected void writeContent(String language) throws IOException {
 		StringBuilder sb = new StringBuilder();
