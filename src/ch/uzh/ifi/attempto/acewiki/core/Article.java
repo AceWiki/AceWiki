@@ -186,13 +186,18 @@ public class Article {
 	}
 	
 	public void addCopiedStatement(Statement followingStatement, Statement newStatement) {
-		if (statements.contains(followingStatement)) {
-			statements.add(statements.indexOf(followingStatement), newStatement);
-		} else {
-			if (followingStatement != null) {
-				log("error: statement is not around anymore");
+		synchronized (ontology) {
+			if (statements.contains(followingStatement)) {
+				statements.add(statements.indexOf(followingStatement), newStatement);
+			} else {
+				if (followingStatement != null) {
+					log("error: statement is not around anymore");
+				}
+				statements.add(newStatement);
 			}
-			statements.add(newStatement);
+			if (ontology != null) {
+				ontology.getStorage().save(element);
+			}
 		}
 	}
 	
