@@ -48,6 +48,7 @@ export LD_PRELOAD=$PLBASE/lib/$PLARCH/libjpl.so:$PLBASE/lib/$PLARCH/libswipl.so:
 ## necessary to change port number, heap size, or stack size.
 ## Note that we specify the path to jpl.jar here because this jar
 ## is not included in the war-file.
+## Tested with jetty-runner-8.1.5.v20120716.jar
 java -Xmx400m -Xss4m \
      -Djava.library.path=$PLBASE/lib/$PLARCH \
      -Djava.awt.headless=true \
