@@ -9,9 +9,17 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.io.StringDocumentSource;
+import org.semanticweb.owlapi.model.OWLLogicalAxiom;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.HashMultiset;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Sets;
@@ -20,11 +28,8 @@ import ch.uzh.ifi.attempto.acewiki.core.AceWikiEngine;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyExporter;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
-import ch.uzh.ifi.attempto.ape.ACEParser;
 import ch.uzh.ifi.attempto.ape.ACEParserResult;
 import ch.uzh.ifi.attempto.ape.ACEText;
-import ch.uzh.ifi.attempto.base.APE;
-import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 
 /**
  * <p>Generates a report that covers all the articles and their sentences in the wiki,
@@ -35,6 +40,8 @@ import ch.uzh.ifi.attempto.gfservice.GfServiceException;
  * @author Kaarel Kaljurand
  */
 public class GfReportExporter extends OntologyExporter {
+
+	private static OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
 
 	private static final String MAX_INDENT = "\t\t\t\t\t";
 	private static final Joiner JOINER = Joiner.on("___").useForNull("NULL");
@@ -123,27 +130,6 @@ public class GfReportExporter extends OntologyExporter {
 	}
 
 
-	/**
-	 * This was taken from:
-	 * ch.uzh.ifi.attempto.acewiki.aceowl.ACESentence
-	 */
-	private static ACEParserResult parse(ACEText acetext, String uri) {
-		ACEParser ape = APE.getParser();
-		synchronized (ape) {
-			ape.setURI(uri);
-			ape.setGuessingEnabled(false);
-			ape.setClexEnabled(false);
-
-			return ape.getMultiOutput(
-					acetext.getText(),
-					acetext.getLexicon(),
-					OWLFSS,
-					OWLFSSPP
-					);
-		}
-	}
-
-
 	private class AceReport {
 		private Set<String> owls = Sets.newHashSet(); // Syntactic equivalence check, TODO: make it semantic
 		private Map<String, ACEParserResult> treeToAceParserResult = Maps.newHashMap();
@@ -155,29 +141,24 @@ public class GfReportExporter extends OntologyExporter {
 					continue;
 				}
 
-				Set<String> lins = null;
-				String targetLang = gfGrammar.getGrammar().getName() + GfGrammar.SUFFIX_APE;
 				try {
-					lins = gfGrammar.linearize(tree, targetLang);
-				} catch (GfServiceException e) {
-					// "ERROR in translation to " + targetLang + ": "+ e.getMessage()
+					ACEText acetext = GfWikiUtils.getACEText(gfGrammar, tree);
+					ACEParserResult parserResult = GfWikiUtils.parse(acetext, getOntology().getURI());
+					treeToAce.put(tree, acetext);
+					treeToAceParserResult.put(tree, parserResult);
+
+					String owlfss = parserResult.get(OWLFSS);
+					/*
+					if (owlfss != null && ! owlfss.isEmpty()) {
+						owls.add(owlfss);
+					}
+					 */
+
+					if (! getLogicalAxiomsFromString(parserResult.get(OWLFSSPP)).isEmpty()) {
+						owls.add(owlfss);
+					}
+				} catch (Exception e) {
 					continue;
-				}
-
-				if (lins == null || lins.size() != 1) {
-					// "ERROR: Bad linearizations"
-					return;
-				}
-
-				ACEText acetext = new ACEText(lins.iterator().next());
-				ACEParserResult parserResult = parse(acetext, getOntology().getURI());
-				treeToAce.put(tree, acetext);
-				treeToAceParserResult.put(tree, parserResult);
-
-				// TODO: add only if OWL is a non-empty ontology
-				String owlfss = parserResult.get(OWLFSS);
-				if (owlfss != null && ! owlfss.isEmpty()) {
-					owls.add(owlfss);
 				}
 			}
 		}
@@ -195,6 +176,9 @@ public class GfReportExporter extends OntologyExporter {
 		}
 
 		public String getOwlFssPp(String tree) {
+			if (owls.isEmpty()) {
+				return null;
+			}
 			ACEParserResult aceParserResult = treeToAceParserResult.get(tree);
 			if (aceParserResult == null) {
 				return null;
@@ -209,5 +193,18 @@ public class GfReportExporter extends OntologyExporter {
 			}
 			return Joiner.on('\n').join(aceParserResult.getMessageContainer().getMessages());
 		}
+	}
+
+
+	public static Set<OWLLogicalAxiom> getLogicalAxiomsFromString(String str) {
+		try {
+			OWLOntology owlOntology = ontologyManager.loadOntologyFromOntologyDocument(
+					new StringDocumentSource(str)
+					);
+			return owlOntology.getLogicalAxioms();
+		} catch (OWLOntologyCreationException ex) {
+			// TODO
+		}
+		return ImmutableSet.of();
 	}
 }

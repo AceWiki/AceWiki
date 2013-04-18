@@ -21,10 +21,21 @@ import static ch.uzh.ifi.attempto.ape.OutputType.PARAPHRASE1;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringEscapeUtils;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.io.StringDocumentSource;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.profiles.OWLProfile;
+import org.semanticweb.owlapi.profiles.OWLProfileReport;
+import org.semanticweb.owlapi.profiles.OWLProfileViolation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,10 +46,11 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.PrettyTextElement;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceDetail;
-import ch.uzh.ifi.attempto.ape.ACEParser;
+import ch.uzh.ifi.attempto.acewiki.owl.AceWikiOWLReasoner;
+import ch.uzh.ifi.attempto.acewiki.owl.OWLSentence;
 import ch.uzh.ifi.attempto.ape.ACEParserResult;
 import ch.uzh.ifi.attempto.ape.ACEText;
-import ch.uzh.ifi.attempto.base.APE;
+import ch.uzh.ifi.attempto.ape.MessageContainer;
 import ch.uzh.ifi.attempto.base.DefaultTextOperator;
 import ch.uzh.ifi.attempto.base.MultiTextContainer;
 import ch.uzh.ifi.attempto.base.TextContainer;
@@ -60,9 +72,11 @@ import com.google.common.collect.Sets;
  * 
  * @author Kaarel Kaljurand
  */
-public class GfDeclaration extends MultilingualSentence implements Declaration {
+public class GfDeclaration extends MultilingualSentence implements Declaration, OWLSentence {
 
 	final Logger mLogger = LoggerFactory.getLogger(GfDeclaration.class);
+
+	private static OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
 
 	private final GfGrammar mGfGrammar;
 	private final GfWikiEntry mGfWikiEntry;
@@ -78,6 +92,14 @@ public class GfDeclaration extends MultilingualSentence implements Declaration {
 	// ie. Map<Tree, Map<Language, Set<Linearization>>>
 	// Lazy initialized as tree linearizations are requested, but done for all languages at once - performance reasons.
 	private final Map<String, Map<String, Set<String>>> treeLinearizations = new HashMap<>();
+
+
+	// These fields are evaluated lazily:
+	private ACEParserResult parserResult;
+	private Boolean reasonable;
+	private Boolean isOWL;
+	private Boolean isOWLSWRL;
+	private Set<OWLAxiom> owlAxioms;
 
 
 	/**
@@ -222,11 +244,6 @@ public class GfDeclaration extends MultilingualSentence implements Declaration {
 	}
 
 
-	public boolean isReasonable() {
-		return true;
-	}
-
-
 	public int getNumberOfRepresentations() {
 		return mGfWikiEntry.getTrees().size();
 	}
@@ -241,9 +258,6 @@ public class GfDeclaration extends MultilingualSentence implements Declaration {
 		return mGfWikiEntry;
 	}
 
-
-	public void update() {
-	}
 
 	public String serialize() {
 		return GfGrammar.serialize(mGfWikiEntry);
@@ -273,31 +287,20 @@ public class GfDeclaration extends MultilingualSentence implements Declaration {
 			return l;
 		}
 
-		Set<String> lins = null;
-		String targetLang = mGfGrammar.getGrammar().getName() + GfGrammar.SUFFIX_APE;
 		try {
-			lins = mGfGrammar.linearize(tree, targetLang);
-		} catch (GfServiceException e) {
-			l.add(new SentenceDetail("ERROR in translation to " + targetLang, "<pre>" + e.getMessage() + "</pre>"));
-			return l;
+			ACEText acetext = GfWikiUtils.getACEText(mGfGrammar, tree);
+			ACEParserResult pr = GfWikiUtils.parse(acetext, getOntology().getURI());
+
+			l.add(new SentenceDetail("ACE", "<pre>" + StringEscapeUtils.escapeHtml(acetext.getText()) + "</pre>"));
+			l.add(new SentenceDetail("ACE (paraphrase)", "<pre>" + StringEscapeUtils.escapeHtml(pr.get(PARAPHRASE1)) + "</pre>"));
+			l.add(new SentenceDetail("OWL", "<pre>" + StringEscapeUtils.escapeHtml(pr.get(OWLFSSPP)) + "</pre>"));
+			l.add(new SentenceDetail("DRS", "<pre>" + StringEscapeUtils.escapeHtml(pr.get(DRSPP)) + "</pre>"));
+			l.add(new SentenceDetail("Lexicon", "<pre>" + StringEscapeUtils.escapeHtml(Joiner.on('\n').join(acetext.getLexicon().getEntries())) + "</pre>"));
+			l.add(new SentenceDetail("Messages",
+					"<pre>" + StringEscapeUtils.escapeHtml(Joiner.on('\n').join(pr.getMessageContainer().getMessages())) + "</pre>"));
+		} catch (Exception e) {
+			l.add(new SentenceDetail("ERROR", e.getMessage()));
 		}
-
-		if (lins == null || lins.size() != 1) {
-			l.add(new SentenceDetail("ERROR", "Bad linearization"));
-			return l;
-		}
-
-		ACEText acetext = new ACEText(lins.iterator().next());
-
-		ACEParserResult parserResult = parse(acetext, getOntology().getURI());
-
-		l.add(new SentenceDetail("ACE", "<pre>" + acetext.getText() + "</pre>"));
-		l.add(new SentenceDetail("ACE (paraphrase)", "<pre>" + parserResult.get(PARAPHRASE1) + "</pre>"));
-		l.add(new SentenceDetail("OWL", "<pre>" + parserResult.get(OWLFSSPP) + "</pre>"));
-		l.add(new SentenceDetail("DRS", "<pre>" + parserResult.get(DRSPP) + "</pre>"));
-		l.add(new SentenceDetail("Lexicon", "<pre>" + Joiner.on('\n').join(acetext.getLexicon().getEntries()) + "</pre>"));
-		l.add(new SentenceDetail("Messages",
-				"<pre>" + Joiner.on('\n').join(parserResult.getMessageContainer().getMessages()) + "</pre>"));
 
 		return l;
 	}
@@ -393,27 +396,6 @@ public class GfDeclaration extends MultilingualSentence implements Declaration {
 	}
 
 
-	/**
-	 * This was taken from:
-	 * ch.uzh.ifi.attempto.acewiki.aceowl.ACESentence
-	 */
-	private static ACEParserResult parse(ACEText acetext, String uri) {
-		ACEParser ape = APE.getParser();
-		synchronized (ape) {
-			ape.setURI(uri);
-			ape.setClexEnabled(false);
-
-			return ape.getMultiOutput(
-					acetext.getText(),
-					acetext.getLexicon(),
-					PARAPHRASE1,
-					OWLXML,
-					OWLFSSPP,
-					DRSPP
-					);
-		}
-	}
-
 	public GfDeclaration copyFor(Article article) {
 		GfDeclaration c = new GfDeclaration(mGfGrammar, mGfWikiEntry);
 		c.init(getOntology(), article);
@@ -428,6 +410,157 @@ public class GfDeclaration extends MultilingualSentence implements Declaration {
 		GfDeclaration d = new GfDeclaration(mGfGrammar, wikiEntry);
 		d.init(getOntology(), article);
 		return d;
+	}
+
+
+	/* OWL support follows */
+
+	public ACEParserResult getParserResult() {
+		if (parserResult == null) {
+			update();
+		}
+		return parserResult;
+	}
+
+	public String getPrettyOWL() {
+		ACEParserResult parserResult = getParserResult();
+		if (parserResult == null) {
+			return null;
+		}
+		return parserResult.get(OWLFSSPP);
+	}
+
+	public boolean isReasonable() {
+		if (reasonable == null) {
+			update();
+		}
+		return reasonable;
+	}
+
+	public boolean isOWL() {
+		if (isOWL == null) {
+			update();
+		}
+		return isOWL;
+	}
+
+	public boolean isOWLSWRL() {
+		if (isOWLSWRL == null) {
+			update();
+		}
+		return isOWLSWRL;
+	}
+
+	public Set<OWLAxiom> getOWLAxioms() {
+		if (parserResult == null) {
+			update();
+		}
+		if (owlAxioms == null) {
+			owlAxioms = new HashSet<OWLAxiom>();
+		}
+		return owlAxioms;
+	}
+
+
+	/**
+	 * Updates the semantic representation of the wiki entry.
+	 * This succeeds if the entry is
+	 *   - ACE-compatible,
+	 *   - not ambiguous,
+	 *   - OWL-compatible.
+	 * TODO: support some types of ambiguous entries
+	 * (those whose OWL representations are equivalent to each other)
+	 */
+	public void update() {
+		if (! mGfGrammar.isAceCompatible()) {
+			setNotOwl();
+			return;
+		}
+
+		List<String> trees = mGfWikiEntry.getTrees().getTrees();
+
+		if (trees.size() != 1) {
+			setNotOwl();
+			return;
+		}
+
+		ACEText acetext = null;
+		try {
+			acetext = GfWikiUtils.getACEText(mGfGrammar, trees.get(0));
+		} catch (Exception e) {
+			// TODO do not ignore exception
+		}
+
+		if (acetext == null) {
+			setNotOwl();
+			return;
+		}
+
+		parserResult = GfWikiUtils.parse(acetext, getOntology().getURI());
+		MessageContainer mc = parserResult.getMessageContainer();
+		String owlxml = parserResult.get(OWLXML);
+
+		// TODO: set these booleans on the basis of the loaded ontology,
+		// not by string matching
+		isOWLSWRL =
+				(mc.getMessages("owl").size() == 0) &&
+				(owlxml.length() > 0);
+
+		isOWL = isOWLSWRL &&
+				(owlxml.indexOf("<swrl:Imp>") < 0) &&
+				(owlxml.indexOf("<DLSafeRule>") < 0);
+
+		AceWikiOWLReasoner reasoner = (AceWikiOWLReasoner) getOntology()
+				.getReasoner().getWrappedReasoner();
+
+		if (isOWL && reasoner.getGlobalRestrictionsPolicy().equals("no_chains")) {
+			reasonable =
+					(owlxml.indexOf("<TransitiveObjectProperty>") < 0) &&
+					(owlxml.indexOf("<ObjectPropertyChain>") < 0);
+		} else {
+			reasonable = isOWL;
+		}
+
+		owlAxioms = null;
+		OWLOntology owlOntology = null;
+		if (isOWL) {
+			try {
+				owlOntology = ontologyManager.loadOntologyFromOntologyDocument(
+						new StringDocumentSource(owlxml)
+						);
+				if (owlOntology.isEmpty()) {
+					setNotOwl();
+				} else {
+					owlAxioms = owlOntology.getAxioms();
+				}
+			} catch (OWLOntologyCreationException ex) {
+				ex.printStackTrace();
+			}
+		}
+
+		OWLProfile owlProfile = reasoner.getOWLProfile();
+		if (reasonable && owlOntology != null && owlProfile != null && this instanceof Declaration) {
+			OWLProfileReport r = owlProfile.checkOntology(owlOntology);
+			for (OWLProfileViolation v : r.getViolations()) {
+				if (!v.toString().startsWith("Use of undeclared")) {
+					reasonable = false;
+					break;
+				}
+			}
+		}
+		if (owlOntology != null) {
+			ontologyManager.removeOntology(owlOntology);
+		}
+		if (!reasonable && isIntegrated()) {
+			super.setIntegrated(false);
+		}
+	}
+
+
+	private void setNotOwl() {
+		reasonable = false;
+		isOWL = false;
+		isOWLSWRL = false;
 	}
 
 }
