@@ -1,6 +1,5 @@
 package ch.uzh.ifi.attempto.acewiki.gf;
 
-import static ch.uzh.ifi.attempto.ape.OutputType.OWLFSS;
 import static ch.uzh.ifi.attempto.ape.OutputType.OWLFSSPP;
 
 import java.io.IOException;
@@ -19,7 +18,6 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.HashMultiset;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Sets;
@@ -33,7 +31,27 @@ import ch.uzh.ifi.attempto.ape.ACEText;
 
 /**
  * <p>Generates a report that covers all the articles and their sentences in the wiki,
- * along with the OWL mapping of the sentences.</p>
+ * along with the OWL mapping of the sentences. Reports various ambiguities:</p>
+ *
+ * <ul>
+ * <li>number of trees per sentence</li>
+ * <li>number of ACE sentences per sentence</li>
+ * <li>number of OWL axioms per sentence</li>
+ * </ul>
+ *
+ * <p>The format is optimized to be both easy to read and easy to process with grep+sed, e.g.
+ * to get a list of all ambiguity types filter the output through:</p>
+ *
+ * <pre>
+ * grep "___a" | sed "s/.*___t/t/" | sort | uniq -c | sort -nr
+ *
+ *   78 t1___a1___o1
+ *   13 t1___a0___o0
+ *    8 t1___a1___o0
+ *    7 t2___a1___o1
+ *    3 t4___a2___o2
+ *    ...
+ * </pre>
  *
  * TODO: currently experimental and GF specific
  *
@@ -67,6 +85,7 @@ public class GfReportExporter extends OntologyExporter {
 					statistics.add("gf_declaration_tree_size_" + trees.size());
 
 					AceReport aceReport = new AceReport(gfGrammar, trees);
+					statistics.add("gf_declaration_ace_size_" + aceReport.getAceAmbiguity());
 					statistics.add("gf_declaration_owl_size_" + aceReport.getOwlAmbiguity());
 
 					String lastEditLanguage = gfDecl.getGfWikiEntry().getLanguage();
@@ -76,8 +95,9 @@ public class GfReportExporter extends OntologyExporter {
 							JOINER.join(s.isIntegrated(),
 									lastEditLanguage,
 									gfDecl.getGfWikiEntry().getText(),
-									s.getNumberOfRepresentations(),
-									aceReport.getOwlAmbiguity())
+									"t" + s.getNumberOfRepresentations(),
+									"a" + aceReport.getAceAmbiguity(),
+									"o" + aceReport.getOwlAmbiguity())
 							);
 
 					for (String tree : trees) {
@@ -131,9 +151,15 @@ public class GfReportExporter extends OntologyExporter {
 
 
 	private class AceReport {
-		private Set<String> owls = Sets.newHashSet(); // Syntactic equivalence check, TODO: make it semantic
+		// Each tree corresponds to a set of 0 or more OWL axioms.
+		// We store these sets into a single set. The number of elements in this set shows
+		// the semantic ambiguity of the original sentence, which is smaller
+		// or equal to the syntactic ambiguity (shown by the number of trees).
+		// TODO: throw out axioms which have a semantically equivalent axiom in the set
+		private Set<Set<OWLLogicalAxiom>> setOfSetofAxiom = Sets.newHashSet();
 		private Map<String, ACEParserResult> treeToAceParserResult = Maps.newHashMap();
 		private Map<String, ACEText> treeToAce = Maps.newHashMap();
+		private Map<String, String> treeToOwl = Maps.newHashMap();
 
 		public AceReport(GfGrammar gfGrammar, List<String> trees) {
 			for (String tree : trees) {
@@ -143,19 +169,19 @@ public class GfReportExporter extends OntologyExporter {
 
 				try {
 					ACEText acetext = GfWikiUtils.getACEText(gfGrammar, tree);
-					ACEParserResult parserResult = GfWikiUtils.parse(acetext, getOntology().getURI());
-					treeToAce.put(tree, acetext);
-					treeToAceParserResult.put(tree, parserResult);
 
-					String owlfss = parserResult.get(OWLFSS);
-					/*
-					if (owlfss != null && ! owlfss.isEmpty()) {
-						owls.add(owlfss);
-					}
-					 */
+					if (acetext != null) {
+						treeToAce.put(tree, acetext);
 
-					if (! getLogicalAxiomsFromString(parserResult.get(OWLFSSPP)).isEmpty()) {
-						owls.add(owlfss);
+						ACEParserResult parserResult = GfWikiUtils.parse(acetext, getOntology().getURI());
+						treeToAceParserResult.put(tree, parserResult);
+
+						String owlAsString = parserResult.get(OWLFSSPP);
+						Set<OWLLogicalAxiom> axiomSet = getLogicalAxiomsFromString(owlAsString);
+						if (! axiomSet.isEmpty()) {
+							setOfSetofAxiom.add(axiomSet);
+							treeToOwl.put(tree, owlAsString);
+						}
 					}
 				} catch (Exception e) {
 					continue;
@@ -164,7 +190,15 @@ public class GfReportExporter extends OntologyExporter {
 		}
 
 		public int getOwlAmbiguity() {
-			return owls.size();
+			return setOfSetofAxiom.size();
+		}
+
+		public int getAceAmbiguity() {
+			Set<String> set = Sets.newHashSet();
+			for (ACEText acetext : treeToAce.values()) {
+				set.add(acetext.getText());
+			}
+			return set.size();
 		}
 
 		public String getAce(String tree) {
@@ -176,14 +210,7 @@ public class GfReportExporter extends OntologyExporter {
 		}
 
 		public String getOwlFssPp(String tree) {
-			if (owls.isEmpty()) {
-				return null;
-			}
-			ACEParserResult aceParserResult = treeToAceParserResult.get(tree);
-			if (aceParserResult == null) {
-				return null;
-			}
-			return Strings.emptyToNull(aceParserResult.get(OWLFSSPP));
+			return treeToOwl.get(tree);
 		}
 
 		public String getMessages(String tree) {
@@ -196,15 +223,19 @@ public class GfReportExporter extends OntologyExporter {
 	}
 
 
-	public static Set<OWLLogicalAxiom> getLogicalAxiomsFromString(String str) {
-		try {
-			OWLOntology owlOntology = ontologyManager.loadOntologyFromOntologyDocument(
-					new StringDocumentSource(str)
-					);
-			return owlOntology.getLogicalAxioms();
-		} catch (OWLOntologyCreationException ex) {
-			// TODO
-		}
-		return ImmutableSet.of();
+	/**
+	 * <p>Interprets the given string as a serialization of an OWL ontology,
+	 * maps it to a set of OWL logical axioms and returns those.</p>
+	 *
+	 * @param str serialization of an OWL ontology e.g. in the OWLFSSPP format
+	 * @return set of OWL logical axioms
+	 * @throws OWLOntologyCreationException
+	 *
+	 * TODO: not sure if this is the most efficient way to do this
+	 */
+	public static Set<OWLLogicalAxiom> getLogicalAxiomsFromString(String str) throws OWLOntologyCreationException {
+		OWLOntology owlOntology = ontologyManager.loadOntologyFromOntologyDocument(new StringDocumentSource(str));
+		ontologyManager.removeOntology(owlOntology);
+		return owlOntology.getLogicalAxioms();
 	}
 }
