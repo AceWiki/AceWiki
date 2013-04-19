@@ -15,6 +15,7 @@ import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.ape.ACEParser;
 import ch.uzh.ifi.attempto.ape.ACEParserResult;
 import ch.uzh.ifi.attempto.ape.ACEText;
+import ch.uzh.ifi.attempto.ape.OutputType;
 import ch.uzh.ifi.attempto.base.APE;
 import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 
@@ -49,6 +50,7 @@ public class GfWikiUtils {
 			return ape.getMultiOutput(
 					acetext.getText(),
 					acetext.getLexicon(),
+					OutputType.DRS,
 					PARAPHRASE1,
 					OWLXML,
 					OWLFSS,
@@ -76,7 +78,7 @@ public class GfWikiUtils {
 			throw new Exception("Failed to linearize into " + targetLang + ": " + lins);
 		}
 
-		return new ACEText(lins.iterator().next());
+		return new ACEText(lins.iterator().next().trim());
 	}
 
 }

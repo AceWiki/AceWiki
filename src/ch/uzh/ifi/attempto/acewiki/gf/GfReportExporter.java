@@ -1,7 +1,5 @@
 package ch.uzh.ifi.attempto.acewiki.gf;
 
-import static ch.uzh.ifi.attempto.ape.OutputType.OWLFSSPP;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -16,8 +14,8 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Strings;
 import com.google.common.collect.HashMultiset;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Sets;
@@ -28,6 +26,7 @@ import ch.uzh.ifi.attempto.acewiki.core.OntologyExporter;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.ape.ACEParserResult;
 import ch.uzh.ifi.attempto.ape.ACEText;
+import ch.uzh.ifi.attempto.ape.OutputType;
 
 /**
  * <p>Generates a report that covers all the articles and their sentences in the wiki,
@@ -158,7 +157,11 @@ public class GfReportExporter extends OntologyExporter {
 		// TODO: throw out axioms which have a semantically equivalent axiom in the set
 		private Set<Set<OWLLogicalAxiom>> setOfSetofAxiom = Sets.newHashSet();
 		private Map<String, ACEParserResult> treeToAceParserResult = Maps.newHashMap();
-		private Map<String, ACEText> treeToAce = Maps.newHashMap();
+		// Linearization result
+		private Map<String, String> treeToAce = Maps.newHashMap();
+		// Linearization result that was correct ACE
+		private Map<String, String> treeToAceParsed = Maps.newHashMap();
+		// Pretty-printed OWL
 		private Map<String, String> treeToOwl = Maps.newHashMap();
 
 		public AceReport(GfGrammar gfGrammar, List<String> trees) {
@@ -169,20 +172,25 @@ public class GfReportExporter extends OntologyExporter {
 
 				try {
 					ACEText acetext = GfWikiUtils.getACEText(gfGrammar, tree);
+					if (acetext == null) continue;
 
-					if (acetext != null) {
-						treeToAce.put(tree, acetext);
+					String acetextAsString = acetext.getText().trim();
+					if (acetextAsString.isEmpty()) continue;
 
-						ACEParserResult parserResult = GfWikiUtils.parse(acetext, getOntology().getURI());
-						treeToAceParserResult.put(tree, parserResult);
+					treeToAce.put(tree, acetextAsString);
+					ACEParserResult parserResult = GfWikiUtils.parse(acetext, getOntology().getURI());
+					treeToAceParserResult.put(tree, parserResult);
 
-						String owlAsString = parserResult.get(OWLFSSPP);
-						Set<OWLLogicalAxiom> axiomSet = getLogicalAxiomsFromString(owlAsString);
-						if (! axiomSet.isEmpty()) {
-							setOfSetofAxiom.add(axiomSet);
-							treeToOwl.put(tree, owlAsString);
-						}
-					}
+					String drsAsString = parserResult.get(OutputType.DRS);
+					if ("drs([],[])".equals(drsAsString)) continue;
+
+					treeToAceParsed.put(tree, acetextAsString);
+					String owlAsString = parserResult.get(OutputType.OWLFSSPP);
+					Set<OWLLogicalAxiom> axiomSet = getLogicalAxiomsFromString(owlAsString);
+					if (axiomSet.isEmpty()) continue;
+
+					setOfSetofAxiom.add(axiomSet);
+					treeToOwl.put(tree, owlAsString);
 				} catch (Exception e) {
 					continue;
 				}
@@ -194,19 +202,11 @@ public class GfReportExporter extends OntologyExporter {
 		}
 
 		public int getAceAmbiguity() {
-			Set<String> set = Sets.newHashSet();
-			for (ACEText acetext : treeToAce.values()) {
-				set.add(acetext.getText());
-			}
-			return set.size();
+			return ImmutableSet.copyOf(treeToAceParsed.values()).size();
 		}
 
 		public String getAce(String tree) {
-			ACEText acetext = treeToAce.get(tree);
-			if (acetext == null) {
-				return null;
-			}
-			return acetext.getText();
+			return treeToAce.get(tree);
 		}
 
 		public String getOwlFssPp(String tree) {
