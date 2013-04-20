@@ -153,7 +153,12 @@ public class GfHandler extends AbstractLanguageHandler {
 	public List<Sentence> extractSentences(TextContainer tc, PredictiveParser parser) {
 		String tokenText = GfGrammar.GF_TOKEN_JOINER.join(tc.getTokens());
 		List<Sentence> l = new ArrayList<Sentence>();
-		l.add(new GfDeclaration(mGfGrammar, mLanguage, tokenText));
+		// TODO: if the ACE linearization contains a question mark, then ...
+		if (tokenText.contains("?")) {
+			l.add(new GfQuestion(mGfGrammar, mLanguage, tokenText));
+		} else {
+			l.add(new GfDeclaration(mGfGrammar, mLanguage, tokenText));
+		}
 		return l;
 	}
 

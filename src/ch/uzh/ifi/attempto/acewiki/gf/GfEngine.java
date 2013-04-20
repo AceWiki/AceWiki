@@ -30,7 +30,7 @@ import ch.uzh.ifi.attempto.acewiki.core.LanguageHandler;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
-import ch.uzh.ifi.attempto.acewiki.owl.AceWikiOWLReasoner;
+import ch.uzh.ifi.attempto.acewiki.owl.AceWikiOWLReasoner2;
 
 /**
  * This AceWiki engine uses a GF (Grammatical Framework) grammar.
@@ -39,7 +39,7 @@ import ch.uzh.ifi.attempto.acewiki.owl.AceWikiOWLReasoner;
  */
 public class GfEngine extends AbstractAceWikiEngine {
 
-	private AceWikiOWLReasoner reasoner = new AceWikiOWLReasoner();
+	private AceWikiOWLReasoner2 reasoner = new AceWikiOWLReasoner2();
 
 	// TODO: support the creation of dynamic queries
 	// public static final String TYPE_QUERY = "query";
@@ -125,7 +125,7 @@ public class GfEngine extends AbstractAceWikiEngine {
 
 
 	public Sentence createSentence(String serialized) {
-		return new GfDeclaration(gfGrammar, GfGrammar.deserialize(serialized));
+		return GfSentence.createGfSentence(gfGrammar, GfGrammar.deserialize(serialized));
 	}
 
 
