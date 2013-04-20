@@ -53,7 +53,6 @@ import org.semanticweb.owlapi.util.Version;
 import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
 import ch.uzh.ifi.attempto.acewiki.aceowl.NounConcept;
 import ch.uzh.ifi.attempto.acewiki.aceowl.ProperNameIndividual;
-import ch.uzh.ifi.attempto.acewiki.core.AceWikiReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.AnswerElement;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.InconsistencyException;
@@ -71,7 +70,7 @@ import ch.uzh.ifi.attempto.acewiki.core.Sentence;
  *   - AceWikiOWLReasoner2 currently returns fake ontology elements (which don't resolve),
  *     but should return function names which are presented in the current language.
  */
-public class AceWikiOWLReasoner2 implements AceWikiReasoner {
+public class AceWikiOWLReasoner2 extends AbstractAceWikiOWLReasoner {
 
 	private static OWLDataFactory dataFactory = new OWLDataFactoryImpl();
 	private static OWLlinkHTTPXMLReasonerFactory owllinkReasonerFactory;

@@ -51,7 +51,6 @@ import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import org.semanticweb.owlapi.util.Version;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
-import ch.uzh.ifi.attempto.acewiki.core.AceWikiReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.AnswerElement;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.InconsistencyException;
@@ -69,7 +68,7 @@ import ch.uzh.ifi.attempto.acewiki.core.Sentence;
  * 
  * @author Tobias Kuhn
  */
-public class AceWikiOWLReasoner implements AceWikiReasoner {
+public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 	
 	private static OWLDataFactory dataFactory = new OWLDataFactoryImpl();
 	private static OWLlinkHTTPXMLReasonerFactory owllinkReasonerFactory;

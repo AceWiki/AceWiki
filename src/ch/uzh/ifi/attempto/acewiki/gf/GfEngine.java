@@ -31,6 +31,8 @@ import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.owl.AceWikiOWLReasoner2;
+import ch.uzh.ifi.attempto.acewiki.owl.OWLFunctionalSyntaxExporter;
+import ch.uzh.ifi.attempto.acewiki.owl.OWLXMLExporter;
 
 /**
  * This AceWiki engine uses a GF (Grammatical Framework) grammar.
@@ -55,6 +57,10 @@ public class GfEngine extends AbstractAceWikiEngine {
 	 */
 	public GfEngine() {
 		addExporter(new GfReportExporter());
+		addExporter(new OWLFunctionalSyntaxExporter(true));
+		addExporter(new OWLFunctionalSyntaxExporter(false));
+		addExporter(new OWLXMLExporter(true));
+		addExporter(new OWLXMLExporter(false));
 		setLexicalTypes(GeneralTopic.NORMAL_TYPE, TypeGfModule.INTERNAL_TYPE);
 	}
 
