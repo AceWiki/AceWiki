@@ -51,8 +51,6 @@ import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import org.semanticweb.owlapi.util.Version;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
-import ch.uzh.ifi.attempto.acewiki.aceowl.NounConcept;
-import ch.uzh.ifi.attempto.acewiki.aceowl.ProperNameIndividual;
 import ch.uzh.ifi.attempto.acewiki.core.AnswerElement;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.InconsistencyException;
@@ -62,6 +60,7 @@ import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
+import ch.uzh.ifi.attempto.acewiki.gf.SimpleAnswerElement;
 
 /**
  * TODO: this is a copy-paste of AceWikiOWLReasoner with a tiny change,
@@ -470,9 +469,7 @@ public class AceWikiOWLReasoner2 extends AbstractAceWikiOWLReasoner {
 		}
 	}
 
-	/**
-	 * TODO: AnswerElement should support multilinguality
-	 */
+
 	public synchronized List<AnswerElement> getAnswer(Question q) {
 		if (owlReasoner == null) return null;
 
@@ -484,30 +481,15 @@ public class AceWikiOWLReasoner2 extends AbstractAceWikiOWLReasoner {
 
 		if (quInd != null) {
 			for (OWLClass oc : getConcepts(quInd)) {
-				OntologyElement oe = get(oc);
-				if (oe instanceof OWLConcept) {
-					list.add((OWLConcept) oe);
-				} else {
-					// TODO: cleanup big ugly hack
-					NounConcept nc = new NounConcept();
-					String singular = oc.getIRI().getFragment();
-					String plural = singular;
-					nc.setWords(singular + ";" + plural);
-					list.add(nc);
+				if (isVisibleEntity(oc)) {
+					list.add(new SimpleAnswerElement(oc));
 				}
 			}
 		} else if (quClass != null) {
 			Set<OWLNamedIndividual> owlInds = getIndividuals(quClass);
 			for (OWLNamedIndividual oi : owlInds) {
-				OntologyElement oe = get(oi);
-				if (oe instanceof OWLIndividual) {
-					list.add((OWLIndividual) oe);
-				} else {
-					// TODO: cleanup big ugly hack
-					ProperNameIndividual pni = new ProperNameIndividual();
-					String singular = oi.getIRI().getFragment();;
-					pni.setWords(singular);
-					list.add(pni);
+				if (isVisibleEntity(oi)) {
+					list.add(new SimpleAnswerElement(oi));
 				}
 			}
 		}
@@ -593,6 +575,23 @@ public class AceWikiOWLReasoner2 extends AbstractAceWikiOWLReasoner {
 
 	private void log(String text) {
 		ontology.log(text);
+	}
+
+	/**
+	 * <p>True if the given entity can be shown to the user in the UI.
+	 * This excludes OWL built-in entities (e.g. tops and bottoms), and
+	 * also the ACE-specific entities
+	 * {@code ace:Universe} and {@code ace:contain}.</p>
+	 *
+	 * TODO: rename, make static, and share with other classes
+	 */
+	private boolean isVisibleEntity(OWLLogicalEntity owlEntity) {
+		if (owlEntity == null) return false;
+		if (owlEntity.isBuiltIn()) return false;
+		// TODO: use the ACE uri here
+		String iri = owlEntity.getIRI().toString();
+		if (!iri.startsWith(ontology.getURI())) return false;
+		return true;
 	}
 
 }

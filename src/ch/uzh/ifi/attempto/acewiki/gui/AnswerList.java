@@ -104,9 +104,10 @@ class AnswerList extends Column {
 			// The answer is still being calculated, or an error occurred
 			column.add(new SolidLabel("...", Font.ITALIC, 10));
 		} else if (answer.size() > 0) {
+			String lang = wiki.getLanguage();
 			// Non-empty answer
 			for (AnswerElement ae : answer) {
-				TextContainer tc = ae.getAnswerText();
+				TextContainer tc = ae.getAnswerText(lang);
 				column.add(new ListItem(new TextRow(tc.getTextElements(), wiki)));
 			}
 		} else {
