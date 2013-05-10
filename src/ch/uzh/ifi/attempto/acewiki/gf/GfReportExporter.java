@@ -8,6 +8,7 @@ import java.util.SortedSet;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.io.StringDocumentSource;
+import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLLogicalAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
@@ -27,6 +28,8 @@ import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.ape.ACEParserResult;
 import ch.uzh.ifi.attempto.ape.ACEText;
 import ch.uzh.ifi.attempto.ape.OutputType;
+import ch.uzh.ifi.attempto.gfservice.GfTree;
+import ch.uzh.ifi.attempto.gfservice.GfTreeParseException;
 
 /**
  * <p>Generates a report that covers all the articles and their sentences in the wiki,
@@ -99,12 +102,24 @@ public class GfReportExporter extends OntologyExporter {
 									"o" + aceReport.getOwlAmbiguity())
 							);
 
+					int totalTreeSize = 0;
+					int totalOwlSize = 0;
 					for (String tree : trees) {
 						statistics.add("gf_declaration_tree");
 						addWithIndent(sb, 2, tree);
+						int treeSize = aceReport.getTreeSize(tree);
+						totalTreeSize += treeSize;
+						int owlSize = aceReport.getOwlSize(tree);
+						totalOwlSize += owlSize;
+						addWithIndent(sb, 3, "tree_size_" + treeSize);
 						addWithIndent(sb, 3, aceReport.getAce(tree));
 						addWithIndent(sb, 3, aceReport.getOwlFssPp(tree));
+						addWithIndent(sb, 3, "owl_size_" + owlSize);
 						addWithIndent(sb, 3, aceReport.getMessages(tree));
+					}
+					if (! trees.isEmpty()) {
+						statistics.add("gf_declaration_trees_treesize_" + (totalTreeSize / trees.size()));
+						statistics.add("gf_declaration_trees_owlsize_" + (totalOwlSize / trees.size()));
 					}
 				} else {
 					addWithIndent(sb, 1,
@@ -164,6 +179,8 @@ public class GfReportExporter extends OntologyExporter {
 		// Pretty-printed OWL
 		private Map<String, String> treeToOwl = Maps.newHashMap();
 
+		private Map<String, Integer> treeToOwlSize = Maps.newHashMap();
+
 		public AceReport(GfGrammar gfGrammar, List<String> trees) {
 			for (String tree : trees) {
 				if (tree == null) {
@@ -191,6 +208,13 @@ public class GfReportExporter extends OntologyExporter {
 
 					setOfSetofAxiom.add(axiomSet);
 					treeToOwl.put(tree, owlAsString);
+
+					// Number of different entities in the axiom set
+					Set<OWLEntity> entities = Sets.newHashSet();
+					for (OWLLogicalAxiom ax : axiomSet) {
+						entities.addAll(ax.getSignature());
+					}
+					treeToOwlSize.put(tree, entities.size());
 				} catch (Exception e) {
 					continue;
 				}
@@ -209,8 +233,25 @@ public class GfReportExporter extends OntologyExporter {
 			return treeToAce.get(tree);
 		}
 
+		public int getTreeSize(String tree) {
+			try {
+				GfTree gfTree = new GfTree(tree);
+				return gfTree.size();
+			} catch (GfTreeParseException e) {
+				return 0;
+			}
+		}
+
 		public String getOwlFssPp(String tree) {
 			return treeToOwl.get(tree);
+		}
+
+		public int getOwlSize(String tree) {
+			Integer size = treeToOwlSize.get(tree);
+			if (size == null) {
+				return 0;
+			}
+			return size;
 		}
 
 		public String getMessages(String tree) {
