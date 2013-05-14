@@ -482,14 +482,14 @@ public class AceWikiOWLReasoner2 extends AbstractAceWikiOWLReasoner {
 		if (quInd != null) {
 			for (OWLClass oc : getConcepts(quInd)) {
 				if (isVisibleEntity(oc)) {
-					list.add(new SimpleAnswerElement(oc));
+					list.add(new SimpleAnswerElement(ontology, oc));
 				}
 			}
 		} else if (quClass != null) {
 			Set<OWLNamedIndividual> owlInds = getIndividuals(quClass);
 			for (OWLNamedIndividual oi : owlInds) {
 				if (isVisibleEntity(oi)) {
-					list.add(new SimpleAnswerElement(oi));
+					list.add(new SimpleAnswerElement(ontology, oi));
 				}
 			}
 		}

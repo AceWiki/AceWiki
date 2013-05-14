@@ -1,18 +1,25 @@
 package ch.uzh.ifi.attempto.acewiki.gf;
 
+import java.util.Map;
+
 import org.semanticweb.owlapi.model.OWLLogicalEntity;
 
+import ch.uzh.ifi.attempto.acewiki.core.AceWikiEngine;
 import ch.uzh.ifi.attempto.acewiki.core.AnswerElement;
+import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.owl.AbstractOWLOntoElement;
 import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.base.TextElement;
 
-// TODO: rename: OWLEntityAnswerElement
+// TODO: cleanup
+// TODO: rename to something like GFOWLEntityAnswerElement
 public class SimpleAnswerElement extends AbstractOWLOntoElement implements AnswerElement {
 
 	private final OWLLogicalEntity mEntity;
+	private final Ontology mOntology;
 
-	public SimpleAnswerElement(OWLLogicalEntity entity) {
+	public SimpleAnswerElement(Ontology ontology, OWLLogicalEntity entity) {
+		mOntology = ontology;
 		mEntity = entity;
 	}
 
@@ -50,11 +57,25 @@ public class SimpleAnswerElement extends AbstractOWLOntoElement implements Answe
 
 	/**
 	 * <p>Returns the textual representation of the entity.</p>
-	 *
-	 * TODO: translate the entity into the given language, and remove the replaceFirst-hack.
 	 */
 	public TextContainer getAnswerText(String lang) {
-		return new TextContainer(new TextElement(getIRISuffix().replaceFirst("_[A-Z0-9]+$", "")));
+		AceWikiEngine engine = mOntology.getEngine();
+		String answerAsStr = null;
+		String iriSuffix = getIRISuffix();
+		if (engine instanceof GfEngine) {
+			Map<String, String> iriToToken = ((GfEngine) engine).getGfGrammar().getIriToToken(lang);
+			if (iriToToken != null) {
+				answerAsStr = iriToToken.get(iriSuffix);
+			}
+		}
+
+		// TODO: if mapping failed then we use the entity name as the answer and indicate this with #
+		if (answerAsStr == null) {
+			answerAsStr = iriSuffix.replaceFirst("_[A-Z0-9]+$", "") + " (#)";
+		}
+		// TODO: remove hack (replacing of underscores by spaces
+		answerAsStr = answerAsStr.replaceAll("_", " ");
+		return new TextContainer(new TextElement(answerAsStr));
 	}
 
 }
