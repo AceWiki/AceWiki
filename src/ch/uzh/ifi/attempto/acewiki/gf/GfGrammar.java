@@ -155,6 +155,17 @@ public class GfGrammar {
 
 
 	/**
+	 * @return set of locales defined for the given language in the grammar
+	 */
+	public Set<String> getLocales(String lang) {
+		if (mGfServiceResultGrammar == null) {
+			return Collections.emptySet();
+		}
+		return mGfServiceResultGrammar.getLanguages().get(lang);
+	}
+
+
+	/**
 	 * @param grammar GF grammar
 	 * @return {@code true} iff the given grammar contains a concrete language with suffix SUFFIX_APE
 	 */
