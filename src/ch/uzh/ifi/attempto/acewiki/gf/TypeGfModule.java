@@ -58,6 +58,9 @@ public class TypeGfModule extends AbstractModuleElement implements ModuleElement
 		return INTERNAL_TYPE.equals(type);
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public void integrate() {
 		if (!hasContent()) return;
 		if (!mEngine.getGfGrammar().isGrammarEditable()) {

@@ -390,6 +390,20 @@ public class GfGrammar {
 	}
 
 
+	/**
+	 * Recompiles the grammar.
+	 */
+	public GfStorageResult update() throws GfServiceException {
+		Set<String> languages = getLanguages();
+		GfStorageResult result = mGfStorage.update(mDir, mCat, OPTIMIZE_PGF, languages);
+		if (result != null && result.isSuccess()) {
+			refreshGrammarInfo();
+			refreshLangToTokenToCats();
+		}
+		return result;
+	}
+
+
 	public boolean isGrammarEditable() {
 		return ! (mDir == null);
 	}

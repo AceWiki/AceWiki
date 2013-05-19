@@ -15,6 +15,7 @@ import ch.uzh.ifi.attempto.acewiki.core.ModuleElement;
 import ch.uzh.ifi.attempto.acewiki.core.ModuleElement.InvalidSyntaxException;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
+import ch.uzh.ifi.attempto.acewiki.gf.GfEngine;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
@@ -22,6 +23,8 @@ import ch.uzh.ifi.attempto.echocomp.SimpleErrorMessageWindow;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.Style;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
+import ch.uzh.ifi.attempto.gfservice.GfModule;
+import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 
 import com.google.common.base.Splitter;
 
@@ -37,7 +40,6 @@ public class ModulePage extends ArticlePage {
 
 	private static final String ACTION_EDIT = "Edit module";
 	private static final String ACTION_CHECK = "Check module";
-	private static final String ACTION_MAKE = "Rebuild grammar";
 
 	public final static Splitter SPLITTER_NL = Splitter.on('\n');
 
@@ -60,13 +62,7 @@ public class ModulePage extends ArticlePage {
 
 	public void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);
-		if (ACTION_MAKE.equals(e.getActionCommand())) {
-			if (!getWiki().isEditable()) {
-				getWiki().showLoginWindow();
-			} else {
-				integrate();
-			}
-		} else if (ACTION_EDIT.equals(e.getActionCommand())) {
+		if (ACTION_EDIT.equals(e.getActionCommand())) {
 			if (!getWiki().isEditable()) {
 				getWiki().showLoginWindow();
 			} else {
@@ -77,7 +73,19 @@ public class ModulePage extends ArticlePage {
 				.setPositiveButton(new Executable() {
 					@Override
 					public void execute() {
-						parse(false);
+						boolean success = parse();
+						// If there were no syntax errors then push the grammar to the server.
+						if (success) {
+							GfEngine engine = (GfEngine) mWiki.getEngine();
+							try {
+								engine.getGfGrammar().upload(
+										new GfModule(mElement.getWord(),
+												mElement.getModuleContent().getText()));
+							} catch (GfServiceException e) {
+								mWiki.showWindow(new MessageWindow("Error", "Push to server failed."));
+								e.printStackTrace();
+							}
+						}
 					}
 				});
 				mWiki.showWindow(editor.create());
@@ -86,7 +94,10 @@ public class ModulePage extends ArticlePage {
 			if (!getWiki().isEditable()) {
 				getWiki().showLoginWindow();
 			} else {
-				parse(true);
+				boolean success = parse();
+				if (success) {
+					mWiki.showWindow(new MessageWindow("Success", "There are no syntax errors."));
+				}
 			}
 		}
 	}
@@ -110,7 +121,7 @@ public class ModulePage extends ArticlePage {
 		buttonRow.setCellSpacing(new Extent(10));
 		buttonRow.add(new GeneralButton(ACTION_EDIT, this));
 		buttonRow.add(new GeneralButton(ACTION_CHECK, this));
-		buttonRow.add(new GeneralButton(ACTION_MAKE, this));
+
 
 		textColumn.add(referencesGrid);
 		textColumn.add(new VSpace(20));
@@ -129,19 +140,7 @@ public class ModulePage extends ArticlePage {
 	}
 
 
-	private void integrate() {
-		// TODO: this blocks, do it in the background
-		try {
-			mElement.integrate();
-		} catch (Exception ex) {
-			mWiki.showWindow(new SimpleErrorMessageWindow("Error", ex.getMessage()));
-			return;
-		}
-		mWiki.showWindow(new MessageWindow("Success", "Grammar rebuilt successfully"));
-	}
-
-
-	private void parse(boolean popupOnSuccess) {
+	private boolean parse() {
 		// TODO: this blocks, do it in the background
 		try {
 			mElement.parse();
@@ -152,14 +151,12 @@ public class ModulePage extends ArticlePage {
 					"Error at line/column = " + (l == null ? "?" : l) + "/" + (c == null ? "?" : c),
 					iex.getText()));
 			if (l != null) highlightSyntaxError(l);
-			return;
+			return false;
 		} catch (Exception ex) {
 			mWiki.showWindow(new SimpleErrorMessageWindow("Error", ex.getMessage()));
-			return;
+			return false;
 		}
-		if (popupOnSuccess) {
-			mWiki.showWindow(new MessageWindow("Success", "There are no syntax errors."));
-		}
+		return true;
 	}
 
 
