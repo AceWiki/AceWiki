@@ -265,12 +265,10 @@ public abstract class GfSentence extends MultilingualSentence implements OWLSent
 
 	/**
 	 * Updates the semantic representation of the wiki entry.
-	 * This succeeds if the entry is
-	 *   - ACE-compatible,
-	 *   - not ambiguous,
-	 *   - OWL-compatible.
-	 * TODO: support some types of ambiguous entries
-	 * (those whose OWL representations are equivalent to each other)
+	 * This succeeds if the entry is compatible with ACE and OWL, i.e.
+	 * at least one of the trees can be mapped to OWL.
+	 *
+	 * TODO: we currently map only the 1st reading to OWL, improve this.
 	 */
 	public void update() {
 		if (! mGfGrammar.isAceCompatible()) {
@@ -278,26 +276,26 @@ public abstract class GfSentence extends MultilingualSentence implements OWLSent
 			return;
 		}
 
-		List<String> trees = mGfWikiEntry.getTrees().getTrees();
+		Set<ACEText> acetexts = new HashSet<ACEText>();
+		for (String tree : mGfWikiEntry.getTrees().getTrees()) {
+			try {
+				ACEText acetext = GfWikiUtils.getACEText(mGfGrammar, tree);
+				if (acetext != null) {
+					acetexts.add(acetext);
+				}
+			} catch (Exception e) {
+				// TODO do not ignore exception
+			}
+		}
 
-		if (trees.size() != 1) {
+		if (acetexts.isEmpty()) {
 			setNotOwl();
 			return;
 		}
 
-		ACEText acetext = null;
-		try {
-			acetext = GfWikiUtils.getACEText(mGfGrammar, trees.get(0));
-		} catch (Exception e) {
-			// TODO do not ignore exception
-		}
-
-		if (acetext == null) {
-			setNotOwl();
-			return;
-		}
-
-		parserResult = GfWikiUtils.parse(acetext, getOntology().getURI());
+		// TODO: temporary solution is to assert the first reading into the KB, but rather
+		// assert the disjunction of all the readings that successfully map to OWL.
+		parserResult = GfWikiUtils.parse(acetexts.iterator().next(), getOntology().getURI());
 		MessageContainer mc = parserResult.getMessageContainer();
 		String owlxml = parserResult.get(OWLXML);
 
