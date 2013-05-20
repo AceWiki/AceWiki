@@ -301,7 +301,7 @@ public class GrammarPage extends WikiPage implements ActionListener {
 		StringBuilder sb = new StringBuilder();
 		try {
 			int numberOfFilesDeleted = mGrammar.rmGfo();
-			sb.append("Successfully deleted " + numberOfFilesDeleted + " gfo-file(s)");
+			sb.append("Successfully deleted " + numberOfFilesDeleted + " gfo-file(s).");
 		} catch (GfServiceException e) {
 			sb.append(e.getMessage());
 		}
@@ -320,13 +320,13 @@ public class GrammarPage extends WikiPage implements ActionListener {
 			mWiki.showWindow(new SimpleErrorMessageWindow("Error", ex.getMessage()));
 			return;
 		}
-		mWiki.showWindow(new MessageWindow("Success", "Grammar rebuilt successfully"));
+		mWiki.showWindow(new MessageWindow("Success", "Grammar rebuilt successfully."));
 	}
 
 
 	public void integrateAux() {
 		if (! mGrammar.isGrammarEditable()) {
-			throw new RuntimeException("Grammar is not editable");
+			throw new RuntimeException("Grammar is not editable.");
 		}
 		try {
 			GfStorageResult result = mGrammar.update();
