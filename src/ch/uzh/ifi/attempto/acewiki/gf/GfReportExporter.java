@@ -63,6 +63,7 @@ public class GfReportExporter extends OntologyExporter {
 
 	private static OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
 
+	private static final String TAG_GF_SENTENCE = "gf_sentence";
 	private static final String MAX_INDENT = "\t\t\t\t\t";
 	private static final Joiner JOINER = Joiner.on("___").useForNull("NULL");
 
@@ -78,25 +79,25 @@ public class GfReportExporter extends OntologyExporter {
 					JOINER.join(oe, oe.getArticle().getSentences().size()));
 			for (Sentence s : oe.getArticle().getSentences()) {
 				statistics.add("sentence");
-				if (s instanceof GfDeclaration && engine instanceof GfEngine) {
+				if (s instanceof GfSentence && engine instanceof GfEngine) {
 					GfGrammar gfGrammar = ((GfEngine) engine).getGfGrammar();
-					statistics.add("gf_declaration");
-					GfDeclaration gfDecl = (GfDeclaration) s;
+					statistics.add(TAG_GF_SENTENCE);
+					GfSentence gfSent = (GfSentence) s;
 
-					List<String> trees = gfDecl.getParseTrees();
-					statistics.add("gf_declaration_tree_size_" + trees.size());
+					List<String> trees = gfSent.getParseTrees();
+					statistics.add(TAG_GF_SENTENCE + "_tree_size_" + trees.size());
 
 					AceReport aceReport = new AceReport(gfGrammar, trees);
-					statistics.add("gf_declaration_ace_size_" + aceReport.getAceAmbiguity());
-					statistics.add("gf_declaration_owl_size_" + aceReport.getOwlAmbiguity());
+					statistics.add(TAG_GF_SENTENCE + "_ace_size_" + aceReport.getAceAmbiguity());
+					statistics.add(TAG_GF_SENTENCE + "_owl_size_" + aceReport.getOwlAmbiguity());
 
-					String lastEditLanguage = gfDecl.getGfWikiEntry().getLanguage();
-					statistics.add("gf_declaration_language_" + lastEditLanguage);
+					String lastEditLanguage = gfSent.getGfWikiEntry().getLanguage();
+					statistics.add(TAG_GF_SENTENCE + "_language_" + lastEditLanguage);
 
 					addWithIndent(sb, 1,
 							JOINER.join(s.isIntegrated(),
 									lastEditLanguage,
-									gfDecl.getGfWikiEntry().getText(),
+									gfSent.getGfWikiEntry().getText(),
 									"t" + s.getNumberOfRepresentations(),
 									"a" + aceReport.getAceAmbiguity(),
 									"o" + aceReport.getOwlAmbiguity())
@@ -105,7 +106,7 @@ public class GfReportExporter extends OntologyExporter {
 					int totalTreeSize = 0;
 					int totalOwlSize = 0;
 					for (String tree : trees) {
-						statistics.add("gf_declaration_tree");
+						statistics.add(TAG_GF_SENTENCE + "_tree");
 						addWithIndent(sb, 2, tree);
 						int treeSize = aceReport.getTreeSize(tree);
 						totalTreeSize += treeSize;
@@ -118,8 +119,8 @@ public class GfReportExporter extends OntologyExporter {
 						addWithIndent(sb, 3, aceReport.getMessages(tree));
 					}
 					if (! trees.isEmpty()) {
-						statistics.add("gf_declaration_trees_treesize_" + (totalTreeSize / trees.size()));
-						statistics.add("gf_declaration_trees_owlsize_" + (totalOwlSize / trees.size()));
+						statistics.add(TAG_GF_SENTENCE + "_trees_treesize_" + (totalTreeSize / trees.size()));
+						statistics.add(TAG_GF_SENTENCE + "_trees_owlsize_" + (totalOwlSize / trees.size()));
 					}
 				} else {
 					addWithIndent(sb, 1,
