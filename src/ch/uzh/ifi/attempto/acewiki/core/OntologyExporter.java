@@ -114,7 +114,19 @@ public abstract class OntologyExporter {
 	protected List<OntologyElement> getOntologyElements() {
 		return ontology.getOntologyElements();
 	}
-	
+
+	/**
+	 * Returns all instances of class <code>type</code> in the current list of ontology elements.
+	 * The returned iterable has elements whose class is <code>type</code> or a subclass of <code>type</code>.
+	 * The returned iterable's iterator does not support <code>remove()</code>.
+	 *
+	 * @param type the type of ontology elements desired
+	 * @return an unmodifiable iterable containing all the ontology elements that are of the requested type
+	 */
+	protected <T> Iterable<T> getOntologyElements(Class<T> type) {
+		return ontology.getOntologyElements(type);
+	}
+
 	/**
 	 * Returns the current output stream.
 	 * 

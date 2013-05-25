@@ -22,7 +22,7 @@ import com.google.common.collect.Multiset;
 import com.google.common.collect.Sets;
 
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiEngine;
-import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.GeneralTopic;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyExporter;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.ape.ACEParserResult;
@@ -72,12 +72,13 @@ public class GfReportExporter extends OntologyExporter {
 		Multiset<String> statistics = HashMultiset.create();
 		AceWikiEngine engine = getOntology().getEngine();
 
-		for (OntologyElement oe : getOntologyElements()) {
+		for (GeneralTopic el : getOntologyElements(GeneralTopic.class)) {
+			List<Sentence> sentences = el.getArticle().getSentences();
 			statistics.add("ontology_element");
-			sb.append(oe.getWord());
+			sb.append(el.getWord());
 			addWithIndent(sb, 0,
-					JOINER.join(oe, oe.getArticle().getSentences().size()));
-			for (Sentence s : oe.getArticle().getSentences()) {
+					JOINER.join(el, sentences.size()));
+			for (Sentence s : sentences) {
 				statistics.add("sentence");
 				if (s instanceof GfSentence && engine instanceof GfEngine) {
 					GfGrammar gfGrammar = ((GfEngine) engine).getGfGrammar();
