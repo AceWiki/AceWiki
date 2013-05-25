@@ -33,8 +33,8 @@ public class GfWikiUtils {
 		for (GeneralTopic el : ontology.getOntologyElements(GeneralTopic.class)) {
 			Article article = el.getArticle();
 			for (Sentence sent : article.getSentences()) {
-				if (sent instanceof GfDeclaration) {
-					((GfDeclaration) sent).clearLinearizations();
+				if (sent instanceof GfSentence) {
+					((GfSentence) sent).clearLinearizations();
 				}
 			}
 		}
