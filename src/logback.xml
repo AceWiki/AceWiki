@@ -11,7 +11,7 @@
   </root>
 
   <appender name="SYST" class="ch.qos.logback.core.FileAppender">
-    <File>logs/new/syst.log</File>
+    <File>logs/syst.log</File>
     <encoder>
       <pattern>%13r \(%d\) [%4X{sessionId}] 'syst' [%X{type}] %m%n</pattern>
     </encoder>
@@ -27,7 +27,7 @@
     </discriminator>
     <sift>
       <appender name="ONTO-${module}" class="ch.qos.logback.core.FileAppender">
-        <File>logs/new/${module}.log</File>
+        <File>logs/${module}.log</File>
         <encoder>
           <pattern>%13r \(%d\) [%4X{sessionId}] '%X{username}' [%X{type}] %m%n</pattern>
         </encoder>

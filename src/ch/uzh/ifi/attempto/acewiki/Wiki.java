@@ -76,7 +76,6 @@ import ch.uzh.ifi.attempto.acewiki.gui.StartPage;
 import ch.uzh.ifi.attempto.acewiki.gui.Title;
 import ch.uzh.ifi.attempto.acewiki.gui.UserWindow;
 import ch.uzh.ifi.attempto.acewiki.gui.WikiPage;
-import ch.uzh.ifi.attempto.base.Logger;
 import ch.uzh.ifi.attempto.base.LoggerContext;
 import ch.uzh.ifi.attempto.echocomp.EchoThread;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
@@ -124,8 +123,6 @@ public class Wiki implements UserProvider, ActionListener, ExternalEventListener
 	private Row navigationButtons;
 	private final LoggerContext loggerContext;
 	private final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(this.getClass());
-	// TODO(uvictor): remove logger
-	private Logger logger;
 	private SplitPane wikiPane;
 	private Row loginBackground;
 
@@ -179,8 +176,6 @@ public class Wiki implements UserProvider, ActionListener, ExternalEventListener
 
 		loggerContext = new LoggerContext(ontology.getName(), "anon", String.valueOf(sessionId));
 		loggerContext.propagateWithinThread();
-		// TODO(uvictor): remove logger
-		logger = new Logger(config.getParameter("context:logdir") + "/" + ontology.getName(), "anon", sessionId);
 		application = (AceWikiApp) EchoThread.getActiveApplication();
 		taskQueue = application.createTaskQueue();
 
@@ -907,7 +902,6 @@ public class Wiki implements UserProvider, ActionListener, ExternalEventListener
 		}
 	}
 
-	// TODO(uvictor): remove this method (after removing logger)
 	/**
 	 * Writes the log entry to the log file.
 	 *
@@ -918,8 +912,6 @@ public class Wiki implements UserProvider, ActionListener, ExternalEventListener
 		loggerContext.propagateWithinThread();
 		org.slf4j.MDC.put("type", type);
 		log.info(text);
-		// TODO(uvictor): remove logger
-		logger.log(type, text);
 	}
 
 	/**
@@ -977,8 +969,6 @@ public class Wiki implements UserProvider, ActionListener, ExternalEventListener
 	private void setUser(User user) {
 		this.user = user;
 		loggerContext.setUsername(user.getName());
-		// TODO(uvictor): remove logger
-		logger.setUsername(user.getName());
 		userLabel.setForeground(Color.BLACK);
 		userLabel.setText(user.getName());
 		logoutButton.setVisible(true);
@@ -1104,16 +1094,11 @@ public class Wiki implements UserProvider, ActionListener, ExternalEventListener
 		return engine.getLanguages().length > 1;
 	}
 
-	// TODO(uvictor): remove logger
-	// We should not need to implement a substitute for this method as slf4j.MDC exists statically on a per-thread basis.
 	/**
-	 * Returns the logger object.
+	 * Returns the logger context object.
 	 *
-	 * @return The logger object.
+	 * @return The logger context object.
 	 */
-	public Logger getLogger() {
-		return logger;
-	}
 	public LoggerContext getLoggerContext() {
 		return loggerContext;
 	}
