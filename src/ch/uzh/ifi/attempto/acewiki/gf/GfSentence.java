@@ -16,7 +16,6 @@ package ch.uzh.ifi.attempto.acewiki.gf;
 
 import static ch.uzh.ifi.attempto.ape.OutputType.DRSPP;
 import static ch.uzh.ifi.attempto.ape.OutputType.OWLFSSPP;
-import static ch.uzh.ifi.attempto.ape.OutputType.OWLXML;
 import static ch.uzh.ifi.attempto.ape.OutputType.PARAPHRASE1;
 
 import java.util.ArrayList;
@@ -27,15 +26,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.io.StringDocumentSource;
 import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.profiles.OWLProfile;
-import org.semanticweb.owlapi.profiles.OWLProfileReport;
-import org.semanticweb.owlapi.profiles.OWLProfileViolation;
+import org.semanticweb.owlapi.model.SWRLRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,7 +45,6 @@ import ch.uzh.ifi.attempto.acewiki.owl.AceWikiOWLReasoner2;
 import ch.uzh.ifi.attempto.acewiki.owl.OWLSentence;
 import ch.uzh.ifi.attempto.ape.ACEParserResult;
 import ch.uzh.ifi.attempto.ape.ACEText;
-import ch.uzh.ifi.attempto.ape.MessageContainer;
 import ch.uzh.ifi.attempto.base.DefaultTextOperator;
 import ch.uzh.ifi.attempto.base.MultiTextContainer;
 import ch.uzh.ifi.attempto.base.TextContainer;
@@ -71,7 +63,6 @@ import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 public abstract class GfSentence extends MultilingualSentence implements OWLSentence {
 
 	private final Logger mLogger = LoggerFactory.getLogger(GfSentence.class);
-	private static OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
 
 	protected final GfGrammar mGfGrammar;
 	protected final GfWikiEntry mGfWikiEntry;
@@ -89,9 +80,8 @@ public abstract class GfSentence extends MultilingualSentence implements OWLSent
 	private final Map<String, Map<String, Set<String>>> treeLinearizations = new HashMap<>();
 
 
-	// These fields are evaluated lazily:
-	private ACEParserResult parserResult;
-	private Boolean reasonable;
+	// These fields are evaluated lazily
+	private Boolean isReasonable;
 	private Boolean isOWL;
 	private Boolean isOWLSWRL;
 	private Set<OWLAxiom> owlAxioms;
@@ -263,120 +253,57 @@ public abstract class GfSentence extends MultilingualSentence implements OWLSent
 	}
 
 
-	/**
-	 * Updates the semantic representation of the wiki entry.
-	 * This succeeds if the entry is compatible with ACE and OWL, i.e.
-	 * at least one of the trees can be mapped to OWL.
-	 *
-	 * TODO: we currently map only the 1st reading to OWL, improve this.
-	 */
 	public void update() {
-		if (! mGfGrammar.isAceCompatible()) {
-			setNotOwl();
-			return;
+		Set<Set<OWLAxiom>> setOfSetOfAxiom = null;
+		String uri = getOntology().getURI();
+		try {
+			setOfSetOfAxiom = GfOwlConverter.convert(mGfGrammar, uri, mGfWikiEntry);
+		} catch (OWLOntologyCreationException e1) {
+			// TODO
 		}
 
-		Set<ACEText> acetexts = new HashSet<ACEText>();
-		for (String tree : mGfWikiEntry.getTrees().getTrees()) {
-			try {
-				ACEText acetext = GfWikiUtils.getACEText(mGfGrammar, tree);
-				if (acetext != null) {
-					acetexts.add(acetext);
-				}
-			} catch (Exception e) {
-				// TODO do not ignore exception
-			}
-		}
-
-		if (acetexts.isEmpty()) {
-			setNotOwl();
-			return;
-		}
-
-		// TODO: temporary solution is to assert the first reading into the KB, but rather
-		// assert the disjunction of all the readings that successfully map to OWL.
-		parserResult = GfWikiUtils.parse(acetexts.iterator().next(), getOntology().getURI());
-		MessageContainer mc = parserResult.getMessageContainer();
-		String owlxml = parserResult.get(OWLXML);
-
-		// TODO: set these booleans on the basis of the loaded ontology,
-		// not by string matching
-		isOWLSWRL =
-				(mc.getMessages("owl").size() == 0) &&
-				(owlxml.length() > 0);
-
-		isOWL = isOWLSWRL &&
-				(owlxml.indexOf("<swrl:Imp>") < 0) &&
-				(owlxml.indexOf("<DLSafeRule>") < 0);
-
-		AceWikiOWLReasoner2 reasoner = (AceWikiOWLReasoner2) getOntology()
-				.getReasoner().getWrappedReasoner();
-
-		if (isOWL && reasoner.getGlobalRestrictionsPolicy().equals("no_chains")) {
-			reasonable =
-					(owlxml.indexOf("<TransitiveObjectProperty>") < 0) &&
-					(owlxml.indexOf("<ObjectPropertyChain>") < 0);
+		if (setOfSetOfAxiom == null || setOfSetOfAxiom.isEmpty()) {
+			isOWLSWRL = isOWL = isReasonable = false;
+			owlAxioms = new HashSet<OWLAxiom>();
 		} else {
-			reasonable = isOWL;
-		}
+			isOWLSWRL = isOWL = isReasonable = true;
+			owlAxioms = GfOwlConverter.disambiguate(setOfSetOfAxiom);
 
-		owlAxioms = null;
-		OWLOntology owlOntology = null;
-		if (isOWL) {
-			try {
-				owlOntology = ontologyManager.loadOntologyFromOntologyDocument(
-						new StringDocumentSource(owlxml)
-						);
-				if (owlOntology.isEmpty()) {
-					setNotOwl();
-				} else {
-					owlAxioms = owlOntology.getAxioms();
-				}
-			} catch (OWLOntologyCreationException ex) {
-				ex.printStackTrace();
-			}
-		}
-
-		OWLProfile owlProfile = reasoner.getOWLProfile();
-		if (reasonable && owlOntology != null && owlProfile != null && this instanceof Declaration) {
-			OWLProfileReport r = owlProfile.checkOntology(owlOntology);
-			for (OWLProfileViolation v : r.getViolations()) {
-				if (!v.toString().startsWith("Use of undeclared")) {
-					reasonable = false;
+			// TODO: currently not reasoning with SWRL rules, this should
+			// be controlled by the profile instead
+			for (OWLAxiom ax : owlAxioms) {
+				if (ax instanceof SWRLRule) {
+					isOWL = isReasonable = false;
+					mLogger.info("Axiom is SWRL rule: {}", ax);
 					break;
 				}
 			}
 		}
-		if (owlOntology != null) {
-			ontologyManager.removeOntology(owlOntology);
+
+		// TODO: check also questions somehow, e.g. EL probably does not allow inverse properties in questions
+		if (isReasonable && this instanceof Declaration) {
+			AceWikiOWLReasoner2 reasoner = (AceWikiOWLReasoner2) getOntology().getReasoner().getWrappedReasoner();
+			isReasonable = GfOwlConverter.isReasonable(reasoner, owlAxioms);
 		}
-		if (!reasonable && isIntegrated()) {
+
+		if (!isReasonable && isIntegrated()) {
 			super.setIntegrated(false);
 		}
 	}
 
-	/* OWL support follows */
 
-	public ACEParserResult getParserResult() {
-		if (parserResult == null) {
-			update();
-		}
-		return parserResult;
-	}
-
+	// TODO: this method does not make sense for GF-wiki entries
+	// because they can be ambiguous.
 	public String getPrettyOWL() {
-		ACEParserResult parserResult = getParserResult();
-		if (parserResult == null) {
-			return null;
-		}
-		return parserResult.get(OWLFSSPP);
+		return null;
 	}
+
 
 	public boolean isReasonable() {
-		if (reasonable == null) {
+		if (isReasonable == null) {
 			update();
 		}
-		return reasonable;
+		return isReasonable;
 	}
 
 	public boolean isOWL() {
@@ -394,11 +321,8 @@ public abstract class GfSentence extends MultilingualSentence implements OWLSent
 	}
 
 	public Set<OWLAxiom> getOWLAxioms() {
-		if (parserResult == null) {
-			update();
-		}
 		if (owlAxioms == null) {
-			owlAxioms = new HashSet<OWLAxiom>();
+			update();
 		}
 		return owlAxioms;
 	}
@@ -533,12 +457,5 @@ public abstract class GfSentence extends MultilingualSentence implements OWLSent
 		} catch (GfServiceException e) {
 			throw new RuntimeException(e.getMessage());
 		}
-	}
-
-
-	private void setNotOwl() {
-		reasonable = false;
-		isOWL = false;
-		isOWLSWRL = false;
 	}
 }

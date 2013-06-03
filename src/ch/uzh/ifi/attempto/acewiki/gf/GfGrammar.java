@@ -59,6 +59,8 @@ import ch.uzh.ifi.attempto.gfservice.gfwebservice.GfWebStorage;
 /**
  * This class wraps GF features of a particular GF grammar.
  *
+ * TODO: move ACE-specific stuff out of this class
+ *
  * @author Kaarel Kaljurand
  */
 public class GfGrammar {

@@ -61,6 +61,21 @@ public class GfWikiUtils {
 	}
 
 
+	public static ACEParserResult parse(ACEText acetext, String uri, OutputType... outputTypes) {
+		ACEParser ape = APE.getParser();
+		synchronized (ape) {
+			ape.setURI(uri);
+			ape.setClexEnabled(false);
+
+			return ape.getMultiOutput(
+					acetext.getText(),
+					acetext.getLexicon(),
+					outputTypes
+					);
+		}
+	}
+
+
 	/**
 	 * Linearize the given tree in the Ape language and return the corresponding
 	 * ACEText object.
