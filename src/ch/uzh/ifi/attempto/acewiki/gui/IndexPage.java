@@ -75,7 +75,7 @@ public class IndexPage extends WikiPage implements ActionListener {
 		add(new VSpace(20));
 		
 		if (getWiki().getOntologyElements().size() > simpleViewSize) {
-			chosenChar = "A";
+			if (chosenChar.isEmpty()) chosenChar = "A";
 			letterIndexBar = new IndexBar(this);
 			add(letterIndexBar);
 		}
