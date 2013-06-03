@@ -6,13 +6,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 
-import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.io.StringDocumentSource;
+import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLLogicalAxiom;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.HashMultiset;
@@ -60,8 +55,6 @@ import ch.uzh.ifi.attempto.gfservice.GfTreeParseException;
  * @author Kaarel Kaljurand
  */
 public class GfReportExporter extends OntologyExporter {
-
-	private static OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
 
 	private static final String TAG_GF_SENTENCE = "gf_sentence";
 	private static final String MAX_INDENT = "\t\t\t\t\t";
@@ -172,7 +165,7 @@ public class GfReportExporter extends OntologyExporter {
 		// the semantic ambiguity of the original sentence, which is smaller
 		// or equal to the syntactic ambiguity (shown by the number of trees).
 		// TODO: throw out axioms which have a semantically equivalent axiom in the set
-		private Set<Set<OWLLogicalAxiom>> setOfSetofAxiom = Sets.newHashSet();
+		private Set<Set<OWLAxiom>> setOfSetofAxiom = Sets.newHashSet();
 		private Map<String, ACEParserResult> treeToAceParserResult = Maps.newHashMap();
 		// Linearization result
 		private Map<String, String> treeToAce = Maps.newHashMap();
@@ -197,7 +190,7 @@ public class GfReportExporter extends OntologyExporter {
 					if (acetextAsString.isEmpty()) continue;
 
 					treeToAce.put(tree, acetextAsString);
-					ACEParserResult parserResult = GfWikiUtils.parse(acetext, getOntology().getURI());
+					ACEParserResult parserResult = GfWikiUtils.parse(acetext, getOntology().getURI(), OutputType.DRS, OutputType.OWLFSSPP);
 					treeToAceParserResult.put(tree, parserResult);
 
 					String drsAsString = parserResult.get(OutputType.DRS);
@@ -205,7 +198,7 @@ public class GfReportExporter extends OntologyExporter {
 
 					treeToAceParsed.put(tree, acetextAsString);
 					String owlAsString = parserResult.get(OutputType.OWLFSSPP);
-					Set<OWLLogicalAxiom> axiomSet = getLogicalAxiomsFromString(owlAsString);
+					Set<OWLAxiom> axiomSet = GfOwlConverter.getOwlAxiomsFromString(owlAsString);
 					if (axiomSet.isEmpty()) continue;
 
 					setOfSetofAxiom.add(axiomSet);
@@ -213,7 +206,7 @@ public class GfReportExporter extends OntologyExporter {
 
 					// Number of different entities in the axiom set
 					Set<OWLEntity> entities = Sets.newHashSet();
-					for (OWLLogicalAxiom ax : axiomSet) {
+					for (OWLAxiom ax : axiomSet) {
 						entities.addAll(ax.getSignature());
 					}
 					treeToOwlSize.put(tree, entities.size());
@@ -263,22 +256,5 @@ public class GfReportExporter extends OntologyExporter {
 			}
 			return Joiner.on('\n').join(aceParserResult.getMessageContainer().getMessages());
 		}
-	}
-
-
-	/**
-	 * <p>Interprets the given string as a serialization of an OWL ontology,
-	 * maps it to a set of OWL logical axioms and returns those.</p>
-	 *
-	 * @param str serialization of an OWL ontology e.g. in the OWLFSSPP format
-	 * @return set of OWL logical axioms
-	 * @throws OWLOntologyCreationException
-	 *
-	 * TODO: not sure if this is the most efficient way to do this
-	 */
-	public static Set<OWLLogicalAxiom> getLogicalAxiomsFromString(String str) throws OWLOntologyCreationException {
-		OWLOntology owlOntology = ontologyManager.loadOntologyFromOntologyDocument(new StringDocumentSource(str));
-		ontologyManager.removeOntology(owlOntology);
-		return owlOntology.getLogicalAxioms();
 	}
 }

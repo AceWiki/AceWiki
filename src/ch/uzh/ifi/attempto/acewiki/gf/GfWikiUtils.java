@@ -1,11 +1,5 @@
 package ch.uzh.ifi.attempto.acewiki.gf;
 
-import static ch.uzh.ifi.attempto.ape.OutputType.DRSPP;
-import static ch.uzh.ifi.attempto.ape.OutputType.OWLFSS;
-import static ch.uzh.ifi.attempto.ape.OutputType.OWLFSSPP;
-import static ch.uzh.ifi.attempto.ape.OutputType.OWLXML;
-import static ch.uzh.ifi.attempto.ape.OutputType.PARAPHRASE1;
-
 import java.util.Set;
 
 import ch.uzh.ifi.attempto.acewiki.core.Article;
@@ -37,26 +31,6 @@ public class GfWikiUtils {
 					((GfSentence) sent).clearLinearizations();
 				}
 			}
-		}
-	}
-
-
-	public static ACEParserResult parse(ACEText acetext, String uri) {
-		ACEParser ape = APE.getParser();
-		synchronized (ape) {
-			ape.setURI(uri);
-			ape.setClexEnabled(false);
-
-			return ape.getMultiOutput(
-					acetext.getText(),
-					acetext.getLexicon(),
-					OutputType.DRS,
-					PARAPHRASE1,
-					OWLXML,
-					OWLFSS,
-					OWLFSSPP,
-					DRSPP
-					);
 		}
 	}
 

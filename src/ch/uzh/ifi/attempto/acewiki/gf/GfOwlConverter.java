@@ -35,7 +35,13 @@ import ch.uzh.ifi.attempto.ape.OutputType;
 public class GfOwlConverter {
 
 	private static final OWLOntologyManager OWL_ONTOLOGY_MANAGER = OWLManager.createOWLOntologyManager();
-	private static final OutputType OWL_SERIALIZATION_TYPE = OutputType.OWLFSSPP;
+
+	// TODO: It might be better to use OWLFSSPP as it is smaller in size and
+	// might be faster to parse. Currently the problem is that OWLFSSPP uses
+	// anonymous individuals, but these cannot be always reasoned with in OWL2, e.g. in
+	// the SameIndividual axiom. The OWLXML output has already mapped such individuals
+	// to globally unique named individuals.
+	private static final OutputType OWL_SERIALIZATION_TYPE = OutputType.OWLXML;
 
 	private static final Logger mLogger = LoggerFactory.getLogger(GfOwlConverter.class);
 

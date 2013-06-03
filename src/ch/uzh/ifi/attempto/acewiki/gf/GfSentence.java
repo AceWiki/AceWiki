@@ -353,7 +353,7 @@ public abstract class GfSentence extends MultilingualSentence implements OWLSent
 
 		try {
 			ACEText acetext = GfWikiUtils.getACEText(mGfGrammar, tree);
-			ACEParserResult pr = GfWikiUtils.parse(acetext, getOntology().getURI());
+			ACEParserResult pr = GfWikiUtils.parse(acetext, getOntology().getURI(), PARAPHRASE1, OWLFSSPP, DRSPP);
 
 			l.add(new SentenceDetail("ACE", "<pre>" + StringEscapeUtils.escapeHtml(acetext.getText()) + "</pre>"));
 			l.add(new SentenceDetail("ACE (paraphrase)", "<pre>" + StringEscapeUtils.escapeHtml(pr.get(PARAPHRASE1)) + "</pre>"));
