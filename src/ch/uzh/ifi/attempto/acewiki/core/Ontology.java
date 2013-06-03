@@ -24,7 +24,6 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 
-import ch.uzh.ifi.attempto.base.Logger;
 import ch.uzh.ifi.attempto.base.LoggerContext;
 
 /**
@@ -42,8 +41,6 @@ public class Ontology {
 	private AceWikiStorage storage;
 	private LoggerContext loggerContext;
 	private final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(this.getClass());
-	// TODO(uvictor): remove logger
-	private Logger logger;
 
 	private Map<Long, OntologyElement> idIndex = new TreeMap<Long, OntologyElement>();
 
@@ -65,10 +62,7 @@ public class Ontology {
 		this.parameters = parameters;
 		this.storage = storage;
 
-		// TODO(uvictor): check if we have conflicting MDC puts (multiple logged classes in the same thread)
 		loggerContext = new LoggerContext(name, "onto", "0");
-		// TODO(uvictor): remove logger
-		logger = new Logger(parameters.get("context:logdir") + "/" + name, "onto", 0);
 
 		engine = AbstractAceWikiEngine.createLanguageEngine(this);
 		if (engine.getReasoner() == null) {
@@ -390,7 +384,6 @@ public class Ontology {
 		getStorage().save(sentence.getArticle().getOntologyElement());
 	}
 
-	// TODO(uvictor): remove this method (after removing logger)
 	/**
 	 * Writes a log entry.
 	 * 
@@ -400,7 +393,6 @@ public class Ontology {
 		loggerContext.propagateWithinThread();
 		org.slf4j.MDC.put("type", "onto");
 		log.info(text);
-		logger.log("onto", text);
 	}
 
 	private long nextId() {

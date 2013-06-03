@@ -29,7 +29,6 @@ import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.acewiki.core.SentenceSuggestion;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.base.PredictiveParser;
-import ch.uzh.ifi.attempto.base.TextContainer;
 import ch.uzh.ifi.attempto.base.TextElement;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
 import ch.uzh.ifi.attempto.preditor.PreditorWindow;
@@ -44,8 +43,6 @@ public class SentenceEditorHandler implements ActionListener {
 	
 	private static final long serialVersionUID = -2083910385095284075L;
 	
-	// TODO(uvictor): revise/delete debugLogger
-	private final org.slf4j.Logger debugLogger =  org.slf4j.LoggerFactory.getLogger(this.getClass());
 	private PreditorWindow editorWindow;
 	private MessageWindow messageWindow;
 	private ArticlePage page;
@@ -69,8 +66,6 @@ public class SentenceEditorHandler implements ActionListener {
 		LanguageHandler lh = wiki.getLanguageHandler();
 		editorWindow = new PreditorWindow(wiki.getGUIText("acewiki_preditor_title"), lh.getPredictiveParser());
 		editorWindow.setMenuCreator(menuCreator);
-		// TODO(uvictor): remove logger
-		editorWindow.setLogger(wiki.getLogger());
 		editorWindow.setLoggerContext(wiki.getLoggerContext());
 		editorWindow.addActionListener(this);
 		editorWindow.setTextOperator(lh.getTextOperator());
@@ -188,7 +183,6 @@ public class SentenceEditorHandler implements ActionListener {
 	}
 	
 	private void assertSentences() {
-		final TextContainer textContainer = editorWindow.getTextContainer();
 		final Article a = page.getArticle();
 		
 		Task task = new Task() {
@@ -199,9 +193,6 @@ public class SentenceEditorHandler implements ActionListener {
 				String loggingLanguage = a.getOntology().getLoggingLanguage();
 				try {
 					if (edit) {
-						org.slf4j.MDC.put("type", "edit");
-						debugLogger.debug("sentence updated: {}", textContainer.getText());
-						
 						wiki.log("edit", "statement of " + a.getOntologyElement().getWord() + ": " +
 								statement.getText(wiki.getLanguage()) + " > " +
 								getSentencesString(newSentences, wiki.getLanguage()) +
@@ -212,9 +203,6 @@ public class SentenceEditorHandler implements ActionListener {
 						a.edit(statement, l);
 						wiki.updateStatement(statement, l);
 					} else {
-						org.slf4j.MDC.put("type", "edit");
-						debugLogger.debug("sentence created: {}", textContainer.getText());
-						
 						wiki.log("edit", "statement of " + a.getOntologyElement().getWord() + ": " +
 								getSentencesString(newSentences, wiki.getLanguage()) +
 								"(" + getSentencesString(newSentences, loggingLanguage) + ")");

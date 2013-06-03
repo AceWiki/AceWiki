@@ -26,8 +26,6 @@ import java.util.Vector;
  */
 public class Article {
 	
-	// TODO(uvictor): revise/delete debugLogger
-	private final org.slf4j.Logger debugLogger =  org.slf4j.LoggerFactory.getLogger(this.getClass());
 	private Vector<Statement> statements = new Vector<Statement>();
 	private final OntologyElement element;
 	private final Ontology ontology;
@@ -112,10 +110,6 @@ public class Article {
 	 * @param newStatements The new statements.
 	 */
 	public void edit(Statement oldStatement, List<Statement> newStatements) {
-		debugLogger.debug("edit statement of {}: {} > {}", element.getWord(),
-				oldStatement.getText(getDefaultLanguage()),
-				getStatementsString(newStatements));
-
 		synchronized (ontology) {
 			if (statements.contains(oldStatement)) {
 				int i = statements.indexOf(oldStatement);
@@ -162,9 +156,6 @@ public class Article {
 	 * @param newStatements The new statements to be added.
 	 */
 	public void add(Statement followingStatement, List<Statement> newStatements) {
-		debugLogger.debug("add statement of {}: {}", element.getWord(),
-				getStatementsString(newStatements));
-
 		synchronized (ontology) {
 			if (statements.contains(followingStatement)) {
 				statements.addAll(statements.indexOf(followingStatement), newStatements);
@@ -201,25 +192,12 @@ public class Article {
 		}
 	}
 	
-	// TODO(uvictor): remove from here as only debugLogger is using this method;
-	// This method has been move to SentenceEditorHandler.
-	private String getStatementsString(List<Statement> statements) {
-		String result = "";
-		for (Statement s : statements) {
-			result += s.getText(getDefaultLanguage()) + " ";
-		}
-		return result;
-	}
-	
 	/**
 	 * Removes the given statement from the article.
 	 * 
 	 * @param statement The statement to be removed.
 	 */
 	public void remove(Statement statement) {
-		debugLogger.debug("remove statement of {}: {}", element.getWord(),
-				statement.getText(getDefaultLanguage()));
-		
 		synchronized (ontology) {
 			if (statements.contains(statement)) {
 				statements.remove(statement);
@@ -243,11 +221,4 @@ public class Article {
 			ontology.log(text);
 		}
 	}
-	
-	// TODO(uvictor): remove from here as only debugLogger is using this method;
-	// This method has been move to SentenceEditorHandler.
-	private String getDefaultLanguage() {
-		return getOntology().getEngine().getLanguages()[0];
-	}
-
 }

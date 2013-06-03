@@ -27,7 +27,6 @@ import javax.servlet.http.HttpServletResponse;
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.webcontainer.WebContainerServlet;
 import ch.uzh.ifi.attempto.base.APE;
-import ch.uzh.ifi.attempto.base.Logger;
 import ch.uzh.ifi.attempto.base.LoggerContext;
 
 /**
@@ -52,8 +51,6 @@ public class AceWikiServlet extends WebContainerServlet {
 
 	private final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(this.getClass());
 	private LoggerContext loggerContext;
-	// TODO(uvictor): remove logger
-	private Logger logger;
 	private Backend backend;
 	private Map<String, String> parameters;
 	private String backendName;
@@ -77,9 +74,6 @@ public class AceWikiServlet extends WebContainerServlet {
 		if (loggerContext == null) {
 			loggerContext = new LoggerContext("syst", "syst", "0");
 		}
-		if (logger == null) {
-			logger = new Logger(parameters.get("context:logdir") + "/syst", "syst", 0);
-		}
 		loggerContext.propagateWithinThread();
 		org.slf4j.MDC.put("type", "appl");
 
@@ -87,7 +81,6 @@ public class AceWikiServlet extends WebContainerServlet {
 
 		if (backendName != null) {
 			log.info("use backend: {}", backendName);
-			logger.log("appl", "use backend: " + backendName);
 
 			while (true) {
 				backend = (Backend) config.getServletContext().getAttribute(backendName);
@@ -108,7 +101,6 @@ public class AceWikiServlet extends WebContainerServlet {
 			parameters.putAll(p);
 		} else {
 			log.info("create backend");
-			logger.log("appl", "create backend");
 
 			APE.setParameters(parameters);
 
@@ -122,7 +114,6 @@ public class AceWikiServlet extends WebContainerServlet {
 		loggerContext.propagateWithinThread();
 		org.slf4j.MDC.put("type", "appl");
 		log.info("new application instance: {}", parameters.get("ontology"));
-		logger.log("appl", "new application instance: " + parameters.get("ontology"));
 
 		return new AceWikiApp(backend, parameters);
 	}
@@ -161,7 +152,6 @@ public class AceWikiServlet extends WebContainerServlet {
 		} catch (RuntimeException | IOException | ServletException ex) {
 			loggerContext.propagateWithinThread();
 			log.error("fatal error", ex);
-			logger.log("fail", "fatal error: " + ex);
 			ex.printStackTrace();
 			throw ex;
 		}
