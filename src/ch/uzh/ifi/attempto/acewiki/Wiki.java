@@ -397,7 +397,7 @@ public class Wiki implements UserProvider, ActionListener, ExternalEventListener
 		searchButton2 = new SmallButton(getGUIText("acewiki_page_search"), this, 12);
 		aboutButton = new SmallButton(getGUIText("acewiki_page_about"), this, 12);
 		grammarButton = new SmallButton(getGUIText("acewiki_page_grammar"), this, 12);
-		lexiconEditorButton = new SmallButton(getGUIText("acewiki_page_lexicon_editor"), this, 12);
+		lexiconEditorButton = new SmallButton(getGUIText("acewiki_page_lexicon"), this, 12);
 		randomButton = new SmallButton(getGUIText("acewiki_page_random"), this, 12);
 		sideCol.add(new ListItem(homeButton));
 		sideCol.add(new ListItem(indexButton));

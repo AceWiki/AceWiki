@@ -72,7 +72,7 @@ public class ModulePage extends ArticlePage {
 				.setFont(new Font(Font.MONOSPACE, Font.PLAIN, new Extent(12)))
 				.setPositiveButton(new Executable() {
 					@Override
-					public void execute() {
+					public void execute(Object... args) {
 						boolean success = parse();
 						// If there were no syntax errors then push the grammar to the server.
 						if (success) {

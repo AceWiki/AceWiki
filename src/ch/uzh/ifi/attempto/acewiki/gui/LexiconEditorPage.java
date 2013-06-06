@@ -15,8 +15,10 @@
 package ch.uzh.ifi.attempto.acewiki.gui;
 
 import nextapp.echo.app.Insets;
+import nextapp.echo.app.Table;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
+import nextapp.echo.app.table.TableModel;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.gf.GfLexiconEditor;
 import ch.uzh.ifi.attempto.acewiki.gf.GfLexiconEditorModel;
@@ -32,27 +34,35 @@ public class LexiconEditorPage extends WikiPage implements ActionListener {
 	private static final Insets INSETS = new Insets(10, 10, 10, 40);
 
 	private final Wiki mWiki;
-	private final Title title;
+	private final Title mTitle;
+	private final Table mGfLexiconEditor;
+	private final Label mLabel;
 
 	public LexiconEditorPage(Wiki wiki) {
 		super(wiki);
 		mWiki = wiki;
 
-		setInsets(INSETS); // TODO: temporary
+		GfLexiconEditorModel model = new GfLexiconEditorModel(mWiki.getOntology());
 
-		add(title = new Title("", true));
+		mTitle = new Title("", true);
+		mLabel = new Label(makeLabel(model));
+		mGfLexiconEditor = new GfLexiconEditor(mWiki, model);
+
+		setInsets(INSETS); // TODO: temporary
+		add(mTitle);
 		addHorizontalLine();
 		add(new VSpace(10));
-
-		GfLexiconEditorModel model = new GfLexiconEditorModel(mWiki.getOntology());
-		add(new Label(model.getRowCount() + " rows x " + model.getColumnCount() + " columns"));
+		add(mLabel);
 		add(new VSpace(10));
-		add(new GfLexiconEditor(model));
+		add(mGfLexiconEditor);
 	}
 
 
 	protected void doUpdate() {
-		title.setText(LocaleResources.getString("acewiki_page_lexicon_editor"));
+		mTitle.setText(LocaleResources.getString("acewiki_page_lexicon"));
+		GfLexiconEditorModel model = new GfLexiconEditorModel(mWiki.getOntology());
+		mLabel.setText(makeLabel(model));
+		mGfLexiconEditor.setModel(model);
 	}
 
 
@@ -62,11 +72,16 @@ public class LexiconEditorPage extends WikiPage implements ActionListener {
 
 
 	public String toString() {
-		return "-LEXICON_EDITOR-";
+		return "-LEXICON-";
 	}
 
 
 	@Override
 	public void actionPerformed(ActionEvent evt) {
+	}
+
+
+	private String makeLabel(TableModel model) {
+		return model.getRowCount() + " rows x " + model.getColumnCount() + " columns";
 	}
 }
