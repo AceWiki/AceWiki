@@ -1,9 +1,9 @@
 package ch.uzh.ifi.attempto.acewiki.gf;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,21 +14,19 @@ import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 
 import nextapp.echo.app.table.AbstractTableModel;
 import nextapp.echo.app.table.TableModel;
 
 /**
- * <p>TODO: very experimental</p>
- *
  * <p>Represents a set of the GF modules as a table where rows are functions, columns are the modules,
  * and each cell contains the linearization definition of the given function in the given module.
  * The table is compiled only from the source files.</p>
  *
  * <p>Note that we only consider modules whose source has a certain simple structure which
- * we can easily parse with a regex.</p>
+ * we can easily parse with a regex. The module must be a concrete module with a single "lin"
+ * on its own line, separating the "header" of the module from the linearization definitions.</p>
  *
  * @author Kaarel Kaljurand
  */
@@ -37,7 +35,7 @@ public class GfLexiconEditorModel extends AbstractTableModel implements TableMod
 	private static final long serialVersionUID = -2494830121762821312L;
 
 	private static final Pattern PATTERN_LIN = Pattern.compile("\\s*([A-Za-z_][A-Za-z0-9_']*)\\s*=\\s*(.+)\\s*;\\s*");
-	private static final Pattern PATTERN_HEADER = Pattern.compile("^(.*concrete.*\\nlin\\n)(.*)}\\s*$", Pattern.DOTALL);
+	private static final Pattern PATTERN_SPLIT = Pattern.compile("^(.*concrete.*\\nlin\\n)(.*)}\\s*$", Pattern.DOTALL);
 
 	private final Ontology mOntology;
 	private final Table<String, TypeGfModule, Object> funToModuleToLin = HashBasedTable.create();
@@ -45,22 +43,20 @@ public class GfLexiconEditorModel extends AbstractTableModel implements TableMod
 	private final List<TypeGfModule> mModules;
 	private final Map<TypeGfModule, String> mModuleToHeader = Maps.newHashMap();
 
-	public GfLexiconEditorModel(Ontology ont) {
+	public GfLexiconEditorModel(Ontology ont, final String language) {
 		mOntology = ont;
-		Set<String> funs = Sets.newHashSet();
 		for (TypeGfModule gfModule : ont.getOntologyElements(TypeGfModule.class)) {
 			String content = gfModule.getModuleContent().getText();
 
-			Matcher m1 = PATTERN_HEADER.matcher(content);
-			if (! m1.matches()) {
+			Matcher matcherSplit = PATTERN_SPLIT.matcher(content);
+			if (! matcherSplit.matches()) {
 				continue;
 			}
-			mModuleToHeader.put(gfModule, m1.group(1));
-			Matcher m = PATTERN_LIN.matcher(m1.group(2));
-			while (m.find()) {
-				String fun = m.group(1);
-				String lin = m.group(2);
-				funs.add(fun);
+			mModuleToHeader.put(gfModule, matcherSplit.group(1));
+			Matcher matcherLins = PATTERN_LIN.matcher(matcherSplit.group(2));
+			while (matcherLins.find()) {
+				String fun = matcherLins.group(1);
+				String lin = matcherLins.group(2);
 				funToModuleToLin.put(fun, gfModule, lin);
 			}
 		}
@@ -68,8 +64,25 @@ public class GfLexiconEditorModel extends AbstractTableModel implements TableMod
 		mModules = Lists.newArrayList(funToModuleToLin.columnKeySet());
 		Collections.sort(mFuns);
 
-		// TODO: pass a comparator that sorts the currently selected language to be the first
-		//Collections.sort(mModules);
+		/*
+		 * We sort the columns so that the modules for the selected language comes first.
+		 * TODO: This does not always work correctly, e.g. incomplete modules are not handled.
+		 */
+		Collections.sort(mModules, new Comparator<TypeGfModule>() {
+			@Override
+			public int compare(TypeGfModule arg1, TypeGfModule arg2) {
+				String moduleName1 = arg1.getWord();
+				if (moduleName1.equals(language)) {
+					return -1;
+				}
+				String moduleName2 = arg2.getWord();
+				if (moduleName2.equals(language)) {
+					return 1;
+				}
+				return moduleName1.compareTo(moduleName2);
+			}
+
+		});
 	}
 
 	@Override

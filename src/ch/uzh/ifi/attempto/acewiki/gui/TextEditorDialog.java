@@ -94,7 +94,7 @@ public class TextEditorDialog extends WindowPane implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (ACTION_OK.equals(e.getActionCommand())) {
 			if (exPositiveButton != null) {
-				exPositiveButton.execute(mTextArea.getText());
+				exPositiveButton.execute(mTextArea.getText().trim());
 			}
 		} else if (ACTION_CANCEL.equals(e.getActionCommand())) {
 		}

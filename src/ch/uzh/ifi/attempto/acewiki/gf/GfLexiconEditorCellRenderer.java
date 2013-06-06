@@ -32,9 +32,8 @@ public class GfLexiconEditorCellRenderer implements TableCellRenderer {
 
 		final String valueAsString = value.toString();
 
-
 		if (column > 0) {
-			final GfLexiconEditorModel model = (GfLexiconEditorModel) table.getModel(); // TODO: improve this
+			final GfLexiconEditorModel model = (GfLexiconEditorModel) table.getModel();
 			Button b = new Button(valueAsString);
 			b.addActionListener(new ActionListener() {
 				private static final long serialVersionUID = -7968619997506232092L;
@@ -48,7 +47,7 @@ public class GfLexiconEditorCellRenderer implements TableCellRenderer {
 					.setPositiveButton(new Executable() {
 						@Override
 						public void execute(Object... args) {
-							// TODO: refresh the model
+							// save the fun/module at these coordinates; refresh the model; write the new value into the correct position
 							model.setValueAt(args[0], column, row);
 							model.writeColumn(column);
 						}

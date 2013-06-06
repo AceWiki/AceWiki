@@ -15,14 +15,11 @@
 package ch.uzh.ifi.attempto.acewiki.gui;
 
 import nextapp.echo.app.Insets;
-import nextapp.echo.app.Table;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
-import nextapp.echo.app.table.TableModel;
 import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.gf.GfLexiconEditor;
 import ch.uzh.ifi.attempto.acewiki.gf.GfLexiconEditorModel;
-import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.LocaleResources;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
 
@@ -35,34 +32,26 @@ public class LexiconEditorPage extends WikiPage implements ActionListener {
 
 	private final Wiki mWiki;
 	private final Title mTitle;
-	private final Table mGfLexiconEditor;
-	private final Label mLabel;
+	private final GfLexiconEditor mGfLexiconEditor;
 
 	public LexiconEditorPage(Wiki wiki) {
 		super(wiki);
 		mWiki = wiki;
-
-		GfLexiconEditorModel model = new GfLexiconEditorModel(mWiki.getOntology());
-
 		mTitle = new Title("", true);
-		mLabel = new Label(makeLabel(model));
-		mGfLexiconEditor = new GfLexiconEditor(mWiki, model);
+		mGfLexiconEditor = new GfLexiconEditor(mWiki, new GfLexiconEditorModel(mWiki.getOntology(), mWiki.getLanguage()));
+		mGfLexiconEditor.setInsets(INSETS);
 
-		setInsets(INSETS); // TODO: temporary
 		add(mTitle);
 		addHorizontalLine();
-		add(new VSpace(10));
-		add(mLabel);
 		add(new VSpace(10));
 		add(mGfLexiconEditor);
 	}
 
 
 	protected void doUpdate() {
+		setTabRow(TabRow.getMainTabRow(TabRow.TAB_LEXICON, mWiki));
 		mTitle.setText(LocaleResources.getString("acewiki_page_lexicon"));
-		GfLexiconEditorModel model = new GfLexiconEditorModel(mWiki.getOntology());
-		mLabel.setText(makeLabel(model));
-		mGfLexiconEditor.setModel(model);
+		mGfLexiconEditor.setModel(new GfLexiconEditorModel(mWiki.getOntology(), mWiki.getLanguage()));
 	}
 
 
@@ -78,10 +67,5 @@ public class LexiconEditorPage extends WikiPage implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent evt) {
-	}
-
-
-	private String makeLabel(TableModel model) {
-		return model.getRowCount() + " rows x " + model.getColumnCount() + " columns";
 	}
 }

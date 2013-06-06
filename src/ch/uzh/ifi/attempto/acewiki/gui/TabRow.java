@@ -30,6 +30,7 @@ public class TabRow extends Row implements ActionListener {
 	public static final String TAB_SEARCH = "acewiki_page_search";
 	public static final String TAB_ABOUT = "acewiki_page_about";
 	public static final String TAB_GRAMMAR = "acewiki_page_grammar";
+	public static final String TAB_LEXICON = "acewiki_page_lexicon";
 
 	public static final String TAB_ARTICLE = "acewiki_page_article";
 	public static final String TAB_REFERENCES = "acewiki_page_references";
@@ -44,7 +45,7 @@ public class TabRow extends Row implements ActionListener {
 			TAB_MAIN, TAB_INDEX, TAB_SEARCH, TAB_ABOUT);
 
 	private static final ImmutableList<String> TABS_MAIN_ADVANCED = ImmutableList.of(
-			TAB_MAIN, TAB_INDEX, TAB_SEARCH, TAB_ABOUT, TAB_GRAMMAR);
+			TAB_MAIN, TAB_INDEX, TAB_SEARCH, TAB_ABOUT, TAB_GRAMMAR, TAB_LEXICON);
 
 	private static final ImmutableList<String> TABS_ARTICLE_PLAIN = ImmutableList.of(
 			TAB_ARTICLE);
@@ -165,6 +166,8 @@ public class TabRow extends Row implements ActionListener {
 			wiki.showAboutPage();
 		} else if (TAB_GRAMMAR.equals(c)) {
 			wiki.showGrammarPage();
+		} else if (TAB_LEXICON.equals(c)) {
+			wiki.showLexiconEditorPage();
 		} else if (TAB_ARTICLE.equals(c)) {
 			wiki.showPage((OntologyElement) object);
 		} else if (TAB_REFERENCES.equals(c)) {
