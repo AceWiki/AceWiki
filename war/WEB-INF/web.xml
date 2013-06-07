@@ -177,7 +177,7 @@
     <!--
       The parameter 'global_restrictions_policy' defines how the global restrictions on the axioms
       in OWL 2 should be ensured. See the following chapter of the OWL 2 documentation:
-      http://www.w3.org/TR/2009/REC-owl2-syntax-20091027/#Global_Restrictions_on_Axioms_in_OWL_2_DL
+      http://www.w3.org/TR/2012/REC-owl2-syntax-20121211/#Global_Restrictions_on_Axioms_in_OWL_2_DL
       At the moment, only 'no_chains' (default) and 'unchecked' are supported. 'no_chains' has the
       effect that axioms containing property chains or transitivity are generally not considered
       for reasoning. 'unchecked' allows for the violation of the global restrictions and should
