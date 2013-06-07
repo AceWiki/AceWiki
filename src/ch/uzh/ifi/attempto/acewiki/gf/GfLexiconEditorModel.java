@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import ch.uzh.ifi.attempto.acewiki.core.ModuleElement;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
+import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
@@ -44,6 +45,13 @@ public class GfLexiconEditorModel extends AbstractTableModel implements TableMod
 	private final Map<ModuleElement, String> mModuleToHeader = Maps.newHashMap();
 
 	public GfLexiconEditorModel(Ontology ont, final String language) {
+		OntologyElement oe = ont.getElement(language);
+		final ModuleElement languageModule;
+		if (oe != null && oe instanceof ModuleElement) {
+			languageModule = (ModuleElement) oe;
+		} else {
+			languageModule = null;
+		}
 		for (ModuleElement gfModule : ont.getOntologyElements(ModuleElement.class)) {
 			refreshModuleElement(gfModule);
 		}
@@ -53,19 +61,27 @@ public class GfLexiconEditorModel extends AbstractTableModel implements TableMod
 
 		/*
 		 * We sort the columns so that the module for the selected language comes first.
-		 * TODO: This does not always work correctly, e.g. incomplete modules are not handled.
+		 * If no module corresponds to the selected language then prefer modules that
+		 * the selected language module references. This handles incomplete modules
+		 * which are referenced by concrete modules.
 		 */
 		Collections.sort(mModules, new Comparator<ModuleElement>() {
 			@Override
 			public int compare(ModuleElement arg1, ModuleElement arg2) {
-				String moduleName1 = arg1.getWord();
-				if (moduleName1.equals(language)) {
+				if (languageModule.equals(arg1)) {
 					return -1;
 				}
-				String moduleName2 = arg2.getWord();
-				if (moduleName2.equals(language)) {
+				if (languageModule.equals(arg2)) {
 					return 1;
 				}
+				if (languageModule.references(arg1)) {
+					return -1;
+				}
+				if (languageModule.references(arg2)) {
+					return 1;
+				}
+				String moduleName1 = arg1.getWord();
+				String moduleName2 = arg2.getWord();
 				return moduleName1.compareTo(moduleName2);
 			}
 

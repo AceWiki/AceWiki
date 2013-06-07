@@ -14,6 +14,8 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
+import java.util.Set;
+
 /**
  * This interface represents a grammar module, i.e. a technical meta element.
  * 
@@ -25,6 +27,17 @@ public interface ModuleElement extends MetaOntologyElement {
 
 	// TODO Content of a module is a Comment object; should be changed
 	public Comment getModuleContent();
+
+	/**
+	 * @return set of modules that this module references (extends, opens, ...)
+	 */
+	public Set<ModuleElement> getReferencedModules();
+
+	/**
+	 * @param module module element
+	 * @return {@code true} is this module references the given module
+	 */
+	public boolean references(ModuleElement module);
 
 	public void replaceModuleContent(String newContent);
 
