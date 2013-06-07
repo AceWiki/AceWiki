@@ -36,10 +36,10 @@ public class GfLexiconEditorModel extends AbstractTableModel implements TableMod
 	private static final long serialVersionUID = -2494830121762821312L;
 
 	// TODO: using ; in the linearization definition is not supported
-	private static final Pattern PATTERN_LIN = Pattern.compile("\\s*([A-Za-z_][A-Za-z0-9_']*)\\s*=(.+);");
+	private static final Pattern PATTERN_LIN = Pattern.compile("\\s*([A-Za-z_][A-Za-z0-9_']*)\\s*=([^;]+);");
 	private static final Pattern PATTERN_SPLIT = Pattern.compile("^(.*concrete.+of.+\\nlin\\n)(.*)}\\s*$", Pattern.DOTALL);
 
-	private final Table<String, ModuleElement, Object> funToModuleToLin = HashBasedTable.create();
+	private final Table<String, ModuleElement, String> funToModuleToLin = HashBasedTable.create();
 	private final List<String> mFuns;
 	private final List<ModuleElement> mModules;
 	private final Map<ModuleElement, String> mModuleToHeader = Maps.newHashMap();
@@ -57,7 +57,7 @@ public class GfLexiconEditorModel extends AbstractTableModel implements TableMod
 		}
 		mFuns = Lists.newArrayList(funToModuleToLin.rowKeySet());
 		mModules = Lists.newArrayList(funToModuleToLin.columnKeySet());
-		Collections.sort(mFuns);
+		Collections.sort(mFuns, String.CASE_INSENSITIVE_ORDER);
 
 		/*
 		 * We sort the columns so that the module for the selected language comes first.
@@ -116,13 +116,16 @@ public class GfLexiconEditorModel extends AbstractTableModel implements TableMod
 	}
 
 
-	public void setValueAt(Object newValue, int column, int row) {
+	public void setValueAt(Object value, int column, int row) {
 		ModuleElement moduleElement = getModuleElement(column);
-		// Refresh module
 		refreshModuleElement(moduleElement);
 		String header = mModuleToHeader.get(moduleElement);
 		if (header != null) {
-			funToModuleToLin.put(mFuns.get(row), moduleElement, newValue);
+			if (value == null || value.toString().trim().isEmpty()) {
+				funToModuleToLin.remove(mFuns.get(row), moduleElement);
+			} else {
+				funToModuleToLin.put(mFuns.get(row), moduleElement, value.toString().trim());
+			}
 			moduleElement.replaceModuleContent(header + makeModuleSource(moduleElement) + "}");
 		}
 		fireTableCellUpdated(column, row);

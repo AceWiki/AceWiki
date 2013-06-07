@@ -110,7 +110,7 @@ public class ModulePage extends ArticlePage {
 		textColumn.removeAll();
 
 		Grid referencesGrid = new Grid(5);
-		referencesGrid.setInsets(new Insets(4, 2, 8, 2));
+		referencesGrid.setInsets(new Insets(0, 2, 8, 2));
 		for (ModuleElement oe : mWiki.getOntology().getOntologyElements(ModuleElement.class)) {
 			if (oe != mElement && oe.references(mElement)) {
 				referencesGrid.add(new WikiLink(oe, oe.getWord(), mWiki, false));

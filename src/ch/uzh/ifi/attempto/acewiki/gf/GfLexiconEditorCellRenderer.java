@@ -32,13 +32,10 @@ public class GfLexiconEditorCellRenderer implements TableCellRenderer {
 
 	public Component getTableCellRendererComponent(final Table table, Object value, final int column, final int row) {
 
-		if (value == null) {
-			return null;
-		}
+		// Non-empty string is required to make the button clickable
+		final String valueAsString = (value == null ? "\u00A0" : value.toString());
 
-		final String valueAsString = value.toString();
-
-		if (column > 0) {
+		if (column > 0 && mWiki.isEditable()) {
 			final GfLexiconEditorModel model = (GfLexiconEditorModel) table.getModel();
 			Button b = new Button(valueAsString);
 			b.addActionListener(new ActionListener() {
@@ -90,10 +87,7 @@ public class GfLexiconEditorCellRenderer implements TableCellRenderer {
 			// TODO: this blocks, do it in the background
 			moduleElement.parse();
 		} catch (InvalidSyntaxException iex) {
-			Integer l = iex.getLine();
-			Integer c = iex.getColumn();
-			mWiki.showWindow(new SimpleErrorMessageWindow(
-					"Error at line/column = " + (l == null ? "?" : l) + "/" + (c == null ? "?" : c), iex.getText()));
+			mWiki.showWindow(new SimpleErrorMessageWindow("Syntax Error", iex.getText()));
 			return false;
 		} catch (Exception ex) {
 			mWiki.showWindow(new SimpleErrorMessageWindow("Error", ex.getMessage()));

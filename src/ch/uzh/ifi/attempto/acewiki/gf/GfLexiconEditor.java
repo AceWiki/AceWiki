@@ -28,7 +28,7 @@ public class GfLexiconEditor extends Column {
 	public GfLexiconEditor(Wiki wiki, GfLexiconEditorModel model) {
 		mWiki = wiki;
 		mGridModules = new Grid(5);
-		mGridModules.setInsets(new Insets(4, 2, 8, 2));
+		mGridModules.setInsets(new Insets(0, 2, 8, 2));
 		mLabel = new Label(makeLabel(model));
 		mTable = new Table(model);
 		mTable.setHeaderVisible(true);
