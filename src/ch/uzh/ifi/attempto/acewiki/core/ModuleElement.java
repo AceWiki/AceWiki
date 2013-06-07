@@ -1,5 +1,5 @@
 // This file is part of AceWiki.
-// Copyright 2008-2012, AceWiki developers.
+// Copyright 2008-2013, AceWiki developers.
 // 
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
@@ -14,6 +14,8 @@
 
 package ch.uzh.ifi.attempto.acewiki.core;
 
+import java.util.Set;
+
 /**
  * This interface represents a grammar module, i.e. a technical meta element.
  * 
@@ -21,12 +23,21 @@ package ch.uzh.ifi.attempto.acewiki.core;
  */
 public interface ModuleElement extends MetaOntologyElement {
 
-	public void integrate();
-
 	public void parse() throws InvalidSyntaxException;
 
 	// TODO Content of a module is a Comment object; should be changed
 	public Comment getModuleContent();
+
+	/**
+	 * @return set of modules that this module references (extends, opens, ...)
+	 */
+	public Set<ModuleElement> getReferencedModules();
+
+	/**
+	 * @param module module element
+	 * @return {@code true} is this module references the given module
+	 */
+	public boolean references(ModuleElement module);
 
 	public void replaceModuleContent(String newContent);
 

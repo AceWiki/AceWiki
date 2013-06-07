@@ -14,8 +14,8 @@ import ch.uzh.ifi.attempto.acewiki.core.Comment;
 import ch.uzh.ifi.attempto.acewiki.core.ModuleElement;
 import ch.uzh.ifi.attempto.acewiki.core.ModuleElement.InvalidSyntaxException;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
-import ch.uzh.ifi.attempto.acewiki.core.Statement;
 import ch.uzh.ifi.attempto.acewiki.gf.GfEngine;
+import ch.uzh.ifi.attempto.acewiki.gf.TypeGfModule;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
@@ -72,7 +72,7 @@ public class ModulePage extends ArticlePage {
 				.setFont(new Font(Font.MONOSPACE, Font.PLAIN, new Extent(12)))
 				.setPositiveButton(new Executable() {
 					@Override
-					public void execute() {
+					public void execute(Object... args) {
 						boolean success = parse();
 						// If there were no syntax errors then push the grammar to the server.
 						if (success) {
@@ -112,7 +112,7 @@ public class ModulePage extends ArticlePage {
 		Grid referencesGrid = new Grid(5);
 		referencesGrid.setInsets(new Insets(4, 2, 8, 2));
 		for (ModuleElement oe : mWiki.getOntology().getOntologyElements(ModuleElement.class)) {
-			if (oe != mElement && isReferencingElement(oe, mElement)) {
+			if (oe != mElement && oe.references(mElement)) {
 				referencesGrid.add(new WikiLink(oe, oe.getWord(), mWiki, false));
 			}
 		}
@@ -194,7 +194,7 @@ public class ModulePage extends ArticlePage {
 	private Component markupLine(String text) {
 		StringBuilder sb = new StringBuilder();
 		Row row = new Row();
-		for (String s : Comment.tokenizeText(text)) {
+		for (String s : TypeGfModule.tokenizeText(text)) {
 			// Check if the element is in the ontology
 			OntologyElement oe = mWiki.getOntology().getElement(s); // TODO: reuse the references set from the statement
 			if (oe == null) {
@@ -236,17 +236,6 @@ public class ModulePage extends ArticlePage {
 		label.setFont(new Font(Font.MONOSPACE, Font.PLAIN, new Extent(12)));
 		label.setFormatWhitespace(true); // TODO: maybe this should be part of any SolidLabel
 		return label;
-	}
-
-
-	private static boolean isReferencingElement(OntologyElement oe1, OntologyElement oe2) {
-		for (Statement statement : oe1.getArticle().getStatements()) {
-			if (statement instanceof Comment &&
-					((Comment) statement).getReferencedElements().contains(oe2)) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 }
