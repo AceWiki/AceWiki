@@ -68,6 +68,7 @@ import ch.uzh.ifi.attempto.acewiki.gui.FormPane;
 import ch.uzh.ifi.attempto.acewiki.gui.GrammarPage;
 import ch.uzh.ifi.attempto.acewiki.gui.IconButton;
 import ch.uzh.ifi.attempto.acewiki.gui.IndexPage;
+import ch.uzh.ifi.attempto.acewiki.gui.LexiconEditorPage;
 import ch.uzh.ifi.attempto.acewiki.gui.ListItem;
 import ch.uzh.ifi.attempto.acewiki.gui.LoginWindow;
 import ch.uzh.ifi.attempto.acewiki.gui.SearchPage;
@@ -136,6 +137,7 @@ public class Wiki implements UserProvider, ActionListener, ExternalEventListener
 	newButton, exportButton;
 
 	private SmallButton grammarButton;
+	private SmallButton lexiconEditorButton;
 
 	private List<SmallButton> languageButtons;
 
@@ -395,6 +397,7 @@ public class Wiki implements UserProvider, ActionListener, ExternalEventListener
 		searchButton2 = new SmallButton(getGUIText("acewiki_page_search"), this, 12);
 		aboutButton = new SmallButton(getGUIText("acewiki_page_about"), this, 12);
 		grammarButton = new SmallButton(getGUIText("acewiki_page_grammar"), this, 12);
+		lexiconEditorButton = new SmallButton(getGUIText("acewiki_page_lexicon"), this, 12);
 		randomButton = new SmallButton(getGUIText("acewiki_page_random"), this, 12);
 		sideCol.add(new ListItem(homeButton));
 		sideCol.add(new ListItem(indexButton));
@@ -402,6 +405,7 @@ public class Wiki implements UserProvider, ActionListener, ExternalEventListener
 		sideCol.add(new ListItem(aboutButton));
 		if (config.isGrammarIntegrationEnabled()) {
 			sideCol.add(new ListItem(grammarButton));
+			sideCol.add(new ListItem(lexiconEditorButton));
 		}
 		sideCol.add(new ListItem(randomButton));
 
@@ -687,6 +691,13 @@ public class Wiki implements UserProvider, ActionListener, ExternalEventListener
 	}
 
 	/**
+	 * Show the lexicon editor page.
+	 */
+	public void showLexiconEditorPage() {
+		showPage(new LexiconEditorPage(this));
+	}
+
+	/**
 	 * Returns the ontology;
 	 *
 	 * @return The ontology.
@@ -821,6 +832,9 @@ public class Wiki implements UserProvider, ActionListener, ExternalEventListener
 		} else if (src == grammarButton) {
 			log("page", "pressed: about grammar");
 			showGrammarPage();
+		} else if (src == lexiconEditorButton) {
+			log("page", "pressed: lexicon editor");
+			showLexiconEditorPage();
 		} else if (src == homeButton) {
 			log("page", "pressed: main page");
 			showStartPage();
