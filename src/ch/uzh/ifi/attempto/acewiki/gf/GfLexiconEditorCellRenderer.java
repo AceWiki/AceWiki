@@ -1,9 +1,15 @@
 package ch.uzh.ifi.attempto.acewiki.gf;
 
 import ch.uzh.ifi.attempto.acewiki.Wiki;
+import ch.uzh.ifi.attempto.acewiki.core.ModuleElement;
+import ch.uzh.ifi.attempto.acewiki.core.ModuleElement.InvalidSyntaxException;
 import ch.uzh.ifi.attempto.acewiki.gui.Executable;
 import ch.uzh.ifi.attempto.acewiki.gui.TextEditorDialog;
 import ch.uzh.ifi.attempto.echocomp.Label;
+import ch.uzh.ifi.attempto.echocomp.MessageWindow;
+import ch.uzh.ifi.attempto.echocomp.SimpleErrorMessageWindow;
+import ch.uzh.ifi.attempto.gfservice.GfModule;
+import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 import nextapp.echo.app.Button;
 import nextapp.echo.app.Component;
 import nextapp.echo.app.Extent;
@@ -47,9 +53,21 @@ public class GfLexiconEditorCellRenderer implements TableCellRenderer {
 					.setPositiveButton(new Executable() {
 						@Override
 						public void execute(Object... args) {
-							// save the fun/module at these coordinates; refresh the model; write the new value into the correct position
 							model.setValueAt(args[0], column, row);
-							model.writeColumn(column);
+							ModuleElement moduleElement = model.getModuleElement(column);
+							boolean success = parse(moduleElement);
+							// If there were no syntax errors then push the grammar to the server.
+							if (success) {
+								GfEngine engine = (GfEngine) mWiki.getEngine();
+								try {
+									engine.getGfGrammar().upload(
+											new GfModule(moduleElement.getWord(),
+													moduleElement.getModuleContent().getText()));
+								} catch (GfServiceException e) {
+									mWiki.showWindow(new MessageWindow("Error", "Push to server failed."));
+									e.printStackTrace();
+								}
+							}
 						}
 					});
 					mWiki.showWindow(editor.create());
@@ -64,6 +82,24 @@ public class GfLexiconEditorCellRenderer implements TableCellRenderer {
 		l.setFont(FONT_CELL);
 		return l;
 
+	}
+
+
+	private boolean parse(ModuleElement moduleElement) {
+		try {
+			// TODO: this blocks, do it in the background
+			moduleElement.parse();
+		} catch (InvalidSyntaxException iex) {
+			Integer l = iex.getLine();
+			Integer c = iex.getColumn();
+			mWiki.showWindow(new SimpleErrorMessageWindow(
+					"Error at line/column = " + (l == null ? "?" : l) + "/" + (c == null ? "?" : c), iex.getText()));
+			return false;
+		} catch (Exception ex) {
+			mWiki.showWindow(new SimpleErrorMessageWindow("Error", ex.getMessage()));
+			return false;
+		}
+		return true;
 	}
 
 }

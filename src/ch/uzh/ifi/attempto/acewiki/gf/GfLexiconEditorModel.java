@@ -7,11 +7,11 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import ch.uzh.ifi.attempto.acewiki.core.Article;
-import ch.uzh.ifi.attempto.acewiki.core.Comment;
+import ch.uzh.ifi.attempto.acewiki.core.ModuleElement;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 
 import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Table;
@@ -34,43 +34,30 @@ public class GfLexiconEditorModel extends AbstractTableModel implements TableMod
 
 	private static final long serialVersionUID = -2494830121762821312L;
 
-	private static final Pattern PATTERN_LIN = Pattern.compile("\\s*([A-Za-z_][A-Za-z0-9_']*)\\s*=\\s*(.+)\\s*;\\s*");
-	private static final Pattern PATTERN_SPLIT = Pattern.compile("^(.*concrete.*\\nlin\\n)(.*)}\\s*$", Pattern.DOTALL);
+	// TODO: using ; in the linearization definition is not supported
+	private static final Pattern PATTERN_LIN = Pattern.compile("\\s*([A-Za-z_][A-Za-z0-9_']*)\\s*=(.+);");
+	private static final Pattern PATTERN_SPLIT = Pattern.compile("^(.*concrete.+of.+\\nlin\\n)(.*)}\\s*$", Pattern.DOTALL);
 
-	private final Ontology mOntology;
-	private final Table<String, TypeGfModule, Object> funToModuleToLin = HashBasedTable.create();
+	private final Table<String, ModuleElement, Object> funToModuleToLin = HashBasedTable.create();
 	private final List<String> mFuns;
-	private final List<TypeGfModule> mModules;
-	private final Map<TypeGfModule, String> mModuleToHeader = Maps.newHashMap();
+	private final List<ModuleElement> mModules;
+	private final Map<ModuleElement, String> mModuleToHeader = Maps.newHashMap();
 
 	public GfLexiconEditorModel(Ontology ont, final String language) {
-		mOntology = ont;
-		for (TypeGfModule gfModule : ont.getOntologyElements(TypeGfModule.class)) {
-			String content = gfModule.getModuleContent().getText();
-
-			Matcher matcherSplit = PATTERN_SPLIT.matcher(content);
-			if (! matcherSplit.matches()) {
-				continue;
-			}
-			mModuleToHeader.put(gfModule, matcherSplit.group(1));
-			Matcher matcherLins = PATTERN_LIN.matcher(matcherSplit.group(2));
-			while (matcherLins.find()) {
-				String fun = matcherLins.group(1);
-				String lin = matcherLins.group(2);
-				funToModuleToLin.put(fun, gfModule, lin);
-			}
+		for (ModuleElement gfModule : ont.getOntologyElements(ModuleElement.class)) {
+			refreshModuleElement(gfModule);
 		}
 		mFuns = Lists.newArrayList(funToModuleToLin.rowKeySet());
 		mModules = Lists.newArrayList(funToModuleToLin.columnKeySet());
 		Collections.sort(mFuns);
 
 		/*
-		 * We sort the columns so that the modules for the selected language comes first.
+		 * We sort the columns so that the module for the selected language comes first.
 		 * TODO: This does not always work correctly, e.g. incomplete modules are not handled.
 		 */
-		Collections.sort(mModules, new Comparator<TypeGfModule>() {
+		Collections.sort(mModules, new Comparator<ModuleElement>() {
 			@Override
-			public int compare(TypeGfModule arg1, TypeGfModule arg2) {
+			public int compare(ModuleElement arg1, ModuleElement arg2) {
 				String moduleName1 = arg1.getWord();
 				if (moduleName1.equals(language)) {
 					return -1;
@@ -101,7 +88,7 @@ public class GfLexiconEditorModel extends AbstractTableModel implements TableMod
 		if (column == 0) {
 			return fun;
 		}
-		return funToModuleToLin.get(fun, mModules.get(column - 1));
+		return funToModuleToLin.get(fun, getModuleElement(column));
 	}
 
 	@Override
@@ -109,33 +96,75 @@ public class GfLexiconEditorModel extends AbstractTableModel implements TableMod
 		if (column == 0) {
 			return null;
 		}
-		return mModules.get(column - 1).getWord();
+		return getModuleElement(column).getWord();
 	}
 
 
 	public void setValueAt(Object newValue, int column, int row) {
-		funToModuleToLin.put(mFuns.get(row), mModules.get(column - 1), newValue);
+		ModuleElement moduleElement = getModuleElement(column);
+		// Refresh module
+		refreshModuleElement(moduleElement);
+		String header = mModuleToHeader.get(moduleElement);
+		if (header != null) {
+			funToModuleToLin.put(mFuns.get(row), moduleElement, newValue);
+			moduleElement.replaceModuleContent(header + makeModuleSource(moduleElement) + "}");
+		}
 		fireTableCellUpdated(column, row);
 	}
 
 
-	public void writeColumn(int column) {
-		TypeGfModule module = mModules.get(column - 1);
-		Article article = module.getArticle();
-		Comment comment = mOntology.getStatementFactory().createComment(getText(module), article);
-		article.edit(article.getStatements().get(0), comment);
+	/**
+	 * @param column table column
+	 * @return module element that corresponds to the given column
+	 */
+	public ModuleElement getModuleElement(int column) {
+		if (column > 0 && column <= mModules.size()) {
+			return mModules.get(column - 1);
+		} else {
+			throw new IllegalArgumentException();
+		}
 	}
 
 
-	private String getText(TypeGfModule module) {
+	public List<ModuleElement> getModules() {
+		return ImmutableList.copyOf(mModules);
+	}
+
+
+	private boolean refreshModuleElement(ModuleElement gfModule) {
+		String content = gfModule.getModuleContent().getText();
+
+		Matcher matcherSplit = PATTERN_SPLIT.matcher(content);
+		if (! matcherSplit.matches()) {
+			mModuleToHeader.remove(gfModule);
+			return false;
+		}
+		mModuleToHeader.put(gfModule, matcherSplit.group(1));
+		Matcher matcherLins = PATTERN_LIN.matcher(matcherSplit.group(2));
+		while (matcherLins.find()) {
+			String fun = matcherLins.group(1);
+			String lin = matcherLins.group(2).trim();
+			funToModuleToLin.put(fun, gfModule, lin);
+		}
+		return true;
+	}
+
+
+	/**
+	 * <p>For the given module, return its linearization definitions.
+	 * If a definition is missing for a function then the respective entry is not included.</p>
+	 */
+	private StringBuilder makeModuleSource(ModuleElement module) {
 		StringBuilder sb = new StringBuilder();
 		for (String fun : mFuns) {
 			Object value = funToModuleToLin.get(fun, module);
-			sb.append(fun);
-			sb.append(" = ");
-			sb.append(value);
-			sb.append(" ;\n");
+			if (value != null && ! "".equals(value.toString())) {
+				sb.append(fun);
+				sb.append(" = ");
+				sb.append(value);
+				sb.append(" ;\n");
+			}
 		}
-		return mModuleToHeader.get(module) + sb.toString() + "}";
+		return sb;
 	}
 }

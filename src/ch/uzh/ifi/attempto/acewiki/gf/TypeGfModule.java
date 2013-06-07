@@ -22,7 +22,6 @@ import ch.uzh.ifi.attempto.acewiki.core.ModuleElement;
 import ch.uzh.ifi.attempto.gfservice.GfModule;
 import ch.uzh.ifi.attempto.gfservice.GfParseResult;
 import ch.uzh.ifi.attempto.gfservice.GfServiceException;
-import ch.uzh.ifi.attempto.gfservice.GfStorageResult;
 
 /**
  * Page that represents a GF grammar module
@@ -56,29 +55,6 @@ public class TypeGfModule extends AbstractModuleElement implements ModuleElement
 
 	public static boolean hasType(String type) {
 		return INTERNAL_TYPE.equals(type);
-	}
-
-	/**
-	 * @deprecated
-	 */
-	public void integrate() {
-		if (!hasContent()) return;
-		if (!mEngine.getGfGrammar().isGrammarEditable()) {
-			throw new RuntimeException("Grammar is not editable");
-		}
-		try {
-			GfStorageResult result = mEngine.getGfGrammar().integrateGfModule(getGfModule());
-
-			if (result.isSuccess()) {
-				GfWikiUtils.clearAllLinearizations(mEngine.getOntology());
-			} else {
-				throw new RuntimeException(result.getResultCode() + ": " +
-						result.getMessage() + " (" + result.getCommand() + ")");
-			}
-		} catch (GfServiceException ex) {
-			mLogger.info("make: GfServiceException: '{}'", ex.getMessage());
-			throw new RuntimeException(ex);
-		}
 	}
 
 	public void parse() throws InvalidSyntaxException {
