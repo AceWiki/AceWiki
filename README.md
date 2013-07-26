@@ -1,7 +1,7 @@
 AceWiki
 =======
 
-Copyright 2008-2012, AceWiki developers.
+Copyright 2008-2013, AceWiki developers.
 
 AceWiki is a semantic wiki based on controlled natural language.
 
@@ -15,7 +15,9 @@ These are the AceWiki developers:
 
 - Tobias Kuhn (since 2006)
 - Kaarel Kaljurand (since 2011)
-- Yu Changyuan (since 2011)
+- Yu Changyuan (2011)
+- Laura Canedo (2013)
+- Victor Ungureanu (2013)
 
 
 Institutions
@@ -34,12 +36,9 @@ The following institutions are or were involved in the development of AceWiki:
 Repository
 ----------
 
-AceWiki is hosted on GitHub (repository and bug tracking): https://github.com/AceWiki/AceWiki
+AceWiki is hosted on GitHub: https://github.com/AceWiki/AceWiki
 
-The downloads can be found here: https://github.com/AceWiki/AceWiki/downloads
-
-Previously, Launchpad was used instead of GitHub. Old packages and old bug reports can still be
-found there: https://launchpad.net/acewiki
+The downloads can be found here: https://github.com/AceWiki/AceWiki/releases
 
 
 License
