@@ -8,6 +8,8 @@
 # - A recent version of SWI Prolog is installed.
 # - APE has been compiled (giving "ape.exe").
 # - Jetty Runner has been downloaded and is renamed to "jetty-runner.jar".
+#   Tested with
+#   curl http://repo2.maven.org/maven2/org/mortbay/jetty/jetty-runner/8.1.5.v20120716/jetty-runner-8.1.5.v20120716.jar > jetty-runner.jar
 # - The files "acewiki.war", "ape.exe" and "jetty-runner.jar" are in the
 #   same directory.
 # - The process has write permissions to the subdirectories "data" and "logs",
@@ -36,8 +38,8 @@ eval `swipl -dump-runtime-variables`
 ## java: error while loading shared libraries:
 ##     libjava.so: cannot open shared object file: No such file or directory
 ## One should specify the required paths in his/her personal .bashrc, e.g.
-## export LD_LIBRARY_PATH="/usr/lib/jvm/java-6-openjdk/jre/lib/amd64/:
-## /usr/lib/jvm/java-6-openjdk/jre/lib/amd64/server/"
+## export LD_LIBRARY_PATH="/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/:
+## /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server/"
 
 export LD_PRELOAD=$PLBASE/lib/$PLARCH/libjpl.so:$PLBASE/lib/$PLARCH/libswipl.so:$LD_PRELOAD
 #export LD_LIBRARY_PATH=$JAVA_HOME/jre/lib/i386:$LD_LIBRARY_PATH
@@ -48,7 +50,6 @@ export LD_PRELOAD=$PLBASE/lib/$PLARCH/libjpl.so:$PLBASE/lib/$PLARCH/libswipl.so:
 ## necessary to change port number, heap size, or stack size.
 ## Note that we specify the path to jpl.jar here because this jar
 ## is not included in the war-file.
-## Tested with jetty-runner-8.1.5.v20120716.jar
 java -Xmx400m -Xss4m \
      -Djava.library.path=$PLBASE/lib/$PLARCH \
      -Djava.awt.headless=true \
