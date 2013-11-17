@@ -55,8 +55,9 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 	
 	/**
 	 * Creates a new individuals page.
-	 * 
-	 * @param page The main page that contains the article.
+	 *
+	 * @param concept The concept in the assignments
+	 * @param wiki The wiki that contains the new page
 	 */
 	public IndividualsPage(Concept concept, Wiki wiki) {
 		super(wiki);

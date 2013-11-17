@@ -168,7 +168,6 @@ public class GfGrammar {
 
 
 	/**
-	 * @param grammar GF grammar
 	 * @return {@code true} iff the given grammar contains a concrete language with suffix SUFFIX_APE
 	 */
 	public boolean isAceCompatible() {

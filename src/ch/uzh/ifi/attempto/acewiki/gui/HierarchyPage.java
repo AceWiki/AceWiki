@@ -57,8 +57,9 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 	
 	/**
 	 * Creates a new hierarchy page.
-	 * 
-	 * @param page The main page that contains the article.
+	 *
+	 * @param concept The concept in the super/sup relations
+	 * @param wiki The wiki that contains the new page
 	 */
 	public HierarchyPage(Concept concept, Wiki wiki) {
 		super(wiki);
