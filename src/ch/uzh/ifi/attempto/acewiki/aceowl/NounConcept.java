@@ -104,5 +104,10 @@ public class NounConcept extends OWLConcept implements ACEOWLOntoElement {
 		TextElement n = new OntologyTextElement(this, 0);
 		return new TextContainer(det, n);
 	}
+
+	public TextContainer getAnswerText(String lang) {
+		// Ignoring the language
+		return getAnswerText();
+	}
 	
 }

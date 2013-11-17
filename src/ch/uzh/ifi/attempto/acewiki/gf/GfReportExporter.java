@@ -1,34 +1,54 @@
 package ch.uzh.ifi.attempto.acewiki.gf;
 
-import static ch.uzh.ifi.attempto.ape.OutputType.OWLFSS;
-import static ch.uzh.ifi.attempto.ape.OutputType.OWLFSSPP;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLEntity;
+
 import com.google.common.base.Joiner;
-import com.google.common.base.Strings;
 import com.google.common.collect.HashMultiset;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Sets;
 
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiEngine;
-import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
+import ch.uzh.ifi.attempto.acewiki.core.GeneralTopic;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyExporter;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
-import ch.uzh.ifi.attempto.ape.ACEParser;
 import ch.uzh.ifi.attempto.ape.ACEParserResult;
 import ch.uzh.ifi.attempto.ape.ACEText;
-import ch.uzh.ifi.attempto.base.APE;
-import ch.uzh.ifi.attempto.gfservice.GfServiceException;
+import ch.uzh.ifi.attempto.ape.OutputType;
+import ch.uzh.ifi.attempto.gfservice.GfTree;
+import ch.uzh.ifi.attempto.gfservice.GfTreeParseException;
 
 /**
  * <p>Generates a report that covers all the articles and their sentences in the wiki,
- * along with the OWL mapping of the sentences.</p>
+ * along with the OWL mapping of the sentences. Reports various ambiguities:</p>
+ *
+ * <ul>
+ * <li>number of trees per sentence</li>
+ * <li>number of ACE sentences per sentence</li>
+ * <li>number of OWL axioms per sentence</li>
+ * </ul>
+ *
+ * <p>The format is optimized to be both easy to read and easy to process with grep+sed, e.g.
+ * to get a list of all ambiguity types filter the output through:</p>
+ *
+ * <pre>
+ * grep "___a" | sed "s/.*___t/t/" | sort | uniq -c | sort -nr
+ *
+ *   78 t1___a1___o1
+ *   13 t1___a0___o0
+ *    8 t1___a1___o0
+ *    7 t2___a1___o1
+ *    3 t4___a2___o2
+ *    ...
+ * </pre>
  *
  * TODO: currently experimental and GF specific
  *
@@ -36,6 +56,7 @@ import ch.uzh.ifi.attempto.gfservice.GfServiceException;
  */
 public class GfReportExporter extends OntologyExporter {
 
+	private static final String TAG_GF_SENTENCE = "gf_sentence";
 	private static final String MAX_INDENT = "\t\t\t\t\t";
 	private static final Joiner JOINER = Joiner.on("___").useForNull("NULL");
 
@@ -44,41 +65,56 @@ public class GfReportExporter extends OntologyExporter {
 		Multiset<String> statistics = HashMultiset.create();
 		AceWikiEngine engine = getOntology().getEngine();
 
-		for (OntologyElement oe : getOntologyElements()) {
+		for (GeneralTopic el : getOntologyElements(GeneralTopic.class)) {
+			List<Sentence> sentences = el.getArticle().getSentences();
 			statistics.add("ontology_element");
-			sb.append(oe.getWord());
+			sb.append(el.getWord());
 			addWithIndent(sb, 0,
-					JOINER.join(oe, oe.getArticle().getSentences().size()));
-			for (Sentence s : oe.getArticle().getSentences()) {
+					JOINER.join(el, sentences.size()));
+			for (Sentence s : sentences) {
 				statistics.add("sentence");
-				if (s instanceof GfDeclaration && engine instanceof GfEngine) {
+				if (s instanceof GfSentence && engine instanceof GfEngine) {
 					GfGrammar gfGrammar = ((GfEngine) engine).getGfGrammar();
-					statistics.add("gf_declaration");
-					GfDeclaration gfDecl = (GfDeclaration) s;
+					statistics.add(TAG_GF_SENTENCE);
+					GfSentence gfSent = (GfSentence) s;
 
-					List<String> trees = gfDecl.getParseTrees();
-					statistics.add("gf_declaration_tree_size_" + trees.size());
+					List<String> trees = gfSent.getParseTrees();
+					statistics.add(TAG_GF_SENTENCE + "_tree_size_" + trees.size());
 
 					AceReport aceReport = new AceReport(gfGrammar, trees);
-					statistics.add("gf_declaration_owl_size_" + aceReport.getOwlAmbiguity());
+					statistics.add(TAG_GF_SENTENCE + "_ace_size_" + aceReport.getAceAmbiguity());
+					statistics.add(TAG_GF_SENTENCE + "_owl_size_" + aceReport.getOwlAmbiguity());
 
-					String lastEditLanguage = gfDecl.getGfWikiEntry().getLanguage();
-					statistics.add("gf_declaration_language_" + lastEditLanguage);
+					String lastEditLanguage = gfSent.getGfWikiEntry().getLanguage();
+					statistics.add(TAG_GF_SENTENCE + "_language_" + lastEditLanguage);
 
 					addWithIndent(sb, 1,
 							JOINER.join(s.isIntegrated(),
 									lastEditLanguage,
-									gfDecl.getGfWikiEntry().getText(),
-									s.getNumberOfRepresentations(),
-									aceReport.getOwlAmbiguity())
+									gfSent.getGfWikiEntry().getText(),
+									"t" + s.getNumberOfRepresentations(),
+									"a" + aceReport.getAceAmbiguity(),
+									"o" + aceReport.getOwlAmbiguity())
 							);
 
+					int totalTreeSize = 0;
+					int totalOwlSize = 0;
 					for (String tree : trees) {
-						statistics.add("gf_declaration_tree");
+						statistics.add(TAG_GF_SENTENCE + "_tree");
 						addWithIndent(sb, 2, tree);
+						int treeSize = aceReport.getTreeSize(tree);
+						totalTreeSize += treeSize;
+						int owlSize = aceReport.getOwlSize(tree);
+						totalOwlSize += owlSize;
+						addWithIndent(sb, 3, "tree_size_" + treeSize);
 						addWithIndent(sb, 3, aceReport.getAce(tree));
 						addWithIndent(sb, 3, aceReport.getOwlFssPp(tree));
+						addWithIndent(sb, 3, "owl_size_" + owlSize);
 						addWithIndent(sb, 3, aceReport.getMessages(tree));
+					}
+					if (! trees.isEmpty()) {
+						statistics.add(TAG_GF_SENTENCE + "_trees_treesize_" + (totalTreeSize / trees.size()));
+						statistics.add(TAG_GF_SENTENCE + "_trees_owlsize_" + (totalOwlSize / trees.size()));
 					}
 				} else {
 					addWithIndent(sb, 1,
@@ -123,31 +159,22 @@ public class GfReportExporter extends OntologyExporter {
 	}
 
 
-	/**
-	 * This was taken from:
-	 * ch.uzh.ifi.attempto.acewiki.aceowl.ACESentence
-	 */
-	private static ACEParserResult parse(ACEText acetext, String uri) {
-		ACEParser ape = APE.getParser();
-		synchronized (ape) {
-			ape.setURI(uri);
-			ape.setGuessingEnabled(false);
-			ape.setClexEnabled(false);
-
-			return ape.getMultiOutput(
-					acetext.getText(),
-					acetext.getLexicon(),
-					OWLFSS,
-					OWLFSSPP
-					);
-		}
-	}
-
-
 	private class AceReport {
-		private Set<String> owls = Sets.newHashSet(); // Syntactic equivalence check, TODO: make it semantic
+		// Each tree corresponds to a set of 0 or more OWL axioms.
+		// We store these sets into a single set. The number of elements in this set shows
+		// the semantic ambiguity of the original sentence, which is smaller
+		// or equal to the syntactic ambiguity (shown by the number of trees).
+		// TODO: throw out axioms which have a semantically equivalent axiom in the set
+		private Set<Set<OWLAxiom>> setOfSetofAxiom = Sets.newHashSet();
 		private Map<String, ACEParserResult> treeToAceParserResult = Maps.newHashMap();
-		private Map<String, ACEText> treeToAce = Maps.newHashMap();
+		// Linearization result
+		private Map<String, String> treeToAce = Maps.newHashMap();
+		// Linearization result that was correct ACE
+		private Map<String, String> treeToAceParsed = Maps.newHashMap();
+		// Pretty-printed OWL
+		private Map<String, String> treeToOwl = Maps.newHashMap();
+
+		private Map<String, Integer> treeToOwlSize = Maps.newHashMap();
 
 		public AceReport(GfGrammar gfGrammar, List<String> trees) {
 			for (String tree : trees) {
@@ -155,51 +182,71 @@ public class GfReportExporter extends OntologyExporter {
 					continue;
 				}
 
-				Set<String> lins = null;
-				String targetLang = gfGrammar.getGrammar().getName() + GfGrammar.SUFFIX_APE;
 				try {
-					lins = gfGrammar.linearize(tree, targetLang);
-				} catch (GfServiceException e) {
-					// "ERROR in translation to " + targetLang + ": "+ e.getMessage()
+					ACEText acetext = GfWikiUtils.getACEText(gfGrammar, tree);
+					if (acetext == null) continue;
+
+					String acetextAsString = acetext.getText().trim();
+					if (acetextAsString.isEmpty()) continue;
+
+					treeToAce.put(tree, acetextAsString);
+					ACEParserResult parserResult = GfWikiUtils.parse(acetext, getOntology().getURI(), OutputType.DRS, OutputType.OWLFSSPP);
+					treeToAceParserResult.put(tree, parserResult);
+
+					String drsAsString = parserResult.get(OutputType.DRS);
+					if ("drs([],[])".equals(drsAsString)) continue;
+
+					treeToAceParsed.put(tree, acetextAsString);
+					String owlAsString = parserResult.get(OutputType.OWLFSSPP);
+					Set<OWLAxiom> axiomSet = GfOwlConverter.getOwlAxiomsFromString(owlAsString);
+					if (axiomSet.isEmpty()) continue;
+
+					setOfSetofAxiom.add(axiomSet);
+					treeToOwl.put(tree, owlAsString);
+
+					// Number of different entities in the axiom set
+					Set<OWLEntity> entities = Sets.newHashSet();
+					for (OWLAxiom ax : axiomSet) {
+						entities.addAll(ax.getSignature());
+					}
+					treeToOwlSize.put(tree, entities.size());
+				} catch (Exception e) {
 					continue;
-				}
-
-				if (lins == null || lins.size() != 1) {
-					// "ERROR: Bad linearizations"
-					return;
-				}
-
-				ACEText acetext = new ACEText(lins.iterator().next());
-				ACEParserResult parserResult = parse(acetext, getOntology().getURI());
-				treeToAce.put(tree, acetext);
-				treeToAceParserResult.put(tree, parserResult);
-
-				// TODO: add only if OWL is a non-empty ontology
-				String owlfss = parserResult.get(OWLFSS);
-				if (owlfss != null && ! owlfss.isEmpty()) {
-					owls.add(owlfss);
 				}
 			}
 		}
 
 		public int getOwlAmbiguity() {
-			return owls.size();
+			return setOfSetofAxiom.size();
+		}
+
+		public int getAceAmbiguity() {
+			return ImmutableSet.copyOf(treeToAceParsed.values()).size();
 		}
 
 		public String getAce(String tree) {
-			ACEText acetext = treeToAce.get(tree);
-			if (acetext == null) {
-				return null;
+			return treeToAce.get(tree);
+		}
+
+		public int getTreeSize(String tree) {
+			try {
+				GfTree gfTree = new GfTree(tree);
+				return gfTree.size();
+			} catch (GfTreeParseException e) {
+				return 0;
 			}
-			return acetext.getText();
 		}
 
 		public String getOwlFssPp(String tree) {
-			ACEParserResult aceParserResult = treeToAceParserResult.get(tree);
-			if (aceParserResult == null) {
-				return null;
+			return treeToOwl.get(tree);
+		}
+
+		public int getOwlSize(String tree) {
+			Integer size = treeToOwlSize.get(tree);
+			if (size == null) {
+				return 0;
 			}
-			return Strings.emptyToNull(aceParserResult.get(OWLFSSPP));
+			return size;
 		}
 
 		public String getMessages(String tree) {

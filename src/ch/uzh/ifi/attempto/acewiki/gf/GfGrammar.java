@@ -59,6 +59,8 @@ import ch.uzh.ifi.attempto.gfservice.gfwebservice.GfWebStorage;
 /**
  * This class wraps GF features of a particular GF grammar.
  *
+ * TODO: move ACE-specific stuff out of this class
+ *
  * @author Kaarel Kaljurand
  */
 public class GfGrammar {
@@ -82,14 +84,18 @@ public class GfGrammar {
 	// otherwise you cannot use it in a sentence.
 	private final static boolean OPTIMIZE_PGF = true;
 
+	private final static int GF_APE_FIELD_LOGICAL_SYMBOL = 3;
+
 	private final static char GF_TOKEN_SEPARATOR = ' ';
 	private final static char GF_TREE_SEPARATOR = '|';
+	private final static char GF_APE_SEPARATOR = '|';
 	private final static String GF_SERIALIZATION_SEPARATOR = "||";
 
 	public final static Joiner GF_TREE_JOINER = Joiner.on(GF_TREE_SEPARATOR);
 	public final static Joiner GF_SERIALIZATION_JOINER = Joiner.on(GF_SERIALIZATION_SEPARATOR).useForNull("");
 	public final static Joiner GF_TOKEN_JOINER = Joiner.on(GF_TOKEN_SEPARATOR);
 	public final static Splitter GF_TREE_SPLITTER = Splitter.on(GF_TREE_SEPARATOR).omitEmptyStrings();
+	public final static Splitter GF_APE_SPLITTER = Splitter.on(GF_APE_SEPARATOR);
 	public final static Splitter GF_SERIALIZATION_SPLITTER = Splitter.on(GF_SERIALIZATION_SEPARATOR);
 	public final static Splitter GF_TOKEN_SPLITTER = Splitter.on(GF_TOKEN_SEPARATOR);
 
@@ -102,6 +108,7 @@ public class GfGrammar {
 	private GfServiceResultBrowseAll mGfServiceResultBrowseAll;
 
 	private final Map<String, Multimap<String, String>> langToTokenToCats = Maps.newHashMap();
+	private final Map<String, Map<String, String>> langToIriToToken = Maps.newHashMap();
 
 	// TODO: could use a Multiset instead but there does not seem to be a
 	// short way to get out k-largest elements.
@@ -150,7 +157,17 @@ public class GfGrammar {
 
 
 	/**
-	 * @param grammar GF grammar
+	 * @return set of locales defined for the given language in the grammar
+	 */
+	public Set<String> getLocales(String lang) {
+		if (mGfServiceResultGrammar == null) {
+			return Collections.emptySet();
+		}
+		return mGfServiceResultGrammar.getLanguages().get(lang);
+	}
+
+
+	/**
 	 * @return {@code true} iff the given grammar contains a concrete language with suffix SUFFIX_APE
 	 */
 	public boolean isAceCompatible() {
@@ -298,11 +315,13 @@ public class GfGrammar {
 		return Ordering.natural().onResultOf(Functions.forMap(mCatToSize)).greatestOf(mCatToSize.keySet(), k);
 	}
 
-
-	public Multimap<String, String> getTokenToCats(String language) throws GfServiceException {
+	public Multimap<String, String> getTokenToCats(String language) {
 		return langToTokenToCats.get(language);
 	}
 
+	public Map<String, String> getIriToToken(String language) {
+		return langToIriToToken.get(language);
+	}
 
 	public GfParseResult parseGfModule(GfModule gfModule) throws GfServiceException {
 		return mGfStorage.parse(gfModule);
@@ -474,6 +493,7 @@ public class GfGrammar {
 
 		langToTokenToCats.clear();
 		mCatToSize.clear();
+		langToIriToToken.clear();
 		// Iterate over all the categories that have producer functions
 		for (String cat : cats) {
 			mCatToSize.put(cat, 0);
@@ -489,8 +509,11 @@ public class GfGrammar {
 				// This includes all the wordforms and variants, because the linearization
 				// is likely to be a complex record that holds many strings.
 				GfServiceResultLinearizeAll result = mGfService.linearizeAll(f, null);
-				Map<String, Set<String>> langToTokens = result.getTexts();
-				for (Entry<String, Set<String>> entry2 : langToTokens.entrySet()) {
+				Map<String, List<String>> langToTokens = result.getTexts();
+				// Extract the logical symbol that corresponds to this function.
+				// The logical symbol is present in the Ape-linearization.
+				String logicalSymbol = extractLogicalSymbolFromApe(langToTokens.get(mGfServiceResultGrammar.getName() + SUFFIX_APE));
+				for (Entry<String, List<String>> entry2 : langToTokens.entrySet()) {
 					String lang = entry2.getKey();
 					Multimap<String, String> tokenToCats = langToTokenToCats.get(lang);
 					// If we haven't seen this language before then create a new hash table entry for it
@@ -504,6 +527,24 @@ public class GfGrammar {
 						String indexToken = getIndexToken(lin);
 						if (indexToken != null) {
 							tokenToCats.put(indexToken, cat);
+						}
+					}
+
+
+					if (logicalSymbol != null) {
+						Map<String, String> iriToToken = langToIriToToken.get(lang);
+						// If we haven't seen this language before then create a new hash table entry for it
+						if (iriToToken == null) {
+							iriToToken =  Maps.newHashMap();
+							langToIriToToken.put(lang, iriToToken);
+						}
+						for (String lin : entry2.getValue()) {
+							iriToToken.put(logicalSymbol, lin);
+							// TODO: We assume that the dictionary form is always the first.
+							// Of course, this does not always hold.
+							// Unfortunately, LinearizeAll cannot be used to obtain a GF record,
+							// with all the category labels of the strings, but just a list of plain strings.
+							break;
 						}
 					}
 				}
@@ -530,5 +571,30 @@ public class GfGrammar {
 			}
 		}
 		return returnTok;
+	}
+
+
+	/**
+	 * <p>Extracts the logical symbol (which is used by APE as the
+	 * OWL entity IRI) from the Ape-linearization of a function, assuming
+	 * that the function is a lexical function.
+	 * Returns {@code null} in case the extraction fails.</p>
+	 *
+	 * <p>We assume that the Ape linearizations have the form
+	 * {@code The_Hague|pn_sg|The_Hague_PN|neutr}, where the logical symbol
+	 * is always in the same field and is always the same in case there are
+	 * several linearizations.</p>
+	 */
+	private static String extractLogicalSymbolFromApe(List<String> lins) {
+		if (lins == null || lins.isEmpty()) {
+			return null;
+		}
+		int count = 0;
+		for (String field : GF_APE_SPLITTER.split(lins.get(0))) {
+			if (++count == GF_APE_FIELD_LOGICAL_SYMBOL) {
+				return field;
+			}
+		}
+		return null;
 	}
 }

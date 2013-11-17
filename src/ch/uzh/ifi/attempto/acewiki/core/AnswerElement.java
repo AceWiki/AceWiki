@@ -29,6 +29,6 @@ public interface AnswerElement extends OntologyElement {
 	 * 
 	 * @return The answer text.
 	 */
-	public TextContainer getAnswerText();
+	public TextContainer getAnswerText(String lang);
 
 }

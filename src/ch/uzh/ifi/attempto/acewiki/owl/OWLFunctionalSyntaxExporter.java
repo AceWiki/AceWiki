@@ -16,56 +16,46 @@ package ch.uzh.ifi.attempto.acewiki.owl;
 
 import java.io.IOException;
 
-import org.coode.owlapi.owlxml.renderer.OWLXMLRenderer;
+import org.coode.owlapi.functionalrenderer.OWLFunctionalSyntaxRenderer;
 import org.semanticweb.owlapi.io.OWLRendererException;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 import ch.uzh.ifi.attempto.acewiki.core.OntologyExporter;
 
-/**
- * This exporter generates an OWL/XML representation of the ontology.
- * 
- * @author Tobias Kuhn
- */
-public class OWLXMLExporter extends OntologyExporter {
-	
-	private final boolean consistent;
+public class OWLFunctionalSyntaxExporter extends OntologyExporter {
 
-	/**
-	 * Creates a new OWL/XML exporter.
-	 * 
-	 * @param consistent Defines if only the consistent part of the ontology should be considered.
-	 */
-	public OWLXMLExporter(boolean consistent) {
-		this.consistent = consistent;
+	private final boolean mConsistent;
+
+	public OWLFunctionalSyntaxExporter(boolean consistent) {
+		mConsistent = consistent;
 	}
-	
+
 	protected void writeContent(String language) throws IOException {
 		AbstractAceWikiOWLReasoner owlReasoner = (AbstractAceWikiOWLReasoner) getOntology()
 				.getReasoner().getWrappedReasoner();
-		OWLOntology owlOntology = owlReasoner.exportOWLOntology(consistent);
-        try {
-            OWLXMLRenderer renderer = new OWLXMLRenderer(owlReasoner.getOWLOntologyManager());
-            renderer.render(owlOntology, getOutputStream());
-        } catch (OWLRendererException ex) {
-            ex.printStackTrace();
-        }
+		OWLOntology owlOntology = owlReasoner.exportOWLOntology(mConsistent);
+		try {
+			OWLFunctionalSyntaxRenderer renderer = new OWLFunctionalSyntaxRenderer(owlReasoner.getOWLOntologyManager());
+			renderer.render(owlOntology, getOutputStream());
+		} catch (OWLRendererException ex) {
+			ex.printStackTrace();
+		}
 	}
-	
+
 	public String getName() {
-		return "OWL Ontology in OWL/XML, " + (consistent ? "consistent" : "full");
+		return "OWL Ontology in functional syntax, " + (mConsistent ? "consistent" : "full");
 	}
-	
+
 	public boolean isApplicable() {
 		return getOntology().getReasoner().getWrappedReasoner() instanceof AbstractAceWikiOWLReasoner;
 	}
-	
+
 	public String getFileSuffix() {
 		return ".owl";
 	}
-	
+
 	public String getContentType() {
-		return "application/owl+xml";
+		return "text/plain";
 	}
 
 }

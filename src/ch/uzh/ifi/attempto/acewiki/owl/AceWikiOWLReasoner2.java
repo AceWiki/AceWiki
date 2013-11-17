@@ -1,5 +1,5 @@
 // This file is part of AceWiki.
-// Copyright 2008-2013, AceWiki developers.
+// Copyright 2008-2012, AceWiki developers.
 // 
 // AceWiki is free software: you can redistribute it and/or modify it under the terms of the GNU
 // Lesser General Public License as published by the Free Software Foundation, either version 3 of
@@ -60,23 +60,24 @@ import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.core.Question;
 import ch.uzh.ifi.attempto.acewiki.core.Sentence;
+import ch.uzh.ifi.attempto.acewiki.gf.SimpleAnswerElement;
 
 /**
- * This is a reasoner implementation that connects to an OWL reasoner. At the moment, it can
- * directly connect to HermiT and Pellet. Additionally, reasoners like FaCT++ can be accessed via
- * the OWLlink interface.
- * 
- * @author Tobias Kuhn
+ * TODO: this is a copy-paste of AceWikiOWLReasoner with a tiny change,
+ * try to unify it more with AceWikiOWLReasoner. The main differences are:
+ *   - AceWikiOWLReasoner returns answers which are ontology elements;
+ *   - AceWikiOWLReasoner2 currently returns fake ontology elements (which don't resolve),
+ *     but should return function names which are presented in the current language.
  */
-public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
-	
+public class AceWikiOWLReasoner2 extends AbstractAceWikiOWLReasoner {
+
 	private static OWLDataFactory dataFactory = new OWLDataFactoryImpl();
 	private static OWLlinkHTTPXMLReasonerFactory owllinkReasonerFactory;
-	
+
 	private static Object owllinkReasonerSyncToken = new Object();
-	
+
 	private Ontology ontology;
-	
+
 	private OWLOntologyManager manager;
 	private OWLOntology owlOntology;
 	private Map<OWLAxiom, Integer> axiomsMap = new HashMap<OWLAxiom, Integer>();
@@ -88,11 +89,11 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 	private OWLProfile owlProfile;
 	private String globalRestrPolicy;
 	private Map<String, String> infoMap = new LinkedHashMap<String, String>();
-	
+
 	/**
 	 * Creates a new reasoner object.
 	 */
-	public AceWikiOWLReasoner() {
+	public AceWikiOWLReasoner2() {
 		manager = OWLManager.createOWLOntologyManager();
 		try {
 			owlOntology = manager.createOntology();
@@ -100,10 +101,10 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public void init(Ontology ontology) {
 		this.ontology = ontology;
-		
+
 		String p = (getParameter("owl_profile") + "").toLowerCase();
 		if (p.equals("owl2el")) {
 			owlProfile = new OWL2ELProfile();
@@ -114,34 +115,34 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 		} else {
 			owlProfile = null;
 		}
-		
+
 		String grp = (getParameter("global_restrictions_policy") + "").toLowerCase();
 		if (grp.equals("unchecked")) {
 			globalRestrPolicy = "unchecked";
 		} else {
 			globalRestrPolicy = "no_chains";
 		}
-		
+
 		infoMap.put("global restrictions policy", globalRestrPolicy);
 		infoMap.put("OWL profile", getOWLProfileName());
 	}
-	
+
 	private List<OntologyElement> getOntologyElements() {
 		return ontology.getOntologyElements();
 	}
-	
+
 	private OntologyElement getOntologyElement(String name) {
 		return ontology.getElement(name);
 	}
-	
+
 	private String getParameter(String name) {
 		return ontology.getParameter(name);
 	}
-	
+
 	public Map<String, String> getInfo() {
 		return infoMap;
 	}
-	
+
 	/**
 	 * Returns a string representing the policy how to enforce the global restrictions on the
 	 * axioms in OWL 2.
@@ -151,11 +152,11 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 	public String getGlobalRestrictionsPolicy() {
 		return globalRestrPolicy;
 	}
-	
+
 	private IRI getIRI() {
 		return IRI.create(ontology.getURI());
 	}
-	
+
 	/**
 	 * Returns the OWL profile that defines which statements are used for reasoning, or null if the
 	 * full language of OWL is used.
@@ -165,7 +166,7 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 	public OWLProfile getOWLProfile() {
 		return owlProfile;
 	}
-	
+
 	/**
 	 * Returns the name of the current OWL profile.
 	 * 
@@ -201,7 +202,7 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 			}
 		}
 		axioms.add(diffIndsAxiom);
-		
+
 		OWLOntology o = null;
 		try {
 			o = manager.createOntology(axioms, getIRI());
@@ -209,10 +210,10 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		
+
 		return o;
 	}
-	
+
 	private OntologyElement get(OWLLogicalEntity owlEntity) {
 		if (owlEntity == null) return null;
 		if (owlEntity.isTopEntity() || owlEntity.isBottomEntity()) return null;
@@ -221,7 +222,7 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 		String name = iri.substring(iri.indexOf("#") + 1);
 		return getOntologyElement(name);
 	}
-	
+
 	/**
 	 * Returns the OWL ontology manager.
 	 * 
@@ -230,39 +231,39 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 	public OWLOntologyManager getOWLOntologyManager() {
 		return manager;
 	}
-	
+
 	public String getReasonerName() {
 		if (owlReasoner == null) return null;
 		return owlReasoner.getReasonerName();
 	}
-	
+
 	public String getReasonerVersion() {
 		if (owlReasoner == null) return null;
 		Version v = owlReasoner.getReasonerVersion();
 		if (v == null) return null;
 		return v.getMajor() + "." + v.getMinor() + "." + v.getPatch() + "." + v.getBuild();
 	}
-	
+
 	public String getReasonerType() {
 		return reasonerType;
 	}
-	
+
 	public void load() {
 		log("loading reasoner");
 		String type = getParameter("reasoner");
 		if (type == null) type = "";
 		type = type.toLowerCase();
 		reasonerType = type;
-		
+
 		String s = getParameter("reasoner_url");
 		if (s == null || s.length() == 0) s = "http://localhost:8080";
 		URL url = null;
 		try {
 			url = new URL(s);
 		} catch (MalformedURLException ex) { ex.printStackTrace(); }
-		
+
 		if (owlReasoner != null) owlReasoner.dispose();
-		
+
 		if (type.equals("none")) {
 			log("no reasoner");
 			reasonerType = "none";
@@ -295,10 +296,10 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 			owlReasoner = owllinkReasonerFactory.createReasoner(owlOntology, config);
 			// reasoner calls over OWLlink have to be synchronized:
 			reasonerSyncToken = owllinkReasonerSyncToken;
-		//} else if (type.equals("dig")) {
-            //try {
+			//} else if (type.equals("dig")) {
+			//try {
 			//	reasoner = new DIGReasoner(OWLManager.createOWLOntologyManager());
-	        //	((DIGReasoner) reasoner).getReasoner().setReasonerURL(url);
+			//	((DIGReasoner) reasoner).getReasoner().setReasonerURL(url);
 			//} catch (Exception ex) { ex.printStackTrace(); }
 		} else if (type.equals("")) {
 			log("no reasoner type specified: loading HermiT as default");
@@ -311,21 +312,21 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 		}
 		updateDifferentIndividualsAxiom();
 		flush();
-		
+
 		log("reasoner loaded");
 	}
-	
+
 	/**
 	 * Updates the axiom that states that all named individuals are different. Thus, unique
 	 * name assumption is applied.
 	 */
 	private synchronized void updateDifferentIndividualsAxiom() {
 		if (!diffIndsAxiomOutdated) return;
-		
+
 		if (diffIndsAxiom != null) {
 			unloadAxiom(diffIndsAxiom);
 		}
-		
+
 		Set<OWLNamedIndividual> inds = new HashSet<OWLNamedIndividual>();
 		for (OntologyElement oe : getOntologyElements()) {
 			if (oe instanceof OWLIndividual) {
@@ -333,16 +334,16 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 			}
 		}
 		diffIndsAxiom = dataFactory.getOWLDifferentIndividualsAxiom(inds);
-		
+
 		loadAxiom(diffIndsAxiom);
-		
+
 		diffIndsAxiomOutdated = false;
 	}
-	
+
 	public void flushElements() {
 		flush();
 	}
-	
+
 	private void flush() {
 		if (owlReasoner != null) {
 			synchronized (reasonerSyncToken) {
@@ -350,7 +351,7 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 			}
 		}
 	}
-	
+
 	public void loadElement(OntologyElement element) {
 		OWLDeclarationAxiom owlDecl = null;
 		if (element instanceof OWLOntoElement) {
@@ -364,7 +365,7 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 			diffIndsAxiomOutdated = true;
 		}
 	}
-	
+
 	public void unloadElement(OntologyElement element) {
 		OWLDeclarationAxiom owlDecl = null;
 		if (element instanceof OWLOntoElement) {
@@ -378,7 +379,7 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 			diffIndsAxiomOutdated = true;
 		}
 	}
-	
+
 	public synchronized List<Concept> getConcepts(Individual ind) {
 		List<Concept> concepts = new ArrayList<Concept>();
 		OWLIndividual owlInd = (OWLIndividual) ind;
@@ -391,7 +392,7 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 		}
 		return concepts;
 	}
-	
+
 	private synchronized Set<OWLClass> getConcepts(OWLNamedIndividual owlInd) {
 		if (owlReasoner == null) {
 			return Collections.emptySet();
@@ -401,7 +402,7 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 			}
 		}
 	}
-	
+
 	public synchronized List<Individual> getIndividuals(Concept concept) {
 		OWLConcept ac = (OWLConcept) concept;
 		List<Individual> inds = new ArrayList<Individual>();
@@ -413,7 +414,7 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 		}
 		return inds;
 	}
-	
+
 	private synchronized Set<OWLNamedIndividual> getIndividuals(OWLClassExpression owlClass) {
 		if (owlReasoner == null) {
 			return Collections.emptySet();
@@ -423,7 +424,7 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 			}
 		}
 	}
-	
+
 	public synchronized List<Concept> getSuperConcepts(Concept concept) {
 		OWLConcept ac = (OWLConcept) concept;
 		List<Concept> concepts = new ArrayList<Concept>();
@@ -435,7 +436,7 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 		}
 		return concepts;
 	}
-	
+
 	private synchronized Set<OWLClass> getSuperConcepts(OWLClass owlClass) {
 		if (owlReasoner == null) {
 			return Collections.emptySet();
@@ -445,7 +446,7 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 			}
 		}
 	}
-	
+
 	public synchronized List<Concept> getSubConcepts(Concept concept) {
 		OWLConcept ac = (OWLConcept) concept;
 		List<Concept> concepts = new ArrayList<Concept>();
@@ -457,7 +458,7 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 		}
 		return concepts;
 	}
-	
+
 	private synchronized Set<OWLClass> getSubConcepts(OWLClass owlClass) {
 		if (owlReasoner == null) {
 			return Collections.emptySet();
@@ -467,29 +468,28 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 			}
 		}
 	}
-	
+
+
 	public synchronized List<AnswerElement> getAnswer(Question q) {
 		if (owlReasoner == null) return null;
-		
+
 		OWLQuestion question = (OWLQuestion) q;
-		
+
 		OWLNamedIndividual quInd = question.getQuestionOWLIndividual();
 		OWLClassExpression quClass = question.getQuestionOWLClass();
 		List<AnswerElement> list = new ArrayList<AnswerElement>();
-		
+
 		if (quInd != null) {
 			for (OWLClass oc : getConcepts(quInd)) {
-				OntologyElement oe = get(oc);
-				if (oe instanceof OWLConcept) {
-					list.add((OWLConcept) oe);
+				if (isVisibleEntity(oc)) {
+					list.add(new SimpleAnswerElement(ontology, oc));
 				}
 			}
 		} else if (quClass != null) {
 			Set<OWLNamedIndividual> owlInds = getIndividuals(quClass);
 			for (OWLNamedIndividual oi : owlInds) {
-				OntologyElement oe = get(oi);
-				if (oe instanceof OWLIndividual) {
-					list.add((OWLIndividual) oe);
+				if (isVisibleEntity(oi)) {
+					list.add(new SimpleAnswerElement(ontology, oi));
 				}
 			}
 		}
@@ -497,7 +497,7 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 		LanguageUtils.sortOntologyElements(list);
 		return list;
 	}
-	
+
 	public synchronized boolean isConsistent() {
 		if (owlReasoner == null) return true;
 		boolean c = true;
@@ -512,7 +512,7 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 		}
 		return c;
 	}
-	
+
 	public synchronized boolean isSatisfiable(Concept concept) {
 		if (owlReasoner == null) return true;
 		if (!(concept instanceof OWLConcept)) return false;
@@ -525,7 +525,7 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 			return true;
 		}
 	}
-	
+
 	public void loadSentence(Sentence s) {
 		OWLSentence sentence = (OWLSentence) s;
 		try {
@@ -547,7 +547,7 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 			throw ex;
 		}
 	}
-	
+
 	public void unloadSentence(Sentence s) {
 		OWLSentence sentence = (OWLSentence) s;
 		for (OWLAxiom ax : sentence.getOWLAxioms()) {
@@ -555,7 +555,7 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 		}
 		flush();
 	}
-	
+
 	private void loadAxiom(OWLAxiom ax) {
 		Integer count = axiomsMap.get(ax);
 		if (count == null) count = 0;
@@ -564,7 +564,7 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 		}
 		axiomsMap.put(ax, count+1);
 	}
-	
+
 	private void unloadAxiom(OWLAxiom ax) {
 		Integer count = axiomsMap.get(ax);
 		if (count == 1) {
@@ -572,9 +572,26 @@ public class AceWikiOWLReasoner extends AbstractAceWikiOWLReasoner {
 		}
 		axiomsMap.put(ax, count-1);
 	}
-	
+
 	private void log(String text) {
 		ontology.log(text);
+	}
+
+	/**
+	 * <p>True if the given entity can be shown to the user in the UI.
+	 * This excludes OWL built-in entities (e.g. tops and bottoms), and
+	 * also the ACE-specific entities
+	 * {@code ace:Universe} and {@code ace:contain}.</p>
+	 *
+	 * TODO: rename, make static, and share with other classes
+	 */
+	private boolean isVisibleEntity(OWLLogicalEntity owlEntity) {
+		if (owlEntity == null) return false;
+		if (owlEntity.isBuiltIn()) return false;
+		// TODO: use the ACE uri here
+		String iri = owlEntity.getIRI().toString();
+		if (!iri.startsWith(ontology.getURI())) return false;
+		return true;
 	}
 
 }

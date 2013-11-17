@@ -212,4 +212,9 @@ public class ProperNameIndividual extends OWLIndividual implements ACEOWLOntoEle
 		return new TextContainer(new OntologyTextElement(this, 1));
 	}
 
+	public TextContainer getAnswerText(String lang) {
+		// Ignoring the language
+		return getAnswerText();
+	}
+
 }

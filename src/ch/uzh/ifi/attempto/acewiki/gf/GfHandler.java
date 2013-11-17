@@ -153,7 +153,12 @@ public class GfHandler extends AbstractLanguageHandler {
 	public List<Sentence> extractSentences(TextContainer tc, PredictiveParser parser) {
 		String tokenText = GfGrammar.GF_TOKEN_JOINER.join(tc.getTokens());
 		List<Sentence> l = new ArrayList<Sentence>();
-		l.add(new GfDeclaration(mGfGrammar, mLanguage, tokenText));
+		// TODO: if the ACE linearization contains a question mark, then ...
+		if (tokenText.contains("?")) {
+			l.add(new GfQuestion(mGfGrammar, mLanguage, tokenText));
+		} else {
+			l.add(new GfDeclaration(mGfGrammar, mLanguage, tokenText));
+		}
 		return l;
 	}
 
@@ -199,7 +204,7 @@ public class GfHandler extends AbstractLanguageHandler {
 	 */
 	private static Locale guessLocale(String language, GfGrammar grammar) {
 		// The grammar can explicitly define the locale, if it does then we use this locale.
-		Set<String> locales = grammar.getGrammar().getLanguages().get(language);
+		Set<String> locales = grammar.getLocales(language);
 		if (locales != null && ! locales.isEmpty()) {
 			// For some reason the locale set can contain more than one element,
 			// we just take the first one.

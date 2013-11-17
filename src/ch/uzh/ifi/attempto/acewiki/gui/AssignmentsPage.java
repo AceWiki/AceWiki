@@ -52,10 +52,12 @@ public class AssignmentsPage extends WikiPage implements ActionListener {
 	private int chosenPage = 0;
 	private Title title;
 	
+
 	/**
 	 * Creates a new assignments page.
-	 * 
-	 * @param page The main page that contains the article.
+	 *
+	 * @param individual The individual in the assignments
+	 * @param wiki The wiki that contains the new page
 	 */
 	public AssignmentsPage(Individual individual, Wiki wiki) {
 		super(wiki);
