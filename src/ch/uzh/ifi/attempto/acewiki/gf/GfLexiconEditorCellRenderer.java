@@ -11,6 +11,7 @@ import ch.uzh.ifi.attempto.echocomp.SimpleErrorMessageWindow;
 import ch.uzh.ifi.attempto.gfservice.GfModule;
 import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 import nextapp.echo.app.Button;
+import nextapp.echo.app.Color;
 import nextapp.echo.app.Component;
 import nextapp.echo.app.Extent;
 import nextapp.echo.app.Font;
@@ -32,12 +33,15 @@ public class GfLexiconEditorCellRenderer implements TableCellRenderer {
 
 	public Component getTableCellRendererComponent(final Table table, Object value, final int column, final int row) {
 
-		// Non-empty string is required to make the button clickable
-		final String valueAsString = (value == null ? "\u00A0" : value.toString());
+		final String valueAsString = (value == null ? "" : value.toString());
 
 		if (column > 0 && mWiki.isEditable()) {
 			final GfLexiconEditorModel model = (GfLexiconEditorModel) table.getModel();
-			Button b = new Button(valueAsString);
+			// Non-empty string is required to make the button clickable
+			Button b = new Button(value == null ? "\u00A0" : value.toString());
+			if (value == null) {
+				b.setBackground(Color.PINK);
+			}
 			b.addActionListener(new ActionListener() {
 				private static final long serialVersionUID = -7968619997506232092L;
 
@@ -78,7 +82,6 @@ public class GfLexiconEditorCellRenderer implements TableCellRenderer {
 		Label l = new Label(valueAsString);
 		l.setFont(FONT_CELL);
 		return l;
-
 	}
 
 
