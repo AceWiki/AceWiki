@@ -2,10 +2,6 @@ package ch.uzh.ifi.attempto.acewiki.gf;
 
 import java.util.Set;
 
-import ch.uzh.ifi.attempto.acewiki.core.Article;
-import ch.uzh.ifi.attempto.acewiki.core.GeneralTopic;
-import ch.uzh.ifi.attempto.acewiki.core.Ontology;
-import ch.uzh.ifi.attempto.acewiki.core.Sentence;
 import ch.uzh.ifi.attempto.ape.ACEParser;
 import ch.uzh.ifi.attempto.ape.ACEParserResult;
 import ch.uzh.ifi.attempto.ape.ACEText;
@@ -14,26 +10,6 @@ import ch.uzh.ifi.attempto.base.APE;
 import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 
 public class GfWikiUtils {
-
-	/**
-	 * Clears all the multilingual linearizations of all the sentences
-	 * in the whole wiki. This should be called after grammar update to make sure
-	 * that the sentences reflect the actual grammar.
-	 *
-	 * TODO: this should be replaced by something smarter, which only clears the
-	 * linearizations of affected trees.
-	 */
-	public static void clearAllLinearizations(Ontology ontology) {
-		for (GeneralTopic el : ontology.getOntologyElements(GeneralTopic.class)) {
-			Article article = el.getArticle();
-			for (Sentence sent : article.getSentences()) {
-				if (sent instanceof GfSentence) {
-					((GfSentence) sent).clearLinearizations();
-				}
-			}
-		}
-	}
-
 
 	public static ACEParserResult parse(ACEText acetext, String uri, OutputType... outputTypes) {
 		ACEParser ape = APE.getParser();

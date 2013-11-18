@@ -47,7 +47,9 @@ import nextapp.echo.webcontainer.ContainerContext;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiConfig;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiDataExporter;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiEngine;
+import ch.uzh.ifi.attempto.acewiki.core.AceWikiGrammarEditor;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiStorage;
+import ch.uzh.ifi.attempto.acewiki.core.GrammarEditorResult;
 import ch.uzh.ifi.attempto.acewiki.core.LanguageHandler;
 import ch.uzh.ifi.attempto.acewiki.core.LexiconTableExporter;
 import ch.uzh.ifi.attempto.acewiki.core.Ontology;
@@ -83,6 +85,7 @@ import ch.uzh.ifi.attempto.echocomp.HSpace;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.LocaleResources;
 import ch.uzh.ifi.attempto.echocomp.MessageWindow;
+import ch.uzh.ifi.attempto.echocomp.SimpleErrorMessageWindow;
 import ch.uzh.ifi.attempto.echocomp.SmallButton;
 import ch.uzh.ifi.attempto.echocomp.SolidLabel;
 import ch.uzh.ifi.attempto.echocomp.Style;
@@ -134,7 +137,7 @@ public class Wiki implements UserProvider, ActionListener, ExternalEventListener
 	private Label userLabel;
 
 	private SmallButton homeButton, indexButton, searchButton2, aboutButton, randomButton,
-	newButton, exportButton;
+	newButton, exportButton, rebuildGrammarButton;
 
 	private SmallButton grammarButton;
 	private SmallButton lexiconEditorButton;
@@ -417,6 +420,11 @@ public class Wiki implements UserProvider, ActionListener, ExternalEventListener
 		exportButton = new SmallButton(getGUIText("acewiki_action_export"), this, 12);
 		if (!config.isReadOnly() && getEngine().getLexicalTypes().length > 0) {
 			sideCol.add(new ListItem(newButton));
+		}
+		AceWikiGrammarEditor grammarEditor = getEngine().getGrammarEditor();
+		if (grammarEditor != null && grammarEditor.isEditable()) {
+			rebuildGrammarButton = new SmallButton(getGUIText("acewiki_action_rebuild_grammar"), this, 12);
+			sideCol.add(new ListItem(rebuildGrammarButton));
 		}
 		sideCol.add(new ListItem(exportButton));
 
@@ -875,6 +883,12 @@ public class Wiki implements UserProvider, ActionListener, ExternalEventListener
 			}
 		} else if (src == exportButton) {
 			showWindow(new ExportWindow(this));
+		} else if (src == rebuildGrammarButton) {
+			if (!isEditable()) {
+				showLoginWindow();
+			} else {
+				rebuildGrammar(getEngine().getGrammarEditor());
+			}
 		} else if (src == logoutButton) {
 			showWindow(new MessageWindow(
 					"acewiki_message_logouttitle",
@@ -1225,7 +1239,7 @@ public class Wiki implements UserProvider, ActionListener, ExternalEventListener
 	 * @param key The key of the GUI text item.
 	 * @return The localized string.
 	 */
-	public String getGUIText(String key) {
+	public static String getGUIText(String key) {
 		String text = LocaleResources.getString(key);
 		if (text == null) text = key;
 		return text;
@@ -1241,4 +1255,24 @@ public class Wiki implements UserProvider, ActionListener, ExternalEventListener
 		return v;
 	}
 
+
+	// TODO: localize
+	private void rebuildGrammar(AceWikiGrammarEditor grammarEditor) {
+		try {
+			// TODO: this blocks, do it in the background
+			GrammarEditorResult result = grammarEditor.update(getOntology());
+			// TODO: if these make sense only together then put them into a private method
+			if (result.isSuccess()) {
+				update();
+				refresh();
+				showWindow(new MessageWindow("Success", "Grammar rebuilt successfully."));
+			} else {
+				showWindow(new SimpleErrorMessageWindow(getGUIText("acewiki_error_title"),
+						result.getResultCode() + ": " + result.getMessage() + " (" + result.getCommand() + ")"));
+			}
+		} catch (Exception ex) {
+			showWindow(new SimpleErrorMessageWindow(getGUIText("acewiki_error_title"), ex.getMessage()));
+			return;
+		}
+	}
 }

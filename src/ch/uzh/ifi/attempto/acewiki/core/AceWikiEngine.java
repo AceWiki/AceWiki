@@ -22,14 +22,14 @@ import java.util.List;
  * @author Tobias Kuhn
  */
 public interface AceWikiEngine {
-	
+
 	/**
 	 * This is the first method to be called and provides the ontology object.
 	 * 
 	 * @param ontology The ontology object.
 	 */
 	public void init(Ontology ontology);
-	
+
 	/**
 	 * Returns the language handler for the given language.
 	 * 
@@ -37,7 +37,7 @@ public interface AceWikiEngine {
 	 * @return The language handler for the given language.
 	 */
 	public LanguageHandler getLanguageHandler(String language);
-	
+
 	/**
 	 * Returns the available languages. The first language is considered the default one, which
 	 * means that at least one language must be returned.
@@ -47,35 +47,35 @@ public interface AceWikiEngine {
 	 * TODO: return List<String>?
 	 */
 	public String[] getLanguages();
-	
+
 	/**
 	 * Returns the lexical types, as defined by the respective ontology element types.
 	 * 
 	 * @return The lexical types.
 	 */
 	public String[] getLexicalTypes();
-	
+
 	/**
 	 * Returns the reasoner, or null if reasoning is not supported.
 	 * 
 	 * @return The reasoner.
 	 */
 	public AceWikiReasoner getReasoner();
-	
+
 	/**
 	 * Returns the word index.
 	 * 
 	 * @return The word index.
 	 */
 	public WordIndex getWordIndex();
-	
+
 	/**
 	 * Returns a list of exporters to export the wiki content in different formats.
 	 * 
 	 * @return A list of ontology exporters.
 	 */
 	public List<OntologyExporter> getExporters();
-	
+
 	/**
 	 * Creates a new ontology element for the given lexical type.
 	 * 
@@ -83,7 +83,7 @@ public interface AceWikiEngine {
 	 * @return A new ontology element.
 	 */
 	public OntologyElement createOntologyElement(String type);
-	
+
 	/**
 	 * Creates a new sentence object based on the given serialization.
 	 * 
@@ -91,7 +91,7 @@ public interface AceWikiEngine {
 	 * @return A new sentence object.
 	 */
 	public Sentence createSentence(String serialized);
-	
+
 	/**
 	 * Creates a new assignement sentence that assigns a given individual to a given concept.
 	 * 
@@ -110,5 +110,12 @@ public interface AceWikiEngine {
 	 * @return A new sentence representing the assignment.
 	 */
 	public Sentence createHierarchySentence(Concept subConcept, Concept superConcept);
+
+	/**
+	 * Returns the grammar editor, or null if grammar editing is not supported.
+	 * 
+	 * @return The grammar editor.
+	 */
+	public AceWikiGrammarEditor getGrammarEditor();
 
 }

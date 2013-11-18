@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Set;
 
 import ch.uzh.ifi.attempto.acewiki.core.AbstractAceWikiEngine;
+import ch.uzh.ifi.attempto.acewiki.core.AceWikiGrammarEditor;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.GeneralTopic;
@@ -52,6 +53,8 @@ public class GfEngine extends AbstractAceWikiEngine {
 
 	private GfGrammar gfGrammar;
 
+	private GfGrammarEditor gfGrammarEditor;
+
 	/**
 	 * Creates a new GF-based AceWiki engine.
 	 */
@@ -66,6 +69,7 @@ public class GfEngine extends AbstractAceWikiEngine {
 
 	public void init(Ontology ontology) {
 		gfGrammar = new GfGrammar(ontology);
+		gfGrammarEditor = new GfGrammarEditor(gfGrammar);
 
 		Set<String> hiddenLanguages = ontology.getParameterAsSetOfString(GfParameters.HIDDEN_LANGUAGES);
 
@@ -144,6 +148,11 @@ public class GfEngine extends AbstractAceWikiEngine {
 	public Sentence createHierarchySentence(Concept subConcept, Concept superConcept) {
 		// TODO
 		return null;
+	}
+
+	@Override
+	public AceWikiGrammarEditor getGrammarEditor() {
+		return gfGrammarEditor;
 	}
 
 }

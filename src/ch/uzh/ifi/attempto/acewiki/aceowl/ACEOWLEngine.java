@@ -14,6 +14,7 @@
 
 package ch.uzh.ifi.attempto.acewiki.aceowl;
 
+import ch.uzh.ifi.attempto.acewiki.core.AceWikiGrammarEditor;
 import ch.uzh.ifi.attempto.acewiki.core.AceWikiReasoner;
 import ch.uzh.ifi.attempto.acewiki.core.Concept;
 import ch.uzh.ifi.attempto.acewiki.core.Individual;
@@ -88,6 +89,11 @@ public class ACEOWLEngine extends MonolingualEngine {
 	public Sentence createHierarchySentence(Concept subConcept, Concept superConcept) {
 		return createSentence("Every " + subConcept.getWord() + " is a " +
 				superConcept.getWord() + ".");
+	}
+
+	@Override
+	public AceWikiGrammarEditor getGrammarEditor() {
+		return null;
 	}
 
 }

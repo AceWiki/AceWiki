@@ -30,19 +30,15 @@ import ch.uzh.ifi.attempto.acewiki.core.Ontology;
 import ch.uzh.ifi.attempto.acewiki.core.OntologyElement;
 import ch.uzh.ifi.attempto.acewiki.gf.GfEngine;
 import ch.uzh.ifi.attempto.acewiki.gf.GfGrammar;
-import ch.uzh.ifi.attempto.acewiki.gf.GfWikiUtils;
 import ch.uzh.ifi.attempto.acewiki.gf.TypeGfModule;
 import ch.uzh.ifi.attempto.echocomp.GeneralButton;
 import ch.uzh.ifi.attempto.echocomp.Label;
 import ch.uzh.ifi.attempto.echocomp.LocaleResources;
-import ch.uzh.ifi.attempto.echocomp.MessageWindow;
-import ch.uzh.ifi.attempto.echocomp.SimpleErrorMessageWindow;
 import ch.uzh.ifi.attempto.echocomp.TextAreaWindow;
 import ch.uzh.ifi.attempto.echocomp.VSpace;
 import ch.uzh.ifi.attempto.gfservice.GfModule;
 import ch.uzh.ifi.attempto.gfservice.GfServiceException;
 import ch.uzh.ifi.attempto.gfservice.GfServiceResultGrammar;
-import ch.uzh.ifi.attempto.gfservice.GfStorageResult;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Multimap;
@@ -52,7 +48,6 @@ import com.google.common.collect.Multimap;
 public class GrammarPage extends WikiPage implements ActionListener {
 
 	// TODO: localize
-	private static final String ACTION_MAKE = "Rebuild grammar";
 	private static final String ACTION_GRAMMAR_PUSH = "acewiki_action_grammar_push";
 	private static final String ACTION_GRAMMAR_PULL = "acewiki_action_grammar_pull";
 	private static final String ACTION_GRAMMAR_RM_GFO = "acewiki_action_grammar_rm_gfo";
@@ -83,7 +78,6 @@ public class GrammarPage extends WikiPage implements ActionListener {
 		Row buttonRow = new Row();
 		buttonRow.setCellSpacing(new Extent(10));
 		buttonRow.setInsets(INSETS);
-		buttonRow.add(new GeneralButton(ACTION_MAKE, this));
 		if (mWiki.hasUserRight("grammar_refresh")) {
 			buttonRow.add(new GeneralButton(ACTION_GRAMMAR_PUSH, this));
 			buttonRow.add(new GeneralButton(ACTION_GRAMMAR_PULL, this));
@@ -126,13 +120,7 @@ public class GrammarPage extends WikiPage implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		String actionCommand = e.getActionCommand();
-		if (ACTION_MAKE.equals(actionCommand)) {
-			if (!getWiki().isEditable()) {
-				getWiki().showLoginWindow();
-			} else {
-				integrate();
-			}
-		} else if (ACTION_GRAMMAR_PUSH.equals(actionCommand)) {
+		if (ACTION_GRAMMAR_PUSH.equals(actionCommand)) {
 			actionGrammarPush();
 		} else if (ACTION_GRAMMAR_PULL.equals(actionCommand)) {
 			actionGrammarPull();
@@ -309,37 +297,6 @@ public class GrammarPage extends WikiPage implements ActionListener {
 		TextAreaWindow resultsWindow = new TextAreaWindow(ACTION_GRAMMAR_RM_GFO, this);
 		resultsWindow.setText(sb.toString());
 		mWiki.showWindow(resultsWindow);
-	}
-
-
-	private void integrate() {
-		// TODO: this blocks, do it in the background
-		try {
-			integrateAux();
-		} catch (Exception ex) {
-			mWiki.showWindow(new SimpleErrorMessageWindow("Error", ex.getMessage()));
-			return;
-		}
-		mWiki.showWindow(new MessageWindow("Success", "Grammar rebuilt successfully."));
-	}
-
-
-	public void integrateAux() {
-		if (! mGrammar.isGrammarEditable()) {
-			throw new RuntimeException("Grammar is not editable.");
-		}
-		try {
-			GfStorageResult result = mGrammar.update();
-
-			if (result.isSuccess()) {
-				GfWikiUtils.clearAllLinearizations(mWiki.getOntology());
-			} else {
-				throw new RuntimeException(result.getResultCode() + ": " +
-						result.getMessage() + " (" + result.getCommand() + ")");
-			}
-		} catch (GfServiceException ex) {
-			throw new RuntimeException(ex);
-		}
 	}
 
 
