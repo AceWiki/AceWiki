@@ -95,7 +95,7 @@ You do not have to perform the steps described here if you are using a pre-compi
 you change the source code).
 
 Ant is required to manually run the compilation. Make sure that a recent version of Apache Ant is
-installed. The following commands are available:
+installed, and at least Java version 1.7 is needed. The following commands are available:
 
 - `ant compile` compiles the Java source code.
 - `ant createjars` creates the jar-files.
@@ -110,7 +110,8 @@ APE
 
 AceWiki and the ACE Editor make use of APE, a parser that translates ACE into logic. In order to
 run APE, a recent version of SWI Prolog has to be installed and the file "ape.exe" has to be
-available. The file "ape.exe" can be complied from the APE package that can be obtained on the
+available in the top directory of the AceWiki code base (the same directory where this README file
+is in). The file "ape.exe" can be complied from the APE package that can be obtained on the
 Attempto download page: http://attempto.ifi.uzh.ch/site/downloads/
 
 Furthermore, you have to use the following Java VM argument that points to the location where the
