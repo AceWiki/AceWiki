@@ -230,13 +230,25 @@ public class ParseTree {
 
 	/**
 	 * Returns a serialization of the semantics tree under lambda interpretation.
+	 * (new optimized implementation)
 	 * 
 	 * @return A serialization of the lambda semantics tree.
 	 */
 	public String getSerializedLambdaSemTree() {
-		return serializeStructure(getLambdaSemTree());
+		return new SemanticTreeProcessor(this).reduce().getSemantics();
 	}
 
+	/**
+	 * The old implementation of getSerializedLambdaSemTree, just in case problems
+	 * pop up with the new one.
+	 * 
+	 * @return A serialization of the lambda semantics tree.
+	 */
+	@Deprecated
+	public String getOldSerializedLambdaSemTree() {
+		return serializeStructure(getLambdaSemTree());
+	}
+	
 	/**
 	 * Returns an ASCII representation of the semantics tree under lambda interpretation.
 	 * 
