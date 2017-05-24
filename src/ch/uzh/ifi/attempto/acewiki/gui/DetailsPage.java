@@ -86,7 +86,7 @@ public class DetailsPage extends SentencePage implements ActionListener {
 		if (empty) {
 			Column col = new Column();
 			col.setInsets(new Insets(10, 5, 5, 15));
-			col.add(new SolidLabel(getWiki().getGUIText("acewiki_details_empty"), Font.ITALIC, 10));
+			col.add(new SolidLabel(Wiki.getGUIText("acewiki_details_empty"), Font.ITALIC, 10));
 			add(col);
 		}
 	}

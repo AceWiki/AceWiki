@@ -16,6 +16,7 @@ package ch.uzh.ifi.attempto.acewiki.gui;
 
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
+import ch.uzh.ifi.attempto.acewiki.Wiki;
 import ch.uzh.ifi.attempto.acewiki.core.Article;
 import ch.uzh.ifi.attempto.acewiki.core.Comment;
 import ch.uzh.ifi.attempto.acewiki.core.Statement;
@@ -51,7 +52,7 @@ public class CommentEditorHandler implements ActionListener {
 		this.page = page;
 		this.edit = edit;
 		
-		textAreaWindow = new TextAreaWindow(page.getWiki().getGUIText("acewiki_commeditor_title"), this);
+		textAreaWindow = new TextAreaWindow(Wiki.getGUIText("acewiki_commeditor_title"), this);
 		textAreaWindow.setSize(600, 350);
 		if (edit) {
 			textAreaWindow.setText(((Comment) statement).getText());

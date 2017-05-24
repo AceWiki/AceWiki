@@ -74,13 +74,13 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 		setTabRow(TabRow.getArticleTabRow(concept, TabRow.TAB_INDIVIDUALS, getWiki()));
 
 		title.setText(getHeading(concept));
-		title.setPostTitle("- " + getWiki().getGUIText("acewiki_page_individuals"));
+		title.setPostTitle("- " + Wiki.getGUIText("acewiki_page_individuals"));
 		title.setTooltip(concept.getType());
 		individualsColumn.removeAll();
 		
 		final Column waitComp = new Column();
 		waitComp.setInsets(new Insets(10, 0, 0, 0));
-		waitComp.add(new RecalcIcon(getWiki().getGUIText("acewiki_list_updating")));
+		waitComp.add(new RecalcIcon(Wiki.getGUIText("acewiki_list_updating")));
 
 		CachingReasoner cr = getWiki().getOntology().getReasoner();
 		
@@ -172,7 +172,7 @@ public class IndividualsPage extends WikiPage implements ActionListener {
 				}
 				if (sentences.size() == 0) {
 					indexBar.setVisible(false);
-					sentencesColumn.add(new SolidLabel(getWiki().getGUIText("acewiki_list_empty"), Font.ITALIC, 10));
+					sentencesColumn.add(new SolidLabel(Wiki.getGUIText("acewiki_list_empty"), Font.ITALIC, 10));
 				} else {
 					int i = ((sentences.size()-1) / pageSize) + 1;
 					if (chosenPage > i) chosenPage = 0;

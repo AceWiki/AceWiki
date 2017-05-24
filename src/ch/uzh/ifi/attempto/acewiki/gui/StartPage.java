@@ -42,7 +42,7 @@ public class StartPage extends ArticlePage {
 	protected void doUpdate() {
 		updateTextColumn();
 		setTabRow(TabRow.getMainTabRow(TabRow.TAB_MAIN, getWiki()));
-		getTitle().setText(getWiki().getGUIText("acewiki_page_main"));
+		getTitle().setText(Wiki.getGUIText("acewiki_page_main"));
 	}
 
 	

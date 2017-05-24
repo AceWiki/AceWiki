@@ -123,7 +123,7 @@ public class StatementMenu extends Row implements ActionListener {
 			menuColumn.add(menuSeparator);
 			menuSeparator = null;
 		}
-		Button menuEntry = new Button(wiki.getGUIText(text));
+		Button menuEntry = new Button(Wiki.getGUIText(text));
 		menuEntry.setActionCommand(text);
 		menuEntry.setHeight(new Extent(16));
 		menuEntry.setWidth(new Extent(180));
@@ -136,7 +136,7 @@ public class StatementMenu extends Row implements ActionListener {
 		menuEntry.setAlignment(new Alignment(Alignment.LEFT, Alignment.CENTER));
 		menuEntry.setTextAlignment(new Alignment(Alignment.LEFT, Alignment.CENTER));
 		menuEntry.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
-		menuEntry.setToolTipText(wiki.getGUIText(tooltip));
+		menuEntry.setToolTipText(Wiki.getGUIText(tooltip));
 		menuEntry.addActionListener(this);
 		menuColumn.add(menuEntry);
 	}
@@ -250,17 +250,17 @@ public class StatementMenu extends Row implements ActionListener {
 	private String getTooltipText() {
 		String t = null;
 		if (type == REASONING_TYPE ) {
-			t = wiki.getGUIText("acewiki_statementtooltip_reasoning");
+			t = Wiki.getGUIText("acewiki_statementtooltip_reasoning");
 		} else if (type == QUESTION_TYPE) {
-			t = wiki.getGUIText("acewiki_statementtooltip_question");
+			t = Wiki.getGUIText("acewiki_statementtooltip_question");
 		} else if (type == NOREASONING_TYPE) {
-			t = wiki.getGUIText("acewiki_statementtooltip_noreasoning");
+			t = Wiki.getGUIText("acewiki_statementtooltip_noreasoning");
 		} else if (type == INFERRED_TYPE) {
-			t = wiki.getGUIText("acewiki_statementtooltip_inferred");
+			t = Wiki.getGUIText("acewiki_statementtooltip_inferred");
 		} else if (type == COMMENT_TYPE) {
-			t = wiki.getGUIText("acewiki_statementtooltip_comment");
+			t = Wiki.getGUIText("acewiki_statementtooltip_comment");
 		} else if (type == EMPTY_TYPE) {
-			t = wiki.getGUIText("acewiki_statementtooltip_empty");
+			t = Wiki.getGUIText("acewiki_statementtooltip_empty");
 		}
 		return t;
 	}

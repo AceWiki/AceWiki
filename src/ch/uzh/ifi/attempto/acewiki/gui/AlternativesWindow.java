@@ -71,7 +71,7 @@ public class AlternativesWindow extends WindowPane implements ActionListener {
 		this.language = language;
 		this.wiki = wiki;
 		
-		setTitle(wiki.getGUIText("acewiki_alternativeswindow_title"));
+		setTitle(Wiki.getGUIText("acewiki_alternativeswindow_title"));
 		setTitleFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		setModal(true);
 		setWidth(new Extent(770));
@@ -103,7 +103,7 @@ public class AlternativesWindow extends WindowPane implements ActionListener {
 		Column messageColumn = new Column();
 		messageColumn.setLayoutData(layout1);
 
-		Label label = new Label(wiki.getGUIText("acewiki_alternativeswindow_message"));
+		Label label = new Label(Wiki.getGUIText("acewiki_alternativeswindow_message"));
 		label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		messageColumn.add(label);
 		grid.add(messageColumn);

@@ -145,7 +145,7 @@ public abstract class ArticlePage extends WikiPage implements ActionListener {
 		}
 
 		if (getArticle().getStatements().size() == 0) {
-			textColumn.add(new SolidLabel(getWiki().getGUIText("acewiki_article_empty"), Font.ITALIC, 10));
+			textColumn.add(new SolidLabel(Wiki.getGUIText("acewiki_article_empty"), Font.ITALIC, 10));
 		}
 
 		if (!getWiki().getConfig().isReadOnly()) {

@@ -71,7 +71,7 @@ public class SearchPage extends WikiPage implements ActionListener {
 
 		setTabRow(TabRow.getMainTabRow(TabRow.TAB_SEARCH, getWiki()));
 
-		add(new Title(getWiki().getGUIText("acewiki_page_search"), true));
+		add(new Title(Wiki.getGUIText("acewiki_page_search"), true));
 		addHorizontalLine();
 		add(new VSpace(15));
 		
@@ -102,7 +102,7 @@ public class SearchPage extends WikiPage implements ActionListener {
 		resultColumn.removeAll();
 		if (textField.getText().length() == 0) {
 			indexBar.setVisible(false);
-			resultColumn.add(new SolidLabel(getWiki().getGUIText("acewiki_search_nosearchtext"), Font.ITALIC, 10));
+			resultColumn.add(new SolidLabel(Wiki.getGUIText("acewiki_search_nosearchtext"), Font.ITALIC, 10));
 			return;
 		}
 		
@@ -116,7 +116,7 @@ public class SearchPage extends WikiPage implements ActionListener {
 		
 		if (searchResult.size() == 0) {
 			indexBar.setVisible(false);
-			resultColumn.add(new SolidLabel(getWiki().getGUIText("acewiki_list_empty"), Font.ITALIC, 10));
+			resultColumn.add(new SolidLabel(Wiki.getGUIText("acewiki_list_empty"), Font.ITALIC, 10));
 		} else {
 			int i = ((searchResult.size()-1) / pageSize) + 1;
 			if (chosenPage > i) chosenPage = 0;

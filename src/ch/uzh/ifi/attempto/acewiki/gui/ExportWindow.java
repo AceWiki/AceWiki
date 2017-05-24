@@ -67,7 +67,7 @@ public class ExportWindow extends WindowPane implements ActionListener {
 	public ExportWindow(Wiki wiki) {
 		this.wiki = wiki;
 		
-		setTitle(wiki.getGUIText("acewiki_exportwindow_title"));
+		setTitle(Wiki.getGUIText("acewiki_exportwindow_title"));
 		setTitleFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		setModal(true);
 		setWidth(new Extent(420));
@@ -97,7 +97,7 @@ public class ExportWindow extends WindowPane implements ActionListener {
 		layout1.setAlignment(new Alignment(Alignment.LEFT, Alignment.TOP));
 		messageColumn.setLayoutData(layout1);
 
-		Label label = new Label(wiki.getGUIText("acewiki_exportwindow_message"));
+		Label label = new Label(Wiki.getGUIText("acewiki_exportwindow_message"));
 		label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		messageColumn.add(label);
 		messageColumn.add(new VSpace());
@@ -106,7 +106,7 @@ public class ExportWindow extends WindowPane implements ActionListener {
 		String[] options = new String[exporters.size()];
 		for (int i = 0 ; i < exporters.size() ; i++) {
 			OntologyExporter e = exporters.get(i);
-			options[i] = wiki.getGUIText(e.getName()) + " (" + e.getFileSuffix() + ")";
+			options[i] = Wiki.getGUIText(e.getName()) + " (" + e.getFileSuffix() + ")";
 		}
 		
 		listBox = new ListBox(options);

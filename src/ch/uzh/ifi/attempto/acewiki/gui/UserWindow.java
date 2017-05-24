@@ -64,7 +64,7 @@ public class UserWindow extends WindowPane implements ActionListener {
 		this.wiki = wiki;
 		this.user = wiki.getUser();
 		
-		setTitle(wiki.getGUIText("acewiki_userwindow_title") + " " + user.getName());
+		setTitle(Wiki.getGUIText("acewiki_userwindow_title") + " " + user.getName());
 		setTitleFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		setModal(true);
 		setWidth(new Extent(500));
@@ -85,31 +85,31 @@ public class UserWindow extends WindowPane implements ActionListener {
 		GridLayoutData layout1 = new GridLayoutData();
 		layout1.setAlignment(new Alignment(Alignment.LEFT, Alignment.TOP));
 		messageColumn.setLayoutData(layout1);
-		Label label = new Label(wiki.getGUIText("acewiki_userwindow_message"));
+		Label label = new Label(Wiki.getGUIText("acewiki_userwindow_message"));
 		label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		messageColumn.add(label);
 		messageColumn.add(new VSpace());
 		
 		Grid formGrid = new Grid(2);
 		formGrid.setInsets(new Insets(10, 10, 0, 0));
-		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_username"), Font.ITALIC));
+		formGrid.add(new SolidLabel(Wiki.getGUIText("acewiki_userwindow_username"), Font.ITALIC));
 		formGrid.add(new SolidLabel(user.getName(), Font.ITALIC));
-		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_registerdate"), Font.ITALIC));
+		formGrid.add(new SolidLabel(Wiki.getGUIText("acewiki_userwindow_registerdate"), Font.ITALIC));
 		formGrid.add(new SolidLabel(user.getUserData("registerdate"), Font.ITALIC));
-		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_sessions"), Font.ITALIC));
+		formGrid.add(new SolidLabel(Wiki.getGUIText("acewiki_userwindow_sessions"), Font.ITALIC));
 		formGrid.add(new SolidLabel(user.getUserData("logincount"), Font.ITALIC));
-		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_email"), Font.ITALIC));
+		formGrid.add(new SolidLabel(Wiki.getGUIText("acewiki_userwindow_email"), Font.ITALIC));
 		emailField.setText(user.getUserData("email"));
 		emailField.setEnabled(false);
 		formGrid.add(emailField);
-		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_currentpassword"), Font.ITALIC));
+		formGrid.add(new SolidLabel(Wiki.getGUIText("acewiki_userwindow_currentpassword"), Font.ITALIC));
 		passwordField.setText("***************");
 		passwordField.setEnabled(false);
 		formGrid.add(passwordField);
-		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_newpassword"), Font.ITALIC));
+		formGrid.add(new SolidLabel(Wiki.getGUIText("acewiki_userwindow_newpassword"), Font.ITALIC));
 		newPasswordField.setEnabled(false);
 		formGrid.add(newPasswordField);
-		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_retypenewpassword"), Font.ITALIC));
+		formGrid.add(new SolidLabel(Wiki.getGUIText("acewiki_userwindow_retypenewpassword"), Font.ITALIC));
 		retypePasswordField.setEnabled(false);
 		formGrid.add(retypePasswordField);
 		messageColumn.add(formGrid);

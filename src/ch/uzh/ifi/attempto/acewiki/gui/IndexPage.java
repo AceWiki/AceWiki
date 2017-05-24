@@ -70,7 +70,7 @@ public class IndexPage extends WikiPage implements ActionListener {
 
 		setTabRow(TabRow.getMainTabRow(TabRow.TAB_INDEX, getWiki()));
 
-		add(new Title(getWiki().getGUIText("acewiki_page_index"), true));
+		add(new Title(Wiki.getGUIText("acewiki_page_index"), true));
 		addHorizontalLine();
 		add(new VSpace(20));
 		
@@ -106,7 +106,7 @@ public class IndexPage extends WikiPage implements ActionListener {
 		if (entries.size() == 0) {
 			numberIndexBar.setVisible(false);
 			indexColumn.add(new SolidLabel(
-					getWiki().getGUIText("acewiki_list_empty"),
+					Wiki.getGUIText("acewiki_list_empty"),
 					Font.ITALIC,
 					10
 				));

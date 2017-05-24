@@ -70,7 +70,7 @@ public class RegisterWindow extends WindowPane implements ActionListener {
 		passwordField.setText(password);
 		stayLoggedInCheckBox.setSelected(stayLoggedIn);
 		
-		setTitle(wiki.getGUIText("acewiki_userwindow_registertitle"));
+		setTitle(Wiki.getGUIText("acewiki_userwindow_registertitle"));
 		setTitleFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		setModal(true);
 		setWidth(new Extent(500));
@@ -92,22 +92,22 @@ public class RegisterWindow extends WindowPane implements ActionListener {
 		GridLayoutData layout1 = new GridLayoutData();
 		layout1.setAlignment(new Alignment(Alignment.LEFT, Alignment.TOP));
 		messageColumn.setLayoutData(layout1);
-		Label label = new Label(wiki.getGUIText("acewiki_userwindow_registermessage"));
+		Label label = new Label(Wiki.getGUIText("acewiki_userwindow_registermessage"));
 		label.setFont(new Font(Style.fontTypeface, Font.ITALIC, new Extent(13)));
 		messageColumn.add(label);
 		messageColumn.add(new VSpace());
 		
 		Grid formGrid = new Grid(2);
 		formGrid.setInsets(new Insets(10, 10, 0, 0));
-		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_username"), Font.ITALIC));
+		formGrid.add(new SolidLabel(Wiki.getGUIText("acewiki_userwindow_username"), Font.ITALIC));
 		formGrid.add(usernameField);
-		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_email"), Font.ITALIC));
+		formGrid.add(new SolidLabel(Wiki.getGUIText("acewiki_userwindow_email"), Font.ITALIC));
 		formGrid.add(emailField);
-		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_password"), Font.ITALIC));
+		formGrid.add(new SolidLabel(Wiki.getGUIText("acewiki_userwindow_password"), Font.ITALIC));
 		formGrid.add(passwordField);
-		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_retypepassword"), Font.ITALIC));
+		formGrid.add(new SolidLabel(Wiki.getGUIText("acewiki_userwindow_retypepassword"), Font.ITALIC));
 		formGrid.add(retypePasswordField);
-		formGrid.add(new SolidLabel(wiki.getGUIText("acewiki_userwindow_stayloggedin"), Font.ITALIC));
+		formGrid.add(new SolidLabel(Wiki.getGUIText("acewiki_userwindow_stayloggedin"), Font.ITALIC));
 		formGrid.add(stayLoggedInCheckBox);
 		messageColumn.add(formGrid);
 		

@@ -69,7 +69,7 @@ public class SentenceComponent extends Column implements ActionListener {
 		this.sentence = sentence;
 		this.hostPage = hostPage;
 		this.wiki = hostPage.getWiki();
-		this.recalcIcon = new RecalcIcon(wiki.getGUIText("acewiki_answer_recalctooltip"));
+		this.recalcIcon = new RecalcIcon(Wiki.getGUIText("acewiki_answer_recalctooltip"));
 		update();
 	}
 
@@ -128,7 +128,7 @@ public class SentenceComponent extends Column implements ActionListener {
 		if (a > 1) {
 			// The sentence has more than one alternative
 			sentenceRow.add(new HSpace(10));
-			String t = wiki.getGUIText("acewiki_statement_alternatives");
+			String t = Wiki.getGUIText("acewiki_statement_alternatives");
 			sentenceRow.add(alternativesButton = new SmallButton("(" + a + " " + t + ")", this));
 		}
 		sentenceRow.add(new HSpace(5));
@@ -212,8 +212,8 @@ public class SentenceComponent extends Column implements ActionListener {
 			log("dropdown: delete confirmed:");
 
 			wiki.enqueueStrongAsyncTask(
-					wiki.getGUIText("acewiki_message_updatetitle"),
-					wiki.getGUIText("acewiki_message_update"),
+					Wiki.getGUIText("acewiki_message_updatetitle"),
+					Wiki.getGUIText("acewiki_message_update"),
 					new Task() {
 						public void run() {
 							Article a = sentence.getArticle();

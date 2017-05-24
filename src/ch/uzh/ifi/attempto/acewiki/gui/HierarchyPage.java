@@ -70,13 +70,13 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 		addHorizontalLine();
 		add(new VSpace(12));
 
-		upRecalcIcon = new RecalcIcon(getWiki().getGUIText("acewiki_list_updating"));
+		upRecalcIcon = new RecalcIcon(Wiki.getGUIText("acewiki_list_updating"));
 		upRecalcIcon.setVisible(false);
 		addHeadline("acewiki_hierarchy_upheading", upRecalcIcon);
 		add(new VSpace(5));
 		add(upHierarchyColumn);
 
-		downRecalcIcon = new RecalcIcon(getWiki().getGUIText("acewiki_list_updating"));
+		downRecalcIcon = new RecalcIcon(Wiki.getGUIText("acewiki_list_updating"));
 		downRecalcIcon.setVisible(false);
 		addHeadline("acewiki_hierarchy_downheading", downRecalcIcon);
 		add(new VSpace(5));
@@ -87,7 +87,7 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 		setTabRow(TabRow.getArticleTabRow(concept, TabRow.TAB_HIERARCHY, getWiki()));
 
 		title.setText(getHeading(concept));
-		title.setPostTitle("- " + getWiki().getGUIText("acewiki_page_hierarchy"));
+		title.setPostTitle("- " + Wiki.getGUIText("acewiki_page_hierarchy"));
 		title.setTooltip(concept.getType());
 		upHierarchyColumn.removeAll();
 		downHierarchyColumn.removeAll();
@@ -216,10 +216,10 @@ public class HierarchyPage extends WikiPage implements ActionListener {
 			String message;
 			int chosenPage;
 			if (up) {
-				message = getWiki().getGUIText("acewiki_hierarchy_upempty");
+				message = Wiki.getGUIText("acewiki_hierarchy_upempty");
 				chosenPage = upChosenPage;
 			} else {
-				message = getWiki().getGUIText("acewiki_hierarchy_downempty");
+				message = Wiki.getGUIText("acewiki_hierarchy_downempty");
 				chosenPage = downChosenPage;
 			}
 			

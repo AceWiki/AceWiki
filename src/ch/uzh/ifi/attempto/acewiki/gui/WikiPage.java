@@ -57,7 +57,7 @@ public abstract class WikiPage extends Column {
 	public final void update() {
 		if (isExpired()) {
 			removeAll();
-			add(new ErrorPage(wiki, wiki.getGUIText("acewiki_error_deletedpage")));
+			add(new ErrorPage(wiki, Wiki.getGUIText("acewiki_error_deletedpage")));
 		} else {
 			doUpdate();
 		}
@@ -144,7 +144,7 @@ public abstract class WikiPage extends Column {
 		Row headline = new Row();
 		headline.setInsets(new Insets(10, 10, 10, 0));
 		headline.setCellSpacing(new Extent(5));
-		Label title = new Label(wiki.getGUIText(text));
+		Label title = new Label(Wiki.getGUIText(text));
 		title.setFont(new Font(Style.fontTypeface, Font.ITALIC | Font.UNDERLINE, new Extent(13)));
 		title.setLineWrap(false);
 		headline.add(title);

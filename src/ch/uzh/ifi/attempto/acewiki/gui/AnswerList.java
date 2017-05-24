@@ -112,7 +112,7 @@ class AnswerList extends Column {
 			}
 		} else {
 			// Empty answer
-			column.add(new SolidLabel(wiki.getGUIText("acewiki_answer_empty"), Font.ITALIC, 10));
+			column.add(new SolidLabel(Wiki.getGUIText("acewiki_answer_empty"), Font.ITALIC, 10));
 		}
 		column.add(new VSpace(4));
 	}

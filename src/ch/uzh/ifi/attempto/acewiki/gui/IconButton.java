@@ -42,7 +42,7 @@ public class IconButton extends Button {
 		setRolloverIcon(Wiki.getImage(name + "h.png"));
 		setDisabledIcon(Wiki.getImage(name + "i.png"));
 		setActionCommand(name);
-		setToolTipText(wiki.getGUIText("acewiki_icontooltip_" + name));
+		setToolTipText(Wiki.getGUIText("acewiki_icontooltip_" + name));
 		addActionListener(wiki);
 	}
 

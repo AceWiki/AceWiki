@@ -41,7 +41,7 @@ public class TranslationsPage extends SentencePage implements ActionListener {
 		setTabRow(TabRow.getSentenceTabRow(sentence, TabRow.TAB_TRANSLATIONS, getWiki()));
 
 		String t = LanguageUtils.getPrettyPrinted(sentence.getText(getWiki().getLanguage()));
-		String p = "- " + getWiki().getGUIText("acewiki_page_translations");
+		String p = "- " + Wiki.getGUIText("acewiki_page_translations");
 		add(new Title(t, p));
 		addHorizontalLine();
 		add(new VSpace(15));
@@ -58,7 +58,7 @@ public class TranslationsPage extends SentencePage implements ActionListener {
 			if (a > 1) {
 				// The sentence has more than one alternative
 				r.add(new HSpace(10));
-				String s = getWiki().getGUIText("acewiki_statement_alternatives");
+				String s = Wiki.getGUIText("acewiki_statement_alternatives");
 				SmallButton b = new SmallButton("(" + a + " " + s + ")", this);
 				b.setActionCommand(l);
 				r.add(b);

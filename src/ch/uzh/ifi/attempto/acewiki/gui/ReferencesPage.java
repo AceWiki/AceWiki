@@ -76,7 +76,7 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 		setTabRow(TabRow.getArticleTabRow(ontologyElement, TabRow.TAB_REFERENCES, getWiki()));
 
 		title.setText(getHeading(ontologyElement));
-		title.setPostTitle("- " + getWiki().getGUIText("acewiki_page_references"));
+		title.setPostTitle("- " + Wiki.getGUIText("acewiki_page_references"));
 		title.setTooltip(ontologyElement.getType());
 		referenceColumn.removeAll();
 		List<OntologyElement> ontologyElements = getWiki().getOntologyElements();
@@ -93,7 +93,7 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 		if (sentences.size() == 0) {
 			indexBar.setVisible(false);
 			referenceColumn.add(new SolidLabel(
-					getWiki().getGUIText("acewiki_references_empty"),
+					Wiki.getGUIText("acewiki_references_empty"),
 					Font.ITALIC,
 					10
 				));
@@ -129,7 +129,7 @@ public class ReferencesPage extends WikiPage implements ActionListener {
 				r.add(c);
 				if (i > 0 && sentences.get(i-1).getArticle() == a) {
 					r.add(new HSpace());
-					r.add(new SolidLabel(getWiki().getGUIText("acewiki_list_continued"), Font.ITALIC, 10));
+					r.add(new SolidLabel(Wiki.getGUIText("acewiki_list_continued"), Font.ITALIC, 10));
 				}
 				referenceColumn.add(new VSpace());
 				referenceColumn.add(r);

@@ -42,7 +42,7 @@ public class ErrorPage extends WikiPage {
 		super(wiki);
 		this.text = text;
 		
-		add(new Title(wiki.getGUIText("acewiki_page_error"), true));
+		add(new Title(Wiki.getGUIText("acewiki_page_error"), true));
 		addHorizontalLine();
 		
 		Row textRow = new Row();
