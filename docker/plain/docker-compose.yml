@@ -1,0 +1,9 @@
+version: '2'
+services:
+  acewiki:
+    image: tkuhn/acewiki
+    restart: unless-stopped
+    volumes:
+      - ./data:/AceWiki/data
+    ports:
+      - 9077:9077
