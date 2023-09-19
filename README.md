@@ -7,6 +7,11 @@ AceWiki is a semantic wiki based on controlled natural language.
 
 Website: http://attempto.ifi.uzh.ch/acewiki/
 
+Additional demo instances:
+
+- https://acewiki.knowledgepixels.com/
+- https://acewiki.petapico.org/
+
 
 Developers
 ----------
