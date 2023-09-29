@@ -1,0 +1,12 @@
+version: '2'
+services:
+  acewiki:
+    image: tkuhn/acewiki:factplusplus
+    restart: unless-stopped
+    volumes:
+      - ./data:/AceWiki/data
+    ports:
+      - 9077:9077
+  owllinkapi:
+    image: tkuhn/owllinkapi
+    restart: unless-stopped

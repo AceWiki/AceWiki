@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app
+  PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+  "http://java.sun.com/dtd/web-app_2_3.dtd" [
+  <!ENTITY gf_webxml SYSTEM "gf_webxml.ent">
+]>
+
+<!--
+  This file is an exemplary web.xml file to start AceWiki and the ACE Editor.
+-->
+
+<web-app>
+
+  <!--
+    This text shows up as the title of the browser window.
+  -->
+  <display-name>Attempto Web Applications</display-name>
+
+
+  <!-- Parameters -->
+
+  <!--
+    AceWiki needs to connect to the ACE parser (APE). This can be done by either
+    directly call "ape.exe" (which can be compiled from the APE package), or by
+    communicating to an APE server via a socket or a web service connection. This
+    parameter specifies how APE should be accessed: "local", "socket" and
+    "webservice" are allowed values.
+  -->
+  <context-param>
+    <param-name>apetype</param-name>
+    <param-value>local</param-value>
+  </context-param>
+
+  <!--
+    This parameter defines the name (should always be "ape.exe") and the
+    path of the executable when apetype is "local". The path can be omitted
+    if the executable is located in the home directory of the servlet
+    container service. Note that putting the path of "ape.exe" into the PATH
+    environment variable is not sufficient.
+  -->
+  <context-param>
+    <param-name>apecommand</param-name>
+    <param-value>ape.exe</param-value>
+  </context-param>
+
+  <!--
+    This parameter defines the host of the APE socket server for the case
+    that apetype is "socket".
+  -->
+  <context-param>
+    <param-name>apehost</param-name>
+    <param-value>localhost</param-value>
+  </context-param>
+
+  <!--
+    This parameter defines the port of APE socket server, when apetype is
+    "socket". You can set up a locally running APE socket server by:
+    ape.exe -server -port 2766
+  -->
+  <context-param>
+    <param-name>apeport</param-name>
+    <param-value>2766</param-value>
+  </context-param>
+
+  <!--
+    This parameter defines the URL of an APE web service for the case that
+    apetype is "webservice". There is a demo webservice running at:
+    http://attempto.ifi.uzh.ch/ws/ape/apews.perl
+    but it is recommended to set up your own webservice using e.g.
+    ape.exe -httpserver -port 8000
+  -->
+  <context-param>
+    <param-name>apewebservice</param-name>
+    <param-value>http://localhost:8000</param-value>
+  </context-param>
+
+  <!--
+    This parameter sets the directory for the log files. The value shown below is also the default.
+  -->
+  <context-param>
+    <param-name>logdir</param-name>
+    <param-value>logs</param-value>
+  </context-param>
+
+  <!--
+    This parameter sets the directory for the AceWiki data. The value shown below is also the
+    default.
+  -->
+  <context-param>
+    <param-name>datadir</param-name>
+    <param-value>data</param-value>
+  </context-param>
+
+
+  <!--
+    URL on which the wiki is running
+  -->
+  <context-param>
+    <param-name>wiki_url</param-name>
+    <param-value>http://localhost:9077</param-value>
+  </context-param>
+
+
+  <!-- Servlets -->
+
+
+  <!--
+    The following is an exemplary servlet definition for an AceWiki backend. A backend manages the
+    ontology, and several frontends can connect to one backend (i.e. connect to the same ontology).
+  -->
+  <servlet>
+
+    <!--
+      The name of the servlet is used as an identifier for the mappings (see below).
+    -->
+    <servlet-name>AceWikiBackend</servlet-name>
+
+    <!--
+      This argument points to the servlet class.
+    -->
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.BackendServlet</servlet-class>
+
+    <!--
+      This parameter ensures that the backend starts before the frontend.
+    -->
+    <load-on-startup>1</load-on-startup>
+
+    <!--
+      The parameter 'ontology' is mandatory and specifies the name of the ontology. This name is
+      used in the URIs of the OWL statements and for the file names on the server. Several servlet
+      definitions can refer to the same ontology with the consequence that they access the same
+      knowledge base.
+    -->
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>test</param-value>
+    </init-param>
+
+    <!--
+      The 'baseuri' parameter defines the base URI for the OWL statements. The URI for the ontology
+      elements (i.e. words) are a concatenation of baseURI + ontologyName + word.
+    -->
+    <init-param>
+      <param-name>baseuri</param-name>
+      <param-value>http://attempto.ifi.uzh.ch/acewiki/</param-value>
+    </init-param>
+
+    <!--
+      The 'reasoner' parameter specifies the reasoner or reasoner interface to be used. The
+      following options are available at the moment:
+
+      'HermiT':  The integrated HermiT reasoner is used. This is the default.
+      'OWLlink': The OWLlink reasoner interface is applied, which can connect to reasoners like
+                 FaCT++, Pellet or HermiT in a separate process (local or remote).
+      'Pellet':  The Pellet OWL reasoner is called directly via the OWL API. Note that the AceWiki
+                 package does not contain the Pellet libraries (because of license reasons). You
+                 have to copy the files pellet-cli.jar, pellet-core.jar, pellet-datatypes.jar,
+                 pellet-el.jar, pellet-owlapiv3.jar, and pellet-rules.jar into the directory "lib".
+                 Pellet version 2.0.0 or later is needed.
+      'none':    No reasoner is used.
+    -->
+    <init-param>
+      <param-name>reasoner</param-name>
+      <param-value>OWLlink</param-value>
+    </init-param>
+
+    <!--
+      The parameter 'reasoner_url' defines the URL over which the reasoner should be accessed. This
+      parameter is only used when 'reasoner' is set to 'OWLlink'. The value shown below is also the
+      default.
+    -->
+    <init-param>
+      <param-name>reasoner_url</param-name>
+      <param-value>http://owllinkapi:8080</param-value>
+    </init-param>
+
+    <!--
+      The parameter 'global_restrictions_policy' defines how the global restrictions on the axioms
+      in OWL 2 should be ensured. See the following chapter of the OWL 2 documentation:
+      http://www.w3.org/TR/2012/REC-owl2-syntax-20121211/#Global_Restrictions_on_Axioms_in_OWL_2_DL
+      At the moment, only 'no_chains' (default) and 'unchecked' are supported. 'no_chains' has the
+      effect that axioms containing property chains or transitivity are generally not considered
+      for reasoning. 'unchecked' allows for the violation of the global restrictions and should
+      only be used for testing. More options should become available in the future.
+    -->
+    <init-param>
+      <param-name>global_restrictions_policy</param-name>
+      <param-value>no_chains</param-value>
+    </init-param>
+
+    <!--
+      The parameter 'owl_profile' can be used to set an OWL profile that defines which statements
+      are used for reasoning. Possible values are "OWL2Full" (default), "OWL2EL", "OWL2QL", and
+      "OWL2RL". Note that the global restrictions of the EL profile are not checked. See the
+      following document for more information about the OWL profiles:
+      http://www.w3.org/TR/owl2-profiles/
+    -->
+    <init-param>
+      <param-name>owl_profile</param-name>
+      <param-value>OWL2Full</param-value>
+    </init-param>
+
+  </servlet>
+
+  <!--
+    The following is an AceWiki frontend servlet connecting to the above defined backend. (It is
+    possible to combine the frontend and backend in one single servlet by defining the respective
+    parameters in the same servlet definition.)
+  -->
+  <servlet>
+    <servlet-name>AceWiki</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+
+    <!--
+      This parameter refers to the backend servlet.
+    -->
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>AceWikiBackend</param-value>
+    </init-param>
+
+    <!--
+      The parameter 'title' defines the title that is shown below the AceWiki logo.
+    -->
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>AceWiki</param-value>
+    </init-param>
+
+    <!--
+      The 'login' parameter defines whether the login features are enabled: 'no' means that no
+      login is possible (default); 'yes' means that login with password protection is enabled. The
+      option 'nonpw' for a login without password is no longer supported.
+    -->
+    <init-param>
+      <param-name>login</param-name>
+      <param-value>yes</param-value>
+    </init-param>
+
+    <!--
+      The 'login_required' parameter defines if and when login is required: 'no' means that no
+      login is required to view and edit the wiki data (default); 'edit' means that login is
+      required to edit the wiki data but not to view it; 'yes' means that login is required for
+      viewing or editing the wiki data. This option is only relevant if the 'login' option is set
+      to 'yes'.
+    -->
+    <init-param>
+      <param-name>login_required</param-name>
+      <param-value>no</param-value>
+    </init-param>
+
+    <!--
+      The 'register' parameter defines whether users can register themselves: 'yes' means that
+      everyone can register (default); 'no' means that only users who are already registered
+      (either done manually on the server or registered earlier when this option was 'yes') can
+      login. This option is only relevant if the 'login' option is set to 'yes'.
+    -->
+    <init-param>
+      <param-name>register</param-name>
+      <param-value>yes</param-value>
+    </init-param>
+
+    <!--
+      The parameter 'readonly' can be used to lock the wiki data so that no changes can be made.
+      The default is 'off'.
+    -->
+    <init-param>
+      <param-name>readonly</param-name>
+      <param-value>off</param-value>
+    </init-param>
+
+    <!--
+      The parameter 'comments' can be used to disable and hide comments (value 'hide') or to make
+      them readonly ('readonly'). In readonly mode, existing comments are shown but cannot be
+      changed or deleted, and no new comments can be created. Default is 'on'.
+    -->
+    <init-param>
+      <param-name>comments</param-name>
+      <param-value>on</param-value>
+    </init-param>
+
+  </servlet>
+
+  <servlet>
+    <servlet-name>AceWiki</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>backend</param-name>
+      <param-value>AceWikiBackend</param-value>
+    </init-param>
+  </servlet>
+
+
+  <servlet-mapping>
+    <servlet-name>AceWiki</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>AceWikiBackend</servlet-name>
+    <url-pattern>/backend/</url-pattern>
+  </servlet-mapping>
+
+  <error-page>
+    <error-code>404</error-code>
+    <location>/errors/404.html</location>
+  </error-page>
+
+</web-app>
