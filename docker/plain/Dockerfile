@@ -3,7 +3,7 @@ WORKDIR /opt/application
 RUN apt-get -y update
 RUN apt-get install -y wget git ant
 RUN apt-get install -y swi-prolog swi-prolog-java
-RUN apt-get install -y openjdk-8-jdk
+RUN apt-get install -y openjdk-11-jdk
 RUN git clone --depth=1 https://github.com/Attempto/APE.git
 WORKDIR /opt/application/APE
 RUN make build
