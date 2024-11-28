@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app 
+  PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" 
+  "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+  
+  <display-name>Attempto Web Applications</display-name>
+
+
+  <!-- Parameters -->
+  
+  <context-param>
+    <param-name>apecommand</param-name>
+    <param-value>ape.exe</param-value>
+  </context-param>
+
+
+  <!-- ACE Editor -->
+
+  <servlet>
+    <servlet-name>ACE Editor</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.aceeditor.ACEEditorServlet</servlet-class>
+    <init-param>
+      <param-name>lexicon</param-name>
+      <param-value>aceeditor_lexicon.pl</param-value>
+    </init-param>
+    <init-param>
+      <param-name>immutable_lexicon</param-name>
+      <param-value>off</param-value>
+    </init-param>
+    <init-param>
+      <param-name>parse_with_clex</param-name>
+      <param-value>off</param-value>
+    </init-param>
+    <init-param>
+      <param-name>max_upload_file_size</param-name>
+      <param-value>10000</param-value>
+    </init-param>
+  </servlet>
+
+
+  <!-- Geography Wiki -->
+
+  <servlet>
+    <servlet-name>GeoWiki</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>geo</param-value>
+    </init-param>
+    <init-param>
+      <param-name>baseuri</param-name>
+      <param-value>http://attempto.ifi.uzh.ch/acewiki/</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Geography Wiki</param-value>
+    </init-param>
+    <init-param>
+      <param-name>reasoner</param-name>
+      <param-value>OWLlink</param-value>
+    </init-param>
+    <init-param>
+      <param-name>reasoner_url</param-name>
+      <param-value>http://owllinkapi:8080</param-value>
+    </init-param>
+    <init-param>
+      <param-name>owl_profile</param-name>
+      <param-value>OWL2RL</param-value>
+    </init-param>
+    <init-param>
+      <param-name>login</param-name>
+      <param-value>yes</param-value>
+    </init-param>
+    <init-param>
+      <param-name>login_required</param-name>
+      <param-value>edit</param-value>
+    </init-param>
+    <init-param>
+      <param-name>register</param-name>
+      <param-value>yes</param-value>
+    </init-param>
+  </servlet>
+
+
+  <!-- Attempto Wiki -->
+
+  <servlet>
+    <servlet-name>AttemptoWiki</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>attempto</param-value>
+    </init-param>
+    <init-param>
+      <param-name>baseuri</param-name>
+      <param-value>http://attempto.ifi.uzh.ch/acewiki/</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Attempto Wiki</param-value>
+    </init-param>
+    <init-param>
+      <param-name>reasoner</param-name>
+      <param-value>OWLlink</param-value>
+    </init-param>
+    <init-param>
+      <param-name>reasoner_url</param-name>
+      <param-value>http://owllinkapi:8080</param-value>
+    </init-param>
+    <init-param>
+      <param-name>owl_profile</param-name>
+      <param-value>OWL2RL</param-value>
+    </init-param>
+    <init-param>
+      <param-name>login</param-name>
+      <param-value>yes</param-value>
+    </init-param>
+    <init-param>
+      <param-name>login_required</param-name>
+      <param-value>edit</param-value>
+    </init-param>
+    <init-param>
+      <param-name>register</param-name>
+      <param-value>yes</param-value>
+    </init-param>
+  </servlet>
+
+
+  <!-- Sandbox Wiki -->
+
+  <servlet>
+    <servlet-name>SandboxWiki</servlet-name>
+    <servlet-class>ch.uzh.ifi.attempto.acewiki.AceWikiServlet</servlet-class>
+    <init-param>
+      <param-name>ontology</param-name>
+      <param-value>sandbox</param-value>
+    </init-param>
+    <init-param>
+      <param-name>baseuri</param-name>
+      <param-value>http://attempto.ifi.uzh.ch/acewiki/</param-value>
+    </init-param>
+    <init-param>
+      <param-name>title</param-name>
+      <param-value>Sandbox Wiki</param-value>
+    </init-param>
+    <init-param>
+      <param-name>reasoner</param-name>
+      <param-value>OWLlink</param-value>
+    </init-param>
+    <init-param>
+      <param-name>reasoner_url</param-name>
+      <param-value>http://owllinkapi:8080</param-value>
+    </init-param>
+    <init-param>
+      <param-name>owl_profile</param-name>
+      <param-value>OWL2RL</param-value>
+    </init-param>
+    <init-param>
+      <param-name>login</param-name>
+      <param-value>yes</param-value>
+    </init-param>
+    <init-param>
+      <param-name>login_required</param-name>
+      <param-value>no</param-value>
+    </init-param>
+    <init-param>
+      <param-name>register</param-name>
+      <param-value>yes</param-value>
+    </init-param>
+  </servlet>
+
+
+  <!-- Mappings -->
+
+  <servlet-mapping>
+    <servlet-name>GeoWiki</servlet-name>
+    <url-pattern>/acewikigeo/</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>AttemptoWiki</servlet-name>
+    <url-pattern>/acewikiattempto/</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>SandboxWiki</servlet-name>
+    <url-pattern>/acewikisandbox/</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>ACE Editor</servlet-name>
+    <url-pattern>/aceeditor/</url-pattern>
+  </servlet-mapping>
+
+</web-app>

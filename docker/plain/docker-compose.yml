@@ -1,6 +1,7 @@
 version: '2'
 services:
   acewiki:
+    build: .
     image: tkuhn/acewiki
     restart: unless-stopped
     volumes:
