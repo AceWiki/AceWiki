@@ -1,0 +1,6 @@
+type:propername
+words:AceWiki_0-4-3;AceWiki_0-4-3;AceWiki_0-4-3;AceWiki_0-4-3;
+# <482,0> is a <193,0> that is a <194,0> <63,0> .
+c Download: http://launchpad.net/acewiki/trunk/0.4.3/+download/acewiki-0.4.3.zip
+| <482,0> <474,0> which <473,1> ?
+c Changelog:~n- There are no word tabs anymore in AceWiki. The word information is accessed by clicking on the~n  article title.~n- The main page of AceWiki is now a wiki article.~n- The search field of AceWiki has moved to the top right.~n- Extensions of the internal Codeco grammar notation.~n  - Codeco rules can have annotations.~n  - Codeco grammars can produce parse/syntax trees and semantic representations.~n- Design improvement of the chart parser and the predictive editor: dynamic lexicon management and~n  menu creation is now clearly separated.~n- Interface polishing: Nicer icons for AceWiki and small modifications of the interface colors.~n- The OWL RDF option has been removed from the ACE Editor, because it is deprecated.~n- Internal refactoring and improvements at various places.

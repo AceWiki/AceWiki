@@ -1,0 +1,4 @@
+type:trverb
+words:overlaps-with;overlap-with;;
+| If something X <3,0> something Y then Y <3,0> X .
+| Everything that <3,0> something is an <14,0> .

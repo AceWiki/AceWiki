@@ -1,0 +1,8 @@
+type:propername
+words:A_Controlled_Language_for_the_Specification_of_Contracts;A_Controlled_Language_for_the_Specification_of_Contracts;CNL2009Pace;CNL2009Pace;
+| <422,2> is a <105,0> .
+# <422,2> is <263,2> exactly 2 <33,1> .
+| <423,0> is an <81,0> <422,2> .
+| <363,0> is an <81,0> <422,2> .
+| <422,2> is <107,0> <351,2> .
+c Abstract: Controlled natural languages have been used to enable the direct translation from natural language specifications into a formal description. In this paper we make a case for such an approach to write contracts, and translating into a temporal deontic logic. Combining both temporal behaviour and deontic behaviour is challenging both from a natural language and a formal logic perspective. We present both a logic and a controlled natural language and outline how the two can be linked.

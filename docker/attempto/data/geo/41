@@ -1,0 +1,7 @@
+type:propername
+words:Berlin;Berlin;Berlin;Berlin;
+| <41,0> is a <39,0> .
+| <41,0> is a <1,0> <25,0> .
+| <41,0> is a <107,0> <25,0> .
+# If X is a <109,0> then X is a <39,0> .
+| <41,0> is a <1,0> what ?

@@ -1,0 +1,12 @@
+type:noun
+words:continent;continents;
+c From Wikipedia: A continent is one of several large landmasses on Earth. They are generally identified by convention rather than any strict criteria, with seven regions commonly regarded as continents – they are (from largest in size to smallest): Asia, Africa, North America, South America, Antarctica, Europe, and Australia.
+| Every <15,0> is an <14,0> .
+# Every <15,0> is a <1,0> <8,0> .
+# There are exactly 7 <15,1> .
+| What is a <15,0> ?
+# Every <15,0> that is not <20,0> <2,0> at least 2 <23,1> .
+# Every <15,0> <4,0> a <57,0> .
+| No <15,0> <4,0> <20,0> .
+| No <15,0> <4,0> <19,0> .
+| <545,2> <128,0> <547,3> .

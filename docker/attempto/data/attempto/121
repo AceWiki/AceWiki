@@ -1,0 +1,14 @@
+type:noun
+words:book;books;
+| Every <121,0> is a <106,0> .
+| No <136,0> is a <155,0> .
+| Every <121,0> is a <79,0> .
+| What is a <121,0> ?
+| Who <263,0> <633,3> ?
+| Who <263,0> <634,3> ?
+| What is <263,2> <635,3> ?
+| Which <121,1> <545,1> at most 1 <630,0> ?
+| Which <121,0> is <263,2> at least 2 <630,1> ?
+| What is an <630,0> ?
+| What <545,0> <640,3> ?
+| Which <121,0> <545,0> <635,3> ?

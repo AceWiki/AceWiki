@@ -1,0 +1,8 @@
+type:propername
+words:How_to_Evaluate_Controlled_Natural_Languages;How_to_Evaluate_Controlled_Natural_Languages;CNLpre2009Kuhn;CNLpre2009Kuhn;
+# <455,2> is a <105,0> that <80,0> <393,0> .
+# <455,2> is <263,2> exactly 1 <33,0> .
+| <40,0> is an <81,0> <455,2> .
+| <455,2> is a <8,0> <456,0> .
+c Download: http://attempto.ifi.uzh.ch/site/pubs/papers/cnl2009_kuhn.pdf
+c Abstract: This paper presents a general framework how controlled natural languages can be evaluated and compared on the basis of user experiments. The subjects are asked to classify given statements (in the language to be tested) as either true or false with respect to a certain situation that is shown in a graphical notation called "ontographs". A first experiment has been conducted that applies this framework to the language Attempto Controlled English (ACE).

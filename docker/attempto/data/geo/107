@@ -1,0 +1,9 @@
+type:nounof
+words:capital of;
+| Everything that is a <107,0> something is a <109,0> .
+| If X is a <107,0> Y then X is a <1,0> Y .
+# Every <109,0> is a <107,0> at most 1 <23,0> .
+| What is a <109,0> ?
+| Every <109,0> is a <39,0> .
+| If X is <180,0> Y then X is <51,0> Y .
+| If X is a <107,0> Y then X is a <39,0> .

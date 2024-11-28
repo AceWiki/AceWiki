@@ -1,0 +1,5 @@
+type:tradj
+words:located_in;
+| If X is <51,0> Y then Y <2,0> X .
+| If something is <51,0> X then X is an <14,0> .
+# If X is <51,0> Y and Y is <51,0> Z then X is <51,0> Z .

@@ -1,0 +1,8 @@
+type:propername
+words:Controlled_English_Ontology-Based_Data_Access;Controlled_English_Ontology-Based_Data_Access;CNL2009Thorne;CNL2009Thorne;
+| <402,2> is a <105,0> .
+# <402,2> is <263,2> exactly 2 <33,1> .
+| <403,0> is an <81,0> <402,2> .
+| <404,0> is an <81,0> <402,2> .
+| <402,2> is <107,0> <351,2> .
+c Abstract: As it is well-known, querying and managing structured data in natural language is a challenging task due to its ambiguity (syntactic and semantic) and its expressiveness. On the other hand, querying, e.g., a relational database or an ontology-based data access system is a well-defined and unambigous task, namely, the task of evaluating a formal query (e.g., an SQL query) of a limited expressiveness over such database. However these formal query languages may be difficult to learn and use for the casual user and ambiguity may compromise the interface. To bridge this gap, the use of controlled language interfaces has been proposed. As a measure of their efficiency for data access, we propose to consider data complexity, which is the complexity of query evaluation measured in the size of the data. We study a familiy of controlled languages that express several fragments of OWL, ranging from tractable (LogSpace and PTime) to intractable (coNP-hard) in data complexity, singling out which constructs give rise to each computational property.

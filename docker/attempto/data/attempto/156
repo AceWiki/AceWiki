@@ -1,0 +1,9 @@
+type:propername
+words:Talking_to_the_Semantic_Web;Talking_to_the_Semantic_Web;WITS04Bernstein;WITS04Bernstein;
+| <156,2> is a <105,0> .
+# <156,2> is <263,2> exactly 4 <33,1> .
+| <157,0> is an <81,0> <156,2> .
+| <158,0> is an <81,0> <156,2> .
+| <32,0> is an <81,0> <156,2> .
+| <159,0> is an <81,0> <156,2> .
+| <156,2> is <107,0> <160,2> .

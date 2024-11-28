@@ -1,0 +1,11 @@
+type:propername
+words:Rabbit_to_OWL_-_Ontology_Authoring_with_a_CNL-Based_Tool;Rabbit_to_OWL_-_Ontology_Authoring_with_a_CNL-Based_Tool;CNL2009Denaux;CNL2009Denaux;
+| <424,2> is a <105,0> .
+# <424,2> is <263,2> exactly 5 <33,1> .
+| <425,0> is an <81,0> <424,2> .
+| <426,0> is an <81,0> <424,2> .
+| <427,0> is an <81,0> <424,2> .
+| <128,0> is an <81,0> <424,2> .
+| <129,0> is an <81,0> <424,2> .
+| <424,2> is <107,0> <351,2> .
+c Abstract: Recent work on ontology engineering has seen the adoption of controlled natural languages to ease the process of ontology authoring. However, CNL-based tools still require good knowledge engineering skills to be used efficiently. In this paper presents ROO, an ontology authoring tool that has been designed to cater for the needs of domain experts with little or no ontology engineering experience. ROO combines a CNL-based interface with appropriate tool support based on an ontology construction methodology. We focus on how this tool support is provided in ROO by using and implementing novel aspects of the Rabbit controlled natural language and we refer to an evaluation study that provides empirical evidence in support of using CNL-based techniques to assist ontology authors.

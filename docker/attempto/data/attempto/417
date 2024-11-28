@@ -1,0 +1,10 @@
+type:propername
+words:Development_of_a_Controlled_Natural_Language_Interface_for_Semantic_MediaWiki;Development_of_a_Controlled_Natural_Language_Interface_for_Semantic_MediaWiki;CNL2009Smart;CNL2009Smart;
+| <417,2> is a <105,0> .
+# <417,2> is <263,2> exactly 4 <33,1> .
+| <418,0> is an <81,0> <417,2> .
+| <419,0> is an <81,0> <417,2> .
+| <420,0> is an <81,0> <417,2> .
+| <421,0> is an <81,0> <417,2> .
+| <417,2> is <107,0> <351,2> .
+c Abstract: Semantic wikis support the collaborative creation, editing and utilization of semantically-enriched content, and they may therefore be well-suited to addressing problems associated with the limited availability of high-quality online semantic content. Unfortunately, however, many popular semantic wikis, such as Semantic MediaWiki (SMW), are not sufficiently expressive to support full-scale ontology authoring. Furthermore, the grounding of the Semantic Web in formal logic makes both the comprehension and production of ontological content difficult for many end-users. In order to address these issues, the expressivity of SMW was extended using a combination of semantic templates and a Web Ontology Language (OWL) meta-model. Semantic templates were also used to provide an ontology verbalization capability for SMW using the Rabbit Controlled Natural Language (CNL). The resulting system demonstrates how CNL interfaces can be implemented on top of SMW. The proposed solution introduces no changes to the underlying functionality of the SMW system, and the use of semantic templates as an ontology verbalization solution means that end-users can exploit all the usual features of conventional wiki systems to collaboratively create new CNL verbalization capabilities.

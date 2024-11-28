@@ -1,0 +1,8 @@
+type:propername
+words:Collaborative_Ontology_Management_in_Controlled_Natural_Language;Collaborative_Ontology_Management_in_Controlled_Natural_Language;SemWiki08Kuhn;SemWiki08Kuhn;
+# <122,2> is a <105,0> that <80,0> <63,0> .
+# <122,2> is <263,2> exactly 1 <33,0> .
+| <40,0> is an <81,0> <122,2> .
+| <122,2> is <107,0> <123,0> .
+c Download: http://attempto.ifi.uzh.ch/site/pubs/papers/kuhn08acewiki_onto.pdf
+c Abstract: AceWiki is a prototype that shows how a semantic wiki using controlled natural language - Attempto Controlled English (ACE) in our case - can make ontology management easy for everybody. Sentences in ACE can automatically be translated into first-order logic, OWL, or SWRL. AceWiki integrates the OWL reasoner Pellet and ensures that the ontology is always consistent. Previous results have shown that people with no background in logic are able to add formal knowledge to AceWiki without being instructed or trained in advance. 

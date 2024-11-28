@@ -1,0 +1,8 @@
+type:propername
+words:AceWiki_-_A_Natural_and_Expressive_Semantic_Wiki;AceWiki_-_A_Natural_and_Expressive_Semantic_Wiki;SWUI08Kuhn;SWUI08Kuhn;
+# <131,2> is a <105,0> that <80,0> <63,0> .
+# <131,2> is <263,2> exactly 1 <33,0> .
+| <40,0> is an <81,0> <131,2> .
+| <131,2> is <107,0> <132,2> .
+c Download: http://attempto.ifi.uzh.ch/site/pubs/papers/kuhn08acewiki.pdf
+c Abstract: We present AceWiki, a prototype of a new kind of semantic wiki using the controlled natural language Attempto Controlled English (ACE) for representing its content. ACE is a subset of English with a restricted grammar and a formal semantics. The use of ACE has two important advantages over existing semantic wikis. First, we can improve the usability and achieve a shallow learning curve. Second, ACE is more expressive than the formal languages of existing semantic wikis. Our evaluation shows that people who are not familiar with the formal foundations of the Semantic Web are able to deal with AceWiki after a very short learning phase and without the help of an expert. 

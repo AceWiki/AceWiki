@@ -1,0 +1,10 @@
+type:noun
+words:capital;capitals;
+| If X is a <107,0> Y then X is a <109,0> .
+| No <23,0> is a <109,0> .
+| Every <109,0> is a <39,0> .
+| What is a <109,0> ?
+| What is a <15,0> ?
+| If X is a <107,0> Y then X is <51,0> Y .
+# Every <23,0> <128,0> at least 1 <109,0> .
+# Every <109,0> is a <107,0> exactly 1 <23,0> .

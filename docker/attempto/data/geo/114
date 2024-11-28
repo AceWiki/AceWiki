@@ -1,0 +1,8 @@
+type:propername
+words:the Limmat;Limmat;the Limmat;Limmat;
+# <114,0> is a <76,0> that <65,0> <40,0> .
+| If X <548,0> Y then Y does not <548,1> X .
+| <124,2> <548,0> <114,2> .
+# <114,2> <548,0> <124,2> .
+| What <65,0> <40,3> ?
+| What <548,0> something ?

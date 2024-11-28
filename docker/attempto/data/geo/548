@@ -1,0 +1,3 @@
+type:trverb
+words:flows_into;flow_into;flown_into by;
+| If X <548,0> Y then Y does not <548,1> X .

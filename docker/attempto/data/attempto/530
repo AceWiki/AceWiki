@@ -1,0 +1,5 @@
+type:propername
+words:AceWiki_stay-logged-in_feature;AceWiki_stay-logged-in_feature;AceWiki_stay-logged-in_feature;AceWiki_stay-logged-in_feature;
+# <530,0> is a <473,0> that is <478,2> <63,0> .
+| <530,0> is <474,2> <529,0> .
+c AceWiki users have the option to stay logged in, eliminating the need to provide the password again the next time if AceWiki is accessed from the same browser instance.

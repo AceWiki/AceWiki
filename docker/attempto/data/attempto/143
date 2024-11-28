@@ -1,0 +1,11 @@
+type:propername
+words:Improving_Text_Mining_with_Controlled_Natural_Language_-_A_Case_Study_for_Protein_Interactions;Improving_Text_Mining_with_Controlled_Natural_Language_-_A_Case_Study_for_Protein_Interactions;DILS06Kuhn;DILS06Kuhn;
+| <143,2> is a <105,0> .
+# <143,2> is <263,2> exactly 4 <33,1> .
+| <40,0> is an <81,0> <143,2> .
+| <144,0> is an <81,0> <143,2> .
+| <32,0> is an <81,0> <143,2> .
+| <145,0> is an <81,0> <143,2> .
+| <143,2> is <107,0> <146,2> .
+c Download: http://attempto.ifi.uzh.ch/site/pubs/papers/dils2006_kuhn.pdf
+c Abstract: Linking the biomedical literature to other data resources is notoriously difficult and requires text mining. Text mining aims to automatically extract facts from literature. Since authors write in natural language, text mining is a great natural language processing challenge, which is far from being solved. We propose an alternative: If authors and editors summarize the main facts in a controlled natural language, text mining will become easier and more powerful. To demonstrate this approach, we use the language Attempto Controlled English (ACE). We define a simple model to capture the main aspects of protein interactions. To evaluate our approach, we collected a dataset of 459 paragraph headings about protein interaction from literature. 56% of these headings can be represented exactly in ACE and another 23% partially. These results indicate that our approach is feasible.

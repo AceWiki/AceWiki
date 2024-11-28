@@ -1,0 +1,8 @@
+type:propername
+words:Polysemy_in_Controlled_Natural_Language_Texts;Polysemy_in_Controlled_Natural_Language_Texts;CNL2009Gruzitis;CNL2009Gruzitis;
+| <398,2> is a <105,0> .
+# <398,2> is <263,2> exactly 2 <33,1> .
+| <399,0> is an <81,0> <398,2> .
+| <400,0> is an <81,0> <398,2> .
+| <398,2> is <107,0> <351,2> .
+c Abstract: Computational semantics and logic-based controlled natural languages (CNL) do not address systematically the word sense disambiguation problem of content words, i.e., they tend to interpret only some functional words that are crucial for construction of discourse representation structures. We show that micro-ontologies and multi-word units allow integration of the rich and polysemous multi-domain background knowledge into CNL thus providing interpretation for the content words. The proposed approach is demonstrated by extending the Attempto Controlled English (ACE) with polysemous and procedural constructs resulting in a more natural CNL named PAO covering narrative multi-domain texts. 

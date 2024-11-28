@@ -1,0 +1,10 @@
+type:propername
+words:Bulgaria;Bulgaria;Bulgaria;Bulgaria;
+# <471,0> is a <23,0> that is <51,0> <16,0> .
+| <471,0> <4,0> <436,0> .
+| <471,0> <4,0> <424,0> .
+| What <4,0> <471,0> ?
+| <471,0> is a <350,0> <349,2> .
+# A <279,0> <471,0> is somebody who <484,0> <471,0> and who <479,0> an <477,0> .
+c Infinitive clauses cannot be expressed (e.g., "A duty of a president is to...", "A president has an obligation to...").~n~nPassive constructions without an agent are not possible (e.g. "a president is relieved.(from duty)" is not possible, because the only allowed option is "relieved by").~n~nThe reasoner does not recognize the inconsistency between "Bulgaria is a country that is located in Europe" and "Bulgaria is in Africa". When I looked at the details of the two sentences, the fist one has the form "There is country X1. The country X1 is Bulgaria. The country X1 is located_in Europe." The second sentence has the form "Bulgaria is located_in Africa." The inconsistency is probably not detected because of the subordinate clause. In another pair of sentences, which do not employ subordination, the inconsistency is detected ("Georgi Parvanov is a president of a country and the country is Bulgaria." and "Georgi Parvanov is not a president of Bulgaria."). These have the paraphrases "A country X1 is Bulgaria. Georgi Parvanov is a president of the country X1." and "It is false that Georgi Parvanov is a president of Bulgaria."~n~n--Mariya K.
+| Who is a <279,0> <471,0> ?

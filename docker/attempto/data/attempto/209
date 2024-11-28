@@ -1,0 +1,4 @@
+type:trverb
+words:contains;contain;contained by;
+| If X <209,0> Y then Y is a <8,0> X .
+| If X is a <8,0> Y then Y <209,0> X .

@@ -1,0 +1,8 @@
+type:propername
+words:AceRules_-_Executing_Rules_in_Controlled_Natural_Language;AceRules_-_Executing_Rules_in_Controlled_Natural_Language;RR07Kuhn;RR07Kuhn;
+# <141,2> is a <105,0> that <80,0> <61,0> .
+# <141,2> is <263,2> exactly 1 <33,0> .
+| <40,0> is an <81,0> <141,2> .
+| <141,2> is <107,0> <142,2> .
+c Download: http://attempto.ifi.uzh.ch/site/pubs/papers/kuhn07acerules.pdf
+c Abstract: Expressing rules in controlled natural language can bring us closer to the vision of the Semantic Web since rules can be written in the notation of the application domain and are understandable by anybody. AceRules is a prototype of a rule system with a multisemantics architecture. It demonstrates the formal representation of rules using the controlled natural language ACE. We show that a rule language can be executable and easily understandable at the same time. AceRules is available via a web service and two web interfaces.

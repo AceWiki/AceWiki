@@ -1,0 +1,8 @@
+type:propername
+words:Combining_Semantic_Wikis_and_Controlled_Natural_Language;Combining_Semantic_Wikis_and_Controlled_Natural_Language;ISWC08Kuhn;ISWC08Kuhn;
+# <117,2> is a <105,0> that <80,0> <63,0> .
+# <117,2> is <263,2> exactly 1 <33,0> .
+| <40,0> is an <81,0> <117,2> .
+| <117,2> is <107,0> <115,2> .
+c Download: http://attempto.ifi.uzh.ch/site/pubs/papers/iswc2008pd_kuhn.pdf
+c Abstract: We demonstrate AceWiki that is a semantic wiki using the controlled natural language Attempto Controlled English (ACE). The goal is to enable easy creation and modification of ontologies through the web. Texts in ACE can automatically be translated into first-order logic and other languages, for example OWL. Previous evaluation showed that ordinary people are able to use AceWiki without being instructed.

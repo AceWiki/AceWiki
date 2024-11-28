@@ -1,0 +1,6 @@
+type:propername
+words:AceWiki_0-4-1;AceWiki_0-4-1;AceWiki_0-4-1;AceWiki_0-4-1;
+# <392,0> is a <193,0> that is a <194,0> <63,0> .
+c Download: http://launchpad.net/acewiki/trunk/0.4.1/+download/acewiki-0.4.1.zip
+| <392,0> <474,0> which <473,1> ?
+c Changelog:~n- Two memory leaks (in the broad sense, as they can also occur with Java) have been fixed:~n  - References to closed windows were internally retained, which prevented them (and the objects~n    they referenced) from being garbage collected.~n  - References to the closed application instances were retained.~n- There is a new AceWiki data format, in which the wiki content can be exported (on the client-~n  side) and imported (on the server-side).~n- The test scripts for the two grammars are included.~n- Some minor improvements of the Latex and HTML outputs of the Codeco transformation.~n- One small bug in the grammars has been fixed.~n- The internals of the Ontology class have been improved.

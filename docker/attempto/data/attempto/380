@@ -1,0 +1,9 @@
+type:propername
+words:Talking_Rabbit_-_A_User_Evaluation_of_Sentence_Production;Talking_Rabbit_-_A_User_Evaluation_of_Sentence_Production;CNL2009Engelbrecht;CNL2009Engelbrecht;
+| <380,2> is a <105,0> .
+# <380,2> is <263,2> exactly 3 <33,1> .
+| <381,0> is an <81,0> <380,2> .
+| <129,0> is an <81,0> <380,2> .
+| <128,0> is an <81,0> <380,2> .
+| <380,2> is <107,0> <351,0> .
+c Abstract: Rabbit is a controlled natural language (CNL) designed to aid experts in understanding and authoring domain ontologies. There are three broad types of Rabbit sentence: declarations, axioms and import statements. This paper evaluates the ease with which domain experts without any prior ontology development experience can author declarations and axiom sentences in Rabbit. Participants were asked to author Rabbit sentences about an artificial domain (Planet Zog). The most common error observed was the omission of the every keyword at the beginning of sentences. Another common error was to confuse instance and subclass declarations. Suggested improvements include changes to the Rabbit syntax as well modifications to a CNL authoring environment.

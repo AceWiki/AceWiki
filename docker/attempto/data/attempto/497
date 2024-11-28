@@ -1,0 +1,4 @@
+type:propername
+words:Numbers_and_strings_in_AceWiki;Numbers_and_strings_in_AceWiki;Numbers_and_strings_in_AceWiki;Numbers_and_strings_in_AceWiki;
+# <497,0> is a <473,0> that is <489,0> <63,0> .
+c AceWiki should have support for numbers and strings. They should map to data properties in OWL.

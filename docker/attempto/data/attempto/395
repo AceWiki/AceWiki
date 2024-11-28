@@ -1,0 +1,8 @@
+type:propername
+words:Implementing_Controlled_Languages_in_GF;Implementing_Controlled_Languages_in_GF;CNL2009Angelov;CNL2009Angelov;
+| <395,2> is a <105,0> .
+# <395,2> is <263,2> exactly 2 <33,1> .
+| <396,0> is an <81,0> <395,2> .
+| <397,0> is an <81,0> <395,2> .
+| <395,2> is <107,0> <351,2> .
+c Abstract: This paper introduces GF, Grammatical Framework, as a tool for implementing controlled languages. GF provides a high-level grammar formalism and a resource grammar library that make it easy to write grammars that cover similar fragments in several natural languages at the same time. Authoring help tools and automatic translation are provided for all grammars. As an example, a grammar of Attempto Controlled English is implemented and then ported to Finnish, French, German, Italian and Swedish. 

@@ -1,0 +1,15 @@
+type:propername
+words:the Czech_Republic;Czech_Republic;the Czech_Republic;Czech_Republic;
+| <290,0> is a <58,0> .
+| What is <180,0> <290,0> ?
+| <290,0> <4,0> <376,0> .
+| Which <23,0> <4,0> <290,0> ?
+| <290,0> is <51,0> <16,0> .
+c Česká republika je významný stát střední Evropy. Má přes 10 milionů obyvatel.
+# <290,0> <128,0> at least 10 <76,1> .
+| Which <76,0> is <51,0> <290,0> ?
+| <290,0> <4,0> <37,0> .
+| <290,0> <4,0> <25,0> and <4,0> <95,0> .
+# <290,0> <4,0> exactly 4 <23,1> .
+| <290,2> is a <350,0> <349,2> .
+# Everybody <541,0> <290,2> .

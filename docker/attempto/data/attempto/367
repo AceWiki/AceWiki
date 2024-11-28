@@ -1,0 +1,9 @@
+type:propername
+words:An_Evaluation_Framework_for_Controlled_Natural_Languages;An_Evaluation_Framework_for_Controlled_Natural_Languages;CNL2009Kuhn;CNL2009Kuhn;
+| <367,2> is a <105,0> .
+| <367,2> <80,0> <393,0> .
+# <367,2> is <263,2> exactly 1 <33,0> .
+| <40,0> is an <81,0> <367,2> .
+c Download: http://attempto.ifi.uzh.ch/site/pubs/papers/cnl2009main_kuhn.pdf
+| <367,2> is <107,0> <351,0> .
+c Abstract: This paper presents a general framework called ontographs that relies on a graphical notation and enables the tool-independent and reliable evaluation of human understandability of knowledge representation languages. An experiment with 64 participants is presented that applies this framework and compares a controlled natural language to a common formal language. The results show that the controlled natural language is easier to understand, needs less learning time, and is more accepted by its users.~n

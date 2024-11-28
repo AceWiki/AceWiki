@@ -1,0 +1,7 @@
+type:propername
+words:Amsterdam;Amsterdam;Amsterdam;Amsterdam;
+| <550,3> is <51,0> <422,2> .
+| Which <39,1> are <51,0> <422,2> ?
+| <550,3> is a <109,0> .
+# Everything that is <51,0> <422,2> <234,0> <16,3> .
+| <550,3> is not a <382,0> and does not <234,1> <36,2> .

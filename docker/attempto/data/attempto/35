@@ -1,0 +1,9 @@
+type:propername
+words:the Attempto_group;Attempto_group;the Attempto_group;Attempto_group;
+# <35,0> is a <36,0> that is <231,0> <233,0> .
+| <35,0> <261,0> <262,0> .
+| Who <34,0> <35,0> ?
+| Who is a <37,0> <35,0> ?
+| Who is a <39,0> <35,0> ?
+| Who is a <226,0> <35,0> ?
+| Which <106,1> are <263,2> a <37,0> <35,0> ?

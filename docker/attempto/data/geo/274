@@ -1,0 +1,4 @@
+type:tradj
+words:smaller_than;
+| If X is <174,0> Y then Y is <274,0> X .
+| If X is <274,0> Y then Y is <174,0> X .

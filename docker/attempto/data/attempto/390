@@ -1,0 +1,5 @@
+type:propername
+words:AceWiki_0-3-1;AceWiki_0-3-1;AceWiki_0-3-1;AceWiki_0-3-1;
+# <390,0> is a <193,0> that is a <194,0> <63,0> .
+c Download: http://launchpad.net/acewiki/trunk/0.3.1/+download/acewiki-0.3.1.zip
+c Changelog:~n- The code was extracted from the Attempto Java Packages (no functional changes), including the~n  packages "attempto-echo", "attempto-chartparser", "attempto-aceeditor", "attempto-acewiki", but~n  without the packages "attempto-ape" and "attempto-owl".

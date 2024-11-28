@@ -1,0 +1,6 @@
+type:propername
+words:Asia;Asia;Asia;Asia;
+| <17,0> is a <15,0> .
+| What is a <1,0> <17,0> ?
+| What is <51,0> <17,0> ?
+c Pakistan is located in Asia but the reasoner unable to identify this fact.~nThe transitive rule "if X is located in Y and Y is located in Z then X is located in Z." is too complex for the reasoner. 

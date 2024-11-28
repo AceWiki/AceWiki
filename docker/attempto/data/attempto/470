@@ -1,0 +1,6 @@
+type:propername
+words:AceWiki_0-4-2;AceWiki_0-4-2;AceWiki_0-4-2;AceWiki_0-4-2;
+# <470,0> is a <193,0> that is a <194,0> <63,0> .
+c Download: http://launchpad.net/acewiki/trunk/0.4.2/+download/acewiki-0.4.2.zip
+| <470,0> <474,0> which <473,1> ?
+c Changelog:~n- Proper user login with password protection is now possible and can be configured with the~n  following web.xml parameters:~n  - login: defines whether login features are enabled or not~n  - login_required: defines whether login is required for viewing, only for editing, or not at all.~n  - register: defines whether registration is open to everyone.~n- GUI improvements:~n  - Icons for back/forward/refresh buttons.~n  - Modified icons to represent individuals/concepts/relations.~n  - New GUI elements for login and logout.~n  - And other minor improvements.~n- The start page of the exemplary web application server has been improved.~n- Some syntactical improvements of the AceWiki and ACE Editor grammars.~n- Better synchronization of the classes Sentence and Ontology.~n- Minor code clean-up and improvement.

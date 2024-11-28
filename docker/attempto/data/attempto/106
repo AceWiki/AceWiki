@@ -1,0 +1,8 @@
+type:noun
+words:publication;publications;
+| Every <106,0> is a <79,0> .
+| No <121,0> is a <105,0> .
+| No <85,0> is a <121,0> .
+| No <105,0> is a <85,0> .
+# Every <106,0> is <263,2> at least 1 <33,0> .
+| Every <106,0> is <107,0> at most 1 <134,0> .

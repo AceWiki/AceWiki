@@ -1,0 +1,11 @@
+type:propername
+words:the Naproche_Project_Controlled_Natural_Language_Proof_Checking_of_Mathematical_Texts;Naproche_Project_Controlled_Natural_Language_Proof_Checking_of_Mathematical_Texts;CNL2009Cramer;CNL2009Cramer;
+| <407,2> is a <105,0> .
+# <407,2> is <263,2> exactly 6 <33,1> .
+| <408,0> is an <81,0> <407,2> .
+| <409,0> is an <81,0> <407,2> .
+| <241,0> is an <81,0> <407,2> .
+| <410,0> is an <81,0> <407,2> .
+| <411,0> is an <81,0> <407,2> .
+| <407,2> is <107,0> <351,2> .
+c Abstract: This paper discusses the semi-formal language of mathematics and presents the Naproche CNL, a controlled natural language for mathematical authoring. Proof Representation Structures, an adaptation of Discourse Representation Structures, are used to represent the semantics of texts written in the Naproche CNL. We discuss how the Naproche CNL can be used in formal mathematics, and present our prototypical Naproche system, a computer program for parsing texts in the Naproche CNL and checking the proofs in them for logical correctness.

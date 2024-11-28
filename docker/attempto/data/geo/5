@@ -1,0 +1,11 @@
+type:noun
+words:planet;planets;
+c From Wikipedia: A planet, as defined by the International Astronomical Union (IAU), is a celestial body orbiting a star or stellar remnant that is massive enough to be rounded by its own gravity, is not massive enough to cause thermonuclear fusion, and has cleared its neighbouring region of planetesimals.
+| Every <5,0> is a <164,0> .
+| No <5,0> is a <168,0> .
+| No <5,0> is a <165,0> .
+| No <5,0> is a <166,0> .
+# Every <5,0> <167,0> a <168,0> .
+# Every <5,0> that does not <167,1> <169,0> is an <172,0> .
+| Which <5,1> <167,1> <169,0> ?
+# Every <5,0> is a <170,0> or is a <171,0> .

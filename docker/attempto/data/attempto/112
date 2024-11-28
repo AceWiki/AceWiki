@@ -1,0 +1,7 @@
+type:propername
+words:Writing_Support_for_Controlled_Natural_Languages;Writing_Support_for_Controlled_Natural_Languages;ALTA08Kuhn;ALTA08Kuhn;
+# <112,2> is a <105,0> that is <107,0> <113,2> .
+# <112,2> is <263,2> exactly 2 <33,1> .
+| <40,0> is an <81,0> <112,2> and <52,0> is an <81,0> <112,2> .
+c Download: http://attempto.ifi.uzh.ch/site/pubs/papers/alta2008_kuhnschwitter.pdf
+c Abstract: In this paper we present interface techniques that support the writing process of machine-oriented controlled natural languages which are well-defined and tractable fragments of English that can be translated unambiguously into a formal target language. Since these languages have grammatical and lexical restrictions, it is important to provide a text editor that assists the writing process by using lookahead information derived from the grammar. We will discuss the requirements to such a lookahead text editor and introduce the semantic wiki AceWiki as an application where this technology plays an important role. We investigate two different approaches how lookahead information can be generated dynamically while a text is written and compare the runtimes and practicality of these approaches in detail.

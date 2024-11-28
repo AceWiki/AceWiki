@@ -1,0 +1,7 @@
+type:propername
+words:Belgrade;Belgrade;Belgrade;Belgrade;
+| <468,0> is a <39,0> .
+| <468,0> is <180,0> <424,0> .
+c I tried to enter sentence "Belgrade has at least 1 million citizens."
+# <468,0> <128,0> at least 1 <469,0> .
+| Which <39,0> is <180,0> <424,0> ?

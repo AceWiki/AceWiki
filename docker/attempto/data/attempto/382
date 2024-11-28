@@ -1,0 +1,10 @@
+type:propername
+words:Naturalness_vs_Predictability_-_A_Key_Debate_in_Controlled_Languages;Naturalness_vs_Predictability_-_A_Key_Debate_in_Controlled_Languages;CNL2009Clark;CNL2009Clark;
+| <382,2> is a <105,0> .
+# <382,2> is <263,2> exactly 4 <33,1> .
+| <357,0> is an <81,0> <382,2> .
+| <383,0> is an <81,0> <382,2> .
+| <384,0> is an <81,0> <382,2> .
+| <385,0> is an <81,0> <382,2> .
+| <382,2> is <107,0> <351,0> .
+c Abstract: In this paper we describe two quite different philosophies used in developing controlled languages (CLs): A "naturalist" approach, in which CL interpretation is treated as a simpler form of full natural language processing; and a "formalist" approach, in which the CL interpretation is “deterministic” (context insensitive) and the CL is viewed more as an English-like formal specification language. Despite the philosophical and practical differences, we suggest that a synthesis can be made in which a deterministic core is embedded in a naturalist CL, and illustrate this with our own controlled language CPL. In the second part of this paper we present a fictitious debate between an ardent “naturalist” and an ardent “formalist”, each arguing their respective positions, to illustrate the benefits and tradeoffs of these different philosophies in an accessible way.

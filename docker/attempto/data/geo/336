@@ -1,0 +1,13 @@
+type:propername
+words:Dachau;Dachau;Dachau;Dachau;
+| <336,0> is <180,0> <338,0> .
+| <336,0> is <51,0> <25,0> .
+| <336,0> <345,0> <337,0> .
+| <336,0> is <174,0> <337,0> .
+| <336,0> <234,0> <258,0> .
+| <336,0> is a <39,0> .
+| <336,0> <345,0> <393,0> .
+| Which <39,0> <345,0> <336,0> ?
+c Munich is marked as 'a capital' which implies Munich 'is a city'.~nDachau is 'in the near' of Munich, which would imply that Munich is also 'in the near of' Dachau - but this rule seems not to be available [yet] 
+c Every X which is in the near of Y implies that Y is in the near of X .~n--> unclear how to express this~n~nTobias Kuhn: see the statement below!
+| If X <345,0> Y then Y <345,0> X .

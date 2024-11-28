@@ -1,0 +1,13 @@
+type:propername
+words:Controlled_Natural_Language_for_Clinical_Practice_Guidelines;Controlled_Natural_Language_for_Clinical_Practice_Guidelines;CNLpre2009Shiffman;CNLpre2009Shiffman;
+| <457,2> is a <105,0> .
+# <457,2> is <263,2> exactly 6 <33,1> .
+| <254,0> is an <81,0> <457,2> .
+| <429,0> is an <81,0> <457,2> .
+| <430,0> is an <81,0> <457,2> .
+| <32,0> is an <81,0> <457,2> .
+| <41,0> is an <81,0> <457,2> .
+| <40,0> is an <81,0> <457,2> .
+| <457,2> is a <8,0> <456,0> .
+c Download: http://attempto.ifi.uzh.ch/site/pubs/papers/cnl2009_shiffman.pdf
+c Abstract: Clinicians would benefit from decision support systems incorporating the knowledge of clinical practice guidelines. However, the unstructured form of the guidelines makes them unsuitable for formal representation. To remedy this shortcoming we translated a set of pediatric guidelines into Attempto Controlled English (ACE). An experienced pediatrician and a knowledge engineer assessed that ACE can accurately represent the clinical concepts and the proposed actions of the guidelines. Currently, we are developing a systematic and replicable approach to authoring guideline recommendations in ACE.~n

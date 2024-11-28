@@ -1,0 +1,7 @@
+type:trverb
+words:writes;write;written by;
+| If X <263,0> Y then X is an <81,0> Y .
+| If X is an <81,0> Y then X <263,0> Y .
+| Everything that <263,0> something is a <33,0> .
+| Everything that is <263,2> somebody is a <79,0> .
+| Everything that is <263,2> a <542,0> is a <544,0> .

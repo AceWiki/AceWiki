@@ -1,0 +1,7 @@
+type:noun
+words:composer;composers;
+| A <542,0> <548,0> a <544,0> .
+| Who is a <542,0> ?
+| What is <548,2> a <542,0> ?
+| If X <548,0> Y then X is a <542,0> .
+| If X <548,0> Y then Y is a <544,0> .

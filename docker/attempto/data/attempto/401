@@ -1,0 +1,7 @@
+type:propername
+words:Economical_Discourse_Representation_Theory;Economical_Discourse_Representation_Theory;CNL2009Bos;CNL2009Bos;
+| <401,2> is a <105,0> .
+# <401,2> is <263,2> exactly 1 <33,0> .
+| <356,0> is an <81,0> <401,2> .
+| <401,2> is <107,0> <351,2> .
+c Abstract: First-order logic (FOL) is undecidable — that is, no algorithm exists that can decide whether a formula of FOL is valid or not. However, there are various fragments of FOL that are known to be decidable. FO2, the two-variable fragment of FOL, is one of such languages [1,2]. FO2 is a first-order language where formulas have maximally two variables, no function symbols, but possibly do have equality. FO2 has the finite model property [1], which means that if a formula of FO2 is satisfiable, it is satisfiable in a finite model.

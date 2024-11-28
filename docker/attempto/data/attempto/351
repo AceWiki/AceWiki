@@ -1,0 +1,35 @@
+type:propername
+words:the Workshop_on_Controlled_Natural_Language_2009;Workshop_on_Controlled_Natural_Language_2009;CNL_2009;CNL_2009;
+| <351,2> is a <109,0> .
+c Homepage: http://attempto.ifi.uzh.ch/site/cnl2009/
+c 
+c Organization
+| <32,0> <353,0> <351,2> .
+c 
+c Venue
+| <351,2> <436,0> <437,0> .
+c 
+c Program Committee Members
+| <354,0> is a <355,0> <351,2> .
+| <356,0> is a <355,0> <351,2> .
+| <357,0> is a <355,0> <351,2> .
+| <358,0> is a <355,0> <351,2> .
+| <359,0> is a <355,0> <351,2> .
+| <32,0> is a <355,0> <351,2> .
+| <129,0> is a <355,0> <351,2> .
+| <360,0> is a <355,0> <351,2> .
+| <41,0> is a <355,0> <351,2> .
+| <241,0> is a <355,0> <351,2> .
+| <40,0> is a <355,0> <351,2> .
+| <361,0> is a <355,0> <351,2> .
+| <362,0> is a <355,0> <351,2> .
+| <363,0> is a <355,0> <351,2> .
+| <52,0> is a <355,0> <351,2> .
+| <364,0> is a <355,0> <351,2> .
+| <365,0> is a <355,0> <351,2> .
+| <51,0> is a <355,0> <351,2> .
+| <366,0> is a <355,0> <351,2> .
+c 
+c Accepted Papers
+| Which <105,1> are <107,0> <351,0> ?
+| Who is an <81,0> a <105,0> that is <107,0> <351,2> ?

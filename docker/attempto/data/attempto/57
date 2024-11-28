@@ -1,0 +1,7 @@
+type:propername
+words:the ACE_reasoner;ACE_reasoner;RACE;RACE;
+| <57,2> is a <58,0> .
+| <32,3> <56,0> <57,3> .
+| <57,2> is <56,2> <32,0> .
+| <57,2> <65,0> <23,2> .
+| What is an <69,0> <57,2> ?

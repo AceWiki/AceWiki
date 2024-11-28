@@ -1,0 +1,6 @@
+type:trverb
+words:contains;contain;contained by;
+| If something X is a <1,0> something Y then Y <2,0> X .
+| If X <2,0> Y then X is a <1,0> Y .
+| If X is <51,0> Y then Y <2,0> X .
+# If X <2,0> something that <2,0> Y then X <2,0> Y .

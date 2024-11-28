@@ -1,0 +1,11 @@
+type:propername
+words:On_Designing_Controlled_Natural_Languages_for_Semantic_Annotation;On_Designing_Controlled_Natural_Languages_for_Semantic_Annotation;CNL2009Davis;CNL2009Davis;
+| <412,2> is a <105,0> .
+# <412,2> is <263,2> exactly 5 <33,1> .
+| <413,0> is an <81,0> <412,2> .
+| <414,0> is an <81,0> <412,2> .
+| <415,0> is an <81,0> <412,2> .
+| <416,0> is an <81,0> <412,2> .
+| <358,0> is an <81,0> <412,2> .
+| <412,2> is <107,0> <351,2> .
+c Abstract: Manual semantic annotation is a complex and arduous task both time-consuming and costly often requiring specialist annotators. (Semi)-automatic annotation tools attempt to ease this process by detecting instances of classes within text and relationships between instances, however their usage often requires knowledge of Natural Language Processing(NLP) or formal ontological descriptions. This challenges researchers to develop user-friendly annotation environments within the knowledge acquisition process. Controlled Natural Languages (CNL)s offer an incentive to the novice user to annotate, while simultaneously authoring, his/her respective documents in a user-friendly manner, yet shielding him/her from the underlying complex knowledge representation formalisms. CNLs have already been successfully applied within the context of ontology authoring, yet very little research has focused on CNLs for semantic annotation. We describe the design and implementation of two approaches to user friendly semantic annotation, based on Controlled Language for Information Extraction tools, which permit non-expert users to semi-automatically both author and annotate meeting minutes and status reports using controlled natural language.

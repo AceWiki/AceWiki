@@ -1,0 +1,8 @@
+type:propername
+words:SBVRs_Approach_to_Controlled_Natural_Language;SBVRs_Approach_to_Controlled_Natural_Language;CNL2009Spreeuwenberg;CNL2009Spreeuwenberg;
+| <405,2> is a <105,0> .
+# <405,2> is <263,2> exactly 2 <33,1> .
+| <365,0> is an <81,0> <405,2> .
+| <406,0> is an <81,0> <405,2> .
+| <405,2> is <107,0> <351,2> .
+c Abstract: The “Semantics of Business Vocabulary and Business Rules” (SBVR 1.0) is one of the initial specifications in the OMG’s family of business-focused specifications. SBVR covers two aspects: Vocabulary (natural language ontology) and Rules (elements of guidance that govern actions). However, SBVR does not standardize any particular language for expressing vocabularies and rules. Instead, SBVR uses ‘semantic formulation’, which is a way of describing the semantic structure of statements and definitions. This approach of specifying structures of meaning, with its sound theoretical foundation of formal logic, provides a formal, language-independent means for capturing the semantics of a community’s body of shared meanings. By taking this approach, SBVR can support multiple forms of representation.

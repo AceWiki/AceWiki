@@ -1,0 +1,12 @@
+type:propername
+words:Writing_Clinical_Practice_Guidelines_in_Controlled_Natural_Language;Writing_Clinical_Practice_Guidelines_in_Controlled_Natural_Language;CNL2009Shiffman;CNL2009Shiffman;
+| <428,2> is a <105,0> .
+# <428,2> is <263,2> exactly 6 <33,1> .
+| <254,0> is an <81,0> <428,2> .
+| <429,0> is an <81,0> <428,2> .
+| <430,0> is an <81,0> <428,2> .
+| <32,0> is an <81,0> <428,2> .
+| <41,0> is an <81,0> <428,2> .
+| <40,0> is an <81,0> <428,2> .
+| <428,2> is <107,0> <351,2> .
+c Abstract: Clinicians could benefit from decision support systems incorporating the knowledge contained in clinical practice guidelines. However, the unstructured form of these guidelines makes them unsuitable for formal representation. To address this challenge we translated a complete set of pediatric guideline recommendations into Attempto Controlled English (ACE). One experienced pediatrician, one physician and a knowledge engineer assessed that a suitably extended version of ACE can accurately and naturally represent the clinical concepts and the proposed actions of the guidelines. Currently, we are developing a systematic and replicable approach to authoring guideline recommendations in ACE.

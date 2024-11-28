@@ -1,0 +1,7 @@
+type:mainpage
+words:acewiki_page_main;
+c This wiki contains geographical knowledge.
+c Due to the increasing complexity of the knowledge base, the reasoning subset has been restricted: OWL 2 RL instead of OWL 2 Full.
+c Furthermore, it is now required to login in order to change the wiki data.
+c Some important articles of this wiki:~n- [[country]]~n- [[person]]~n- [[borders]]
+c The Assignments-tab appears with proper names and answers the question "What is ...?". So, there is no need to explicitly ask this question as part of the article content.

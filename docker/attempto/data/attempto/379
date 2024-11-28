@@ -1,0 +1,7 @@
+type:propername
+words:Anaphora_Resolution_Involving_Interactive_Knowledge_Acquisition;Anaphora_Resolution_Involving_Interactive_Knowledge_Acquisition;CNL2009Schwitter;CNL2009Schwitter;
+| <379,2> is a <105,0> .
+# <379,2> is <263,2> exactly 1 <33,0> .
+| <52,0> is an <81,0> <379,2> .
+| <379,2> is <107,0> <351,0> .
+c Abstract: Anaphora resolution in current computer-processable controlled natural languages relies mainly on syntactic information, accessibility constraints and the distance of the anaphoric expression to its antecedent. This design decision has the advantage that a text can be processed automatically without any additional ontological knowledge, but it has the disadvantage that the author is severely restricted in using anaphoric expressions while writing a text. I will argue that we can allow for a wider range of anaphoric expressions whose resolution requires inference-supporting knowledge, if we consider the anaphora resolution process as an interactive knowledge acquisition process in those cases where no suitable noun phrase antecedent can be found. In particular, I will focus on definite descriptions that stand in a synonymy, subclass/superclass or part-whole relation to their noun phrase antecedent, and show how the original anaphora resolution algorithm of PENG Light can be extended in a systematic way in order to take care of these bridging definite descriptions. The solution to this problem also sheds some light on the adequate treatment of part-whole relations in a controlled natural language context.

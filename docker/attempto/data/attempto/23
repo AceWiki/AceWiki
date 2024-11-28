@@ -1,0 +1,12 @@
+type:propername
+words:the Attempto_Parsing_Engine;Attempto_Parsing_Engine;APE;APE;
+| <23,0> is a <24,0> .
+| <23,2> <26,0> <11,0> .
+| <23,2> <26,0> <74,0> .
+| <23,2> <27,0> <28,0> .
+| <23,2> is <56,2> <41,0> and is <56,2> <40,0> .
+| What is an <69,0> <23,2> ?
+| Which <29,1> <65,1> <23,2> ?
+| Which <71,1> <65,1> <23,2> ?
+| What is a <194,0> <23,2> ?
+# Every <194,0> <23,2> is <195,0> <196,0> .

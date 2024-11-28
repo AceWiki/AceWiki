@@ -1,0 +1,10 @@
+type:propername
+words:the United_States_of_America;United_States_of_America;the USA;USA;
+| <30,0> is a <23,0> .
+| <30,0> is <51,0> <21,0> .
+| <205,0> is <180,0> <30,0> .
+# <30,0> <2,0> exactly 50 <405,1> .
+| <30,0> is a <122,0> .
+| <30,0> <4,0> <178,0> and <4,0> <151,0> .
+| What is a <23,0> that is <51,0> <21,0> ?
+| <137,0> is <380,0> <30,0> and is <380,0> <178,0> .
