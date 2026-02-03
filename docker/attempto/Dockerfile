@@ -12,6 +12,8 @@ RUN git clone --depth=1 https://github.com/AceWiki/AceWiki
 WORKDIR /opt/application/AceWiki
 COPY web.xml war/WEB-INF/web.xml
 COPY index.html war/index.html
+COPY style.css war/style.css
+COPY AceWikiLogoSmall.png war/AceWikiLogoSmall.png
 RUN ant createwebapps
 RUN mv ../APE/ape.exe .
 RUN wget -O jetty-runner.jar https://repo1.maven.org/maven2/org/mortbay/jetty/jetty-runner/8.1.9.v20130131/jetty-runner-8.1.9.v20130131.jar
